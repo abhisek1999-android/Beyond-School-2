@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".select_action"
+            android:exported="false" />
+        <activity
             android:name=".table_questions"
             android:exported="false" />
         <activity
