@@ -20,12 +20,14 @@ public class table_with_hint extends AppCompatActivity {
     CardView ShowTable;
     TextView Table;
     TextToSpeech textToSpeech;
+    CountDownTimer countDownTimer;
     Boolean IsRunning=false;
     int count=1;
     int test=0;
     String ToSet,set="";
     int counter=0;
     int TableValue;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,10 @@ public class table_with_hint extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                     textToSpeech.stop();
+                     countDownTimer.cancel();
+                     count=1;
+                     finish();
             }
         });
         pause_play_button.setOnClickListener(new View.OnClickListener() {
@@ -55,12 +60,14 @@ public class table_with_hint extends AppCompatActivity {
                     timer();
                     counter = 1;
                   }
-
                 else if (counter==1){
                     pause_play_button.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
                     ShowTable.setVisibility(View.GONE);
                     back.setVisibility(View.VISIBLE);
                     textToSpeech.stop();
+                    countDownTimer.cancel();
+                    IsRunning=false;
+                    count=1;
                     counter=0;
                     test=1;
                 }
@@ -69,7 +76,8 @@ public class table_with_hint extends AppCompatActivity {
         });
     }
     public void  timer(){
-    CountDownTimer countDownTimer = new CountDownTimer(45000, 4500) {
+        //can we use for loop intead of countdown timer
+     countDownTimer = new CountDownTimer(45000, 4500) {
         @Override
         public void onTick(long l) {
             if (test == 1) {
@@ -77,12 +85,12 @@ public class table_with_hint extends AppCompatActivity {
                 count = 1;
                 cancel();
             }
+            //use variables for 10
             if (count <= 10 && test == 0) {
                 ReadFullTable(TableValue);
             }
             IsRunning = true;
         }
-
         @Override
         public void onFinish() {
             count = 1;
@@ -99,9 +107,6 @@ public class table_with_hint extends AppCompatActivity {
         count=1;
         IsRunning=false;
     }
-
-
-
     }
 
     public void ReadFullTable(int TableValue){
@@ -180,20 +185,24 @@ public class table_with_hint extends AppCompatActivity {
         }
         count++;
     }
-
     public  void read(String toread){
         textToSpeech=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 if (i==TextToSpeech.SUCCESS){
-                    textToSpeech.setLanguage(new Locale("hi","IN"));
-                    textToSpeech.setSpeechRate(1);
+                    textToSpeech.setLanguage(new Locale("en","IN"));
+                    textToSpeech.setSpeechRate((float) 0.8);
                     textToSpeech.speak(toread,TextToSpeech.QUEUE_FLUSH,null);
-
                 }
             }
         });
-
-
+    }
+//call single fuction in finish
+    @Override
+    public void onBackPressed() {
+        textToSpeech.stop();
+        count=1;
+        countDownTimer.cancel();
+        super.onBackPressed();
     }
 }

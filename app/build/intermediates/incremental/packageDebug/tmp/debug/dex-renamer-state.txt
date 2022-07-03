@@ -1,4 +1,4 @@
-#Wed Jun 29 20:46:57 IST 2022
+#Sun Jul 03 13:34:35 IST 2022
 base.2=C\:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\BEYOND_SCHOOL\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
 path.2=9/classes.dex
 base.1=C\:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\BEYOND_SCHOOL\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

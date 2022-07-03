@@ -24,13 +24,13 @@ public class select_action extends AppCompatActivity {
         TableWithoutHint=findViewById(R.id.button);
         RandomTable=findViewById(R.id.button6);
         Intent intent=getIntent();
-        int k=intent.getIntExtra("value",0);
-        textView.setText(String.valueOf(k));
+        int TableValue=intent.getIntExtra("value",0);
+        textView.setText(String.valueOf(TableValue));
         TableWithHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1=new Intent(select_action.this,table_with_hint.class);
-                intent1.putExtra("ValueOfTable",k);
+                intent1.putExtra("ValueOfTable",TableValue);
                 startActivity(intent1);
             }
         });
@@ -38,7 +38,7 @@ public class select_action extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent2=new Intent(select_action.this,table_questions.class);
-                intent2.putExtra("ValueOfTable",k);
+                intent2.putExtra("ValueOfTable",TableValue);
                 startActivity(intent2);
             }
         });
