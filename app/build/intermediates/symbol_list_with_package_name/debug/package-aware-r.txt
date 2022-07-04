@@ -2635,6 +2635,7 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id button
+id button2
 id button4
 id button6
 id buttonPanel
@@ -3181,6 +3182,7 @@ layout activity_main
 layout activity_select_action
 layout activity_table_questions
 layout activity_table_with_hint
+layout activity_test
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
