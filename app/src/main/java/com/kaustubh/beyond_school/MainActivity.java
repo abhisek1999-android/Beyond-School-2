@@ -35,4 +35,7 @@ CardView[] card =new CardView[19];
         startActivity(intent);
     }
 
+    public void buttonClick(View view) {
+        startActivity(new Intent(getApplicationContext(),TestActivity.class));
+    }
 }

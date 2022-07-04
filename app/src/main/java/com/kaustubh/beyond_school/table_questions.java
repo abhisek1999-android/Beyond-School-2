@@ -60,6 +60,7 @@ AudioManager audioManager;
         right_ans.setText(String.valueOf(rtans));
         wrong_ans.setText(String.valueOf(wrans));
         audioManager=(AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
       //  audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.FLAG_SHOW_UI);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
@@ -139,7 +140,7 @@ AudioManager audioManager;
 
             @Override
             public void onResults(Bundle bundle) {
-                Toast.makeText(table_questions.this,"hello",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(table_questions.this,"hello",Toast.LENGTH_SHORT).show();
                 ArrayList<String> data=bundle.getStringArrayList(speechRecognizer.RESULTS_RECOGNITION);
                 ans.setText(data.get(0));
                 count++;
@@ -163,7 +164,7 @@ AudioManager audioManager;
                             ReadFullTable(TableValue);
                         }
                         else{
-                            Toast.makeText(table_questions.this,"passssss",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }.start();
@@ -257,24 +258,21 @@ AudioManager audioManager;
 
     }
     public  void read(String toread){
-        textToSpeech=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if (i==TextToSpeech.SUCCESS){
-                    textToSpeech.setLanguage(new Locale("en","IN"));
-                    textToSpeech.setSpeechRate((float) 0.8);
-                    textToSpeech.speak(toread,TextToSpeech.QUEUE_FLUSH,null);
-                    countDownTimer=new CountDownTimer(4000,4000) {
-                        @Override
-                        public void onTick(long l) {
-                        }
-                        @Override
-                        public void onFinish() {
-                            textToSpeech.stop();
-                                StartListening();
-                        }
-                    }.start();
-                }
+        textToSpeech=new TextToSpeech(getApplicationContext(), i -> {
+            if (i==TextToSpeech.SUCCESS){
+                textToSpeech.setLanguage(new Locale("en","IN"));
+                textToSpeech.setSpeechRate((float) 0.8);
+                textToSpeech.speak(toread,TextToSpeech.QUEUE_FLUSH,null);
+                countDownTimer=new CountDownTimer(4000,4000) {
+                    @Override
+                    public void onTick(long l) {
+                    }
+                    @Override
+                    public void onFinish() {
+                        textToSpeech.stop();
+                            StartListening();
+                    }
+                }.start();
             }
         });
     }
@@ -294,7 +292,7 @@ AudioManager audioManager;
     protected void onPause() {
         speechRecognizer.destroy();
         super.onPause();
-        Log.i("activity","onpause");
+        Log.i("activity","onPause");
 
     }
     @Override

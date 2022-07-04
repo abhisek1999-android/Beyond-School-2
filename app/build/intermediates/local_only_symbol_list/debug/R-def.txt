@@ -16,6 +16,7 @@ drawable ic_launcher_foreground
 font anton
 id ShowTable
 id button
+id button2
 id button4
 id button6
 id card10
@@ -78,6 +79,7 @@ layout activity_main
 layout activity_select_action
 layout activity_table_questions
 layout activity_table_with_hint
+layout activity_test
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
