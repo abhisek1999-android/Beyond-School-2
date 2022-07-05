@@ -9,11 +9,16 @@ import android.widget.AdapterView;
 
 import java.util.Locale;
 
+import io.reactivex.subjects.BehaviorSubject;
+
 public class ReadText implements TextToSpeech.OnInitListener {
 
 
     Context mContext;
     TextToSpeech textToSpeech;
+    public static BehaviorSubject<String> currentMethodSpc = BehaviorSubject.create();
+    String method="";
+
 
     public ReadText(Context context){
         this.mContext=context;
@@ -27,21 +32,28 @@ public class ReadText implements TextToSpeech.OnInitListener {
             textToSpeech.setLanguage(new Locale("en","IN"));
             textToSpeech.setSpeechRate((float) 0.8);
 
+            Log.i("onInit","OnInit");
             textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                 @Override
                 public void onStart(String utteranceId) {
                     Log.i("TextToSpeech","On Start");
+                    method="onStart";
+                    currentMethodSpc.onNext(method);
                 }
 
                 @Override
                 public void onDone(String utteranceId) {
                     Log.i("TextToSpeech","On Done");
+                    method="onDone";
+                    currentMethodSpc.onNext(method);
 
                 }
 
                 @Override
                 public void onError(String utteranceId) {
                     Log.i("TextToSpeech","On Error");
+                    method="onStart";
+                    currentMethodSpc.onNext(method);
                 }
             });
         }
@@ -49,7 +61,7 @@ public class ReadText implements TextToSpeech.OnInitListener {
     }
 
     public void read(String text){
-        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.ACTION_TTS_QUEUE_PROCESSING_COMPLETED);
     }
 
 }
