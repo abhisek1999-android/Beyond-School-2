@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -24,22 +26,32 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kaustubh.beyond_school.extras.ReadText;
+import com.kaustubh.beyond_school.extras.RecognizeVoice;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class table_questions extends AppCompatActivity {
+import io.reactivex.disposables.CompositeDisposable;
+
+public class table_questions extends AppCompatActivity implements RecognizeVoice.GetResult {
 ImageView back,pause_play;
 CardView card;
 TextView Table,right_ans,wrong_ans,question_count,ans;
 int counter,count=1,TableValue,rtans=0,wrans=0;
 int result;
-TextToSpeech textToSpeech;
-SpeechRecognizer speechRecognizer;
 String ToSet,set;
 LinearLayout layout;
 CountDownTimer countDownTimer;
 AudioManager audioManager;
-    Intent speechRecognizerIntent;
+CompositeDisposable disposableSpeech;
+CompositeDisposable disposableRecognizer;
+Boolean isActive=true,currRes=true;
+
+RecognizeVoice recognizeVoice;
+ReadText readText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,19 +72,28 @@ AudioManager audioManager;
         right_ans.setText(String.valueOf(rtans));
         wrong_ans.setText(String.valueOf(wrans));
         audioManager=(AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        disposableSpeech=new CompositeDisposable();
+        disposableRecognizer=new CompositeDisposable();
 
       //  audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.FLAG_SHOW_UI);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},1);
         }
-        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(this);
-         speechRecognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        readText=new ReadText(getApplicationContext());
+        recognizeVoice=new RecognizeVoice(getApplicationContext(),this);
+
         counter=0;
         pause_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+               // readText.read("Hello World");
+
+
                 if (counter==0){
+                    speechDisposable();
                     pause_play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
                     card.setVisibility(View.VISIBLE);
                     layout.setVisibility(View.VISIBLE);
@@ -86,11 +107,13 @@ AudioManager audioManager;
                     card.setVisibility(View.GONE);
                     layout.setVisibility(View.GONE);
                     back.setVisibility(View.VISIBLE);
-                    speechRecognizer.stopListening();
+                    recognizeVoice.stopListening();
                     counter=0;
                 }
             }
         });
+
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,157 +121,122 @@ AudioManager audioManager;
             }
         });
     }
-    public void StartListening(){
-        audioManager.setStreamMute(AudioManager.STREAM_SYSTEM,true);
-        speechRecognizer.startListening(speechRecognizerIntent);
-        speechRecognizer.setRecognitionListener(new RecognitionListener() {
-            @Override
-            public void onReadyForSpeech(Bundle bundle) {
-            }
 
-            @Override
-            public void onBeginningOfSpeech() {
-                Toast.makeText(table_questions.this,"started Listening",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-            }
-            @Override
-            public void onEndOfSpeech() {
-            }
-
-            @Override
-            public void onError(int i) {
-                if (counter==1) {
-                    CountDownTimer counte = new CountDownTimer(1000, 1000) {
-                        @Override
-                        public void onTick(long l) {
-
-                        }
-                        @Override
-                        public void onFinish() {
-                            StartListening();
-                        }
-                    }.start();
-                }
-            }
-
-            @Override
-            public void onResults(Bundle bundle) {
-              //  Toast.makeText(table_questions.this,"hello",Toast.LENGTH_SHORT).show();
-                ArrayList<String> data=bundle.getStringArrayList(speechRecognizer.RESULTS_RECOGNITION);
-                ans.setText(data.get(0));
-                count++;
-                CountDownTimer countDownTimer1= new CountDownTimer(3000,1000) {
-                    @Override
-                    public void onTick(long l) {
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        speechRecognizer.stopListening();
-                        if (ans.getText().toString().equals(String.valueOf(result))){
-                            rtans++;
-                            right_ans.setText(String.valueOf(rtans));
-                        }
-                        else{
-                            wrans++;
-                            wrong_ans.setText(String.valueOf(wrans));
-                        }
-                        if (count<=10){
-                            ReadFullTable(TableValue);
-                        }
-                        else{
-                            Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }.start();
-
-            }
-            @Override
-            public void onPartialResults(Bundle bundle) {
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("OnStart","OnStart");
     }
+
+    public void speechDisposable(){
+        disposableSpeech.add(ReadText.currentMethodSpc.subscribe(method->{
+            Log.i("LOG_ContactsRX",method+"");
+            performSpeechOperation(method);
+        }));
+    }
+
+
+
+    private void performSpeechOperation(String method) {
+
+        switch (method){
+            
+            case "onDone":{
+                Log.i("InActivity","onActivityOnDONE");
+
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Log.i("InActivityrun","InActivityrun");
+                        if (isActive){
+                            currRes=true;
+                            isActive=false;
+                            recognizeVoice.startListening();
+                        }
+
+                    }
+                }, 1000);
+
+                break;
+            }
+        }
+    }
+
     public void ReadFullTable(int TableValue){
-         result=count*TableValue;
-        ans.setText("");
+        //recognizeVoice.startListening();
+        result=count*TableValue;
+       // ans.setText("");
+        isActive=true;
         switch (count){
             case 1:{
                 ToSet="what is "+TableValue+" ones are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 1 = ?";
                 Table.setText(set);
                 break;
             }
             case 2:{
                 ToSet="what is "+TableValue+" twos are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 2 = ?";
                 Table.setText(set);
                 break;
             }
             case 3:{
                 ToSet="what is "+TableValue+" threes are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 3 = ?";
                 Table.setText(set);
                 break;
             }
             case 4:{
                 ToSet="what is "+TableValue+" fours are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 4 = ?";
                 Table.setText(set);
                 break;
             }
             case 5:{
                 ToSet="what is "+TableValue+" fives are ?";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 5 = ?";
                 Table.setText(set);
                 break;
             }
             case 6:{
                 ToSet="what is "+TableValue+" sixs are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 6 = ?";
                 Table.setText(set);
                 break;
             }
             case 7:{
                 ToSet="what is "+TableValue+" sevens are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 7 = ?";
                 Table.setText(set);
                 break;
             }
             case 8:{
                 ToSet="what is "+TableValue+" eights are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 8 = ?";
                 Table.setText(set);
                 break;
             }
             case 9:{
                 ToSet="what is "+TableValue+" nines are ?";
-                read(ToSet);
+                readText.read(ToSet);
                 set=TableValue+" X 9 = ?";
                 Table.setText(set);
                 break;
             }
             case 10: {
                 ToSet = "what is "+TableValue + " tens are ";
-                read(ToSet);
+                readText.read(ToSet);
                 set = TableValue + " X 10 = ?";
                 Table.setText(set);
                 break;
@@ -257,25 +245,8 @@ AudioManager audioManager;
         question_count.setText(String.valueOf(count)+"/10");
 
     }
-    public  void read(String toread){
-        textToSpeech=new TextToSpeech(getApplicationContext(), i -> {
-            if (i==TextToSpeech.SUCCESS){
-                textToSpeech.setLanguage(new Locale("en","IN"));
-                textToSpeech.setSpeechRate((float) 0.8);
-                textToSpeech.speak(toread,TextToSpeech.QUEUE_FLUSH,null);
-                countDownTimer=new CountDownTimer(4000,4000) {
-                    @Override
-                    public void onTick(long l) {
-                    }
-                    @Override
-                    public void onFinish() {
-                        textToSpeech.stop();
-                            StartListening();
-                    }
-                }.start();
-            }
-        });
-    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -290,14 +261,55 @@ AudioManager audioManager;
     }
     @Override
     protected void onPause() {
-        speechRecognizer.destroy();
+
         super.onPause();
         Log.i("activity","onPause");
 
     }
     @Override
     protected void onResume() {
-        StartListening();
+//        StartListening();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposableSpeech.dispose();
+        disposableRecognizer.dispose();
+    }
+
+    @Override
+    public void gettingResult(String title) {
+
+        Log.i("InActivity","onResult"+title);
+        ans.setText(title+","+result);
+        count++;
+        recognizeVoice.stopListening();
+        if (ans.getText().toString().equals(String.valueOf(result))){
+            rtans++;
+            right_ans.setText(String.valueOf(rtans));
+        }
+        else{
+            wrans++;
+            wrong_ans.setText(String.valueOf(wrans));
+        }
+        if (count<=10){
+
+            ReadFullTable(TableValue);
+            recognizeVoice.stopListening();
+
+        }
+        else{
+            recognizeVoice.stopListening();
+            disposableSpeech.dispose();
+            Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void errorAction() {
+        ReadFullTable(TableValue);
     }
 }

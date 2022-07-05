@@ -18,7 +18,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         readText=new ReadText(getApplicationContext());
-        recognizeVoice=new RecognizeVoice(getApplicationContext());
+       // recognizeVoice=new RecognizeVoice(getApplicationContext());
 
     }
 

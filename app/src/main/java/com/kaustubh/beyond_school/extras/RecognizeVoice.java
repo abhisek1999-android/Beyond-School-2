@@ -3,24 +3,36 @@ package com.kaustubh.beyond_school.extras;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import java.util.ArrayList;
 
+import io.reactivex.subjects.BehaviorSubject;
+
 public class RecognizeVoice implements RecognitionListener {
 
     SpeechRecognizer speech;
     Context mContext;
     Intent recognizerIntent;
+    public String result="";
+    GetResult getResult;
+    String method="";
 
-    public RecognizeVoice(Context context){
+    public RecognizeVoice(Context context,GetResult getResult){
 
         this.mContext=context;
+        this.getResult=getResult;
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en");
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, mContext.getPackageName());
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3000);
     }
 
 
@@ -36,6 +48,7 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onReadyForSpeech(Bundle bundle) {
 
+
     }
 
     @Override
@@ -47,7 +60,6 @@ public class RecognizeVoice implements RecognitionListener {
     public void onRmsChanged(float v) {
 
         Log.i("onRmsChanged",v+"");
-
     }
 
     @Override
@@ -57,6 +69,8 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onEndOfSpeech() {
+        Log.i("LOG_TAG", "EndOfSpeech");
+        stopListening();
 
     }
 
@@ -64,19 +78,22 @@ public class RecognizeVoice implements RecognitionListener {
     public void onError(int i) {
 
         Log.i("SpeechError",getErrorText(i));
+        getResult.errorAction();
 
     }
 
     @Override
     public void onResults(Bundle bundle) {
 
-
         Log.i("LOG_TAG", "onResults");
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = "";
         for (String result : matches)
             text += result + "\n";
+        result=text;
         Log.i("Recognize_Text",text);
+        getResult.gettingResult(result);
+        stopListening();
 
     }
 
@@ -84,9 +101,6 @@ public class RecognizeVoice implements RecognitionListener {
     public void onPartialResults(Bundle bundle) {
 
         Log.i("LOG_TAG","onPartialResults");
-
-
-
     }
 
     @Override
@@ -129,5 +143,12 @@ public class RecognizeVoice implements RecognitionListener {
                 break;
         }
         return message;
+    }
+
+    public interface GetResult{
+
+        void gettingResult(String title);
+        void errorAction();
+
     }
 }
