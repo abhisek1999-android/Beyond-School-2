@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kaustubh.beyond_school">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,24 +13,26 @@
     </queries>
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BEYOND_SCHOOL">
+        android:theme="@style/Theme.BEYOND_SCHOOL"
+        tools:targetApi="31"
+        >
         <activity
             android:name=".TestActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".select_action"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".table_questions"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".table_with_hint"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

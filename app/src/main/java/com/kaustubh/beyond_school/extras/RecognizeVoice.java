@@ -1,5 +1,6 @@
 package com.kaustubh.beyond_school.extras;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,23 +9,29 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.widget.ProgressBar;
+
+import com.kaustubh.beyond_school.R;
+
 import java.util.ArrayList;
 
 import io.reactivex.subjects.BehaviorSubject;
 
 public class RecognizeVoice implements RecognitionListener {
 
-    SpeechRecognizer speech;
+    public  SpeechRecognizer speech;
     Context mContext;
     Intent recognizerIntent;
-    public String result="";
+    public String result="1";
     GetResult getResult;
     String method="";
 
+    ProgressBar progressBar;
     public RecognizeVoice(Context context,GetResult getResult){
 
         this.mContext=context;
         this.getResult=getResult;
+        progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -53,13 +60,15 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onBeginningOfSpeech() {
-
+        progressBar.setIndeterminate(false);
+        progressBar.setMax(10);
     }
 
     @Override
     public void onRmsChanged(float v) {
 
         Log.i("onRmsChanged",v+"");
+        progressBar.setProgress((int) v);
     }
 
     @Override
@@ -70,6 +79,8 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onEndOfSpeech() {
         Log.i("LOG_TAG", "EndOfSpeech");
+        Log.i("LOG_TAG", "onEndOfSpeech");
+        progressBar.setIndeterminate(true);
         stopListening();
 
     }
@@ -84,14 +95,8 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onResults(Bundle bundle) {
+        Log.i("LOG_TAG", "onResults"+result);
 
-        Log.i("LOG_TAG", "onResults");
-        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String text = "";
-        for (String result : matches)
-            text += result + "\n";
-        result=text;
-        Log.i("Recognize_Text",text);
         getResult.gettingResult(result);
         stopListening();
 
@@ -100,7 +105,15 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onPartialResults(Bundle bundle) {
 
-        Log.i("LOG_TAG","onPartialResults");
+
+
+        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        String text = "";
+        for (String result : matches)
+            text += result + "\n";
+        result=text;
+        Log.i("LOG_TAG","onPartialResults"+text);
+        Log.i("Recognize_Text",text);
     }
 
     @Override

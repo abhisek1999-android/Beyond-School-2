@@ -1,6 +1,7 @@
 package com.kaustubh.beyond_school;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 public class select_action extends AppCompatActivity {
     ImageView back;
     TextView textView;
-    Button TableWithHint,TableWithoutHint,RandomTable;
+
+    CardView TableWithHint,TableWithoutHint,RandomTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,12 @@ public class select_action extends AppCompatActivity {
         RandomTable=findViewById(R.id.button6);
         Intent intent=getIntent();
         int TableValue=intent.getIntExtra("value",0);
-        textView.setText(String.valueOf(TableValue));
+        try{
+            textView.setText(String.format("%02d", TableValue)+"");
+        }catch (Exception e){
+
+        }
+
         TableWithHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
