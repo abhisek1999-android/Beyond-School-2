@@ -3,7 +3,9 @@ package com.kaustubh.beyond_school;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -27,7 +29,7 @@ public class table_with_hint extends AppCompatActivity {
     String ToSet,set="";
     int counter=0;
     int TableValue;
-    
+    AudioManager amanager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,20 +41,27 @@ public class table_with_hint extends AppCompatActivity {
         pause_play_button = findViewById(R.id.imageView3);
         Table=findViewById(R.id.textView26);
         ShowTable.setVisibility(View.GONE);
-
+        amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                     textToSpeech.stop();
-                     countDownTimer.cancel();
-                     count=1;
-                     finish();
+                try{
+                    textToSpeech.stop();
+                    countDownTimer.cancel();
+                    count=1;
+                    finish();
+                }catch (Exception e){
+                    finish();
+                }
+
+
             }
         });
         pause_play_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (counter == 0) {
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
                     pause_play_button.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
                     ShowTable.setVisibility(View.VISIBLE);
                     back.setVisibility(View.GONE);
@@ -61,6 +70,7 @@ public class table_with_hint extends AppCompatActivity {
                     counter = 1;
                   }
                 else if (counter==1){
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                     pause_play_button.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
                     ShowTable.setVisibility(View.GONE);
                     back.setVisibility(View.VISIBLE);

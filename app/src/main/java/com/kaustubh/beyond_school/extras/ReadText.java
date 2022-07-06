@@ -15,14 +15,18 @@ public class ReadText implements TextToSpeech.OnInitListener {
 
 
     Context mContext;
-    TextToSpeech textToSpeech;
+    public TextToSpeech textToSpeech;
     public static BehaviorSubject<String> currentMethodSpc = BehaviorSubject.create();
     String method="";
+    GetResultSpeech getResultSpeech;
 
 
-    public ReadText(Context context){
+    public ReadText(Context context,GetResultSpeech getResultSpeech){
         this.mContext=context;
         textToSpeech= new TextToSpeech(mContext, this);
+        this.getResultSpeech=getResultSpeech;
+
+
     }
 
     @Override
@@ -44,8 +48,9 @@ public class ReadText implements TextToSpeech.OnInitListener {
                 @Override
                 public void onDone(String utteranceId) {
                     Log.i("TextToSpeech","On Done");
-                    method="onDone";
-                    currentMethodSpc.onNext(method);
+//                    method="onDone";
+//                    currentMethodSpc.onNext(method);
+                    getResultSpeech.gettingResultSpeech();
 
                 }
 
@@ -62,6 +67,12 @@ public class ReadText implements TextToSpeech.OnInitListener {
 
     public void read(String text){
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.ACTION_TTS_QUEUE_PROCESSING_COMPLETED);
+    }
+
+    public interface GetResultSpeech{
+
+        void gettingResultSpeech();
+
     }
 
 }
