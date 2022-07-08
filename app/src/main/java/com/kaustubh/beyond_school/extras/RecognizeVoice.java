@@ -35,7 +35,11 @@ public class RecognizeVoice implements RecognitionListener {
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,30 );
+
+
     }
 
 
@@ -96,7 +100,7 @@ public class RecognizeVoice implements RecognitionListener {
         String text = "";
         for (String result : matches)
             text += result + "\n";
-        result=text;
+        result=matches.get(0).trim();
         getResult.gettingResult(result);
         stopListening();
 

@@ -25,6 +25,7 @@ font futurapt_font
 font poppins
 font poppins_ight
 id ShowTable
+id animationVoice
 id button
 id button2
 id button4
@@ -48,7 +49,6 @@ id card6
 id card7
 id card8
 id card9
-id imageView
 id imageView2
 id imageView3
 id imageView4
@@ -57,6 +57,7 @@ id imageView8
 id layout_set
 id linearLayout
 id linearLayout2
+id mainButton
 id mainGrid
 id playPause
 id progressBar1
@@ -64,7 +65,6 @@ id scrollView2
 id selectTableId
 id spinner
 id spinner2
-id spinner3
 id textView
 id textView10
 id textView11
@@ -96,11 +96,14 @@ id textView8
 id textView9
 layout activity_main
 layout activity_select_action
+layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
+layout text_sample_bg
 mipmap ic_launcher
 mipmap ic_launcher_round
+raw voice_ip
 string app_name
 style Button4
 style Button5

@@ -6,8 +6,10 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.kaustubh.beyond_school.extras.ReadText;
 import com.kaustubh.beyond_school.extras.RecognizeVoice;
 
@@ -47,11 +50,9 @@ Boolean isActive=true,currRes=true;
 RecognizeVoice recognizeVoice;
 ReadText readText;
 ProgressBar progressBar;
-
-
-Spinner spinner3;
 TextView collectdata;
-ImageView mic;
+LottieAnimationView mic;
+    AudioManager amanager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,30 +72,22 @@ ImageView mic;
         wrong_ans.setText(String.valueOf(wrans));
 //        disposableSpeech=new CompositeDisposable();
         progressBar=findViewById(R.id.progressBar1);
-        spinner3=findViewById(R.id.spinner3);
+
         collectdata=findViewById(R.id.textView24);
-        mic=findViewById(R.id.imageView);
+        mic=findViewById(R.id.animationVoice);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},1);
         }
         mic.setVisibility(View.GONE);
+
+        amanager  = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         recognizeVoice=new RecognizeVoice(table_questions.this,this);
         readText=new ReadText(getApplicationContext(),table_questions.this);
         counter=0;
         ArrayAdapter<CharSequence> adapter2=ArrayAdapter.createFromResource(this,R.array.numbers2, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner3.setAdapter(adapter2);
-        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                time=Integer.parseInt(adapterView.getItemAtPosition(i).toString());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
         pause_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +104,7 @@ ImageView mic;
                 if (!pause_play.isChecked()){
 
                     isActive=false;
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                     progressBar.setVisibility(View.INVISIBLE);
                     readText.textToSpeech.stop();
                     recognizeVoice.speech.stopListening();
@@ -247,6 +241,14 @@ ImageView mic;
         if (count<=10){
             question_count.setText(String.valueOf(count)+"/10");
         }
+        if (count>10){
+
+            counter=0;
+            pause_play.setChecked(false);
+            amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+            collectdata.setText("");
+            ans.setText("");
+        }
 
 
     }
@@ -270,11 +272,13 @@ ImageView mic;
         recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity","onPause");
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
     }
     @Override
     protected void onResume() {
         super.onResume();
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
     @Override
@@ -282,7 +286,7 @@ ImageView mic;
         super.onDestroy();
         recognizeVoice.stopListening();
         mic.setVisibility(View.GONE);
-
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
     @Override
@@ -291,7 +295,10 @@ ImageView mic;
         Log.i("InActivity","onResult"+title);
         ans.setText(title);
         String temp=collectdata.getText().toString();
+        if (!temp.equals(""))
         collectdata.setText(temp+","+title.trim());
+        else
+         collectdata.setText(title.trim());
         count++;
         recognizeVoice.stopListening();
         mic.setVisibility(View.GONE);
@@ -304,54 +311,81 @@ ImageView mic;
             }
             else{
                 wrans++;
-                readText.read("INCORRECT");
+                readText.read("INCORRECT, Correct is "+result);
                 wrong_ans.setText(String.valueOf(wrans));
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            readText.read("INCORRECT");
+            readText.read("INCORRECT, Correct is "+result);
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
         }
-   CountDownTimer countDown=new CountDownTimer(1000,1000) {
-       @Override
-       public void onTick(long l) {
-
-       }
-
-       @Override
-       public void onFinish() {
-           if (count<=10){
-               isActive=true;
-               ReadFullTable(TableValue);
-               ans.setText("");
-               recognizeVoice.stopListening();
-               mic.setVisibility(View.GONE);
-
-           }
-           else{
-               recognizeVoice.stopListening();
-               mic.setVisibility(View.GONE);
-               Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
-           }
-       }
-   }.start();
+//   CountDownTimer countDown=new CountDownTimer(1000,1000) {
+//       @Override
+//       public void onTick(long l) {
+//
+//       }
+//
+//       @Override
+//       public void onFinish() {
+//           if (count<=10){
+//               isActive=true;
+//               ReadFullTable(TableValue);
+//               ans.setText("");
+//               recognizeVoice.stopListening();
+//               mic.setVisibility(View.GONE);
+//
+//           }
+//           else{
+//               recognizeVoice.stopListening();
+//               mic.setVisibility(View.GONE);
+//               Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
+//           }
+//       }
+//   }.start();
 
     }
 
     @Override
     public void errorAction() {
+        Log.i("Error","err");
 
 
-        if (counter==0)
-        isActive=true;
-        ReadFullTable(TableValue);
+//        if (counter==0)
+//            isActive=true;
+//        ReadFullTable(TableValue);
+
+        mic.setVisibility(View.GONE);
+
+        try{
+            Handler handler = new Handler();
+            final Runnable r = new Runnable()
+            {
+                public void run()
+                {
+                    if (counter==0)
+                        isActive=true;
+                    ReadFullTable(TableValue);
+                }
+            };
+            handler.postDelayed(r, 3000);
+        }catch (Exception e){
+            if (counter==0)
+                isActive=true;
+            ReadFullTable(TableValue);
+        }
+
+
+
+
+
     }
 
     @Override
     public void gettingResultSpeech() {
 
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
@@ -366,7 +400,7 @@ ImageView mic;
                 }
 
             }
-        }, time);
+        }, 100);
 
 
     }
