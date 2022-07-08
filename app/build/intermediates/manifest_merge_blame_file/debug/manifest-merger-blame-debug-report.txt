@@ -1,0 +1,112 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.kaustubh.beyond_school"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:6:5-67
+11-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+12-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:7:5-71
+12-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:7:22-68
+13
+14    <queries>
+14-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:9:5-13:15
+15        <intent>
+15-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:10:9-12:18
+16            <action android:name="android.intent.action.RecognitionService" />
+16-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:11:13-79
+16-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:11:21-76
+17        </intent>
+18    </queries>
+19
+20    <application
+20-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:15:5-45:19
+21        android:allowBackup="true"
+21-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:16:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.7.0] C:\Users\kaust\.gradle\caches\transforms-3\02483169c4c9e0ddffa88758188ac6f1\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+23        android:debuggable="true"
+24        android:icon="@mipmap/ic_launcher"
+24-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:17:9-43
+25        android:label="@string/app_name"
+25-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:18:9-41
+26        android:roundIcon="@mipmap/ic_launcher_round"
+26-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:19:9-54
+27        android:supportsRtl="true"
+27-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:20:9-35
+28        android:theme="@style/Theme.BEYOND_SCHOOL" >
+28-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:21:9-51
+29        <activity
+29-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:24:9-26:39
+30            android:name="com.kaustubh.beyond_school.TestActivity"
+30-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:25:13-41
+31            android:exported="true" />
+31-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:26:13-36
+32        <activity
+32-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:27:9-29:39
+33            android:name="com.kaustubh.beyond_school.select_action"
+33-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:28:13-42
+34            android:exported="true" />
+34-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:29:13-36
+35        <activity
+35-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:30:9-32:39
+36            android:name="com.kaustubh.beyond_school.table_questions"
+36-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:31:13-44
+37            android:exported="true" />
+37-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:32:13-36
+38        <activity
+38-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:33:9-35:39
+39            android:name="com.kaustubh.beyond_school.table_with_hint"
+39-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:34:13-44
+40            android:exported="true" />
+40-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:35:13-36
+41        <activity
+41-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:36:9-44:20
+42            android:name="com.kaustubh.beyond_school.MainActivity"
+42-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:37:13-41
+43            android:exported="true" >
+43-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:38:13-36
+44            <intent-filter>
+44-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:39:13-43:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:40:17-69
+45-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:40:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:42:17-77
+47-->C:\Users\kaust\AndroidStudioProjects\kaholas\app\src\main\AndroidManifest.xml:42:27-74
+48            </intent-filter>
+49        </activity>
+50
+51        <provider
+51-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+52            android:name="androidx.startup.InitializationProvider"
+52-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:27:13-67
+53            android:authorities="com.kaustubh.beyond_school.androidx-startup"
+53-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:28:13-68
+54            android:exported="false" >
+54-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:29:13-37
+55            <meta-data
+55-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+56                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+56-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:32:17-75
+57                android:value="androidx.startup" />
+57-->[androidx.emoji2:emoji2:1.0.0] C:\Users\kaust\.gradle\caches\transforms-3\278083bef5dd79cb476949a0d92ce592\transformed\emoji2-1.0.0\AndroidManifest.xml:33:17-49
+58            <meta-data
+58-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\kaust\.gradle\caches\transforms-3\4d932a67b7be3c4366d55752ebd69384\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+59                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+59-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\kaust\.gradle\caches\transforms-3\4d932a67b7be3c4366d55752ebd69384\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+60                android:value="androidx.startup" />
+60-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\kaust\.gradle\caches\transforms-3\4d932a67b7be3c4366d55752ebd69384\transformed\lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+61        </provider>
+62    </application>
+63
+64</manifest>

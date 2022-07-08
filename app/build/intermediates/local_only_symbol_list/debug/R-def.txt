@@ -1,5 +1,7 @@
 R_DEF: Internal format may change without notice
 local
+array numbers
+array numbers2
 color black
 color purple_200
 color purple_500
@@ -9,12 +11,15 @@ color teal_700
 color white
 drawable background_round
 drawable ic_baseline_arrow_back_24
+drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_play_circle_outline_24
+drawable ic_baseline_replay_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable play_button
+drawable roundbar
 font anton
 font futurapt_font
 font poppins
@@ -43,17 +48,23 @@ id card6
 id card7
 id card8
 id card9
+id imageView
 id imageView2
 id imageView3
 id imageView4
+id imageView5
 id imageView8
 id layout_set
 id linearLayout
+id linearLayout2
 id mainGrid
 id playPause
 id progressBar1
 id scrollView2
 id selectTableId
+id spinner
+id spinner2
+id spinner3
 id textView
 id textView10
 id textView11

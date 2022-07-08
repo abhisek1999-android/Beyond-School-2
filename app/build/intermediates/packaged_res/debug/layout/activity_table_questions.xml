@@ -25,6 +25,7 @@
         android:id="@+id/imageView4"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:background="@drawable/background_round"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023"
-        android:background="@drawable/background_round"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <androidx.cardview.widget.CardView
@@ -59,18 +59,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
-                android:fontFamily="@font/poppins"
-                android:textColor="@color/white"
                 android:layout_marginTop="10dp"
-                android:textSize="34sp"
+                android:fontFamily="@font/poppins"
                 android:text=""
+                android:textColor="@color/white"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -78,12 +78,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginBottom="20sp"
                 android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="34sp"
-                android:text=""
-                android:layout_marginBottom="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -94,21 +94,21 @@
         android:id="@+id/playPause"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:paddingTop="10dp"
         android:background="@drawable/background_round"
+        android:clickable="true"
+        android:drawableTop="@drawable/play_button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingTop="10dp"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.662"
-
-        android:text=""
-        android:textOff=""
-        android:textOn=""
-        android:drawableTop="@drawable/play_button"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
         app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
 
     <LinearLayout
@@ -152,6 +152,17 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="192dp"
+        android:layout_height="64dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playPause"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleHorizontal"
@@ -162,6 +173,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/playPause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowTable" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/background_round"
+        app:layout_constraintBottom_toBottomOf="@+id/playPause"
+        app:layout_constraintEnd_toStartOf="@+id/playPause"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowTable"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_mic_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

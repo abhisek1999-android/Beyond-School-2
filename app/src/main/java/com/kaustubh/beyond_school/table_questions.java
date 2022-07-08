@@ -5,25 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -42,20 +38,20 @@ ToggleButton pause_play;
 CardView card;
 TextView Table,right_ans,wrong_ans,question_count,ans;
 int counter,count=1,TableValue,rtans=0,wrans=0;
-int result;
+int result,time=500;
 String ToSet,set;
 LinearLayout layout;
 CountDownTimer countDownTimer;
-AudioManager audioManager;
 CompositeDisposable disposableSpeech;
-
 Boolean isActive=true,currRes=true;
-
 RecognizeVoice recognizeVoice;
 ReadText readText;
 ProgressBar progressBar;
 
 
+Spinner spinner3;
+TextView collectdata;
+ImageView mic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,23 +69,32 @@ ProgressBar progressBar;
         ans=findViewById(R.id.textView27);
         right_ans.setText(String.valueOf(rtans));
         wrong_ans.setText(String.valueOf(wrans));
-        audioManager=(AudioManager) getSystemService(Context.AUDIO_SERVICE);
 //        disposableSpeech=new CompositeDisposable();
         progressBar=findViewById(R.id.progressBar1);
-
-
-
-      //  audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.FLAG_SHOW_UI);
+        spinner3=findViewById(R.id.spinner3);
+        collectdata=findViewById(R.id.textView24);
+        mic=findViewById(R.id.imageView);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},1);
         }
-
-
+        mic.setVisibility(View.GONE);
         recognizeVoice=new RecognizeVoice(table_questions.this,this);
         readText=new ReadText(getApplicationContext(),table_questions.this);
-
         counter=0;
+        ArrayAdapter<CharSequence> adapter2=ArrayAdapter.createFromResource(this,R.array.numbers2, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner3.setAdapter(adapter2);
+        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                time=Integer.parseInt(adapterView.getItemAtPosition(i).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         pause_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,70 +172,70 @@ ProgressBar progressBar;
             switch (count){
                 case 1:{
                     Log.i("InActivity",count+"");
-                    ToSet="what is "+TableValue+" ones are ";
+                    ToSet=TableValue+" ones are ";
                     readText.read(ToSet);
                     set=TableValue+" X 1 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 2:{
-                    ToSet="what is "+TableValue+" twos are ";
+                    ToSet=TableValue+" twos are ";
                     readText.read(ToSet);
                     set=TableValue+" X 2 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 3:{
-                    ToSet="what is "+TableValue+" threes are ";
+                    ToSet=TableValue+" threes are ";
                     readText.read(ToSet);
                     set=TableValue+" X 3 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 4:{
-                    ToSet="what is "+TableValue+" fours are ";
+                    ToSet=TableValue+" fours are ";
                     readText.read(ToSet);
                     set=TableValue+" X 4 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 5:{
-                    ToSet="what is "+TableValue+" fives are ?";
+                    ToSet=TableValue+" fives are ?";
                     readText.read(ToSet);
                     set=TableValue+" X 5 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 6:{
-                    ToSet="what is "+TableValue+" sixs are ";
+                    ToSet=TableValue+" sixs are ";
                     readText.read(ToSet);
                     set=TableValue+" X 6 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 7:{
-                    ToSet="what is "+TableValue+" sevens are ";
+                    ToSet=TableValue+" sevens are ";
                     readText.read(ToSet);
                     set=TableValue+" X 7 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 8:{
-                    ToSet="what is "+TableValue+" eights are ";
+                    ToSet=TableValue+" eights are ";
                     readText.read(ToSet);
                     set=TableValue+" X 8 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 9:{
-                    ToSet="what is "+TableValue+" nines are ?";
+                    ToSet=TableValue+" nines are ?";
                     readText.read(ToSet);
                     set=TableValue+" X 9 = ?";
                     Table.setText(set);
                     break;
                 }
                 case 10: {
-                    ToSet = "what is "+TableValue + " tens are ";
+                    ToSet =TableValue + " tens are ";
                     readText.read(ToSet);
                     set = TableValue + " X 10 = ?";
                     Table.setText(set);
@@ -239,7 +244,6 @@ ProgressBar progressBar;
             }
 
         }
-
         if (count<=10){
             question_count.setText(String.valueOf(count)+"/10");
         }
@@ -262,14 +266,14 @@ ProgressBar progressBar;
     }
     @Override
     protected void onPause() {
-
+      recognizeVoice.speech.stopListening();
+        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity","onPause");
 
     }
     @Override
     protected void onResume() {
-//        StartListening();
         super.onResume();
     }
 
@@ -277,6 +281,7 @@ ProgressBar progressBar;
     protected void onDestroy() {
         super.onDestroy();
         recognizeVoice.stopListening();
+        mic.setVisibility(View.GONE);
 
     }
 
@@ -285,38 +290,53 @@ ProgressBar progressBar;
 
         Log.i("InActivity","onResult"+title);
         ans.setText(title);
+        String temp=collectdata.getText().toString();
+        collectdata.setText(temp+","+title.trim());
         count++;
-
         recognizeVoice.stopListening();
+        mic.setVisibility(View.GONE);
         try{
             if (Integer.parseInt(title.trim())==result){
+
                 rtans++;
+                readText.read("CORRECT");
                 right_ans.setText(String.valueOf(rtans));
             }
             else{
                 wrans++;
+                readText.read("INCORRECT");
                 wrong_ans.setText(String.valueOf(wrans));
             }
 
         }catch (Exception e){
             e.printStackTrace();
+            readText.read("INCORRECT");
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
         }
+   CountDownTimer countDown=new CountDownTimer(1000,1000) {
+       @Override
+       public void onTick(long l) {
 
-        if (count<=10){
-            isActive=true;
-            ReadFullTable(TableValue);
-            recognizeVoice.stopListening();
+       }
 
-        }
-        else{
-            recognizeVoice.stopListening();
-            wrans=0;
-            rtans=0;
+       @Override
+       public void onFinish() {
+           if (count<=10){
+               isActive=true;
+               ReadFullTable(TableValue);
+               ans.setText("");
+               recognizeVoice.stopListening();
+               mic.setVisibility(View.GONE);
 
-            Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
-        }
+           }
+           else{
+               recognizeVoice.stopListening();
+               mic.setVisibility(View.GONE);
+               Toast.makeText(table_questions.this,"PASS",Toast.LENGTH_SHORT).show();
+           }
+       }
+   }.start();
 
     }
 
@@ -341,11 +361,12 @@ ProgressBar progressBar;
                 if (isActive){
                     currRes=true;
                     isActive=false;
+                    mic.setVisibility(View.VISIBLE);
                     recognizeVoice.startListening();
                 }
 
             }
-        }, 1000);
+        }, time);
 
 
     }

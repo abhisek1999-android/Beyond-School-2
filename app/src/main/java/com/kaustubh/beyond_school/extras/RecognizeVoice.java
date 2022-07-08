@@ -35,11 +35,7 @@ public class RecognizeVoice implements RecognitionListener {
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en");
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, mContext.getPackageName());
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
     }
 
 
@@ -96,7 +92,11 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onResults(Bundle bundle) {
         Log.i("LOG_TAG", "onResults"+result);
-
+        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        String text = "";
+        for (String result : matches)
+            text += result + "\n";
+        result=text;
         getResult.gettingResult(result);
         stopListening();
 
@@ -104,16 +104,6 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onPartialResults(Bundle bundle) {
-
-
-
-        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String text = "";
-        for (String result : matches)
-            text += result + "\n";
-        result=text;
-        Log.i("LOG_TAG","onPartialResults"+text);
-        Log.i("Recognize_Text",text);
     }
 
     @Override

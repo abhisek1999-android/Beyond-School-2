@@ -20,19 +20,14 @@ public class select_action extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
         //temporary for developing
-        textView=findViewById(R.id.textView24);
+        textView=findViewById(R.id.textView33);
         back=findViewById(R.id.imageView8);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
         RandomTable=findViewById(R.id.button6);
         Intent intent=getIntent();
         int TableValue=intent.getIntExtra("value",0);
-        try{
-            textView.setText(String.format("%02d", TableValue)+"");
-        }catch (Exception e){
-
-        }
-
+        textView.setText("Select Action for Table of "+TableValue);
         TableWithHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

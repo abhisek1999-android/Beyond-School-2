@@ -27,61 +27,46 @@
 
         android:fontFamily="@font/poppins"
         android:text="Select Action "
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.027" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:text="00"
-        android:background="@drawable/background_round"
-        android:textSize="60sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+        app:layout_constraintVertical_bias="0.088" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="70dp"
         app:layout_constraintTop_toBottomOf="@+id/textView33"
-        app:layout_constraintVertical_bias="0.586">
+        app:layout_constraintVertical_bias="0.0">
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="10dp"
             android:layout_marginTop="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_marginRight="20dp"
             android:clickable="true"
-            >
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20sp"
-                >
+                android:padding="20sp">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -89,20 +74,20 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/white"
-                    android:text="Table With Hint"
-                    android:textColor="@color/teal_700"
                     android:fontFamily="@font/poppins"
+                    android:text="Table With Hint"
                     android:textAllCaps="false"
+                    android:textColor="@color/teal_700"
                     android:textSize="20sp"
                     app:shapeAppearanceOverlay="@style/Button4" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/poppins"
                     android:text="By selecting this option you can learn this table"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    />
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
@@ -110,25 +95,24 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <androidx.cardview.widget.CardView
+            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="10dp"
             android:layout_marginTop="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_marginRight="20dp"
             android:clickable="true"
-            >
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20sp"
-                >
+                android:padding="20sp">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -136,20 +120,20 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/white"
-                    android:text="Table Without Hint"
-                    android:textColor="@color/teal_700"
                     android:fontFamily="@font/poppins"
+                    android:text="Table Without Hint"
                     android:textAllCaps="false"
+                    android:textColor="@color/teal_700"
                     android:textSize="20sp"
                     app:shapeAppearanceOverlay="@style/Button4" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/poppins"
                     android:text="By selecting this option you can practice this table"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    />
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
@@ -157,29 +141,25 @@
         </androidx.cardview.widget.CardView>
 
 
-
-
-
-
         <androidx.cardview.widget.CardView
+            android:id="@+id/button6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button6"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="10dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
-            >
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20sp"
-                >
+                android:padding="20sp">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -187,26 +167,25 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/white"
-                    android:text="Table Random"
-                    android:textColor="@color/teal_700"
                     android:fontFamily="@font/poppins"
+                    android:text="Table Random"
                     android:textAllCaps="false"
+                    android:textColor="@color/teal_700"
                     android:textSize="20sp"
                     app:shapeAppearanceOverlay="@style/Button4" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/poppins"
                     android:text="By selecting this option you will get random tables to be answered"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    />
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
 
         </androidx.cardview.widget.CardView>
-
 
 
     </LinearLayout>
