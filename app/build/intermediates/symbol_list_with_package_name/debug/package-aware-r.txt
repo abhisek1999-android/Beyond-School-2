@@ -720,6 +720,22 @@ attr logo
 attr logoAdjustViewBounds
 attr logoDescription
 attr logoScaleType
+attr lottie_autoPlay
+attr lottie_cacheComposition
+attr lottie_colorFilter
+attr lottie_enableMergePathsForKitKatAndAbove
+attr lottie_fallbackRes
+attr lottie_fileName
+attr lottie_imageAssetsFolder
+attr lottie_loop
+attr lottie_progress
+attr lottie_rawRes
+attr lottie_renderMode
+attr lottie_repeatCount
+attr lottie_repeatMode
+attr lottie_scale
+attr lottie_speed
+attr lottie_url
 attr marginHorizontal
 attr marginLeftSystemWindowInsets
 attr marginRightSystemWindowInsets
@@ -2624,6 +2640,7 @@ id allStates
 id always
 id animateToEnd
 id animateToStart
+id animationVoice
 id antiClockwise
 id anticipate
 id arc
@@ -2633,6 +2650,7 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
+id automatic
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -2782,6 +2800,7 @@ id group_divider
 id grouping
 id groups
 id guideline
+id hardware
 id header_title
 id hideable
 id home
@@ -2795,7 +2814,6 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id imageView
 id imageView2
 id imageView3
 id imageView4
@@ -2827,6 +2845,8 @@ id linearLayout
 id linearLayout2
 id listMode
 id list_item
+id lottie_layer_name
+id mainButton
 id mainGrid
 id masked
 id match_constraint
@@ -2930,6 +2950,8 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id restart
+id reverse
 id reverseSawtooth
 id right
 id rightToLeft
@@ -2976,12 +2998,12 @@ id snackbar_action
 id snackbar_text
 id snap
 id snapMargins
+id software
 id south
 id spacer
 id special_effects_controller_view_tag
 id spinner
 id spinner2
-id spinner3
 id spline
 id split_action_bar
 id spread
@@ -3199,6 +3221,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
 layout activity_select_action
+layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
@@ -3287,6 +3310,7 @@ layout test_toolbar
 layout test_toolbar_custom_background
 layout test_toolbar_elevation
 layout test_toolbar_surface
+layout text_sample_bg
 layout text_view_with_line_height_from_appearance
 layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
@@ -3297,6 +3321,7 @@ menu example_menu2
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw voice_ip
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -4554,6 +4579,7 @@ styleable LinearLayoutCompat android_gravity android_orientation android_baselin
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight
 styleable LinearProgressIndicator indeterminateAnimationType indicatorDirectionLinear
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
+styleable LottieAnimationView lottie_autoPlay lottie_cacheComposition lottie_colorFilter lottie_enableMergePathsForKitKatAndAbove lottie_fallbackRes lottie_fileName lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_renderMode lottie_repeatCount lottie_repeatMode lottie_scale lottie_speed lottie_url
 styleable MaterialAlertDialog backgroundInsetBottom backgroundInsetEnd backgroundInsetStart backgroundInsetTop
 styleable MaterialAlertDialogTheme materialAlertDialogBodyTextStyle materialAlertDialogButtonSpacerVisibility materialAlertDialogTheme materialAlertDialogTitleIconStyle materialAlertDialogTitlePanelStyle materialAlertDialogTitleTextStyle
 styleable MaterialAutoCompleteTextView android_inputType simpleItemLayout simpleItems
