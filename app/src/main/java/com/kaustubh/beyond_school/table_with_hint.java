@@ -15,9 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kaustubh.beyond_school.extras.ReadText;
+
 import java.util.Locale;
 
-public class table_with_hint extends AppCompatActivity {
+public class table_with_hint extends AppCompatActivity implements ReadText.GetResultSpeech {
     ImageView back,Restart,Pause_Play;
     CardView ShowTable;
     TextView Table;
@@ -289,5 +291,14 @@ public class table_with_hint extends AppCompatActivity {
         count=1;
         countDownTimer.cancel();
         super.onBackPressed();
+    }
+
+    @Override
+    public void gettingResultSpeech() {
+
+
+
+
+
     }
 }
