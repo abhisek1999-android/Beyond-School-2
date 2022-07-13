@@ -100,6 +100,7 @@ layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
+layout box
 layout text_sample_bg
 mipmap ic_launcher
 mipmap ic_launcher_round

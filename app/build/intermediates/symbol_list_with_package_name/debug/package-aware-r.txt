@@ -3225,6 +3225,7 @@ layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
+layout box
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
