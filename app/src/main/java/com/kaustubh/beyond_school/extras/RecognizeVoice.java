@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import com.kaustubh.beyond_school.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -25,6 +27,8 @@ public class RecognizeVoice implements RecognitionListener {
     public String result="1";
     GetResult getResult;
     String method="";
+    String onlyNumber="^[0-9]*$";
+    Map<String, String> stringToText=new HashMap();
 
     ProgressBar progressBar;
     public RecognizeVoice(Context context,GetResult getResult){
@@ -34,6 +38,18 @@ public class RecognizeVoice implements RecognitionListener {
         progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
+
+        stringToText.put("sex","6");
+        stringToText.put("six","6");
+        stringToText.put("three","3");
+        stringToText.put("free","3");
+        stringToText.put("tree","3");
+        stringToText.put("tu","2");
+        stringToText.put("Tu","2");
+        stringToText.put("to","2");
+        stringToText.put("To","2");
+
+
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -89,8 +105,7 @@ public class RecognizeVoice implements RecognitionListener {
     public void onError(int i) {
 
         Log.i("SpeechError",getErrorText(i));
-        getResult.errorAction();
-
+        getResult.errorAction(i);
     }
 
     @Override
@@ -101,7 +116,18 @@ public class RecognizeVoice implements RecognitionListener {
         for (String result : matches)
             text += result + "\n";
         result=matches.get(0).trim();
+
+        if (result.matches(onlyNumber)){
         getResult.gettingResult(result);
+        }
+        else{
+
+            try{
+                getResult.gettingResult(stringToText.get(result));
+            }catch (Exception e){
+                getResult.gettingResult(result);
+            }
+        }
         stopListening();
 
     }
@@ -155,7 +181,7 @@ public class RecognizeVoice implements RecognitionListener {
     public interface GetResult{
 
         void gettingResult(String title);
-        void errorAction();
+        void errorAction(int i);
 
     }
 }
