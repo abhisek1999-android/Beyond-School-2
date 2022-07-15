@@ -100,15 +100,8 @@ layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
-<<<<<<< Updated upstream
 layout box
-=======
-<<<<<<< HEAD
 layout seekbar_dialog
-=======
-layout box
->>>>>>> f4b4d0c3de67a866040141fa08147cf6b12faae4
->>>>>>> Stashed changes
 layout text_sample_bg
 mipmap ic_launcher
 mipmap ic_launcher_round

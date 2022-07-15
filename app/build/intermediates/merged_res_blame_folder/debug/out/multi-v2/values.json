@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\cac66c8289a3a85a68bb88d8a063e1c5\\transformed\\gridlayout-1.0.0\\res\\values\\values.xml",
@@ -20,25 +20,6 @@
                         "endLines": "948,10590,10707",
                         "endColumns": "42,24,24",
                         "endOffsets": "53250,673103,678812"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\app\\src\\main\\res\\values\\themes.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "102",
-                        "endLines": "16",
-                        "endColumns": "12",
-                        "endOffsets": "916"
-                    },
-                    "to": {
-                        "startLines": "5686",
-                        "startColumns": "4",
-                        "startOffsets": "383148",
-                        "endLines": "5700",
-                        "endColumns": "12",
-                        "endOffsets": "383944"
                     }
                 },
                 {
@@ -96,6 +77,25 @@
                         "endLines": "152,155,946,10300",
                         "endColumns": "55,47,51,24",
                         "endOffsets": "6640,6796,53157,657708"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2,17,1",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "69,476,17",
+                        "endLines": "16,38,1",
+                        "endColumns": "19,19,50",
+                        "endOffsets": "470,1008,63"
+                    },
+                    "to": {
+                        "startLines": "2,17,1636",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "150,542,98736",
+                        "endLines": "16,38,1636",
+                        "endColumns": "19,19,50",
+                        "endOffsets": "537,1053,98782"
                     }
                 },
                 {
@@ -298,6 +298,25 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values\\themes.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "102",
+                        "endLines": "16",
+                        "endColumns": "12",
+                        "endOffsets": "916"
+                    },
+                    "to": {
+                        "startLines": "5686",
+                        "startColumns": "4",
+                        "startOffsets": "383148",
+                        "endLines": "5700",
+                        "endColumns": "12",
+                        "endOffsets": "383944"
+                    }
+                },
+                {
                     "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\2d9e164044bbae962aca42ad65fda0c0\\transformed\\appcompat-resources-1.4.2\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,29,36,47,74",
@@ -355,43 +374,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\app\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "7,2,3,4,5,6,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "293,57,105,153,201,247,336",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "330,99,147,195,241,287,373"
-                    },
-                    "to": {
-                        "startLines": "609,833,834,835,846,847,851",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "29645,45703,45750,45797,46541,46586,46794",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "29682,45745,45792,45839,46581,46626,46831"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "2,17,1",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "69,476,17",
-                        "endLines": "16,38,1",
-                        "endColumns": "19,19,50",
-                        "endOffsets": "470,1008,63"
-                    },
-                    "to": {
-                        "startLines": "2,17,1636",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "150,542,98736",
-                        "endLines": "16,38,1636",
-                        "endColumns": "19,19,50",
-                        "endOffsets": "537,1053,98782"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\kaholas\\app\\src\\main\\res\\values\\button_style.xml",
+                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values\\button_style.xml",
                     "from": {
                         "startLines": "3,6",
                         "startColumns": "4,4",
@@ -407,6 +390,23 @@
                         "endLines": "4775,4778",
                         "endColumns": "12,12",
                         "endOffsets": "323135,323218"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "7,2,3,4,5,6,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "293,57,105,153,201,247,336",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "330,99,147,195,241,287,373"
+                    },
+                    "to": {
+                        "startLines": "609,833,834,835,846,847,851",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "29645,45703,45750,45797,46541,46586,46794",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "29682,45745,45792,45839,46581,46626,46831"
                     }
                 }
             ]

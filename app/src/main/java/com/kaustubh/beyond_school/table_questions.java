@@ -113,8 +113,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             if (!pause_play.isChecked()) {
 
                 isActive = false;
-
-
                 amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                 progressBar.setVisibility(View.INVISIBLE);
                 readText.textToSpeech.stop();

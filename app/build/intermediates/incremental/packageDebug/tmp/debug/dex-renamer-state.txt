@@ -1,20 +1,12 @@
-<<<<<<< Updated upstream
-#Fri Jul 08 16:32:19 IST 2022
-=======
-<<<<<<< HEAD
-#Fri Jul 15 12:47:26 IST 2022
-=======
-#Fri Jul 08 16:32:19 IST 2022
->>>>>>> f4b4d0c3de67a866040141fa08147cf6b12faae4
->>>>>>> Stashed changes
+#Fri Jul 15 14:16:13 IST 2022
 path.3=9/classes.dex
 path.2=10/classes.dex
 path.1=0/classes.dex
 path.0=classes.dex
-base.3=C\:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
-base.2=C\:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
-base.1=C\:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.0=C\:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.3=C\:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
+base.2=C\:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
+base.1=C\:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.0=C\:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
