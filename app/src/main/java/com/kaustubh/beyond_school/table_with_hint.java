@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +31,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     Spinner spinner,spinner2;
     CountDownTimer countDownTimer;
     Boolean IsRunning=false;
+    boolean speakingForQues=true;
     int count=1;
     int test=0;
     int time=4500;
@@ -35,6 +40,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     String ToSet,set="";
     int counter=0;
     int TableValue;
+    ReadText readText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +50,13 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         back = findViewById(R.id.imageView2);
         ShowTable=findViewById(R.id.ShowTable);
         Restart = findViewById(R.id.imageView3);
+        Restart.setVisibility(View.GONE);
         Pause_Play=findViewById(R.id.imageView5);
         Table=findViewById(R.id.textView26);
         spinner=findViewById(R.id.spinner);
         spinner2=findViewById(R.id.spinner2);
         result=TableValue*count;
+        readText=new ReadText(getApplicationContext(),this);
         Table.setText(String.valueOf(TableValue)+" X "+String.valueOf(count)+" = " + String.valueOf(result));
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.numbers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,8 +89,8 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
             @Override
             public void onClick(View view) {
                 try{
-                    textToSpeech.stop();
-                    countDownTimer.cancel();
+                    readText.textToSpeech.stop();
+                    readText.textToSpeech.shutdown();
                     count=1;
                     finish();
                 }catch (Exception e){
@@ -98,18 +106,15 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 if (counter == 0) {
 
                     Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
-                  //  ShowTable.setVisibility(View.VISIBLE);
-                    back.setVisibility(View.GONE);
                     test = 0;
-                    timer();
+                    IsRunning=true;
+                    ReadFullTable(TableValue);
+                    Restart.setVisibility(View.GONE);
                     counter = 1;
                 }
                 else if (counter==1){
                     Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
-                    //ShowTable.setVisibility(View.GONE);
-                    back.setVisibility(View.VISIBLE);
-                    textToSpeech.stop();
-                    countDownTimer.cancel();
+                    readText.textToSpeech.stop();
                     IsRunning=false;
                     count--;
                     counter=0;
@@ -121,184 +126,180 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         Restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    count=1;
-
-                    Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
-
-                    back.setVisibility(View.GONE);
-                    if (IsRunning) {
-                        textToSpeech.stop();
-                        countDownTimer.cancel();
-                    }
-                    IsRunning=false;
-                    test = 0;
-                    timer();
-                    counter = 1;
-
-
+                count=1;
+                Restart.setVisibility(View.GONE);
+                Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
+                test = 0;
+                IsRunning=true;
+                ReadFullTable(TableValue);
+                counter = 1;
             }
         });
     }
-    public void  timer(){
-        //can we use for loop intead of countdown timer
-     countDownTimer = new CountDownTimer(time*10L, time) {
-        @Override
-        public void onTick(long l) {
-            if (test == 1) {
-                textToSpeech.stop();
-                Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
-                count = 1;
-                cancel();
-            }
-            //use variables for 10
-            if (count <= 10 && test == 0) {
-                ReadFullTable(TableValue);
-                Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
-            }
-            IsRunning = true;
-        }
-        @Override
-        public void onFinish() {
-            count = 1;
-            IsRunning = false;
-            timer();
-        }
-    };
-    if (!IsRunning) {
-        countDownTimer.cancel();
-        countDownTimer.start();
-    }
-    else{
-        countDownTimer.cancel();
-        count=1;
-        IsRunning=false;
-    }
-    }
+
 
     public void ReadFullTable(int TableValue){
-        result=count*TableValue;
-        switch (count){
-            case 1:{
-                ToSet=TableValue+" ones are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 1 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 2:{
-                ToSet=TableValue+" twos are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 2 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 3:{
-                ToSet=TableValue+" threes are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 3 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 4:{
-                ToSet=TableValue+" fours are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 4 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 5:{
-                ToSet=TableValue+" fives are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 5 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 6:{
-                ToSet=TableValue+" sixs are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 6 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 7:{
-                ToSet=TableValue+" sevens are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 7 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 8:{
-                ToSet=TableValue+" eights are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 8 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 9:{
-                ToSet=TableValue+" nines are ";
-                read(ToSet);
-                pause();
-                set=TableValue+" X 9 = "+result;
-                Table.setText(set);
-                break;
-            }
-            case 10: {
-                ToSet = TableValue + " tens are ";
-                read(ToSet);
-                pause();
-                set = TableValue + " X 10 = "+result;
-                Table.setText(set);
-                break;
-            }
-        }
-        count++;
-    }
-    public  void read(String toread){
-        textToSpeech=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if (i==TextToSpeech.SUCCESS){
-                    textToSpeech.setLanguage(new Locale("en","IN"));
-                    textToSpeech.setSpeechRate((float) 0.8);
-                    textToSpeech.speak(toread,TextToSpeech.QUEUE_FLUSH,null);
+
+
+        if (IsRunning){
+
+            Log.i("CountValue",count+"");
+            result=count*TableValue;
+            switch (count){
+                case 1:{
+                    ToSet=TableValue+" ones are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 1 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 2:{
+                    ToSet=TableValue+" twos are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 2 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 3:{
+                    ToSet=TableValue+" threes are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 3 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 4:{
+                    ToSet=TableValue+" fours are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 4 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 5:{
+                    ToSet=TableValue+" fives are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 5 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 6:{
+                    ToSet=TableValue+" sixs are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 6 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 7:{
+                    ToSet=TableValue+" sevens are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 7 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 8:{
+                    ToSet=TableValue+" eights are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 8 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 9:{
+                    ToSet=TableValue+" nines are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set=TableValue+" X 9 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 10: {
+                    ToSet = TableValue + " tens are ";
+                    readText.read(ToSet);
+                    speakingForQues=false;
+                    pause();
+                    set = TableValue + " X 10 = "+result;
+                    Table.setText(set);
+                    break;
+                }
+                case 11:{
+                    Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
+                    Restart.setVisibility(View.VISIBLE);
+                    readText.textToSpeech.stop();
+                    IsRunning=false;
+                    count--;
+                    counter=0;
+                    test=1;
                 }
             }
-        });
+            count++;
+        }
+
     }
+
     public void pause(){
-        CountDownTimer Timer=new CountDownTimer(pauseTime,pauseTime) {
-            @Override
-            public void onTick(long l) {
+
+
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                readText.read(String.valueOf(result));
+                speakingForQues=true;
             }
-            @Override
-            public void onFinish() {
-                read(String.valueOf(result));
-            }
-        }.start();
+        };
+        handler.postDelayed(r, 2000);
+
+
     }
 //call single fuction in finish
     @Override
     public void onBackPressed() {
-        textToSpeech.stop();
-        count=1;
-        countDownTimer.cancel();
+        readText.textToSpeech.stop();
+        readText.textToSpeech.shutdown();
         super.onBackPressed();
     }
 
     @Override
     public void gettingResultSpeech() {
 
+        if (speakingForQues){
+            final Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ReadFullTable(TableValue);
+                }
+            }, 2000);
+        }
 
+    }
 
+    @Override
+    protected void onPause() {
 
+        super.onPause();
+        readText.textToSpeech.stop();
+        readText.textToSpeech.shutdown();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        readText.textToSpeech.stop();
+        readText.textToSpeech.shutdown();
     }
 }

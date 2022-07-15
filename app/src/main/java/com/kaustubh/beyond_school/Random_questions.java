@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -88,22 +89,29 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             public void onClick(View view) {
 
 
-                if (pause_play.isChecked()){
+                if (pause_play.isChecked()) {
                     progressBar.setVisibility(View.VISIBLE);
-                    isActive=true;
-                    ReadFullTable(TableValue);
-                    if (count>10)
-                        count=1;
-                    counter=0;
-                }
-                if (!pause_play.isChecked()){
 
-                    isActive=false;
+                    if (count > 10)
+                        count = 1;
+
+                    if(isActive){
+                        readText.textToSpeech.stop();
+                        recognizeVoice.speech.stopListening();
+                    }
+
+                    isActive = true;
+                    ReadFullTable(TableValue);
+                    counter = 0;
+                }
+                if (!pause_play.isChecked()) {
+
+                    isActive = false;
                     amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                     progressBar.setVisibility(View.INVISIBLE);
                     readText.textToSpeech.stop();
                     recognizeVoice.speech.stopListening();
-                    counter=1;
+                    counter = 1;
                 }
             }
         });
@@ -134,7 +142,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         Log.i("InActivity","ReadFullText");
         result=random*TableValue;
         ans.setText("");
-        // isActive=true;
+
         if (isActive){
             switch (random){
                 case 1:{
@@ -314,6 +322,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
         }
+
         Handler handler = new Handler();
         final Runnable r = new Runnable()
         {
@@ -331,28 +340,75 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 }
             }
         };
-        handler.postDelayed(r, 1500);
+        handler.postDelayed(r, 3000);
     }
+
     @Override
-    public void errorAction() {
-        Log.i("Error","err");
-        try{
+    public void errorAction(int i) {
+
+
+        if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
+            mic.setVisibility(View.GONE);
+
+            try {
+                Handler handler = new Handler();
+                final Runnable r = new Runnable() {
+                    public void run() {
+                        if (counter == 0)
+                            isActive = true;
+                        ReadFullTable(TableValue);
+                    }
+                };
+                handler.postDelayed(r, 3000);
+            } catch (Exception e) {
+                if (counter == 0)
+                    isActive = true;
+                ReadFullTable(TableValue);
+            }
+        }
+        if (count > 10) {
+
             Handler handler = new Handler();
-            final Runnable r = new Runnable()
-            {
-                public void run()
-                {
-                    if (counter==0)
-                        isActive=true;
-                    ReadFullTable(TableValue);
+            final Runnable r = new Runnable() {
+                public void run() {
+                    counter = 0;
+                    pause_play.setChecked(false);
+                    rtans = 0;
+                    wrans = 0;
+                    right_ans.setText("0");
+                    wrong_ans.setText("0");
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                    collectdata.setText("");
+                    ans.setText("");
                 }
             };
-            handler.postDelayed(r, 3000);
-        }catch (Exception e){
-            if (counter==0)
-                isActive=true;
-            ReadFullTable(TableValue);
+            handler.postDelayed(r, 1000);
+
+
         }
+
+
+
+
+
+//
+//        Log.i("Error","err");
+//        try{
+//            Handler handler = new Handler();
+//            final Runnable r = new Runnable()
+//            {
+//                public void run()
+//                {
+//                    if (counter==0)
+//                        isActive=true;
+//                    ReadFullTable(TableValue);
+//                }
+//            };
+//            handler.postDelayed(r, 3000);
+//        }catch (Exception e){
+//            if (counter==0)
+//                isActive=true;
+//            ReadFullTable(TableValue);//      }
     }
 
     @Override
