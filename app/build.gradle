@@ -1,12 +1,13 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.kaustubh.beyond_school"
+        applicationId "com.maths.beyond_school270620220930"
         minSdk 21
         targetSdk 28
         versionCode 1
@@ -44,6 +45,11 @@ dependencies {
     //lotti
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    //analytics
+    implementation 'com.google.firebase:firebase-analytics'
 
 
 

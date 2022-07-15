@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kaustubh.beyond_school"
+    package="com.maths.beyond_school270620220930"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -17,6 +17,11 @@
         </intent>
     </queries>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -28,7 +33,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.BEYOND_SCHOOL" >
         <activity
-            android:name="com.kaustubh.beyond_school.SplashScreen"
+            android:name="com.maths.beyond_school270620220930.SplashScreen"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,28 +42,67 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kaustubh.beyond_school.Random_questions"
+            android:name="com.maths.beyond_school270620220930.Random_questions"
             android:exported="true" />
         <activity
-            android:name="com.kaustubh.beyond_school.TestActivity"
+            android:name="com.maths.beyond_school270620220930.TestActivity"
             android:exported="true" />
         <activity
-            android:name="com.kaustubh.beyond_school.select_action"
+            android:name="com.maths.beyond_school270620220930.select_action"
             android:exported="true" />
         <activity
-            android:name="com.kaustubh.beyond_school.table_questions"
+            android:name="com.maths.beyond_school270620220930.table_questions"
             android:exported="true" />
         <activity
-            android:name="com.kaustubh.beyond_school.table_with_hint"
+            android:name="com.maths.beyond_school270620220930.table_with_hint"
             android:exported="true" />
         <activity
-            android:name="com.kaustubh.beyond_school.MainActivity"
+            android:name="com.maths.beyond_school270620220930.MainActivity"
             android:exported="true" >
         </activity>
 
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.maths.beyond_school270620220930.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
+
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.kaustubh.beyond_school.androidx-startup"
+            android:authorities="com.maths.beyond_school270620220930.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
