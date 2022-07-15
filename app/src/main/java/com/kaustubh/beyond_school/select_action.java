@@ -26,6 +26,7 @@ public class select_action extends AppCompatActivity {
         TableWithoutHint=findViewById(R.id.button);
         RandomTable=findViewById(R.id.button6);
         Intent intent=getIntent();
+
         int TableValue=intent.getIntExtra("value",0);
         textView.setText("Select Action for Table of "+TableValue);
         TableWithHint.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +43,14 @@ public class select_action extends AppCompatActivity {
                 Intent intent2=new Intent(select_action.this,table_questions.class);
                 intent2.putExtra("ValueOfTable",TableValue);
                 startActivity(intent2);
+            }
+        });
+        RandomTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3=new Intent(select_action.this,Random_questions.class);
+                intent3.putExtra("ValueOfTable",TableValue);
+                startActivity(intent3);
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
