@@ -2,11 +2,16 @@ package com.maths.beyond_school270620220930;
 
 import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.NotificationManager;
+
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -22,6 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.maths.beyond_school270620220930.extras.ReadText;
+import com.maths.beyond_school270620220930.notification.StickyNotification;
+
 
 public class table_with_hint extends AppCompatActivity implements ReadText.GetResultSpeech {
     ImageView back,Restart,Pause_Play;
@@ -41,6 +48,8 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     int counter=0;
     int TableValue;
     ReadText readText;
+    NotificationManager nManager;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +62,12 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
         wakeLock.acquire();
 
+
+
+
         Intent intent=getIntent();
         TableValue=intent.getIntExtra("ValueOfTable",0);
-        back = findViewById(R.id.imageView2);
+        back = findViewById(R.id.imageView4);
         ShowTable=findViewById(R.id.ShowTable);
         Restart = findViewById(R.id.imageView3);
         Restart.setVisibility(View.GONE);
@@ -64,6 +76,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         spinner=findViewById(R.id.spinner);
         spinner2=findViewById(R.id.spinner2);
         result=TableValue*count;
+        nManager = ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class));
         readText=new ReadText(getApplicationContext(),this);
         Table.setText(String.valueOf(TableValue)+" X "+String.valueOf(count)+" = " + String.valueOf(result));
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.numbers, android.R.layout.simple_spinner_item);
@@ -109,11 +122,13 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
             }
         });
         Pause_Play.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 if (counter == 0) {
 
                     Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
+                    new StickyNotification(getApplicationContext(),table_with_hint.class,"| Table of "+TableValue+" | with hint").makeNotification();
                     test = 0;
                     IsRunning=true;
                     ReadFullTable(TableValue);
@@ -127,6 +142,8 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     count--;
                     counter=0;
                     test=1;
+
+                    nManager.cancelAll();
                 }
 
             }
@@ -134,6 +151,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         Restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
                 count=1;
                 Restart.setVisibility(View.GONE);
                 Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
@@ -252,6 +270,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     count--;
                     counter=0;
                     test=1;
+                    nManager.cancelAll();
                 }
             }
             count++;

@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
 
     </style>
+    <style name="card_background" parent="CardView">
+
+        <item name="cardBackgroundColor">@color/tp_black</item>
+
+    </style>
 </resources>

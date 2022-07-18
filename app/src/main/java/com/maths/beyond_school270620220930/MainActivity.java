@@ -7,7 +7,11 @@ import androidx.gridlayout.widget.GridLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school270620220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school270620220930.extras.UtilityFunctions;
 import com.maths.beyond_school270620220930.model.Tables;
+import com.maths.beyond_school270620220930.notification.StickyNotification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     TablesRecyclerAdapter tablesRecyclerAdapter;
     List<Tables> tablesList;
     TextView greetingTextView;
-
+    private static final String CHANNEL_ID="Default Channel Beyond School";
+    private static final String CHANNEL_NAME="Default Channel Beyond School";
+    private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -36,6 +43,17 @@ private FirebaseAnalytics mFirebaseAnalytics;
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        //Setting notification channel................................................................................
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+            NotificationChannel channel=new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager=getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID," id");

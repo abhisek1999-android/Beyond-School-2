@@ -37,7 +37,7 @@
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/profile_default"
+                android:src="@drawable/cartoon_image_1"
                 android:layout_gravity="center"
                 />
 

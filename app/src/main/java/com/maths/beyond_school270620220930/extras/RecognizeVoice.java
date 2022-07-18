@@ -27,12 +27,12 @@ public class RecognizeVoice implements RecognitionListener {
     String onlyNumber="^[0-9]*$";
     Map<String, String> stringToText=new HashMap();
 
-    ProgressBar progressBar;
+   // ProgressBar progressBar;
     public RecognizeVoice(Context context,GetResult getResult){
 
         this.mContext=context;
         this.getResult=getResult;
-        progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
+       // progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
 
@@ -48,12 +48,16 @@ public class RecognizeVoice implements RecognitionListener {
         stringToText.put("to","2");
         stringToText.put("To","2");
         stringToText.put("hundred","100");
+        stringToText.put("badi stop","buddy stop");
+        stringToText.put("stop","buddy stop");
 
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, new Long(5000));
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,30 );
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 2000);
+       // recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
 
 //https://issuetracker.google.com/issues/36928328
     }
@@ -66,8 +70,6 @@ public class RecognizeVoice implements RecognitionListener {
     public void stopListening(){
         speech.stopListening();
     }
-
-
     @Override
     public void onReadyForSpeech(Bundle bundle) {
 
@@ -76,15 +78,15 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onBeginningOfSpeech() {
-        progressBar.setIndeterminate(false);
-        progressBar.setMax(10);
+        ///progressBar.setIndeterminate(false);
+        //progressBar.setMax(10);
     }
 
     @Override
     public void onRmsChanged(float v) {
 
         Log.i("onRmsChanged",v+"");
-        progressBar.setProgress((int) v);
+      //  progressBar.setProgress((int) v);
     }
 
     @Override
@@ -96,7 +98,7 @@ public class RecognizeVoice implements RecognitionListener {
     public void onEndOfSpeech() {
         Log.i("LOG_TAG", "EndOfSpeech");
         Log.i("LOG_TAG", "onEndOfSpeech");
-        progressBar.setIndeterminate(true);
+       // progressBar.setIndeterminate(true);
         stopListening();
 
     }
@@ -125,7 +127,7 @@ public class RecognizeVoice implements RecognitionListener {
             try{
                 getResult.gettingResult(stringToText.get(result.toLowerCase()));
             }catch (Exception e){
-                getResult.gettingResult(result);
+                getResult.gettingResult(result.toLowerCase());
             }
         }
         stopListening();

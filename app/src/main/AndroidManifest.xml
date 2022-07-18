@@ -42,15 +42,25 @@
             android:exported="true" />
         <activity
             android:name="com.maths.beyond_school270620220930.table_questions"
-            android:exported="true" />
+            android:exported="true"
+            android:showOnLockScreen="true"
+            />
         <activity
             android:name="com.maths.beyond_school270620220930.table_with_hint"
-            android:exported="true" />
+            android:exported="true"
+            android:showOnLockScreen="true" />
         <activity
             android:name="com.maths.beyond_school270620220930.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:showOnLockScreen="true"
+            >
 
         </activity>
+
+
+
+        <service android:foregroundServiceType="microphone"
+            android:name="com.maths.beyond_school270620220930.table_questions" />
     </application>
 
 </manifest>

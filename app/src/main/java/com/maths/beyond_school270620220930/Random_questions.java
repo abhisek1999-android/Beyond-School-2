@@ -49,9 +49,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     Boolean isActive = false, currRes = true;
     RecognizeVoice recognizeVoice;
     ReadText readText;
-    ProgressBar progressBar;
+    ProgressBar progressBarQuestion;
     TextView collectdata;
-    LottieAnimationView mic;
+   // LottieAnimationView mic;
     AudioManager amanager;
     int random;
     boolean[] checkArray;
@@ -75,9 +75,10 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         ans = findViewById(R.id.textView27);
         right_ans.setText(String.valueOf(rtans));
         wrong_ans.setText(String.valueOf(wrans));
-        progressBar = findViewById(R.id.progressBar1);
+        progressBarQuestion = findViewById(R.id.questionProgress);
+        progressBarQuestion.setMax(10);
         collectdata = findViewById(R.id.textView24);
-        mic = findViewById(R.id.animationVoice);
+      //  mic = findViewById(R.id.animationVoice);
         checkArray=new boolean[11];
         random=getRandomInteger(11,1);
         Arrays.fill(checkArray,false);
@@ -86,7 +87,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
-        mic.setVisibility(View.GONE);
+//        mic.setVisibility(View.GONE);
 
         amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         recognizeVoice = new RecognizeVoice(Random_questions.this, this);
@@ -97,9 +98,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
         pause_play.setOnClickListener(view -> {
-
+            ans.setVisibility(View.VISIBLE);
             if (pause_play.isChecked()) {
-                progressBar.setVisibility(View.VISIBLE);
+              //  progressBar.setVisibility(View.VISIBLE);
 
                 if (count > 10)
                     count = 1;
@@ -117,7 +118,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
                 isActive = false;
                 amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-                progressBar.setVisibility(View.INVISIBLE);
+                //progressBar.setVisibility(View.INVISIBLE);
                 readText.textToSpeech.stop();
                 recognizeVoice.speech.stopListening();
                 counter = 1;
@@ -233,6 +234,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         }
         if (count <= 10) {
             question_count.setText(String.valueOf(count) + "/10");
+            progressBarQuestion.setProgress(count);
         }
 
     }
@@ -271,7 +273,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     protected void onDestroy() {
         super.onDestroy();
         recognizeVoice.stopListening();
-        mic.setVisibility(View.GONE);
+      //  mic.setVisibility(View.GONE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
@@ -322,7 +324,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             else break;
         }
         recognizeVoice.stopListening();
-        mic.setVisibility(View.GONE);
+        //mic.setVisibility(View.GONE);
         try {
             if (lcsResult) {
 
@@ -355,7 +357,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                     recognizeVoice.stopListening();
                 } else {
                     recognizeVoice.stopListening();
-                    mic.setVisibility(View.GONE);
+                 //   mic.setVisibility(View.GONE);
                 }
             }
         };
@@ -372,7 +374,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
-            mic.setVisibility(View.GONE);
+          //  mic.setVisibility(View.GONE);
 
             try {
                 Handler handler = new Handler();
@@ -427,7 +429,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 if (isActive) {
                     currRes = true;
                     isActive = false;
-                    mic.setVisibility(View.VISIBLE);
+               //     mic.setVisibility(View.VISIBLE);
                     recognizeVoice.startListening();
                 }
 

@@ -3,16 +3,19 @@ package com.maths.beyond_school270620220930;
 import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -33,6 +36,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school270620220930.extras.ReadText;
 import com.maths.beyond_school270620220930.extras.RecognizeVoice;
 import com.maths.beyond_school270620220930.extras.UtilityFunctions;
+import com.maths.beyond_school270620220930.notification.StickyNotification;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -50,22 +54,25 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     Boolean isActive = false, currRes = true;
     RecognizeVoice recognizeVoice;
     ReadText readText;
-    ProgressBar progressBar;
+    ProgressBar progressBarQuestion;
     TextView collectdata;
-    LottieAnimationView mic;
     AudioManager amanager;
+    NotificationManager nManager;
+    TextView titleText;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_questions);
 //
-//        Context mContext = getApplicationContext();
-//        PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-//        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
-//        wakeLock.acquire();
+        Context mContext = getApplicationContext();
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
+        wakeLock.acquire();
 
 
+        nManager = ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class));
         Intent intent = getIntent();
         TableValue = intent.getIntExtra("ValueOfTable", 0);
         back = findViewById(R.id.imageView4);
@@ -78,17 +85,22 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         layout = findViewById(R.id.layout_set);
         ans = findViewById(R.id.textView27);
         right_ans.setText(String.valueOf(rtans));
+        titleText=findViewById(R.id.titleText);
         wrong_ans.setText(String.valueOf(wrans));
 //        disposableSpeech=new CompositeDisposable();
-        progressBar = findViewById(R.id.progressBar1);
+        progressBarQuestion = findViewById(R.id.questionProgress);
+        progressBarQuestion.setMax(10);
 
         collectdata = findViewById(R.id.textView24);
-        mic = findViewById(R.id.animationVoice);
+        collectdata.setVisibility(View.GONE);
+
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
-        mic.setVisibility(View.GONE);
+
 
         amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         recognizeVoice = new RecognizeVoice(table_questions.this, this);
@@ -98,10 +110,14 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
+        titleText.setText("Practice Table");
+
         pause_play.setOnClickListener(view -> {
 
+            ans.setVisibility(View.VISIBLE);
+
             if (pause_play.isChecked()) {
-                progressBar.setVisibility(View.VISIBLE);
+              //  progressBar.setVisibility(View.VISIBLE);
                 if (count > 10)
                     count = 1;
                 if(isActive){
@@ -112,15 +128,15 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 isActive = true;
                 ReadFullTable(TableValue);
                 counter = 0;
+
+                new StickyNotification(getApplicationContext(),table_questions.class,"Table of "+TableValue+" | without hint").makeNotification();
+
+
+
             }
             if (!pause_play.isChecked()) {
-
-                isActive = false;
-                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-                progressBar.setVisibility(View.INVISIBLE);
-                readText.textToSpeech.stop();
-                recognizeVoice.speech.stopListening();
-                counter = 1;
+                pauseAll();
+                nManager.cancelAll();
             }
         });
 
@@ -146,6 +162,17 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
 
+
+    public void pauseAll(){
+
+        isActive = false;
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+     //   progressBar.setVisibility(View.INVISIBLE);
+        readText.textToSpeech.stop();
+        recognizeVoice.speech.stopListening();
+        counter = 1;
+
+    }
 
     public void ReadFullTable(int TableValue) {
         //recognizeVoice.startListening();
@@ -233,10 +260,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         }
         if (count <= 10) {
             question_count.setText(String.valueOf(count) + "/10");
+            progressBarQuestion.setProgress(count);
         }
-
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -253,8 +279,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     @Override
     protected void onPause() {
-        recognizeVoice.speech.stopListening();
-        recognizeVoice.speech.destroy();
+//        recognizeVoice.speech.stopListening();
+//        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity", "onPause");
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
@@ -270,8 +296,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        recognizeVoice.stopListening();
-        mic.setVisibility(View.GONE);
+        recognizeVoice.speech.stopListening();
+        recognizeVoice.speech.destroy();
+     //   mic.setVisibility(View.GONE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
@@ -279,66 +306,78 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     public void gettingResult(String title) {
 
         Log.i("InActivity", "onResult" + title);
-        ans.setText(title);
-        String temp = collectdata.getText().toString();
-        Boolean lcsResult=new UtilityFunctions().matchingSeq(title.trim(),result+"");
-        Log.i("lcsResult",lcsResult+"");
-        if (!temp.equals("") && lcsResult)
-            collectdata.setText(temp + "," + result);
 
-        else if (!temp.equals("") && !lcsResult)
-            collectdata.setText(temp + "," + title.trim());
-
-        else if(temp.equals("")&& lcsResult){
-            try {
-                collectdata.setText(result+"");
-            }catch (Exception e){}
-
+        if (title.equals("buddy stop")){
+          //  mic.setVisibility(View.GONE);
+            pause_play.setChecked(false);
+            pauseAll();
         }
+        else{
 
-        else
-            collectdata.setText(title.trim());
+            ans.setText(title);
+            String temp = collectdata.getText().toString();
+            Boolean lcsResult=new UtilityFunctions().matchingSeq(title.trim(),result+"");
+            Log.i("lcsResult",lcsResult+"");
+            if (!temp.equals("") && lcsResult)
+                collectdata.setText(temp + "," + result);
 
-        count++;
-        recognizeVoice.stopListening();
-        mic.setVisibility(View.GONE);
-        try {
-            if (lcsResult) {
+            else if (!temp.equals("") && !lcsResult)
+                collectdata.setText(temp + "," + title.trim());
 
-                rtans++;
-                readText.read("CORRECT");
-                right_ans.setText(String.valueOf(rtans));
+            else if(temp.equals("")&& lcsResult){
+                try {
+                    collectdata.setText(result+"");
+                }catch (Exception e){}
+
             }
 
-            else {
-                wrans++;
+            else
+                collectdata.setText(title.trim());
+
+            count++;
+            recognizeVoice.stopListening();
+           // mic.setVisibility(View.GONE);
+            try {
+                if (lcsResult) {
+
+                    rtans++;
+                    readText.read("CORRECT");
+                    right_ans.setText(String.valueOf(rtans));
+                }
+
+                else {
+                    wrans++;
+                    readText.read("INCORRECT, Correct is " + result);
+                    wrong_ans.setText(String.valueOf(wrans));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
                 readText.read("INCORRECT, Correct is " + result);
+                wrans++;
                 wrong_ans.setText(String.valueOf(wrans));
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            readText.read("INCORRECT, Correct is " + result);
-            wrans++;
-            wrong_ans.setText(String.valueOf(wrans));
+
+            Handler handler = new Handler();
+            final Runnable r = new Runnable() {
+                public void run() {
+                    if (count <= 10) {
+                        if (counter == 0)
+                            isActive = true;
+                        ReadFullTable(TableValue);
+                        recognizeVoice.stopListening();
+                    } else {
+                        recognizeVoice.stopListening();
+
+                    }
+                }
+            };
+            handler.postDelayed(r, 3000);
+
         }
 
 
-        Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            public void run() {
-                if (count <= 10) {
-                    if (counter == 0)
-                        isActive = true;
-                    ReadFullTable(TableValue);
-                    recognizeVoice.stopListening();
-                } else {
-                    recognizeVoice.stopListening();
-                    mic.setVisibility(View.GONE);
-                }
-            }
-        };
-        handler.postDelayed(r, 3000);
 
 
 
@@ -351,7 +390,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
-            mic.setVisibility(View.GONE);
+         //   mic.setVisibility(View.GONE);
 
             try {
                 Handler handler = new Handler();
@@ -383,6 +422,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                     collectdata.setText("");
                     ans.setText("");
+                    nManager.cancelAll();
                 }
             };
             handler.postDelayed(r, 1000);
@@ -406,7 +446,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 if (isActive) {
                     currRes = true;
                     isActive = false;
-                    mic.setVisibility(View.VISIBLE);
                     recognizeVoice.startListening();
                 }
 

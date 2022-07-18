@@ -6,11 +6,20 @@ color black
 color purple_200
 color purple_500
 color purple_700
+color sweet_dark
+color sweet_grey
+color sweet_red
 color teal_200
 color teal_700
+color tp_black
+color tp_white
 color white
 drawable background_border
+drawable background_fill
 drawable background_round
+drawable cartoon_action_page
+drawable cartoon_image_1
+drawable custom_progress_bg
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -37,7 +46,6 @@ id button6
 id descriptionTextView
 id employeeId
 id greetingsTime
-id imageView2
 id imageView3
 id imageView4
 id imageView5
@@ -50,13 +58,13 @@ id numberTextView
 id playPause
 id profileImage
 id progressBar1
+id questionProgress
 id scrollView2
 id selectedDigitLayout
 id spinner
 id spinner2
 id tableName
 id tablesRecyclerView
-id textView21
 id textView22
 id textView23
 id textView24
@@ -65,6 +73,7 @@ id textView26
 id textView27
 id textView33
 id textView36
+id titleText
 id toolBar
 id userName
 layout activity_main
@@ -78,6 +87,7 @@ layout seekbar_dialog
 layout select_card_layout
 layout text_sample_bg
 layout tool_bar_layout
+layout tool_bar_layout_back_button
 mipmap ic_launcher
 mipmap ic_launcher_round
 raw voice_ip
@@ -92,3 +102,4 @@ string project_id
 style Button4
 style Button5
 style Theme.BEYOND_SCHOOL
+style card_background
