@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class select_action extends AppCompatActivity {
     ImageView back;
-    TextView textView;
+    TextView tableName;
 
     CardView TableWithHint,TableWithoutHint,RandomTable;
     @Override
@@ -19,7 +19,7 @@ public class select_action extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
         //temporary for developing
-        textView=findViewById(R.id.textView33);
+        tableName=findViewById(R.id.tableName);
         back=findViewById(R.id.imageView8);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
@@ -27,7 +27,7 @@ public class select_action extends AppCompatActivity {
         Intent intent=getIntent();
 
         int TableValue=intent.getIntExtra("value",0);
-        textView.setText("Select Action for Table of "+TableValue);
+        tableName.setText(String.format("%02d", TableValue)+"");
         TableWithHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

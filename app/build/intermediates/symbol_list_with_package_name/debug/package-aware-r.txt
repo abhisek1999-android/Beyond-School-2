@@ -258,6 +258,10 @@ attr circularflow_defaultAngle
 attr circularflow_defaultRadius
 attr circularflow_radiusInDP
 attr circularflow_viewCenter
+attr civ_border_color
+attr civ_border_overlay
+attr civ_border_width
+attr civ_fill_color
 attr clearsTag
 attr clickAction
 attr clockFaceBackgroundColor
@@ -2477,6 +2481,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable background_border
 drawable background_round
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
@@ -2550,7 +2555,9 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable play_button
+drawable profile_default
 drawable roundbar
+drawable select_option_ct
 drawable test_custom_background
 drawable test_level_drawable
 drawable tooltip_frame_dark
@@ -2559,6 +2566,7 @@ font anton
 font futurapt_font
 font poppins
 font poppins_ight
+font reemkufi_medium
 id ALT
 id BOTTOM_END
 id BOTTOM_START
@@ -2670,25 +2678,6 @@ id buttonPanel
 id cache_measures
 id callMeasure
 id cancel_button
-id card10
-id card11
-id card12
-id card13
-id card14
-id card15
-id card16
-id card17
-id card18
-id card19
-id card2
-id card20
-id card3
-id card4
-id card5
-id card6
-id card7
-id card8
-id card9
 id carryVelocity
 id center
 id centerCrop
@@ -2735,6 +2724,7 @@ id decor_content_parent
 id default_activity_button
 id deltaRelative
 id dependency_ordering
+id descriptionTextView
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -2767,6 +2757,7 @@ id edit_query
 id edittext_dropdown_editable
 id edittext_dropdown_noneditable
 id elastic
+id employeeId
 id end
 id endToStart
 id enterAlways
@@ -2796,6 +2787,7 @@ id ghost_view_holder
 id gone
 id graph
 id graph_wrap
+id greetingsTime
 id group_divider
 id grouping
 id groups
@@ -2847,7 +2839,6 @@ id listMode
 id list_item
 id lottie_layer_name
 id mainButton
-id mainGrid
 id masked
 id match_constraint
 id match_parent
@@ -2923,6 +2914,7 @@ id north
 id notification_background
 id notification_main_column
 id notification_main_column_container
+id numberTextView
 id off
 id on
 id onInterceptTouchReturnSwipe
@@ -2944,6 +2936,7 @@ id pin
 id playPause
 id position
 id postLayout
+id profileImage
 id progressBar1
 id progress_circular
 id progress_horizontal
@@ -2980,9 +2973,9 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
-id selectTableId
 id select_dialog_listview
 id selected
+id selectedDigitLayout
 id selection_type
 id sharedValueSet
 id sharedValueUnset
@@ -3026,6 +3019,8 @@ id submenuarrow
 id submit_area
 id supportScrollUp
 id tabMode
+id tableName
+id tablesRecyclerView
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
 id tag_accessibility_heading
@@ -3050,19 +3045,6 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
-id textView
-id textView10
-id textView11
-id textView12
-id textView13
-id textView14
-id textView15
-id textView16
-id textView17
-id textView18
-id textView19
-id textView2
-id textView20
 id textView21
 id textView22
 id textView23
@@ -3070,15 +3052,8 @@ id textView24
 id textView25
 id textView26
 id textView27
-id textView3
 id textView33
 id textView36
-id textView4
-id textView5
-id textView6
-id textView7
-id textView8
-id textView9
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -3093,6 +3068,7 @@ id title
 id titleDividerNoCustom
 id title_template
 id toggle
+id toolBar
 id top
 id topPanel
 id touch_outside
@@ -3109,6 +3085,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id userName
 id vertical
 id vertical_only
 id view_offset_helper
@@ -3298,6 +3275,7 @@ layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
 layout seekbar_dialog
+layout select_card_layout
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -3319,6 +3297,7 @@ layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
+layout tool_bar_layout
 menu example_menu
 menu example_menu2
 mipmap ic_launcher
@@ -4544,6 +4523,7 @@ styleable Carousel carousel_backwardTransition carousel_emptyViewsBehavior carou
 styleable CheckedTextView android_checkMark checkMarkCompat checkMarkTint checkMarkTintMode
 styleable Chip android_textAppearance android_textSize android_textColor android_ellipsize android_maxWidth android_text android_checkable checkedIcon checkedIconEnabled checkedIconTint checkedIconVisible chipBackgroundColor chipCornerRadius chipEndPadding chipIcon chipIconEnabled chipIconSize chipIconTint chipIconVisible chipMinHeight chipMinTouchTargetSize chipStartPadding chipStrokeColor chipStrokeWidth chipSurfaceColor closeIcon closeIconEnabled closeIconEndPadding closeIconSize closeIconStartPadding closeIconTint closeIconVisible ensureMinTouchTargetSize hideMotionSpec iconEndPadding iconStartPadding rippleColor shapeAppearance shapeAppearanceOverlay showMotionSpec textEndPadding textStartPadding
 styleable ChipGroup checkedChip chipSpacing chipSpacingHorizontal chipSpacingVertical selectionRequired singleLine singleSelection
+styleable CircleImageView civ_border_color civ_border_overlay civ_border_width civ_fill_color
 styleable CircularProgressIndicator indicatorDirectionCircular indicatorInset indicatorSize
 styleable ClockFaceView clockFaceBackgroundColor clockNumberTextColor
 styleable ClockHandView clockHandColor materialCircleRadius selectorSize
