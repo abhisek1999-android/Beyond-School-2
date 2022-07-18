@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
+            "outputFile": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,5,8,13,17,20,23,26,31,34,38",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\c7a5c049c3afb196c884091b484ad938\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\c7a5c049c3afb196c884091b484ad938\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -42,7 +42,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

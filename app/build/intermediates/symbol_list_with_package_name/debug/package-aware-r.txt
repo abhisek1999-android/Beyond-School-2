@@ -2502,6 +2502,7 @@ drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
+drawable ic_baseline_share_24
 drawable ic_clock_black_24dp
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
@@ -2738,6 +2739,7 @@ id disableIntraAutoTransition
 id disablePostScroll
 id disableScroll
 id disjoint
+id displayresulttext
 id dragAnticlockwise
 id dragClockwise
 id dragDown
@@ -2862,6 +2864,7 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id matrix
+id menu
 id message
 id middle
 id mini
@@ -2940,10 +2943,12 @@ id profileImage
 id progressBar1
 id progress_circular
 id progress_horizontal
+id progressresult
 id radio
 id ratio
 id rectangles
 id restart
+id retry
 id reverse
 id reverseSawtooth
 id right
@@ -2977,6 +2982,7 @@ id select_dialog_listview
 id selected
 id selectedDigitLayout
 id selection_type
+id share
 id sharedValueSet
 id sharedValueUnset
 id shortcut
@@ -3052,6 +3058,14 @@ id textView24
 id textView25
 id textView26
 id textView27
+<<<<<<< Updated upstream
+=======
+id textView28
+id textView3
+id textView30
+id textView31
+id textView32
+>>>>>>> Stashed changes
 id textView33
 id textView36
 id text_input_end_icon
@@ -3203,7 +3217,6 @@ layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
-layout box
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -3274,6 +3287,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout result_display
 layout seekbar_dialog
 layout select_card_layout
 layout select_dialog_item_material

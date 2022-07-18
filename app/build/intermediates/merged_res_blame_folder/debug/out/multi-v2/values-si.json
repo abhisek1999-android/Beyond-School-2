@@ -1,44 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-si\\values-si.xml",
+            "outputFile": "C:\\Users\\kaust\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-si\\values-si.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\832bf75062faa67e4de13afbad65dd32\\transformed\\play-services-basement-18.0.0\\res\\values-si\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "134",
-                        "endOffsets": "329"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "3368",
-                        "endColumns": "138",
-                        "endOffsets": "3502"
-                    }
-                },
-                {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\142e0a8c29fa82a068900add9fd47d0d\\transformed\\core-1.7.0\\res\\values-si\\values-si.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "89",
-                        "startColumns": "4",
-                        "startOffsets": "7470",
-                        "endColumns": "100",
-                        "endOffsets": "7566"
-                    }
-                },
-                {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -55,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\142e0a8c29fa82a068900add9fd47d0d\\transformed\\core-1.7.0\\res\\values-si\\values-si.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "89",
+                        "startColumns": "4",
+                        "startOffsets": "7470",
+                        "endColumns": "100",
+                        "endOffsets": "7566"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -71,6 +54,23 @@
                         "endLines": "5,33,34,35,36,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87",
                         "endColumns": "12,77,101,114,82,63,88,66,59,93,62,55,69,66,54,118,56,63,53,72,121,82,84,101,77,79,85,66,65,69,72,81,71,76,71,69,92,72,89,92,73,71,90,53,65,83,84,61,63,62,104,99,94,99,79",
                         "endOffsets": "269,3063,3165,3280,3363,3566,3655,3722,3782,3876,3939,3995,4065,4132,4187,4306,4363,4427,4481,4554,4676,4759,4844,4946,5024,5104,5190,5257,5323,5393,5466,5548,5620,5697,5769,5839,5932,6005,6095,6188,6262,6334,6425,6479,6545,6629,6714,6776,6840,6903,7008,7108,7203,7303,7383"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kaust\\.gradle\\caches\\transforms-3\\832bf75062faa67e4de13afbad65dd32\\transformed\\play-services-basement-18.0.0\\res\\values-si\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "134",
+                        "endOffsets": "329"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "3368",
+                        "endColumns": "138",
+                        "endOffsets": "3502"
                     }
                 }
             ]

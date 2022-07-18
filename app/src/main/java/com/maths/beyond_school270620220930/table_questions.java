@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.os.PowerManager;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +43,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     ToggleButton pause_play;
     CardView card;
     TextView Table, right_ans, wrong_ans, question_count, ans;
-    int counter, count = 1, TableValue, rtans = 0, wrans = 0;
+    int counter, count = 9, TableValue, rtans = 0, wrans = 0;
     int result, time = 500;
     String ToSet, set;
     LinearLayout layout;
@@ -81,7 +83,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         wrong_ans.setText(String.valueOf(wrans));
 //        disposableSpeech=new CompositeDisposable();
         progressBar = findViewById(R.id.progressBar1);
-
         collectdata = findViewById(R.id.textView24);
         mic = findViewById(R.id.animationVoice);
 
@@ -96,8 +97,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         counter = 0;
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.numbers2, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
         pause_play.setOnClickListener(view -> {
 
             if (pause_play.isChecked()) {
@@ -332,9 +331,52 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                         isActive = true;
                     ReadFullTable(TableValue);
                     recognizeVoice.stopListening();
-                } else {
+                }
+                else {
                     recognizeVoice.stopListening();
                     mic.setVisibility(View.GONE);
+                    try {
+                        Dialog dialog = new Dialog(table_questions.this);
+                        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+                        View mView = getLayoutInflater().inflate(R.layout.result_display, null);
+                         dialog.setContentView(mView);
+                        ProgressBar resultProgress = mView.findViewById(R.id.progressresult);
+                        resultProgress.setMax(10);
+                        resultProgress.setProgress(rtans);
+                        TextView displayText = mView.findViewById(R.id.displayresulttext);
+                        displayText.setText(String.valueOf(rtans) + "/10");
+                        ImageView menu=mView.findViewById(R.id.menu);
+                        menu.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+                        ImageView retry=mView.findViewById(R.id.retry);
+                        retry.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                              dialog.dismiss();
+
+                            }
+                        });
+                        ImageView share=mView.findViewById(R.id.share);
+                        share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Beyond school a era out of school");
+                                String shareMessage= "\nI got "+String.valueOf(rtans)+"while learning table \n you can also try this \n\n";
+                                shareMessage = shareMessage + BuildConfig.APPLICATION_ID +"\n\n";
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                                startActivity(Intent.createChooser(shareIntent, "choose one"));
+                            }
+                        });
+                        dialog.show();
+                    }catch (Exception e){
+                        Log.i("InActivity",String.valueOf(e));
+                    }
                 }
             }
         };

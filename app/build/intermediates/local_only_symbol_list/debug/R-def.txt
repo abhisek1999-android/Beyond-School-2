@@ -17,6 +17,7 @@ drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
+drawable ic_baseline_share_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable play_button
@@ -34,9 +35,32 @@ id button
 id button2
 id button4
 id button6
+<<<<<<< Updated upstream
 id descriptionTextView
 id employeeId
 id greetingsTime
+=======
+id card10
+id card11
+id card12
+id card13
+id card14
+id card15
+id card16
+id card17
+id card18
+id card19
+id card2
+id card20
+id card3
+id card4
+id card5
+id card6
+id card7
+id card8
+id card9
+id displayresulttext
+>>>>>>> Stashed changes
 id imageView2
 id imageView3
 id imageView4
@@ -46,12 +70,24 @@ id layout_set
 id linearLayout
 id linearLayout2
 id mainButton
+<<<<<<< Updated upstream
 id numberTextView
+=======
+id mainGrid
+id menu
+>>>>>>> Stashed changes
 id playPause
 id profileImage
 id progressBar1
+id progressresult
+id retry
 id scrollView2
+<<<<<<< Updated upstream
 id selectedDigitLayout
+=======
+id selectTableId
+id share
+>>>>>>> Stashed changes
 id spinner
 id spinner2
 id tableName
@@ -63,6 +99,14 @@ id textView24
 id textView25
 id textView26
 id textView27
+<<<<<<< Updated upstream
+=======
+id textView28
+id textView3
+id textView30
+id textView31
+id textView32
+>>>>>>> Stashed changes
 id textView33
 id textView36
 id toolBar
@@ -73,7 +117,7 @@ layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
-layout box
+layout result_display
 layout seekbar_dialog
 layout select_card_layout
 layout text_sample_bg
