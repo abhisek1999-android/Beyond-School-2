@@ -1,5 +1,7 @@
 package com.maths.beyond_school270620220930;
 
+import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +59,13 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_questions);
+//
+//        Context mContext = getApplicationContext();
+//        PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+//        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
+//        wakeLock.acquire();
+
+
         Intent intent = getIntent();
         TableValue = intent.getIntExtra("ValueOfTable", 0);
         back = findViewById(R.id.imageView4);
@@ -92,10 +102,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
             if (pause_play.isChecked()) {
                 progressBar.setVisibility(View.VISIBLE);
-
                 if (count > 10)
                     count = 1;
-
                 if(isActive){
                     readText.textToSpeech.stop();
                     recognizeVoice.speech.stopListening();

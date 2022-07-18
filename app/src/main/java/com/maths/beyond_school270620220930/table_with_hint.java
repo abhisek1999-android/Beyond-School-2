@@ -1,13 +1,17 @@
 package com.maths.beyond_school270620220930;
 
+import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +45,14 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_with_hint);
+
+
+
+        Context mContext = getApplicationContext();
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
+        wakeLock.acquire();
+
         Intent intent=getIntent();
         TableValue=intent.getIntExtra("ValueOfTable",0);
         back = findViewById(R.id.imageView2);
@@ -281,15 +293,14 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 }
             }, 2000);
         }
-
     }
 
     @Override
     protected void onPause() {
 
         super.onPause();
-        readText.textToSpeech.stop();
-        readText.textToSpeech.shutdown();
+//        readText.textToSpeech.stop();
+//        readText.textToSpeech.shutdown();
     }
 
     @Override
