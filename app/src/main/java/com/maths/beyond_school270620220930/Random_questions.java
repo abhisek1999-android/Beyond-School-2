@@ -51,13 +51,15 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     ReadText readText;
     ProgressBar progressBarQuestion;
     TextView collectdata;
-   // LottieAnimationView mic;
+   LottieAnimationView mic;
     AudioManager amanager;
     int random;
     boolean[] checkArray;
     boolean flag;
+    int repeatRec=0;
+    TextView tapInfoText;
 
-
+    TextView titleText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         progressBarQuestion = findViewById(R.id.questionProgress);
         progressBarQuestion.setMax(10);
         collectdata = findViewById(R.id.textView24);
-      //  mic = findViewById(R.id.animationVoice);
+        titleText=findViewById(R.id.titleText);
+        mic = findViewById(R.id.animationVoice);
+        tapInfoText=findViewById(R.id.tapInfoTextView);
         checkArray=new boolean[11];
         random=getRandomInteger(11,1);
         Arrays.fill(checkArray,false);
@@ -87,7 +91,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
-//        mic.setVisibility(View.GONE);
+      mic.setVisibility(View.GONE);
 
         amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         recognizeVoice = new RecognizeVoice(Random_questions.this, this);
@@ -97,8 +101,12 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
+
+        titleText.setText("Practice Table");
         pause_play.setOnClickListener(view -> {
             ans.setVisibility(View.VISIBLE);
+            tapInfoText.setVisibility(View.GONE);
+            ans.setText("?");
             if (pause_play.isChecked()) {
               //  progressBar.setVisibility(View.VISIBLE);
 
@@ -111,6 +119,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 }
 
                 isActive = true;
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
                 ReadFullTable(TableValue);
                 counter = 0;
             }
@@ -119,6 +128,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 isActive = false;
                 amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                 //progressBar.setVisibility(View.INVISIBLE);
+                mic.setVisibility(View.GONE);
                 readText.textToSpeech.stop();
                 recognizeVoice.speech.stopListening();
                 counter = 1;
@@ -130,7 +140,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             @Override
             public void onClick(View view) {
 
-
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                 recognizeVoice.speech.stopListening();
                 readText.textToSpeech.shutdown();
                 isActive = false;
@@ -146,11 +156,15 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         Log.i("OnStart", "OnStart");
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+    }
 
     public void ReadFullTable(int TableValue) {
         //recognizeVoice.startListening();
-        ans.setText("");
+        ans.setText("?");
         Log.i("InActivity", "ReadFullText");
         result = random * TableValue;
 
@@ -160,72 +174,72 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             switch (random) {
                 case 1: {
                     Log.i("InActivity", random + "");
-                    ToSet = TableValue + " ones are ";
+                    ToSet = TableValue + " ones are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 1 = ?";
+                    set = TableValue + " X 1 =";
                     Table.setText(set);
                     break;
                 }
                 case 2: {
-                    ToSet = TableValue + " twos are ";
+                    ToSet = TableValue + " twos are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 2 = ?";
+                    set = TableValue + " X 2 = ";
                     Table.setText(set);
                     break;
                 }
                 case 3: {
-                    ToSet = TableValue + " threes are ";
+                    ToSet = TableValue + " threes are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 3 = ?";
+                    set = TableValue + " X 3 = ";
                     Table.setText(set);
                     break;
                 }
                 case 4: {
-                    ToSet = TableValue + " fours are ";
+                    ToSet = TableValue + " fours are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 4 = ?";
+                    set = TableValue + " X 4 = ";
                     Table.setText(set);
                     break;
                 }
                 case 5: {
                     ToSet = TableValue + " fives are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 5 = ?";
+                    set = TableValue + " X 5 = ";
                     Table.setText(set);
                     break;
                 }
                 case 6: {
                     ToSet = TableValue + " sixs are ";
                     readText.read(ToSet);
-                    set = TableValue + " X 6 = ?";
+                    set = TableValue + " X 6 = ";
                     Table.setText(set);
                     break;
                 }
                 case 7: {
                     ToSet = TableValue + " sevens are ";
                     readText.read(ToSet);
-                    set = TableValue + " X 7 = ?";
+                    set = TableValue + " X 7 = ";
                     Table.setText(set);
                     break;
                 }
                 case 8: {
                     ToSet = TableValue + " eights are ";
                     readText.read(ToSet);
-                    set = TableValue + " X 8 = ?";
+                    set = TableValue + " X 8 = ";
                     Table.setText(set);
                     break;
                 }
                 case 9: {
                     ToSet = TableValue + " nines are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 9 = ?";
+                    set = TableValue + " X 9 = ";
                     Table.setText(set);
                     break;
                 }
                 case 10: {
                     ToSet = TableValue + " tens are ";
                     readText.read(ToSet);
-                    set = TableValue + " X 10 = ?";
+                    set = TableValue + " X 10 = ";
                     Table.setText(set);
                     break;
                 }
@@ -273,7 +287,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     protected void onDestroy() {
         super.onDestroy();
         recognizeVoice.stopListening();
-      //  mic.setVisibility(View.GONE);
+        mic.setVisibility(View.GONE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
@@ -324,7 +338,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             else break;
         }
         recognizeVoice.stopListening();
-        //mic.setVisibility(View.GONE);
+        mic.setVisibility(View.GONE);
         try {
             if (lcsResult) {
 
@@ -374,23 +388,34 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
-          //  mic.setVisibility(View.GONE);
+           mic.setVisibility(View.GONE);
 
-            try {
-                Handler handler = new Handler();
-                final Runnable r = new Runnable() {
-                    public void run() {
-                        if (counter == 0)
-                            isActive = true;
-                        ReadFullTable(TableValue);
-                    }
-                };
-                handler.postDelayed(r, 3000);
-            } catch (Exception e) {
-                if (counter == 0)
-                    isActive = true;
-                ReadFullTable(TableValue);
+
+
+            if (repeatRec<3){
+                repeatRec++;
+                //  Toast.makeText(this, "attempt"+repeatRec, Toast.LENGTH_SHORT).show();
+                recognizeVoice.startListening();
+                mic.setVisibility(View.VISIBLE);
+            }else{
+                try {
+                    Handler handler = new Handler();
+                    final Runnable r = new Runnable() {
+                        public void run() {
+                            if (counter == 0)
+                                isActive = true;
+                            ReadFullTable(TableValue);
+                        }
+                    };
+                    handler.postDelayed(r, 2000);
+                } catch (Exception e) {
+                    if (counter == 0)
+                        isActive = true;
+                    ReadFullTable(TableValue);
+                }
             }
+
+
         }
         if (count > 10) {
 
@@ -419,7 +444,6 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     @Override
     public void gettingResultSpeech() {
 
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
@@ -429,7 +453,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 if (isActive) {
                     currRes = true;
                     isActive = false;
-               //     mic.setVisibility(View.VISIBLE);
+                     mic.setVisibility(View.VISIBLE);
                     recognizeVoice.startListening();
                 }
 

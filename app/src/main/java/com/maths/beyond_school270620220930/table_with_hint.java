@@ -288,7 +288,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 speakingForQues=true;
             }
         };
-        handler.postDelayed(r, 2000);
+        handler.postDelayed(r, 1300);
 
 
     }
@@ -297,6 +297,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     public void onBackPressed() {
         readText.textToSpeech.stop();
         readText.textToSpeech.shutdown();
+        nManager.cancelAll();
         super.onBackPressed();
     }
 
@@ -310,7 +311,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 public void run() {
                     ReadFullTable(TableValue);
                 }
-            }, 2000);
+            }, 1300);
         }
     }
 
@@ -318,6 +319,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     protected void onPause() {
 
         super.onPause();
+        nManager.cancelAll();
 //        readText.textToSpeech.stop();
 //        readText.textToSpeech.shutdown();
     }
@@ -327,5 +329,6 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         super.onDestroy();
         readText.textToSpeech.stop();
         readText.textToSpeech.shutdown();
+        nManager.cancelAll();
     }
 }

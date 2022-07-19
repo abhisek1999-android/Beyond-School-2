@@ -56,9 +56,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     ReadText readText;
     ProgressBar progressBarQuestion;
     TextView collectdata;
+    LottieAnimationView mic;
     AudioManager amanager;
     NotificationManager nManager;
     TextView titleText;
+    int repeatRec=0;
+    TextView tapInfoText;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -90,17 +93,18 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 //        disposableSpeech=new CompositeDisposable();
         progressBarQuestion = findViewById(R.id.questionProgress);
         progressBarQuestion.setMax(10);
+        tapInfoText=findViewById(R.id.tapInfoTextView);
 
         collectdata = findViewById(R.id.textView24);
         collectdata.setVisibility(View.GONE);
-
+        mic = findViewById(R.id.animationVoice);
 
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
-
+        mic.setVisibility(View.GONE);
 
         amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         recognizeVoice = new RecognizeVoice(table_questions.this, this);
@@ -115,6 +119,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         pause_play.setOnClickListener(view -> {
 
             ans.setVisibility(View.VISIBLE);
+            ans.setText("?");
+            tapInfoText.setVisibility(View.GONE);
 
             if (pause_play.isChecked()) {
               //  progressBar.setVisibility(View.VISIBLE);
@@ -123,8 +129,10 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 if(isActive){
                     readText.textToSpeech.stop();
                     recognizeVoice.speech.stopListening();
+
                 }
 
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
                 isActive = true;
                 ReadFullTable(TableValue);
                 counter = 0;
@@ -149,6 +157,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 recognizeVoice.speech.stopListening();
                 readText.textToSpeech.shutdown();
                 isActive = false;
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
                 finish();
             }
         });
@@ -166,6 +175,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     public void onBackPressed() {
         super.onBackPressed();
         nManager.cancelAll();
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         recognizeVoice.speech.stopListening();
         readText.textToSpeech.shutdown();
         isActive = false;
@@ -178,6 +188,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         isActive = false;
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
      //   progressBar.setVisibility(View.INVISIBLE);
+
+        mic.setVisibility(View.GONE);
         readText.textToSpeech.stop();
         recognizeVoice.speech.stopListening();
         counter = 1;
@@ -186,7 +198,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     public void ReadFullTable(int TableValue) {
         //recognizeVoice.startListening();
-        ans.setText("");
+        ans.setText("?");
         Log.i("InActivity", "ReadFullText");
         result = count * TableValue;
 
@@ -196,72 +208,72 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             switch (count) {
                 case 1: {
                     Log.i("InActivity", count + "");
-                    ToSet = TableValue + " ones are ";
+                    ToSet = TableValue + " ones are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 1 = ?";
+                    set = TableValue + " X 1 = ";
                     Table.setText(set);
                     break;
                 }
                 case 2: {
-                    ToSet = TableValue + " twos are ";
+                    ToSet = TableValue + " twos are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 2 = ?";
+                    set = TableValue + " X 2 = ";
                     Table.setText(set);
                     break;
                 }
                 case 3: {
-                    ToSet = TableValue + " threes are ";
+                    ToSet = TableValue + " threes are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 3 = ?";
+                    set = TableValue + " X 3 = ";
                     Table.setText(set);
                     break;
                 }
                 case 4: {
-                    ToSet = TableValue + " fours are ";
+                    ToSet = TableValue + " fours are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 4 = ?";
+                    set = TableValue + " X 4 = ";
                     Table.setText(set);
                     break;
                 }
                 case 5: {
                     ToSet = TableValue + " fives are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 5 = ?";
+                    set = TableValue + " X 5 = ";
                     Table.setText(set);
                     break;
                 }
                 case 6: {
-                    ToSet = TableValue + " sixs are ";
+                    ToSet = TableValue + " sixs are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 6 = ?";
+                    set = TableValue + " X 6 = ";
                     Table.setText(set);
                     break;
                 }
                 case 7: {
-                    ToSet = TableValue + " sevens are ";
+                    ToSet = TableValue + " sevens are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 7 = ?";
+                    set = TableValue + " X 7 = ";
                     Table.setText(set);
                     break;
                 }
                 case 8: {
-                    ToSet = TableValue + " eights are ";
+                    ToSet = TableValue + " eights are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 8 = ?";
+                    set = TableValue + " X 8 = ";
                     Table.setText(set);
                     break;
                 }
                 case 9: {
                     ToSet = TableValue + " nines are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 9 = ?";
+                    set = TableValue + " X 9 = ";
                     Table.setText(set);
                     break;
                 }
                 case 10: {
-                    ToSet = TableValue + " tens are ";
+                    ToSet = TableValue + " tens are ?";
                     readText.read(ToSet);
-                    set = TableValue + " X 10 = ?";
+                    set = TableValue + " X 10 = ";
                     Table.setText(set);
                     break;
                 }
@@ -308,7 +320,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         super.onDestroy();
         recognizeVoice.speech.stopListening();
         recognizeVoice.speech.destroy();
-     //   mic.setVisibility(View.GONE);
+       mic.setVisibility(View.GONE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
@@ -318,7 +330,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         Log.i("InActivity", "onResult" + title);
 
         if (title.equals("buddy stop")){
-          //  mic.setVisibility(View.GONE);
+           mic.setVisibility(View.GONE);
             pause_play.setChecked(false);
             pauseAll();
         }
@@ -346,7 +358,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
             count++;
             recognizeVoice.stopListening();
-           // mic.setVisibility(View.GONE);
+          mic.setVisibility(View.GONE);
             try {
                 if (lcsResult) {
 
@@ -374,6 +386,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     if (count <= 10) {
                         if (counter == 0)
                             isActive = true;
+                        repeatRec=0;
                         ReadFullTable(TableValue);
                         recognizeVoice.stopListening();
                     } else {
@@ -393,23 +406,38 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
-         //   mic.setVisibility(View.GONE);
 
-            try {
-                Handler handler = new Handler();
-                final Runnable r = new Runnable() {
-                    public void run() {
-                        if (counter == 0)
-                            isActive = true;
-                        ReadFullTable(TableValue);
-                    }
-                };
-                handler.postDelayed(r, 3000);
-            } catch (Exception e) {
-                if (counter == 0)
-                    isActive = true;
-                ReadFullTable(TableValue);
+
+
+            if (repeatRec<3){
+                repeatRec++;
+              //  Toast.makeText(this, "attempt"+repeatRec, Toast.LENGTH_SHORT).show();
+                recognizeVoice.startListening();
+                mic.setVisibility(View.VISIBLE);
+            }else{
+                   mic.setVisibility(View.GONE);
+                try {
+                    Handler handler = new Handler();
+                    final Runnable r = new Runnable() {
+                        public void run() {
+                            if (counter == 0)
+                                isActive = true;
+                                repeatRec=0;
+                            ReadFullTable(TableValue);
+                        }
+                    };
+                    handler.postDelayed(r, 1000);
+                }
+
+                catch (Exception e) {
+                    if (counter == 0)
+                        isActive = true;
+                    ReadFullTable(TableValue);
+                }
+
             }
+
+
         }
         if (count > 10) {
 
@@ -439,7 +467,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     @Override
     public void gettingResultSpeech() {
 
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
@@ -450,6 +478,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     currRes = true;
                     isActive = false;
                     recognizeVoice.startListening();
+                    mic.setVisibility(View.VISIBLE);
                 }
 
             }

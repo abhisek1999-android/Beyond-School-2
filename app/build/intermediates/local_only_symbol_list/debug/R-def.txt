@@ -49,7 +49,6 @@ id greetingsTime
 id imageView3
 id imageView4
 id imageView5
-id imageView8
 id layout_set
 id linearLayout
 id linearLayout2
@@ -58,6 +57,7 @@ id numberTextView
 id playPause
 id profileImage
 id progressBar1
+id questionLayout
 id questionProgress
 id scrollView2
 id selectedDigitLayout
@@ -65,13 +65,13 @@ id spinner
 id spinner2
 id tableName
 id tablesRecyclerView
+id tapInfoTextView
 id textView22
 id textView23
 id textView24
 id textView25
 id textView26
 id textView27
-id textView33
 id textView36
 id titleText
 id toolBar
@@ -90,6 +90,7 @@ layout tool_bar_layout
 layout tool_bar_layout_back_button
 mipmap ic_launcher
 mipmap ic_launcher_round
+raw green_blinking_dott
 raw voice_ip
 string app_name
 string default_web_client_id

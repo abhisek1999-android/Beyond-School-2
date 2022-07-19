@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -21,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
     private TextView returnedText,textGot;
-    private Button button;
+    private ImageButton button;
     private ProgressBar progressBar;
     private SpeechRecognizer speech ;
     private Intent recognizerIntent;
@@ -33,23 +36,28 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-        }
+
         hideSystemUI();
         button=findViewById(R.id.mainButton);
-        checkAudioPermission();
+//        checkAudioPermission();
 
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                startActivity( new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        }, 500);
 
 
         button.setOnClickListener(view -> {
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                startActivity( new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }else{
-                checkAudioPermission();
-            }
+            Toast.makeText(this, "xxx", Toast.LENGTH_SHORT).show();
+
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -75,32 +83,6 @@ public class SplashScreen extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
-    private void checkAudioPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
-            }
-            else{
-               startActivity( new Intent(getApplicationContext(),MainActivity.class));
-               finish();
-            }
-        }
-    }
-    @SuppressLint("MissingSuperCall")
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        if (requestCode==REQUEST_RECORD_AUDIO){
-
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
-            }else{
-                checkAudioPermission();
-            }
-        }
-
-    }
 
 
 }

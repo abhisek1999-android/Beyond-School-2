@@ -2818,7 +2818,6 @@ id image
 id imageView3
 id imageView4
 id imageView5
-id imageView8
 id immediateStop
 id included
 id info
@@ -2948,6 +2947,7 @@ id profileImage
 id progressBar1
 id progress_circular
 id progress_horizontal
+id questionLayout
 id questionProgress
 id radio
 id ratio
@@ -3043,6 +3043,7 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
+id tapInfoTextView
 id test_checkbox_android_button_tint
 id test_checkbox_app_button_tint
 id test_radiobutton_android_button_tint
@@ -3060,7 +3061,6 @@ id textView24
 id textView25
 id textView26
 id textView27
-id textView33
 id textView36
 id text_input_end_icon
 id text_input_error_icon
@@ -3313,6 +3313,7 @@ menu example_menu2
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw green_blinking_dott
 raw keep
 raw voice_ip
 string abc_action_bar_home_description
