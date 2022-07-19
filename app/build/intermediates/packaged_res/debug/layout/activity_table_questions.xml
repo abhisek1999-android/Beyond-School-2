@@ -186,8 +186,6 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-
-
         >
 
 

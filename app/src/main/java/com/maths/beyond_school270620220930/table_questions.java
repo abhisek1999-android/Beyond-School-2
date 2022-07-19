@@ -145,7 +145,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             @Override
             public void onClick(View view) {
 
-
+                nManager.cancelAll();
                 recognizeVoice.speech.stopListening();
                 readText.textToSpeech.shutdown();
                 isActive = false;
@@ -162,6 +162,16 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        nManager.cancelAll();
+        recognizeVoice.speech.stopListening();
+        readText.textToSpeech.shutdown();
+        isActive = false;
+        finish();
+
+    }
 
     public void pauseAll(){
 
@@ -358,7 +368,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 wrong_ans.setText(String.valueOf(wrans));
             }
 
-
             Handler handler = new Handler();
             final Runnable r = new Runnable() {
                 public void run() {
@@ -376,12 +385,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             handler.postDelayed(r, 3000);
 
         }
-
-
-
-
-
-
     }
 
     @Override
@@ -450,7 +453,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 }
 
             }
-        }, 100);
+        }, 50);
 
 
     }
