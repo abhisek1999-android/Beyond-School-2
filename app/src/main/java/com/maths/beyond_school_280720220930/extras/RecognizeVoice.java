@@ -55,16 +55,17 @@ public class RecognizeVoice implements RecognitionListener {
 
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
-        recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, new Long(5000));
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,30 );
-//<<<<<<< Updated upstream
-//
-////https://issuetracker.google.com/issues/36928328
-//=======
-//>>>>>>> Stashed changes
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+
+       //https://issuetracker.google.com/issues/36928328
     }
 
 
@@ -121,7 +122,7 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onResults(Bundle bundle) {
-        Log.i("LOG_TAG", "onResults"+result);
+       Log.i("LOG_TAG", "onResults"+result);
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = "";
         for (String result : matches)
@@ -139,12 +140,51 @@ public class RecognizeVoice implements RecognitionListener {
                 getResult.gettingResult(result.toLowerCase());
             }
         }
-        stopListening();
+       stopListening();
 
     }
 
     @Override
     public void onPartialResults(Bundle bundle) {
+
+        Log.i("LOG_TAG", "onPertialResults"+result);
+//        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+//        String text = "";
+//        for (String result : matches)
+//            text += result + "\n";
+//
+//        if (matches.size()!=0){
+//
+//            result=matches.get(0).trim();
+//            Log.i("ResultsP",matches+"");
+//
+//
+//            if (!result.equals("")){
+//                if (result.matches(onlyNumber)){
+//                    stopListening();
+//                    getResult.gettingResult(result);
+//
+//                }
+//                else{
+//
+//                    try{
+//                        stopListening();
+//                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
+//
+//                    }catch (Exception e){
+//                        stopListening();
+//                        getResult.gettingResult(result.toLowerCase());
+//
+//                    }
+//                }
+//            }
+//
+//          //  stopListening();
+//
+//        }
+
+
+
     }
 
     @Override
