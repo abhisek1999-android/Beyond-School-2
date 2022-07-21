@@ -20,6 +20,8 @@ import com.maths.beyond_school270620220930.model.Tables;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -27,16 +29,14 @@ public class MainActivity extends AppCompatActivity {
     TablesRecyclerAdapter tablesRecyclerAdapter;
     List<Tables> tablesList;
     TextView greetingTextView;
-
-
+    CircleImageView logo;
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-
+        logo=findViewById(R.id.profileImage);
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID," id");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
@@ -68,9 +68,7 @@ private FirebaseAnalytics mFirebaseAnalytics;
         tablesList.add(new Tables("18","Table of eighteen"));
         tablesList.add(new Tables("19","Table of nineteen"));
         tablesList.add(new Tables("20","Table of twenty"));
-
-
-
+        
         tablesRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
 
         tablesRecyclerAdapter=new TablesRecyclerAdapter(tablesList,getApplicationContext());
@@ -78,5 +76,8 @@ private FirebaseAnalytics mFirebaseAnalytics;
         ViewCompat.setNestedScrollingEnabled(tablesRecyclerView, false);
 
         greetingTextView.setText(new UtilityFunctions().greeting());
+//        logo.setOnClickListener(view -> {
+//            startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+//        });
     }
 }

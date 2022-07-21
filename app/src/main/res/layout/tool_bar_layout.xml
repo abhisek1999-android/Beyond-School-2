@@ -14,8 +14,8 @@
         android:id="@+id/profileImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="5dp"
         android:layout_centerVertical="true"
+        android:padding="5dp"
         android:src="@drawable/profile_default" />
 
     <TextView
