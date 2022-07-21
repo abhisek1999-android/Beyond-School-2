@@ -12,12 +12,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:padding="5dp"
-        android:visibility="gone"
-        android:src="@drawable/cartoon_image_1" />
+        android:src="@drawable/profile_default" />
 
     <TextView
         android:id="@+id/userName"
@@ -29,15 +28,6 @@
         android:padding="0dp"
         android:text="Beyond School"
         android:textSize="30sp" />
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="5dp"
-        android:layout_toLeftOf="@id/userName"
-        android:src="@drawable/logo"
-        />
 
 
     <TextView
