@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\raw_green_blinking_dott.json.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\raw\\green_blinking_dott.json"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_roundbar.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\roundbar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\raw_green_blinking_dott.json.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\raw\\green_blinking_dott.json"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_arrow_back_24.xml.flat",
@@ -24,24 +24,24 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_select_option_ct.png.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\select_option_ct.png"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_splash_screen.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_text_sample_bg.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\text_sample_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_splash_screen.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_play_circle_outline_24.xml.flat",

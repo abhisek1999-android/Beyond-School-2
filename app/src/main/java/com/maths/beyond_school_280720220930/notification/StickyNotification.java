@@ -45,8 +45,9 @@ public class StickyNotification {
                         .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(),
                                 R.drawable.select_option_ct))
                         .setContentTitle("Beyond School")
-                        .setContentText("Beyond School is running "+desc)
+                        .setContentText("Beyond School "+desc)
                         .setContentIntent(pendingIntent)
+                        .setSound(null)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setOngoing(true);
         mBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);

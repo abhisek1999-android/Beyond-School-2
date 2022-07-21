@@ -9,17 +9,23 @@ public class UtilityFunctions {
     public Boolean matchingSeq(String str1, String str2) {
 
 
-        String st1=str1.replace(" ","");
-        Log.i("Strings",st1+","+str2);
-        while(st1.length()>0){
+        if (str1.equals(""))
+            return false;
 
-            if (st1.startsWith(str2)){
-                st1=st1.replace(str2,"");
-            }
-            else{
-                return false;
-            }
+            String st1=str1.replace(" ","");
+            Log.i("Strings",st1+","+str2);
+            while(st1.length()>0){
+
+                if (st1.startsWith(str2)){
+                    st1=st1.replace(str2,"");
+                }
+                else{
+                    return false;
+                }
+
         }
+
+
         return true;
     }
     public String greeting(){

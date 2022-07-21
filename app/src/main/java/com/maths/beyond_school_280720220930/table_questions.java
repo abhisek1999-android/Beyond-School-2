@@ -170,6 +170,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -187,7 +188,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         isActive = false;
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
      //   progressBar.setVisibility(View.INVISIBLE);
-
+        pause_play.setChecked(false);
         mic.setVisibility(View.GONE);
         readText.textToSpeech.stop();
         recognizeVoice.speech.stopListening();
@@ -308,6 +309,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     protected void onPause() {
 //        recognizeVoice.speech.stopListening();
 //        recognizeVoice.speech.destroy();
+        pauseAll();
         super.onPause();
         Log.i("activity", "onPause");
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
@@ -317,7 +319,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     @Override
     protected void onResume() {
         super.onResume();
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
     }
 
     @Override
@@ -329,6 +331,11 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
        mic.setVisibility(View.GONE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
+
+
+
+
+
 
     @Override
     public void gettingResult(String title) {
@@ -364,9 +371,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
             count++;
             recognizeVoice.stopListening();
-          mic.setVisibility(View.GONE);
+            mic.setVisibility(View.GONE);
             try {
-                if (lcsResult) {
+
+
+
+                if (lcsResult && !title.equals("")) {
 
                     rtans++;
                     readText.read("CORRECT");
@@ -442,9 +452,14 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 }
 
             }
-
-
         }
+
+
+//        if (i==SpeechRecognizer.ERROR_CLIENT){
+//            recognizeVoice.startListening();
+//            mic.setVisibility(View.VISIBLE);
+//        }
+
         if (count > 10) {
             Log.i("inactivity","gt10");
 
@@ -461,6 +476,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             ans.setText("");
             nManager.cancelAll();
             progressBarQuestion.setProgress(0);
+            question_count.setText(String.valueOf(0) + "/10");
             pause_play.setEnabled(true);
 //            Handler handler = new Handler();
 //            final Runnable r = new Runnable() {
@@ -500,9 +516,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 if (isActive) {
                     currRes = true;
                     isActive = false;
-
                         recognizeVoice.startListening();
                         mic.setVisibility(View.VISIBLE);
+                        Log.i("InActivityrun", "insideOnDone");
 
                 }
 
