@@ -123,24 +123,24 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onResults(Bundle bundle) {
        Log.i("LOG_TAG", "onResults"+result);
-        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String text = "";
-        for (String result : matches)
-            text += result + "\n";
-        result=matches.get(0).trim();
-
-        if (result.matches(onlyNumber)){
-        getResult.gettingResult(result);
-        }
-        else{
-
-            try{
-                getResult.gettingResult(stringToText.get(result.toLowerCase()));
-            }catch (Exception e){
-                getResult.gettingResult(result.toLowerCase());
-            }
-        }
-       stopListening();
+//        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+//        String text = "";
+//        for (String result : matches)
+//            text += result + "\n";
+//        result=matches.get(0).trim();
+//
+//        if (result.matches(onlyNumber)){
+//        getResult.gettingResult(result);
+//        }
+//        else{
+//
+//            try{
+//                getResult.gettingResult(stringToText.get(result.toLowerCase()));
+//            }catch (Exception e){
+//                getResult.gettingResult(result.toLowerCase());
+//            }
+//        }
+//       stopListening();
 
     }
 
@@ -148,40 +148,40 @@ public class RecognizeVoice implements RecognitionListener {
     public void onPartialResults(Bundle bundle) {
 
         Log.i("LOG_TAG", "onPertialResults"+result);
-//        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//        String text = "";
-//        for (String result : matches)
-//            text += result + "\n";
-//
-//        if (matches.size()!=0){
-//
-//            result=matches.get(0).trim();
-//            Log.i("ResultsP",matches+"");
-//
-//
-//            if (!result.equals("")){
-//                if (result.matches(onlyNumber)){
-//                    stopListening();
-//                    getResult.gettingResult(result);
-//
-//                }
-//                else{
-//
-//                    try{
-//                        stopListening();
-//                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
-//
-//                    }catch (Exception e){
-//                        stopListening();
-//                        getResult.gettingResult(result.toLowerCase());
-//
-//                    }
-//                }
-//            }
-//
-//          //  stopListening();
-//
-//        }
+        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        String text = "";
+        for (String result : matches)
+            text += result + "\n";
+
+        if (matches.size()!=0){
+
+            result=matches.get(0).trim();
+            Log.i("ResultsP",matches+"");
+
+
+            if (!result.equals("")){
+                if (result.matches(onlyNumber)){
+                    stopListening();
+                    getResult.gettingResult(result);
+
+                }
+                else{
+
+                    try{
+                        stopListening();
+                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
+
+                    }catch (Exception e){
+                        stopListening();
+                        getResult.gettingResult(result.toLowerCase());
+
+                    }
+                }
+            }
+
+          //  stopListening();
+
+        }
 
 
 
