@@ -15,4 +15,11 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
+
+
+    <style name="card_background" parent="CardView">
+
+        <item name="cardBackgroundColor">@color/tp_white</item>
+
+    </style>
 </resources>

@@ -41,14 +41,20 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
+    <color name="sweet_dark">#2D2D2D</color>
+    <color name="sweet_grey">#E4E4E4</color>
+    <color name="sweet_red">#FA7575</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="tp_black">#E9000000</color>
+    <color name="tp_white">#E9FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
-    <string name="app_name">BEYOND_SCHOOL</string>
+    <string name="app_name">BEYOND SCHOOL</string>
+    <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
     <string name="default_web_client_id" translatable="false">556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com</string>
     <string name="gcm_defaultSenderId" translatable="false">556365060240</string>
     <string name="google_api_key" translatable="false">AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw</string>
-    <string name="google_app_id" translatable="false">1:556365060240:android:0ff3193e3cad467c56e015</string>
+    <string name="google_app_id" translatable="false">1:556365060240:android:44bd6df961379d3356e015</string>
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw</string>
     <string name="google_storage_bucket" translatable="false">beyondschool-82497.appspot.com</string>
     <string name="project_id" translatable="false">beyondschool-82497</string>
@@ -72,5 +78,10 @@
 
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
+    </style>
+    <style name="card_background" parent="CardView">
+
+        <item name="cardBackgroundColor">@color/tp_white</item>
+
     </style>
 </resources>
