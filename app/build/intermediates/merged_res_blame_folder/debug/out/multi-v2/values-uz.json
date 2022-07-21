@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uz\\values-uz.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-uz\\values-uz.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\76891972337f38276b4eb7b1d87dc4f4\\transformed\\appcompat-1.4.2\\res\\values-uz\\values-uz.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\142e0a8c29fa82a068900add9fd47d0d\\transformed\\core-1.7.0\\res\\values-uz\\values-uz.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\173d2e623567738fc1f08678cdabed87\\transformed\\play-services-basement-18.0.0\\res\\values-uz\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "145",
+                        "endOffsets": "340"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "3348",
+                        "endColumns": "149",
+                        "endOffsets": "3493"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\4e73a75cbbad77de8a4d9a8356aa4ef0\\transformed\\core-1.7.0\\res\\values-uz\\values-uz.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-uz\\values-uz.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\101c28820c7720cefd15b39f97a6305a\\transformed\\material-1.6.1\\res\\values-uz\\values-uz.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -54,23 +71,6 @@
                         "endLines": "5,33,34,35,36,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87",
                         "endColumns": "12,82,94,126,83,63,102,69,66,108,66,58,73,62,53,114,57,61,53,74,128,89,88,110,81,81,85,66,65,72,77,85,71,76,74,70,93,78,95,93,73,75,85,52,65,84,90,61,63,62,101,90,95,91,82",
                         "endOffsets": "283,3037,3132,3259,3343,3557,3660,3730,3797,3906,3973,4032,4106,4169,4223,4338,4396,4458,4512,4587,4716,4806,4895,5006,5088,5170,5256,5323,5389,5462,5540,5626,5698,5775,5850,5921,6015,6094,6190,6284,6358,6434,6520,6573,6639,6724,6815,6877,6941,7004,7106,7197,7293,7385,7468"
-                    }
-                },
-                {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\832bf75062faa67e4de13afbad65dd32\\transformed\\play-services-basement-18.0.0\\res\\values-uz\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "145",
-                        "endOffsets": "340"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "3348",
-                        "endColumns": "149",
-                        "endOffsets": "3493"
                     }
                 }
             ]

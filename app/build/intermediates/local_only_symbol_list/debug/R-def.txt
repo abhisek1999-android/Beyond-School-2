@@ -28,6 +28,8 @@ drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable logo
+drawable logo_final
 drawable play_button
 drawable profile_default
 drawable roundbar
@@ -52,6 +54,7 @@ id imageView5
 id layout_set
 id linearLayout
 id linearLayout2
+id logo
 id mainButton
 id numberTextView
 id playPause
@@ -93,6 +96,7 @@ mipmap ic_launcher_round
 raw green_blinking_dott
 raw voice_ip
 string app_name
+string com.google.firebase.crashlytics.mapping_file_id
 string default_web_client_id
 string gcm_defaultSenderId
 string google_api_key
@@ -104,3 +108,4 @@ style Button4
 style Button5
 style Theme.BEYOND_SCHOOL
 style card_background
+xml config

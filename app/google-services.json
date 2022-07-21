@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:556365060240:android:0ff3193e3cad467c56e015",
+        "mobilesdk_app_id": "1:556365060240:android:3855545c453c6f8356e015",
         "android_client_info": {
-          "package_name": "com.maths.beyond_school270620220930"
+          "package_name": "com.maths.beyond_school_280720220930"
         }
       },
       "oauth_client": [

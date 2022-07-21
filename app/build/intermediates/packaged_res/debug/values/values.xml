@@ -49,11 +49,12 @@
     <color name="tp_black">#E9000000</color>
     <color name="tp_white">#E9FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
-    <string name="app_name">BEYOND_SCHOOL</string>
+    <string name="app_name">BEYOND SCHOOL</string>
+    <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
     <string name="default_web_client_id" translatable="false">556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com</string>
     <string name="gcm_defaultSenderId" translatable="false">556365060240</string>
     <string name="google_api_key" translatable="false">AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw</string>
-    <string name="google_app_id" translatable="false">1:556365060240:android:0ff3193e3cad467c56e015</string>
+    <string name="google_app_id" translatable="false">1:556365060240:android:44bd6df961379d3356e015</string>
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw</string>
     <string name="google_storage_bucket" translatable="false">beyondschool-82497.appspot.com</string>
     <string name="project_id" translatable="false">beyondschool-82497</string>

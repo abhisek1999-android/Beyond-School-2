@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\74430b407302cf4dbf29aafcd536e451\\transformed\\appcompat-1.4.2\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\76891972337f38276b4eb7b1d87dc4f4\\transformed\\appcompat-1.4.2\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\babf4137948c76dcf9c7ee3d9ad7437f\\transformed\\material-1.6.1\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\101c28820c7720cefd15b39f97a6305a\\transformed\\material-1.6.1\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,10",
                         "startColumns": "4,4,4,4",
