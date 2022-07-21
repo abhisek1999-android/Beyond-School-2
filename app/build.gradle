@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.maths.beyond_school270620220930"
+        applicationId "com.maths.beyond_school_280720220930"
         minSdk 21
         targetSdk 28
         versionCode 1

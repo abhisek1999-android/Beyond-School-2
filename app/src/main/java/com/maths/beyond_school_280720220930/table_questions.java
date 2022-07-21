@@ -1,4 +1,4 @@
-package com.maths.beyond_school270620220930;
+package com.maths.beyond_school_280720220930;
 
 import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 
@@ -32,9 +32,10 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.maths.beyond_school270620220930.extras.ReadText;
-import com.maths.beyond_school270620220930.extras.RecognizeVoice;
-import com.maths.beyond_school270620220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.extras.ReadText;
+import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
+import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+
 
 import io.reactivex.disposables.CompositeDisposable;
 
