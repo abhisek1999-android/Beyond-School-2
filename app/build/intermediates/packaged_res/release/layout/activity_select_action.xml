@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".table_questions">
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectedDigitLayout"
+        android:layout_marginTop="200dp"
+        >
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/select_option_ct" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="190dp"
+            style="@style/card_background"
+            app:cardCornerRadius="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_border"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:gravity="center"
+                    android:text="You have selected Table of"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tableName"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/background_round"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="00"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+          >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="#00000000"
+                app:cardElevation="0dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/background_border"
+                    android:padding="10dp"
+                    >
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins"
+                        android:text="Table \nWith Hint"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/teal_700"
+                        android:textSize="15sp"
+                        app:shapeAppearanceOverlay="@style/Button4" />
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:fontFamily="@font/poppins"-->
+<!--                            android:text="By selecting this option you can learn this table"-->
+<!--                            android:textAlignment="center" />-->
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="#00000000"
+                app:cardElevation="0dp"
+                >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:background="@drawable/background_border"
+                android:padding="10dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center"
+                        android:text="Table\n Without Hint"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/teal_700"
+                        android:textSize="15sp"
+                        app:shapeAppearanceOverlay="@style/Button4" />
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:fontFamily="@font/poppins"-->
+<!--                    android:text="By selecting this option you can practice this table"-->
+<!--                    android:textAlignment="center" />-->
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/button6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#00000000">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/background_border"
+                    android:padding="10dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins"
+                        android:text="Table Random"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/teal_700"
+                        android:textSize="15sp"
+                        app:shapeAppearanceOverlay="@style/Button4" />
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/poppins"-->
+<!--                        android:text="By selecting this option you will get random tables to be answered"-->
+<!--                        android:textAlignment="center" />-->
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:visibility="gone"-->
+<!--            >-->
+
+
+
+<!--            <androidx.cardview.widget.CardView-->
+
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:clickable="true"-->
+<!--                android:foreground="?android:attr/selectableItemBackground"-->
+<!--                app:cardElevation="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:visibility="invisible"-->
+<!--                app:cardBackgroundColor="#00000000">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:background="@drawable/background_border"-->
+<!--                    android:padding="20sp">-->
+
+<!--                    <TextView-->
+
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:backgroundTint="@color/white"-->
+<!--                        android:fontFamily="@font/poppins"-->
+<!--                        android:text="Table\nRandom"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:textColor="@color/teal_700"-->
+<!--                        android:textSize="20sp"-->
+<!--                        app:shapeAppearanceOverlay="@style/Button4" />-->
+
+<!--                </LinearLayout>-->
+
+
+<!--            </androidx.cardview.widget.CardView>-->
+<!--        </LinearLayout>-->
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
