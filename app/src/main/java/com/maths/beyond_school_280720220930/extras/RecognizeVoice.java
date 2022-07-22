@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.extras;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.table_questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,12 +27,15 @@ public class RecognizeVoice implements RecognitionListener {
     String onlyNumber="^[0-9]*$";
     Map<String, String> stringToText=new HashMap();
 
+    int resultFromActivity=0;
    // ProgressBar progressBar;
     public RecognizeVoice(Context context,GetResult getResult){
 
         this.mContext=context;
         this.getResult=getResult;
        // progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
+
+       // resultFromActivity=((Activity)mContext).result;
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
 
@@ -54,14 +59,13 @@ public class RecognizeVoice implements RecognitionListener {
         stringToText.put("stop","buddy stop");
 
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
-
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        //        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES,true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
@@ -147,41 +151,49 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onPartialResults(Bundle bundle) {
 
+
         Log.i("LOG_TAG", "onPertialResults"+result);
-//        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//        String text = "";
-//        for (String result : matches)
-//            text += result + "\n";
-//
-//        if (matches.size()!=0){
-//
-//            result=matches.get(0).trim();
-//            Log.i("ResultsP",matches+"");
-//
-//
-//            if (!result.equals("")){
+        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+//        float [] confidence = bundle.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+
+
+        String text = "";
+        for (String result : matches)
+            text += result + "\n";
+
+        if (matches.size()!=0){
+
+            result=matches.get(0).trim();
+            Log.i("ResultsP",matches+"");
+
+            Log.i("ResultFormMain",new table_questions().result+"");
+
+            if (!result.equals("")){
+                //Log.i("ConfidenceScore",confidence[0]+"");
+                stopListening();
 //                if (result.matches(onlyNumber)){
-//                    stopListening();
+//                    //stopListening();
 //                    getResult.gettingResult(result);
 //
 //                }
 //                else{
 //
 //                    try{
-//                        stopListening();
+//                    //    stopListening();
 //                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
 //
 //                    }catch (Exception e){
-//                        stopListening();
+//                    //    stopListening();
 //                        getResult.gettingResult(result.toLowerCase());
 //
 //                    }
 //                }
-//            }
-//
-//          //  stopListening();
-//
-//        }
+            }
+
+            //  stopListening();
+
+
+        }
 
 
 

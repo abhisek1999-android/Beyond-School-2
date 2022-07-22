@@ -46,7 +46,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     CardView card;
     TextView Table, right_ans, wrong_ans, question_count, ans;
     int counter, count = 1, TableValue, rtans = 0, wrans = 0;
-    int result, time = 500;
+    public  int result, time = 500;
     String ToSet, set;
     LinearLayout layout;
     CountDownTimer countDownTimer;
@@ -68,7 +68,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_questions);
-//
+
         Context mContext = getApplicationContext();
         PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
@@ -307,7 +307,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     @Override
     protected void onPause() {
-//        recognizeVoice.speech.stopListening();
+        recognizeVoice.speech.stopListening();
 //        recognizeVoice.speech.destroy();
         pauseAll();
         super.onPause();

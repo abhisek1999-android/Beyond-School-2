@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SplashScreen extends AppCompatActivity {
+import com.maths.beyond_school_280720220930.extras.ReadText;
+
+public class SplashScreen extends AppCompatActivity implements ReadText.GetResultSpeech{
 
 
     private TextView returnedText,textGot;
@@ -26,6 +28,7 @@ public class SplashScreen extends AppCompatActivity {
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
     private int REQUEST_RECORD_AUDIO=1;
+    ReadText readText;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -37,7 +40,8 @@ public class SplashScreen extends AppCompatActivity {
         hideSystemUI();
         button=findViewById(R.id.mainButton);
         startService(new Intent(getBaseContext(), ClearService.class));
-
+        readText = new ReadText(getApplicationContext(), this);
+        readText.read("");
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -82,5 +86,8 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
+    @Override
+    public void gettingResultSpeech() {
 
+    }
 }

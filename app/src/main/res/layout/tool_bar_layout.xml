@@ -12,11 +12,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:padding="5dp"
-        android:src="@drawable/profile_default" />
+        android:src="@drawable/cartoon_image_1" />
 
     <TextView
         android:id="@+id/userName"

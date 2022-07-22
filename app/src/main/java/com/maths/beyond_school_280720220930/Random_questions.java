@@ -286,7 +286,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
     @Override
     protected void onPause() {
-//        recognizeVoice.speech.stopListening();
+     recognizeVoice.speech.stopListening();
 //        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity", "onPause");
@@ -455,6 +455,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             ans.setText("");
             nManager.cancelAll();
             progressBarQuestion.setProgress(0);
+            question_count.setText(String.valueOf(0) + "/10");
             pause_play.setEnabled(true);
 
 //            Handler handler = new Handler();
