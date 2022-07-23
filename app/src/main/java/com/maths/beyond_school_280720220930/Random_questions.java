@@ -117,7 +117,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             ans.setText("?");
             if (pause_play.isChecked()) {
               //  progressBar.setVisibility(View.VISIBLE);
-                new StickyNotification(getApplicationContext(),table_with_hint.class,"| Table of "+TableValue+" | Random").makeNotification();
+                new StickyNotification(getApplicationContext(),Random_questions.class,"| Table of "+TableValue+" | Random").makeNotification();
                 if (count > 10)
                     count = 1;
 
@@ -127,14 +127,23 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 }
 
                 isActive = true;
-                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+                try{
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+                }catch (Exception e){
+
+                }
+
                 ReadFullTable(TableValue);
                 counter = 0;
             }
             if (!pause_play.isChecked()) {
 
                 isActive = false;
-                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                try{
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                }catch (Exception e){
+
+                }
                 //progressBar.setVisibility(View.INVISIBLE);
                 mic.setVisibility(View.GONE);
                 readText.textToSpeech.stop();
@@ -286,11 +295,17 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
     @Override
     protected void onPause() {
-     recognizeVoice.speech.stopListening();
+        isActive = false;
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+        //progressBar.setVisibility(View.INVISIBLE);
+        pause_play.setChecked(false);
+        mic.setVisibility(View.GONE);
+        readText.textToSpeech.stop();
+        recognizeVoice.speech.stopListening();
+        counter = 1;
 //        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity", "onPause");
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
     }
 
@@ -446,6 +461,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
             Thread.sleep(2000);
             counter = 0;
+            pause_play.setChecked(false);
             rtans = 0;
             wrans = 0;
             right_ans.setText("0");

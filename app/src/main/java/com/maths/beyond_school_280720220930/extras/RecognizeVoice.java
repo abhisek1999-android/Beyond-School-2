@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 public class RecognizeVoice implements RecognitionListener {
 
     public  SpeechRecognizer speech;
@@ -26,6 +28,7 @@ public class RecognizeVoice implements RecognitionListener {
     String method="";
     String onlyNumber="^[0-9]*$";
     Map<String, String> stringToText=new HashMap();
+    private CompositeDisposable disposable;
 
     int resultFromActivity=0;
    // ProgressBar progressBar;
@@ -34,7 +37,6 @@ public class RecognizeVoice implements RecognitionListener {
         this.mContext=context;
         this.getResult=getResult;
        // progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
-
        // resultFromActivity=((Activity)mContext).result;
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
@@ -69,7 +71,11 @@ public class RecognizeVoice implements RecognitionListener {
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
-       //https://issuetracker.google.com/issues/36928328
+
+        disposable=new CompositeDisposable();
+
+
+
     }
 
 
@@ -141,7 +147,8 @@ public class RecognizeVoice implements RecognitionListener {
             try{
                 getResult.gettingResult(stringToText.get(result.toLowerCase()));
             }catch (Exception e){
-                getResult.gettingResult(result.toLowerCase());
+               // getResult.gettingResult(result.toLowerCase());
+                startListening();
             }
         }
        stopListening();
@@ -154,23 +161,25 @@ public class RecognizeVoice implements RecognitionListener {
 
         Log.i("LOG_TAG", "onPertialResults"+result);
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//        float [] confidence = bundle.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
-
-
-        String text = "";
-        for (String result : matches)
-            text += result + "\n";
 
         if (matches.size()!=0){
 
             result=matches.get(0).trim();
-            Log.i("ResultsP",matches+"");
-
-            Log.i("ResultFormMain",new table_questions().result+"");
-
+            Log.i("ResultsIntP",result+"");
             if (!result.equals("")){
-                //Log.i("ConfidenceScore",confidence[0]+"");
-                stopListening();
+
+//                disposable.add(table_questions.resultState.subscribe(results->{
+//                    Log.i("ResultFormMain",results+""+matches.get(0).trim());
+//
+//                }));
+                try{
+                    int res=Integer.parseInt(result.replace(" ","").trim());
+                    Log.i("ResultInt ",res+"");
+                    stopListening();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
 //                if (result.matches(onlyNumber)){
 //                    //stopListening();
 //                    getResult.gettingResult(result);
