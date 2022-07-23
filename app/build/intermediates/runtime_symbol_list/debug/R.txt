@@ -2739,6 +2739,7 @@ int id button3 0x7f0a0070
 int id button4 0x7f0a0071
 int id button5 0x7f0a0072
 int id button6 0x7f0a0073
+int id button7 0x7f0a023b
 int id buttonPanel 0x7f0a0074
 int id cache_measures 0x7f0a0075
 int id callMeasure 0x7f0a0076
@@ -3034,6 +3035,7 @@ int id save_non_transition_alpha 0x7f0a0197
 int id save_overlay_view 0x7f0a0198
 int id sawtooth 0x7f0a0199
 int id scale 0x7f0a019a
+int id score 0x7f0a023c
 int id screen 0x7f0a019b
 int id scroll 0x7f0a019c
 int id scrollIndicatorDown 0x7f0a019d
@@ -3053,7 +3055,6 @@ int id search_src_text 0x7f0a01aa
 int id search_voice_btn 0x7f0a01ab
 int id select_dialog_listview 0x7f0a01ac
 int id selected 0x7f0a01ad
-int id selectedDigitLayout 0x7f0a01ae
 int id selection_type 0x7f0a01af
 int id share 0x7f0a01b0
 int id sharedValueSet 0x7f0a01b1
@@ -3100,7 +3101,6 @@ int id submenuarrow 0x7f0a01d9
 int id submit_area 0x7f0a01da
 int id supportScrollUp 0x7f0a01db
 int id tabMode 0x7f0a01dc
-int id tableName 0x7f0a01dd
 int id tablesRecyclerView 0x7f0a01de
 int id tag_accessibility_actions 0x7f0a01df
 int id tag_accessibility_clickable_spans 0x7f0a01e0

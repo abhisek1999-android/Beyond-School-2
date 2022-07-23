@@ -49,6 +49,7 @@ id button3
 id button4
 id button5
 id button6
+id button7
 id confirmpass
 id descriptionTextView
 id displayresulttext
@@ -75,14 +76,13 @@ id progressresult
 id questionLayout
 id questionProgress
 id retry
+id score
 id scrollView2
-id selectedDigitLayout
 id share
 id signup
 id signupcard
 id spinner
 id spinner2
-id tableName
 id tablesRecyclerView
 id tapInfoTextView
 id textView

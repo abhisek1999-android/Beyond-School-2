@@ -2740,6 +2740,7 @@ id button3
 id button4
 id button5
 id button6
+id button7
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3035,6 +3036,7 @@ id save_non_transition_alpha
 id save_overlay_view
 id sawtooth
 id scale
+id score
 id screen
 id scroll
 id scrollIndicatorDown
@@ -3054,7 +3056,6 @@ id search_src_text
 id search_voice_btn
 id select_dialog_listview
 id selected
-id selectedDigitLayout
 id selection_type
 id share
 id sharedValueSet
@@ -3101,7 +3102,6 @@ id submenuarrow
 id submit_area
 id supportScrollUp
 id tabMode
-id tableName
 id tablesRecyclerView
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans

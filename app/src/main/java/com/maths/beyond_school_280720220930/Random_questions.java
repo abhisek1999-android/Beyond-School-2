@@ -43,6 +43,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     ImageView back;
     ToggleButton pause_play;
     CardView card;
+    LinearLayout score;
     TextView Table, right_ans, wrong_ans, question_count, ans;
     int counter, count = 1, TableValue, rtans = 0, wrans = 0;
     int result, time = 500;
@@ -90,6 +91,8 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         titleText=findViewById(R.id.titleText);
         mic = findViewById(R.id.animationVoice);
         tapInfoText=findViewById(R.id.tapInfoTextView);
+        score=findViewById(R.id.score);
+
         checkArray=new boolean[11];
         random=getRandomInteger(11,1);
         Arrays.fill(checkArray,false);
@@ -111,6 +114,11 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
         titleText.setText("Practice Table");
+
+        if (intent.getStringExtra("visibility").equals("gone")){
+            score.setVisibility(View.GONE);
+        }
+
         pause_play.setOnClickListener(view -> {
             ans.setVisibility(View.VISIBLE);
             tapInfoText.setVisibility(View.GONE);
