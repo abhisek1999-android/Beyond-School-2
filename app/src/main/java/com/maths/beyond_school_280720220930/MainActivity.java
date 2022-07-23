@@ -49,6 +49,8 @@ private FirebaseAnalytics mFirebaseAnalytics;
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        //new line added
+
         //Setting notification channel................................................................................
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
