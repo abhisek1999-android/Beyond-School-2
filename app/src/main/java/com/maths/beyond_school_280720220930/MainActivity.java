@@ -21,13 +21,14 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
+import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.Tables;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ReadText.GetResultSpeech {
 
 
     RecyclerView tablesRecyclerView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID="Default Channel Beyond School";
     private static final String CHANNEL_NAME="Default Channel Beyond School";
     private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
+    ReadText readText;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -60,6 +62,9 @@ private FirebaseAnalytics mFirebaseAnalytics;
 
 
         }
+
+        readText = new ReadText(getApplicationContext(), this);
+        readText.read("");
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -132,6 +137,11 @@ private FirebaseAnalytics mFirebaseAnalytics;
                 checkAudioPermission();
             }
         }
+
+    }
+
+    @Override
+    public void gettingResultSpeech() {
 
     }
 }

@@ -39,6 +39,7 @@ import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subjects.BehaviorSubject;
 
 public class table_questions extends AppCompatActivity implements RecognizeVoice.GetResult, ReadText.GetResultSpeech {
     ImageView back;
@@ -46,7 +47,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     CardView card;
     TextView Table, right_ans, wrong_ans, question_count, ans;
     int counter, count = 1, TableValue, rtans = 0, wrans = 0;
-    int result, time = 500;
+    public  int result=0, time = 500;
     String ToSet, set;
     LinearLayout layout;
     CountDownTimer countDownTimer;
@@ -63,18 +64,21 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     int repeatRec=0;
     TextView tapInfoText;
 
+    public static BehaviorSubject<Integer> resultState = BehaviorSubject.create();
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_questions);
-//
+
         Context mContext = getApplicationContext();
         PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
         wakeLock.acquire();
 
 
+        resultState.onNext(result);
         nManager = ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class));
         Intent intent = getIntent();
         TableValue = intent.getIntExtra("ValueOfTable", 0);
@@ -201,6 +205,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         ans.setText("?");
         Log.i("InActivity", "ReadFullText");
         result = count * TableValue;
+        resultState.onNext(result);
 
         // isActive=true;
 
@@ -307,7 +312,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     @Override
     protected void onPause() {
-//        recognizeVoice.speech.stopListening();
+        recognizeVoice.speech.stopListening();
 //        recognizeVoice.speech.destroy();
         pauseAll();
         super.onPause();
