@@ -2551,6 +2551,7 @@ drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
+drawable ic_baseline_close_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -2689,6 +2690,7 @@ id action_container
 id action_context_bar
 id action_divider
 id action_image
+id action_log
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
@@ -2770,6 +2772,7 @@ id clear_text
 id clip_horizontal
 id clip_vertical
 id clockwise
+id closeButton
 id closest
 id collapseActionView
 id compress
@@ -2916,6 +2919,7 @@ id linearLayout2
 id listMode
 id list_item
 id logCard
+id logRecyclerView
 id logTextView
 id login
 id logincard
@@ -3037,6 +3041,7 @@ id ratio
 id rectangles
 id restart
 id result
+id resultText
 id retry
 id reverse
 id reverseSawtooth
@@ -3305,6 +3310,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_dash_board
+layout activity_log
 layout activity_login_signup
 layout activity_main
 layout activity_select_action
@@ -3331,6 +3337,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout log_bottom_sheet
+layout log_dialog
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3415,6 +3422,7 @@ layout tool_bar_layout_back_button
 layout toolbar_dashboard
 menu example_menu
 menu example_menu2
+menu log_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description

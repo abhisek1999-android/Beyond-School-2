@@ -22,6 +22,7 @@ drawable cartoon_image_1
 drawable custom_progress_bg
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
+drawable ic_baseline_close_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -44,6 +45,7 @@ font poppins
 font poppins_ight
 font reemkufi_medium
 id ShowTable
+id action_log
 id animationVoice
 id barChart
 id bunny
@@ -53,6 +55,7 @@ id button3
 id button4
 id button5
 id button6
+id closeButton
 id confirmpass
 id descriptionTextView
 id descriptionTextView1
@@ -69,6 +72,7 @@ id layout_set
 id linearLayout
 id linearLayout2
 id logCard
+id logRecyclerView
 id logTextView
 id login
 id logincard
@@ -88,6 +92,7 @@ id progressresult
 id questionLayout
 id questionProgress
 id result
+id resultText
 id retry
 id scrollView2
 id selectedDigitLayout
@@ -112,6 +117,7 @@ id textView30
 id textView31
 id textView32
 id textView36
+id title
 id titleText
 id toolBar
 id userName
@@ -119,6 +125,7 @@ id useremail
 id useremaillog
 id username
 layout activity_dash_board
+layout activity_log
 layout activity_login_signup
 layout activity_main
 layout activity_select_action
@@ -127,6 +134,7 @@ layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
 layout log_bottom_sheet
+layout log_dialog
 layout progress_card_layout
 layout result_display
 layout seekbar_dialog
@@ -135,6 +143,7 @@ layout text_sample_bg
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+menu log_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 raw green_blinking_dott

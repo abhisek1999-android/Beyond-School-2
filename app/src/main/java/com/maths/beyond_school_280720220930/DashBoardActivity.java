@@ -20,10 +20,9 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.model.GradientColor;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.maths.beyond_school_280720220930.adapters.ProgressAdapter;
-import com.maths.beyond_school_280720220930.database.ProgressDataBase;
-import com.maths.beyond_school_280720220930.database.ProgressM;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.model.Progress;
 
 import java.util.ArrayList;
