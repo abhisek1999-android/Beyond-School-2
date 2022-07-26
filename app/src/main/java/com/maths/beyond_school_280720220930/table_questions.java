@@ -5,15 +5,19 @@ import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,8 +27,13 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,13 +41,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
+
+import java.util.Date;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -71,6 +86,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     FirebaseAnalytics mFirebaseAnalytics;
     public static BehaviorSubject<Integer> resultState = BehaviorSubject.create();
     Bundle resultBundle;
+    Toolbar toolbar;
+    Date start;
+    Date end;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -82,6 +100,11 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
         wakeLock.acquire();
+
+
+        toolbar = (Toolbar)findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
 
         mFirebaseAnalytics=FirebaseAnalytics.getInstance(mContext);
         resultBundle=new Bundle();
@@ -198,6 +221,26 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         super.onStart();
         Log.i("OnStart", "OnStart");
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.log_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_log:
+                startActivity(new Intent(getApplicationContext(),LogActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 
     public void unMuteAudioStream() throws InterruptedException {
@@ -413,6 +456,18 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             e.printStackTrace();
         }
 
+        if (!logTextView.getText().toString().equals("LOG"))
+        addData();
+
+    }
+
+    private void addData() {
+
+        LogDatabase db=LogDatabase.getDbInstance(this.getApplicationContext());
+        com.maths.beyond_school_280720220930.database.log.Log logInfo=new com.maths.beyond_school_280720220930.database.log.Log();
+        logInfo.log_content=logTextView.getText().toString();
+        db.logDao().insertNotes(logInfo);
+
     }
 
     @Override
@@ -490,14 +545,22 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
                 if (lcsResult && !title.equals("")) {
 
-                    sendAnalyticsData(result+"",title,"correct");
+
+                    end=new Date();
+                    long diff = end.getTime() - start.getTime();
+                    logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+
+                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
                     rtans++;
                     readText.read("CORRECT");
                     right_ans.setText(String.valueOf(rtans));
                 }
 
                 else {
-                    sendAnalyticsData(result+"",title,"in_correct");
+                    end=new Date();
+                    long diff = end.getTime() - start.getTime();
+                    logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
                     wrong_ans.setText(String.valueOf(wrans));
@@ -505,7 +568,10 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
             } catch (Exception e) {
                 e.printStackTrace();
-                sendAnalyticsData(result+"",title,"in_correct");
+                end=new Date();
+                long diff = end.getTime() - start.getTime();
+                logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
                 readText.read("INCORRECT, Correct is " + result);
                 wrans++;
                 wrong_ans.setText(String.valueOf(wrans));
@@ -650,21 +716,20 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                         recognizeVoice.startListening();
                         mic.setVisibility(View.VISIBLE);
                         Log.i("InActivityrun", "insideOnDone");
+                        start=new Date();
 
                 }
-
             }
         }, 80);
-
 
     }
 
 
-    public void sendAnalyticsData(String result,String detected,String tag){
-
+    public void sendAnalyticsData(String result,String detected,String tag,String timeTaken){
         resultBundle.putString("original_result",result);
         resultBundle.putString("detected_result",detected);
         resultBundle.putString("tag",tag);
+        resultBundle.putString("timeTaken",timeTaken);
         mFirebaseAnalytics.logEvent("result_verification",resultBundle);
 
     }

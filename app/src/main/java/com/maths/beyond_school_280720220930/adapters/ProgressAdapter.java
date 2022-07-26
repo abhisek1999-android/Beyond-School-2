@@ -6,15 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.database.ProgressM;
-import com.maths.beyond_school_280720220930.model.Progress;
-import com.maths.beyond_school_280720220930.model.Tables;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 
 import java.util.List;
 
@@ -76,6 +73,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
            desc3=mView.findViewById(R.id.descriptionTextView3);
            result=mView.findViewById(R.id.result);
            resultProgress=mView.findViewById(R.id.progressResult);
+
 
 
         }

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
 MERGED from [com.google.android.material:material:1.6.1] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\101c28820c7720cefd15b39f97a6305a\transformed\material-1.6.1\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\7ad4cb603122c01e9bc7f6c4df1eb31b\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [com.airbnb.android:lottie:3.4.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\2508441de804f4f3795ffb61fae40232\transformed\lottie-3.4.0\AndroidManifest.xml:2:1-11:12
@@ -89,22 +89,22 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Program Files\Android\
 MERGED from [androidx.print:print:1.0.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\75a4165cb1de5af061a24fc106c752fd\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\cbc722e43f58d758d8461308bd6b305d\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\8c678aadfef11f881428fb0a6b61c415\transformed\protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
-INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
+INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
 	package
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:4:5-51
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-79:12
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-75:12
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:2:11-69
@@ -131,7 +131,7 @@ ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\A
 	android:name
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:7:22-68
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:8:5-79
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:8:5-80
 	android:name
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:8:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
@@ -139,7 +139,7 @@ ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\A
 	android:name
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:9:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:10:5-67
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:10:5-68
 MERGED from [com.google.android.gms:play-services-measurement-api:21.0.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\057c858b67ab30422cc40e8607b8fe6b\transformed\play-services-measurement-api-21.0.0\AndroidManifest.xml:24:5-68
 MERGED from [com.google.android.gms:play-services-measurement-api:21.0.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\057c858b67ab30422cc40e8607b8fe6b\transformed\play-services-measurement-api-21.0.0\AndroidManifest.xml:24:5-68
 MERGED from [com.google.android.gms:play-services-measurement:21.0.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\bbc8451173d16ed3e3e43a0656fa1505\transformed\play-services-measurement-21.0.0\AndroidManifest.xml:25:5-68
@@ -151,13 +151,13 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.0.0] C:
 	android:name
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:10:22-65
 queries
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:14:5-91
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:12:5-14:15
 package#com.google.android.googlequicksearchbox
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:14:15-80
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:13:9-75
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:14:24-78
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:13:18-72
 application
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:15:5-64:19
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:26:5-73:19
 MERGED from [com.google.android.material:material:1.6.1] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\101c28820c7720cefd15b39f97a6305a\transformed\material-1.6.1\AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.6.1] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\101c28820c7720cefd15b39f97a6305a\transformed\material-1.6.1\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\7ad4cb603122c01e9bc7f6c4df1eb31b\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -225,87 +225,93 @@ MERGED from [androidx.startup:startup-runtime:1.0.0] C:\Program Files\Android\An
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\4e73a75cbbad77de8a4d9a8356aa4ef0\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:31:9-35
 	android:label
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:18:9-41
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:29:9-41
 	android:roundIcon
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:19:9-49
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:30:9-49
 	android:icon
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:17:9-44
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:28:9-44
 	android:allowBackup
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:16:9-35
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:27:9-35
 	android:theme
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:21:9-51
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:32:9-51
+activity#com.maths.beyond_school_280720220930.LogActivity
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:33:9-35:40
+	android:exported
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:34:13-40
 activity#com.maths.beyond_school_280720220930.SplashScreen
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:24:9-31:20
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:36:9-44:20
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:25:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:38:13-36
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:24:19-83
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:37:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:26:13-30:29
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:39:13-43:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:27:17-69
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:40:17-69
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:27:25-66
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:40:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:29:17-77
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:42:17-77
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:29:27-74
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:42:27-74
 activity#com.maths.beyond_school_280720220930.Random_questions
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:32:9-34:39
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:45:9-47:39
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:34:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:47:13-36
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:33:13-81
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-45
 activity#com.maths.beyond_school_280720220930.DashBoardActivity
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:35:9-37:39
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:48:9-50:39
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:37:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:50:13-36
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:36:13-46
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:49:13-46
 activity#com.maths.beyond_school_280720220930.TestActivity
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:38:9-40:39
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:51:9-53:39
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:40:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:53:13-36
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:39:13-77
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:52:13-41
 activity#com.maths.beyond_school_280720220930.select_action
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:41:9-43:39
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:54:9-56:39
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:43:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:56:13-36
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:42:13-78
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:55:13-42
 activity#com.maths.beyond_school_280720220930.table_questions
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:44:9-48:15
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:57:9-60:47
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:59:13-36
 	android:showOnLockScreen
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:47:13-44
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:60:13-44
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:45:13-80
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:58:13-44
 activity#com.maths.beyond_school_280720220930.table_with_hint
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:49:9-52:47
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:61:9-64:47
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:51:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:63:13-36
 	android:showOnLockScreen
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:52:13-44
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:64:13-44
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:50:13-80
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:62:13-44
 activity#com.maths.beyond_school_280720220930.MainActivity
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:53:9-59:20
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:65:9-68:56
 	android:exported
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:55:13-36
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:67:13-36
 	android:showOnLockScreen
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:56:13-44
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:68:13-44
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:54:13-77
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:66:13-41
 service#com.maths.beyond_school_280720220930.ClearService
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:62:9-114
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:70:9-72:44
 	android:stopWithTask
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:62:83-111
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:72:13-41
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:62:18-82
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:71:13-41
 uses-sdk
 INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
@@ -491,17 +497,17 @@ INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\mai
 		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml
 intent#action:name:android.speech.RecognitionService
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:67:9-70:18
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:16:9-18:18
 action#android.speech.RecognitionService
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:68:13-69:67
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:17:13-72
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:69:17-65
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:17:21-69
 intent#action:name:android.intent.action.TTS_SERVICE
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:75:9-77:18
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:21:9-23:18
 action#android.intent.action.TTS_SERVICE
-ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:76:13-72
+ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:22:13-72
 	android:name
-		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:76:21-69
+		ADDED from C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:22:21-69
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-auth:21.0.6] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\071e9a01829aedba77383b0e55dfd8e9\transformed\firebase-auth-21.0.6\AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-firestore:24.2.1] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\abe76ffbe0512c4772c50807b4bcb926\transformed\firebase-firestore-24.2.1\AndroidManifest.xml:13:5-79

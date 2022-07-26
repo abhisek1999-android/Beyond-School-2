@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930.extras;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class UtilityFunctions {
 
@@ -42,6 +43,14 @@ public class UtilityFunctions {
             return  "Good Night";
         }
         return "";
+    }
+
+    public String formatTime(long diff){
+        String TimeTaken = String.format("[%s] hours : [%s] mins : [%s] secs",
+                Long.toString(TimeUnit.MILLISECONDS.toHours(diff)),
+                TimeUnit.MILLISECONDS.toMinutes(diff),
+                TimeUnit.MILLISECONDS.toSeconds(diff));
+        return String.format("Time taken %s", TimeTaken);
     }
 
 //    out ="32323212"

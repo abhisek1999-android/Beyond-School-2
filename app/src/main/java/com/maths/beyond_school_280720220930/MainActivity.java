@@ -21,8 +21,8 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
-import com.maths.beyond_school_280720220930.database.ProgressDataBase;
-import com.maths.beyond_school_280720220930.database.ProgressM;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.Tables;
