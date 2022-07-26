@@ -45,7 +45,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     CardView card;
     LinearLayout score;
     TextView Table, right_ans, wrong_ans, question_count, ans;
-    int counter, count = 10, TableValue, rtans, wrans = 0;
+    int counter, count = 1, TableValue, rtans=0, wrans = 0;
     int result, time = 500;
     String ToSet, set;
     LinearLayout layout;
@@ -432,7 +432,6 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
            mic.setVisibility(View.GONE);
 
 
-
             if (repeatRec<3){
                 repeatRec++;
                 //  Toast.makeText(this, "attempt"+repeatRec, Toast.LENGTH_SHORT).show();
@@ -460,7 +459,6 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
         }
         if (count > 10) {
-
 
             Log.i("inactivity","gt10");
 

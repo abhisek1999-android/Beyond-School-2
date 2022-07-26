@@ -46,6 +46,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
     private static final String KEY_MULTIPLIER = "multiplier";
     private static final String KEY_STATUS = "status";
@@ -98,7 +99,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         rtans = intent.getIntExtra("right", 0);
         wrans = intent.getIntExtra("wrong", 0);
 
-        sharedPreferences = getSharedPreferences(String.valueOf(TableValue), Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         back = findViewById(R.id.imageView4);
         card = findViewById(R.id.ShowTable);

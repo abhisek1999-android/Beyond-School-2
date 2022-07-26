@@ -80,7 +80,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         TableValue=intent.getIntExtra("ValueOfTable",0);
         status=intent.getStringExtra("status");
 
-        sharedPreferences=getSharedPreferences(String.valueOf(TableValue), Context.MODE_PRIVATE);
+        sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
 
         back = findViewById(R.id.imageView4);

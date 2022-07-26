@@ -23,7 +23,7 @@ public class select_action extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    //private static final String SHARED_PREF_NAME = "beyond";
+    private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
     private static final String KEY_MULTIPLIER = "multiplier";
     private static final String KEY_STATUS = "status";
@@ -66,9 +66,8 @@ public class select_action extends AppCompatActivity {
 
         titleText.setText("You Have Selected Table of - "+String.format("%02d", TableValue)+"");
         titleText.setTextSize(20);
-        titleText.setTextColor(Color.WHITE);
 
-        sharedPreferences=getSharedPreferences(String.valueOf(TableValue), Context.MODE_PRIVATE);
+        sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         //tableName.setText(String.format("%02d", TableValue)+"");
         TableWithHint.setOnClickListener(new View.OnClickListener() {
