@@ -177,7 +177,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 readText.textToSpeech.shutdown();
                 isActive = false;
                 amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-                onBackPressed();
+                last_status();
                 finish();
             }
         });
@@ -199,6 +199,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         recognizeVoice.speech.stopListening();
         readText.textToSpeech.shutdown();
         isActive = false;
+        last_status();
+        finish();
+
+    }
+
+    private void last_status() {
         if (count < 11) {
             editor.putInt(KEY_MULTIPLICANT, TableValue);
             editor.putInt(KEY_MULTIPLIER, count);
@@ -210,8 +216,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             editor.clear();
             editor.apply();
         }
-        finish();
-
     }
 
     public void pauseAll() {
@@ -352,6 +356,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     protected void onResume() {
         super.onResume();
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+    }
+
+    @Override
+    protected void onStop() {
+        last_status();
+        super.onStop();
     }
 
     @Override

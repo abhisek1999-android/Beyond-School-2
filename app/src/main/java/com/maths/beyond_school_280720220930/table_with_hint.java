@@ -128,8 +128,8 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 try{
                     readText.textToSpeech.stop();
                     readText.textToSpeech.shutdown();
-                    count=1;
-                    onBackPressed();
+                    //count=1;
+                    last_status();
                     finish();
                 }catch (Exception e){
                     finish();
@@ -315,6 +315,11 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         readText.textToSpeech.stop();
         readText.textToSpeech.shutdown();
         nManager.cancelAll();
+        last_status();
+        super.onBackPressed();
+    }
+
+    private void last_status() {
         if (count<11) {
             editor.putInt(KEY_MULTIPLICANT,TableValue);
             editor.putInt(KEY_MULTIPLIER,count);
@@ -324,7 +329,6 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
             editor.clear();
             editor.apply();
         }
-        super.onBackPressed();
     }
 
     @Override
@@ -341,7 +345,12 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         }
     }
 
+    @Override
+    protected void onStop() {
 
+        last_status();
+        super.onStop();
+    }
 
     @Override
     protected void onDestroy() {
@@ -362,4 +371,5 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
 //        readText.textToSpeech.shutdown();
 //        super.onStop();
 //    }
+
 }

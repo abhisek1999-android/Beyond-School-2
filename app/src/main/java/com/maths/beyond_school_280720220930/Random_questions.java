@@ -45,7 +45,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     CardView card;
     LinearLayout score;
     TextView Table, right_ans, wrong_ans, question_count, ans;
-    int counter, count = 1, TableValue, rtans = 0, wrans = 0;
+    int counter, count = 10, TableValue, rtans, wrans = 0;
     int result, time = 500;
     String ToSet, set;
     LinearLayout layout;
@@ -115,9 +115,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
         titleText.setText("Practice Table");
 
-        if (intent.getStringExtra("visibility").equals("gone")){
+        /*if (intent.getStringExtra("visibility").equals("gone")){
             score.setVisibility(View.GONE);
-        }
+        }*/
 
         pause_play.setOnClickListener(view -> {
             ans.setVisibility(View.VISIBLE);
@@ -339,45 +339,42 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         Log.i("InActivity", "onResult" + title);
         ans.setText(title);
         String temp = collectdata.getText().toString();
-        Boolean lcsResult=new UtilityFunctions().matchingSeq(title.trim(),result+"");
-        Log.i("lcsResult",lcsResult+"");
+        Boolean lcsResult = new UtilityFunctions().matchingSeq(title.trim(), result + "");
+        Log.i("lcsResult", lcsResult + "");
         if (!temp.equals("") && lcsResult)
             collectdata.setText(temp + "," + result);
 
         else if (!temp.equals("") && !lcsResult)
             collectdata.setText(temp + "," + title.trim());
 
-        else if(temp.equals("")&& lcsResult){
+        else if (temp.equals("") && lcsResult) {
             try {
-                collectdata.setText(result+"");
-            }catch (Exception e){}
+                collectdata.setText(result + "");
+            } catch (Exception e) {
+            }
 
-        }
-
-        else
+        } else
             collectdata.setText(title.trim());
 
         count++;
-        checkArray[random]=true;
-        random=getRandomInteger(11,1);
-        for (int i = 0; i <11 ; i++) {
-            if (checkArray[i]==false){
-                flag=false;
+        checkArray[random] = true;
+        random = getRandomInteger(11, 1);
+        for (int i = 0; i < 11; i++) {
+            if (checkArray[i] == false) {
+                flag = false;
                 break;
-            }
-            else flag=true;
+            } else flag = true;
         }
-        Log.i("rendom",String.valueOf(flag));
-        while (true){
+        Log.i("rendom", String.valueOf(flag));
+        while (true) {
 
-            if (flag==true){
+            if (flag == true) {
                 break;
             }
-            if (checkArray[random]==true){
-                random=getRandomInteger(11,1);
-                Log.i("rendom",String.valueOf(random));
-            }
-            else break;
+            if (checkArray[random] == true) {
+                random = getRandomInteger(11, 1);
+                Log.i("rendom", String.valueOf(random));
+            } else break;
         }
         recognizeVoice.stopListening();
         mic.setVisibility(View.GONE);
@@ -387,9 +384,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 rtans++;
                 readText.read("CORRECT");
                 right_ans.setText(String.valueOf(rtans));
-            }
-
-            else {
+            } else {
                 wrans++;
                 readText.read("INCORRECT, Correct is " + result);
                 wrong_ans.setText(String.valueOf(wrans));
@@ -402,26 +397,29 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             wrong_ans.setText(String.valueOf(wrans));
         }
 
-
-        Handler handler = new Handler();
+        if (count > 10) {
+            Intent intent1 = new Intent(Random_questions.this, ScoreActivity.class);
+            intent1.putExtra("score", rtans);
+            intent1.putExtra("tname", TableValue);
+            startActivity(intent1);
+            finish();
+        }
+            Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
                 if (count <= 10) {
                     if (counter == 0)
                         isActive = true;
-                    repeatRec=0;
+                    repeatRec = 0;
                     ReadFullTable(TableValue);
                     recognizeVoice.stopListening();
                 } else {
                     recognizeVoice.stopListening();
-                 //   mic.setVisibility(View.GONE);
+                    //   mic.setVisibility(View.GONE);
                 }
             }
         };
         handler.postDelayed(r, 3000);
-
-
-
 
     }
 
