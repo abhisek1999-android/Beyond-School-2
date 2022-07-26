@@ -96,6 +96,7 @@ public class RecognizeVoice implements RecognitionListener {
     public void onBeginningOfSpeech() {
         ///progressBar.setIndeterminate(false);
         //progressBar.setMax(10);
+        getResult.getLogResult("Going to start Of Speech\n");
     }
 
     @Override
@@ -115,6 +116,7 @@ public class RecognizeVoice implements RecognitionListener {
         Log.i("LOG_TAG", "EndOfSpeech");
         Log.i("LOG_TAG", "onEndOfSpeech");
        // progressBar.setIndeterminate(true);
+        getResult.getLogResult("End Of Speech\n");
         stopListening();
 
     }
@@ -122,6 +124,7 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onError(int i) {
 
+        getResult.getLogResult("Error : "+getErrorText(i)+"\n");
         Log.i("SpeechError",getErrorText(i));
         try {
             getResult.errorAction(i);
@@ -139,13 +142,14 @@ public class RecognizeVoice implements RecognitionListener {
             text += result + "\n";
         result=matches.get(0).trim();
 
-        if (result.matches(onlyNumber)){
-        getResult.gettingResult(result);
+        getResult.getLogResult("Result: "+matches.get(0).trim()+"\n");
+        if (matches.get(0).trim().matches(onlyNumber)){
+        getResult.gettingResult(matches.get(0).trim());
         }
         else{
 
             try{
-                getResult.gettingResult(stringToText.get(result.toLowerCase()));
+                getResult.gettingResult(stringToText.get(matches.get(0).trim().toLowerCase()));
             }catch (Exception e){
                // getResult.gettingResult(result.toLowerCase());
                 startListening();
@@ -165,13 +169,9 @@ public class RecognizeVoice implements RecognitionListener {
         if (matches.size()!=0){
 
             result=matches.get(0).trim();
+            getResult.getLogResult("Partial: "+matches.get(0).trim()+"\n");
             Log.i("ResultsIntP",result+"");
             if (!result.equals("")){
-
-//                disposable.add(table_questions.resultState.subscribe(results->{
-//                    Log.i("ResultFormMain",results+""+matches.get(0).trim());
-//
-//                }));
                 try{
                     int res=Integer.parseInt(result.replace(" ","").trim());
                     Log.i("ResultInt ",res+"");
@@ -180,31 +180,11 @@ public class RecognizeVoice implements RecognitionListener {
                     e.printStackTrace();
                 }
 
-//                if (result.matches(onlyNumber)){
-//                    //stopListening();
-//                    getResult.gettingResult(result);
-//
-//                }
-//                else{
-//
-//                    try{
-//                    //    stopListening();
-//                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
-//
-//                    }catch (Exception e){
-//                    //    stopListening();
-//                        getResult.gettingResult(result.toLowerCase());
-//
-//                    }
-//                }
             }
 
             //  stopListening();
 
-
         }
-
-
 
     }
 
@@ -253,7 +233,9 @@ public class RecognizeVoice implements RecognitionListener {
     public interface GetResult{
 
         void gettingResult(String title);
+        void getLogResult(String title);
         void errorAction(int i) throws InterruptedException;
 
     }
+
 }
