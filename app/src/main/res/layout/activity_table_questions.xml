@@ -92,6 +92,7 @@
 
 
             <ImageView
+                android:id="@+id/bunny"
                 android:layout_width="350dp"
                 android:layout_height="350dp"
                 android:layout_centerHorizontal="true"
@@ -305,5 +306,16 @@
         android:visibility="gone"
         android:textSize="24sp" />
 
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/dialPadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <include layout="@layout/log_bottom_sheet" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

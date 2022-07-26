@@ -58,6 +58,9 @@
             android:name="com.maths.beyond_school_280720220930.Random_questions"
             android:exported="true" />
         <activity
+            android:name="com.maths.beyond_school_280720220930.DashBoardActivity"
+            android:exported="true" />
+        <activity
             android:name="com.maths.beyond_school_280720220930.TestActivity"
             android:exported="true" />
         <activity
@@ -138,6 +141,10 @@
                 android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
