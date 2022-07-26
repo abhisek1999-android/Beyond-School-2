@@ -451,6 +451,11 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
     @Override
+    public void getLogResult(String title) {
+
+    }
+
+    @Override
     public void errorAction(int i) throws InterruptedException {
         Log.i("Error", "err");
 

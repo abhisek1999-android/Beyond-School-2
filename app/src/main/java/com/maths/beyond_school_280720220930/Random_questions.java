@@ -424,6 +424,11 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     }
 
     @Override
+    public void getLogResult(String title) {
+
+    }
+
+    @Override
     public void errorAction(int i) throws InterruptedException {
         Log.i("Error", "err");
 
