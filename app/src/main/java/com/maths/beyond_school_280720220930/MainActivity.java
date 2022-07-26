@@ -21,12 +21,16 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
+import com.maths.beyond_school_280720220930.database.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.Tables;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements ReadText.GetResultSpeech {
 
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     private static final String CHANNEL_NAME="Default Channel Beyond School";
     private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
     ReadText readText;
+    CircleImageView profileImageView;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -63,6 +68,12 @@ private FirebaseAnalytics mFirebaseAnalytics;
 
         }
 
+
+        profileImageView=findViewById(R.id.profileImage);
+
+        profileImageView.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
+        });
         readText = new ReadText(getApplicationContext(), this);
         readText.read("");
 
@@ -114,6 +125,23 @@ private FirebaseAnalytics mFirebaseAnalytics;
         ViewCompat.setNestedScrollingEnabled(tablesRecyclerView, false);
 
         greetingTextView.setText(new UtilityFunctions().greeting());
+
+        addData();
+    }
+
+    private void addData() {
+
+        ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
+        ProgressM progressM=new ProgressM();
+        progressM.correct="5";
+        progressM.time_to_complete="30";
+        progressM.wrong="5";
+        progressM.time="3:45 PM";
+        progressM.is_completed="Yes";
+        progressM.table="11";
+        progressM.date="Today";
+        db.progressDao().insertNotes(progressM);
+
     }
 
 

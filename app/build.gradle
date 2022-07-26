@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.maths.beyond_school_280720220930"
         minSdk 21
-        targetSdk 28
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -56,6 +56,21 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
+    // chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    //room
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.9.0'
 
 
 }
