@@ -11,6 +11,9 @@ public class Log {
     @ColumnInfo(name="log_content")
     public String   log_content;
 
+    @ColumnInfo(name="timestamp")
+    public String   timestamp;
+
     @PrimaryKey(autoGenerate = true)
     public int  log_id;
 }

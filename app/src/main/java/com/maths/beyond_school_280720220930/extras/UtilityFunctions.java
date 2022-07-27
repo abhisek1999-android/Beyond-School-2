@@ -46,11 +46,11 @@ public class UtilityFunctions {
     }
 
     public String formatTime(long diff){
-        String TimeTaken = String.format("[%s] hours : [%s] mins : [%s] secs",
+        String TimeTaken = String.format("%s h : %s m : %s s",
                 Long.toString(TimeUnit.MILLISECONDS.toHours(diff)),
                 TimeUnit.MILLISECONDS.toMinutes(diff),
                 TimeUnit.MILLISECONDS.toSeconds(diff));
-        return String.format("Time taken %s", TimeTaken);
+        return String.format("Time taken :%s", TimeTaken);
     }
 
 //    out ="32323212"

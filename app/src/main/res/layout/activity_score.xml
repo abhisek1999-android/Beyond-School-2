@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content">
 
                 <ProgressBar
-                    android:id="@+id/cardView"
+                    android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
@@ -191,6 +191,7 @@
                 android:layout_marginVertical="2dp"
                 android:elevation="0dp"
                 android:padding="5dp"
+               app:cardBackgroundColor="#00000000"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -208,7 +209,6 @@
                         android:fontFamily="@font/poppins"
                         android:padding="5dp"
                         android:text="You Scored"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                     <LinearLayout
@@ -225,8 +225,7 @@
                             android:fontFamily="@font/reemkufi_medium"
                             android:padding="10dp"
                             android:text="09"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -237,8 +236,8 @@
                             android:fontFamily="@font/reemkufi_medium"
                             android:padding="10dp"
                             android:text="01"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
+
+                            android:textSize="25sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -255,7 +254,7 @@
                             android:fontFamily="@font/reemkufi_medium"
                             android:padding="10dp"
                             android:text="Right"
-                            android:textColor="@color/tp_black"
+
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -267,7 +266,6 @@
                             android:fontFamily="@font/reemkufi_medium"
                             android:padding="10dp"
                             android:text="Wrong"
-                            android:textColor="@color/tp_black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -282,7 +280,7 @@
             android:layout_height="288dp"
             android:layout_marginTop="80dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/cat3"
+            android:src="@drawable/select_option_ct"
             android:scaleType="fitStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lay" />
@@ -314,21 +312,20 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
                     android:text="Don't worry,You Tried your best. Revise the Table and give it one more try"
-                    android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="640dp"
             android:layout_marginEnd="9dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="5dp"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -400,12 +397,11 @@
             </LinearLayout>-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/home"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="30dp"
-                android:padding="8dp"
+                android:layout_marginBottom="40dp"
+                android:layout_margin="10dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp">
 
@@ -414,7 +410,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="3dp">
+                    android:padding="5dp">
 
                     <ImageView
                         android:id="@+id/imageView2"
@@ -433,20 +429,18 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:text="Home"
                         android:textColor="@color/teal_700"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/restart"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginHorizontal="38dp"
-                android:layout_marginLeft="20dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
                 android:layout_marginBottom="30dp"
-                android:padding="8dp"
+                android:padding="15dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp">
 
@@ -455,7 +449,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="3dp">
+                    android:padding="5dp">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -472,16 +466,15 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:text="ReStart"
                         android:textColor="@color/teal_700"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/nextbtn"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
                 android:layout_marginBottom="30dp"
                 android:padding="8dp"
                 app:cardCornerRadius="20dp"
@@ -492,7 +485,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="3dp">
+                    android:padding="5dp">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -509,7 +502,7 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:text="Next"
                         android:textColor="@color/teal_700"
-                        android:textSize="12sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

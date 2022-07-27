@@ -52,7 +52,11 @@
             android:name=".TestActivity"
             android:exported="true" />
         <activity
+            android:name=".ScoreActivity"
+            android:exported="true" />
+        <activity
             android:name=".select_action"
+            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".table_questions"

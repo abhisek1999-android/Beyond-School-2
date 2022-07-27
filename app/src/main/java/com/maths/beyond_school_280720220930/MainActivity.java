@@ -17,9 +17,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
@@ -28,6 +30,7 @@ import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.Tables;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     private static final String CHANNEL_NAME="Default Channel Beyond School";
     private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
     ReadText readText;
-    CircleImageView profileImageView;
+    ImageView dashBoard;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -66,14 +69,14 @@ private FirebaseAnalytics mFirebaseAnalytics;
             NotificationManager manager=getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
 
-
+            FirebaseCrashlytics.getInstance().sendUnsentReports();
 
         }
 
 
-        profileImageView=findViewById(R.id.profileImage);
+        dashBoard=findViewById(R.id.dashboard);
 
-        profileImageView.setOnClickListener(v->{
+        dashBoard.setOnClickListener(v->{
             startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
         });
         readText = new ReadText(getApplicationContext(), this);
@@ -120,31 +123,34 @@ private FirebaseAnalytics mFirebaseAnalytics;
 
 
 
-        tablesRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        tablesRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2));
 
-        tablesRecyclerAdapter=new TablesRecyclerAdapter(tablesList,getApplicationContext());
+        tablesRecyclerAdapter=new TablesRecyclerAdapter(tablesList,MainActivity.this);
         tablesRecyclerView.setAdapter(tablesRecyclerAdapter);
         ViewCompat.setNestedScrollingEnabled(tablesRecyclerView, false);
 
         greetingTextView.setText(new UtilityFunctions().greeting());
 
-        addData();
-    }
-
-    private void addData() {
-
-        ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
-        ProgressM progressM=new ProgressM();
-        progressM.correct="5";
-        progressM.time_to_complete="30";
-        progressM.wrong="5";
-        progressM.time="3:45 PM";
-        progressM.is_completed="Yes";
-        progressM.table="11";
-        progressM.date="Today";
-        db.progressDao().insertNotes(progressM);
+        //addData();
 
     }
+
+//    private void addData() {
+//
+//        ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
+//        ProgressM progressM=new ProgressM();
+//        progressM.correct=5;
+//        progressM.time_to_complete="30";
+//        progressM.wrong=5;
+//        progressM.time="3:45 PM";
+//        progressM.is_completed="Yes";
+//        progressM.table="11";
+//        progressM.date="27072022";
+//        progressM.timestamp=1698743;
+//        db.progressDao().insertNotes(progressM);
+//
+//    }
+
 
 
     private void checkAudioPermission() {

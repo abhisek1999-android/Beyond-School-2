@@ -45,11 +45,11 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
         holder.tableNumber.setText(list.get(position).table);
         holder.desc1.setText(list.get(position).date);
         holder.desc2.setText("Used at: "+list.get(position).time);
-        holder.desc3.setText("Time taken : "+list.get(position).time_to_complete);
+        holder.desc3.setText(list.get(position).time_to_complete);
         holder.result.setText(list.get(position).correct+"/10");
 
         holder.resultProgress.setMax(10);
-        holder.resultProgress.setProgress(Integer.parseInt(list.get(position).correct));
+        holder.resultProgress.setProgress(list.get(position).correct);
     }
 
     @Override

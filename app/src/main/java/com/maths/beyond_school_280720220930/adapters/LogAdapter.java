@@ -44,9 +44,9 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ProgressViewHold
     @Override
     public void onBindViewHolder(@NonNull ProgressViewHolder holder, int position) {
 
-        holder.desc1.setText(list.get(position).log_id+"");
+        holder.desc1.setText("Time Stamp"+list.get(position).timestamp+"");
         holder.tableNumber.setVisibility(View.GONE);
-        holder.desc1.setVisibility(View.GONE);
+
         holder.desc2.setText(list.get(position).log_content);
         holder.desc3.setVisibility(View.GONE);
         holder.result.setVisibility(View.GONE);

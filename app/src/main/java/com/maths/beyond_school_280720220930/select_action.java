@@ -87,6 +87,7 @@ public class select_action extends AppCompatActivity {
                 intent2.putExtra("ValueOfTable",TableValue);
                 intent2.putExtra("status","tablewithouthint");
                 startActivity(intent2);
+                finish();
             }
         });
         RandomTable.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +97,7 @@ public class select_action extends AppCompatActivity {
                 intent3.putExtra("ValueOfTable",TableValue);
                 intent3.putExtra("visibility","gone");
                 startActivity(intent3);
+                finish();
             }
         });
         practice.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +107,7 @@ public class select_action extends AppCompatActivity {
                 intent3.putExtra("ValueOfTable",TableValue);
                 intent3.putExtra("visibility","");
                 startActivity(intent3);
+                finish();
             }
         });
         /*resume_last.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +144,19 @@ public class select_action extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent3=new Intent(select_action.this,MainActivity.class);
+                startActivity(intent3);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent3=new Intent(select_action.this,MainActivity.class);
+        startActivity(intent3);
+        finish();
+        super.onBackPressed();
     }
 }
