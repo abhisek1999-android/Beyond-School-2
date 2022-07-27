@@ -34,6 +34,7 @@ drawable dot_line
 drawable home
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
+drawable ic_baseline_close_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -76,6 +77,7 @@ font poppins
 font poppins_ight
 font reemkufi_medium
 id ShowTable
+id action_log
 id animationVoice
 id barChart
 id bunny
@@ -85,6 +87,7 @@ id button3
 id button4
 id button5
 id button6
+<<<<<<< HEAD
 id button7
 id cancelalarmbtn
 id card
@@ -93,6 +96,9 @@ id cardView2
 id cardView3
 id certify
 id clock
+=======
+id closeButton
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
 id confirmpass
 id descriptionTextView
 id descriptionTextView1
@@ -116,6 +122,7 @@ id layout_set
 id linearLayout
 id linearLayout2
 id logCard
+id logRecyclerView
 id logTextView
 id login
 id logincard
@@ -140,6 +147,7 @@ id questionProgress
 id recyler
 id restart
 id result
+id resultText
 id retry
 id right
 id score
@@ -168,8 +176,12 @@ id textView30
 id textView31
 id textView32
 id textView36
+<<<<<<< HEAD
 id textView4
 id textView5
+=======
+id title
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
 id titleText
 id tool
 id toolBar
@@ -180,6 +192,7 @@ id username
 id wrong
 layout activity_alarm_at_time
 layout activity_dash_board
+layout activity_log
 layout activity_login_signup
 layout activity_main
 layout activity_score
@@ -190,7 +203,11 @@ layout activity_table_with_hint
 layout activity_test
 layout drawer_header
 layout log_bottom_sheet
+<<<<<<< HEAD
 layout navigation_layout
+=======
+layout log_dialog
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
 layout progress_card_layout
 layout result_display
 layout seekbar_dialog
@@ -200,6 +217,7 @@ layout text_sample_bg
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+menu log_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 raw green_blinking_dott

@@ -11,20 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.database.log.Log;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 
 import java.util.List;
 
-public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ProgressViewHolder>{
+public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ProgressViewHolder>{
 
-    List<ProgressM> list ;
+    List<Log> list ;
     Context context;
 
-    public ProgressAdapter(Context context) {
+    public LogAdapter(Context context) {
         this.context = context;
     }
 
-    public void setNotesList(List<ProgressM> list){
+    public void setNotesList(List<Log> list){
 
         this.list=list;
         notifyDataSetChanged();
@@ -35,21 +36,24 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
     public ProgressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.progress_card_layout,parent, false);
-        ProgressAdapter.ProgressViewHolder progressViewHolder=new ProgressAdapter.ProgressViewHolder(view);
+        LogAdapter.ProgressViewHolder progressViewHolder=new LogAdapter.ProgressViewHolder(view);
         return progressViewHolder;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProgressViewHolder holder, int position) {
-        holder.tableNumber.setText(list.get(position).table);
-        holder.desc1.setText(list.get(position).date);
-        holder.desc2.setText("Used at: "+list.get(position).time);
-        holder.desc3.setText("Time taken : "+list.get(position).time_to_complete);
-        holder.result.setText(list.get(position).correct+"/10");
 
-        holder.resultProgress.setMax(10);
-        holder.resultProgress.setProgress(Integer.parseInt(list.get(position).correct));
+        holder.desc1.setText(list.get(position).log_id+"");
+        holder.tableNumber.setVisibility(View.GONE);
+        holder.desc1.setVisibility(View.GONE);
+        holder.desc2.setText(list.get(position).log_content);
+        holder.desc3.setVisibility(View.GONE);
+        holder.result.setVisibility(View.GONE);
+
+        holder.resultProgress.setVisibility(View.GONE);;
+
+
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
 
     protected class ProgressViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tableNumber,desc1,desc2,desc3,result;
+        TextView tableNumber,desc1,desc2,desc3,result,tableText,resultText;
         ProgressBar resultProgress;
         View mView;
         public ProgressViewHolder(@NonNull View itemView) {
@@ -73,8 +77,11 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
            desc3=mView.findViewById(R.id.descriptionTextView3);
            result=mView.findViewById(R.id.result);
            resultProgress=mView.findViewById(R.id.progressResult);
+            tableText=mView.findViewById(R.id.tableText);
+            resultText=mView.findViewById(R.id.resultText);
 
-
+            tableText.setVisibility(View.GONE);
+            resultText.setVisibility(View.GONE);
 
         }
     }

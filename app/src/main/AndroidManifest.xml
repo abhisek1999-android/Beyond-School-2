@@ -31,10 +31,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+<<<<<<< HEAD
             android:name=".SplashScreen"
             android:exported="false" />
         <activity
             android:name=".AlarmAtTime"
+=======
+            android:name=".LogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,7 +77,10 @@
         <service
             android:name=".ClearService"
             android:stopWithTask="false" />
+<<<<<<< HEAD
         <receiver android:name=".model.AlarmReceiver"/>
+=======
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     </application>
 
 </manifest>

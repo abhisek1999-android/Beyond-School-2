@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\font_anton.ttf.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\font\\anton.ttf"
     },
@@ -10,6 +11,18 @@
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_select_card_layout.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\select_card_layout.xml"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_roundbar.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\roundbar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\raw_green_blinking_dott.json.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\raw\\green_blinking_dott.json"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_arrow_back_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_arrow_back_24.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\font_abril_fatface.xml.flat",
@@ -24,6 +37,7 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\play_button.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_logo_final.png.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\logo_final.png"
     },
@@ -38,14 +52,35 @@
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_toolbar_dashboard.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\toolbar_dashboard.xml"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_select_option_ct.png.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\select_option_ct.png"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_table_with_hint.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_with_hint.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher_round.webp.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.webp"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_splash_screen.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_play_circle_outline_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_play_circle_outline_24.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_background_fill.xml.flat",
@@ -156,8 +191,17 @@
         "source": "D:\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_mic_24.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_mic_24.xml"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\menu_log_menu.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\menu\\log_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_replay_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_replay_24.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_cartoon_image_1.png.flat",
@@ -188,8 +232,17 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_replay_24.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_round.webp.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_log_dialog.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\log_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_background_round.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\background_round.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_pause_circle_outline_24.xml.flat",
@@ -240,6 +293,7 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\xml\\config.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_dash_board.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_dash_board.xml"
     },
@@ -374,5 +428,17 @@
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_splash_screen.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
+=======
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_close_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_close_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_access_time_filled_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_access_time_filled_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_log.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_log.xml"
+>>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
     }
 ]

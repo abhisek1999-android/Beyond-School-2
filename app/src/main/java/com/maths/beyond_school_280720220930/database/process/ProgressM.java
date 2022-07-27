@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.database;
+package com.maths.beyond_school_280720220930.database.process;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

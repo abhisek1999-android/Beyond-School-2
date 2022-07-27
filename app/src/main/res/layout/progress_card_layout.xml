@@ -34,12 +34,12 @@
                 android:id="@+id/tableText"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/numberTextView"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:text="Table"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/numberTextView"
                 tools:ignore="TextContrastCheck" />
 
 
@@ -107,17 +107,19 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="10/10" />
+
                 <TextView
+
+                    android:id="@+id/resultText"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_below="@id/progressResult"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="Result"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    />
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Result"
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 

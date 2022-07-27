@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -32,12 +36,14 @@ import android.widget.ToggleButton;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -72,6 +78,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     TextView titleText;
     FirebaseAnalytics mFirebaseAnalytics;
     Bundle resultBundle;
+    Date start;
+    Date end;
+    Toolbar toolbar;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +91,10 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         back = findViewById(R.id.imageView4);
         card = findViewById(R.id.ShowTable);
         pause_play = findViewById(R.id.playPause);
+
+        toolbar = (Toolbar)findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
         Table = findViewById(R.id.textView26);
         question_count = findViewById(R.id.textView22);
         bunnyImage=findViewById(R.id.bunny);
@@ -200,6 +213,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 }
             }
         });
+        logPadController();
     }
 
 
@@ -208,6 +222,29 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         super.onStart();
         Log.i("OnStart", "OnStart");
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.log_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_log:
+                startActivity(new Intent(getApplicationContext(),LogActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -227,6 +264,8 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
         }
     }
+
+
 
     public void ReadFullTable(int TableValue) throws InterruptedException {
         //recognizeVoice.startListening();
@@ -360,9 +399,20 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
        // amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         //progressBar.setVisibility(View.INVISIBLE);
 
+        if (!logTextView.getText().toString().equals("LOG"))
+            addData();
 //        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity", "onPause");
+
+    }
+
+    private void addData() {
+
+        LogDatabase db=LogDatabase.getDbInstance(this.getApplicationContext());
+        com.maths.beyond_school_280720220930.database.log.Log logInfo=new com.maths.beyond_school_280720220930.database.log.Log();
+        logInfo.log_content=logTextView.getText().toString();
+        db.logDao().insertNotes(logInfo);
 
     }
 
@@ -446,14 +496,21 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         try {
             if (lcsResult) {
 
-                sendAnalyticsData(result+"",title,"correct");
+                end=new Date();
+                long diff = end.getTime() - start.getTime();
+                logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+
+                sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
                 rtans++;
                 readText.read("CORRECT");
                 right_ans.setText(String.valueOf(rtans));
             }
 
             else {
-                sendAnalyticsData(result+"",title,"in_correct");
+                end=new Date();
+                long diff = end.getTime() - start.getTime();
+                logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
                 wrans++;
                 readText.read("INCORRECT, Correct is " + result);
                 wrong_ans.setText(String.valueOf(wrans));
@@ -461,7 +518,10 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
         } catch (Exception e) {
             e.printStackTrace();
-            sendAnalyticsData(result+"",title,"in_correct");
+            end=new Date();
+            long diff = end.getTime() - start.getTime();
+            logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+            sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
             readText.read("INCORRECT, Correct is " + result);
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
@@ -658,6 +718,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                     muteAudioStream();
                     recognizeVoice.startListening();
                     mic.setVisibility(View.VISIBLE);
+                    start=new Date();
                 }
 
             }
@@ -668,11 +729,12 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         return ((int) (Math.random()*(maximum - minimum))) + minimum;
     }
 
-    public void sendAnalyticsData(String result,String detected,String tag){
+    public void sendAnalyticsData(String result,String detected,String tag,String timeTaken){
 
         resultBundle.putString("original_result",result);
         resultBundle.putString("detected_result",detected);
         resultBundle.putString("tag",tag);
+        resultBundle.putString("timeTaken",timeTaken);
         mFirebaseAnalytics.logEvent("result_verification",resultBundle);
 
     }
