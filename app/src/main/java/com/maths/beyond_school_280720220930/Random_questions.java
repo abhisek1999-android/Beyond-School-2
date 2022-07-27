@@ -466,6 +466,13 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
         }
+        if (count>10){
+            Intent intent=new Intent(Random_questions.this,ScoreActivity.class);
+            intent.putExtra("score",rtans);
+            intent.putExtra("tname",TableValue);
+            startActivity(intent);
+            finish();
+        }
 
 
         Handler handler = new Handler();

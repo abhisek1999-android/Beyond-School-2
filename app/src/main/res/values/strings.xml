@@ -37,4 +37,6 @@
 
 
     </string-array>
+    <string name="start">Start</string>
+    <string name="close">Close</string>
 </resources>

@@ -1,7 +1,13 @@
 package com.maths.beyond_school_280720220930;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,15 +15,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class select_action extends AppCompatActivity {
-    ImageView back;
+import com.google.android.material.navigation.NavigationView;
+import com.maths.beyond_school_280720220930.adapters.NavTableAdapter;
+import com.maths.beyond_school_280720220930.model.table_values;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class select_action extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    ImageView nav;
     CardView resume_last,practice;
     TextView titleText;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
+    RecyclerView recycler;
+    List<table_values> list=new ArrayList<>();
+    NavTableAdapter mAdapter;
 
     CardView TableWithHint,TableWithoutHint,RandomTable;
 
@@ -37,14 +59,18 @@ public class select_action extends AppCompatActivity {
         setContentView(R.layout.activity_select_action);
         //temporary for developing
         //tableName=findViewById(R.id.tableName);
-        back=findViewById(R.id.imageView4);
+        nav=findViewById(R.id.imageView4);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
         titleText=findViewById(R.id.titleText);
         RandomTable=findViewById(R.id.button7);
         //resume_last=findViewById(R.id.button5);
         practice=findViewById(R.id.button6);
+        drawerLayout=findViewById(R.id.drawerLayout);
+        navigationView=findViewById(R.id.navigation_view);
+        recycler=findViewById(R.id.recyler);
         Intent intent=getIntent();
+        nav.setImageResource(R.drawable.ic_nav);
 
         /*resume_last.setTranslationX(-800);
         resume_last.setAlpha(1);*/
@@ -68,6 +94,41 @@ public class select_action extends AppCompatActivity {
         titleText.setTextSize(20);
 
         sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        //setting drawer
+            toggle=new ActionBarDrawerToggle(this,drawerLayout,null,R.string.start,R.string.close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+
+            //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            list.add(new table_values(2,"Two(02)"));
+            list.add(new table_values(3,"Three(03)"));
+            list.add(new table_values(4,"Four(04)"));
+            list.add(new table_values(5,"Five(05)"));
+            list.add(new table_values(6,"Six(06)"));
+            list.add(new table_values(7,"Seven(07)"));
+            list.add(new table_values(8,"Eight(08)"));
+            list.add(new table_values(9,"Nine(09)"));
+            list.add(new table_values(10,"Ten(10)"));
+            list.add(new table_values(11,"Eleven(11)"));
+            list.add(new table_values(12,"Twelve(12)"));
+            list.add(new table_values(13,"Thirteen(13)"));
+            list.add(new table_values(14,"Fourteen(14)"));
+            list.add(new table_values(15,"Fifteen(15)"));
+            list.add(new table_values(16,"Sixteen(16)"));
+            list.add(new table_values(17,"Seventeen(17)"));
+            list.add(new table_values(18,"Eighteen(18)"));
+            list.add(new table_values(19,"Nineteen(19)"));
+            list.add(new table_values(20,"Twenty(20)"));
+        mAdapter = new NavTableAdapter(list,select_action.this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(mLayoutManager);
+        recycler.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
 
         //tableName.setText(String.format("%02d", TableValue)+"");
         TableWithHint.setOnClickListener(new View.OnClickListener() {
@@ -138,11 +199,23 @@ public class select_action extends AppCompatActivity {
                 }
             }
         });*/
-        back.setOnClickListener(new View.OnClickListener() {
+        nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                //finish();
+                try {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(select_action.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 }

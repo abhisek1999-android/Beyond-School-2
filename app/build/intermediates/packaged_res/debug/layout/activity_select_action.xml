@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
     tools:context=".table_questions">
-
-    <include
-        android:id="@+id/toolBar"
-        layout="@layout/tool_bar_layout_back_button"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolBar"
+            layout="@layout/tool_bar_layout_back_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
     <!--    <RelativeLayout
@@ -79,7 +83,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        android:background="@drawable/cartoon_action_page"
         android:foregroundGravity="center">
 
         <LinearLayout
@@ -87,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="false"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
 
@@ -300,7 +303,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="1"
                 android:clickable="true"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp">
@@ -400,4 +402,19 @@
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+    </RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:itemTextAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="MissingConstraints">
+        <include
+            android:id="@+id/tool"
+            layout="@layout/navigation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -38,6 +38,7 @@ public class ScoreActivity extends AppCompatActivity {
             tname=getIntent().getIntExtra("tname",0);
             //Toast.makeText(this, ""+score_val, Toast.LENGTH_SHORT).show();
             score.setText(score_val+" / 10");
+
             if (score_val<10) {
                 right.setText("0" + String.valueOf(score_val));
             }else{
