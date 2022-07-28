@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AnalogClock;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -24,7 +26,9 @@ import com.maths.beyond_school_280720220930.model.AlarmReceiver;
 import java.util.Calendar;
 
 public class AlarmAtTime extends AppCompatActivity {
-    TextView selectalarm,cancelalarm,setalarm,selectedTime;
+    TextView selectedTime,titletext;
+    ImageView back;
+    CardView selectalarm,cancelalarm,setalarm;
     MaterialTimePicker timePicker;
     Calendar calendar;
     AlarmManager alarmManager;
@@ -40,8 +44,11 @@ public class AlarmAtTime extends AppCompatActivity {
         cancelalarm=findViewById(R.id.cancelalarmbtn);
         setalarm=findViewById(R.id.setalarmbtn);
         clock=findViewById(R.id.clock);
+        titletext=findViewById(R.id.titleText);
+        back=findViewById(R.id.imageView4);
 
         createNotificationChannel();
+        titletext.setText("Set Reminder");
 
         selectalarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +68,13 @@ public class AlarmAtTime extends AppCompatActivity {
                 cancelAlarm();
             }
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void cancelAlarm() {
@@ -127,5 +141,13 @@ public class AlarmAtTime extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(AlarmAtTime.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

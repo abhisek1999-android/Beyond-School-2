@@ -2582,6 +2582,7 @@ drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
 drawable ic_menu
+drawable ic_menu2
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
@@ -2590,6 +2591,8 @@ drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
+drawable ic_right
+drawable ic_wrong
 drawable idea
 drawable kid2
 drawable kididea
@@ -2648,6 +2651,7 @@ drawable test
 drawable test2
 drawable test_custom_background
 drawable test_level_drawable
+drawable timer
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable tv_bac
@@ -2832,6 +2836,7 @@ id custom
 id customPanel
 id cut
 id dark
+id dash
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2867,6 +2872,7 @@ id dragRight
 id dragStart
 id dragUp
 id drawerLayout
+id drawerLayout2
 id dropdown_editable
 id dropdown_menu
 id dropdown_noneditable
@@ -3038,6 +3044,7 @@ id navigation_bar_item_large_label_view
 id navigation_bar_item_small_label_view
 id navigation_header_container
 id navigation_view
+id navigation_view2
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
@@ -3089,6 +3096,7 @@ id radio
 id ratio
 id rectangles
 id recyler
+id remind
 id restart
 id result
 id resultText
@@ -3446,6 +3454,7 @@ layout mtrl_picker_header_title_text
 layout mtrl_picker_header_toggle
 layout mtrl_picker_text_input_date
 layout mtrl_picker_text_input_date_range
+layout nav_drawer2
 layout navigation_layout
 layout notification_action
 layout notification_action_tombstone

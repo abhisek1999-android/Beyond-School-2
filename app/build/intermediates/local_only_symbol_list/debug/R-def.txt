@@ -48,10 +48,13 @@ drawable ic_home1
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_menu
+drawable ic_menu2
 drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
+drawable ic_right
+drawable ic_wrong
 drawable idea
 drawable kid2
 drawable kididea
@@ -67,6 +70,7 @@ drawable score_icon
 drawable select_option_ct
 drawable test
 drawable test2
+drawable timer
 drawable tv_bac
 drawable tv_shape
 font abril_fatface
@@ -87,7 +91,6 @@ id button3
 id button4
 id button5
 id button6
-<<<<<<< HEAD
 id button7
 id cancelalarmbtn
 id card
@@ -96,10 +99,9 @@ id cardView2
 id cardView3
 id certify
 id clock
-=======
 id closeButton
->>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
 id confirmpass
+id dash
 id descriptionTextView
 id descriptionTextView1
 id descriptionTextView2
@@ -107,6 +109,7 @@ id descriptionTextView3
 id dialPadLayout
 id displayresulttext
 id drawerLayout
+id drawerLayout2
 id employeeId
 id greetingsTime
 id home
@@ -130,6 +133,7 @@ id logo
 id mainButton
 id menu
 id navigation_view
+id navigation_view2
 id nextbtn
 id num
 id numberTextView
@@ -145,6 +149,7 @@ id progressresult
 id questionLayout
 id questionProgress
 id recyler
+id remind
 id restart
 id result
 id resultText
@@ -176,12 +181,9 @@ id textView30
 id textView31
 id textView32
 id textView36
-<<<<<<< HEAD
 id textView4
 id textView5
-=======
 id title
->>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
 id titleText
 id tool
 id toolBar
@@ -203,11 +205,9 @@ layout activity_table_with_hint
 layout activity_test
 layout drawer_header
 layout log_bottom_sheet
-<<<<<<< HEAD
-layout navigation_layout
-=======
 layout log_dialog
->>>>>>> 2e5bd429792a493dd2388bd88d39fdf7c71eee09
+layout nav_drawer2
+layout navigation_layout
 layout progress_card_layout
 layout result_display
 layout seekbar_dialog

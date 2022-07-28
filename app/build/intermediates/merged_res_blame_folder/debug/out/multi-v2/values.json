@@ -370,10 +370,10 @@
                     "from": {
                         "startLines": "2,17,1,40,39",
                         "startColumns": "4,4,4,4,4",
-                        "startOffsets": "67,459,16,1015,975",
+                        "startOffsets": "69,476,17,1055,1014",
                         "endLines": "16,38,1,40,39",
                         "endColumns": "19,19,50,39,39",
-                        "endOffsets": "454,970,62,1050,1010"
+                        "endOffsets": "470,1008,63,1090,1049"
                     },
                     "to": {
                         "startLines": "16,31,1675,1684,1799",
