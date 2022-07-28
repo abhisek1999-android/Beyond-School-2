@@ -153,14 +153,23 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     counter = 1;
                 }
                 else if (counter==1){
+
                     Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_play_circle_outline_24));
+
+
+                    nManager.cancelAll();
+                    Pause_Play.setEnabled(false);
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Pause_Play.setEnabled(true);
                     readText.textToSpeech.stop();
                     IsRunning=false;
                     count--;
                     counter=0;
                     test=1;
-
-                    nManager.cancelAll();
                 }
 
             }
@@ -305,7 +314,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                 speakingForQues=true;
             }
         };
-        handler.postDelayed(r, 1800);
+        handler.postDelayed(r, 2000);
 
 
     }

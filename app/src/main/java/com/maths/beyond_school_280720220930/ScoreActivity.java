@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class ScoreActivity extends AppCompatActivity {
     TextView score,certify, head,right,wrong;
     CardView replay,next,home;
     ImageView back;
+    ProgressBar progressBar;
 
     int score_val=0,tname=2,wrans=0;
     @Override
@@ -32,11 +34,17 @@ public class ScoreActivity extends AppCompatActivity {
         wrong=findViewById(R.id.wrong);
         home=findViewById(R.id.home);
         back=findViewById(R.id.imageView4);
+        progressBar=findViewById(R.id.progressBar);
 
             head.setText("Score Card");
             score_val=getIntent().getIntExtra("score",0);
             tname=getIntent().getIntExtra("tname",0);
             //Toast.makeText(this, ""+score_val, Toast.LENGTH_SHORT).show();
+
+
+            progressBar.setMax(10);
+            progressBar.setProgress(score_val);
+            back.setVisibility(View.GONE);
             score.setText(score_val+" / 10");
 
             if (score_val<10) {
@@ -56,6 +64,7 @@ public class ScoreActivity extends AppCompatActivity {
                 next.setVisibility(View.GONE);
                 certify.setText("Don't worry,You Tried your best. Revise the Table and give it one more try");
             }
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +90,8 @@ public class ScoreActivity extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ScoreActivity.this,MainActivity.class);
+                Intent intent=new Intent(ScoreActivity.this,select_action.class);
+                intent.putExtra("value",tname);
                 startActivity(intent);
                 finish();
             }

@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.adapters;
 
 import android.annotation.SuppressLint;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -69,6 +70,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
                 intent.putExtra("value",Integer.parseInt(list.get(position).getDigit()));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                ((Activity)context).finish();
 
             });
 

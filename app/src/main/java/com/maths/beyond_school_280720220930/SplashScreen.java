@@ -56,6 +56,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
 
+
         button.setOnClickListener(view -> {
 
             Toast.makeText(this, "xxx", Toast.LENGTH_SHORT).show();
