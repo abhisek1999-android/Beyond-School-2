@@ -86,19 +86,24 @@
         <item name="cornerSize">50%</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        
+        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        
+        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        
+        <!-- Status bar color. -->
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        
+        <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
+    </style>
+    <style name="background" parent="CardView">
+
+        <item name="backgroundColor">@color/tp_white</item>
+
     </style>
     <style name="card_background" parent="CardView">
 

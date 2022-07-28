@@ -34,6 +34,7 @@ drawable dot_line
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_close_24
+drawable ic_baseline_delete_24
 drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
@@ -96,8 +97,10 @@ id cardView3
 id certify
 id clock
 id closeButton
+id completeLayout
 id confirmpass
 id dash
+id deleteButton
 id descriptionTextView
 id descriptionTextView1
 id descriptionTextView2
@@ -111,6 +114,7 @@ id filterBy
 id greetingsTime
 id hiTextView
 id home
+id image
 id image1
 id image3
 id image4
@@ -127,6 +131,7 @@ id linearLayout
 id linearLayout2
 id logCard
 id logRecyclerView
+id logSwitch
 id logTextView
 id login
 id logincard
@@ -137,6 +142,7 @@ id navigation_view
 id navigation_view2
 id next
 id nextbtn
+id noData
 id noDataText
 id num
 id numberTextView
@@ -152,6 +158,7 @@ id progressResult
 id progressresult
 id questionLayout
 id questionProgress
+id rLayout
 id recyler
 id remind
 id restart
@@ -210,6 +217,7 @@ layout activity_login_signup
 layout activity_main
 layout activity_score
 layout activity_select_action
+layout activity_settings
 layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
@@ -247,5 +255,6 @@ string start
 style Button4
 style Button5
 style Theme.BEYOND_SCHOOL
+style background
 style card_background
 xml config

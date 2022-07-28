@@ -45,6 +45,7 @@ import android.widget.ToggleButton;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
@@ -244,7 +245,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_log:
+                if (PrefConfig.readIdInPref(getApplicationContext(),"IS_LOG_ENABLE").equals("true")){
                 startActivity(new Intent(getApplicationContext(),LogActivity.class));
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -318,35 +321,40 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     private void logPadController() {
 
-        bunnyImage.setOnClickListener(v -> {
-
-            if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-            } else {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-
-        });
 
 
+        if (PrefConfig.readIdInPref(getApplicationContext(),"IS_LOG_ENABLE").equals("true")){
+            bunnyImage.setOnClickListener(v -> {
 
+                if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-        // doing some stuffs when bottom sheet is opening or closing like roatting button icon............................
-        mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                } else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+            });
 
 
 
-            }
 
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            // doing some stuffs when bottom sheet is opening or closing like roatting button icon............................
+            mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
 
 
-            }
-        });
+
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+
+                }
+            });
+        }
+
 
 
     }
@@ -521,7 +529,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
             ProgressM progressM=new ProgressM();
             progressM.correct=rtans;
-            progressM.time_to_complete=new UtilityFunctions().formatTime(diff);
+            progressM.time_to_complete=diff;
             progressM.wrong=wrans;
             progressM.time=timeFormatter.format(date)+"";
             progressM.is_completed="Yes";

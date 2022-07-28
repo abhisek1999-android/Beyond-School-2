@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +11,13 @@ import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -22,16 +25,23 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.model.GradientColor;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.maths.beyond_school_280720220930.adapters.ProgressAdapter;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
+import com.maths.beyond_school_280720220930.extras.IntegerFormatter;
 import com.maths.beyond_school_280720220930.model.Progress;
 import com.maths.beyond_school_280720220930.model.ProgressDate;
+import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,16 +51,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class DashBoardActivity extends AppCompatActivity {
+public class DashBoardActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     BarChart barChart;
-    TextView titleText,totalQuestion,totalCorrect,totalWrong,tTotalQuestion,tTotalCorrect,tTotalWrong,noDataText;
+    TextView titleText,totalQuestion,totalCorrect,totalWrong,tTotalQuestion,tTotalCorrect,tTotalWrong,noDataText,noData;
     RecyclerView progressRecyclerView;
     private ProgressAdapter progressAdapter;
+    NestedScrollView completeLayout;
     private List<Progress> progressList;
     Typeface typeface;
     TextView filter;
     List<ProgressDate> progressByDates;
+    List<ProgressTableWise> listTableWise;
     long totalQ=0,totalW=0,totalC=0,tTotalQ=0,tTotalW=0,tTotalC=0;
     ImageView back;
     ProgressBar tProgress;
@@ -72,12 +84,15 @@ public class DashBoardActivity extends AppCompatActivity {
 
         tProgress=findViewById(R.id.tProgressResult);
 
+        completeLayout=findViewById(R.id.completeLayout);
+
         tTotalQuestion=findViewById(R.id.tQuestions);
         tTotalCorrect=findViewById(R.id.tCorrect);
         tTotalWrong=findViewById(R.id.tWrong);
 
         filter=findViewById(R.id.filterBy);
         noDataText=findViewById(R.id.noDataText);
+        noData=findViewById(R.id.noData);
 
         progressRecyclerView = findViewById(R.id.progressReport);
 
@@ -95,6 +110,10 @@ public class DashBoardActivity extends AppCompatActivity {
         // scaling can now only be done on x- and y-axis separately
         barChart.setPinchZoom(false);
         barChart.setDrawGridBackground(true);
+        barChart.setTouchEnabled(true);
+        barChart.setDragEnabled(true);
+
+
         Legend l = barChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
@@ -106,12 +125,16 @@ public class DashBoardActivity extends AppCompatActivity {
         l.setTypeface(typeface);
         l.setXEntrySpace(4f);
 
+
+
+        barChart.setOnChartValueSelectedListener(this);
+
         progressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         progressAdapter = new ProgressAdapter(getApplicationContext());
         progressRecyclerView.setAdapter(progressAdapter);
 
-        loadNoteList();
         getSumOfCorrect();
+        loadNoteList();
 
 
         setData(7, 60);
@@ -159,9 +182,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
         });
 
-
-
-
     }
 
 
@@ -207,8 +227,6 @@ public class DashBoardActivity extends AppCompatActivity {
         tProgress.setMax((int)tTotalQ);
         tProgress.setProgress((int)tTotalC);
 
-
-
     }
 
 
@@ -223,6 +241,37 @@ public class DashBoardActivity extends AppCompatActivity {
             noDataText.setVisibility(View.GONE);
         Log.i("List", notesList + "");
         progressAdapter.setNotesList(notesList);
+
+    }
+
+
+    private void loadTableScoreByDate(String date) {
+
+        ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
+        List<ProgressTableWise> notesList = db.progressDao().getSumOFTableDataByDate(date);
+
+        tTotalC=0;
+        tTotalW=0;
+        tTotalQ=0;
+
+        for (int i=0;i<notesList.size();i++){
+        tTotalQ=tTotalQ+notesList.get(i).getTotal_correct()+notesList.get(i).getTotal_wrong();
+        tTotalW=tTotalW+notesList.get(i).getTotal_wrong();
+        tTotalC=tTotalC+notesList.get(i).getTotal_correct();
+        }
+
+        tTotalQuestion.setText(tTotalQ+"");
+        tTotalCorrect.setText(tTotalC+"");
+        tTotalWrong.setText(tTotalW+"");
+        tProgress.setMax((int)tTotalQ);
+        tProgress.setProgress((int)tTotalC);
+
+       if (notesList.size()==0)
+            noDataText.setVisibility(View.VISIBLE);
+        else
+            noDataText.setVisibility(View.GONE);
+        Log.i("ListSUMTABLE", notesList + "");
+        progressAdapter.setNotesList(notesList,"28/07/2022");
 
     }
 
@@ -244,11 +293,8 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
     private void getSumOfCorrect() {
-
         ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
         progressByDates = db.progressDao().getSumOFData();
-
-
     }
 
 
@@ -268,15 +314,25 @@ public class DashBoardActivity extends AppCompatActivity {
         float start = 1f;
         ArrayList<BarEntry> values = new ArrayList<>();
 
-        for (int i=0;i<7;i++){
+        if (progressByDates.size()>0){
+            noData.setVisibility(View.GONE);
+            completeLayout.setVisibility(View.VISIBLE);
+            for (int i=0;i<7;i++){
 
-            try{
-                values.add(new BarEntry(i+1, progressByDates.get(i).getTotal_correct()+progressByDates.get(i).getTotal_wrong()));
-            }catch (Exception e){
-                values.add(new BarEntry(i+1, 0));
+                try{
+                    values.add(new BarEntry(i+1, progressByDates.get(i).getTotal_correct()+progressByDates.get(i).getTotal_wrong()));
+                }catch (Exception e){
+                    values.add(new BarEntry(i+1, 0));
+                }
+
             }
-
         }
+        else{
+            noData.setVisibility(View.VISIBLE);
+            completeLayout.setVisibility(View.GONE);
+        }
+
+
 
         BarDataSet set1;
         if (barChart.getData() != null &&
@@ -303,12 +359,32 @@ public class DashBoardActivity extends AppCompatActivity {
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
 
+            data.setValueFormatter(new IntegerFormatter());
             data.setValueTypeface(typeface);
             data.setBarWidth(0.9f);
             barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(year));
             barChart.animateY(1500);
             barChart.setData(data);
         }
+    }
+
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+
+        try{
+            loadTableScoreByDate(progressByDates.get((int)e.getX()-1).getDate());
+        }catch (Exception e1){
+            loadTableScoreByDate("dddddd");
+        }
+
+       // Toast.makeText(this, e.getY()+","+e.getX(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }
 

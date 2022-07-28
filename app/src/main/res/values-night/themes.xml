@@ -19,4 +19,9 @@
         <item name="cardBackgroundColor">@color/tp_black</item>
 
     </style>
+    <style name="background" parent="CardView">
+
+        <item name="backgroundColor">@color/black</item>
+
+    </style>
 </resources>

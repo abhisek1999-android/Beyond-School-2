@@ -31,8 +31,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AlarmAtTime"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".LogActivity"
             android:exported="false" />
@@ -51,8 +54,7 @@
         <activity
             android:name=".DashBoardActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".TestActivity"
             android:exported="true" />
@@ -61,8 +63,8 @@
             android:exported="true" />
         <activity
             android:name=".select_action"
-            android:parentActivityName=".MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".table_questions"
             android:exported="true"
@@ -74,12 +76,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:showOnLockScreen="true"></activity>
+            android:showOnLockScreen="true" />
 
         <service
             android:name=".ClearService"
             android:stopWithTask="false" />
-        <receiver android:name=".model.AlarmReceiver"/>
+
+        <receiver android:name=".model.AlarmReceiver" />
     </application>
 
 </manifest>

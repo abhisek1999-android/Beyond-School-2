@@ -22,4 +22,10 @@
         <item name="cardBackgroundColor">@color/tp_white</item>
 
     </style>
+
+    <style name="background" parent="CardView">
+
+        <item name="backgroundColor">@color/tp_white</item>
+
+    </style>
 </resources>
