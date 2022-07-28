@@ -5,19 +5,16 @@ import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,13 +24,8 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -41,32 +33,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.maths.beyond_school_280720220930.database.log.LogDatabase;
-import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
-import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class table_questions extends AppCompatActivity implements RecognizeVoice.GetResult, ReadText.GetResultSpeech {
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    private static final String SHARED_PREF_NAME = "beyond";
+    private static final String KEY_MULTIPLICANT = "multiplicant";
+
     ImageView back;
     ToggleButton pause_play;
     CardView card;
     TextView Table, right_ans, wrong_ans, question_count, ans;
-    int counter, count = 1, TableValue, rtans = 0, wrans = 0;
-    public  int result=0, time = 500;
+    int counter, count, TableValue, rtans, wrans;
+    public int result = 0, time = 500;
     String ToSet, set;
     LinearLayout layout;
     CountDownTimer countDownTimer;
@@ -79,19 +67,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     LottieAnimationView mic;
     AudioManager amanager;
     NotificationManager nManager;
-    TextView titleText,logTextView;
-    private CardView logPad;
-    int repeatRec=0;
+    TextView titleText;
+    int repeatRec = 0;
     TextView tapInfoText;
-    ImageView bunnyImage;
-    private BottomSheetBehavior mBottomSheetBehavior;
-    FirebaseAnalytics mFirebaseAnalytics;
+    String status;
+
     public static BehaviorSubject<Integer> resultState = BehaviorSubject.create();
-    Bundle resultBundle;
-    Toolbar toolbar;
-    Date start;
-    Date end;
-    Date timeStamp;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -101,21 +82,21 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
         Context mContext = getApplicationContext();
         PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
+        final PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "motionDetection:keepAwake");
         wakeLock.acquire();
 
-
-        toolbar = (Toolbar)findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-
-
-        mFirebaseAnalytics=FirebaseAnalytics.getInstance(mContext);
-        resultBundle=new Bundle();
 
         resultState.onNext(result);
         nManager = ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class));
         Intent intent = getIntent();
+        count = intent.getIntExtra("count", 1);
         TableValue = intent.getIntExtra("ValueOfTable", 0);
+        status = intent.getStringExtra("status");
+        rtans = intent.getIntExtra("right", 0);
+        wrans = intent.getIntExtra("wrong", 0);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         back = findViewById(R.id.imageView4);
         card = findViewById(R.id.ShowTable);
         pause_play = findViewById(R.id.playPause);
@@ -126,22 +107,16 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         layout = findViewById(R.id.layout_set);
         ans = findViewById(R.id.textView27);
         right_ans.setText(String.valueOf(rtans));
-        logTextView=findViewById(R.id.logTextView);
-        titleText=findViewById(R.id.titleText);
+        titleText = findViewById(R.id.titleText);
         wrong_ans.setText(String.valueOf(wrans));
-        bunnyImage=findViewById(R.id.bunny);
 //        disposableSpeech=new CompositeDisposable();
         progressBarQuestion = findViewById(R.id.questionProgress);
         progressBarQuestion.setMax(10);
-        tapInfoText=findViewById(R.id.tapInfoTextView);
-        logPad=findViewById(R.id.logCard);
-        mBottomSheetBehavior = BottomSheetBehavior.from(logPad);
+        tapInfoText = findViewById(R.id.tapInfoTextView);
+
         collectdata = findViewById(R.id.textView24);
         collectdata.setVisibility(View.GONE);
         mic = findViewById(R.id.animationVoice);
-//15:23
-
-
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -150,7 +125,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         mic.setVisibility(View.GONE);
 
         amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         recognizeVoice = new RecognizeVoice(table_questions.this, this);
         readText = new ReadText(getApplicationContext(), table_questions.this);
         counter = 0;
@@ -167,36 +141,25 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             tapInfoText.setVisibility(View.GONE);
 
             if (pause_play.isChecked()) {
-
-                timeStamp=new Date();
-              //  progressBar.setVisibility(View.VISIBLE);
+                //  progressBar.setVisibility(View.VISIBLE);
                 if (count > 10)
                     count = 1;
-                if(isActive){
+                if (isActive) {
                     readText.textToSpeech.stop();
                     recognizeVoice.speech.stopListening();
                 }
 
                 isActive = true;
-                muteAudioStream();
-               //amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-                try {
-                    ReadFullTable(TableValue);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+                ReadFullTable(TableValue);
                 counter = 0;
 
-                new StickyNotification(getApplicationContext(),table_questions.class,"Table of "+TableValue+" | without hint").makeNotification();
+                new StickyNotification(getApplicationContext(), table_questions.class, "Table of " + TableValue + " | without hint").makeNotification();
+
 
             }
             if (!pause_play.isChecked()) {
                 pauseAll();
-                try {
-                    unMuteAudioStream();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 nManager.cancelAll();
             }
         });
@@ -210,19 +173,11 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 recognizeVoice.speech.stopListening();
                 readText.textToSpeech.shutdown();
                 isActive = false;
-               // amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-                try {
-                    unMuteAudioStream();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Intent intent=new Intent(table_questions.this,select_action.class);
-                intent.putExtra("value",TableValue);
-                startActivity(intent);
+                amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                //last_status();
                 finish();
             }
         });
-        logPadController();
     }
 
 
@@ -232,80 +187,38 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         Log.i("OnStart", "OnStart");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.log_menu, menu);
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_log:
-                startActivity(new Intent(getApplicationContext(),LogActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-
-    public void unMuteAudioStream() throws InterruptedException {
-        Thread.sleep(500);
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-
-        try{
-            amanager.setStreamMute(AudioManager.STREAM_DTMF, false);
-        }catch (Exception e){}
-      //
-        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
-        amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, false);
-        logTextView.setText(logTextView.getText().toString()+"AudioSate: unMute\n");
-    }
-
-    public void muteAudioStream(){
-        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        try{
-            amanager.setStreamMute(AudioManager.STREAM_DTMF, true);
-        }catch (Exception e){}
-        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
-        amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, true);
-        logTextView.setText(logTextView.getText().toString()+"AudioSate: mute\n");
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         nManager.cancelAll();
-      //  amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-        try {
-            unMuteAudioStream();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         recognizeVoice.speech.stopListening();
         readText.textToSpeech.shutdown();
         isActive = false;
-        Intent intent=new Intent(table_questions.this,select_action.class);
-        intent.putExtra("value",TableValue);
-        startActivity(intent);
+        //last_status();
         finish();
-
 
     }
 
-    public void pauseAll(){
+   /* private void last_status() {
+        if (count < 11) {
+            editor.putInt(KEY_MULTIPLICANT, TableValue);
+            editor.putInt(KEY_MULTIPLIER, count);
+            editor.putString(KEY_STATUS, status);
+            editor.putInt(KEY_RIGHT, rtans);
+            editor.putInt(KEY_WRONG, wrans);
+            editor.apply();
+        } else {
+            editor.clear();
+            editor.apply();
+        }
+    }*/
+
+    public void pauseAll() {
 
         isActive = false;
-      // amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-        try {
-            unMuteAudioStream();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         //   progressBar.setVisibility(View.INVISIBLE);
         pause_play.setChecked(false);
         mic.setVisibility(View.GONE);
@@ -315,45 +228,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     }
 
-
-    private void logPadController() {
-
-        bunnyImage.setOnClickListener(v -> {
-
-            if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-            } else {
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-
-        });
-
-
-
-
-        // doing some stuffs when bottom sheet is opening or closing like roatting button icon............................
-        mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-
-            }
-        });
-
-
-    }
-
-    public void ReadFullTable(int TableValue) throws InterruptedException {
+    public void ReadFullTable(int TableValue) {
         //recognizeVoice.startListening();
-        unMuteAudioStream();
         ans.setText("?");
         Log.i("InActivity", "ReadFullText");
         result = count * TableValue;
@@ -369,7 +245,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 1 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 2: {
@@ -377,7 +252,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 2 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 3: {
@@ -385,7 +259,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 3 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 4: {
@@ -393,7 +266,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 4 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 5: {
@@ -401,7 +273,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 5 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 6: {
@@ -409,7 +280,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 6 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 7: {
@@ -417,7 +287,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 7 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 8: {
@@ -425,7 +294,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 8 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 9: {
@@ -433,7 +301,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 9 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
                 }
                 case 10: {
@@ -441,11 +308,10 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     readText.read(ToSet);
                     set = TableValue + " X 10 = ";
                     Table.setText(set);
-                    logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
-                   pause_play.setEnabled(false);
+                    pause_play.setEnabled(false);
                     break;
                 }
-                case 11:{
+                case 11: {
                     Toast.makeText(this, "11", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -479,60 +345,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         pauseAll();
         super.onPause();
         Log.i("activity", "onPause");
-     //   amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-        try {
-            unMuteAudioStream();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if (!logTextView.getText().toString().equals("LOG"))
-        {
-            addData();
-            addProgressData();
-        }
-
-
-    }
-
-    private void addData() {
-
-        try{
-            LogDatabase db=LogDatabase.getDbInstance(this.getApplicationContext());
-            com.maths.beyond_school_280720220930.database.log.Log logInfo=new com.maths.beyond_school_280720220930.database.log.Log();
-            logInfo.log_content=logTextView.getText().toString();
-            logInfo.timestamp=timeStamp.getTime()+"";
-
-            db.logDao().insertNotes(logInfo);
-        }catch (Exception e){
-
-        }
-
-    }
-
-    private void addProgressData() {
-
-        try{
-            Date date=new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss a");
-
-            long diff = date.getTime() - timeStamp.getTime();
-            ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
-            ProgressM progressM=new ProgressM();
-            progressM.correct=rtans;
-            progressM.time_to_complete=new UtilityFunctions().formatTime(diff);
-            progressM.wrong=wrans;
-            progressM.time=timeFormatter.format(date)+"";
-            progressM.is_completed="Yes";
-            progressM.table=TableValue+"";
-            progressM.date=formatter.format(date)+"";
-            progressM.timestamp=date.getTime();
-            db.progressDao().insertNotes(progressM);
-
-        }catch (Exception e){
-
-        }
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
     }
 
@@ -540,7 +353,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     protected void onResume() {
         super.onResume();
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-       // muteAudioStream();
+    }
+
+    @Override
+    protected void onStop() {
+        //last_status();
+        super.onStop();
     }
 
     @Override
@@ -549,18 +367,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         nManager.cancelAll();
         recognizeVoice.speech.stopListening();
         recognizeVoice.speech.destroy();
-       mic.setVisibility(View.GONE);
-        //amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-        try {
-            unMuteAudioStream();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        mic.setVisibility(View.GONE);
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
-
-
-
-
 
 
     @Override
@@ -568,65 +377,43 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
         Log.i("InActivity", "onResult" + title);
 
-        if (title.equals("buddy stop")){
-           mic.setVisibility(View.GONE);
+        if (title.equals("buddy stop")) {
+            mic.setVisibility(View.GONE);
             pause_play.setChecked(false);
             pauseAll();
-        }
-        else{
-
+        } else {
 
             ans.setText(title);
             String temp = collectdata.getText().toString();
-            Boolean lcsResult=new UtilityFunctions().matchingSeq(title.trim(),result+"");
-            Log.i("lcsResult",lcsResult+"");
+            Boolean lcsResult = new UtilityFunctions().matchingSeq(title.trim(), result + "");
+            Log.i("lcsResult", lcsResult + "");
             if (!temp.equals("") && lcsResult)
                 collectdata.setText(temp + "," + result);
 
             else if (!temp.equals("") && !lcsResult)
                 collectdata.setText(temp + "," + title.trim());
 
-            else if(temp.equals("")&& lcsResult){
+            else if (temp.equals("") && lcsResult) {
                 try {
-                    collectdata.setText(result+"");
-                }catch (Exception e){}
+                    collectdata.setText(result + "");
+                } catch (Exception e) {
+                }
 
-            }
-
-            else
+            } else
                 collectdata.setText(title.trim());
 
             count++;
             recognizeVoice.stopListening();
             mic.setVisibility(View.GONE);
-
             try {
-                unMuteAudioStream();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-
 
 
                 if (lcsResult && !title.equals("")) {
 
-
-                    end=new Date();
-                    long diff = end.getTime() - start.getTime();
-                    logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-
-                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
                     rtans++;
                     readText.read("CORRECT");
                     right_ans.setText(String.valueOf(rtans));
-                }
-
-                else {
-                    end=new Date();
-                    long diff = end.getTime() - start.getTime();
-                    logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
+                } else {
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
                     wrong_ans.setText(String.valueOf(wrans));
@@ -634,33 +421,19 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
             } catch (Exception e) {
                 e.printStackTrace();
-                end=new Date();
-                long diff = end.getTime() - start.getTime();
-                logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
                 readText.read("INCORRECT, Correct is " + result);
                 wrans++;
                 wrong_ans.setText(String.valueOf(wrans));
             }
-//            if (count>10){
-//                Intent intent=new Intent(table_questions.this,ScoreActivity.class);
-//                intent.putExtra("score",rtans);
-//                intent.putExtra("tname",TableValue);
-//                startActivity(intent);
-//                finish();
-//            }
+
             Handler handler = new Handler();
             final Runnable r = new Runnable() {
                 public void run() {
                     if (count <= 10) {
                         if (counter == 0)
                             isActive = true;
-                        repeatRec=0;
-                        try {
-                            ReadFullTable(TableValue);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        repeatRec = 0;
+                        ReadFullTable(TableValue);
                         recognizeVoice.stopListening();
                     } else {
                         recognizeVoice.stopListening();
@@ -668,7 +441,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     }
                 }
             };
-            handler.postDelayed(r, 2000);
+            handler.postDelayed(r, 3000);
 
         }
     }
@@ -676,8 +449,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     @Override
     public void getLogResult(String title) {
 
-
-        logTextView.setText(logTextView.getText().toString()+title);
     }
 
     @Override
@@ -688,32 +459,25 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
 
 
-
-            if (repeatRec<3){
+            if (repeatRec < 3) {
                 repeatRec++;
-              //  Toast.makeText(this, "attempt"+repeatRec, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(this, "attempt"+repeatRec, Toast.LENGTH_SHORT).show();
                 recognizeVoice.startListening();
                 mic.setVisibility(View.VISIBLE);
-            }else{
-                   mic.setVisibility(View.GONE);
+            } else {
+                mic.setVisibility(View.GONE);
                 try {
                     Handler handler = new Handler();
                     final Runnable r = new Runnable() {
                         public void run() {
                             if (counter == 0)
                                 isActive = true;
-                                repeatRec=0;
-                            try {
-                                ReadFullTable(TableValue);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            repeatRec = 0;
+                            ReadFullTable(TableValue);
                         }
                     };
                     handler.postDelayed(r, 1000);
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (counter == 0)
                         isActive = true;
                     ReadFullTable(TableValue);
@@ -729,16 +493,23 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 //        }
 
         if (count > 10) {
-            Log.i("inactivity","gt10");
+            Log.i("inactivity", "gt10");
 
-            Thread.sleep(500);
-            unMuteAudioStream();
-            Intent intent=new Intent(table_questions.this,ScoreActivity.class);
-            intent.putExtra("activity","table_q");
-            intent.putExtra("score",rtans);
-            intent.putExtra("tname",TableValue);
-            startActivity(intent);
-            finish();
+
+            Thread.sleep(2000);
+            counter = 0;
+            pause_play.setChecked(false);
+            rtans = 0;
+            wrans = 0;
+            right_ans.setText("0");
+            wrong_ans.setText("0");
+            amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+            collectdata.setText("");
+            ans.setText("");
+            nManager.cancelAll();
+            progressBarQuestion.setProgress(0);
+            question_count.setText(String.valueOf(0) + "/10");
+            pause_play.setEnabled(true);
 //            Handler handler = new Handler();
 //            final Runnable r = new Runnable() {
 //                public void run() {
@@ -777,28 +548,15 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 if (isActive) {
                     currRes = true;
                     isActive = false;
-                    muteAudioStream();
-                        recognizeVoice.startListening();
-                        mic.setVisibility(View.VISIBLE);
-                        Log.i("InActivityrun", "insideOnDone");
-                        start=new Date();
+                    recognizeVoice.startListening();
+                    mic.setVisibility(View.VISIBLE);
+                    Log.i("InActivityrun", "insideOnDone");
 
                 }
+
             }
         }, 80);
 
-    }
-
-
-
-
-
-    public void sendAnalyticsData(String result,String detected,String tag,String timeTaken){
-        resultBundle.putString("original_result",result);
-        resultBundle.putString("detected_result",detected);
-        resultBundle.putString("tag",tag);
-        resultBundle.putString("timeTaken",timeTaken);
-        mFirebaseAnalytics.logEvent("result_verification",resultBundle);
 
     }
 }

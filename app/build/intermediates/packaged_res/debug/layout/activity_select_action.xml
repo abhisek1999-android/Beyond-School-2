@@ -115,15 +115,16 @@
 
                     <TextView
 
-                        android:layout_toEndOf="@id/image1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_toEndOf="@id/image1"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
                         android:paddingHorizontal="15dp"
                         android:text="Listen Table"
-                        android:layout_centerVertical="true"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
@@ -169,13 +170,14 @@
                         android:src="@drawable/light_bulb" />
 
                     <TextView
-                        android:layout_toEndOf="@id/image_4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal"
+                        android:layout_toEndOf="@id/image_4"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:layout_centerVertical="true"
 
                         android:paddingHorizontal="5dp"
                         android:text="Practice Without Hint"
@@ -218,13 +220,14 @@
                         android:src="@drawable/test2" />
 
                     <TextView
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/image3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
+                        android:layout_toEndOf="@id/image3"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
+                        android:gravity="center"
                         android:padding="15dp"
                         android:text="Check How Much You Have Learned"
                         android:textAllCaps="false"
@@ -266,13 +269,14 @@
                         android:src="@drawable/test" />
 
                     <TextView
-                        android:layout_toEndOf="@id/image4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="right"
+                        android:layout_toEndOf="@id/image4"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                       android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:padding="15dp"
                         android:text="Practice Questions From\nAlready Memorised Tables"
                         android:textAllCaps="false"
@@ -356,7 +360,7 @@
         tools:ignore="MissingConstraints">
         <include
             android:id="@+id/tool"
-            layout="@layout/navigation_layout"
+            layout="@layout/nav_drawer2"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.navigation.NavigationView>

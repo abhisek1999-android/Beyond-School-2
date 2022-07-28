@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     RecyclerView recycler;
+    LinearLayout dash,remind,settings;
     List<table_values> list=new ArrayList<>();
     NavTableAdapter mAdapter;
 
@@ -47,10 +49,6 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     SharedPreferences.Editor editor;
     private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
-    private static final String KEY_MULTIPLIER = "multiplier";
-    private static final String KEY_STATUS = "status";
-    private static final String KEY_RIGHT = "right";
-    private static final String KEY_WRONG = "wrong";
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -68,12 +66,15 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         practice=findViewById(R.id.button6);
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.navigation_view);
-        recycler=findViewById(R.id.recyler);
+        //recycler=findViewById(R.id.recyler);
+        dash=findViewById(R.id.dash);
+        remind=findViewById(R.id.remind);
+        settings=findViewById(R.id.settings);
         Intent intent=getIntent();
         nav.setImageResource(R.drawable.ic_nav);
 
 
-        closeButton=findViewById(R.id.closeButton);
+        //closeButton=findViewById(R.id.closeButton);
 
         /*resume_last.setTranslationX(-800);
         resume_last.setAlpha(1);*/
@@ -93,10 +94,13 @@ public class select_action extends AppCompatActivity implements NavigationView.O
 
         int TableValue=intent.getIntExtra("value",0);
 
-        titleText.setText("You Have Selected Table of - "+String.format("%02d", TableValue)+"");
+        titleText.setText("Table of - "+String.format("%02d", TableValue)+"");
         titleText.setTextSize(20);
 
         sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+        editor.putInt(KEY_MULTIPLICANT,TableValue);
+        editor.apply();
 
         //setting drawer
             toggle=new ActionBarDrawerToggle(this,drawerLayout,null,R.string.start,R.string.close);
@@ -106,7 +110,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             navigationView.setNavigationItemSelectedListener(this);
 
-            list.add(new table_values(2,"Two(02)"));
+            /*list.add(new table_values(2,"Two(02)"));
             list.add(new table_values(3,"Three(03)"));
             list.add(new table_values(4,"Four(04)"));
             list.add(new table_values(5,"Five(05)"));
@@ -130,8 +134,29 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(mLayoutManager);
         recycler.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();*/
 
+
+        dash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        remind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),AlarmAtTime.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         //tableName.setText(String.format("%02d", TableValue)+"");
         TableWithHint.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +174,6 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 Intent intent2=new Intent(select_action.this,table_questions.class);
                 intent2.putExtra("ValueOfTable",TableValue);
-                intent2.putExtra("status","tablewithouthint");
                 startActivity(intent2);
             }
         });
@@ -158,7 +182,6 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 Intent intent3=new Intent(select_action.this,Random_questions.class);
                 intent3.putExtra("ValueOfTable",TableValue);
-                intent3.putExtra("visibility","gone");
                 startActivity(intent3);
             }
         });
@@ -216,9 +239,9 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        closeButton.setOnClickListener(v->{
+        /*closeButton.setOnClickListener(v->{
             drawerLayout.closeDrawer(Gravity.LEFT);
-        });
+        });*/
     }
 
 

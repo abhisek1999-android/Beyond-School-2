@@ -55,6 +55,7 @@ drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
+drawable ic_settings
 drawable kid2
 drawable kididea
 drawable light_bulb
@@ -164,6 +165,7 @@ id scrollView2
 id selectedTime
 id selecttimebtn
 id setalarmbtn
+id settings
 id share
 id signup
 id signupcard
