@@ -114,7 +114,6 @@ id employeeId
 id filterBy
 id greetingsTime
 id hiTextView
-id home
 id image
 id image1
 id image3
@@ -162,7 +161,6 @@ id questionProgress
 id rLayout
 id recyler
 id remind
-id restart
 id result
 id resultText
 id retry

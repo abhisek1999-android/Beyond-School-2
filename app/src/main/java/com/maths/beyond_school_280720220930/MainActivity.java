@@ -72,6 +72,7 @@ private FirebaseAnalytics mFirebaseAnalytics;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         PrefConfig.writeIdInPref(getApplicationContext(),"true","IS_LOG_ENABLE");
+        PrefConfig.writeIntInPref(getApplicationContext(),0,"LAST_TABLE");
         //new line added
 
         //Setting notification channel................................................................................
@@ -133,6 +134,9 @@ private FirebaseAnalytics mFirebaseAnalytics;
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
 
             }
         });

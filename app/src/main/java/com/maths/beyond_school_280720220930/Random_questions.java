@@ -87,6 +87,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     Date end;
     Date timeStamp;
     Toolbar toolbar;
+    long delayTime=2000;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -431,6 +432,14 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             addProgressData();
         }
 
+        try{
+
+            if (PrefConfig.readIntInPref(getApplicationContext(),"LAST_TABLE")<TableValue){
+                PrefConfig.writeIntInPref(getApplicationContext(),TableValue,"LAST_TABLE");
+            }
+
+        }catch (Exception e){}
+
 //        recognizeVoice.speech.destroy();
         super.onPause();
         Log.i("activity", "onPause");
@@ -562,6 +571,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
                 sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
+                delayTime=1000;
                 rtans++;
                 readText.read("CORRECT");
                 right_ans.setText(String.valueOf(rtans));
@@ -572,6 +582,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
                 sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
+                delayTime=2000;
                 wrans++;
                 readText.read("INCORRECT, Correct is " + result);
                 wrong_ans.setText(String.valueOf(wrans));
@@ -583,6 +594,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             long diff = end.getTime() - start.getTime();
             logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
             sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
+            delayTime=2000;
             readText.read("INCORRECT, Correct is " + result);
             wrans++;
             wrong_ans.setText(String.valueOf(wrans));
@@ -615,7 +627,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 }
             }
         };
-        handler.postDelayed(r, 3000);
+        handler.postDelayed(r, delayTime);
 
 
     }

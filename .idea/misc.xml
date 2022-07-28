@@ -11,6 +11,7 @@
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.18" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/ic_baseline_play_circle_outline_24.xml" value="0.18" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/ic_menu2.xml" value="0.269" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/ic_settings.xml" value="0.274" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/play_button.xml" value="0.163" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/drawable/roundbar.xml" value="0.2505" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_alarm_at_time.xml" value="0.14578879863189398" />
@@ -54,13 +55,6 @@
         <entry key="..\:/Users/kaust/AndroidStudioProjects/kaholas/app/src/main/res/layout/activity_table_questions.xml" value="0.264" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/kaholas/app/src/main/res/layout/activity_table_with_hint.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/kaholas/app/src/main/res/layout/box.xml" value="0.23645833333333333" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/drawable/ic_bell.xml" value="0.1115" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_main.xml" value="0.1638888888888889" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_score.xml" value="0.2046875" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_select_action.xml" value="0.2046875" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/drawer_header.xml" value="0.1638888888888889" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/nav_drawer2.xml" value="0.2046875" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/tool_bar_layout_back_button.xml" value="0.2046875" />
       </map>
     </option>
   </component>

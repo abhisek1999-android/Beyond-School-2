@@ -93,6 +93,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     Date start;
     Date end;
     Date timeStamp;
+    long delayTime=2000;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -500,6 +501,14 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             addProgressData();
         }
 
+        try{
+
+            if (PrefConfig.readIntInPref(getApplicationContext(),"LAST_TABLE")<TableValue){
+                PrefConfig.writeIntInPref(getApplicationContext(),TableValue,"LAST_TABLE");
+            }
+
+        }catch (Exception e){}
+
 
     }
 
@@ -624,6 +633,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
+                    delayTime=1000;
                     sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
                     rtans++;
                     readText.read("CORRECT");
@@ -634,6 +644,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                    delayTime=2000;
                     sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
@@ -646,6 +657,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
                 sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
+                delayTime=2000;
                 readText.read("INCORRECT, Correct is " + result);
                 wrans++;
                 wrong_ans.setText(String.valueOf(wrans));
@@ -676,7 +688,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     }
                 }
             };
-            handler.postDelayed(r, 2000);
+            handler.postDelayed(r, delayTime);
 
         }
     }
