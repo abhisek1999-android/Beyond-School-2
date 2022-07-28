@@ -29,11 +29,11 @@ public class ScoreActivity extends AppCompatActivity {
         score=findViewById(R.id.displayresulttext);
         certify=findViewById(R.id.certify);
         head=findViewById(R.id.titleText);
-        replay=findViewById(R.id.restart);
+        //replay=findViewById(R.id.restart);
         next=findViewById(R.id.nextbtn);
         right=findViewById(R.id.right);
         wrong=findViewById(R.id.wrong);
-        home=findViewById(R.id.home);
+        //home=findViewById(R.id.home);
         back=findViewById(R.id.imageView4);
         progressBar=findViewById(R.id.progressBar);
         nextTextView=findViewById(R.id.next);
@@ -80,12 +80,12 @@ public class ScoreActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        replay.setOnClickListener(new View.OnClickListener() {
+        /*replay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
-        });
+        });*/
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +106,7 @@ public class ScoreActivity extends AppCompatActivity {
 
             }
         });
-        home.setOnClickListener(new View.OnClickListener() {
+        /*home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(ScoreActivity.this,select_action.class);
@@ -114,7 +114,7 @@ public class ScoreActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
 
     }
 

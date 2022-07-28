@@ -48,10 +48,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     SharedPreferences.Editor editor;
     private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
-    private static final String KEY_MULTIPLIER = "multiplier";
-    private static final String KEY_STATUS = "status";
-    private static final String KEY_RIGHT = "right";
-    private static final String KEY_WRONG = "wrong";
 
     ImageView back;
     ToggleButton pause_play;
@@ -178,7 +174,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 readText.textToSpeech.shutdown();
                 isActive = false;
                 amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-                last_status();
+                //last_status();
                 finish();
             }
         });
@@ -200,12 +196,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         recognizeVoice.speech.stopListening();
         readText.textToSpeech.shutdown();
         isActive = false;
-        last_status();
+        //last_status();
         finish();
 
     }
 
-    private void last_status() {
+   /* private void last_status() {
         if (count < 11) {
             editor.putInt(KEY_MULTIPLICANT, TableValue);
             editor.putInt(KEY_MULTIPLIER, count);
@@ -217,7 +213,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             editor.clear();
             editor.apply();
         }
-    }
+    }*/
 
     public void pauseAll() {
 
@@ -361,7 +357,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
     @Override
     protected void onStop() {
-        last_status();
+        //last_status();
         super.onStop();
     }
 

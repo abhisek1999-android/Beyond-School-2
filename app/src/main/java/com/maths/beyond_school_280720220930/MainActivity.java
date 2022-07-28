@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
-    LinearLayout dash,remind;
+    LinearLayout dash,remind,settings;
     private String LOG_TAG = "VoiceRecognitionActivity";
     private int REQUEST_RECORD_AUDIO=1;
     private static final String CHANNEL_ID="Default Channel Beyond School";
@@ -93,6 +93,7 @@ private FirebaseAnalytics mFirebaseAnalytics;
         navigationView=findViewById(R.id.navigation_view2);
         dash=findViewById(R.id.dash);
         remind=findViewById(R.id.remind);
+        settings=findViewById(R.id.settings);
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,null,R.string.start,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -125,6 +126,12 @@ private FirebaseAnalytics mFirebaseAnalytics;
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),AlarmAtTime.class));
                 drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

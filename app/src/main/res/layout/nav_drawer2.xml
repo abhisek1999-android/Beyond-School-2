@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -15,7 +15,7 @@
             android:id="@+id/toolBar"
             layout="@layout/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="230dp" />
         <!--<View
             android:layout_width="wrap_content"
             android:layout_height="5dp"
@@ -60,8 +60,7 @@
                     android:padding="10dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -76,6 +75,33 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="28dp"
                         android:text="Set Reminder"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:layout_gravity="center"
+                        android:textSize="24sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_margin="10dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="7dp"
+                        android:background="@drawable/background_round"
+                        android:src="@drawable/ic_settings"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="28dp"
+                        android:text="Settings"
                         android:fontFamily="@font/reemkufi_medium"
                         android:layout_gravity="center"
                         android:textSize="24sp" />

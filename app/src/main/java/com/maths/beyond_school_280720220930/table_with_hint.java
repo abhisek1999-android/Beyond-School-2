@@ -36,8 +36,6 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     SharedPreferences.Editor editor;
     private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
-    private static final String KEY_MULTIPLIER = "multiplier";
-    private static final String KEY_STATUS = "status";
 
     String status;
 
@@ -130,7 +128,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     readText.textToSpeech.stop();
                     readText.textToSpeech.shutdown();
                     //count=1;
-                    last_status();
+                    //last_status();
                     finish();
                 }catch (Exception e){
                     finish();
@@ -347,11 +345,11 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         readText.textToSpeech.stop();
         readText.textToSpeech.shutdown();
         nManager.cancelAll();
-        last_status();
+        //last_status();
         super.onBackPressed();
     }
 
-    private void last_status() {
+    /*private void last_status() {
         if (count<11) {
             editor.putInt(KEY_MULTIPLICANT,TableValue);
             editor.putInt(KEY_MULTIPLIER,count);
@@ -361,7 +359,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
             editor.clear();
             editor.apply();
         }
-    }
+    }*/
 
     @Override
     public void gettingResultSpeech() {
@@ -380,7 +378,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     @Override
     protected void onStop() {
 
-        last_status();
+        //last_status();
         super.onStop();
     }
 
