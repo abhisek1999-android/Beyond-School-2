@@ -1,9 +1,12 @@
 package com.maths.beyond_school_280720220930;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +19,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
@@ -35,13 +43,17 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements ReadText.GetResultSpeech {
+public class MainActivity extends AppCompatActivity implements ReadText.GetResultSpeech, NavigationView.OnNavigationItemSelectedListener {
 
 
     RecyclerView tablesRecyclerView;
     TablesRecyclerAdapter tablesRecyclerAdapter;
     List<Tables> tablesList;
     TextView greetingTextView;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
+    LinearLayout dash,remind;
     private String LOG_TAG = "VoiceRecognitionActivity";
     private int REQUEST_RECORD_AUDIO=1;
     private static final String CHANNEL_ID="Default Channel Beyond School";
@@ -49,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
     ReadText readText;
     ImageView dashBoard;
+    CircleImageView profileImageView;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -74,7 +87,49 @@ private FirebaseAnalytics mFirebaseAnalytics;
         }
 
 
+        profileImageView=findViewById(R.id.profileImage);
+
         dashBoard=findViewById(R.id.dashboard);
+
+
+        drawerLayout=findViewById(R.id.drawerLayout2);
+        navigationView=findViewById(R.id.navigation_view2);
+        dash=findViewById(R.id.dash);
+        remind=findViewById(R.id.remind);
+
+        toggle=new ActionBarDrawerToggle(this,drawerLayout,null,R.string.start,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        profileImageView.setImageResource(R.drawable.ic_menu2);
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //finish();
+                try {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                    //Toast.makeText(MainActivity.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        remind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),AlarmAtTime.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
 
         dashBoard.setOnClickListener(v->{
             startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
@@ -131,25 +186,10 @@ private FirebaseAnalytics mFirebaseAnalytics;
 
         greetingTextView.setText(new UtilityFunctions().greeting());
 
-        //addData();
 
     }
 
-//    private void addData() {
-//
-//        ProgressDataBase db=ProgressDataBase.getDbInstance(this.getApplicationContext());
-//        ProgressM progressM=new ProgressM();
-//        progressM.correct=5;
-//        progressM.time_to_complete="30";
-//        progressM.wrong=5;
-//        progressM.time="3:45 PM";
-//        progressM.is_completed="Yes";
-//        progressM.table="11";
-//        progressM.date="27072022";
-//        progressM.timestamp=1698743;
-//        db.progressDao().insertNotes(progressM);
-//
-//    }
+
 
 
 
@@ -179,5 +219,10 @@ private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     public void gettingResultSpeech() {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 }

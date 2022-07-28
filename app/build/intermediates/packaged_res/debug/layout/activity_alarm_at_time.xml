@@ -90,7 +90,7 @@
                         android:foregroundGravity="center"
                         android:padding="5dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/timer"
+
                         app:tint="@color/teal_700" />
 
                     <TextView
@@ -129,7 +129,7 @@
                         android:layout_height="40dp"
                         android:padding="5dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/ic_right"
+
                         app:tint="@color/teal_700" />
 
                     <TextView
@@ -166,7 +166,7 @@
                         android:layout_height="40dp"
                         android:padding="5dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/ic_wrong"
+
                         app:tint="@color/teal_700" />
 
                     <TextView

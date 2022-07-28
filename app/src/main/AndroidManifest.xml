@@ -50,7 +50,9 @@
             android:exported="true" />
         <activity
             android:name=".DashBoardActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".TestActivity"
             android:exported="true" />

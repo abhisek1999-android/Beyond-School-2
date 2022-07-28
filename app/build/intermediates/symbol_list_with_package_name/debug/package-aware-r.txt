@@ -2511,7 +2511,6 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
-drawable arrowhead
 drawable avd_hide_password
 drawable avd_show_password
 drawable background_border
@@ -2560,10 +2559,10 @@ drawable design_snackbar_background
 drawable dot_line
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
-drawable home
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_close_24
+drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -2571,6 +2570,7 @@ drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
+drawable ic_baseline_space_dashboard_24
 drawable ic_clock_black_24dp
 drawable ic_down
 drawable ic_home
@@ -2591,9 +2591,6 @@ drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
-drawable ic_right
-drawable ic_wrong
-drawable idea
 drawable kid2
 drawable kididea
 drawable logo
@@ -2642,8 +2639,6 @@ drawable notify_panel_notification_icon_bg
 drawable play
 drawable play_button
 drawable profile_default
-drawable replay
-drawable restart1
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
@@ -2651,7 +2646,6 @@ drawable test
 drawable test2
 drawable test_custom_background
 drawable test_level_drawable
-drawable timer
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable tv_bac
@@ -2789,7 +2783,6 @@ id callMeasure
 id cancel_button
 id cancelalarmbtn
 id card
-id cardView
 id cardView2
 id cardView3
 id carryVelocity
@@ -2837,6 +2830,7 @@ id customPanel
 id cut
 id dark
 id dash
+id dashboard
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2897,6 +2891,7 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id filterBy
 id fitCenter
 id fitEnd
 id fitStart
@@ -3049,6 +3044,7 @@ id never
 id neverCompleteToEnd
 id neverCompleteToStart
 id nextbtn
+id noDataText
 id noScroll
 id noState
 id none
@@ -3083,6 +3079,7 @@ id playPause
 id position
 id postLayout
 id profileImage
+id progressBar
 id progressBar1
 id progressDetails
 id progressReport
@@ -3181,6 +3178,10 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id tCorrect
+id tProgressResult
+id tQuestions
+id tWrong
 id tabMode
 id tableText
 id tablesRecyclerView
@@ -3243,6 +3244,9 @@ id tool
 id toolBar
 id top
 id topPanel
+id totalQuestion
+id totalRight
+id totalWrong
 id touch_outside
 id transitionToEnd
 id transitionToStart
@@ -3538,6 +3542,7 @@ string character_counter_pattern
 string chip_text
 string clear_text_end_icon_content_description
 string close
+string com_google_firebase_crashlytics_mapping_file_id
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
 string common_google_play_services_enable_title
