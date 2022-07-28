@@ -8614,10 +8614,10 @@
                     "from": {
                         "startLines": "2,17,1",
                         "startColumns": "4,4,4",
-                        "startOffsets": "67,459,16",
+                        "startOffsets": "69,476,17",
                         "endLines": "16,38,1",
                         "endColumns": "19,19,50",
-                        "endOffsets": "454,970,62"
+                        "endOffsets": "470,1008,63"
                     },
                     "to": {
                         "startLines": "16,31,1675",

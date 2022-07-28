@@ -1,23 +1,23 @@
 [
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_roundbar.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\roundbar.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\raw_green_blinking_dott.json.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\raw\\green_blinking_dott.json"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_kid2.PNG.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\kid2.PNG"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\raw_green_blinking_dott.json.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\raw\\green_blinking_dott.json"
-    },
-    {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_cat1.PNG.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\cat1.PNG"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_roundbar.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\roundbar.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_arrow_back_24.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_arrow_back_24.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_cat1.PNG.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\cat1.PNG"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_circumference.png.flat",
