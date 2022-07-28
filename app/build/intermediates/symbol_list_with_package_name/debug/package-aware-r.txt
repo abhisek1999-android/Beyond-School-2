@@ -1329,7 +1329,6 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
-color light_deep_grey
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
 color m3_assist_chip_stroke_color
@@ -2512,6 +2511,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable arrowhead
 drawable avd_hide_password
 drawable avd_show_password
 drawable background_border
@@ -2560,10 +2560,9 @@ drawable design_snackbar_background
 drawable dot_line
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable home
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
-drawable ic_baseline_close_24
-drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -2571,10 +2570,7 @@ drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
-drawable ic_baseline_space_dashboard_24
-drawable ic_bell
 drawable ic_clock_black_24dp
-drawable ic_down
 drawable ic_home
 drawable ic_home1
 drawable ic_keyboard_black_24dp
@@ -2584,18 +2580,16 @@ drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
 drawable ic_menu
-drawable ic_menu2
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
-drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
+drawable idea
 drawable kid2
 drawable kididea
-drawable light_bulb
 drawable logo
 drawable logo_final
 drawable m3_appbar_background
@@ -2642,6 +2636,8 @@ drawable notify_panel_notification_icon_bg
 drawable play
 drawable play_button
 drawable profile_default
+drawable replay
+drawable restart1
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
@@ -2723,7 +2719,6 @@ id action_container
 id action_context_bar
 id action_divider
 id action_image
-id action_log
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
@@ -2784,8 +2779,7 @@ id buttonPanel
 id cache_measures
 id callMeasure
 id cancel_button
-id cancelalarmbtn
-id card
+id cardView
 id cardView2
 id cardView3
 id carryVelocity
@@ -2810,9 +2804,7 @@ id circle_center
 id clear_text
 id clip_horizontal
 id clip_vertical
-id clock
 id clockwise
-id closeButton
 id closest
 id collapseActionView
 id compress
@@ -2832,7 +2824,6 @@ id custom
 id customPanel
 id cut
 id dark
-id dash
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2867,8 +2858,6 @@ id dragLeft
 id dragRight
 id dragStart
 id dragUp
-id drawerLayout
-id drawerLayout2
 id dropdown_editable
 id dropdown_menu
 id dropdown_noneditable
@@ -2893,7 +2882,6 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
-id filterBy
 id fitCenter
 id fitEnd
 id fitStart
@@ -2919,7 +2907,6 @@ id groups
 id guideline
 id hardware
 id header_title
-id hiTextView
 id hideable
 id home
 id homeAsUp
@@ -2933,16 +2920,11 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id image1
-id image3
-id image4
 id imageView
 id imageView2
 id imageView3
 id imageView4
 id imageView5
-id imageView6
-id image_4
 id immediateStop
 id included
 id info
@@ -2972,7 +2954,6 @@ id linearLayout2
 id listMode
 id list_item
 id logCard
-id logRecyclerView
 id logTextView
 id login
 id logincard
@@ -3044,14 +3025,10 @@ id navigation_bar_item_labels_group
 id navigation_bar_item_large_label_view
 id navigation_bar_item_small_label_view
 id navigation_header_container
-id navigation_view
-id navigation_view2
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
-id next
 id nextbtn
-id noDataText
 id noScroll
 id noState
 id none
@@ -3060,7 +3037,6 @@ id north
 id notification_background
 id notification_main_column
 id notification_main_column_container
-id num
 id numberTextView
 id off
 id on
@@ -3086,7 +3062,6 @@ id playPause
 id position
 id postLayout
 id profileImage
-id progressBar
 id progressBar1
 id progressDetails
 id progressReport
@@ -3099,11 +3074,8 @@ id questionProgress
 id radio
 id ratio
 id rectangles
-id recyler
-id remind
 id restart
 id result
-id resultText
 id retry
 id reverse
 id reverseSawtooth
@@ -3137,10 +3109,7 @@ id search_src_text
 id search_voice_btn
 id select_dialog_listview
 id selected
-id selectedTime
 id selection_type
-id selecttimebtn
-id setalarmbtn
 id share
 id sharedValueSet
 id sharedValueUnset
@@ -3185,10 +3154,6 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
-id tCorrect
-id tProgressResult
-id tQuestions
-id tWrong
 id tabMode
 id tableText
 id tablesRecyclerView
@@ -3247,13 +3212,9 @@ id titleDividerNoCustom
 id titleText
 id title_template
 id toggle
-id tool
 id toolBar
 id top
 id topPanel
-id totalQuestion
-id totalRight
-id totalWrong
 id touch_outside
 id transitionToEnd
 id transitionToStart
@@ -3385,9 +3346,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
-layout activity_alarm_at_time
 layout activity_dash_board
-layout activity_log
 layout activity_login_signup
 layout activity_main
 layout activity_score
@@ -3414,9 +3373,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
-layout drawer_header
 layout log_bottom_sheet
-layout log_dialog
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3465,8 +3422,6 @@ layout mtrl_picker_header_title_text
 layout mtrl_picker_header_toggle
 layout mtrl_picker_text_input_date
 layout mtrl_picker_text_input_date_range
-layout nav_drawer2
-layout navigation_layout
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
@@ -3481,7 +3436,6 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
-layout table_lay
 layout test_action_chip
 layout test_chip_zero_corner_radius
 layout test_design_checkbox
@@ -3504,7 +3458,6 @@ layout tool_bar_layout_back_button
 layout toolbar_dashboard
 menu example_menu
 menu example_menu2
-menu log_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
@@ -3548,8 +3501,6 @@ string character_counter_overflowed_content_description
 string character_counter_pattern
 string chip_text
 string clear_text_end_icon_content_description
-string close
-string com_google_firebase_crashlytics_mapping_file_id
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
 string common_google_play_services_enable_title
@@ -3664,7 +3615,6 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string project_id
 string search_menu_title
-string start
 string status_bar_notification_info_overflow
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

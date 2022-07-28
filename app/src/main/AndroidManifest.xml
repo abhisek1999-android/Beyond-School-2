@@ -31,10 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
-            android:name=".AlarmAtTime"
-            android:exported="false"/>
-        <activity
-            android:name=".LogActivity"
+            android:name=".ScoreActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
@@ -49,19 +46,10 @@
             android:name=".Random_questions"
             android:exported="true" />
         <activity
-            android:name=".DashBoardActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity"
-            />
-        <activity
             android:name=".TestActivity"
             android:exported="true" />
         <activity
-            android:name=".ScoreActivity"
-            android:exported="true" />
-        <activity
             android:name=".select_action"
-            android:parentActivityName=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".table_questions"
@@ -79,7 +67,9 @@
         <service
             android:name=".ClearService"
             android:stopWithTask="false" />
-        <receiver android:name=".model.AlarmReceiver"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
