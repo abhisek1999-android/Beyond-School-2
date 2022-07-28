@@ -6,91 +6,32 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     tools:context=".table_questions">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/toolBar"
-            layout="@layout/tool_bar_layout_back_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-    <!--    <RelativeLayout
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/selectedDigitLayout"
-        android:layout_marginTop="200dp"
-        >
-
-        <ImageView
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/select_option_ct"
-            android:visibility="gone"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="190dp"
-            style="@style/card_background"
-            app:cardCornerRadius="10dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/background_border"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:gravity="center"
-                    android:text="You have selected Table of"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/tableName"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/background_round"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="00"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content" />
 
 
-    </RelativeLayout>-->
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:foregroundGravity="center">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="false"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
 
 
@@ -149,22 +90,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="35dp"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
                 android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="?android:attr/selectableItemBackground"
+
                     android:orientation="horizontal"
                     android:paddingVertical="10dp">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:id="@+id/image1"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_marginLeft="10dp"
                         android:padding="15dp"
                         android:src="@drawable/play" />
@@ -172,16 +115,15 @@
 
                     <TextView
 
+                        android:layout_toEndOf="@id/image1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
                         android:paddingHorizontal="15dp"
                         android:text="Listen Table"
-                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
@@ -189,7 +131,7 @@
                         app:shapeAppearanceOverlay="@style/Button4" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -200,42 +142,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:padding="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="5dp"
-                    android:foreground="?android:attr/selectableItemBackground"
+
                     android:orientation="horizontal"
                     android:paddingVertical="10dp">
 
                     <ImageView
+                        android:id="@+id/image_4"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_gravity="right"
-                        android:layout_marginLeft="20dp"
+
+                        android:layout_marginLeft="10dp"
                         android:padding="15dp"
-                        android:paddingVertical="10dp"
-                        android:scaleType="fitXY"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:src="@drawable/kid2" />
+                        android:src="@drawable/light_bulb" />
 
                     <TextView
+                        android:layout_toEndOf="@id/image_4"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="20dp"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:padding="15dp"
+                        android:layout_centerVertical="true"
+
                         android:paddingHorizontal="5dp"
                         android:text="Practice Without Hint"
                         android:textAlignment="center"
@@ -245,7 +186,7 @@
                         app:shapeAppearanceOverlay="@style/Button4" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -255,21 +196,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginBottom="36dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 app:cardCornerRadius="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardElevation="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
                     android:paddingVertical="10dp">
 
                     <ImageView
+                        android:id="@+id/image3"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginLeft="10dp"
@@ -277,22 +218,22 @@
                         android:src="@drawable/test2" />
 
                     <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/image3"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
                         android:padding="15dp"
                         android:text="Check How Much You Have Learned"
-                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
                         app:shapeAppearanceOverlay="@style/Button4" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -300,22 +241,23 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/button6"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
                 android:clickable="true"
                 app:cardCornerRadius="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardElevation="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingVertical="10dp">
 
                     <ImageView
+                        android:id="@+id/image4"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginLeft="5dp"
@@ -324,22 +266,22 @@
                         android:src="@drawable/test" />
 
                     <TextView
+                        android:layout_toEndOf="@id/image4"
                         android:layout_width="wrap_content"
-                        android:layout_height="92dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
+                       android:layout_centerVertical="true"
                         android:padding="15dp"
                         android:text="Practice Questions From\nAlready Memorised Tables"
-                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
                         app:shapeAppearanceOverlay="@style/Button4" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -402,6 +344,7 @@
 
         </LinearLayout>
     </ScrollView>
+
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -417,4 +360,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.navigation.NavigationView>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

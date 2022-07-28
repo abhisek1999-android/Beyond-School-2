@@ -1328,6 +1328,7 @@ int color foreground_material_dark 0x7f06006a
 int color foreground_material_light 0x7f06006b
 int color highlighted_text_material_dark 0x7f06006c
 int color highlighted_text_material_light 0x7f06006d
+int color light_deep_grey 0x7f06026e
 int color m3_appbar_overlay_color 0x7f06006e
 int color m3_assist_chip_icon_tint_color 0x7f06006f
 int color m3_assist_chip_stroke_color 0x7f060070
@@ -2570,6 +2571,7 @@ int drawable ic_baseline_play_circle_outline_24 0x7f08008e
 int drawable ic_baseline_replay_24 0x7f08008f
 int drawable ic_baseline_share_24 0x7f080090
 int drawable ic_baseline_space_dashboard_24 0x7f080091
+int drawable ic_bell 0x7f0800e1
 int drawable ic_clock_black_24dp 0x7f080092
 int drawable ic_down 0x7f080093
 int drawable ic_home 0x7f080094
@@ -2592,6 +2594,7 @@ int drawable ic_replay 0x7f0800a4
 int drawable ic_restart2 0x7f0800a5
 int drawable kid2 0x7f0800a6
 int drawable kididea 0x7f0800a7
+int drawable light_bulb 0x7f0800e2
 int drawable logo 0x7f0800a8
 int drawable logo_final 0x7f0800a9
 int drawable m3_appbar_background 0x7f0800aa
@@ -2829,7 +2832,6 @@ int id customPanel 0x7f0a00a9
 int id cut 0x7f0a00aa
 int id dark 0x7f0a00ab
 int id dash 0x7f0a00ac
-int id dashboard 0x7f0a00ad
 int id date_picker_actions 0x7f0a00ae
 int id decelerate 0x7f0a00af
 int id decelerateAndComplete 0x7f0a00b0
@@ -2916,6 +2918,7 @@ int id groups 0x7f0a0100
 int id guideline 0x7f0a0101
 int id hardware 0x7f0a0102
 int id header_title 0x7f0a0103
+int id hiTextView 0x7f0a0274
 int id hideable 0x7f0a0104
 int id home 0x7f0a0105
 int id homeAsUp 0x7f0a0106
@@ -2929,13 +2932,16 @@ int id ifRoom 0x7f0a010d
 int id ignore 0x7f0a010e
 int id ignoreRequest 0x7f0a010f
 int id image 0x7f0a0110
+int id image1 0x7f0a0275
+int id image3 0x7f0a0276
+int id image4 0x7f0a0277
 int id imageView 0x7f0a0111
 int id imageView2 0x7f0a0112
 int id imageView3 0x7f0a0113
 int id imageView4 0x7f0a0114
 int id imageView5 0x7f0a0115
 int id imageView6 0x7f0a0116
-int id imageView7 0x7f0a0117
+int id image_4 0x7f0a0278
 int id immediateStop 0x7f0a0118
 int id included 0x7f0a0119
 int id info 0x7f0a011a
@@ -3042,6 +3048,7 @@ int id navigation_view2 0x7f0a017e
 int id never 0x7f0a017f
 int id neverCompleteToEnd 0x7f0a0180
 int id neverCompleteToStart 0x7f0a0181
+int id next 0x7f0a0279
 int id nextbtn 0x7f0a0182
 int id noDataText 0x7f0a0183
 int id noScroll 0x7f0a0184

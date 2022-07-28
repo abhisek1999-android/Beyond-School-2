@@ -11,5 +11,6 @@
     <color name="tp_black">#E9000000</color>
     <color name="sweet_dark">#2D2D2D</color>
     <color name="sweet_grey">#E4E4E4</color>
+    <color name="light_deep_grey">#757575</color>
     <color name="sweet_red">#FA7575</color>
 </resources>

@@ -15,11 +15,12 @@ import android.widget.Toast;
 import com.google.firebase.database.collection.LLRBNode;
 
 public class ScoreActivity extends AppCompatActivity {
-    TextView score,certify, head,right,wrong;
+    TextView score,certify, head,right,wrong,nextTextView;
     CardView replay,next,home;
     ImageView back;
     ProgressBar progressBar;
 
+    String activity="";
     int score_val=0,tname=2,wrans=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,19 @@ public class ScoreActivity extends AppCompatActivity {
         home=findViewById(R.id.home);
         back=findViewById(R.id.imageView4);
         progressBar=findViewById(R.id.progressBar);
+        nextTextView=findViewById(R.id.next);
 
             head.setText("Score Card");
             score_val=getIntent().getIntExtra("score",0);
             tname=getIntent().getIntExtra("tname",0);
+            activity=getIntent().getStringExtra("activity");
             //Toast.makeText(this, ""+score_val, Toast.LENGTH_SHORT).show();
 
+
+
+        if (activity.equals("table_q")){
+            nextTextView.setText("Random");
+        }
 
             progressBar.setMax(10);
             progressBar.setProgress(score_val);
@@ -81,10 +89,21 @@ public class ScoreActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ScoreActivity.this,Random_questions.class);
-                intent.putExtra("ValueOfTable",tname+1);
-                startActivity(intent);
-                finishAffinity();
+
+
+                if (activity.equals("table_q")){
+                    Intent intent=new Intent(ScoreActivity.this,Random_questions.class);
+                    intent.putExtra("ValueOfTable",tname);
+                    startActivity(intent);
+                    finishAffinity();
+                }
+                else{
+                    Intent intent=new Intent(ScoreActivity.this,select_action.class);
+                    intent.putExtra("value",tname+1);
+                    startActivity(intent);
+                    finishAffinity();
+                }
+
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
@@ -103,9 +122,20 @@ public class ScoreActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(ScoreActivity.this,Random_questions.class);
-        intent.putExtra("ValueOfTable",tname);
-        startActivity(intent);
-        finish();
+
+        if (activity.equals("table_q")){
+            Intent intent=new Intent(ScoreActivity.this,table_questions.class);
+            intent.putExtra("ValueOfTable",tname);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent=new Intent(ScoreActivity.this,Random_questions.class);
+            intent.putExtra("ValueOfTable",tname);
+            startActivity(intent);
+            finish();
+        }
+
+
     }
 }

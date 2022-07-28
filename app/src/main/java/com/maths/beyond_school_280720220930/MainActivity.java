@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     private static final String CHANNEL_DESC="Channel for Default Channel Beyond School";
     ReadText readText;
     ImageView dashBoard;
-    CircleImageView profileImageView;
+    ImageView menuImageView;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -87,10 +87,7 @@ private FirebaseAnalytics mFirebaseAnalytics;
         }
 
 
-        profileImageView=findViewById(R.id.profileImage);
-
-        dashBoard=findViewById(R.id.dashboard);
-
+        menuImageView=findViewById(R.id.imageView4);
 
         drawerLayout=findViewById(R.id.drawerLayout2);
         navigationView=findViewById(R.id.navigation_view2);
@@ -102,8 +99,8 @@ private FirebaseAnalytics mFirebaseAnalytics;
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        profileImageView.setImageResource(R.drawable.ic_menu2);
-        profileImageView.setOnClickListener(new View.OnClickListener() {
+        menuImageView.setImageResource(R.drawable.ic_menu2);
+        menuImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //finish();
@@ -131,9 +128,7 @@ private FirebaseAnalytics mFirebaseAnalytics;
             }
         });
 
-        dashBoard.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
-        });
+
         readText = new ReadText(getApplicationContext(), this);
         readText.read("");
 
@@ -224,5 +219,12 @@ private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

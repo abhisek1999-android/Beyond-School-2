@@ -49,6 +49,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     CountDownTimer countDownTimer;
     Boolean IsRunning=false;
     boolean speakingForQues=true;
+    boolean lockSpeakingForQues=true;
     int count;
     int test=0;
     int time=4500;
@@ -147,7 +148,13 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     Pause_Play.setImageDrawable(getDrawable(R.drawable.ic_baseline_pause_circle_outline_24));
                     new StickyNotification(getApplicationContext(),table_with_hint.class,"| Table of "+TableValue+" | with hint").makeNotification();
                     test = 0;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     IsRunning=true;
+                    lockSpeakingForQues=true;
                     ReadFullTable(TableValue);
                     Restart.setVisibility(View.GONE);
                     counter = 1;
@@ -158,15 +165,17 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
 
 
                     nManager.cancelAll();
+                    readText.textToSpeech.stop();
+                    IsRunning=false;
+                    lockSpeakingForQues=false;
                     Pause_Play.setEnabled(false);
                     try {
-                        Thread.sleep(700);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     Pause_Play.setEnabled(true);
-                    readText.textToSpeech.stop();
-                    IsRunning=false;
+
                     count--;
                     counter=0;
                     test=1;
@@ -202,6 +211,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" ones are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 1 = "+result;
                     Table.setText(set);
@@ -211,6 +221,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" twos are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 2 = "+result;
                     Table.setText(set);
@@ -220,6 +231,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" threes are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 3 = "+result;
                     Table.setText(set);
@@ -229,6 +241,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" fours are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 4 = "+result;
                     Table.setText(set);
@@ -238,6 +251,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" fives are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 5 = "+result;
                     Table.setText(set);
@@ -247,6 +261,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" sixs are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 6 = "+result;
                     Table.setText(set);
@@ -256,6 +271,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" sevens are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 7 = "+result;
                     Table.setText(set);
@@ -265,6 +281,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" eights are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 8 = "+result;
                     Table.setText(set);
@@ -274,6 +291,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet=TableValue+" nines are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set=TableValue+" X 9 = "+result;
                     Table.setText(set);
@@ -283,6 +301,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
                     ToSet = TableValue + " tens are ";
                     readText.read(ToSet);
                     speakingForQues=false;
+                    if (lockSpeakingForQues)
                     pause();
                     set = TableValue + " X 10 = "+result;
                     Table.setText(set);
@@ -307,14 +326,18 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     public void pause(){
 
 
-        Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            public void run() {
-                readText.read(String.valueOf(result));
-                speakingForQues=true;
-            }
-        };
-        handler.postDelayed(r, 2000);
+        if (lockSpeakingForQues){
+            Handler handler = new Handler();
+            final Runnable r = new Runnable() {
+                public void run() {
+                    readText.read(String.valueOf(result));
+                    speakingForQues=true;
+                }
+            };
+            handler.postDelayed(r, 2000);
+        }
+
+
 
 
     }

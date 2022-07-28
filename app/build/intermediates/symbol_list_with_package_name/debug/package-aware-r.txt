@@ -1329,6 +1329,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color light_deep_grey
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
 color m3_assist_chip_stroke_color
@@ -2571,6 +2572,7 @@ drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
 drawable ic_baseline_space_dashboard_24
+drawable ic_bell
 drawable ic_clock_black_24dp
 drawable ic_down
 drawable ic_home
@@ -2593,6 +2595,7 @@ drawable ic_replay
 drawable ic_restart2
 drawable kid2
 drawable kididea
+drawable light_bulb
 drawable logo
 drawable logo_final
 drawable m3_appbar_background
@@ -2830,7 +2833,6 @@ id customPanel
 id cut
 id dark
 id dash
-id dashboard
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2917,6 +2919,7 @@ id groups
 id guideline
 id hardware
 id header_title
+id hiTextView
 id hideable
 id home
 id homeAsUp
@@ -2930,13 +2933,16 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id image1
+id image3
+id image4
 id imageView
 id imageView2
 id imageView3
 id imageView4
 id imageView5
 id imageView6
-id imageView7
+id image_4
 id immediateStop
 id included
 id info
@@ -3043,6 +3049,7 @@ id navigation_view2
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
+id next
 id nextbtn
 id noDataText
 id noScroll

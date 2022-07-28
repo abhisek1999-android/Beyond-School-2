@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class select_action extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    ImageView nav;
+    ImageView nav,closeButton;
     CardView resume_last,practice;
     TextView titleText;
     DrawerLayout drawerLayout;
@@ -71,6 +71,9 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         recycler=findViewById(R.id.recyler);
         Intent intent=getIntent();
         nav.setImageResource(R.drawable.ic_nav);
+
+
+        closeButton=findViewById(R.id.closeButton);
 
         /*resume_last.setTranslationX(-800);
         resume_last.setAlpha(1);*/
@@ -212,10 +215,26 @@ public class select_action extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
+
+        closeButton.setOnClickListener(v->{
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        });
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent3=new Intent(select_action.this,MainActivity.class);
+        startActivity(intent3);
+        finish();
+
     }
 }

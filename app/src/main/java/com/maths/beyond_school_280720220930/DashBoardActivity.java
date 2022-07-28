@@ -188,12 +188,14 @@ public class DashBoardActivity extends AppCompatActivity {
 
         for (int i=0;i<progressByDates.size();i++){
 
-            if (!progressByDates.get(i).getDate().equals(formatter.format(date)+""))
-                break;
-            else{
+            if (progressByDates.get(i).getDate().equals(formatter.format(date)+""))
+            {
                 tTotalQ=tTotalQ+progressByDates.get(i).getTotal_correct()+progressByDates.get(i).getTotal_wrong();
                 tTotalW=tTotalW+progressByDates.get(i).getTotal_wrong();
                 tTotalC=tTotalC+progressByDates.get(i).getTotal_correct();
+            }
+            else{
+           //     break;
             }
 
 
