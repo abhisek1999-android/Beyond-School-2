@@ -180,7 +180,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
                     android:text="9/10 "
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 

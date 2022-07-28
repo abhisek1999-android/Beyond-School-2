@@ -12,12 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
+import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 
 import java.util.List;
 
 public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ProgressViewHolder>{
 
     List<ProgressM> list ;
+    List<ProgressTableWise>  listTableWise;
+    String val="wt";
     Context context;
 
     public ProgressAdapter(Context context) {
@@ -27,6 +31,13 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
     public void setNotesList(List<ProgressM> list){
 
         this.list=list;
+        notifyDataSetChanged();
+    }
+
+    public void setNotesList(List<ProgressTableWise> list,String val){
+
+        this.listTableWise=list;
+        this.val=val;
         notifyDataSetChanged();
     }
 
@@ -42,19 +53,46 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
 
     @Override
     public void onBindViewHolder(@NonNull ProgressViewHolder holder, int position) {
-        holder.tableNumber.setText(list.get(position).table);
-        holder.desc1.setText(list.get(position).date);
-        holder.desc2.setText("Used at: "+list.get(position).time);
-        holder.desc3.setText(list.get(position).time_to_complete);
-        holder.result.setText(list.get(position).correct+"/10");
 
-        holder.resultProgress.setMax(10);
-        holder.resultProgress.setProgress(list.get(position).correct);
+        if (val.equals("wt")){
+            holder.tableNumber.setText(list.get(position).table);
+            holder.desc1.setText(list.get(position).date);
+            holder.desc2.setText("Used at: "+list.get(position).time);
+            holder.desc3.setText(new UtilityFunctions().formatTime(list.get(position).time_to_complete));
+            holder.result.setText(list.get(position).correct+"/"+(list.get(position).correct+list.get(position).wrong));
+            holder.resultProgress.setMax((int)(list.get(position).correct+list.get(position).wrong));
+            holder.resultProgress.setProgress((int)list.get(position).correct);
+        }
+        else{
+
+            holder.tableNumber.setText(listTableWise.get(position).getTable());
+            holder.desc1.setText(val);
+            holder.desc2.setText(listTableWise.get(position).getCount()+"  times used.");
+            holder.desc3.setText(new UtilityFunctions().formatTime(listTableWise.get(position).getTotal_time()));
+            holder.result.setText(listTableWise.get(position).getTotal_correct()+"/"+(listTableWise.get(position).getTotal_correct()+
+                    listTableWise.get(position).getTotal_wrong()));
+            holder.resultProgress.setMax((int)(listTableWise.get(position).getTotal_correct()+ listTableWise.get(position).getTotal_wrong()));
+            holder.resultProgress.setProgress((int)listTableWise.get(position).getTotal_correct());
+
+
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+
+        try{
+            if (val.equals("wt"))
+                return list.size();
+            else
+                return listTableWise.size();
+        }catch (Exception e){
+
+
+        }
+        return 0;
+
     }
 
     protected class ProgressViewHolder extends RecyclerView.ViewHolder {

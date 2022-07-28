@@ -30,9 +30,9 @@ public final class ProgressDataBase_Impl extends ProgressDataBase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `ProgressM` (`date` TEXT, `table` TEXT, `time_to_complete` TEXT, `correct` INTEGER NOT NULL, `time` TEXT, `wrong` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, `is_complete` TEXT, `progress_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `ProgressM` (`date` TEXT, `table` TEXT, `time_to_complete` INTEGER NOT NULL, `correct` INTEGER NOT NULL, `time` TEXT, `wrong` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, `is_complete` TEXT, `progress_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14055b4b6ad455a476e8506fd078df0a')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e644f0d86cf9223a4745e0537ebef55b')");
       }
 
       @Override
@@ -79,7 +79,7 @@ public final class ProgressDataBase_Impl extends ProgressDataBase {
         final HashMap<String, TableInfo.Column> _columnsProgressM = new HashMap<String, TableInfo.Column>(9);
         _columnsProgressM.put("date", new TableInfo.Column("date", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProgressM.put("table", new TableInfo.Column("table", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsProgressM.put("time_to_complete", new TableInfo.Column("time_to_complete", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsProgressM.put("time_to_complete", new TableInfo.Column("time_to_complete", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProgressM.put("correct", new TableInfo.Column("correct", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProgressM.put("time", new TableInfo.Column("time", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProgressM.put("wrong", new TableInfo.Column("wrong", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -97,7 +97,7 @@ public final class ProgressDataBase_Impl extends ProgressDataBase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "14055b4b6ad455a476e8506fd078df0a", "020c4e802723aaf1abe99f20739831f0");
+    }, "e644f0d86cf9223a4745e0537ebef55b", "0df44b8864e58341baf99753ec4d6a32");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

@@ -9,6 +9,7 @@ import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import com.maths.beyond_school_280720220930.model.ProgressDate;
+import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -43,11 +44,7 @@ public final class ProgressDao_Impl implements ProgressDao {
         } else {
           stmt.bindString(2, value.table);
         }
-        if (value.time_to_complete == null) {
-          stmt.bindNull(3);
-        } else {
-          stmt.bindString(3, value.time_to_complete);
-        }
+        stmt.bindLong(3, value.time_to_complete);
         stmt.bindLong(4, value.correct);
         if (value.time == null) {
           stmt.bindNull(5);
@@ -123,10 +120,10 @@ public final class ProgressDao_Impl implements ProgressDao {
         _item = new ProgressM();
         _item.date = _cursor.getString(_cursorIndexOfDate);
         _item.table = _cursor.getString(_cursorIndexOfTable);
-        _item.time_to_complete = _cursor.getString(_cursorIndexOfTimeToComplete);
-        _item.correct = _cursor.getInt(_cursorIndexOfCorrect);
+        _item.time_to_complete = _cursor.getLong(_cursorIndexOfTimeToComplete);
+        _item.correct = _cursor.getLong(_cursorIndexOfCorrect);
         _item.time = _cursor.getString(_cursorIndexOfTime);
-        _item.wrong = _cursor.getInt(_cursorIndexOfWrong);
+        _item.wrong = _cursor.getLong(_cursorIndexOfWrong);
         _item.timestamp = _cursor.getLong(_cursorIndexOfTimestamp);
         _item.is_completed = _cursor.getString(_cursorIndexOfIsCompleted);
         _item.progress_id = _cursor.getInt(_cursorIndexOfProgressId);
@@ -167,10 +164,10 @@ public final class ProgressDao_Impl implements ProgressDao {
         _item = new ProgressM();
         _item.date = _cursor.getString(_cursorIndexOfDate);
         _item.table = _cursor.getString(_cursorIndexOfTable);
-        _item.time_to_complete = _cursor.getString(_cursorIndexOfTimeToComplete);
-        _item.correct = _cursor.getInt(_cursorIndexOfCorrect);
+        _item.time_to_complete = _cursor.getLong(_cursorIndexOfTimeToComplete);
+        _item.correct = _cursor.getLong(_cursorIndexOfCorrect);
         _item.time = _cursor.getString(_cursorIndexOfTime);
-        _item.wrong = _cursor.getInt(_cursorIndexOfWrong);
+        _item.wrong = _cursor.getLong(_cursorIndexOfWrong);
         _item.timestamp = _cursor.getLong(_cursorIndexOfTimestamp);
         _item.is_completed = _cursor.getString(_cursorIndexOfIsCompleted);
         _item.progress_id = _cursor.getInt(_cursorIndexOfProgressId);
@@ -203,6 +200,52 @@ public final class ProgressDao_Impl implements ProgressDao {
         final long _tmpTotal_correct;
         _tmpTotal_correct = _cursor.getLong(_cursorIndexOfTotalCorrect);
         _item.setTotal_correct(_tmpTotal_correct);
+        final long _tmpTotal_wrong;
+        _tmpTotal_wrong = _cursor.getLong(_cursorIndexOfTotalWrong);
+        _item.setTotal_wrong(_tmpTotal_wrong);
+        _result.add(_item);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public List<ProgressTableWise> getSumOFTableDataByDate(final String date) {
+    final String _sql = "SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM progressM WHERE date=? GROUP BY `table`";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    if (date == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, date);
+    }
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _cursorIndexOfTable = CursorUtil.getColumnIndexOrThrow(_cursor, "table");
+      final int _cursorIndexOfCount = CursorUtil.getColumnIndexOrThrow(_cursor, "count");
+      final int _cursorIndexOfTotalCorrect = CursorUtil.getColumnIndexOrThrow(_cursor, "total_correct");
+      final int _cursorIndexOfTotalTime = CursorUtil.getColumnIndexOrThrow(_cursor, "total_time");
+      final int _cursorIndexOfTotalWrong = CursorUtil.getColumnIndexOrThrow(_cursor, "total_wrong");
+      final List<ProgressTableWise> _result = new ArrayList<ProgressTableWise>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final ProgressTableWise _item;
+        _item = new ProgressTableWise();
+        final String _tmpTable;
+        _tmpTable = _cursor.getString(_cursorIndexOfTable);
+        _item.setTable(_tmpTable);
+        final long _tmpCount;
+        _tmpCount = _cursor.getLong(_cursorIndexOfCount);
+        _item.setCount(_tmpCount);
+        final long _tmpTotal_correct;
+        _tmpTotal_correct = _cursor.getLong(_cursorIndexOfTotalCorrect);
+        _item.setTotal_correct(_tmpTotal_correct);
+        final long _tmpTotal_time;
+        _tmpTotal_time = _cursor.getLong(_cursorIndexOfTotalTime);
+        _item.setTotal_time(_tmpTotal_time);
         final long _tmpTotal_wrong;
         _tmpTotal_wrong = _cursor.getLong(_cursorIndexOfTotalWrong);
         _item.setTotal_wrong(_tmpTotal_wrong);

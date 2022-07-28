@@ -2563,6 +2563,7 @@ drawable googleg_standard_color_18
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_close_24
+drawable ic_baseline_delete_24
 drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_mic_24
@@ -2816,6 +2817,7 @@ id clockwise
 id closeButton
 id closest
 id collapseActionView
+id completeLayout
 id compress
 id confirm_button
 id confirmpass
@@ -2839,6 +2841,7 @@ id decelerate
 id decelerateAndComplete
 id decor_content_parent
 id default_activity_button
+id deleteButton
 id deltaRelative
 id dependency_ordering
 id descriptionTextView
@@ -2974,6 +2977,7 @@ id listMode
 id list_item
 id logCard
 id logRecyclerView
+id logSwitch
 id logTextView
 id login
 id logincard
@@ -3052,6 +3056,7 @@ id neverCompleteToEnd
 id neverCompleteToStart
 id next
 id nextbtn
+id noData
 id noDataText
 id noScroll
 id noState
@@ -3097,6 +3102,7 @@ id progress_horizontal
 id progressresult
 id questionLayout
 id questionProgress
+id rLayout
 id radio
 id ratio
 id rectangles
@@ -3394,6 +3400,7 @@ layout activity_login_signup
 layout activity_main
 layout activity_score
 layout activity_select_action
+layout activity_settings
 layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
@@ -4724,6 +4731,7 @@ style Widget_MaterialComponents_Toolbar_PrimarySurface
 style Widget_MaterialComponents_Toolbar_Surface
 style Widget_MaterialComponents_Tooltip
 style Widget_Support_CoordinatorLayout
+style background
 style card_background
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity

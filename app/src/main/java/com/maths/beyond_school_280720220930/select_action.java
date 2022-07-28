@@ -62,7 +62,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         TableWithoutHint=findViewById(R.id.button);
         titleText=findViewById(R.id.titleText);
         RandomTable=findViewById(R.id.button7);
-        //resume_last=findViewById(R.id.button5);
+        resume_last=findViewById(R.id.resume);
         practice=findViewById(R.id.button6);
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.navigation_view);
@@ -95,7 +95,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         int TableValue=intent.getIntExtra("value",0);
 
         titleText.setText("Table of - "+String.format("%02d", TableValue)+"");
-        titleText.setTextSize(20);
+        //titleText.setTextSize(20);
 
         sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
@@ -137,6 +137,17 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         mAdapter.notifyDataSetChanged();*/
 
 
+//        resume_last.setOnClickListener(v->{
+//
+//            Intent intent1=new Intent(select_action.this,table_with_hint.class);
+//            intent1.putExtra("ValueOfTable",TableValue);
+//            intent1.putExtra("count",1);
+//            intent1.putExtra("status","tablewithhint");
+//            startActivity(intent1);
+//
+//        });
+
+
         dash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +166,8 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View view) {
 
+                startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
 

@@ -180,7 +180,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
                     android:text="9/10 "
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -395,7 +395,7 @@
                     android:gravity="center"
                     android:text="Next" />
             </LinearLayout>-->
-            <androidx.cardview.widget.CardView
+            <!--<androidx.cardview.widget.CardView
                 android:id="@+id/home"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -468,7 +468,7 @@
                         android:textColor="@color/teal_700"
                         android:textSize="15sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/nextbtn"

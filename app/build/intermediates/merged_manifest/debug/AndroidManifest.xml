@@ -43,7 +43,13 @@
         android:testOnly="true"
         android:theme="@style/Theme.BEYOND_SCHOOL" >
         <activity
-            android:name="com.maths.beyond_school_280720220930.ScoreActivity"
+            android:name="com.maths.beyond_school_280720220930.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.AlarmAtTime"
+            android:exported="false" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.LogActivity"
             android:exported="false" />
         <activity
             android:name="com.maths.beyond_school_280720220930.SplashScreen"
@@ -58,11 +64,19 @@
             android:name="com.maths.beyond_school_280720220930.Random_questions"
             android:exported="true" />
         <activity
+            android:name="com.maths.beyond_school_280720220930.DashBoardActivity"
+            android:exported="true"
+            android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
+        <activity
             android:name="com.maths.beyond_school_280720220930.TestActivity"
             android:exported="true" />
         <activity
-            android:name="com.maths.beyond_school_280720220930.select_action"
+            android:name="com.maths.beyond_school_280720220930.ScoreActivity"
             android:exported="true" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.select_action"
+            android:exported="true"
+            android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
         <activity
             android:name="com.maths.beyond_school_280720220930.table_questions"
             android:exported="true"
@@ -80,9 +94,7 @@
             android:name="com.maths.beyond_school_280720220930.ClearService"
             android:stopWithTask="false" />
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+        <receiver android:name="com.maths.beyond_school_280720220930.model.AlarmReceiver" />
 
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"

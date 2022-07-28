@@ -41,49 +41,7 @@
             android:orientation="horizontal"
           >-->
 
-            <!--<androidx.cardview.widget.CardView
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                app:cardBackgroundColor="#00000000"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/background_border"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="25dp">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:text="Resume Where You Finished"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="@color/teal_700"
-                        android:textSize="24sp"
-                        app:shapeAppearanceOverlay="@style/Button4" />
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>-->
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/button4"
@@ -119,10 +77,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:gravity="center"
                         android:layout_toEndOf="@id/image1"
                         android:backgroundTint="@color/white"
-                        android:fontFamily="@font/poppins"
+                        android:fontFamily="@font/reemkufi_medium"
                         android:paddingHorizontal="15dp"
                         android:text="Listen Table"
                         android:textAllCaps="false"
@@ -136,7 +93,44 @@
 
 
             </com.google.android.material.card.MaterialCardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/resume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20sp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:gravity="center"
+                        android:text="Resume Where You Finished"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/teal_700"
+                        android:textSize="16sp"
+                        app:shapeAppearanceOverlay="@style/Button4" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/button"
@@ -171,17 +165,15 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal"
                         android:layout_toEndOf="@id/image_4"
                         android:backgroundTint="@color/white"
-                        android:fontFamily="@font/poppins"
+                        android:fontFamily="@font/reemkufi_medium"
 
                         android:paddingHorizontal="5dp"
                         android:text="Practice Without Hint"
-                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
@@ -226,10 +218,8 @@
                         android:layout_gravity="center"
                         android:layout_toEndOf="@id/image3"
                         android:backgroundTint="@color/white"
-                        android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:padding="15dp"
-                        android:text="Check How Much You Have Learned"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="Check How Much You Have\n Learned"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
@@ -275,9 +265,7 @@
                         android:layout_gravity="right"
                         android:layout_toEndOf="@id/image4"
                         android:backgroundTint="@color/white"
-                        android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:padding="15dp"
+                        android:fontFamily="@font/reemkufi_medium"
                         android:text="Practice Questions From\nAlready Memorised Tables"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"

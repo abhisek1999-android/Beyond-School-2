@@ -14,16 +14,16 @@ public class ProgressM {
     public String  table;
 
     @ColumnInfo(name="time_to_complete")
-    public String  time_to_complete;
+    public long  time_to_complete;
 
     @ColumnInfo(name="correct")
-    public int   correct;
+    public long   correct;
 
     @ColumnInfo(name="time")
     public String  time;
 
     @ColumnInfo(name="wrong")
-    public int    wrong;
+    public long    wrong;
 
     @ColumnInfo(name="timestamp")
     public  long  timestamp;

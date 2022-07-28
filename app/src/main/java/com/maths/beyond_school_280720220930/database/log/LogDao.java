@@ -17,6 +17,9 @@ public interface LogDao {
     @Insert
     void insertNotes(Log...progresses);
 
+    @Query("DELETE FROM log")
+    void deleteAll();
+
     @Delete
     void delete(Log progress);
 }

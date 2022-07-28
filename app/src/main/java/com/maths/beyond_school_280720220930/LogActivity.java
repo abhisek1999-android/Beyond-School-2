@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 
 import com.maths.beyond_school_280720220930.adapters.LogAdapter;
@@ -17,6 +18,7 @@ public class LogActivity extends AppCompatActivity {
 
     LogAdapter logAdapter;
     RecyclerView logRecyclerView;
+    ImageView deleteAllLog;
 
 
 
@@ -27,10 +29,24 @@ public class LogActivity extends AppCompatActivity {
 
 
         logRecyclerView=findViewById(R.id.logRecyclerView);
+        deleteAllLog=findViewById(R.id.deleteButton);
         logRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         logAdapter = new LogAdapter(getApplicationContext());
         logRecyclerView.setAdapter(logAdapter);
         loadNoteList();
+
+
+        deleteAllLog.setOnClickListener(v->{
+
+            try{
+                LogDatabase db = LogDatabase.getDbInstance(this.getApplicationContext());
+                db.logDao().deleteAll();
+                loadNoteList();
+            }catch (Exception e){
+
+            }
+
+        });
 
     }
 

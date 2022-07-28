@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
@@ -70,6 +71,8 @@ private FirebaseAnalytics mFirebaseAnalytics;
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        PrefConfig.writeIdInPref(getApplicationContext(),"true","IS_LOG_ENABLE");
+        PrefConfig.writeIntInPref(getApplicationContext(),0,"LAST_TABLE");
         //new line added
 
         //Setting notification channel................................................................................
@@ -131,6 +134,9 @@ private FirebaseAnalytics mFirebaseAnalytics;
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
 
             }
         });
@@ -231,7 +237,9 @@ private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

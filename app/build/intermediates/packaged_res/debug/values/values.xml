@@ -100,6 +100,11 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
     </style>
+    <style name="background" parent="CardView">
+
+        <item name="backgroundColor">@color/tp_white</item>
+
+    </style>
     <style name="card_background" parent="CardView">
 
         <item name="cardBackgroundColor">@color/tp_white</item>

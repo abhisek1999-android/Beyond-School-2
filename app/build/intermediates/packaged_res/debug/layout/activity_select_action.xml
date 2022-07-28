@@ -119,7 +119,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:gravity="center"
                         android:layout_toEndOf="@id/image1"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
@@ -171,7 +170,6 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal"
@@ -181,7 +179,6 @@
 
                         android:paddingHorizontal="5dp"
                         android:text="Practice Without Hint"
-                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
                         android:textSize="16sp"
@@ -227,8 +224,6 @@
                         android:layout_toEndOf="@id/image3"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:padding="15dp"
                         android:text="Check How Much You Have Learned"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
@@ -276,8 +271,6 @@
                         android:layout_toEndOf="@id/image4"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins"
-                        android:gravity="center"
-                        android:padding="15dp"
                         android:text="Practice Questions From\nAlready Memorised Tables"
                         android:textAllCaps="false"
                         android:textColor="@color/teal_700"
