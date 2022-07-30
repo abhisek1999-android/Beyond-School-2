@@ -209,54 +209,17 @@
     <LinearLayout
         android:id="@+id/score"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp">
 
 
-        <LinearLayout
-            android:id="@+id/layout_set"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="40dp"
-                    app:cardElevation="0dp">
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@color/teal_700"
-                        android:fontFamily="@font/reemkufi_medium"
-                        android:gravity="center"
-                        android:text="08"
-                        android:textColor="@color/white"
-                        android:textSize="40sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
@@ -273,14 +236,52 @@
                     android:id="@+id/textView36"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@color/sweet_red"
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
                     android:text="02"
-                    android:textColor="@color/white"
+                    android:textColor="@color/sweet_red"
                     android:textSize="40sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_set"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:gravity="center"
+                        android:text="08"
+                        android:textColor="@color/teal_700"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -311,8 +312,7 @@
         android:id="@+id/dialPadLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <include layout="@layout/log_bottom_sheet" />
 

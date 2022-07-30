@@ -13,15 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.collection.LLRBNode;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 
 public class ScoreActivity extends AppCompatActivity {
     TextView score,certify, head,right,wrong,nextTextView;
     CardView replay,next,home;
     ImageView back;
     ProgressBar progressBar;
+    String status="";
 
     String activity="";
-    int score_val=0,tname=2,wrans=0;
+    int score_val=0,tname=2,wrans=0,maxTable=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +39,20 @@ public class ScoreActivity extends AppCompatActivity {
         back=findViewById(R.id.imageView4);
         progressBar=findViewById(R.id.progressBar);
         nextTextView=findViewById(R.id.next);
+        PrefConfig.writeIntInPref(getApplicationContext(),0,getResources().getString(R.string.multiplicand));
 
             head.setText("Score Card");
             score_val=getIntent().getIntExtra("score",0);
             tname=getIntent().getIntExtra("tname",0);
             activity=getIntent().getStringExtra("activity");
+            status=getIntent().getStringExtra("status");
+            maxTable=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.last_table));
             //Toast.makeText(this, ""+score_val, Toast.LENGTH_SHORT).show();
 
 
 
         if (activity.equals("table_q")){
-            nextTextView.setText("Random");
+            nextTextView.setText("Try Random");
         }
 
             progressBar.setMax(10);
@@ -67,7 +72,10 @@ public class ScoreActivity extends AppCompatActivity {
                 wrong.setText(String.valueOf(wrans));
             }
             if (score_val>=9){
-                certify.setText("Well Done! You have mastered Table Of "+tname);
+                if (status.equals("practice"))
+                  certify.setText("Well Done! You have mastered Table upto "+maxTable);
+                else
+                  certify.setText("Well Done! You have mastered Table of "+tname);
             }else {
                 next.setVisibility(View.GONE);
                 certify.setText("Don't worry,You Tried your best. Revise the Table and give it one more try");
@@ -94,14 +102,26 @@ public class ScoreActivity extends AppCompatActivity {
                 if (activity.equals("table_q")){
                     Intent intent=new Intent(ScoreActivity.this,Random_questions.class);
                     intent.putExtra("ValueOfTable",tname);
+                    intent.putExtra("status","tableRandom");
                     startActivity(intent);
                     finishAffinity();
                 }
                 else{
-                    Intent intent=new Intent(ScoreActivity.this,select_action.class);
-                    intent.putExtra("value",tname+1);
-                    startActivity(intent);
-                    finishAffinity();
+                    if (status.equals("practice")){
+                        Intent intent=new Intent(ScoreActivity.this,select_action.class);
+                        intent.putExtra("value",maxTable+1);
+                        intent.putExtra("status","tableWithoutHint");
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+                    else {
+                        Intent intent=new Intent(ScoreActivity.this,select_action.class);
+                        intent.putExtra("value",tname+1);
+                        intent.putExtra("status","tableWithoutHint");
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+
                 }
 
             }

@@ -62,7 +62,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class table_questions extends AppCompatActivity implements RecognizeVoice.GetResult, ReadText.GetResultSpeech {
-    ImageView back;
+    ImageView back,logInfo;
     ToggleButton pause_play;
     CardView card;
     TextView Table, right_ans, wrong_ans, question_count, ans;
@@ -94,6 +94,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     Date end;
     Date timeStamp;
     long delayTime=2000;
+    long delayAtTheEnd=500;
+    String status;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -107,7 +109,18 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         wakeLock.acquire();
 
 
-        toolbar = (Toolbar)findViewById(R.id.toolBar);
+
+        logInfo=findViewById(R.id.logInfo);
+
+        if (PrefConfig.readIdInPref(getApplicationContext(),"IS_LOG_ENABLE").equals("true")){
+            logInfo.setVisibility(View.VISIBLE);
+
+        }
+
+        logInfo.setOnClickListener(v->{
+                startActivity(new Intent(getApplicationContext(),LogActivity.class));
+        });
+
         setSupportActionBar(toolbar);
 
 
@@ -118,6 +131,11 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         nManager = ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class));
         Intent intent = getIntent();
         TableValue = intent.getIntExtra("ValueOfTable", 0);
+        status=intent.getStringExtra("status");
+        count=intent.getIntExtra("count",1);
+        rtans=intent.getIntExtra("right",0);
+        wrans=intent.getIntExtra("wrong",0);
+
         back = findViewById(R.id.imageView4);
         card = findViewById(R.id.ShowTable);
         pause_play = findViewById(R.id.playPause);
@@ -145,6 +163,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
 
+        Table.setText("Table of "+TableValue);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
@@ -171,6 +190,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             if (pause_play.isChecked()) {
 
                 timeStamp=new Date();
+                muteAudioStream();
               //  progressBar.setVisibility(View.VISIBLE);
                 if (count > 10)
                     count = 1;
@@ -180,7 +200,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 }
 
                 isActive = true;
-                muteAudioStream();
+
                //amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
                 try {
                     ReadFullTable(TableValue);
@@ -199,6 +219,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 nManager.cancelAll();
             }
         });
@@ -497,15 +518,21 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
         if (!logTextView.getText().toString().equals("LOG"))
         {
-            addData();
+            if (PrefConfig.readIdInPref(getApplicationContext(),"IS_LOG_ENABLE").equals("true")){
+                addData();
+            }
             addProgressData();
         }
 
+        last_status();
         try{
 
-            if (PrefConfig.readIntInPref(getApplicationContext(),"LAST_TABLE")<TableValue){
-                PrefConfig.writeIntInPref(getApplicationContext(),TableValue,"LAST_TABLE");
+            if (count>=10){
+                if (PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.last_table))<TableValue){
+                    PrefConfig.writeIntInPref(getApplicationContext(),TableValue,getResources().getString(R.string.last_table));
+                }
             }
+
 
         }catch (Exception e){}
 
@@ -523,6 +550,26 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             db.logDao().insertNotes(logInfo);
         }catch (Exception e){
 
+        }
+
+    }
+
+
+     private void last_status() {
+
+        try{
+            if (count<11) {
+
+                PrefConfig.writeIntInPref(getApplicationContext(),TableValue,getResources().getString(R.string.multiplicand));
+                PrefConfig.writeIntInPref(getApplicationContext(),count,getResources().getString(R.string.multiplier));
+                PrefConfig.writeIntInPref(getApplicationContext(),rtans,getResources().getString(R.string.right));
+                PrefConfig.writeIntInPref(getApplicationContext(),wrans,getResources().getString(R.string.wrong));
+                PrefConfig.writeIdInPref(getApplicationContext(),status,getResources().getString(R.string.status));
+
+            } else {
+
+            }
+        }catch (Exception e){
         }
 
     }
@@ -581,7 +628,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
     @Override
-    public void gettingResult(String title) {
+    public void gettingResult(String title) throws InterruptedException {
 
         Log.i("InActivity", "onResult" + title);
 
@@ -634,7 +681,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
                     delayTime=1000;
-                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff));
+                    delayAtTheEnd=600;
+                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     rtans++;
                     readText.read("CORRECT");
                     right_ans.setText(String.valueOf(rtans));
@@ -644,8 +692,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                    delayTime=2000;
-                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
+                    delayTime=3000;
+                    delayAtTheEnd=1800;
+                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
                     wrong_ans.setText(String.valueOf(wrans));
@@ -656,19 +705,26 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 end=new Date();
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff));
-                delayTime=2000;
+                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                delayTime=3000;
+                delayAtTheEnd=1800;
                 readText.read("INCORRECT, Correct is " + result);
                 wrans++;
                 wrong_ans.setText(String.valueOf(wrans));
             }
-//            if (count>10){
-//                Intent intent=new Intent(table_questions.this,ScoreActivity.class);
-//                intent.putExtra("score",rtans);
-//                intent.putExtra("tname",TableValue);
-//                startActivity(intent);
-//                finish();
-//            }
+            if (count>10){
+                Log.i("inactivity","gt10");
+
+                unMuteAudioStream();
+                Thread.sleep(delayAtTheEnd);
+                Intent intent=new Intent(table_questions.this,ScoreActivity.class);
+                intent.putExtra("score",rtans);
+                intent.putExtra("activity","table_q");
+                intent.putExtra("status",status);
+                intent.putExtra("tname",TableValue);
+                startActivity(intent);
+                finish();
+            }
             Handler handler = new Handler();
             final Runnable r = new Runnable() {
                 public void run() {
@@ -748,38 +804,39 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 //            mic.setVisibility(View.VISIBLE);
 //        }
 
-        if (count > 10) {
-            Log.i("inactivity","gt10");
-
-            Thread.sleep(500);
-            unMuteAudioStream();
-            Intent intent=new Intent(table_questions.this,ScoreActivity.class);
-            intent.putExtra("activity","table_q");
-            intent.putExtra("score",rtans);
-            intent.putExtra("tname",TableValue);
-            startActivity(intent);
-            finish();
-//            Handler handler = new Handler();
-//            final Runnable r = new Runnable() {
-//                public void run() {
-//                   // recognizeVoice.speech.stopListening();
-//                    counter = 0;
-//                    pause_play.setChecked(false);
-//                    rtans = 0;
-//                    wrans = 0;
-//                    right_ans.setText("0");
-//                    wrong_ans.setText("0");
-//                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-//                    collectdata.setText("");
-//                    ans.setText("");
-//                    nManager.cancelAll();
-//                    pause_play.setVisibility(View.VISIBLE);
-//                }
-//            };
-//            handler.postDelayed(r, 1000);
-
-
-        }
+//        if (count > 10) {
+//            Log.i("inactivity","gt10");
+//
+//            Thread.sleep(delayAtTheEnd);
+//            unMuteAudioStream();
+//            Intent intent=new Intent(table_questions.this,ScoreActivity.class);
+//            intent.putExtra("activity","table_q");
+//            intent.putExtra("score",rtans);
+//            intent.putExtra("status",status);
+//            intent.putExtra("tname",TableValue);
+//            startActivity(intent);
+//            finish();
+////            Handler handler = new Handler();
+////            final Runnable r = new Runnable() {
+////                public void run() {
+////                   // recognizeVoice.speech.stopListening();
+////                    counter = 0;
+////                    pause_play.setChecked(false);
+////                    rtans = 0;
+////                    wrans = 0;
+////                    right_ans.setText("0");
+////                    wrong_ans.setText("0");
+////                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+////                    collectdata.setText("");
+////                    ans.setText("");
+////                    nManager.cancelAll();
+////                    pause_play.setVisibility(View.VISIBLE);
+////                }
+////            };
+////            handler.postDelayed(r, 1000);
+//
+//
+//        }
 
 
     }
@@ -813,11 +870,13 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
 
-    public void sendAnalyticsData(String result,String detected,String tag,String timeTaken){
+    public void sendAnalyticsData(String result, String detected, String tag, String timeTaken, String s){
+
         resultBundle.putString("original_result",result);
         resultBundle.putString("detected_result",detected);
         resultBundle.putString("tag",tag);
         resultBundle.putString("timeTaken",timeTaken);
+        resultBundle.putString("Question",s);
         mFirebaseAnalytics.logEvent("result_verification",resultBundle);
 
     }

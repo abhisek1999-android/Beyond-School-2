@@ -116,7 +116,7 @@ public class RecognizeVoice implements RecognitionListener {
         Log.i("LOG_TAG", "EndOfSpeech");
         Log.i("LOG_TAG", "onEndOfSpeech");
        // progressBar.setIndeterminate(true);
-        getResult.getLogResult("End Of Speech\n");
+      //  getResult.getLogResult("End Of Speech\n");
         stopListening();
 
     }
@@ -124,7 +124,7 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onError(int i) {
 
-        getResult.getLogResult("Error : "+getErrorText(i)+"\n");
+      //  getResult.getLogResult("Error : "+getErrorText(i)+"\n");
         Log.i("SpeechError",getErrorText(i));
         try {
             getResult.errorAction(i);
@@ -144,7 +144,11 @@ public class RecognizeVoice implements RecognitionListener {
 
         getResult.getLogResult("Result: "+matches.get(0).trim()+"\n");
         if (matches.get(0).trim().matches(onlyNumber)){
-        getResult.gettingResult(matches.get(0).trim());
+            try {
+                getResult.gettingResult(matches.get(0).trim());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         else{
 
@@ -232,7 +236,7 @@ public class RecognizeVoice implements RecognitionListener {
 
     public interface GetResult{
 
-        void gettingResult(String title);
+        void gettingResult(String title) throws InterruptedException;
         void getLogResult(String title);
         void errorAction(int i) throws InterruptedException;
 

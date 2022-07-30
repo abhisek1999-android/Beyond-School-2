@@ -47,6 +47,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -66,6 +67,7 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
     long totalQ=0,totalW=0,totalC=0,tTotalQ=0,tTotalW=0,tTotalC=0;
     ImageView back;
     ProgressBar tProgress;
+    TextView progressDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         totalQuestion=findViewById(R.id.totalQuestion);
         totalCorrect=findViewById(R.id.totalRight);
         totalWrong=findViewById(R.id.totalWrong);
+        progressDate=findViewById(R.id.progressDate);
 
         tProgress=findViewById(R.id.tProgressResult);
 
@@ -112,7 +115,8 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         barChart.setDrawGridBackground(true);
         barChart.setTouchEnabled(true);
         barChart.setDragEnabled(true);
-
+        barChart.getAxisLeft().setDrawLabels(false);
+        barChart.getAxisRight().setDrawLabels(false);
 
         Legend l = barChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -235,10 +239,15 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
         List<ProgressM> notesList = db.progressDao().getAllProgress();
 
-        if (notesList.size()==0)
+        if (notesList.size()==0){
             noDataText.setVisibility(View.VISIBLE);
-        else
+            progressRecyclerView.setVisibility(View.GONE);
+        }
+
+        else{
             noDataText.setVisibility(View.GONE);
+            progressRecyclerView.setVisibility(View.VISIBLE);
+        }
         Log.i("List", notesList + "");
         progressAdapter.setNotesList(notesList);
 
@@ -249,6 +258,13 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
 
         ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
         List<ProgressTableWise> notesList = db.progressDao().getSumOFTableDataByDate(date);
+        Date date_=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        if (!formatter.format(date_).equals(date))
+            progressDate.setText("Progress on "+date);
+        else
+            progressDate.setText("Today's Progress");
 
         tTotalC=0;
         tTotalW=0;
@@ -266,12 +282,18 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         tProgress.setMax((int)tTotalQ);
         tProgress.setProgress((int)tTotalC);
 
-       if (notesList.size()==0)
-            noDataText.setVisibility(View.VISIBLE);
-        else
+       if (notesList.size()==0){
+           noDataText.setVisibility(View.VISIBLE);
+           progressRecyclerView.setVisibility(View.GONE);
+       }
+
+        else{
             noDataText.setVisibility(View.GONE);
+            progressRecyclerView.setVisibility(View.VISIBLE);
+        }
+
         Log.i("ListSUMTABLE", notesList + "");
-        progressAdapter.setNotesList(notesList,"28/07/2022");
+        progressAdapter.setNotesList(notesList,date);
 
     }
 
@@ -282,10 +304,15 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
         List<ProgressM> notesList = db.progressDao().getAllProgressByDate(dt);
         Log.i("List", notesList + "");
-        if (notesList.size()==0)
+        if (notesList.size()==0){
             noDataText.setVisibility(View.VISIBLE);
-        else
+            progressRecyclerView.setVisibility(View.GONE);
+        }
+
+        else{
             noDataText.setVisibility(View.GONE);
+            progressRecyclerView.setVisibility(View.VISIBLE);
+        }
 
         progressAdapter.setNotesList(notesList);
 
@@ -313,6 +340,9 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
 
         float start = 1f;
         ArrayList<BarEntry> values = new ArrayList<>();
+
+
+        Collections.reverse(progressByDates);
 
         if (progressByDates.size()>0){
             noData.setVisibility(View.GONE);

@@ -2528,9 +2528,6 @@ drawable btn_radio_on_to_off_mtrl_animation
 drawable card_bac
 drawable cartoon_action_page
 drawable cartoon_image_1
-drawable cat1
-drawable cat2
-drawable cat3
 drawable circumference
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
@@ -2560,12 +2557,14 @@ drawable design_snackbar_background
 drawable dot_line
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable ic_baseline_1x_mobiledata_24
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_close_24
 drawable ic_baseline_delete_24
 drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
+drawable ic_baseline_info_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
@@ -2594,9 +2593,10 @@ drawable ic_nav
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
+drawable ic_resume_last
+drawable ic_right
 drawable ic_settings
-drawable kid2
-drawable kididea
+drawable ic_wrong
 drawable light_bulb
 drawable logo
 drawable logo_final
@@ -2812,7 +2812,6 @@ id circle_center
 id clear_text
 id clip_horizontal
 id clip_vertical
-id clock
 id clockwise
 id closeButton
 id closest
@@ -2836,6 +2835,7 @@ id customPanel
 id cut
 id dark
 id dash
+id datePicker1
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2941,7 +2941,6 @@ id image1
 id image3
 id image4
 id imageView
-id imageView2
 id imageView3
 id imageView4
 id imageView5
@@ -2976,6 +2975,7 @@ id linearLayout2
 id listMode
 id list_item
 id logCard
+id logInfo
 id logRecyclerView
 id logSwitch
 id logTextView
@@ -3094,6 +3094,8 @@ id postLayout
 id profileImage
 id progressBar
 id progressBar1
+id progressCircle
+id progressDate
 id progressDetails
 id progressReport
 id progressResult
@@ -3111,6 +3113,7 @@ id remind
 id restart
 id result
 id resultText
+id resume
 id retry
 id reverse
 id reverseSawtooth
@@ -3144,9 +3147,7 @@ id search_src_text
 id search_voice_btn
 id select_dialog_listview
 id selected
-id selectedTime
 id selection_type
-id selecttimebtn
 id setalarmbtn
 id settings
 id share
@@ -3226,7 +3227,6 @@ id textSpacerNoTitle
 id textStart
 id textTop
 id textView
-id textView12
 id textView22
 id textView23
 id textView24
@@ -3595,6 +3595,8 @@ string hide_bottom_view_on_scroll_behavior
 string icon_content_description
 string item_view_role_description
 string label
+string last_table
+string log_check
 string m3_ref_typeface_brand_medium
 string m3_ref_typeface_brand_regular
 string m3_ref_typeface_plain_medium
@@ -3666,15 +3668,20 @@ string mtrl_picker_toggle_to_day_selection
 string mtrl_picker_toggle_to_text_input_mode
 string mtrl_picker_toggle_to_year_selection
 string mtrl_timepicker_confirm
+string multiplicand
+string multiplier
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
 string project_id
+string right
 string search_menu_title
 string start
+string status
 string status_bar_notification_info_overflow
+string wrong
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style AndroidThemeColorAccentYellow

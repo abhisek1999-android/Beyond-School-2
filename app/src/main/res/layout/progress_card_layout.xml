@@ -21,10 +21,10 @@
 
             <TextView
                 android:id="@+id/numberTextView"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="0dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:text="03"
@@ -33,10 +33,10 @@
 
             <TextView
                 android:id="@+id/tableText"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/numberTextView"
-                android:layout_marginStart="10dp"
+
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
@@ -48,46 +48,50 @@
                 android:id="@+id/descriptionTextView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/numberTextView"
                 android:fontFamily="@font/reemkufi_medium"
                 android:text="Today"
-                android:textSize="20sp"
+                android:textSize="18sp"
+
                 app:layout_column="18"
                 app:layout_row="0" />
 
             <TextView
                 android:id="@+id/descriptionTextView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/descriptionTextView1"
+                android:layout_toStartOf="@id/progressCircle"
                 android:layout_toEndOf="@id/numberTextView"
                 android:drawableLeft="@drawable/ic_baseline_access_time_filled_24"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/reemkufi_medium"
-                android:text="Used at: 2:45 pm" />
+                android:text="Used at: 2:45 pm"
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/descriptionTextView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/descriptionTextView2"
+                android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/numberTextView"
                 android:drawableLeft="@drawable/ic_baseline_hourglass_top_24"
                 android:drawablePadding="3dp"
+                android:textSize="13dp"
+                android:layout_toStartOf="@id/progressCircle"
                 android:fontFamily="@font/reemkufi_medium"
-                android:layout_marginBottom="10dp"
                 android:text="Time Taken: 5 min" />
 
 
-
-
             <RelativeLayout
+                android:id="@+id/progressCircle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
 
                 >
 
@@ -104,10 +108,10 @@
                     android:id="@+id/result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/reemkufi_medium"
-                    android:text="10/10" />
+                    android:text="10/10"
+                    android:textSize="12sp" />
 
                 <TextView
 

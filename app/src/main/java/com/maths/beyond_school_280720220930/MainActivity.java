@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     ReadText readText;
     ImageView dashBoard;
     ImageView menuImageView;
+    ImageView closeButton;
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -71,8 +72,6 @@ private FirebaseAnalytics mFirebaseAnalytics;
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        PrefConfig.writeIdInPref(getApplicationContext(),"true","IS_LOG_ENABLE");
-        PrefConfig.writeIntInPref(getApplicationContext(),0,"LAST_TABLE");
         //new line added
 
         //Setting notification channel................................................................................
@@ -88,10 +87,20 @@ private FirebaseAnalytics mFirebaseAnalytics;
             FirebaseCrashlytics.getInstance().sendUnsentReports();
 
         }
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            CharSequence name="Beyond_SchoolChannel";
+            String description="Channel for Setting Alarm";
+            int importance= NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel=new NotificationChannel("Beyond_school",name,importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager=getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
 
 
         menuImageView=findViewById(R.id.imageView4);
-
+        closeButton=findViewById(R.id.closeButton);
         drawerLayout=findViewById(R.id.drawerLayout2);
         navigationView=findViewById(R.id.navigation_view2);
         dash=findViewById(R.id.dash);
@@ -141,6 +150,9 @@ private FirebaseAnalytics mFirebaseAnalytics;
             }
         });
 
+        closeButton.setOnClickListener(v->{
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        });
 
         readText = new ReadText(getApplicationContext(), this);
         readText.read("");

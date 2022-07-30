@@ -20,7 +20,7 @@ public interface ProgressDao {
     @Query("SELECT * FROM progressM WHERE date=:date ORDER BY timestamp DESC")
     List<ProgressM> getAllProgressByDate(String date);
 
-    @Query("SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date")
+    @Query("SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date ORDER BY timestamp DESC")
     List<ProgressDate> getSumOFData();
 
 

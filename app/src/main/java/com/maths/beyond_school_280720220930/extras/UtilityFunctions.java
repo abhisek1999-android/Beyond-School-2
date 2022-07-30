@@ -1,7 +1,11 @@
 package com.maths.beyond_school_280720220930.extras;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -45,12 +49,16 @@ public class UtilityFunctions {
         return "";
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String formatTime(long diff){
-        String TimeTaken = String.format("%s h : %s m : %s s",
-                Long.toString(TimeUnit.MILLISECONDS.toHours(diff)),
-                TimeUnit.MILLISECONDS.toMinutes(diff),
-                TimeUnit.MILLISECONDS.toSeconds(diff));
-        return String.format("Time taken :%s", TimeTaken);
+
+
+        Duration duration = Duration.ofMillis(diff);
+        long h = duration.toHours();
+        long m = duration.toMinutes() % 60;
+        long s = duration.getSeconds() % 60;
+        String timeInHms = String.format("%d h:%d m:%d s", h, m, s);
+        return String.format("Time taken :%s", timeInHms);
     }
 
 //    out ="32323212"

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
 
-
-
         <include
             android:id="@+id/toolBar"
             layout="@layout/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="230dp" />
+            android:layout_height="250dp" />
         <!--<View
             android:layout_width="wrap_content"
             android:layout_height="5dp"
@@ -23,89 +22,120 @@
             android:background="@drawable/dot_line"/>-->
 
 
-                <LinearLayout
-                    android:id="@+id/dash"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp"
+        <LinearLayout
+            android:id="@+id/dash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
 
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:padding="10dp">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:background="@drawable/background_round"
-                        android:src="@drawable/ic_baseline_space_dashboard_24"
-                        app:tint="@color/white" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_space_dashboard_24"
+                app:tint="@color/white" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="28dp"
-                        android:text="Dashboard"
-                        android:fontFamily="@font/reemkufi_medium"
-                        android:layout_gravity="center"
-                        android:textSize="24sp" />
-                </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingLeft="28dp"
+                android:text="Dashboard"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/remind"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:layout_margin="10dp">
+        <LinearLayout
+            android:id="@+id/remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:background="@drawable/background_round"
-                        android:src="@drawable/ic_bell"
-                        app:tint="@color/white" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:padding="10dp"
+                android:src="@drawable/ic_bell"
+                app:tint="@color/white" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="28dp"
-                        android:text="Set Reminder"
-                        android:fontFamily="@font/reemkufi_medium"
-                        android:layout_gravity="center"
-                        android:textSize="24sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/settings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:layout_margin="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingLeft="28dp"
+                android:text="Set Reminder"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="7dp"
-                        android:background="@drawable/background_round"
-                        android:src="@drawable/ic_settings"
-                        app:tint="@color/white" />
+        <LinearLayout
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="28dp"
-                        android:text="Settings"
-                        android:fontFamily="@font/reemkufi_medium"
-                        android:layout_gravity="center"
-                        android:textSize="24sp" />
-                </LinearLayout>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:padding="7dp"
+                android:src="@drawable/ic_settings"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingLeft="28dp"
+                android:text="Settings"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:visibility="gone"
+           >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:padding="7dp"
+                android:src="@drawable/ic_baseline_1x_mobiledata_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingLeft="28dp"
+                android:text="Change Table"
+                android:textSize="24sp" />
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

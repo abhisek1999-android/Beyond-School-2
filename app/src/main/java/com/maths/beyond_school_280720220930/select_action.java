@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.NavTableAdapter;
 import com.maths.beyond_school_280720220930.model.table_values;
 
@@ -39,12 +41,13 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     RecyclerView recycler;
-    LinearLayout dash,remind,settings;
+    LinearLayout dash,remind,settings,home;
     List<table_values> list=new ArrayList<>();
     NavTableAdapter mAdapter;
 
     CardView TableWithHint,TableWithoutHint,RandomTable;
 
+    int isHide=0;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private static final String SHARED_PREF_NAME = "beyond";
@@ -69,12 +72,14 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         //recycler=findViewById(R.id.recyler);
         dash=findViewById(R.id.dash);
         remind=findViewById(R.id.remind);
+        home=findViewById(R.id.home);
+        home.setVisibility(View.VISIBLE);
         settings=findViewById(R.id.settings);
         Intent intent=getIntent();
         nav.setImageResource(R.drawable.ic_nav);
 
 
-        //closeButton=findViewById(R.id.closeButton);
+        closeButton=findViewById(R.id.closeButton);
 
         /*resume_last.setTranslationX(-800);
         resume_last.setAlpha(1);*/
@@ -137,15 +142,14 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         mAdapter.notifyDataSetChanged();*/
 
 
-//        resume_last.setOnClickListener(v->{
-//
-//            Intent intent1=new Intent(select_action.this,table_with_hint.class);
-//            intent1.putExtra("ValueOfTable",TableValue);
-//            intent1.putExtra("count",1);
-//            intent1.putExtra("status","tablewithhint");
-//            startActivity(intent1);
-//
-//        });
+        isHide=getIntent().getIntExtra("isHide",0);
+
+
+        if (PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplicand))>0 && isHide==0) {
+        resume_last.setVisibility(View.VISIBLE);}
+        else{
+            resume_last.setVisibility(View.GONE);
+        }
 
 
         dash.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +157,14 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),DashBoardActivity.class));
                 drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                drawerLayout.closeDrawer(Gravity.LEFT);
+                finish();
             }
         });
         remind.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +190,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
                 Intent intent1=new Intent(select_action.this,table_with_hint.class);
                 intent1.putExtra("ValueOfTable",TableValue);
                 intent1.putExtra("count",1);
-                intent1.putExtra("status","tablewithhint");
+                intent1.putExtra("status","tableWithHint");
                 startActivity(intent1);
             }
         });
@@ -187,6 +199,10 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 Intent intent2=new Intent(select_action.this,table_questions.class);
                 intent2.putExtra("ValueOfTable",TableValue);
+                intent2.putExtra("count",1);
+                intent2.putExtra("status","tableWithoutHint");
+                intent2.putExtra("right",0);
+                intent2.putExtra("wrong",0);
                 startActivity(intent2);
             }
         });
@@ -195,6 +211,10 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 Intent intent3=new Intent(select_action.this,Random_questions.class);
                 intent3.putExtra("ValueOfTable",TableValue);
+                intent3.putExtra("status","tableRandom");
+                intent3.putExtra("count",1);
+                intent3.putExtra("right",0);
+                intent3.putExtra("wrong",0);
                 startActivity(intent3);
             }
         });
@@ -203,41 +223,51 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             public void onClick(View view) {
                 Intent intent3=new Intent(select_action.this,Random_questions.class);
                 intent3.putExtra("ValueOfTable",TableValue);
-                intent3.putExtra("visibility","");
+                intent3.putExtra("status","practice");
                 startActivity(intent3);
             }
         });
-        /*resume_last.setOnClickListener(new View.OnClickListener() {
+     resume_last.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sharedPreferences.contains(KEY_STATUS)) {
-                    String status=sharedPreferences.getString(KEY_STATUS,null);
-                    int multiplicant=sharedPreferences.getInt(KEY_MULTIPLICANT,1);
-                    int multiplier = sharedPreferences.getInt(KEY_MULTIPLIER,1);
-                    if (TableValue==multiplicant) {
-                        if (status.equals("tablewithhint")){
-                            Intent intent1=new Intent(select_action.this,table_with_hint.class);
-                            intent1.putExtra("ValueOfTable",multiplicant);
-                            intent1.putExtra("count",multiplier);
-                            intent1.putExtra("status","tablewithhint");
-                            startActivity(intent1);
 
-                        }else if (status.equals("tablewithouthint")){
-                            Intent intent2=new Intent(select_action.this,table_questions.class);
-                            intent2.putExtra("ValueOfTable",TableValue);
-                            intent2.putExtra("count",multiplier);
-                            intent2.putExtra("status","tablewithouthint");
-                            intent2.putExtra("right",sharedPreferences.getInt(KEY_RIGHT,0));
-                            intent2.putExtra("wrong",sharedPreferences.getInt(KEY_WRONG,0));
-                            startActivity(intent2);
-                        }
-                    }
-                }else {
-                    //resume_last.setVisibility(View.GONE);
-                    Toast.makeText(select_action.this, "No Operations to Resume", Toast.LENGTH_SHORT).show();
-                }
+                    String status = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.status));
+                    int multiplicant = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplicand));
+                    int multiplier = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplier));
+
+                    Intent intent=new Intent(getApplicationContext(), select_action.class);
+                    intent.putExtra("value",multiplicant);
+                    intent.putExtra("isHide",1);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+
+//                    if (status.equals("tableWithHint")) {
+//                        Intent intent1 = new Intent(select_action.this, table_with_hint.class);
+//                        intent1.putExtra("ValueOfTable", multiplicant);
+//                        intent1.putExtra("count", multiplier);
+//                        intent1.putExtra("status", "tableWithHint");
+//                        startActivity(intent1);
+//
+//                    } else if (status.equals("tableWithoutHint")) {
+//                        Intent intent2 = new Intent(select_action.this, table_questions.class);
+//                        intent2.putExtra("ValueOfTable", multiplicant);
+//                        intent2.putExtra("count", multiplier);
+//                        intent2.putExtra("status", "tableWithoutHint");
+//                        intent2.putExtra("right", PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.right)));
+//                        intent2.putExtra("wrong", PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.wrong)));
+//                        startActivity(intent2);
+//                    } else if (status.equals("tableRandom")) {
+//                        Intent intent2 = new Intent(select_action.this, table_questions.class);
+//                        intent2.putExtra("ValueOfTable", multiplicant);
+//                        intent2.putExtra("status", "tableRandom");
+//                        intent2.putExtra("right", PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.right)));
+//                        intent2.putExtra("wrong", PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.wrong)));
+//                        startActivity(intent2);
+//                    }
+
             }
-        });*/
+        });
         nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,9 +282,9 @@ public class select_action extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        /*closeButton.setOnClickListener(v->{
+        closeButton.setOnClickListener(v->{
             drawerLayout.closeDrawer(Gravity.LEFT);
-        });*/
+        });
     }
 
 

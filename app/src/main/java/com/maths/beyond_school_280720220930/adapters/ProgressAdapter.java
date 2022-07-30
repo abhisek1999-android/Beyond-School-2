@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,9 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
             holder.desc1.setText(list.get(position).date);
             holder.desc2.setText("Used at: "+list.get(position).time);
             holder.desc3.setText(new UtilityFunctions().formatTime(list.get(position).time_to_complete));
+            if ((list.get(position).correct+list.get(position).wrong)==0){
+                holder.progressLayout.setVisibility(View.GONE);
+            }
             holder.result.setText(list.get(position).correct+"/"+(list.get(position).correct+list.get(position).wrong));
             holder.resultProgress.setMax((int)(list.get(position).correct+list.get(position).wrong));
             holder.resultProgress.setProgress((int)list.get(position).correct);
@@ -69,6 +73,11 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
             holder.desc1.setText(val);
             holder.desc2.setText(listTableWise.get(position).getCount()+"  times used.");
             holder.desc3.setText(new UtilityFunctions().formatTime(listTableWise.get(position).getTotal_time()));
+
+            if ((listTableWise.get(position).getTotal_correct()+ listTableWise.get(position).getTotal_wrong())== 0){
+                holder.progressLayout.setVisibility(View.GONE);
+            }
+
             holder.result.setText(listTableWise.get(position).getTotal_correct()+"/"+(listTableWise.get(position).getTotal_correct()+
                     listTableWise.get(position).getTotal_wrong()));
             holder.resultProgress.setMax((int)(listTableWise.get(position).getTotal_correct()+ listTableWise.get(position).getTotal_wrong()));
@@ -99,6 +108,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
 
         TextView tableNumber,desc1,desc2,desc3,result;
         ProgressBar resultProgress;
+        RelativeLayout progressLayout;
         View mView;
         public ProgressViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +120,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
            desc2=mView.findViewById(R.id.descriptionTextView2);
            desc3=mView.findViewById(R.id.descriptionTextView3);
            result=mView.findViewById(R.id.result);
+           progressLayout=mView.findViewById(R.id.progressCircle);
            resultProgress=mView.findViewById(R.id.progressResult);
 
 

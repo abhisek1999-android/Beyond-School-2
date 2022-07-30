@@ -39,4 +39,12 @@
     </string-array>
     <string name="start">Start</string>
     <string name="close">Close</string>
+    <string name="log_check">IS_LOG_ENABLE</string>
+    <string name="last_table">LAST_TABLE</string>
+    <string name="right">KEY_RIGHT</string>
+    <string name="wrong">KEY_WRONG</string>
+    <string name="multiplier">KEY_MULTIPLIER</string>
+    <string name="multiplicand">KEY_MULTIPLICAND</string>
+    <string name="status">KEY_STATUS</string>
 </resources>
+

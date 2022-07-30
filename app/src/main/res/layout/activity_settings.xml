@@ -34,7 +34,7 @@
             android:layout_height="40dp"
             android:background="@drawable/background_round"
             android:padding="10dp"
-            android:src="@drawable/ic_baseline_space_dashboard_24"
+            android:src="@drawable/ic_baseline_info_24"
             app:tint="@color/white" />
 
         <TextView

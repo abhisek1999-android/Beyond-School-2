@@ -182,7 +182,7 @@ public final class ProgressDao_Impl implements ProgressDao {
 
   @Override
   public List<ProgressDate> getSumOFData() {
-    final String _sql = "SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date";
+    final String _sql = "SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date ORDER BY timestamp DESC";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);

@@ -141,6 +141,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/progressDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -296,7 +297,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/reemkufi_medium"
-                            android:text="Progress reports"
+                            android:text="Progress Reports"
                             android:textSize="20sp" />
 
                         <TextView
@@ -304,14 +305,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/barChart"
-                            android:layout_margin="10dp"
                             android:layout_weight="1.5"
+                            android:layout_marginTop="10dp"
                             android:clickable="true"
                             android:drawableLeft="@drawable/ic_baseline_filter_alt_24"
                             android:fontFamily="@font/reemkufi_medium"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:padding="5dp"
-                            android:text="Filter"
+                            android:text="dd/mm/yyyy"
                             android:textAlignment="center"
                             android:textSize="20sp" />
 

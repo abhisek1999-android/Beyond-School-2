@@ -57,6 +57,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     int counter=0;
     int TableValue;
     ReadText readText;
+    TextView titleText;
     NotificationManager nManager;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -71,8 +72,9 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
         wakeLock.acquire();
 
+        titleText=findViewById(R.id.titleText);
 
-
+        titleText.setText("Listen Table");
 
         Intent intent=getIntent();
         count=intent.getIntExtra("count",1);

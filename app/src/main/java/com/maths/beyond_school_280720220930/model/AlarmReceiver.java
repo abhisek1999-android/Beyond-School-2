@@ -19,16 +19,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent intent1=new Intent(context, MainActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent=PendingIntent.getActivity(context,0,intent1,0);
+        PendingIntent pendingIntent=PendingIntent.getActivity(context,0,intent1,PendingIntent.FLAG_IMMUTABLE);
 
         Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         MediaPlayer mp=MediaPlayer.create(context,uri);
         mp.start();
 
         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"Beyond_school")
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Beyond_School")
-                .setContentText("You have a reminder")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Beyond School")
+                .setContentText("Hey, it's time to read")
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
