@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,16 +28,26 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.Tables;
 
 import java.util.ArrayList;
@@ -50,9 +62,10 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     RecyclerView tablesRecyclerView;
     TablesRecyclerAdapter tablesRecyclerAdapter;
     List<Tables> tablesList;
-    TextView greetingTextView;
+    TextView greetingTextView,kidsName,kidsNameTextView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    LinearLayout logLayout,logout;
     ActionBarDrawerToggle toggle;
     LinearLayout dash,remind,settings;
     private String LOG_TAG = "VoiceRecognitionActivity";
@@ -64,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     ImageView dashBoard;
     ImageView menuImageView;
     ImageView closeButton;
+    FirebaseAuth mAuth;
+    FirebaseUser mCurrentUser;
+    FirebaseFirestore kidsDb=FirebaseFirestore.getInstance();
+
 
 private FirebaseAnalytics mFirebaseAnalytics;
     @Override
@@ -71,6 +88,8 @@ private FirebaseAnalytics mFirebaseAnalytics;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAuth=FirebaseAuth.getInstance();
+        mCurrentUser=mAuth.getCurrentUser();
 
         //new line added
 
@@ -106,6 +125,16 @@ private FirebaseAnalytics mFirebaseAnalytics;
         dash=findViewById(R.id.dash);
         remind=findViewById(R.id.remind);
         settings=findViewById(R.id.settings);
+        logLayout=findViewById(R.id.logoutLayout);
+        logout=findViewById(R.id.logoutLayout);
+        kidsNameTextView=findViewById(R.id.kidsNameTextView);
+
+        kidsName=findViewById(R.id.kidsName);
+
+
+        logLayout.setVisibility(View.VISIBLE);
+
+     //   Toast.makeText(this, mAuth.getCurrentUser().getUid()+"", Toast.LENGTH_SHORT).show();
 
         toggle=new ActionBarDrawerToggle(this,drawerLayout,null,R.string.start,R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -148,6 +177,13 @@ private FirebaseAnalytics mFirebaseAnalytics;
                 drawerLayout.closeDrawer(Gravity.LEFT);
 
             }
+        });
+
+        logout.setOnClickListener(v->{
+            mAuth.signOut();
+            mCurrentUser=null;
+            startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+            finish();
         });
 
         closeButton.setOnClickListener(v->{
@@ -205,13 +241,70 @@ private FirebaseAnalytics mFirebaseAnalytics;
         ViewCompat.setNestedScrollingEnabled(tablesRecyclerView, false);
 
         greetingTextView.setText(new UtilityFunctions().greeting());
+        
+        
+        retrieveKidsData();
+        checkUser();
 
 
     }
 
+    private void retrieveKidsData() {
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+
+                    if (queryDocumentSnapshots.isEmpty()){
+                   //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                        Log.i("No_data","No_data");
+                    }else{
+                        for (QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots){
+
+                            KidsData kidsData=queryDocumentSnapshot.toObject(KidsData.class);
+                            kidsData.setKids_id(queryDocumentSnapshot.getId());
+                            // Toast.makeText(this, kidsData.getKids_id()+"", Toast.LENGTH_SHORT).show();
+                            kidsName.setText("Hi, "+kidsData.getName().toString());
+                            kidsNameTextView.setText("Hi ,"+kidsData.getName().toString().split(" ")[0]);
+                            // kidsAge.setText("You are "+kidsData.getAge()+" years old");
+                            Log.i("KidsData",kidsData.getName()+"");
+                        }
+                    }
+
+                });
+    }
 
 
 
+    public void checkUser(){
+
+
+        kidsDb.collection("users").get().addOnSuccessListener(queryDocumentSnapshots -> {
+
+
+                    for (QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots){
+
+                        Log.i("KidsData",queryDocumentSnapshot+"");
+                    }
+                });
+
+
+//        DocumentReference docRef = kidsDb.collection("users").document("f3GVk0pFdnN1ZSOB2OuHsKhVhg62");
+//        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                Log.i("LOG_SNAPSHOT",value.toString()+"");
+//
+//                if (value.exists()){
+//                    Toast.makeText(MainActivity.this, "Exist", Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+//                    Toast.makeText(MainActivity.this, "notExist", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+    }
 
     private void checkAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23

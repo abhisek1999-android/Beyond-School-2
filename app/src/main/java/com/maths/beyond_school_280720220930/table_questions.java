@@ -670,19 +670,15 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 e.printStackTrace();
             }
             try {
-
-
-
-                if (lcsResult && !title.equals("")) {
-
+                if (lcsResult) {
 
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
+                    sendAnalyticsData(result+"",title,true,(int)(diff/1000),Table.getText().toString());
                     delayTime=1000;
                     delayAtTheEnd=600;
-                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     rtans++;
                     readText.read("CORRECT");
                     right_ans.setText(String.valueOf(rtans));
@@ -692,9 +688,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                    sendAnalyticsData(result+"",title,false,(int)(diff/1000),Table.getText().toString());
                     delayTime=3000;
                     delayAtTheEnd=1800;
-                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
                     wrong_ans.setText(String.valueOf(wrans));
@@ -705,7 +701,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 end=new Date();
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,true, (int) (diff/1000),Table.getText().toString());
                 delayTime=3000;
                 delayAtTheEnd=1800;
                 readText.read("INCORRECT, Correct is " + result);
@@ -870,14 +866,17 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
 
-    public void sendAnalyticsData(String result, String detected, String tag, String timeTaken, String s){
+    public void sendAnalyticsData(String result, String detected, Boolean tag, int timeTaken, String s){
 
         resultBundle.putString("original_result",result);
+        resultBundle.putInt("table",TableValue);
         resultBundle.putString("detected_result",detected);
-        resultBundle.putString("tag",tag);
-        resultBundle.putString("timeTaken",timeTaken);
+        resultBundle.putBoolean("is_correct",tag);
+        resultBundle.putInt("timeTaken",timeTaken);
         resultBundle.putString("Question",s);
-        mFirebaseAnalytics.logEvent("result_verification",resultBundle);
+        resultBundle.putString("type","maths_multiplication_table_with_hint");
+
+        mFirebaseAnalytics.logEvent("maths",resultBundle);
 
     }
 }

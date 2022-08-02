@@ -406,7 +406,7 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
         try{
             loadTableScoreByDate(progressByDates.get((int)e.getX()-1).getDate());
         }catch (Exception e1){
-            loadTableScoreByDate("dddddd");
+            loadTableScoreByDate("..");
         }
 
        // Toast.makeText(this, e.getY()+","+e.getX(), Toast.LENGTH_SHORT).show();

@@ -604,7 +604,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
-                sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,true,(int)(diff/1000),Table.getText().toString());
                 delayTime=1000;
                 delayAtTheEnd=600;
                 rtans++;
@@ -616,7 +616,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 end=new Date();
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,false,(int)(diff/1000),Table.getText().toString());
                 delayTime=3000;
                 delayAtTheEnd=1800;
                 wrans++;
@@ -629,7 +629,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             end=new Date();
             long diff = end.getTime() - start.getTime();
             logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-            sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+            sendAnalyticsData(result+"",title,true, (int) (diff/1000),Table.getText().toString());
             delayTime=3000;
             delayAtTheEnd=1800;
             readText.read("INCORRECT, Correct is " + result);
@@ -882,14 +882,19 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
 
-    public void sendAnalyticsData(String result, String detected, String tag, String timeTaken, String s){
+    public void sendAnalyticsData(String result, String detected, Boolean tag, int timeTaken, String s){
 
         resultBundle.putString("original_result",result);
+        resultBundle.putInt("table",TableValue);
         resultBundle.putString("detected_result",detected);
-        resultBundle.putString("tag",tag);
-        resultBundle.putString("timeTaken",timeTaken);
+        resultBundle.putBoolean("is_correct",tag);
+        resultBundle.putInt("timeTaken",timeTaken);
         resultBundle.putString("Question",s);
-        mFirebaseAnalytics.logEvent("result_verification",resultBundle);
+        if (status.equals("practice"))
+        resultBundle.putString("type","maths_multiplication_table_learning");
+        else
+        resultBundle.putString("type","maths_multiplication_random");
+        mFirebaseAnalytics.logEvent("maths",resultBundle);
 
     }
 }
