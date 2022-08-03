@@ -23,9 +23,22 @@
 
     </style>
 
+    <style name="card_bg" parent="CardView.Light">
+        <item name="cardBackgroundColor">@color/light_gray</item>
+    </style>
+
     <style name="background" parent="CardView">
 
         <item name="backgroundColor">@color/tp_white</item>
 
     </style>
+
+    <style name="Theme.BEYOND_SCHOOL.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.BEYOND_SCHOOL.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

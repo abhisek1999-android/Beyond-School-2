@@ -24,4 +24,7 @@
         <item name="cardBackgroundColor">@color/tp_black</item>
 
     </style>
+    <style name="card_bg" parent="CardView.Light">
+        <item name="cardBackgroundColor">@color/sweet_dark</item>
+    </style>
 </resources>

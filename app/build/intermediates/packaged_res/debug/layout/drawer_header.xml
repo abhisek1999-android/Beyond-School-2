@@ -37,15 +37,15 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/hiTextView"
+        android:id="@+id/kidsName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lay"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/reemkufi_medium"
         android:text="Hi, there"
-        android:layout_marginBottom="10dp"
         android:textSize="35sp" />
 
     <!--<TextView
@@ -58,9 +58,9 @@
         android:textSize="20sp" />-->
   <View
       android:layout_width="match_parent"
-      android:layout_height="2dp"
-      android:layout_marginLeft="2dp"
-      android:layout_marginRight="2dp"
+      android:layout_height="1dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
       android:layout_alignParentBottom="true"
       android:background="@color/light_deep_grey"
       />

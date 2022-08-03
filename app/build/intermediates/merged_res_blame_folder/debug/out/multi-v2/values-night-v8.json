@@ -6,20 +6,20 @@
                 {
                     "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values-night\\themes.xml",
                     "from": {
-                        "startLines": "2,21,16",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "102,972,835",
-                        "endLines": "15,25,20",
-                        "endColumns": "12,12,12",
-                        "endOffsets": "829,1091,966"
+                        "startLines": "2,25,16,22",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "102,1107,835,974",
+                        "endLines": "15,29,20,24",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "829,1226,966,1101"
                     },
                     "to": {
-                        "startLines": "9,56,61",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "732,5193,5313",
-                        "endLines": "22,60,65",
-                        "endColumns": "12,12,12",
-                        "endOffsets": "1444,5308,5440"
+                        "startLines": "9,56,61,66",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "732,5193,5313,5445",
+                        "endLines": "22,60,65,68",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "1444,5308,5440,5570"
                     }
                 },
                 {
