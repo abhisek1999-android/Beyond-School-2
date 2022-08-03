@@ -154,7 +154,6 @@ id logo
 id logout
 id logoutLayout
 id mainButton
-id menu
 id nav_graph
 id nav_host_fragment_content_kids_info
 id navigation_view
@@ -165,6 +164,7 @@ id noData
 id noDataText
 id num
 id numberTextView
+id openDialog
 id playPause
 id profileImage
 id progressBar
@@ -174,7 +174,6 @@ id progressDate
 id progressDetails
 id progressReport
 id progressResult
-id progressresult
 id questionLayout
 id questionProgress
 id rLayout
@@ -183,13 +182,11 @@ id remind
 id result
 id resultText
 id resume
-id retry
 id right
 id score
 id scrollView2
 id setalarmbtn
 id settings
-id share
 id spinner
 id spinner2
 id tCorrect
@@ -206,10 +203,6 @@ id textView24
 id textView25
 id textView26
 id textView27
-id textView28
-id textView30
-id textView31
-id textView32
 id textView36
 id textView4
 id textView5

@@ -5,8 +5,12 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class UtilityFunctions {
@@ -61,17 +65,26 @@ public class UtilityFunctions {
         return String.format("Time taken :%s", timeInHms);
     }
 
-//    out ="32323212"
-//    ans = "32"
-//
-//    def fun(out,ans):
-//            while len(out)>0:
-//            if out.startswith(ans):
-//              out = out.replace(ans,"")
-//            else:
-//              return False
-//    return True
-//
-//    print(fun(out,ans))
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int calculateAge(String inputDate) {
 
-}
+        LocalDate curDate = LocalDate.now();
+        SimpleDateFormat as = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat req = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            Date adate = as.parse(inputDate);
+            LocalDate dob = LocalDate.parse(req.format(adate));
+
+            if ((dob != null) && (curDate != null)) {
+                return Period.between(dob, curDate).getYears();
+            } else {
+                return 0;
+            }
+
+        } catch (Exception e) {
+
+        }
+        return  0;
+
+    }
+    }

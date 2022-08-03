@@ -59,6 +59,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
+
                 /* Create an Intent that will start the Menu-Activity. */
                 if (mCurrentUser==null){
                     startActivity( new Intent(getApplicationContext(),LoginSignupActivity.class));

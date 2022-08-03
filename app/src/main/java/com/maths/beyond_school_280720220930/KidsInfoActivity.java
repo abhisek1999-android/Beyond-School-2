@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,8 +20,10 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +66,8 @@ public class KidsInfoActivity extends AppCompatActivity {
     private StorageReference mStorageReference;
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
-
+    TextView titleText;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,13 @@ public class KidsInfoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        titleText = findViewById(R.id.titleText);
+        titleText.setText("Kids Info");
+
+        back=findViewById(R.id.imageView4);
+        back.setVisibility(View.GONE);
+
         profileImageView=findViewById(R.id.kidsProfileImage);
         mStorageReference= FirebaseStorage.getInstance().getReference();
         kidsName=findViewById(R.id.kidsNameTextView);
@@ -128,7 +140,62 @@ public class KidsInfoActivity extends AppCompatActivity {
             selectImage();
         });
 
+      //  showSetSpeedDialDialog(0);
+
     }
+
+
+
+    private void showSetSpeedDialDialog(int i) {
+
+
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+
+        // now define the properties of the
+        // materialDateBuilder that is title text as SELECT A DATE
+        materialDateBuilder.setTitleText("SELECT A DATE");
+
+        // now create the instance of the material date
+        // picker
+        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+        final AlertDialog.Builder alert=new AlertDialog.Builder(KidsInfoActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.result_display, null);
+
+
+        TextView title=mView.findViewById(R.id.openDialog);
+
+
+
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        try{
+            alertDialog.show();
+        }catch (Exception e){
+
+        }
+
+
+        title.setOnClickListener(v->{
+            materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+        });
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(Long.parseLong(selection.toString()));
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDate  = format.format(calendar.getTime());
+         //   kidsAge.setText(formattedDate);
+            title.setText(formattedDate);
+
+
+        });
+
+    }
+
 
 
     private void selectImage() {
@@ -250,11 +317,12 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         if (mAuth!=null){
 
-            String uuid= UUID.randomUUID().toString();
+            String uuid= kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document().getId();
             Map<String, Object> kidsData = new HashMap<>();
             kidsData.put("name",kidsName.getText().toString());
             kidsData.put("kids_id",uuid);
             kidsData.put("profile_url",imageUrl);
+            kidsData.put("parent_id",mCurrentUser.getUid());
             kidsData.put("age",kidsAge.getText().toString());
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document(uuid)
@@ -264,7 +332,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

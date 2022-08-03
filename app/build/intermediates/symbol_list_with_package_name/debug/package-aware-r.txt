@@ -3172,7 +3172,6 @@ id material_timepicker_view
 id material_value_index
 id matrix
 id media_actions
-id menu
 id message
 id microsoft_signin_button
 id middle
@@ -3243,6 +3242,7 @@ id numberTextView
 id off
 id on
 id onInterceptTouchReturnSwipe
+id openDialog
 id outline
 id outward
 id overshoot
@@ -3276,7 +3276,6 @@ id progressReport
 id progressResult
 id progress_circular
 id progress_horizontal
-id progressresult
 id questionLayout
 id questionProgress
 id rLayout
@@ -3291,7 +3290,6 @@ id restart
 id result
 id resultText
 id resume
-id retry
 id reverse
 id reverseSawtooth
 id right
@@ -3331,7 +3329,6 @@ id send_code
 id send_sms_tos
 id setalarmbtn
 id settings
-id share
 id sharedValueSet
 id sharedValueUnset
 id shortcut
@@ -3417,10 +3414,6 @@ id textView24
 id textView25
 id textView26
 id textView27
-id textView28
-id textView30
-id textView31
-id textView32
 id textView36
 id textView4
 id textView5
