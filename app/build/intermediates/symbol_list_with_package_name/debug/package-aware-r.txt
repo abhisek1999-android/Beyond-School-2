@@ -3135,6 +3135,7 @@ id line3
 id linear
 id linearLayout
 id linearLayout2
+id linearLayout3
 id listMode
 id list_item
 id locale
@@ -3153,6 +3154,7 @@ id main_tos_and_pp
 id masked
 id match_constraint
 id match_parent
+id materialCardView
 id material_clock_display
 id material_clock_face
 id material_clock_hand
@@ -3378,6 +3380,7 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions
@@ -3782,6 +3785,8 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string alarm_at_time
+string alarm_enable
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior
@@ -4018,12 +4023,14 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string previous
 string project_id
+string remainder_on_off
 string right
 string search_menu_title
 string second_fragment_label
 string start
 string status
 string status_bar_notification_info_overflow
+string study_remainder
 string title_activity_kids_info
 string wrong
 string your_grade

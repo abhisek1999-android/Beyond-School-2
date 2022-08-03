@@ -11,26 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolBar"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="20dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="10dp">
+            app:cardElevation="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/dot_line"
                 android:orientation="vertical">
 
                 <TimePicker
@@ -42,14 +48,30 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_toggle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:padding="8dp"
+            android:text="@string/remainder_on_off"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+            app:layout_constraintStart_toStartOf="@+id/materialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
             <!--  <androidx.cardview.widget.CardView
                             android:id="@+id/selecttimebtn"
                             android:layout_width="65dp"
@@ -95,8 +117,8 @@
                 android:id="@+id/cancelalarmbtn"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/sweet_red"
                 android:padding="8dp"
@@ -134,9 +156,9 @@
                 android:id="@+id/setalarmbtn"
                 android:layout_width="66dp"
                 android:layout_height="66dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
                 android:backgroundTint="@color/teal_700"
                 android:padding="8dp"
                 app:cardCornerRadius="20dp"
@@ -161,7 +183,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/reemkufi_medium"
-                        android:text="Set"
+                        android:text="Save"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -192,5 +214,5 @@
                 android:layout_marginHorizontal="20dp"
                 android:text="Cancel Alarm"
                 android:textSize="26sp"/> -->
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

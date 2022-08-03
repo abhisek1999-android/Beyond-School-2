@@ -147,6 +147,7 @@ id lay
 id layout_set
 id linearLayout
 id linearLayout2
+id linearLayout3
 id logCard
 id logInfo
 id logRecyclerView
@@ -156,6 +157,7 @@ id logo
 id logout
 id logoutLayout
 id mainButton
+id materialCardView
 id nav_graph
 id nav_host_fragment_content_kids_info
 id navigation_view
@@ -192,6 +194,7 @@ id setalarmbtn
 id settings
 id spinner
 id spinner2
+id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions
@@ -259,6 +262,8 @@ mipmap ic_launcher_round
 navigation nav_graph
 raw green_blinking_dott
 raw voice_ip
+string alarm_at_time
+string alarm_enable
 string app_name
 string child_name
 string close
@@ -280,10 +285,12 @@ string multiplier
 string next
 string previous
 string project_id
+string remainder_on_off
 string right
 string second_fragment_label
 string start
 string status
+string study_remainder
 string title_activity_kids_info
 string wrong
 string your_grade

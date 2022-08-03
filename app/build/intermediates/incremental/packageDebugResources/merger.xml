@@ -57,16 +57,16 @@
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
-
-
-
-
-
-
-
-
-
-    </string-array><string name="your_grade">Your Grade</string><string name="first_time">KEY_FIRST_TIME_OPEN</string></file><file path="E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\res\values\themes.xml" qualifiers=""><style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </string-array><string name="your_grade">Your Grade</string><string name="first_time">KEY_FIRST_TIME_OPEN</string><string name="alarm_at_time">Set Your Time</string><string name="study_remainder">Set your study reminder</string><string name="remainder_on_off">Reminder: ON/OFF</string><string name="alarm_enable">KEY_ALARM_ENABLE</string></file><file path="E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\res\values\themes.xml" qualifiers=""><style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>

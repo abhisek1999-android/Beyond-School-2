@@ -19,15 +19,15 @@
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
-<!--        <item>4th Grade</item>-->
-<!--        <item>5th Grade</item>-->
-<!--        <item>6th Grade</item>-->
-<!--        <item>7th Grade</item>-->
-<!--        <item>8th Grade</item>-->
-<!--        <item>9th Grade</item>-->
-<!--        <item>10th Grade</item>-->
-<!--        <item>11th Grade</item>-->
-<!--        <item>12th Grade</item>-->
+        <!--        <item>4th Grade</item>-->
+        <!--        <item>5th Grade</item>-->
+        <!--        <item>6th Grade</item>-->
+        <!--        <item>7th Grade</item>-->
+        <!--        <item>8th Grade</item>-->
+        <!--        <item>9th Grade</item>-->
+        <!--        <item>10th Grade</item>-->
+        <!--        <item>11th Grade</item>-->
+        <!--        <item>12th Grade</item>-->
     </string-array>
     <string-array name="numbers">
         <item>2000</item>
@@ -85,6 +85,8 @@
     <color name="tp_white">#E9FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <dimen name="fab_margin">16dp</dimen>
+    <string name="alarm_at_time">Set Your Time</string>
+    <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="app_name">BEYOND SCHOOL</string>
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="close">Close</string>
@@ -106,10 +108,12 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="project_id" translatable="false">beyondschool-82497</string>
+    <string name="remainder_on_off">Reminder: ON/OFF</string>
     <string name="right">KEY_RIGHT</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="start">Start</string>
     <string name="status">KEY_STATUS</string>
+    <string name="study_remainder">Set your study reminder</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <string name="wrong">KEY_WRONG</string>
     <string name="your_grade">Your Grade</string>

@@ -35,7 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
@@ -264,17 +263,11 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
                             Utils.loadImage(kidsData.getProfile_url(), image_view_profile_view);
                             Utils.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
                             Log.i("KidsData", kidsData.getName() + "");
-                            createDialog();
+                            
                         }
                     }
 
                 });
-    }
-
-    //    TODO : dialog logic
-    private void createDialog() {
-        PrefConfig.readBooleanInPref(this, getResources().getString(R.string.first_time));
-
     }
 
 

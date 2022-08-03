@@ -7,12 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,13 +19,17 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
 import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 public class AlarmAtTime extends AppCompatActivity {
+    private static final String SHARED_PREF_NAME = "Time";
+    private static final String KEY_HOUR = "hour";
+    private static final String KEY_MINUTE = "minute";
     TextView titletext;
     ImageView back;
     CardView cancelalarm, setalarm;
@@ -37,11 +37,10 @@ public class AlarmAtTime extends AppCompatActivity {
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     TimePicker picker;
+    SwitchMaterial switchToggle;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    private static final String SHARED_PREF_NAME = "Time";
-    private static final String KEY_HOUR = "hour";
-    private static final String KEY_MINUTE = "minute";
+    Boolean isEnable = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -54,7 +53,7 @@ public class AlarmAtTime extends AppCompatActivity {
         back = findViewById(R.id.imageView4);
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
-
+        switchToggle = findViewById(R.id.switch_toggle);
         createNotificationChannel();
         titletext.setText("Set Reminder");
 
@@ -64,10 +63,23 @@ public class AlarmAtTime extends AppCompatActivity {
             picker.setHour(sharedPreferences.getInt("hour", 12));
             picker.setMinute(sharedPreferences.getInt("minute", 00));
         }
-        setalarm.setOnClickListener(view -> setAlarm());
-        cancelalarm.setOnClickListener(view -> cancelAlarm());
+        setalarm.setOnClickListener(view -> saveChange());
+        cancelalarm.setOnClickListener(view -> finish());
         back.setOnClickListener(view -> onBackPressed());
+        switchToggleSetUp();
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void saveChange() {
+        setAlarm();
+        PrefConfig.writeBooleanInPref(this, isEnable, getResources().getString(R.string.alarm_enable));
+    }
+
+    private void switchToggleSetUp() {
+        switchToggle.setChecked(PrefConfig.readBooleanInPref(this, getResources().getString(R.string.alarm_enable)));
+        switchToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isEnable = isChecked;
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -82,7 +94,6 @@ public class AlarmAtTime extends AppCompatActivity {
 
         }
         alarmManager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Cancelled", Toast.LENGTH_SHORT).show();
         picker.setHour(12);
         picker.setMinute(00);
 
@@ -106,7 +117,14 @@ public class AlarmAtTime extends AppCompatActivity {
                 putval(picker.getCurrentHour(), picker.getCurrentMinute());
             }
 
-            setAlarm(this, calendar);
+
+            if (isEnable)
+                setAlarm(this, calendar);
+            else {
+                Toast.makeText(this, "Alarm is disabled", Toast.LENGTH_SHORT).show();
+                cancelAlarm();
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
