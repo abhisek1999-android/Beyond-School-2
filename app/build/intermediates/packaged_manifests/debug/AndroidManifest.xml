@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
 
@@ -110,7 +111,8 @@
 
         <receiver
             android:name="com.maths.beyond_school_280720220930.model.AlarmReceiver"
-            android:exported="false" >
+            android:exported="false"
+            android:process=":remote" >
             <intent-filter>
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
 MERGED from [androidx.databinding:viewbinding:7.1.2] C:\Users\ayaan\.gradle\caches\transforms-3\e308fb0f1401040dff10266882408ebe\transformed\viewbinding-7.1.2\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.4.2] C:\Users\ayaan\.gradle\caches\transforms-3\2a04021990e7ee1a62783bcea708f88a\transformed\navigation-ui-2.4.2\AndroidManifest.xml:17:1-24:12
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:2:1-109:12
@@ -114,27 +114,25 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ayaan\.gradle\ca
 MERGED from [androidx.print:print:1.0.0] C:\Users\ayaan\.gradle\caches\transforms-3\75a4165cb1de5af061a24fc106c752fd\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\cbc722e43f58d758d8461308bd6b305d\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\ayaan\.gradle\caches\transforms-3\8c678aadfef11f881428fb0a6b61c415\transformed\protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
-INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
+INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
 	package
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:4:5-51
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:3:5-51
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
-	xmlns:tools
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-109:12
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:1-111:12
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:6:5-67
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:5:5-67
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:13:5-67
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:13:5-67
 MERGED from [com.google.firebase:firebase-auth:21.0.6] C:\Users\ayaan\.gradle\caches\transforms-3\071e9a01829aedba77383b0e55dfd8e9\transformed\firebase-auth-21.0.6\AndroidManifest.xml:23:5-67
@@ -158,25 +156,25 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.1.0] C:\Us
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:6:22-64
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:5:22-64
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:7:5-71
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:6:5-71
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:7:22-68
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:6:22-68
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:8:5-80
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:7:5-80
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:8:22-77
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:7:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:9:5-81
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:8:5-81
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:9:22-78
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:8:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:10:5-79
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:9:5-80
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:10:22-77
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:9:22-77
 uses-permission#android.permission.WAKE_LOCK
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:11:5-68
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:10:5-68
 MERGED from [com.google.android.gms:play-services-measurement-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\4205855f1caac4d61b4adfe9e8ed1462\transformed\play-services-measurement-api-21.1.0\AndroidManifest.xml:24:5-68
 MERGED from [com.google.android.gms:play-services-measurement-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\4205855f1caac4d61b4adfe9e8ed1462\transformed\play-services-measurement-api-21.1.0\AndroidManifest.xml:24:5-68
 MERGED from [com.google.android.gms:play-services-measurement:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\fa44ac8c8a71d39f75f087e55d9d3eeb\transformed\play-services-measurement-21.1.0\AndroidManifest.xml:25:5-68
@@ -186,17 +184,17 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.1.0] C:\Us
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:25:5-68
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:25:5-68
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:11:22-65
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:10:22-65
 uses-permission#android.permission.SCHEDULE_EXACT_ALARM
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:12:5-79
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:11:5-79
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:12:22-76
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:11:22-76
 uses-permission#com.android.alarm.permission.SET_ALARM
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:13:5-78
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:12:5-78
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:13:22-75
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:12:22-75
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:14:5-79
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:13:5-79
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:12:5-79
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:12:5-79
 MERGED from [com.google.firebase:firebase-auth:21.0.6] C:\Users\ayaan\.gradle\caches\transforms-3\071e9a01829aedba77383b0e55dfd8e9\transformed\firebase-auth-21.0.6\AndroidManifest.xml:24:5-79
@@ -222,19 +220,23 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.1.0] C:\Us
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.1.0] C:\Users\ayaan\.gradle\caches\transforms-3\33dd85e3b5545d5ddd14f3f3bcc67b26\transformed\play-services-measurement-sdk-api-21.1.0\AndroidManifest.xml:24:5-79
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:14:22-76
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:13:22-76
+uses-permission#android.permission.USE_EXACT_ALARM
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:14:5-73
+	android:name
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:14:22-71
 uses-permission-sdk-23#android.permission.WAKE_LOCK
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:15:5-75
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:16:5-75
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:15:29-72
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:16:29-72
 queries
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:17:5-19:15
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:18:5-20:15
 package#com.google.android.googlequicksearchbox
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:18:9-75
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:19:9-75
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:18:18-72
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:19:18-72
 application
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:31:5-107:19
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:32:5-109:19
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:15:5-107:19
 MERGED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:15:5-107:19
 MERGED from [com.google.android.material:material:1.6.1] C:\Users\ayaan\.gradle\caches\transforms-3\101c28820c7720cefd15b39f97a6305a\transformed\material-1.6.1\AndroidManifest.xml:24:5-20
@@ -316,145 +318,147 @@ MERGED from [androidx.startup:startup-runtime:1.0.0] C:\Users\ayaan\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] C:\Users\ayaan\.gradle\caches\transforms-3\4e73a75cbbad77de8a4d9a8356aa4ef0\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:36:9-35
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:37:9-35
 	android:label
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:34:9-41
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:35:9-41
 	android:roundIcon
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:35:9-49
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:36:9-49
 	android:icon
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:33:9-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:34:9-44
 	android:allowBackup
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:32:9-35
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:33:9-35
 	android:theme
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:37:9-51
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:38:9-51
 activity#com.maths.beyond_school_280720220930.KidsInfoActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:38:9-40:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:39:9-41:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:40:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:41:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:39:13-45
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:40:13-45
 activity#com.maths.beyond_school_280720220930.ProfileActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:41:9-43:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:42:9-44:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:43:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:44:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:42:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:43:13-44
 activity#com.maths.beyond_school_280720220930.SettingsActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:44:9-46:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:45:9-47:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:47:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:45:13-45
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-45
 activity#com.maths.beyond_school_280720220930.AlarmAtTime
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:47:9-49:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:48:9-50:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:49:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:50:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:48:13-40
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:49:13-40
 activity#com.maths.beyond_school_280720220930.LoginSignupActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:51:9-53:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:52:9-54:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:53:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:54:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:52:13-48
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:53:13-48
 activity#com.maths.beyond_school_280720220930.LogActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:54:9-56:40
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:55:9-57:40
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:56:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:57:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:55:13-40
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:56:13-40
 activity#com.maths.beyond_school_280720220930.SplashScreen
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:57:9-65:20
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:58:9-66:20
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:59:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:60:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:58:13-41
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:59:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:60:13-64:29
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:61:13-65:29
 action#android.intent.action.MAIN
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:61:17-69
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:62:17-69
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:61:25-66
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:62:25-66
 category#android.intent.category.LAUNCHER
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:63:17-77
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:64:17-77
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:63:27-74
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:64:27-74
 activity#com.maths.beyond_school_280720220930.Random_questions
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:66:9-68:39
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:67:9-69:39
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:68:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:69:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:67:13-45
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:68:13-45
 activity#com.maths.beyond_school_280720220930.DashBoardActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:69:9-72:58
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:70:9-73:58
 	android:parentActivityName
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:72:13-55
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:73:13-55
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:71:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:72:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:70:13-46
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:71:13-46
 activity#com.maths.beyond_school_280720220930.TestActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:73:9-75:39
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:74:9-76:39
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:75:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:76:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:74:13-41
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:75:13-41
 activity#com.maths.beyond_school_280720220930.ScoreActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:76:9-78:39
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:77:9-79:39
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:78:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:79:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:77:13-42
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:78:13-42
 activity#com.maths.beyond_school_280720220930.select_action
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:79:9-82:58
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:80:9-83:58
 	android:parentActivityName
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:82:13-55
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:83:13-55
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:81:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:82:13-36
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:80:13-42
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:81:13-42
 activity#com.maths.beyond_school_280720220930.table_questions
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:83:9-86:47
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:84:9-87:47
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:85:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:86:13-36
 	android:showOnLockScreen
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:86:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:87:13-44
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:84:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:85:13-44
 activity#com.maths.beyond_school_280720220930.table_with_hint
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:87:9-90:47
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:88:9-91:47
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:89:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:90:13-36
 	android:showOnLockScreen
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:90:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:91:13-44
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:88:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:89:13-44
 activity#com.maths.beyond_school_280720220930.MainActivity
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:91:9-94:47
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:92:9-95:47
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:93:13-36
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:94:13-36
 	android:showOnLockScreen
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:94:13-44
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:95:13-44
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:92:13-41
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:93:13-41
 service#com.maths.beyond_school_280720220930.ClearService
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:96:9-98:44
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:97:9-99:44
 	android:stopWithTask
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:99:13-41
+	android:name
 		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:98:13-41
-	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:97:13-41
 receiver#com.maths.beyond_school_280720220930.model.AlarmReceiver
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:100:9-106:20
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:101:9-108:20
+	android:process
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:104:13-38
 	android:exported
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:102:13-37
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:103:13-37
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:101:13-48
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:102:13-48
 intent-filter#action:name:android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:103:13-105:29
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:105:13-107:29
 action#android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:104:17-107
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:106:17-107
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:104:25-104
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:106:25-104
 uses-sdk
 INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
@@ -690,17 +694,17 @@ INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src
 		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
 		INJECTED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml
 intent#action:name:android.speech.RecognitionService
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:21:9-23:18
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:22:9-24:18
 action#android.speech.RecognitionService
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:22:13-72
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:23:13-72
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:22:21-69
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:23:21-69
 intent#action:name:android.intent.action.TTS_SERVICE
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:26:9-28:18
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:27:9-29:18
 action#android.intent.action.TTS_SERVICE
-ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:27:13-72
+ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:28:13-72
 	android:name
-		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:27:21-69
+		ADDED from E:\Android Project\InternWork\Kaholas\beyongschool_android\app\src\main\AndroidManifest.xml:28:21-69
 meta-data#com.google.android.gms.version
 ADDED from [com.firebaseui:firebase-ui-auth:7.2.0] C:\Users\ayaan\.gradle\caches\transforms-3\0183284bdc3fa252e0bac430ed372a51\transformed\firebase-ui-auth-7.2.0\AndroidManifest.xml:16:9-18:69
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\ayaan\.gradle\caches\transforms-3\173d2e623567738fc1f08678cdabed87\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
