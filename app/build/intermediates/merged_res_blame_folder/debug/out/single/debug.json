@@ -100,12 +100,20 @@
         "source": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\src\\main\\res\\drawable\\cartoon_image_1.png"
     },
     {
+        "merged": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_splash_ui.png.flat",
+        "source": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\src\\main\\res\\drawable\\splash_ui.png"
+    },
+    {
         "merged": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_camera_alt_24.xml.flat",
         "source": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_camera_alt_24.xml"
     },
     {
         "merged": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_mic_24.xml.flat",
         "source": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_mic_24.xml"
+    },
+    {
+        "merged": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_splash_night.png.flat",
+        "source": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\src\\main\\res\\drawable\\splash_night.png"
     },
     {
         "merged": "E:\\Android Project\\InternWork\\Kaholas\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher.webp.flat",

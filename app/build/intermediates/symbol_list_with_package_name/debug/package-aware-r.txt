@@ -3382,7 +3382,6 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
-id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions

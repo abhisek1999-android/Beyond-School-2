@@ -197,7 +197,6 @@ id setalarmbtn
 id settings
 id spinner
 id spinner2
-id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions

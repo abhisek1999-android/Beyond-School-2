@@ -89,14 +89,13 @@ public class SplashScreen extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
 
-                    if (queryDocumentSnapshots.isEmpty()){
-                        Log.i("No_data","No_data");
+//                    if (queryDocumentSnapshots.isEmpty()){
+//                        Log.i("No_data","No_data");
                         startActivity(new Intent(getApplicationContext(),KidsInfoActivity.class));
-                        finish();
-                    }else{
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
-                    }
+//                    }else{
+//                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                    }
+                    finish();
 
                 });
     }

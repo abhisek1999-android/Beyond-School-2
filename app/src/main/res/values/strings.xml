@@ -64,7 +64,6 @@
     <string name="remainder_on_off">Reminder: ON/OFF</string>
 
     <string-array name="grades">
-        <item>Kindergarten</item>
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>

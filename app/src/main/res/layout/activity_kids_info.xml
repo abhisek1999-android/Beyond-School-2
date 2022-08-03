@@ -91,7 +91,6 @@
             android:id="@+id/kidsNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
@@ -99,6 +98,7 @@
             android:fontFamily="@font/poppins"
             android:foregroundTint="@color/teal_700"
             android:hint="Eg. (Avinash Gupta)"
+            android:inputType="textCapSentences|textPersonName"
             android:padding="15dp"
             android:textSize="18sp"
 
@@ -129,6 +129,7 @@
             android:hint="Eg. 20/10/2015"
             android:inputType="none"
             android:padding="15dp"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
@@ -155,12 +156,14 @@
             app:boxStrokeColor="@color/teal_700"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
+            app:hintEnabled="false"
             app:hintTextColor="@android:color/transparent">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_border"
+                android:fontFamily="@font/poppins"
                 android:hint="Choose Your Grade"
                 android:inputType="none"
                 android:padding="15dp"

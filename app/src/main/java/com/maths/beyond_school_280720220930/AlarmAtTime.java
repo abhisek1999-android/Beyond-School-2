@@ -19,8 +19,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
 import com.maths.beyond_school_280720220930.utils.Utils;
 
@@ -37,10 +35,8 @@ public class AlarmAtTime extends AppCompatActivity {
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     TimePicker picker;
-    SwitchMaterial switchToggle;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    Boolean isEnable = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -53,7 +49,6 @@ public class AlarmAtTime extends AppCompatActivity {
         back = findViewById(R.id.imageView4);
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
-        switchToggle = findViewById(R.id.switch_toggle);
         createNotificationChannel();
         titletext.setText("Set Reminder");
 
@@ -63,23 +58,9 @@ public class AlarmAtTime extends AppCompatActivity {
             picker.setHour(sharedPreferences.getInt("hour", 12));
             picker.setMinute(sharedPreferences.getInt("minute", 00));
         }
-        setalarm.setOnClickListener(view -> saveChange());
-        cancelalarm.setOnClickListener(view -> finish());
+        setalarm.setOnClickListener(view -> setAlarm());
+        cancelalarm.setOnClickListener(view -> cancelAlarm());
         back.setOnClickListener(view -> onBackPressed());
-        switchToggleSetUp();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void saveChange() {
-        setAlarm();
-        PrefConfig.writeBooleanInPref(this, isEnable, getResources().getString(R.string.alarm_enable));
-    }
-
-    private void switchToggleSetUp() {
-        switchToggle.setChecked(PrefConfig.readBooleanInPref(this, getResources().getString(R.string.alarm_enable)));
-        switchToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            isEnable = isChecked;
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -116,15 +97,7 @@ public class AlarmAtTime extends AppCompatActivity {
                 calendar.set(Calendar.MILLISECOND, 0);
                 putval(picker.getCurrentHour(), picker.getCurrentMinute());
             }
-
-
-            if (isEnable)
-                setAlarm(this, calendar);
-            else {
-                Toast.makeText(this, "Alarm is disabled", Toast.LENGTH_SHORT).show();
-                cancelAlarm();
-
-            }
+            setAlarm(this, calendar);
 
         } catch (Exception e) {
             e.printStackTrace();

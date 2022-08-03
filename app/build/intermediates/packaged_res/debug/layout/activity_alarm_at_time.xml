@@ -48,20 +48,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_toggle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/reemkufi_medium"
-            android:padding="8dp"
-            android:text="@string/remainder_on_off"
-            android:textSize="18dp"
-            app:layout_constraintEnd_toEndOf="@+id/materialCardView"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
-
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
@@ -183,7 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/reemkufi_medium"
-                        android:text="Save"
+                        android:text="Set"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
