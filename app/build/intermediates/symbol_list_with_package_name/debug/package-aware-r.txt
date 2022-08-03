@@ -2768,6 +2768,8 @@ drawable profile_default
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
+drawable splash_night
+drawable splash_ui
 drawable test
 drawable test2
 drawable test_custom_background
@@ -4358,6 +4360,7 @@ style FirebaseUI_TopProgressBar
 style FirebaseUI_Transparent
 style FirebaseUI_VerifyPhoneButton
 style FirebaseUI_WrapperStyle
+style LoginTheme
 style MaterialAlertDialog_Material3
 style MaterialAlertDialog_Material3_Body_Text
 style MaterialAlertDialog_Material3_Body_Text_CenterStacked
