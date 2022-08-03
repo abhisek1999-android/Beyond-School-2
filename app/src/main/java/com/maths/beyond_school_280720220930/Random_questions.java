@@ -625,8 +625,8 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
                 sendAnalyticsData(result+"",title,true,(int)(diff/1000),Table.getText().toString());
-                delayTime=1000;
-                delayAtTheEnd=600;
+                delayTime=1500;
+                delayAtTheEnd=900;
                 rtans++;
                 readText.read("CORRECT");
                 right_ans.setText(String.valueOf(rtans));

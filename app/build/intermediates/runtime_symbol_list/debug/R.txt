@@ -2766,6 +2766,8 @@ int drawable profile_default 0x7f0800f3
 int drawable roundbar 0x7f0800f4
 int drawable score_icon 0x7f0800f5
 int drawable select_option_ct 0x7f0800f6
+int drawable splash_night 0x7f080100
+int drawable splash_ui 0x7f0800ff
 int drawable test 0x7f0800f7
 int drawable test2 0x7f0800f8
 int drawable test_custom_background 0x7f0800f9
@@ -4343,6 +4345,7 @@ int style FirebaseUI_TopProgressBar 0x7f140140
 int style FirebaseUI_Transparent 0x7f140141
 int style FirebaseUI_VerifyPhoneButton 0x7f140142
 int style FirebaseUI_WrapperStyle 0x7f140143
+int style LoginTheme 0x7f140464
 int style MaterialAlertDialog_Material3 0x7f140144
 int style MaterialAlertDialog_Material3_Body_Text 0x7f140145
 int style MaterialAlertDialog_Material3_Body_Text_CenterStacked 0x7f140146

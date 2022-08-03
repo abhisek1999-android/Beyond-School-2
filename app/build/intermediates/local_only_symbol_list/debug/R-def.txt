@@ -75,6 +75,8 @@ drawable profile_default
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
+drawable splash_night
+drawable splash_ui
 drawable test
 drawable test2
 drawable tv_bac
@@ -124,6 +126,7 @@ id employeeId
 id filterBy
 id getImages
 id greetingsTime
+id header
 id home
 id image
 id image1
@@ -282,6 +285,7 @@ string title_activity_kids_info
 string wrong
 style Button4
 style Button5
+style LoginTheme
 style Theme.BEYOND_SCHOOL
 style Theme.BEYOND_SCHOOL.AppBarOverlay
 style Theme.BEYOND_SCHOOL.NoActionBar

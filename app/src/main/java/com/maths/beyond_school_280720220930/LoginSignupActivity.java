@@ -103,7 +103,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                                     .createSignInIntentBuilder()
                                     .setIsSmartLockEnabled(false)
                                     .setAvailableProviders(providers)
-                                    .setLogo(R.drawable.logo_final).setTheme(R.style.Theme_BEYOND_SCHOOL_NoActionBar)
+                                    .setTheme(R.style.LoginTheme)
                                     .build(),
                             RC_SIGN_IN
                     );
