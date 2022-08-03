@@ -45,6 +45,10 @@ import android.widget.ToggleButton;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
@@ -52,6 +56,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
 import java.text.DateFormat;
@@ -96,6 +101,13 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     long delayTime=2000;
     long delayAtTheEnd=500;
     String status;
+    FirebaseAuth mAuth;
+    FirebaseUser mCurrentUser;
+
+    String kidsId="",kidsName="";
+
+    FirebaseFirestore kidsDb=FirebaseFirestore.getInstance();
+    private int kidsAge=0;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -108,7 +120,12 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
         wakeLock.acquire();
 
+        mAuth= FirebaseAuth.getInstance();
+        mCurrentUser=mAuth.getCurrentUser();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            retrieveKidsData();
+        }
 
         logInfo=findViewById(R.id.logInfo);
 
@@ -627,6 +644,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void gettingResult(String title) throws InterruptedException {
 
@@ -670,19 +688,15 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 e.printStackTrace();
             }
             try {
-
-
-
-                if (lcsResult && !title.equals("")) {
-
+                if (lcsResult) {
 
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
+                    sendAnalyticsData(result+"",title,true,(int)(diff/1000),Table.getText().toString());
                     delayTime=1000;
                     delayAtTheEnd=600;
-                    sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     rtans++;
                     readText.read("CORRECT");
                     right_ans.setText(String.valueOf(rtans));
@@ -692,9 +706,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                     end=new Date();
                     long diff = end.getTime() - start.getTime();
                     logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
+                    sendAnalyticsData(result+"",title,false,(int)(diff/1000),Table.getText().toString());
                     delayTime=3000;
                     delayAtTheEnd=1800;
-                    sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
                     wrans++;
                     readText.read("INCORRECT, Correct is " + result);
                     wrong_ans.setText(String.valueOf(wrans));
@@ -705,7 +719,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 end=new Date();
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,true, (int) (diff/1000),Table.getText().toString());
                 delayTime=3000;
                 delayAtTheEnd=1800;
                 readText.read("INCORRECT, Correct is " + result);
@@ -867,17 +881,47 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void retrieveKidsData() {
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
 
 
+                    if (queryDocumentSnapshots.isEmpty()){
+                        //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                        Log.i("No_data","No_data");
+                    }else{
+                        for (QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots){
 
-    public void sendAnalyticsData(String result, String detected, String tag, String timeTaken, String s){
+                            KidsData kidsData=queryDocumentSnapshot.toObject(KidsData.class);
+                            kidsData.setKids_id(queryDocumentSnapshot.getId());
+                            kidsId=kidsData.getKids_id();
+                            kidsName=kidsData.getName();
+                            kidsAge=new UtilityFunctions().calculateAge(kidsData.getAge());
+
+                            Log.i("KidsData",kidsData.getName()+"");
+                        }
+                    }
+
+                });
+    }
+
+
+    public void sendAnalyticsData(String result, String detected, Boolean tag, int timeTaken, String s){
 
         resultBundle.putString("original_result",result);
+        resultBundle.putInt("table",TableValue);
         resultBundle.putString("detected_result",detected);
-        resultBundle.putString("tag",tag);
-        resultBundle.putString("timeTaken",timeTaken);
-        resultBundle.putString("Question",s);
-        mFirebaseAnalytics.logEvent("result_verification",resultBundle);
+        resultBundle.putBoolean("is_correct",tag);
+        resultBundle.putInt("timeTaken",timeTaken);
+        resultBundle.putString("question",s);
+        resultBundle.putString("parent_id",mCurrentUser.getUid());
+        resultBundle.putString("kids_id",kidsId);
+        resultBundle.putString("kids_name",kidsName);
+        resultBundle.putInt("kids_age",kidsAge);
+        resultBundle.putString("type","maths_multiplication_table_with_hint");
+        mFirebaseAnalytics.logEvent("maths",resultBundle);
 
     }
 }

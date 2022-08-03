@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
           >-->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/resume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:visibility="gone"
+
                     app:cardCornerRadius="10dp"
                     app:cardElevation="10dp">
 
@@ -88,7 +88,7 @@
                     </LinearLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <com.google.android.material.card.MaterialCardView
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -106,7 +106,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         android:orientation="horizontal"
                         android:paddingVertical="10dp">
 
@@ -248,7 +247,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="25dp"
-                    android:layout_marginTop="20sp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="20sp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"

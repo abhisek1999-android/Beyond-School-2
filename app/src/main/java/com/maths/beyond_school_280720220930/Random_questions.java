@@ -33,6 +33,10 @@ import android.widget.ToggleButton;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
@@ -40,6 +44,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
 import java.text.DateFormat;
@@ -86,6 +91,12 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     long delayTime=2000;
     long delayAtTheEnd=500;
     String status;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+
+    private String kidsId="",kidsName="";
+    private int kidsAge=0;
+    FirebaseFirestore kidsDb=FirebaseFirestore.getInstance();
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +108,14 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         rtans=intent.getIntExtra("right",0);
         wrans=intent.getIntExtra("wrong",0);
         count=intent.getIntExtra("count",1);
+
+        mAuth= FirebaseAuth.getInstance();
+        mCurrentUser=mAuth.getCurrentUser();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            retrieveKidsData();
+        }
+
 
         try{
             maxLearn=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.last_table));
@@ -371,12 +390,14 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                     break;
                 }
                 case 9: {
+
                     ToSet = TableValue + " nines are ?";
                     readText.read(ToSet);
                     set = TableValue + " X 9 = ";
                     Table.setText(set);
                     logTextView.setText(logTextView.getText().toString()+"QUESTION: "+ToSet+"\n");
                     break;
+
                 }
                 case 10: {
                     ToSet = TableValue + " tens are ";
@@ -392,7 +413,6 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                     break;
                 }
             }
-
         }
 
         if (count==10){
@@ -604,7 +624,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
 
-                sendAnalyticsData(result+"",title,"correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,true,(int)(diff/1000),Table.getText().toString());
                 delayTime=1000;
                 delayAtTheEnd=600;
                 rtans++;
@@ -616,7 +636,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                 end=new Date();
                 long diff = end.getTime() - start.getTime();
                 logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-                sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+                sendAnalyticsData(result+"",title,false,(int)(diff/1000),Table.getText().toString());
                 delayTime=3000;
                 delayAtTheEnd=1800;
                 wrans++;
@@ -629,7 +649,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             end=new Date();
             long diff = end.getTime() - start.getTime();
             logTextView.setText(logTextView.getText().toString()+new UtilityFunctions().formatTime(diff)+"\n");
-            sendAnalyticsData(result+"",title,"in_correct",new UtilityFunctions().formatTime(diff),Table.getText().toString());
+            sendAnalyticsData(result+"",title,true, (int) (diff/1000),Table.getText().toString());
             delayTime=3000;
             delayAtTheEnd=1800;
             readText.read("INCORRECT, Correct is " + result);
@@ -715,6 +735,34 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             });
 
         }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void retrieveKidsData() {
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+
+                    if (queryDocumentSnapshots.isEmpty()){
+                        //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                        Log.i("No_data","No_data");
+                    }else{
+                        for (QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots){
+
+                            KidsData kidsData=queryDocumentSnapshot.toObject(KidsData.class);
+                            kidsData.setKids_id(queryDocumentSnapshot.getId());
+                            kidsId=kidsData.getKids_id();
+                            kidsName=kidsData.getName();
+
+                            kidsAge=new UtilityFunctions().calculateAge(kidsData.getAge());
+
+                            Log.i("KidsData",kidsData.getName()+"");
+                        }
+                    }
+
+                });
     }
 
     public void unMuteAudioStream() throws InterruptedException {
@@ -882,14 +930,24 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
 
 
-    public void sendAnalyticsData(String result, String detected, String tag, String timeTaken, String s){
+    public void sendAnalyticsData(String result, String detected, Boolean tag, int timeTaken, String s){
 
         resultBundle.putString("original_result",result);
+        resultBundle.putInt("table",TableValue);
         resultBundle.putString("detected_result",detected);
-        resultBundle.putString("tag",tag);
-        resultBundle.putString("timeTaken",timeTaken);
-        resultBundle.putString("Question",s);
-        mFirebaseAnalytics.logEvent("result_verification",resultBundle);
+        resultBundle.putBoolean("is_correct",tag);
+        resultBundle.putInt("timeTaken",timeTaken);
+        resultBundle.putString("question",s);
+        resultBundle.putString("question",s);
+        resultBundle.putString("parent_id",mCurrentUser.getUid());
+        resultBundle.putString("kids_id",kidsId);
+        resultBundle.putString("kids_name",kidsName);
+        resultBundle.putInt("kids_age",kidsAge);
+        if (status.equals("practice"))
+        resultBundle.putString("type","maths_multiplication_table_learning");
+        else
+        resultBundle.putString("type","maths_multiplication_random");
+        mFirebaseAnalytics.logEvent("maths",resultBundle);
 
     }
 }

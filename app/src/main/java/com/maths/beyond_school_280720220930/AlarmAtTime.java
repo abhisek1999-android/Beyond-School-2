@@ -118,6 +118,7 @@ public class AlarmAtTime extends AppCompatActivity {
             }
             alarmManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent=new Intent(this, AlarmReceiver.class);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             pendingIntent=PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY,pendingIntent);

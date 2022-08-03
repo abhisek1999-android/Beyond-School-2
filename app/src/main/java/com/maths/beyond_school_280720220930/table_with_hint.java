@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
 
@@ -59,6 +61,8 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
     ReadText readText;
     TextView titleText;
     NotificationManager nManager;
+    FirebaseAuth mAuth;
+    FirebaseUser mCurrentUser;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,9 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         setContentView(R.layout.activity_table_with_hint);
 
 
+
+        mAuth=FirebaseAuth.getInstance();
+        mCurrentUser=mAuth.getCurrentUser();
 
         Context mContext = getApplicationContext();
         PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
