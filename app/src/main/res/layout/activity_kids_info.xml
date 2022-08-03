@@ -17,22 +17,21 @@
 
 
     <RelativeLayout
-        android:layout_below="@id/toolBar"
+        android:id="@+id/imageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageLayout"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            app:cardElevation="20dp"
-            app:cardCornerRadius="125dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_margin="20dp"
-            >
+            app:cardCornerRadius="125dp"
+            app:cardElevation="20dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,8 +65,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/nextButton"
         android:layout_below="@id/imageLayout"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/background_border"
             android:fontFamily="@font/poppins"
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/reemkufi_medium"
             android:text="Your Date of Birth"
             android:textColor="@color/teal_700"
@@ -121,26 +121,64 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/kidsNameTextView"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/background_border"
             android:fontFamily="@font/poppins"
             android:foregroundTint="@color/teal_700"
             android:hint="Eg. 20/10/2015"
             android:inputType="none"
-            android:textSize="18sp"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="@string/your_grade"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutGrade"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_border"
+            android:fontFamily="@font/poppins"
+            android:padding="2dp"
+            app:boxStrokeColor="@color/teal_700"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintTextColor="@android:color/transparent">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_border"
+                android:hint="Choose Your Grade"
+                android:inputType="none"
+                android:padding="15dp"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
     </LinearLayout>
 
 
     <Button
+        android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/teal_700"
         android:drawableRight="@drawable/ic_next"
         android:fontFamily="@font/poppins"

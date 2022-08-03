@@ -1,38 +1,33 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,15 +35,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,14 +53,15 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     TextView kidsAge;
     ImageButton getImages;
-    FirebaseFirestore kidsDb=FirebaseFirestore.getInstance();
+    FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     Uri imageURI;
-    private int GALLERY_REQUEST_CODE=200;
+    private int GALLERY_REQUEST_CODE = 200;
     private StorageReference mStorageReference;
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
     TextView titleText;
     ImageView back;
+    TextInputLayout textInputLayoutGrade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,16 +80,17 @@ public class KidsInfoActivity extends AppCompatActivity {
         titleText = findViewById(R.id.titleText);
         titleText.setText("Kids Info");
 
-        back=findViewById(R.id.imageView4);
+        back = findViewById(R.id.imageView4);
         back.setVisibility(View.GONE);
 
-        profileImageView=findViewById(R.id.kidsProfileImage);
-        mStorageReference= FirebaseStorage.getInstance().getReference();
-        kidsName=findViewById(R.id.kidsNameTextView);
-        kidsAge=findViewById(R.id.kidsAgeTextView);
-        getImages=findViewById(R.id.getImages);
-        mAuth=FirebaseAuth.getInstance();
-        mCurrentUser=mAuth.getCurrentUser();
+        profileImageView = findViewById(R.id.kidsProfileImage);
+        mStorageReference = FirebaseStorage.getInstance().getReference();
+        kidsName = findViewById(R.id.kidsNameTextView);
+        kidsAge = findViewById(R.id.kidsAgeTextView);
+        getImages = findViewById(R.id.getImages);
+        textInputLayoutGrade = findViewById(R.id.textInputLayoutGrade);
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
 
 
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
@@ -130,20 +125,26 @@ public class KidsInfoActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             calendar.setTimeInMillis(Long.parseLong(selection.toString()));
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String formattedDate  = format.format(calendar.getTime());
+            String formattedDate = format.format(calendar.getTime());
             kidsAge.setText(formattedDate);
 
 
         });
 
-        getImages.setOnClickListener(v->{
+        getImages.setOnClickListener(v -> {
             selectImage();
         });
 
-      //  showSetSpeedDialDialog(0);
-
+        //  showSetSpeedDialDialog(0);
+        setUpTextLayoutGrade();
     }
 
+    private void setUpTextLayoutGrade() {
+        String[] array = getResources().getStringArray(R.array.grades);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, array);
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) textInputLayoutGrade.getEditText());
+        editText.setAdapter(adapter);
+    }
 
 
     private void showSetSpeedDialDialog(int i) {
@@ -159,12 +160,11 @@ public class KidsInfoActivity extends AppCompatActivity {
         // picker
         final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
 
-        final AlertDialog.Builder alert=new AlertDialog.Builder(KidsInfoActivity.this);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(KidsInfoActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.result_display, null);
 
 
-        TextView title=mView.findViewById(R.id.openDialog);
-
+        TextView title = mView.findViewById(R.id.openDialog);
 
 
         alert.setView(mView);
@@ -172,14 +172,14 @@ public class KidsInfoActivity extends AppCompatActivity {
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        try{
+        try {
             alertDialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
 
-        title.setOnClickListener(v->{
+        title.setOnClickListener(v -> {
             materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
         });
         materialDatePicker.addOnPositiveButtonClickListener(selection -> {
@@ -187,8 +187,8 @@ public class KidsInfoActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             calendar.setTimeInMillis(Long.parseLong(selection.toString()));
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String formattedDate  = format.format(calendar.getTime());
-         //   kidsAge.setText(formattedDate);
+            String formattedDate = format.format(calendar.getTime());
+            //   kidsAge.setText(formattedDate);
             title.setText(formattedDate);
 
 
@@ -197,12 +197,12 @@ public class KidsInfoActivity extends AppCompatActivity {
     }
 
 
-
     private void selectImage() {
 
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);startActivityForResult(intent, GALLERY_REQUEST_CODE);
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
 
 //        final CharSequence[] o = {"Take Photo", "Choose from Gallery",
 //                "Cancel"};
@@ -236,7 +236,6 @@ public class KidsInfoActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,14 +252,14 @@ public class KidsInfoActivity extends AppCompatActivity {
 //
 //            }
 
-            if (requestCode == GALLERY_REQUEST_CODE) {
+        if (requestCode == GALLERY_REQUEST_CODE) {
 
-                Uri selectedImage = data.getData();
-                imageURI =selectedImage;
-                // Bitmap bmp=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-                // contact_bitmap=bmp;
-                // userImage.setImageBitmap(bmp);
-                profileImageView.setImageURI(selectedImage);
+            Uri selectedImage = data.getData();
+            imageURI = selectedImage;
+            // Bitmap bmp=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+            // contact_bitmap=bmp;
+            // userImage.setImageBitmap(bmp);
+            profileImageView.setImageURI(selectedImage);
         }
 
 
@@ -268,12 +267,12 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     public void goButtonClicked(View view) {
 
-        if (!kidsName.getText().toString().equals("") && !kidsAge.getText().toString().equals("")){
+        if (!kidsName.getText().toString().equals("") && !kidsAge.getText().toString().equals("")) {
 
-            if (imageURI!=null && mAuth!=null){
-                StorageReference storageReference = mStorageReference.child("kids_profile_image/"+mCurrentUser.getUid()+"/pic_"+ String.valueOf(System.currentTimeMillis()) + ".jpg");
+            if (imageURI != null && mAuth != null) {
+                StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
 
-                try{
+                try {
 
                     storageReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -286,11 +285,11 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
 
                                         saveKidsData(downloadUrl);
-                                        Log.i("Image Uploaded",downloadUrl);
+                                        Log.i("Image Uploaded", downloadUrl);
 
                                     } else {
                                         //show exception
-                                        Log.i("Error Uploading Image","Error");
+                                        Log.i("Error Uploading Image", "Error");
                                     }
                                 }
 
@@ -299,31 +298,30 @@ public class KidsInfoActivity extends AppCompatActivity {
                     });
 
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
 
                 }
-            }else{
+            } else {
                 saveKidsData("default");
             }
-        }else{
+        } else {
             Toast.makeText(this, "Name and Age is required!", Toast.LENGTH_LONG).show();
         }
 
     }
 
-
     private void saveKidsData(String imageUrl) {
+        if (mAuth != null) {
 
-        if (mAuth!=null){
-
-            String uuid= kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document().getId();
+            String uuid = kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document().getId();
             Map<String, Object> kidsData = new HashMap<>();
-            kidsData.put("name",kidsName.getText().toString());
-            kidsData.put("kids_id",uuid);
-            kidsData.put("profile_url",imageUrl);
-            kidsData.put("parent_id",mCurrentUser.getUid());
-            kidsData.put("age",kidsAge.getText().toString());
+            kidsData.put("name", kidsName.getText().toString());
+            kidsData.put("kids_id", uuid);
+            kidsData.put("profile_url", imageUrl);
+            kidsData.put("parent_id", mCurrentUser.getUid());
+            kidsData.put("age", kidsAge.getText().toString());
+            kidsData.put("grade", Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document(uuid)
                     .set(kidsData)
@@ -331,8 +329,8 @@ public class KidsInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

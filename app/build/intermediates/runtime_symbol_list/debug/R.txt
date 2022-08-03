@@ -75,6 +75,7 @@ int animator nav_default_pop_exit_anim 0x7f020023
 int array com_google_android_gms_fonts_certs 0x7f030000
 int array com_google_android_gms_fonts_certs_dev 0x7f030001
 int array com_google_android_gms_fonts_certs_prod 0x7f030002
+int array grades 0x7f030006
 int array numbers 0x7f030003
 int array numbers2 0x7f030004
 int array preloaded_fonts 0x7f030005
@@ -3100,6 +3101,7 @@ int id imageView4 0x7f0a013b
 int id imageView5 0x7f0a013c
 int id imageView6 0x7f0a013d
 int id image_4 0x7f0a013e
+int id image_view_profile_view 0x7f0a02c2
 int id immediateStop 0x7f0a013f
 int id included 0x7f0a0140
 int id info 0x7f0a0141
@@ -3225,6 +3227,7 @@ int id never 0x7f0a01b8
 int id neverCompleteToEnd 0x7f0a01b9
 int id neverCompleteToStart 0x7f0a01ba
 int id next 0x7f0a01bb
+int id nextButton 0x7f0a02c0
 int id nextbtn 0x7f0a01bc
 int id noData 0x7f0a01bd
 int id noDataText 0x7f0a01be
@@ -3402,6 +3405,7 @@ int id test_radiobutton_app_button_tint 0x7f0a0269
 int id text 0x7f0a026a
 int id text2 0x7f0a026b
 int id textEnd 0x7f0a026c
+int id textInputLayoutGrade 0x7f0a02c1
 int id textSpacerNoButtons 0x7f0a026d
 int id textSpacerNoTitle 0x7f0a026e
 int id textStart 0x7f0a026f
@@ -3642,6 +3646,7 @@ int layout fui_register_email_layout 0x7f0d0056
 int layout fui_welcome_back_email_link_prompt_layout 0x7f0d0057
 int layout fui_welcome_back_idp_prompt_layout 0x7f0d0058
 int layout fui_welcome_back_password_prompt_layout 0x7f0d0059
+int layout list_item 0x7f0d00ba
 int layout log_bottom_sheet 0x7f0d005a
 int layout log_dialog 0x7f0d005b
 int layout m3_alert_dialog 0x7f0d005c
@@ -3820,6 +3825,7 @@ int string fallback_menu_item_open_in_browser 0x7f130043
 int string fallback_menu_item_share_link 0x7f130044
 int string firebase_web_host 0x7f130045
 int string first_fragment_label 0x7f130046
+int string first_time 0x7f13010f
 int string fui_accessibility_logo 0x7f130047
 int string fui_auto_verified 0x7f130048
 int string fui_button_text_save 0x7f130049
@@ -4019,6 +4025,7 @@ int string status 0x7f13010a
 int string status_bar_notification_info_overflow 0x7f13010b
 int string title_activity_kids_info 0x7f13010c
 int string wrong 0x7f13010d
+int string your_grade 0x7f13010e
 int style AlertDialog_AppCompat 0x7f140000
 int style AlertDialog_AppCompat_Light 0x7f140001
 int style AndroidThemeColorAccentYellow 0x7f140002

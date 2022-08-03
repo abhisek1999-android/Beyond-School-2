@@ -76,6 +76,7 @@ animator nav_default_pop_exit_anim
 array com_google_android_gms_fonts_certs
 array com_google_android_gms_fonts_certs_dev
 array com_google_android_gms_fonts_certs_prod
+array grades
 array numbers
 array numbers2
 array preloaded_fonts
@@ -3101,6 +3102,7 @@ id imageView4
 id imageView5
 id imageView6
 id image_4
+id image_view_profile_view
 id immediateStop
 id included
 id info
@@ -3226,6 +3228,7 @@ id never
 id neverCompleteToEnd
 id neverCompleteToStart
 id next
+id nextButton
 id nextbtn
 id noData
 id noDataText
@@ -3403,6 +3406,7 @@ id test_radiobutton_app_button_tint
 id text
 id text2
 id textEnd
+id textInputLayoutGrade
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
@@ -3643,6 +3647,7 @@ layout fui_register_email_layout
 layout fui_welcome_back_email_link_prompt_layout
 layout fui_welcome_back_idp_prompt_layout
 layout fui_welcome_back_password_prompt_layout
+layout list_item
 layout log_bottom_sheet
 layout log_dialog
 layout m3_alert_dialog
@@ -3821,6 +3826,7 @@ string fallback_menu_item_open_in_browser
 string fallback_menu_item_share_link
 string firebase_web_host
 string first_fragment_label
+string first_time
 string fui_accessibility_logo
 string fui_auto_verified
 string fui_button_text_save
@@ -4020,6 +4026,7 @@ string status
 string status_bar_notification_info_overflow
 string title_activity_kids_info
 string wrong
+string your_grade
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style AndroidThemeColorAccentYellow

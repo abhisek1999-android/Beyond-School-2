@@ -14,6 +14,21 @@
             MIIEQzCCAyugAwIBAgIJAMLgh0ZkSjCNMA0GCSqGSIb3DQEBBAUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDAeFw0wODA4MjEyMzEzMzRaFw0zNjAxMDcyMzEzMzRaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBAKtWLgDYO6IIrgqWbxJOKdoR8qtW0I9Y4sypEwPpt1TTcvZApxsdyxMJZ2JORland2qSGT2y5b+3JKkedxiLDmpHpDsz2WCbdxgxRczfey5YZnTJ4VZbH0xqWVW/8lGmPav5xVwnIiJS6HXk+BVKZF+JcWjAsb/GEuq/eFdpuzSqeYTcfi6idkyugwfYwXFU1+5fZKUaRKYCwkkFQVfcAs1fXA5V+++FGfvjJ/CxURaSxaBvGdGDhfXE28LWuT9ozCl5xw4Yq5OGazvV24mZVSoOO0yZ31j7kYvtwYK6NeADwbSxDdJEqO4k//0zOHKrUiGYXtqw/A0LFFtqoZKFjnkCAQOjgdkwgdYwHQYDVR0OBBYEFMd9jMIhF1Ylmn/Tgt9r45jk14alMIGmBgNVHSMEgZ4wgZuAFMd9jMIhF1Ylmn/Tgt9r45jk14aloXikdjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWSCCQDC4IdGZEowjTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4IBAQBt0lLO74UwLDYKqs6Tm8/yzKkEu116FmH4rkaymUIE0P9KaMftGlMexFlaYjzmB2OxZyl6euNXEsQH8gjwyxCUKRJNexBiGcCEyj6z+a1fuHHvkiaai+KL8W1EyNmgjmyy8AW7P+LLlkR+ho5zEHatRbM/YAnqGcFh5iZBqpknHf1SKMXFh4dd239FJ1jWYfbMDMy3NS5CTMQ2XFI1MvcyUTdZPErjQfTbQe3aDQsQcafEQPD+nqActifKZ0Np0IS9L9kR/wbNvyz6ENwPiTrjV2KRkEjH78ZMcUQXg0L3BYHJ3lc69Vs5Ddf9uUGGMYldX3WfMBEmh/9iFBDAaTCK
         </item>
     </string-array>
+    <string-array name="grades">
+        <item>Kindergarten</item>
+        <item>1st Grade</item>
+        <item>2nd Grade</item>
+        <item>3rd Grade</item>
+<!--        <item>4th Grade</item>-->
+<!--        <item>5th Grade</item>-->
+<!--        <item>6th Grade</item>-->
+<!--        <item>7th Grade</item>-->
+<!--        <item>8th Grade</item>-->
+<!--        <item>9th Grade</item>-->
+<!--        <item>10th Grade</item>-->
+<!--        <item>11th Grade</item>-->
+<!--        <item>12th Grade</item>-->
+    </string-array>
     <string-array name="numbers">
         <item>2000</item>
         <item>2300</item>
@@ -76,6 +91,7 @@
     <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
     <string name="default_web_client_id" translatable="false">556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com</string>
     <string name="first_fragment_label">First Fragment</string>
+    <string name="first_time">KEY_FIRST_TIME_OPEN</string>
     <string name="gcm_defaultSenderId" translatable="false">556365060240</string>
     <string name="google_api_key" translatable="false">AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw</string>
     <string name="google_app_id" translatable="false">1:556365060240:android:3855545c453c6f8356e015</string>
@@ -96,6 +112,7 @@
     <string name="status">KEY_STATUS</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <string name="wrong">KEY_WRONG</string>
+    <string name="your_grade">Your Grade</string>
     <style name="Button4">
         <item name="cornerSize">20%</item>
     </style>
@@ -103,18 +120,18 @@
         <item name="cornerSize">50%</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
