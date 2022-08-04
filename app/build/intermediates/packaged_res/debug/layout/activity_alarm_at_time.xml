@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:theme="@style/PickerTheme"
                     android:timePickerMode="spinner" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -59,8 +60,7 @@
             android:padding="@dimen/grid_1"
             android:text="@string/remainder_on_off"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
         <!--        <LinearLayout-->
         <!--            android:id="@+id/linearLayout3"-->

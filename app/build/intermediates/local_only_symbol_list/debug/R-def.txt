@@ -306,6 +306,7 @@ string your_grade
 style Button4
 style Button5
 style LoginTheme
+style PickerTheme
 style Theme.BEYOND_SCHOOL
 style Theme.BEYOND_SCHOOL.AppBarOverlay
 style Theme.BEYOND_SCHOOL.NoActionBar
