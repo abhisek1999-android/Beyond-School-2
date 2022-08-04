@@ -13,12 +13,12 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.SwitchCompat;
 
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
 import com.maths.beyond_school_280720220930.utils.Utils;
 
@@ -30,11 +30,11 @@ public class AlarmAtTime extends AppCompatActivity {
     private static final String KEY_MINUTE = "minute";
     TextView titletext;
     ImageView back;
-    CardView cancelalarm, setalarm;
     Calendar calendar;
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     TimePicker picker;
+    SwitchCompat setAlarm;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -43,12 +43,12 @@ public class AlarmAtTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_at_time);
-        cancelalarm = findViewById(R.id.cancelalarmbtn);
-        setalarm = findViewById(R.id.setalarmbtn);
         titletext = findViewById(R.id.titleText);
         back = findViewById(R.id.imageView4);
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
+        setAlarm = findViewById(R.id.setAlarm);
+
         createNotificationChannel();
         titletext.setText("Set Reminder");
 
@@ -58,13 +58,43 @@ public class AlarmAtTime extends AppCompatActivity {
             picker.setHour(sharedPreferences.getInt("hour", 12));
             picker.setMinute(sharedPreferences.getInt("minute", 00));
         }
-        setalarm.setOnClickListener(view -> setAlarm());
-        cancelalarm.setOnClickListener(view -> cancelAlarm());
         back.setOnClickListener(view -> onBackPressed());
+
+        onPickerChange();
+        setAlarmButton();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void cancelAlarm() {
+    private void onPickerChange() {
+        picker.setOnTimeChangedListener((timePicker, i, i1) -> {
+            if (setAlarm.isChecked()) {
+                cancelAlarm(1);
+                setAlarm(1);
+            }
+            putVal(timePicker.getHour(), timePicker.getMinute());
+        });
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setAlarmButton() {
+        setAlarm.setChecked(PrefConfig.readBooleanInPref(this, getResources().getString(R.string.alarm_enable)));
+        setAlarm.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                setAlarm(0);
+            } else {
+                cancelAlarm(0);
+            }
+            PrefConfig.writeBooleanInPref(this, isChecked, getResources().getString(R.string.alarm_enable));
+        });
+    }
+
+    /**
+     * @param request value when called from onPickerChange 1 for other 0
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void cancelAlarm(int request) {
 
         Intent intent = new Intent(this, AlarmReceiver.class);
 //        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -75,13 +105,18 @@ public class AlarmAtTime extends AppCompatActivity {
 
         }
         alarmManager.cancel(pendingIntent);
-        picker.setHour(12);
-        picker.setMinute(00);
+        if (request != 1)
+            Utils.simpleToast(this, "Reminder Cancel !!");
+//        picker.setHour(12);
+//        picker.setMinute(00);
 
     }
 
+    /**
+     * @param request value when called from onPickerChange 1 for other 0
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void setAlarm() {
+    private void setAlarm(int request) {
         try {
             calendar = Calendar.getInstance();
             if (Build.VERSION.SDK_INT >= 23) {
@@ -89,15 +124,15 @@ public class AlarmAtTime extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, picker.getMinute());
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
-                putval(picker.getHour(), picker.getMinute());
+                putVal(picker.getHour(), picker.getMinute());
             } else {
                 calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
                 calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
-                putval(picker.getCurrentHour(), picker.getCurrentMinute());
+                putVal(picker.getCurrentHour(), picker.getCurrentMinute());
             }
-            setAlarm(this, calendar);
+            setAlarm(this, calendar, request);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +142,7 @@ public class AlarmAtTime extends AppCompatActivity {
     }
 
 
-    public void setAlarm(Context context, Calendar calendar) {
+    public void setAlarm(Context context, Calendar calendar, int request) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
@@ -116,10 +151,11 @@ public class AlarmAtTime extends AppCompatActivity {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        Toast.makeText(context, "Alarm Set Successfully ", Toast.LENGTH_SHORT).show();
+        if (request != 1)
+            Utils.simpleToast(this, "Remainder Set Successfully ");
     }
 
-    private void putval(int hour, int minute) {
+    private void putVal(int hour, int minute) {
         editor.putInt("hour", hour);
         editor.putInt("minute", minute);
         editor.apply();

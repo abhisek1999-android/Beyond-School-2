@@ -2083,6 +2083,15 @@ int dimen fui_field_padding_vert 0x7f0700a1
 int dimen fui_heading_padding_bottom 0x7f0700a2
 int dimen fui_min_height_target 0x7f0700a3
 int dimen fui_wrapper_padding_horiz 0x7f0700a4
+int dimen grid_0_25 0x7f070261
+int dimen grid_0_5 0x7f070262
+int dimen grid_1 0x7f070263
+int dimen grid_1_5 0x7f070264
+int dimen grid_2 0x7f070265
+int dimen grid_3 0x7f070266
+int dimen grid_4 0x7f070267
+int dimen grid_5 0x7f070268
+int dimen grid_6 0x7f070269
 int dimen highlight_alpha_material_colored 0x7f0700a5
 int dimen highlight_alpha_material_dark 0x7f0700a6
 int dimen highlight_alpha_material_light 0x7f0700a7
@@ -2924,7 +2933,6 @@ int id cache_measures 0x7f0a0088
 int id callMeasure 0x7f0a0089
 int id cancel_action 0x7f0a008a
 int id cancel_button 0x7f0a008b
-int id cancelalarmbtn 0x7f0a008c
 int id card 0x7f0a008d
 int id cardView2 0x7f0a008e
 int id cardView3 0x7f0a008f
@@ -3136,7 +3144,6 @@ int id line3 0x7f0a015c
 int id linear 0x7f0a015d
 int id linearLayout 0x7f0a015e
 int id linearLayout2 0x7f0a015f
-int id linearLayout3 0x7f0a0160
 int id listMode 0x7f0a0161
 int id list_item 0x7f0a0162
 int id locale 0x7f0a0163
@@ -3333,7 +3340,7 @@ int id selected 0x7f0a0221
 int id selection_type 0x7f0a0222
 int id send_code 0x7f0a0223
 int id send_sms_tos 0x7f0a0224
-int id setalarmbtn 0x7f0a0225
+int id setAlarm 0x7f0a02c5
 int id settings 0x7f0a0226
 int id sharedValueSet 0x7f0a0227
 int id sharedValueUnset 0x7f0a0228

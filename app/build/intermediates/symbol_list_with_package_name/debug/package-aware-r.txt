@@ -2084,6 +2084,15 @@ dimen fui_field_padding_vert
 dimen fui_heading_padding_bottom
 dimen fui_min_height_target
 dimen fui_wrapper_padding_horiz
+dimen grid_0_25
+dimen grid_0_5
+dimen grid_1
+dimen grid_1_5
+dimen grid_2
+dimen grid_3
+dimen grid_4
+dimen grid_5
+dimen grid_6
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -2925,7 +2934,6 @@ id cache_measures
 id callMeasure
 id cancel_action
 id cancel_button
-id cancelalarmbtn
 id card
 id cardView2
 id cardView3
@@ -3137,7 +3145,6 @@ id line3
 id linear
 id linearLayout
 id linearLayout2
-id linearLayout3
 id listMode
 id list_item
 id locale
@@ -3334,7 +3341,7 @@ id selected
 id selection_type
 id send_code
 id send_sms_tos
-id setalarmbtn
+id setAlarm
 id settings
 id sharedValueSet
 id sharedValueUnset
