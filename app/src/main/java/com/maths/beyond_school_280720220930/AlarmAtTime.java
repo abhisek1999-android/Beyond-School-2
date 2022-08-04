@@ -57,6 +57,7 @@ public class AlarmAtTime extends AppCompatActivity {
         createNotificationChannel();
         titletext.setText("Set Reminder");
 
+        //setting shared preferences
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         if (sharedPreferences.contains(KEY_HOUR)) {
