@@ -2698,6 +2698,7 @@ drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
+drawable ic_baseline_perm_identity_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
@@ -2947,6 +2948,7 @@ id certify
 id chain
 id chain2
 id chains
+id change_table
 id checkbox
 id checked
 id chip
@@ -3105,6 +3107,7 @@ id image
 id image1
 id image3
 id image4
+id imageCardView
 id imageLayout
 id imageView
 id imageView3

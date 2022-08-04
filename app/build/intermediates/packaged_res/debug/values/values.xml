@@ -124,7 +124,7 @@
     <string name="study_remainder">Set your study reminder</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <string name="wrong">KEY_WRONG</string>
-    <string name="your_grade">Your Grade</string>
+    <string name="your_grade">Kids Grade</string>
     <style name="Button4">
         <item name="cornerSize">20%</item>
     </style>
@@ -135,38 +135,40 @@
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_ui</item>
         <item name="android:textColorHint">@color/sweet_grey</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
     <style name="PickerTheme">
-        <!-- Customize your theme here. -->
+        
         <item name="android:fontFamily">@font/poppins</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
