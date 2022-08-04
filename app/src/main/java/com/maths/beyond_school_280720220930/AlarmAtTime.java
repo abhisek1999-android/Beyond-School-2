@@ -152,7 +152,7 @@ public class AlarmAtTime extends AppCompatActivity {
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
         if (request != 1)
-            Utils.simpleToast(this, "Remainder Set Successfully ");
+            Utils.simpleToast(this, "Reminder Set Successfully ");
     }
 
     private void putVal(int hour, int minute) {
