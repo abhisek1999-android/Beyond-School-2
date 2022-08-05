@@ -7,25 +7,17 @@ import android.os.Handler;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.extras.ReadText;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -92,11 +84,10 @@ public class SplashScreen extends AppCompatActivity {
                     if (queryDocumentSnapshots.isEmpty()){
                         Log.i("No_data","No_data");
                         startActivity(new Intent(getApplicationContext(),KidsInfoActivity.class));
-                        finish();
                     }else{
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
+                    finish();
 
                 });
     }

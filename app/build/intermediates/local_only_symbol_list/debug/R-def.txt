@@ -22,6 +22,15 @@ color tp_black
 color tp_white
 color white
 dimen fab_margin
+dimen grid_0_25
+dimen grid_0_5
+dimen grid_1
+dimen grid_1_5
+dimen grid_2
+dimen grid_3
+dimen grid_4
+dimen grid_5
+dimen grid_6
 drawable background_border
 drawable background_fill
 drawable background_round
@@ -47,6 +56,7 @@ drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
+drawable ic_baseline_perm_identity_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
@@ -105,11 +115,11 @@ id button6
 id button7
 id button_first
 id button_second
-id cancelalarmbtn
 id card
 id cardView2
 id cardView3
 id certify
+id change_table
 id closeButton
 id completeLayout
 id dash
@@ -133,6 +143,7 @@ id image
 id image1
 id image3
 id image4
+id imageCardView
 id imageLayout
 id imageView
 id imageView3
@@ -150,7 +161,6 @@ id lay
 id layout_set
 id linearLayout
 id linearLayout2
-id linearLayout3
 id logCard
 id logInfo
 id logRecyclerView
@@ -193,11 +203,10 @@ id resume
 id right
 id score
 id scrollView2
-id setalarmbtn
+id setAlarm
 id settings
 id spinner
 id spinner2
-id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions
@@ -300,6 +309,7 @@ string your_grade
 style Button4
 style Button5
 style LoginTheme
+style PickerTheme
 style Theme.BEYOND_SCHOOL
 style Theme.BEYOND_SCHOOL.AppBarOverlay
 style Theme.BEYOND_SCHOOL.NoActionBar

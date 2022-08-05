@@ -15,7 +15,6 @@
         </item>
     </string-array>
     <string-array name="grades">
-        <item>Kindergarten</item>
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
@@ -85,6 +84,15 @@
     <color name="tp_white">#E9FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="grid_0_25">2dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_1_5">14dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
+    <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_4">32dp</dimen>
+    <dimen name="grid_5">40dp</dimen>
+    <dimen name="grid_6">48dp</dimen>
     <string name="alarm_at_time">Set Your Time</string>
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="app_name">BEYOND SCHOOL</string>
@@ -116,7 +124,7 @@
     <string name="study_remainder">Set your study reminder</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <string name="wrong">KEY_WRONG</string>
-    <string name="your_grade">Your Grade</string>
+    <string name="your_grade">Kids Grade</string>
     <style name="Button4">
         <item name="cornerSize">20%</item>
     </style>
@@ -127,20 +135,26 @@
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_ui</item>
         <item name="android:textColorHint">@color/sweet_grey</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+    <style name="PickerTheme">
+        
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         

@@ -57,9 +57,16 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_ui</item>
         <item name="android:textColorHint">@color/sweet_grey</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.BEYOND_SCHOOL.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PickerTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/poppins</item>
+    </style>
 </resources>

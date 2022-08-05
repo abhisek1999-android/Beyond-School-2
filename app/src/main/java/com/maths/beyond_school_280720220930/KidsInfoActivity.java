@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -267,10 +268,11 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     public void goButtonClicked(View view) {
 
+        String uuid= UUID.randomUUID().toString();
         if (!kidsName.getText().toString().equals("") && !kidsAge.getText().toString().equals("")) {
 
             if (imageURI != null && mAuth != null) {
-                StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+                StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis())+uuid + ".jpg");
 
                 try {
 

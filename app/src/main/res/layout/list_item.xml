@@ -4,4 +4,5 @@
     android:ellipsize="end"
     android:maxLines="1"
     android:padding="16dp"
+    android:fontFamily="@font/reemkufi_medium"
     android:textAppearance="?attr/textAppearanceSubtitle1" />

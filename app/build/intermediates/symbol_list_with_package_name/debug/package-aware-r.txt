@@ -2084,6 +2084,15 @@ dimen fui_field_padding_vert
 dimen fui_heading_padding_bottom
 dimen fui_min_height_target
 dimen fui_wrapper_padding_horiz
+dimen grid_0_25
+dimen grid_0_5
+dimen grid_1
+dimen grid_1_5
+dimen grid_2
+dimen grid_3
+dimen grid_4
+dimen grid_5
+dimen grid_6
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -2689,6 +2698,7 @@ drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
 drawable ic_baseline_pause_circle_outline_24
+drawable ic_baseline_perm_identity_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
@@ -2925,7 +2935,6 @@ id cache_measures
 id callMeasure
 id cancel_action
 id cancel_button
-id cancelalarmbtn
 id card
 id cardView2
 id cardView3
@@ -2939,6 +2948,7 @@ id certify
 id chain
 id chain2
 id chains
+id change_table
 id checkbox
 id checked
 id chip
@@ -3097,6 +3107,7 @@ id image
 id image1
 id image3
 id image4
+id imageCardView
 id imageLayout
 id imageView
 id imageView3
@@ -3137,7 +3148,6 @@ id line3
 id linear
 id linearLayout
 id linearLayout2
-id linearLayout3
 id listMode
 id list_item
 id locale
@@ -3334,7 +3344,7 @@ id selected
 id selection_type
 id send_code
 id send_sms_tos
-id setalarmbtn
+id setAlarm
 id settings
 id sharedValueSet
 id sharedValueUnset
@@ -3382,7 +3392,6 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
-id switch_toggle
 id tCorrect
 id tProgressResult
 id tQuestions
@@ -4380,6 +4389,7 @@ style MaterialAlertDialog_MaterialComponents_Title_Panel
 style MaterialAlertDialog_MaterialComponents_Title_Panel_CenterStacked
 style MaterialAlertDialog_MaterialComponents_Title_Text
 style MaterialAlertDialog_MaterialComponents_Title_Text_CenterStacked
+style PickerTheme
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents

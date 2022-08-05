@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
@@ -113,6 +114,11 @@ public class LoginSignupActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
     private void checkUserAlreadyAvailable() {
 
 //        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -166,6 +172,22 @@ public class LoginSignupActivity extends AppCompatActivity {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             // ...
         } else {
+            if (response == null) {
+                // User pressed back button. NOTE: This is where the back action is
+                //taken care of
+
+                return;
+            }
+
+            if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                //Show No Internet Notification
+                return;
+            }
+
+            if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+                //Shown Unknown Error Notification
+                return;
+            }
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
@@ -173,6 +195,17 @@ public class LoginSignupActivity extends AppCompatActivity {
 
           //  Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+//        homeIntent.addCategory( Intent.CATEGORY_HOME );
+//        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(homeIntent);
+
+   //     System.exit(0);
     }
 
     @Override
