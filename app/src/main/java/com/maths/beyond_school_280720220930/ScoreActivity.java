@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.collection.LLRBNode;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 
 public class ScoreActivity extends AppCompatActivity {
@@ -36,7 +33,7 @@ public class ScoreActivity extends AppCompatActivity {
         right=findViewById(R.id.right);
         wrong=findViewById(R.id.wrong);
         //home=findViewById(R.id.home);
-        back=findViewById(R.id.imageView4);
+        back=findViewById(R.id.imageViewBack);
         progressBar=findViewById(R.id.progressBar);
         nextTextView=findViewById(R.id.next);
         PrefConfig.writeIntInPref(getApplicationContext(),0,getResources().getString(R.string.multiplicand));

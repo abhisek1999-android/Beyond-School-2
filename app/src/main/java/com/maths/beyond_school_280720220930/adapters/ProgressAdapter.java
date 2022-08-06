@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
-import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 
 import java.util.List;

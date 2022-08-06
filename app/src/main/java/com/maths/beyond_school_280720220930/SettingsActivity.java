@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 
@@ -27,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         logSwitch=findViewById(R.id.logSwitch);
         titleText=findViewById(R.id.titleText);
-        back = findViewById(R.id.imageView4);
+        back = findViewById(R.id.imageViewBack);
 
         logView=findViewById(R.id.rLayout);
         logView.setOnClickListener(v->{

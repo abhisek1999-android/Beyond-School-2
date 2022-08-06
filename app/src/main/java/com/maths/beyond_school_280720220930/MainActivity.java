@@ -37,10 +37,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.extras.ReadText;
-import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.Tables;
-import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
         }
 
 
-        menuImageView = findViewById(R.id.imageView4);
+        menuImageView = findViewById(R.id.imageViewBack);
         closeButton = findViewById(R.id.closeButton);
         drawerLayout = findViewById(R.id.drawerLayout2);
         navigationView = findViewById(R.id.navigation_view2);
@@ -260,8 +259,8 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
                             kidsName.setText("Hi, " + kidsData.getName());
                             kidsNameTextView.setText("Hi ," + kidsData.getName().split(" ")[0]);
                             // kidsAge.setText("You are "+kidsData.getAge()+" years old");
-                            Utils.loadImage(kidsData.getProfile_url(), image_view_profile_view);
-                            Utils.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
+                            UtilityFunctions.loadImage(kidsData.getProfile_url(), image_view_profile_view);
+                            UtilityFunctions.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
                             Log.i("KidsData", kidsData.getName() + "");
                             
                         }

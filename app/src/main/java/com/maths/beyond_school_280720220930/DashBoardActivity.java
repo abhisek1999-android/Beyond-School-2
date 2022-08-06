@@ -7,17 +7,13 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -29,12 +25,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.model.GradientColor;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.maths.beyond_school_280720220930.adapters.ProgressAdapter;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
@@ -43,7 +36,6 @@ import com.maths.beyond_school_280720220930.model.Progress;
 import com.maths.beyond_school_280720220930.model.ProgressDate;
 import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,7 +69,7 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
 
         titleText = findViewById(R.id.titleText);
         titleText.setText("Dashboard");
-        back=findViewById(R.id.imageView4);
+        back=findViewById(R.id.imageViewBack);
         typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.reemkufi_medium);
         barChart = findViewById(R.id.barChart);
         totalQuestion=findViewById(R.id.totalQuestion);
