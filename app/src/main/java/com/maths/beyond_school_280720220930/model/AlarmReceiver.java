@@ -15,7 +15,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.utils.Utils;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intent1 = new Intent(context, MainActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent1.setFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, Utils.getPendingIntentFlag());
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, UtilityFunctions.getPendingIntentFlag());
 
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         MediaPlayer mp = Objects.requireNonNull(MediaPlayer.create(context, uri));

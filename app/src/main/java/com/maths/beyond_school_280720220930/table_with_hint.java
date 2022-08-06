@@ -91,7 +91,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
         sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
 
-        back = findViewById(R.id.imageView4);
+        back = findViewById(R.id.imageViewBack);
         ShowTable=findViewById(R.id.ShowTable);
         Restart = findViewById(R.id.imageView3);
         Restart.setVisibility(View.GONE);

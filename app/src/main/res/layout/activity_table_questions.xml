@@ -23,8 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_marginTop="10dp">
 
 
             <LinearLayout
@@ -75,7 +74,7 @@
             app:layout_constraintVertical_bias="0.027" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/background_round"
@@ -85,10 +84,9 @@
 
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/questionLayout"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
             <ImageView
@@ -142,6 +140,7 @@
                         android:textColor="@color/teal_700"
                         android:textSize="40sp"
                         android:textStyle="bold" />
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animationVoice"
                         android:layout_width="40dp"
@@ -160,12 +159,12 @@
         </RelativeLayout>
 
 
-
         <ToggleButton
-            android:layout_margin="10dp"
             android:id="@+id/playPause"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:background="@drawable/background_round"
             android:clickable="true"
             android:drawableTop="@drawable/play_button"
@@ -174,7 +173,6 @@
             android:text=""
             android:textOff=""
             android:textOn=""
-            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
 
 
@@ -182,11 +180,10 @@
             android:id="@+id/tapInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap this button to Start"
-            android:fontFamily="@font/reemkufi_medium"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            />
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Tap this button to Start"
+            android:textSize="20sp" />
 
 
         <LinearLayout
@@ -202,7 +199,6 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
 
 
@@ -210,11 +206,9 @@
         android:id="@+id/score"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp">
-
-
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
 
         <LinearLayout
@@ -297,16 +291,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="qweqwewee"
-        android:visibility="gone"
-        android:textSize="24sp" />
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/dialPadLayout"
