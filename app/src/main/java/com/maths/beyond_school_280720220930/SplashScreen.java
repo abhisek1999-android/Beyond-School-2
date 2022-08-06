@@ -18,6 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+
+import java.util.ArrayList;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -33,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
     FirebaseUser mCurrentUser;
     FirebaseFirestore kidsDb=FirebaseFirestore.getInstance();
 
-
+    GradeDatabase database;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,22 @@ public class SplashScreen extends AppCompatActivity {
 
         mAuth=FirebaseAuth.getInstance();
         mCurrentUser=mAuth.getCurrentUser();
+
+        ArrayList arrayList=new ArrayList();
+        arrayList.add("gd1");arrayList.add("gd2");
+
+        database= GradeDatabase.getDbInstance(this.getApplicationContext());
+
+        Grades_data grades_data=new Grades_data();
+        grades_data.subSubject="abcd";
+        grades_data.chapter=1;
+        grades_data.subject="esds";
+        grades_data.url="oooooo";
+        grades_data.grade=arrayList;
+
+        database.gradesDao().insertNotes(grades_data);
+
+
       //  Toast.makeText(this, mAuth.getCurrentUser().getUid()+"", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable(){
             @Override

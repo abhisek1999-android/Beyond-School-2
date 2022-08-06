@@ -49,6 +49,8 @@
     <string name="first_time">KEY_FIRST_TIME_OPEN</string>
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
+    <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
+    <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

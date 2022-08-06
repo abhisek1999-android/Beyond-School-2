@@ -167,7 +167,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         titleText=findViewById(R.id.titleText);
         wrong_ans.setText(String.valueOf(wrans));
         bunnyImage=findViewById(R.id.bunny);
-//        disposableSpeech=new CompositeDisposable();
+        //disposableSpeech=new CompositeDisposable();
         progressBarQuestion = findViewById(R.id.questionProgress);
         progressBarQuestion.setMax(10);
         tapInfoText=findViewById(R.id.tapInfoTextView);
@@ -176,7 +176,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         collectdata = findViewById(R.id.textView24);
         collectdata.setVisibility(View.GONE);
         mic = findViewById(R.id.animationVoice);
-//15:23
+        //15:23
 
 
 
@@ -305,6 +305,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
       //
         amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
         amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, false);
+
         logTextView.setText(logTextView.getText().toString()+"AudioSate: unMute\n");
     }
 
@@ -774,10 +775,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     public void errorAction(int i) throws InterruptedException {
         Log.i("Error", "err");
 
-
         if (count <= 10 && i == SpeechRecognizer.ERROR_NO_MATCH) {
-
-
 
             if (repeatRec<3){
                 repeatRec++;

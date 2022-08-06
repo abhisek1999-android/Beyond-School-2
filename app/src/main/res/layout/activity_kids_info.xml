@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".KidsInfoActivity">
 
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/corner_r"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-30dp"
+        />
+
     <include
         android:id="@+id/toolBar"
         layout="@layout/tool_bar_layout_back_button"
@@ -19,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/nextButton"
+
         android:layout_below="@id/toolBar">
 
 
@@ -207,12 +216,12 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="70dp"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="50dp"
         android:backgroundTint="@color/teal_700"
         android:drawableRight="@drawable/ic_next"
         android:fontFamily="@font/poppins"

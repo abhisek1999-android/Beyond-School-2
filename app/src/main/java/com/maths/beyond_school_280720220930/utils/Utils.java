@@ -15,6 +15,7 @@ public final class Utils {
     public static void loadImage(String url, android.widget.ImageView imageView) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .placeholder(R.drawable.cartoon_image_1)
                 .error(R.drawable.cartoon_image_1)
                 .into(imageView);
     }

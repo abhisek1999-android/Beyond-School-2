@@ -2653,6 +2653,7 @@ drawable common_google_signin_btn_text_light
 drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
+drawable corner_r
 drawable custom_progress_bg
 drawable design_fab_background
 drawable design_ic_visibility
@@ -2683,6 +2684,7 @@ drawable fui_idp_button_background_twitter
 drawable fui_idp_button_background_yahoo
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable home_bg
 drawable ic_baseline_1x_mobiledata_24
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_arrow_back_24
@@ -3088,6 +3090,7 @@ id groups
 id guideline
 id hardware
 id header
+id headerText
 id header_text
 id header_title
 id heading
@@ -3800,6 +3803,7 @@ string alarm_at_time
 string alarm_enable
 string androidx_startup
 string app_name
+string app_name_style
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string bottomsheet_action_expand_halfway
@@ -4038,6 +4042,7 @@ string remainder_on_off
 string right
 string search_menu_title
 string second_fragment_label
+string slogan
 string start
 string status
 string status_bar_notification_info_overflow
