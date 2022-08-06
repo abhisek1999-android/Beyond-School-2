@@ -3,6 +3,8 @@ package com.maths.beyond_school_280720220930.utils;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import java.util.Date;
 
 public final class UtilityFunctions {
 
+    //    Ayaan's Code
     // Extension Function To load image in imageview Using Glide Library
     public static void loadImage(String url, android.widget.ImageView imageView) {
         Glide.with(imageView.getContext())
@@ -36,6 +39,22 @@ public final class UtilityFunctions {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
+    // Extension Function to for Handler to run on UI Thread
+    public static void runOnUiThread(Runnable runnable) {
+        new Handler(Looper.getMainLooper()).post(runnable);
+    }
+
+    //    Extension Function to get random number by passing digits number
+    public static int getRandomNumber(int digits) {
+        var number = (int) (Math.random() * Math.pow(10, digits));
+        if (number != 0)
+            return number;
+        else
+            return getRandomNumber(digits);
+    }
+
+
+    //     Abhishek's Code
     public Boolean matchingSeq(String str1, String str2) {
 
 
@@ -106,6 +125,5 @@ public final class UtilityFunctions {
 
         }
         return 0;
-
     }
 }

@@ -192,10 +192,9 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        titleText.setText("Practice Table");
-
         pause_play.setOnClickListener(view -> {
 
+//TODO : come here
             ans.setVisibility(View.VISIBLE);
             ans.setText("?");
             tapInfoText.setVisibility(View.GONE);
@@ -823,9 +822,15 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
     }
 
     @Override
+    public void finishAction() {
+
+    }
+
+    //    TODO : watch here also
+    @Override
     public void gettingResultSpeech() {
 
-
+        UtilityFunctions.simpleToast(this, "Getting");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override

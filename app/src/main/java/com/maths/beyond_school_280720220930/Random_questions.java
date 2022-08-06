@@ -878,6 +878,11 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
     }
 
     @Override
+    public void finishAction() {
+
+    }
+
+    @Override
     public void gettingResultSpeech() {
 
         final Handler handler = new Handler(Looper.getMainLooper());
