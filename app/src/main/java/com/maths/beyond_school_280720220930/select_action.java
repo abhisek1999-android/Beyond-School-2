@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.NavTableAdapter;
+import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.table_values;
+import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +48,15 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     NavTableAdapter mAdapter;
 
     CardView TableWithHint,TableWithoutHint,RandomTable;
-
+    TextView greetingTextView, kidsName, kidsNameTextView;
+    FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     int isHide=0;
     SharedPreferences sharedPreferences;
+    ImageView image_view_profile_view;
+    ImageView image_view_profile_drawer;
     SharedPreferences.Editor editor;
+    FirebaseAuth mAuth;
+    FirebaseUser mCurrentUser;
     private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
 
@@ -73,6 +85,12 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         Intent intent=getIntent();
         nav.setImageResource(R.drawable.ic_nav);
 
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+
+        kidsName = findViewById(R.id.kidsName);
+        image_view_profile_drawer = findViewById(R.id.imageView6);
 
         closeButton=findViewById(R.id.closeButton);
 
@@ -280,8 +298,36 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         closeButton.setOnClickListener(v->{
             drawerLayout.closeDrawer(Gravity.LEFT);
         });
+
+        retrieveKidsData();
     }
 
+    private void retrieveKidsData() {
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                        Log.i("No_data", "No_data");
+                    } else {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+
+                            KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
+                            kidsData.setKids_id(queryDocumentSnapshot.getId());
+                            // Toast.makeText(this, kidsData.getKids_id()+"", Toast.LENGTH_SHORT).show();
+                            kidsName.setText("Hi ," + kidsData.getName().split(" ")[0]);
+                            // kidsAge.setText("You are "+kidsData.getAge()+" years old");
+
+                            Utils.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
+                            Log.i("KidsData", kidsData.getName() + "");
+
+                        }
+                    }
+
+                });
+    }
 
 
     @Override

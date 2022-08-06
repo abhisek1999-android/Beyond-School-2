@@ -58,7 +58,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="your_grade">Your Grade</string>
+    <string name="your_grade">Kids Grade</string>
     <string name="alarm_at_time">Set Your Time</string>
     <string name="study_remainder">Set your study reminder</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
