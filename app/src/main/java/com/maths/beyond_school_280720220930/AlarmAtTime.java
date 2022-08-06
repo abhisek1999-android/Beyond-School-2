@@ -20,7 +20,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
-import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.Calendar;
 
@@ -44,7 +44,7 @@ public class AlarmAtTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_at_time);
         titletext = findViewById(R.id.titleText);
-        back = findViewById(R.id.imageViewBack);
+        back = findViewById(R.id.imageView4);
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
         setAlarm = findViewById(R.id.setAlarm);
@@ -98,7 +98,7 @@ public class AlarmAtTime extends AppCompatActivity {
 
         Intent intent = new Intent(this, AlarmReceiver.class);
 //        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, UtilityFunctions.getPendingIntentFlag());
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, Utils.getPendingIntentFlag());
 
         if (alarmManager == null) {
             alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -106,7 +106,7 @@ public class AlarmAtTime extends AppCompatActivity {
         }
         alarmManager.cancel(pendingIntent);
         if (request != 1)
-            UtilityFunctions.simpleToast(this, "Reminder Cancel !!");
+            Utils.simpleToast(this, "Reminder Cancel !!");
 //        picker.setHour(12);
 //        picker.setMinute(00);
 
@@ -146,13 +146,13 @@ public class AlarmAtTime extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, UtilityFunctions.getPendingIntentFlag());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, Utils.getPendingIntentFlag());
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
         if (request != 1)
-            UtilityFunctions.simpleToast(this, "Reminder Set Successfully ");
+            Utils.simpleToast(this, "Reminder Set Successfully ");
     }
 
     private void putVal(int hour, int minute) {

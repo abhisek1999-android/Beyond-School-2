@@ -5,12 +5,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,6 +38,7 @@ import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class select_action extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     ImageView nav,closeButton;
@@ -67,7 +72,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_select_action);
         //temporary for developing
         //tableName=findViewById(R.id.tableName);
-        nav=findViewById(R.id.imageViewBack);
+        nav=findViewById(R.id.imageView4);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
         titleText=findViewById(R.id.titleText);
