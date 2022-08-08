@@ -27,6 +27,7 @@ public class CallFirebaseForInfo {
                         Log.i("No_data", "No_data");
                     } else {
                         qD=queryDocumentSnapshots;
+
                     }
                 });
 

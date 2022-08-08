@@ -55,9 +55,10 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
-import com.maths.beyond_school_280720220930.extras.UtilityFunctions;
+
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.notification.StickyNotification;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -153,7 +154,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         rtans=intent.getIntExtra("right",0);
         wrans=intent.getIntExtra("wrong",0);
 
-        back = findViewById(R.id.imageView4);
+        back = findViewById(R.id.imageViewBack);
         card = findViewById(R.id.ShowTable);
         pause_play = findViewById(R.id.playPause);
         Table = findViewById(R.id.textView26);
@@ -167,7 +168,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         titleText=findViewById(R.id.titleText);
         wrong_ans.setText(String.valueOf(wrans));
         bunnyImage=findViewById(R.id.bunny);
-        //disposableSpeech=new CompositeDisposable();
+//        disposableSpeech=new CompositeDisposable();
         progressBarQuestion = findViewById(R.id.questionProgress);
         progressBarQuestion.setMax(10);
         tapInfoText=findViewById(R.id.tapInfoTextView);
@@ -176,6 +177,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         collectdata = findViewById(R.id.textView24);
         collectdata.setVisibility(View.GONE);
         mic = findViewById(R.id.animationVoice);
+        
         //15:23
 
 
@@ -852,6 +854,8 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
 
 
     }
+
+
 
     @Override
     public void gettingResultSpeech() {

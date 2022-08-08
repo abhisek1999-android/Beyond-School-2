@@ -37,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.extras.ReadText;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.Tables;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
     TextView greetingTextView, kidsName, kidsNameTextView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    LinearLayout logLayout, logout;
+    LinearLayout logLayout, logout,privacyLayout;
     ActionBarDrawerToggle toggle;
     LinearLayout dash, remind, settings;
     private String LOG_TAG = "VoiceRecognitionActivity";
@@ -81,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        privacyLayout=findViewById(R.id.privacyPolicy);
 
+        privacyLayout.setVisibility(View.VISIBLE);
         //new line added
 
         //Setting notification channel................................................................................
@@ -154,6 +157,11 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
                 startActivity(new Intent(getApplicationContext(), DashBoardActivity.class));
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
+        });
+
+        privacyLayout.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(), PrivacyPolicy.class));
+            drawerLayout.closeDrawer(Gravity.LEFT);
         });
         remind.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
         greetingTextView.setText(new UtilityFunctions().greeting());
 
 
-        retrieveKidsData();
+       retrieveKidsData();
         checkUser();
 
 
@@ -243,14 +251,16 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
 
     private void retrieveKidsData() {
 
+
+
+
         kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-
-
                     if (queryDocumentSnapshots.isEmpty()) {
                         //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
                         Log.i("No_data", "No_data");
                     } else {
+
                         for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
 
                             KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
@@ -262,11 +272,16 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
                             UtilityFunctions.loadImage(kidsData.getProfile_url(), image_view_profile_view);
                             UtilityFunctions.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
                             Log.i("KidsData", kidsData.getName() + "");
-                            
+
                         }
                     }
-
                 });
+
+
+
+
+
+
     }
 
 

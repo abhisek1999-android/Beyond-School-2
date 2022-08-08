@@ -46,7 +46,7 @@ public final class UtilityFunctions {
 
     //    Extension Function to get random number by passing digits number
     public static int getRandomNumber(int digits) {
-        var number = (int) (Math.random() * Math.pow(10, digits));
+        int number = (int) (Math.random() * Math.pow(10, digits));
         if (number != 0)
             return number;
         else
@@ -70,10 +70,7 @@ public final class UtilityFunctions {
             } else {
                 return false;
             }
-
         }
-
-
         return true;
     }
 

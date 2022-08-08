@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.NavTableAdapter;
+import com.maths.beyond_school_280720220930.databinding.ActivitySelectActionBinding;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.table_values;
 import com.maths.beyond_school_280720220930.utils.Utils;
@@ -52,7 +53,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     List<table_values> list=new ArrayList<>();
     NavTableAdapter mAdapter;
 
-    CardView TableWithHint,TableWithoutHint,RandomTable;
+    CardView TableWithHint,TableWithoutHint,RandomTable,addition;
     TextView greetingTextView, kidsName, kidsNameTextView;
     FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     int isHide=0;
@@ -65,6 +66,8 @@ public class select_action extends AppCompatActivity implements NavigationView.O
     private static final String SHARED_PREF_NAME = "beyond";
     private static final String KEY_MULTIPLICANT = "multiplicant";
 
+    private ActivitySelectActionBinding binding;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,10 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_select_action);
         //temporary for developing
         //tableName=findViewById(R.id.tableName);
-        nav=findViewById(R.id.imageView4);
+
+
+        binding=ActivitySelectActionBinding.inflate(getLayoutInflater());
+         nav=findViewById(R.id.imageViewBack);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
         titleText=findViewById(R.id.titleText);
@@ -81,6 +87,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         practice=findViewById(R.id.button6);
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.navigation_view);
+        addition=findViewById(R.id.button_addition);
         //recycler=findViewById(R.id.recyler);
         dash=findViewById(R.id.dash);
         remind=findViewById(R.id.remind);
@@ -286,6 +293,14 @@ public class select_action extends AppCompatActivity implements NavigationView.O
 
             }
         });
+
+     addition.setOnClickListener(v->{
+         Toast.makeText(getApplicationContext(), "uuu", Toast.LENGTH_SHORT).show();
+         Intent additionIntent = new Intent(this, AdditionActivity.class);
+         additionIntent.putExtra("count", 2);
+         additionIntent.putExtra("status", "Addition");
+         startActivity(additionIntent);
+     });
         nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

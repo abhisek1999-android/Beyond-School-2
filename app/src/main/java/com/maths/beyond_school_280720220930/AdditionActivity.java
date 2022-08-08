@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -104,8 +105,18 @@ public class AdditionActivity extends AppCompatActivity implements ReadText.GetR
             mathsHelper.readText("Wrong answer. The correct answer is " + currentAnswer);
             wrongAnswer++;
         }
+
         mathsHelper.stopListening();
-//        setQuestion();
+
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                setQuestion();
+            }
+        };
+        handler.postDelayed(r, 2500);
+
+
 
     }
 
@@ -122,8 +133,8 @@ public class AdditionActivity extends AppCompatActivity implements ReadText.GetR
         });
     }
 
-    @Override
-    public void finishAction() {
-//        mathsHelper.stopListening();
-    }
+//    @Override
+//    public void finishAction() {
+////        mathsHelper.stopListening();
+//    }
 }

@@ -16,6 +16,7 @@ public class MathsHelper {
     private MathsHelper(Context context, ReadText.GetResultSpeech result, RecognizeVoice.GetResult resultSpeech) {
         readText = new ReadText(context, result);
         recognizeVoice = new RecognizeVoice(context, resultSpeech);
+
     }
 
     public static MathsHelper getInstance(Context context, ReadText.GetResultSpeech resultTTS, RecognizeVoice.GetResult resultSTT) {

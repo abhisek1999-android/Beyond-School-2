@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
 import com.maths.beyond_school_280720220930.utils.Utils;
 
@@ -38,13 +40,18 @@ public class AlarmAtTime extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    private ActivityAlarmAtTimeBinding binding;
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_at_time);
+
+        binding=ActivityAlarmAtTimeBinding.inflate(getLayoutInflater());
         titletext = findViewById(R.id.titleText);
-        back = findViewById(R.id.imageView4);
+
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
         setAlarm = findViewById(R.id.setAlarm);
@@ -58,7 +65,7 @@ public class AlarmAtTime extends AppCompatActivity {
             picker.setHour(sharedPreferences.getInt("hour", 12));
             picker.setMinute(sharedPreferences.getInt("minute", 00));
         }
-        back.setOnClickListener(view -> onBackPressed());
+        binding.toolBar.imageViewBack.setOnClickListener(view -> onBackPressed());
 
         onPickerChange();
         setAlarmButton();
