@@ -122,8 +122,8 @@ public class AdditionActivity extends AppCompatActivity implements ReadText.GetR
         });
     }
 
-    @Override
-    public void finishAction() {
-//        mathsHelper.stopListening();
-    }
+//    @Override
+//    public void finishAction() {
+////        mathsHelper.stopListening();
+//    }
 }

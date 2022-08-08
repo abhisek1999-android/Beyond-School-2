@@ -337,7 +337,6 @@ public class RecognizeVoice {
         void errorAction(int i) throws InterruptedException;
 
 
-        void finishAction();
     }
 
 }

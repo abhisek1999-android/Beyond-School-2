@@ -72,7 +72,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_select_action);
         //temporary for developing
         //tableName=findViewById(R.id.tableName);
-        nav=findViewById(R.id.imageView4);
+        nav=findViewById(R.id.imageViewBack);
         TableWithHint=findViewById(R.id.button4);
         TableWithoutHint=findViewById(R.id.button);
         titleText=findViewById(R.id.titleText);

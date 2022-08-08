@@ -2687,6 +2687,7 @@ drawable googleg_standard_color_18
 drawable home_bg
 drawable ic_baseline_1x_mobiledata_24
 drawable ic_baseline_access_time_filled_24
+drawable ic_baseline_add_24
 drawable ic_baseline_arrow_back_24
 drawable ic_baseline_cake_24
 drawable ic_baseline_camera_alt_24
@@ -2925,6 +2926,7 @@ id button4
 id button6
 id button7
 id buttonPanel
+id button_addition
 id button_continue
 id button_create
 id button_done
@@ -3110,13 +3112,14 @@ id image
 id image1
 id image3
 id image4
+id imageAdd
 id imageCardView
 id imageLayout
 id imageView
 id imageView3
-id imageView4
 id imageView5
 id imageView6
+id imageViewBack
 id image_4
 id image_view_profile_view
 id immediateStop
@@ -3431,7 +3434,6 @@ id textTop
 id textView
 id textView22
 id textView23
-id textView24
 id textView25
 id textView26
 id textView27
@@ -3441,6 +3443,7 @@ id textView5
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
+id text_view_question
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -3602,6 +3605,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_addition
 layout activity_alarm_at_time
 layout activity_dash_board
 layout activity_kids_info

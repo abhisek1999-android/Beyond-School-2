@@ -44,7 +44,7 @@ public class AlarmAtTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_at_time);
         titletext = findViewById(R.id.titleText);
-        back = findViewById(R.id.imageView4);
+        back = findViewById(R.id.imageViewBack);
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
         setAlarm = findViewById(R.id.setAlarm);
