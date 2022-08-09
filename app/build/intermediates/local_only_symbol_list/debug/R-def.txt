@@ -101,6 +101,7 @@ drawable light_bulb
 drawable logo
 drawable logo_final
 drawable math1
+drawable maths
 drawable play
 drawable play_button
 drawable profile_default

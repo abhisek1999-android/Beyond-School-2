@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -20,10 +21,15 @@ public final class BranchItemLayoutBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final TextView head;
+
+  @NonNull
   public final ImageView img;
 
-  private BranchItemLayoutBinding(@NonNull LinearLayout rootView, @NonNull ImageView img) {
+  private BranchItemLayoutBinding(@NonNull LinearLayout rootView, @NonNull TextView head,
+      @NonNull ImageView img) {
     this.rootView = rootView;
+    this.head = head;
     this.img = img;
   }
 
@@ -54,13 +60,19 @@ public final class BranchItemLayoutBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.head;
+      TextView head = ViewBindings.findChildViewById(rootView, id);
+      if (head == null) {
+        break missingId;
+      }
+
       id = R.id.img;
       ImageView img = ViewBindings.findChildViewById(rootView, id);
       if (img == null) {
         break missingId;
       }
 
-      return new BranchItemLayoutBinding((LinearLayout) rootView, img);
+      return new BranchItemLayoutBinding((LinearLayout) rootView, head, img);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

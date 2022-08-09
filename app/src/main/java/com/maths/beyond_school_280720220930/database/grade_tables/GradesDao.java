@@ -18,8 +18,8 @@ public interface GradesDao {
     /*@Query("SELECT * FROM grades ORDER BY timestamp DESC")
     List<ProgressM> getAllProgress();*/
 
-    @Query("SELECT * FROM grades WHERE grade=:grade")
-    List<Grades_data> valus(ArrayList<String> grade);
+    @Query("SELECT * FROM grades ")
+    List<Grades_data> valus();
 
 
     /*@Query("SELECT * FROM Grades_data WHERE date=:date ORDER BY timestamp DESC")

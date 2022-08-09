@@ -22,11 +22,13 @@ import java.util.List;
 public class BranchAdapter extends PagerAdapter {
     Context context;
     List<BranchModel> list;
+    String grade;
     //Drawable[] imgs={};
 
-    public BranchAdapter(Context context, List<BranchModel> list) {
+    public BranchAdapter(Context context, List<BranchModel> list,String grade) {
         this.context = context;
         this.list = list;
+        this.grade=grade;
     }
 
     @Override
@@ -44,14 +46,17 @@ public class BranchAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.branch_item_layout, container, false);
         ImageView img;
+        TextView head=view.findViewById(R.id.head);
         img = view.findViewById(R.id.img);
 
+        head.setText(list.get(position).getSub());
         img.setImageResource(list.get(position).getImg());
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (position==0){
                         Intent intent=new Intent(context, TopicsActivity.class);
+                        intent.putExtra("grade",grade);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                 }else if (position==1){

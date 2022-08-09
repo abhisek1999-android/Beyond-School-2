@@ -109,8 +109,8 @@
 56-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:44:13-37
 57        <activity
 57-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:45:9-47:40
-58            android:name="com.maths.beyond_school_280720220930.SplashScreen"
-58-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-41
+58            android:name="com.maths.beyond_school_280720220930.GradeActivity"
+58-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:46:13-42
 59            android:exported="false" />
 59-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:47:13-37
 60        <activity
@@ -151,8 +151,8 @@
 77-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:65:13-37
 78        <activity
 78-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:66:9-74:20
-79            android:name="com.maths.beyond_school_280720220930.GradeActivity"
-79-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:67:13-42
+79            android:name="com.maths.beyond_school_280720220930.SplashScreen"
+79-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:67:13-41
 80            android:exported="true" >
 80-->D:\beyongschool_android\app\src\main\AndroidManifest.xml:68:13-36
 81            <intent-filter>

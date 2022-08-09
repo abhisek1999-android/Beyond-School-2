@@ -2769,6 +2769,7 @@ int drawable material_ic_keyboard_arrow_right_black_24dp 0x7f0800e3
 int drawable material_ic_menu_arrow_down_black_24dp 0x7f0800e4
 int drawable material_ic_menu_arrow_up_black_24dp 0x7f0800e5
 int drawable math1 0x7f080111
+int drawable maths 0x7f080113
 int drawable mtrl_dialog_background 0x7f0800e7
 int drawable mtrl_dropdown_arrow 0x7f0800e8
 int drawable mtrl_ic_arrow_drop_down 0x7f0800e9

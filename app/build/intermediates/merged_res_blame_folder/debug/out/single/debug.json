@@ -4,12 +4,12 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_play.png.flat",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\play.png"
-    },
-    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_first.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_play.png.flat",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\play.png"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_play_button.xml.flat",
@@ -254,6 +254,10 @@
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_nav.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_nav.xml"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_maths.png.flat",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\maths.png"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_log_bottom_sheet.xml.flat",

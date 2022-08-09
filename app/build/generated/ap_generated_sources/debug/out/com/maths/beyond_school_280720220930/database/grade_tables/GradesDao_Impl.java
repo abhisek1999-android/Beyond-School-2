@@ -7,12 +7,10 @@ import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
-import androidx.room.util.StringUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import com.maths.beyond_school_280720220930.database.converter.Converters;
 import java.lang.Override;
 import java.lang.String;
-import java.lang.StringBuilder;
 import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,25 +99,9 @@ public final class GradesDao_Impl implements GradesDao {
   }
 
   @Override
-  public List<Grades_data> valus(final ArrayList<String> grade) {
-    StringBuilder _stringBuilder = StringUtil.newStringBuilder();
-    _stringBuilder.append("SELECT ");
-    _stringBuilder.append("*");
-    _stringBuilder.append(" FROM grades WHERE grade=");
-    final int _inputSize = grade.size();
-    StringUtil.appendPlaceholders(_stringBuilder, _inputSize);
-    final String _sql = _stringBuilder.toString();
-    final int _argCount = 0 + _inputSize;
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, _argCount);
-    int _argIndex = 1;
-    for (String _item : grade) {
-      if (_item == null) {
-        _statement.bindNull(_argIndex);
-      } else {
-        _statement.bindString(_argIndex, _item);
-      }
-      _argIndex ++;
-    }
+  public List<Grades_data> valus() {
+    final String _sql = "SELECT * FROM grades ";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
@@ -131,7 +113,7 @@ public final class GradesDao_Impl implements GradesDao {
       final int _cursorIndexOfProgressId = CursorUtil.getColumnIndexOrThrow(_cursor, "progress_id");
       final List<Grades_data> _result = new ArrayList<Grades_data>(_cursor.getCount());
       while(_cursor.moveToNext()) {
-        final Grades_data _item_1;
+        final Grades_data _item;
         final String _tmpSubject;
         _tmpSubject = _cursor.getString(_cursorIndexOfSubject);
         final String _tmpSubsubject;
@@ -144,9 +126,9 @@ public final class GradesDao_Impl implements GradesDao {
         _tmpGrade = __converters.fromString(_tmp);
         final String _tmpUrl;
         _tmpUrl = _cursor.getString(_cursorIndexOfUrl);
-        _item_1 = new Grades_data(_tmpSubject,_tmpSubsubject,_tmpChapter,_tmpGrade,_tmpUrl);
-        _item_1.progress_id = _cursor.getInt(_cursorIndexOfProgressId);
-        _result.add(_item_1);
+        _item = new Grades_data(_tmpSubject,_tmpSubsubject,_tmpChapter,_tmpGrade,_tmpUrl);
+        _item.progress_id = _cursor.getInt(_cursorIndexOfProgressId);
+        _result.add(_item);
       }
       return _result;
     } finally {

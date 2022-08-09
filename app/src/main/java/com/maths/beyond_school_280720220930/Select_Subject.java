@@ -43,6 +43,7 @@ public class Select_Subject extends AppCompatActivity {
     private int NUM_PAGES=5;
     int currentPage=0;
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,9 @@ public class Select_Subject extends AppCompatActivity {
         }
 
         list=new ArrayList<>();
-        list.add(new BranchModel(R.drawable.math1));
-        list.add(new BranchModel(R.drawable.eng));
-        adapter=new BranchAdapter(getApplicationContext(),list);
+        list.add(new BranchModel(R.drawable.maths,"Mathematics"));
+        list.add(new BranchModel(R.drawable.eng,"English"));
+        adapter=new BranchAdapter(getApplicationContext(),list,grade1);
         image.setCurrentItem(1,true);
         image.setAdapter(adapter);
 
