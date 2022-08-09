@@ -74,9 +74,9 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
     private void tts(String text) {
         String utteranceId = this.hashCode() + "";
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
-//        while (textToSpeech.isSpeaking()) {
-//            Log.d(TAG, "Speaking");
-//        }
+        while (textToSpeech.isSpeaking()) {
+            Log.d(TAG, "Speaking");
+        }
         assert conversionCallaBack != null;
         conversionCallaBack.onCompletion();
     }

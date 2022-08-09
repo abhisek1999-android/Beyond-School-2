@@ -54,8 +54,9 @@ public class AdditionActivity extends AppCompatActivity {
                 if (isCallSTT) {
                     UtilityFunctions.runOnUiThread(() -> {
                         stt.initialize("Speak the answer", AdditionActivity.this);
+                        UtilityFunctions.simpleToast(AdditionActivity.this, "Called");
                         binding.animationVoice.setVisibility(View.VISIBLE);
-                    }, 500);
+                    }, 1000);
                 }
             }
 
@@ -161,7 +162,8 @@ public class AdditionActivity extends AppCompatActivity {
         var currentNum1 = UtilityFunctions.getRandomNumber(1);
         var currentNum2 = UtilityFunctions.getRandomNumber(1);
 
-        binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
+        binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) MAX_QUESTION) * 100));
+        binding.textViewQuestion.setText(getResources().getString(R.string.question_text_view, String.valueOf(currentQuestion), String.valueOf(MAX_QUESTION)));
         binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
 
         currentAnswer = currentNum1 + currentNum2;

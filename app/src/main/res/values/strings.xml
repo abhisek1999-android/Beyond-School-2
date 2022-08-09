@@ -63,20 +63,12 @@
     <string name="study_remainder">Set your study reminder</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
     <string name="addition_text_view">%s + %s = ?</string>
+    <string name="question_text_view">%s / %s</string>
 
     <string-array name="grades">
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
-        <!--        <item>4th Grade</item>-->
-        <!--        <item>5th Grade</item>-->
-        <!--        <item>6th Grade</item>-->
-        <!--        <item>7th Grade</item>-->
-        <!--        <item>8th Grade</item>-->
-        <!--        <item>9th Grade</item>-->
-        <!--        <item>10th Grade</item>-->
-        <!--        <item>11th Grade</item>-->
-        <!--        <item>12th Grade</item>-->
     </string-array>
 </resources>
 
