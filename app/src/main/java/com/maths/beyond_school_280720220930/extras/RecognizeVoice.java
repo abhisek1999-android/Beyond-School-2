@@ -59,6 +59,7 @@ public class RecognizeVoice {
         stringToText.put("stop", "buddy stop");
 
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra("android.speech.extra.DICTATION_MODE", true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         //        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
@@ -68,6 +69,7 @@ public class RecognizeVoice {
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+
 
 
         disposable = new CompositeDisposable();
@@ -100,7 +102,6 @@ public class RecognizeVoice {
         @Override
         public void onEndOfSpeech() {
             Log.d("AdditionActivity", "onEndofSpeech");
-//            speech.stopListening();
         }
 
         @Override
@@ -179,6 +180,10 @@ public class RecognizeVoice {
 
     public void stopListening() {
         speech.stopListening();
+    }
+
+    public void destroy() {
+        speech.destroy();
     }
 
 //    @Override

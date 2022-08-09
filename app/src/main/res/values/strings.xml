@@ -62,6 +62,7 @@
     <string name="alarm_at_time">Set Your Time</string>
     <string name="study_remainder">Set your study reminder</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
+    <string name="addition_text_view">%s + %s = ?</string>
 
     <string-array name="grades">
         <item>1st Grade</item>

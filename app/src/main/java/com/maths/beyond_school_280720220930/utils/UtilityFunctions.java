@@ -40,9 +40,16 @@ public final class UtilityFunctions {
     }
 
     // Extension Function to for Handler to run on UI Thread
+
+
     public static void runOnUiThread(Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);
     }
+
+    public static void runOnUiThread(Runnable runnable, long delay) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, delay);
+    }
+
 
     //    Extension Function to get random number by passing digits number
     public static int getRandomNumber(int digits) {
