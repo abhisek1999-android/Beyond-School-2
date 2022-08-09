@@ -331,7 +331,12 @@ public class KidsInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Intent intent=new Intent(getApplicationContext(), GradeActivity.class);
+                            intent.putExtra("name",kidsName.getText().toString());
+                            intent.putExtra("image",imageUrl);
+                            intent.putExtra("age",kidsAge.getText().toString());
+                            intent.putExtra("grade",Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
+                            startActivity(intent);
                             //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
                     })

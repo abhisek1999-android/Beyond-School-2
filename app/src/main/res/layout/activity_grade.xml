@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GradeActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="53dp"
+        android:layout_marginBottom="99dp"
+        android:text="Next >>"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="Precutions"
+        android:textAllCaps="true"
+        android:textSize="20sp" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="10dp"
+        android:background="@color/sweet_grey">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sweet_grey"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/grade"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:textSize="24sp"
+                android:fontFamily="@font/poppins"
+                android:layout_height="wrap_content"
+                android:text="Grade 1"
+                android:textAllCaps="true"/>
+            <TextView
+                android:id="@+id/desc"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:layout_height="wrap_content"
+                android:text="A grade 1 student should know:
+            \n1.Addition upto 2-digits.\n
+2.Subtraction upto 2-digits.\n
+3.Multiplying og 1-digit \nand tables up to 5.\n 4.Division of numbers upto 20" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="260dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/corner_r" />
+
+
+</RelativeLayout>

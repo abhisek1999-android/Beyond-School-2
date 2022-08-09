@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
 
@@ -37,6 +37,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".Select_Subject"
+            android:exported="false" />
+        <activity
+            android:name=".TopicsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GradeActivity"
+            android:exported="false" />
+        <activity
             android:name=".KidsInfoActivity"
             android:exported="false" />
         <activity
@@ -48,7 +57,6 @@
         <activity
             android:name=".AlarmAtTime"
             android:exported="false" />
-
         <activity
             android:name=".LoginSignupActivity"
             android:exported="false" />
