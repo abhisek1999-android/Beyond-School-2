@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,8 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
-import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.util.Calendar;
 
@@ -38,13 +40,18 @@ public class AlarmAtTime extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    private ActivityAlarmAtTimeBinding binding;
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_at_time);
+
+        binding=ActivityAlarmAtTimeBinding.inflate(getLayoutInflater());
         titletext = findViewById(R.id.titleText);
-        back = findViewById(R.id.imageViewBack);
+
         picker = (TimePicker) findViewById(R.id.datePicker1);
         picker.setIs24HourView(false);
         setAlarm = findViewById(R.id.setAlarm);
@@ -58,7 +65,7 @@ public class AlarmAtTime extends AppCompatActivity {
             picker.setHour(sharedPreferences.getInt("hour", 12));
             picker.setMinute(sharedPreferences.getInt("minute", 00));
         }
-        back.setOnClickListener(view -> onBackPressed());
+        binding.toolBar.imageViewBack.setOnClickListener(view -> onBackPressed());
 
         onPickerChange();
         setAlarmButton();
@@ -98,7 +105,7 @@ public class AlarmAtTime extends AppCompatActivity {
 
         Intent intent = new Intent(this, AlarmReceiver.class);
 //        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, UtilityFunctions.getPendingIntentFlag());
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, Utils.getPendingIntentFlag());
 
         if (alarmManager == null) {
             alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -106,7 +113,7 @@ public class AlarmAtTime extends AppCompatActivity {
         }
         alarmManager.cancel(pendingIntent);
         if (request != 1)
-            UtilityFunctions.simpleToast(this, "Reminder Cancel !!");
+            Utils.simpleToast(this, "Reminder Cancel !!");
 //        picker.setHour(12);
 //        picker.setMinute(00);
 
@@ -146,13 +153,13 @@ public class AlarmAtTime extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, UtilityFunctions.getPendingIntentFlag());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, Utils.getPendingIntentFlag());
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
         if (request != 1)
-            UtilityFunctions.simpleToast(this, "Reminder Set Successfully ");
+            Utils.simpleToast(this, "Reminder Set Successfully ");
     }
 
     private void putVal(int hour, int minute) {

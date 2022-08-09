@@ -1,0 +1,58 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\values-night\\themes.xml",
+                    "from": {
+                        "startLines": "28,17,2,-1,-1,-1",
+                        "startColumns": "4,4,4,-1,-1,-1",
+                        "startOffsets": "1338,837,102,-1,-1,-1",
+                        "endLines": "48,22,15,-1,-1,-1",
+                        "endColumns": "12,12,12,-1,-1,-1",
+                        "endOffsets": "2450,1195,829,-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "2,23,36,83,88,93",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "100,1193,2183,6644,6764,6896",
+                        "endLines": "22,28,49,87,92,95",
+                        "endColumns": "12,12,12,12,12,12",
+                        "endOffsets": "1188,1546,2895,6759,6891,7021"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\101c28820c7720cefd15b39f97a6305a\\transformed\\material-1.6.1\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,75,76,77,78,79,80,81,82",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2900,2975,3086,3175,3276,3383,3490,3589,3692,3780,3904,4006,4108,4224,4326,4440,4568,4684,4806,4942,5062,5196,5316,5428,5643,5760,5884,6014,6136,6274,6408,6524",
+                        "endColumns": "74,110,88,100,106,106,98,102,87,123,101,101,115,101,113,127,115,121,135,119,133,119,111,125,116,123,129,121,137,133,115,119",
+                        "endOffsets": "2970,3081,3170,3271,3378,3485,3584,3687,3775,3899,4001,4103,4219,4321,4435,4563,4679,4801,4937,5057,5191,5311,5423,5549,5755,5879,6009,6131,6269,6403,6519,6639"
+                    }
+                },
+                {
+                    "source": "C:\\Program Files\\Android\\Android Studio1\\jre\\caches\\transforms-3\\76891972337f38276b4eb7b1d87dc4f4\\transformed\\appcompat-1.4.2\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,32,33,34,35,74",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "1551,1621,1705,1789,1885,1987,2089,5554",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "1616,1700,1784,1880,1982,2084,2178,5638"
+                    }
+                }
+            ]
+        }
+    ]
+}
