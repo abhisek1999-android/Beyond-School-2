@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.maths.beyond_school_280720220930"
-4    android:versionCode="6"
-5    android:versionName="1.6" >
+4    android:versionCode="7"
+5    android:versionName="1.7" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
@@ -78,7 +78,7 @@
 39-->[com.google.android.gms:play-services-measurement:21.1.0] C:\Program Files\Android\Android Studio1\jre\caches\transforms-3\fa44ac8c8a71d39f75f087e55d9d3eeb\transformed\play-services-measurement-21.1.0\AndroidManifest.xml:26:22-107
 40
 41    <application
-41-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:32:5-115:19
+41-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:32:5-114:19
 42        android:allowBackup="true"
 42-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:33:9-35
 43        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -144,101 +144,101 @@
 74            android:exported="false" />
 74-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:62:13-37
 75        <activity
-75-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:63:9-72:20
+75-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:63:9-71:20
 76            android:name="com.maths.beyond_school_280720220930.SplashScreen"
 76-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:64:13-41
 77            android:exported="true" >
 77-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:65:13-36
 78            <intent-filter>
-78-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:67:13-71:29
+78-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:66:13-70:29
 79                <action android:name="android.intent.action.MAIN" />
-79-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:68:17-69
-79-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:68:25-66
+79-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:67:17-69
+79-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:67:25-66
 80
 81                <category android:name="android.intent.category.LAUNCHER" />
-81-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:70:17-77
-81-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:70:27-74
+81-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:69:17-77
+81-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:69:27-74
 82            </intent-filter>
 83        </activity>
 84        <activity
-84-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:73:9-75:39
+84-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:72:9-74:39
 85            android:name="com.maths.beyond_school_280720220930.Random_questions"
-85-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:74:13-45
+85-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:73:13-45
 86            android:exported="true" />
-86-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:75:13-36
+86-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:74:13-36
 87        <activity
-87-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:76:9-79:58
+87-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:75:9-78:58
 88            android:name="com.maths.beyond_school_280720220930.DashBoardActivity"
-88-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:77:13-46
+88-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:76:13-46
 89            android:exported="true"
-89-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:78:13-36
+89-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:77:13-36
 90            android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
-90-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:79:13-55
+90-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:78:13-55
 91        <activity
-91-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:80:9-82:39
+91-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:79:9-81:39
 92            android:name="com.maths.beyond_school_280720220930.TestActivity"
-92-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:81:13-41
+92-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:80:13-41
 93            android:exported="true" />
-93-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:82:13-36
+93-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:81:13-36
 94        <activity
-94-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:83:9-85:39
+94-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:82:9-84:39
 95            android:name="com.maths.beyond_school_280720220930.ScoreActivity"
-95-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:84:13-42
+95-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:83:13-42
 96            android:exported="true" />
-96-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:85:13-36
+96-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:84:13-36
 97        <activity
-97-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:86:9-89:58
+97-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:85:9-88:58
 98            android:name="com.maths.beyond_school_280720220930.select_action"
-98-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:87:13-42
+98-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:86:13-42
 99            android:exported="true"
-99-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:88:13-36
+99-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:87:13-36
 100            android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
-100-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:89:13-55
+100-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:88:13-55
 101        <activity
-101-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:90:9-93:47
+101-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:89:9-92:47
 102            android:name="com.maths.beyond_school_280720220930.table_questions"
-102-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:91:13-44
+102-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:90:13-44
 103            android:exported="true"
-103-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:92:13-36
+103-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:91:13-36
 104            android:showOnLockScreen="true" />
-104-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:93:13-44
+104-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:92:13-44
 105        <activity
-105-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:94:9-97:47
+105-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:93:9-96:47
 106            android:name="com.maths.beyond_school_280720220930.table_with_hint"
-106-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:95:13-44
+106-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:94:13-44
 107            android:exported="true"
-107-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:96:13-36
+107-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:95:13-36
 108            android:showOnLockScreen="true" />
-108-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:97:13-44
+108-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:96:13-44
 109        <activity
-109-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:98:9-101:47
+109-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:97:9-100:47
 110            android:name="com.maths.beyond_school_280720220930.MainActivity"
-110-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:99:13-41
+110-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:98:13-41
 111            android:exported="true"
-111-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:100:13-36
+111-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:99:13-36
 112            android:showOnLockScreen="true" />
-112-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:101:13-44
+112-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:100:13-44
 113
 114        <service
-114-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:103:9-105:44
+114-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:102:9-104:44
 115            android:name="com.maths.beyond_school_280720220930.ClearService"
-115-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:104:13-41
+115-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:103:13-41
 116            android:stopWithTask="false" />
-116-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:105:13-41
+116-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:104:13-41
 117
 118        <receiver
-118-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:107:9-114:20
+118-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:106:9-113:20
 119            android:name="com.maths.beyond_school_280720220930.model.AlarmReceiver"
-119-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:108:13-48
+119-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:107:13-48
 120            android:exported="false"
-120-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:109:13-37
+120-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:108:13-37
 121            android:process=":remote" >
-121-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:110:13-38
+121-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:109:13-38
 122            <intent-filter>
-122-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:111:13-113:29
+122-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:110:13-112:29
 123                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
-123-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:112:17-107
-123-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:112:25-104
+123-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:111:17-107
+123-->C:\Users\Hp\AndroidStudioProjects\beyongschool_android\app\src\main\AndroidManifest.xml:111:25-104
 124            </intent-filter>
 125        </receiver>
 126

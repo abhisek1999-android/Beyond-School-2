@@ -560,6 +560,8 @@ attr fontWeight
 attr forceApplySystemWindowInsetTop
 attr foregroundInsidePadding
 attr framePosition
+attr fullscreenBackgroundColor
+attr fullscreenTextColor
 attr gapBetweenBars
 attr gestureInsetBottomIgnored
 attr goIcon
@@ -1315,6 +1317,7 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color black
+color black_overlay
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -1404,6 +1407,10 @@ color fui_linkColor
 color fui_transparent
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color light_blue_600
+color light_blue_900
+color light_blue_A200
+color light_blue_A400
 color light_deep_grey
 color light_gray
 color m3_appbar_overlay_color
@@ -2891,6 +2898,7 @@ id animateToEnd
 id animateToStart
 id animationVoice
 id anonymous_button
+id ansTextView
 id antiClockwise
 id anticipate
 id apple_signin_button
@@ -2983,6 +2991,7 @@ id contentPanel
 id contiguous
 id continuousVelocity
 id coordinator
+id correctText
 id cos
 id counterclockwise
 id country_list
@@ -3304,6 +3313,7 @@ id progress_circular
 id progress_horizontal
 id questionLayout
 id questionProgress
+id questionView
 id rLayout
 id radio
 id ratio
@@ -3447,7 +3457,6 @@ id textView5
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
-id text_view_question
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -3510,6 +3519,7 @@ id wrap
 id wrap_content
 id wrap_content_constrained
 id wrong
+id wrongText
 id x_left
 id x_right
 id yahoo_signin_button
@@ -3844,6 +3854,8 @@ string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
 string default_web_client_id
+string dummy_button
+string dummy_content
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
@@ -4057,6 +4069,7 @@ string status
 string status_bar_notification_info_overflow
 string study_remainder
 string title_activity_kids_info
+string title_activity_welcome_screen
 string wrong
 string your_grade
 style AlertDialog_AppCompat
@@ -4646,6 +4659,7 @@ style Theme_AppCompat_Light_NoActionBar
 style Theme_AppCompat_NoActionBar
 style Theme_BEYOND_SCHOOL
 style Theme_BEYOND_SCHOOL_AppBarOverlay
+style Theme_BEYOND_SCHOOL_Fullscreen
 style Theme_BEYOND_SCHOOL_NoActionBar
 style Theme_BEYOND_SCHOOL_PopupOverlay
 style Theme_Design
@@ -4736,6 +4750,7 @@ style ThemeOverlay_AppCompat_DayNight_ActionBar
 style ThemeOverlay_AppCompat_Dialog
 style ThemeOverlay_AppCompat_Dialog_Alert
 style ThemeOverlay_AppCompat_Light
+style ThemeOverlay_BEYOND_SCHOOL_FullscreenContainer
 style ThemeOverlay_Design_TextInputEditText
 style ThemeOverlay_Material3
 style ThemeOverlay_Material3_ActionBar
@@ -5183,6 +5198,8 @@ style Widget_MaterialProgressBar_ProgressBar_NoPadding
 style Widget_MaterialProgressBar_ProgressBar_Small
 style Widget_MaterialProgressBar_ProgressBar_Small_NoPadding
 style Widget_Support_CoordinatorLayout
+style Widget_Theme_BEYOND_SCHOOL_ActionBar_Fullscreen
+style Widget_Theme_BEYOND_SCHOOL_ButtonBar_Fullscreen
 style background
 style card_background
 style card_bg
@@ -5251,6 +5268,7 @@ styleable ForegroundLinearLayout android_foreground android_foregroundGravity fo
 styleable Fragment android_name android_id android_tag
 styleable FragmentContainerView android_name android_tag
 styleable FragmentNavigator android_name
+styleable FullscreenAttrs fullscreenBackgroundColor fullscreenTextColor
 styleable GradientColor android_startColor android_endColor android_type android_centerX android_centerY android_gradientRadius android_tileMode android_centerColor android_startX android_startY android_endX android_endY
 styleable GradientColorItem android_color android_offset
 styleable GridLayout alignmentMode columnCount columnOrderPreserved orientation rowCount rowOrderPreserved useDefaultMargins

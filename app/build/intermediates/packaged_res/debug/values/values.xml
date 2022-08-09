@@ -18,15 +18,15 @@
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        <!--        <item>4th Grade</item>-->
+        <!--        <item>5th Grade</item>-->
+        <!--        <item>6th Grade</item>-->
+        <!--        <item>7th Grade</item>-->
+        <!--        <item>8th Grade</item>-->
+        <!--        <item>9th Grade</item>-->
+        <!--        <item>10th Grade</item>-->
+        <!--        <item>11th Grade</item>-->
+        <!--        <item>12th Grade</item>-->
     </string-array>
     <string-array name="numbers">
         <item>2000</item>
@@ -70,6 +70,11 @@
         <item>@font/adamina</item>
     </array>
     <color name="black">#FF000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
     <color name="light_deep_grey">#757575</color>
     <color name="light_gray">#F5F5F5</color>
     <color name="purple_200">#FFBB86FC</color>
@@ -101,6 +106,8 @@
     <string name="close">Close</string>
     <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
     <string name="default_web_client_id" translatable="false">556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="first_time">KEY_FIRST_TIME_OPEN</string>
     <string name="gcm_defaultSenderId" translatable="false">556365060240</string>
@@ -125,6 +132,7 @@
     <string name="status">KEY_STATUS</string>
     <string name="study_remainder">Set your study reminder</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
+    <string name="title_activity_welcome_screen">WelcomeScreen</string>
     <string name="wrong">KEY_WRONG</string>
     <string name="your_grade">Kids Grade</string>
     <style name="Button4">
@@ -180,11 +188,28 @@
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Theme.BEYOND_SCHOOL.Fullscreen" parent="Theme.BEYOND_SCHOOL">
+        <item name="android:actionBarStyle">@style/Widget.Theme.BEYOND_SCHOOL.ActionBar.Fullscreen
+        </item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
     <style name="Theme.BEYOND_SCHOOL.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="ThemeOverlay.BEYOND_SCHOOL.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <style name="Widget.Theme.BEYOND_SCHOOL.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+    <style name="Widget.Theme.BEYOND_SCHOOL.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
     <style name="background" parent="CardView">
 
         <item name="backgroundColor">@color/tp_white</item>
@@ -198,4 +223,8 @@
     <style name="card_bg" parent="CardView.Light">
         <item name="cardBackgroundColor">@color/light_gray</item>
     </style>
+    <declare-styleable name="FullscreenAttrs">
+        <attr format="color" name="fullscreenBackgroundColor"/>
+        <attr format="color" name="fullscreenTextColor"/>
+    </declare-styleable>
 </resources>

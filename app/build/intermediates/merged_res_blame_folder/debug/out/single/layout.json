@@ -20,12 +20,12 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_login_signup.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_test.xml",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_test.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_dash_board.xml",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_dash_board.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_test.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_test.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_score.xml",

@@ -295,7 +295,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
         });
 
      addition.setOnClickListener(v->{
-         Toast.makeText(getApplicationContext(), "uuu", Toast.LENGTH_SHORT).show();
+
          Intent additionIntent = new Intent(this, AdditionActivity.class);
          additionIntent.putExtra("count", 2);
          additionIntent.putExtra("status", "Addition");

@@ -33,7 +33,13 @@ public final class ActivityAdditionBinding implements ViewBinding {
   public final LottieAnimationView animationVoice;
 
   @NonNull
+  public final TextView ansTextView;
+
+  @NonNull
   public final ImageView bunny;
+
+  @NonNull
+  public final TextView correctText;
 
   @NonNull
   public final CoordinatorLayout dialPadLayout;
@@ -57,6 +63,9 @@ public final class ActivityAdditionBinding implements ViewBinding {
   public final ProgressBar questionProgress;
 
   @NonNull
+  public final TextView questionView;
+
+  @NonNull
   public final LinearLayout score;
 
   @NonNull
@@ -69,33 +78,27 @@ public final class ActivityAdditionBinding implements ViewBinding {
   public final TextView textView23;
 
   @NonNull
-  public final TextView textView25;
-
-  @NonNull
-  public final TextView textView26;
-
-  @NonNull
-  public final TextView textView36;
-
-  @NonNull
-  public final TextView textViewQuestion;
-
-  @NonNull
   public final ToolBarLayoutBackButtonBinding toolBar;
 
+  @NonNull
+  public final TextView wrongText;
+
   private ActivityAdditionBinding(@NonNull RelativeLayout rootView, @NonNull CardView ShowTable,
-      @NonNull LottieAnimationView animationVoice, @NonNull ImageView bunny,
+      @NonNull LottieAnimationView animationVoice, @NonNull TextView ansTextView,
+      @NonNull ImageView bunny, @NonNull TextView correctText,
       @NonNull CoordinatorLayout dialPadLayout, @NonNull ImageView imageViewBack,
       @NonNull LinearLayout layoutSet, @NonNull ToggleButton playPause,
       @NonNull ProgressBar progressBar1, @NonNull RelativeLayout questionLayout,
-      @NonNull ProgressBar questionProgress, @NonNull LinearLayout score,
-      @NonNull TextView tapInfoTextView, @NonNull TextView textView22, @NonNull TextView textView23,
-      @NonNull TextView textView25, @NonNull TextView textView26, @NonNull TextView textView36,
-      @NonNull TextView textViewQuestion, @NonNull ToolBarLayoutBackButtonBinding toolBar) {
+      @NonNull ProgressBar questionProgress, @NonNull TextView questionView,
+      @NonNull LinearLayout score, @NonNull TextView tapInfoTextView, @NonNull TextView textView22,
+      @NonNull TextView textView23, @NonNull ToolBarLayoutBackButtonBinding toolBar,
+      @NonNull TextView wrongText) {
     this.rootView = rootView;
     this.ShowTable = ShowTable;
     this.animationVoice = animationVoice;
+    this.ansTextView = ansTextView;
     this.bunny = bunny;
+    this.correctText = correctText;
     this.dialPadLayout = dialPadLayout;
     this.imageViewBack = imageViewBack;
     this.layoutSet = layoutSet;
@@ -103,15 +106,13 @@ public final class ActivityAdditionBinding implements ViewBinding {
     this.progressBar1 = progressBar1;
     this.questionLayout = questionLayout;
     this.questionProgress = questionProgress;
+    this.questionView = questionView;
     this.score = score;
     this.tapInfoTextView = tapInfoTextView;
     this.textView22 = textView22;
     this.textView23 = textView23;
-    this.textView25 = textView25;
-    this.textView26 = textView26;
-    this.textView36 = textView36;
-    this.textViewQuestion = textViewQuestion;
     this.toolBar = toolBar;
+    this.wrongText = wrongText;
   }
 
   @Override
@@ -153,9 +154,21 @@ public final class ActivityAdditionBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.ansTextView;
+      TextView ansTextView = ViewBindings.findChildViewById(rootView, id);
+      if (ansTextView == null) {
+        break missingId;
+      }
+
       id = R.id.bunny;
       ImageView bunny = ViewBindings.findChildViewById(rootView, id);
       if (bunny == null) {
+        break missingId;
+      }
+
+      id = R.id.correctText;
+      TextView correctText = ViewBindings.findChildViewById(rootView, id);
+      if (correctText == null) {
         break missingId;
       }
 
@@ -201,6 +214,12 @@ public final class ActivityAdditionBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.questionView;
+      TextView questionView = ViewBindings.findChildViewById(rootView, id);
+      if (questionView == null) {
+        break missingId;
+      }
+
       id = R.id.score;
       LinearLayout score = ViewBindings.findChildViewById(rootView, id);
       if (score == null) {
@@ -225,30 +244,6 @@ public final class ActivityAdditionBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.textView25;
-      TextView textView25 = ViewBindings.findChildViewById(rootView, id);
-      if (textView25 == null) {
-        break missingId;
-      }
-
-      id = R.id.textView26;
-      TextView textView26 = ViewBindings.findChildViewById(rootView, id);
-      if (textView26 == null) {
-        break missingId;
-      }
-
-      id = R.id.textView36;
-      TextView textView36 = ViewBindings.findChildViewById(rootView, id);
-      if (textView36 == null) {
-        break missingId;
-      }
-
-      id = R.id.text_view_question;
-      TextView textViewQuestion = ViewBindings.findChildViewById(rootView, id);
-      if (textViewQuestion == null) {
-        break missingId;
-      }
-
       id = R.id.toolBar;
       View toolBar = ViewBindings.findChildViewById(rootView, id);
       if (toolBar == null) {
@@ -256,10 +251,16 @@ public final class ActivityAdditionBinding implements ViewBinding {
       }
       ToolBarLayoutBackButtonBinding binding_toolBar = ToolBarLayoutBackButtonBinding.bind(toolBar);
 
+      id = R.id.wrongText;
+      TextView wrongText = ViewBindings.findChildViewById(rootView, id);
+      if (wrongText == null) {
+        break missingId;
+      }
+
       return new ActivityAdditionBinding((RelativeLayout) rootView, ShowTable, animationVoice,
-          bunny, dialPadLayout, imageViewBack, layoutSet, playPause, progressBar1, questionLayout,
-          questionProgress, score, tapInfoTextView, textView22, textView23, textView25, textView26,
-          textView36, textViewQuestion, binding_toolBar);
+          ansTextView, bunny, correctText, dialPadLayout, imageViewBack, layoutSet, playPause,
+          progressBar1, questionLayout, questionProgress, questionView, score, tapInfoTextView,
+          textView22, textView23, binding_toolBar, wrongText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

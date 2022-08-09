@@ -13,24 +13,20 @@ public class MathsHelper {
     private final ReadText readText;
     private final RecognizeVoice recognizeVoice;
 
-    private MathsHelper(Context context, ReadText.GetResultSpeech result, RecognizeVoice.GetResult resultSpeech) {
+    public MathsHelper(Context context, ReadText.GetResultSpeech result, RecognizeVoice.GetResult resultSpeech) {
         readText = new ReadText(context, result);
         recognizeVoice = new RecognizeVoice(context, resultSpeech);
-
     }
 
     public static MathsHelper getInstance(Context context, ReadText.GetResultSpeech resultTTS, RecognizeVoice.GetResult resultSTT) {
-        if (instance == null) {
             instance = new MathsHelper(context, resultTTS, resultSTT);
+            Log.i("Instance",instance+"");
             return instance;
-        }
-        return instance;
     }
 
     public void readText(String text) {
         readText.read(text);
     }
-
 
     public void startListening() {
         recognizeVoice.startListening();
@@ -59,7 +55,7 @@ public class MathsHelper {
     public void stopListening() {
         try {
             recognizeVoice.speech.stopListening();
-            recognizeVoice.speech.destroy();
+         //   recognizeVoice.speech.destroy();
         } catch (Exception e) {
             Log.e("AdditionActivity", "stopListening: " + e.getMessage());
         }

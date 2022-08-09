@@ -76,16 +76,16 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_addition.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_custom_progress_bg.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\custom_progress_bg.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_tool_bar_layout_back_button.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout_back_button.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_test.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_test.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_tool_bar_layout_back_button.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout_back_button.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_custom_progress_bg.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\custom_progress_bg.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_info_24.xml.flat",
@@ -104,12 +104,12 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_next.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_next.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_next.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_next.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_home.xml.flat",

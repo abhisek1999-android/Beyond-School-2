@@ -117,7 +117,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView26"
+                        android:id="@+id/questionView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -129,11 +129,11 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/text_view_question"
+                        android:id="@+id/ansTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/textView26"
+                        android:layout_toEndOf="@id/questionView"
                         android:fontFamily="@font/reemkufi_medium"
                         android:gravity="center"
                         android:text=""
@@ -229,12 +229,12 @@
                 app:cardElevation="0dp">
 
                 <TextView
-                    android:id="@+id/textView36"
+                    android:id="@+id/wrongText"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
-                    android:text="02"
+                    android:text="00"
                     android:textColor="@color/sweet_red"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -264,12 +264,12 @@
                     app:cardElevation="0dp">
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/correctText"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:fontFamily="@font/reemkufi_medium"
                         android:gravity="center"
-                        android:text="08"
+                        android:text="00"
                         android:textColor="@color/teal_700"
                         android:textSize="40sp"
                         android:textStyle="bold" />
@@ -298,7 +298,9 @@
         android:id="@+id/dialPadLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp">
 
         <include layout="@layout/log_bottom_sheet" />
 
