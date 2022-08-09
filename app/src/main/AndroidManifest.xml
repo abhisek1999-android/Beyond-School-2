@@ -93,6 +93,12 @@
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".Select_Subject"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+
+
+        <activity
             android:name=".table_questions"
             android:exported="true"
             android:showOnLockScreen="true" />

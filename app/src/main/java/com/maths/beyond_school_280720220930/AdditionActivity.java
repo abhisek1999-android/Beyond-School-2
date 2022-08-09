@@ -2,35 +2,34 @@ package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
-import com.maths.beyond_school_280720220930.extras.ReadText;
-import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
-import com.maths.beyond_school_280720220930.subjects.MathsHelper;
+import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
+import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
+import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
+import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
+import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
-import java.util.FormatFlagsConversionMismatchException;
+import java.util.Objects;
 
-public class AdditionActivity extends AppCompatActivity implements ReadText.GetResultSpeech, RecognizeVoice.GetResult {
+public class AdditionActivity extends AppCompatActivity {
 
     private static final String TAG = AdditionActivity.class.getSimpleName();
     private ActivityAdditionBinding binding;
-    private MathsHelper mathsHelper;
     private int currentAnswer;
     private int currentQuestion = 1;
     private int correctAnswer = 0;
     private int wrongAnswer = 0;
-    private int digit1=0;
-    private int digit2=0;
+    private final int MAX_QUESTION = 10;
+    private TextToSpeckConverter tts;
+    private SpeechToTextConverter stt;
+    private Boolean isCallSTT = false;
 
-
-    private Boolean FLAG_RECOGNIZATION=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,53 +37,99 @@ public class AdditionActivity extends AppCompatActivity implements ReadText.GetR
         binding = ActivityAdditionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mathsHelper = MathsHelper.getInstance(this, this, this);
         setToolbar();
+        initTTS();
+        initSTT();
         setButtonClick();
 
+        binding.toolBar.titleText.setText("Addition");
+    }
+
+    /**
+     * Initialize TTS engine
+     * Answer will be check here
+     */
+    private void initTTS() {
+        tts = TextToSpeechBuilder.builder(new ConversionCallback() {
+            @Override
+            public void onCompletion() {
+                if (isCallSTT) {
+                    UtilityFunctions.runOnUiThread(() -> {
+                        stt.initialize("Speak the answer", AdditionActivity.this);
+                        binding.animationVoice.setVisibility(View.VISIBLE);
+                    }, 500);
+                }
+            }
+
+            @Override
+            public void onErrorOccurred(String errorMessage) {
+                UtilityFunctions.simpleToast(AdditionActivity.this, errorMessage);
+            }
+        });
 
     }
 
-    private void setButtonClick() {
-        binding.playPause.setOnClickListener(v -> {
-            if (binding.playPause.isChecked()) {
-                setQuestion();
-               // new UtilityFunctions().muteAudioStream(AdditionActivity.this);
-            } else {
-                mathsHelper.stopListening();
-                mathsHelper.stopReading();
+    /**
+     * Initialize STT engine
+     * Answer will be check here
+     */
+    private void initSTT() {
+        stt = SpeechToTextBuilder.builder(new ConversionCallback() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(TAG, "onSuccess: " + result);
+
+                binding.ansTextView.setText(result);
+                isCallSTT = false;
+                if (Objects.equals(result, String.valueOf(currentAnswer))) {
+                    tts.initialize("Correct Answer", AdditionActivity.this);
+                    correctAnswer++;
+                } else {
+                    tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, AdditionActivity.this);
+                    wrongAnswer++;
+                }
+                setWrongCorrectView();
+                currentQuestion++;
+                if (currentQuestion <= MAX_QUESTION) {
+                    UtilityFunctions.runOnUiThread(() -> {
+                        setQuestion();
+                    }, 1500);
+                } else {
+                    resetViews();
+                }
+
+            }
+
+
+            @Override
+            public void onCompletion() {
+                Log.d(TAG, "onCompletion: Done");
+                binding.animationVoice.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onErrorOccurred(String errorMessage) {
+                isCallSTT = true;
+                tts.initialize("Speak your answer ", AdditionActivity.this);
             }
         });
     }
 
-    private void setQuestion() {
-        if (currentQuestion != 10) {
-            currentQuestion++;
-
-
-        //    Toast.makeText(this, "Called", Toast.LENGTH_SHORT).show();
-            digit1=UtilityFunctions.getRandomNumber(1);
-            digit2=UtilityFunctions.getRandomNumber(1);
-            currentAnswer = mathsHelper.add(digit1,digit2);
-            binding.questionView.setText(digit1+"+"+digit2+" = ");
-            binding.ansTextView.setText("?");
-            FLAG_RECOGNIZATION=true;
-            Log.d(TAG, "setQuestion: " + currentAnswer+", "+FLAG_RECOGNIZATION);
-
-        } else {
-            mathsHelper.stopListening();
-            UtilityFunctions.simpleToast(this, "You have completed the quiz" + wrongAnswer + "wrong answers" + correctAnswer + "correct answers");
-
-            UtilityFunctions.runOnUiThread(()->{
-
-                binding.wrongText.setText("0");
-                binding.correctText.setText("0");
-                binding.questionView.setText("Lets Start");
-                currentQuestion=0;
-            },1000);
-
-        }
+    private void setWrongCorrectView() {
+        binding.wrongText.setText(String.valueOf(wrongAnswer));
+        binding.correctText.setText(String.valueOf(correctAnswer));
     }
+
+    private void resetViews() {
+        binding.playPause.setChecked(false);
+        currentQuestion = 1;
+        correctAnswer = 0;
+        wrongAnswer = 0;
+      //  binding.textView26.setVisibility(View.VISIBLE);
+      //  binding.textViewQuestion.setVisibility(View.GONE);
+        binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+    }
+
 
     private void setToolbar() {
         binding.toolBar.titleText.setText(getIntent().getStringExtra("status"));
@@ -95,103 +140,55 @@ public class AdditionActivity extends AppCompatActivity implements ReadText.GetR
         });
     }
 
-
-
-    // Result form TTS
-    @Override
-    public void gettingResultSpeech() {
-
-        Log.i("IN_ACTIVITY","TTS RES"+FLAG_RECOGNIZATION);
-        startListening();
-    }
-
-    private void startListening(){
-
-        UtilityFunctions.runOnUiThread(() -> {
-            Log.i("IN_ACTIVITY","TTS RES FLAG RUNNING_OUTSIDE"+FLAG_RECOGNIZATION);
-            if (FLAG_RECOGNIZATION){
-
-                mathsHelper.startListening();
-                Log.i("IN_ACTIVITY","TTS RES FLAG RUNNING");
-                FLAG_RECOGNIZATION=false;
+    private void setButtonClick() {
+        binding.playPause.setOnClickListener(v -> {
+            if (binding.playPause.isChecked()) {
+                binding.correctText.setText("0");
+                binding.wrongText.setText("0");
+            //    binding.textView26.setVisibility(View.GONE);
+             //   binding.textViewQuestion.setVisibility(View.VISIBLE);
+                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+                setQuestion();
+            } else {
+           //     binding.textView26.setVisibility(View.VISIBLE);
+             //   binding.textViewQuestion.setVisibility(View.GONE);
+                binding.animationVoice.setVisibility(View.GONE);
+                binding.questionProgress.setProgress(0);
+                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+                tts.destroy();
+                stt.destroy();
             }
-        },3000);
+        });
+    }
+
+    private void setQuestion() {
+        var currentNum1 = UtilityFunctions.getRandomNumber(1);
+        var currentNum2 = UtilityFunctions.getRandomNumber(1);
+
+     //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
+//        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
+
+        binding.digitOne.setText(currentNum1+"");
+        binding.digitTwo.setText(currentNum2+"");
+        currentAnswer = currentNum1 + currentNum2;
+        isCallSTT = true;
+        tts.initialize("What is the sum of " + currentNum1 + " and " + currentNum2, this);
 
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FLAG_RECOGNIZATION=true;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        FLAG_RECOGNIZATION=true;
-        mathsHelper.stopReading();
-
-    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        FLAG_RECOGNIZATION=true;
-        mathsHelper.stopReading();
+        tts.destroy();
+        stt.destroy();
     }
 
-    // STP: RecognizeVoice.GetResult
+
     @Override
-    public void gettingResult(String title) {
-        mathsHelper.stopListening();
-
-
-        Log.i("IN_ACTIVITY","STT RES"+FLAG_RECOGNIZATION);
-        binding.ansTextView.setText(title);
-        FLAG_RECOGNIZATION =false;
-        if (title.equals(String.valueOf(currentAnswer))) {
-
-
-            mathsHelper.readText("Correct answer");
-            Log.d(TAG, "gettingResult: " + currentAnswer);
-            correctAnswer++;
-            binding.correctText.setText(correctAnswer+"");
-        } else {
-
-            mathsHelper.readText("Wrong answer. The correct answer is " + currentAnswer);
-            wrongAnswer++;
-            binding.wrongText.setText(wrongAnswer+"");
-        }
-
-        Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            public void run() {
-                setQuestion();
-            }
-        };
-        handler.postDelayed(r, 3000);
-
-
-
+    protected void onDestroy() {
+        super.onDestroy();
+        tts.destroy();
+        stt.destroy();
     }
-
-    @Override
-    public void getLogResult(String title) {
-
-    }
-
-    @Override
-    public void errorAction(int i) {
-
-        Log.i("IN_ACTIVITY","ERROR");
-        if (i== SpeechRecognizer.ERROR_NO_MATCH){
-            FLAG_RECOGNIZATION=true;
-               startListening();
-        }
-
-}}
+}

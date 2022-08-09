@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -78,7 +79,8 @@ public class TopicsActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Toast.makeText(TopicsActivity.this, String.valueOf(add_val), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(TopicsActivity.this, String.valueOf(add_val), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),AdditionActivity.class));
             }
         });
         sub.setOnClickListener(new View.OnClickListener() {

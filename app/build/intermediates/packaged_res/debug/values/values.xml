@@ -93,6 +93,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="tp_black">#E9000000</color>
     <color name="tp_white">#E9FFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="grid_0_25">2dp</dimen>

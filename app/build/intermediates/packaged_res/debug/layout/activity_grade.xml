@@ -14,7 +14,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="53dp"
         android:layout_marginBottom="99dp"
-        android:text="Next >>"
+        android:text="Next"
+        app:backgroundTint="@color/primary"
+        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
         android:textStyle="bold" />
 
     <TextView
@@ -33,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
-        android:paddingVertical="10dp"
         android:padding="18dp"
+        android:paddingVertical="10dp"
         app:cardCornerRadius="10dp">
 
         <LinearLayout
@@ -60,13 +62,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="50dp"
                 android:fontFamily="@font/reemkufi_medium"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="A grade 1 student should know:
-            \n1.Addition upto 2-digits.\n
-2.Subtraction upto 2-digits.\n
-3.Multiplying og 1-digit \nand tables up to 5.\n 4.Division of numbers upto 20"
-                android:textSize="20sp" />
+            \n1.Addition upto 2-digits.\n2.Subtraction upto 2-digits.\n3.Multiplying og 1-digit \nand tables up to 5.\n4.Division of numbers upto 20"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                tools:ignore="RtlCompat"
+
+                />
 
         </LinearLayout>
 
@@ -74,7 +81,7 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="260dp"
+        android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_alignParentBottom="true"
         android:scaleType="fitXY"

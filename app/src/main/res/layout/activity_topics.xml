@@ -477,10 +477,9 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="360dp"
-        android:layout_height="250dp"
-        android:layout_below="@+id/lay2"
-        android:layout_marginTop="3dp"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
         android:scaleType="fitXY"
         android:src="@drawable/goat" />
 

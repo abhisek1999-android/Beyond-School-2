@@ -33,6 +33,7 @@ color teal_200
 color teal_700
 color tp_black
 color tp_white
+color transparent
 color white
 dimen fab_margin
 dimen grid_0_25
@@ -52,6 +53,7 @@ drawable card_bac
 drawable cartoon_action_page
 drawable cartoon_image_1
 drawable cartoon_image_3
+drawable character_teacher
 drawable circumference
 drawable corner_r
 drawable corners
@@ -63,6 +65,7 @@ drawable eng
 drawable full_bac
 drawable girraf_back
 drawable goat
+drawable half_round_rect
 drawable home_bg
 drawable ic_add
 drawable ic_baseline_1x_mobiledata_24
@@ -80,14 +83,18 @@ drawable ic_baseline_insert_emoticon_24
 drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
+drawable ic_baseline_navigate_next_24
+drawable ic_baseline_pause_24
 drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_perm_identity_24
+drawable ic_baseline_play_arrow_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_policy_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
 drawable ic_baseline_space_dashboard_24
 drawable ic_bell
+drawable ic_bg
 drawable ic_divide
 drawable ic_down
 drawable ic_home
@@ -112,9 +119,11 @@ drawable logo
 drawable logo_final
 drawable math1
 drawable maths
+drawable one_third_round_rect
 drawable play
 drawable play_button
 drawable profile_default
+drawable round_rect_button_bg
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
@@ -170,6 +179,8 @@ id descriptionTextView1
 id descriptionTextView2
 id descriptionTextView3
 id dialPadLayout
+id digit_one
+id digit_two
 id displayresulttext
 id div
 id drawerLayout
@@ -237,10 +248,12 @@ id noDataText
 id num
 id numberTextView
 id openDialog
+id operator
 id playPause
 id privacyPolicy
 id privacyPolicyView
 id profileImage
+id progress
 id progressBar
 id progressBar1
 id progressCircle
@@ -260,6 +273,7 @@ id resume
 id right
 id score
 id scrollView2
+id separator
 id setAlarm
 id settings
 id spinner

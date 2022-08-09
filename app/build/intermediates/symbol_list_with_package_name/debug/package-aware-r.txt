@@ -1931,6 +1931,7 @@ color tooltip_background_dark
 color tooltip_background_light
 color tp_black
 color tp_white
+color transparent
 color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -2647,6 +2648,7 @@ drawable card_bac
 drawable cartoon_action_page
 drawable cartoon_image_1
 drawable cartoon_image_3
+drawable character_teacher
 drawable circumference
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
@@ -2705,6 +2707,7 @@ drawable girraf_back
 drawable goat
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable half_round_rect
 drawable home_bg
 drawable ic_add
 drawable ic_baseline_1x_mobiledata_24
@@ -2722,14 +2725,18 @@ drawable ic_baseline_insert_emoticon_24
 drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
+drawable ic_baseline_navigate_next_24
+drawable ic_baseline_pause_24
 drawable ic_baseline_pause_circle_outline_24
 drawable ic_baseline_perm_identity_24
+drawable ic_baseline_play_arrow_24
 drawable ic_baseline_play_circle_outline_24
 drawable ic_baseline_policy_24
 drawable ic_baseline_replay_24
 drawable ic_baseline_share_24
 drawable ic_baseline_space_dashboard_24
 drawable ic_bell
+drawable ic_bg
 drawable ic_clock_black_24dp
 drawable ic_divide
 drawable ic_down
@@ -2804,9 +2811,11 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable one_third_round_rect
 drawable play
 drawable play_button
 drawable profile_default
+drawable round_rect_button_bg
 drawable roundbar
 drawable score_icon
 drawable select_option_ct
@@ -3047,6 +3056,8 @@ id design_menu_item_text
 id design_navigation_view
 id dialPadLayout
 id dialog_button
+id digit_one
+id digit_two
 id dimensions
 id direct
 id disableHome
@@ -3313,6 +3324,7 @@ id off
 id on
 id onInterceptTouchReturnSwipe
 id openDialog
+id operator
 id outline
 id outward
 id overshoot
@@ -3339,6 +3351,7 @@ id postLayout
 id privacyPolicy
 id privacyPolicyView
 id profileImage
+id progress
 id progressBar
 id progressBar1
 id progressCircle
@@ -3400,6 +3413,7 @@ id selected
 id selection_type
 id send_code
 id send_sms_tos
+id separator
 id setAlarm
 id settings
 id sharedValueSet

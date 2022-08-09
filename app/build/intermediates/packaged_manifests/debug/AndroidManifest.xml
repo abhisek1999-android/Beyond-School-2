@@ -95,7 +95,17 @@
             android:name="com.maths.beyond_school_280720220930.ScoreActivity"
             android:exported="true" />
         <activity
+            android:name="com.maths.beyond_school_280720220930.GradeActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.TopicsActivity"
+            android:exported="true" />
+        <activity
             android:name="com.maths.beyond_school_280720220930.select_action"
+            android:exported="true"
+            android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.Select_Subject"
             android:exported="true"
             android:parentActivityName="com.maths.beyond_school_280720220930.MainActivity" />
         <activity
