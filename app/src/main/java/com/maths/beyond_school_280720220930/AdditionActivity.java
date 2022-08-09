@@ -48,7 +48,7 @@ public class AdditionActivity extends AppCompatActivity {
      * Answer will be check here
      */
     private void initTTS() {
-        tts = (TextToSpeckConverter) TextToSpeechBuilder.builder(new ConversionCallback() {
+        tts = TextToSpeechBuilder.builder(new ConversionCallback() {
             @Override
             public void onCompletion() {
                 if (isCallSTT) {
@@ -72,7 +72,7 @@ public class AdditionActivity extends AppCompatActivity {
      * Answer will be check here
      */
     private void initSTT() {
-        stt = (SpeechToTextConverter) SpeechToTextBuilder.builder(new ConversionCallback() {
+        stt = SpeechToTextBuilder.builder(new ConversionCallback() {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
