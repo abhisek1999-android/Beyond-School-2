@@ -30,10 +30,13 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.NavTableAdapter;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.table_values;
-import com.maths.beyond_school_280720220930.utils.Utils;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class select_action extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     ImageView nav,closeButton;
@@ -320,7 +323,7 @@ public class select_action extends AppCompatActivity implements NavigationView.O
                             kidsName.setText("Hi ," + kidsData.getName().split(" ")[0]);
                             // kidsAge.setText("You are "+kidsData.getAge()+" years old");
 
-                            Utils.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
+                            UtilityFunctions.loadImage(kidsData.getProfile_url(), image_view_profile_drawer);
                             Log.i("KidsData", kidsData.getName() + "");
 
                         }
