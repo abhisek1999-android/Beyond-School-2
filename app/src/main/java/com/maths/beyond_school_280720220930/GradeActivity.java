@@ -90,7 +90,7 @@ public class GradeActivity extends AppCompatActivity {
                 intent.putExtra("age",getIntent().getStringExtra("age"));
                 intent.putExtra("grade",getIntent().getStringExtra("grade"));
                 startActivity(intent);
-                finishAffinity();
+                finish();
             }
         });
 

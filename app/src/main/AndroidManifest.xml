@@ -83,6 +83,12 @@
             android:name=".ScoreActivity"
             android:exported="true" />
         <activity
+            android:name=".GradeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TopicsActivity"
+            android:exported="true" />
+        <activity
             android:name=".select_action"
             android:exported="true"
             android:parentActivityName=".MainActivity" />

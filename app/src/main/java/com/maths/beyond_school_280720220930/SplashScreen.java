@@ -57,7 +57,7 @@ public class SplashScreen extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         mCurrentUser=mAuth.getCurrentUser();
 
-        ArrayList arrayList=new ArrayList();
+       /* ArrayList arrayList=new ArrayList();
         arrayList.add("gd1");arrayList.add("gd2");
 
         database= GradeDatabase.getDbInstance(this.getApplicationContext());
@@ -69,7 +69,7 @@ public class SplashScreen extends AppCompatActivity {
         grades_data.url="oooooo";
         grades_data.grade=arrayList;
 
-        database.gradesDao().insertNotes(grades_data);
+        database.gradesDao().insertNotes(grades_data);*/
 
 
       //  Toast.makeText(this, mAuth.getCurrentUser().getUid()+"", Toast.LENGTH_SHORT).show();

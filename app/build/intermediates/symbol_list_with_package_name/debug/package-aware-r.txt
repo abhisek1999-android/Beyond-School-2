@@ -2634,6 +2634,7 @@ drawable avd_show_password
 drawable background_border
 drawable background_fill
 drawable background_round
+drawable bottom_corners
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -2667,6 +2668,9 @@ drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable corner_r
+drawable corners
+drawable corners_bac
+drawable cow_back
 drawable custom_progress_bg
 drawable design_fab_background
 drawable design_ic_visibility
@@ -2674,6 +2678,7 @@ drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
 drawable dot_line
+drawable eng
 drawable fui_ic_anonymous_white_24dp
 drawable fui_ic_apple_white_24dp
 drawable fui_ic_check_circle_black_128dp
@@ -2695,9 +2700,13 @@ drawable fui_idp_button_background_microsoft
 drawable fui_idp_button_background_phone
 drawable fui_idp_button_background_twitter
 drawable fui_idp_button_background_yahoo
+drawable full_bac
+drawable girraf_back
+drawable goat
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable home_bg
+drawable ic_add
 drawable ic_baseline_1x_mobiledata_24
 drawable ic_baseline_access_time_filled_24
 drawable ic_baseline_add_24
@@ -2722,6 +2731,7 @@ drawable ic_baseline_share_24
 drawable ic_baseline_space_dashboard_24
 drawable ic_bell
 drawable ic_clock_black_24dp
+drawable ic_divide
 drawable ic_down
 drawable ic_home
 drawable ic_home1
@@ -2733,11 +2743,14 @@ drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
 drawable ic_menu
 drawable ic_menu2
+drawable ic_minus
 drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ic_multiplication
 drawable ic_nav
+drawable ic_negative
 drawable ic_next
 drawable ic_replay
 drawable ic_restart2
@@ -2766,6 +2779,8 @@ drawable material_ic_keyboard_arrow_previous_black_24dp
 drawable material_ic_keyboard_arrow_right_black_24dp
 drawable material_ic_menu_arrow_down_black_24dp
 drawable material_ic_menu_arrow_up_black_24dp
+drawable math1
+drawable maths
 drawable mtrl_dialog_background
 drawable mtrl_dropdown_arrow
 drawable mtrl_ic_arrow_drop_down
@@ -2805,6 +2820,7 @@ drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable tv_bac
 drawable tv_shape
+drawable zraf
 font abril_fatface
 font adamina
 font anton
@@ -2892,6 +2908,7 @@ id activity_chooser_view_content
 id add
 id adjust_height
 id adjust_width
+id age
 id alertTitle
 id alignBounds
 id alignMargins
@@ -2950,6 +2967,7 @@ id button_next
 id button_resend_email
 id button_second
 id button_sign_in
+id c_img
 id cache_measures
 id callMeasure
 id cancel_action
@@ -3017,6 +3035,7 @@ id default_activity_button
 id deleteButton
 id deltaRelative
 id dependency_ordering
+id desc
 id descriptionTextView
 id descriptionTextView1
 id descriptionTextView2
@@ -3036,6 +3055,7 @@ id disablePostScroll
 id disableScroll
 id disjoint
 id displayresulttext
+id div
 id dragAnticlockwise
 id dragClockwise
 id dragDown
@@ -3099,6 +3119,9 @@ id ghost_view
 id ghost_view_holder
 id glide_custom_view_target_tag
 id gone
+id gotonext
+id grade
+id grade_val
 id graph
 id graph_wrap
 id greetingsTime
@@ -3107,6 +3130,7 @@ id grouping
 id groups
 id guideline
 id hardware
+id head
 id header
 id headerText
 id header_text
@@ -3132,12 +3156,15 @@ id imageAdd
 id imageCardView
 id imageLayout
 id imageView
+id imageView2
 id imageView3
 id imageView5
 id imageView6
+id imageView7
 id imageViewBack
 id image_4
 id image_view_profile_view
+id img
 id immediateStop
 id included
 id info
@@ -3159,6 +3186,9 @@ id kidsNameTextView
 id kidsProfileImage
 id labeled
 id lay
+id lay1
+id lay2
+id lay3
 id layout
 id layout_set
 id left
@@ -3244,6 +3274,7 @@ id mtrl_picker_text_input_range_end
 id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
+id mul
 id multiply
 id name
 id name_layout
@@ -3414,6 +3445,7 @@ id staticPostLayout
 id status_bar_latest_event_content
 id stop
 id stretch
+id sub
 id submenuarrow
 id submit_area
 id supportScrollUp
@@ -3451,6 +3483,7 @@ id textSpacerNoTitle
 id textStart
 id textTop
 id textView
+id textView2
 id textView22
 id textView23
 id textView24
@@ -3628,6 +3661,7 @@ layout abc_tooltip
 layout activity_addition
 layout activity_alarm_at_time
 layout activity_dash_board
+layout activity_grade
 layout activity_kids_info
 layout activity_log
 layout activity_login_signup
@@ -3636,11 +3670,14 @@ layout activity_privacy_policy
 layout activity_profile
 layout activity_score
 layout activity_select_action
+layout activity_select_subject
 layout activity_settings
 layout activity_splash_screen
 layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
+layout activity_topics
+layout branch_item_layout
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout content_kids_info
@@ -3824,6 +3861,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string addition_text_view
 string alarm_at_time
 string alarm_enable
 string androidx_startup

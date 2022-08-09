@@ -40,7 +40,7 @@ public class Select_Subject extends AppCompatActivity {
     BranchAdapter adapter;
     List<BranchModel> list;
     String name1,img,age1,grade1;
-    private int NUM_PAGES=5;
+    private int NUM_PAGES=2;
     int currentPage=0;
 
 
