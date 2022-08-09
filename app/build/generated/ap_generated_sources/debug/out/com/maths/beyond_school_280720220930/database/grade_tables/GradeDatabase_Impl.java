@@ -20,9 +20,7 @@ import java.lang.SuppressWarnings;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.processing.Generated;
 
-@Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
 public final class GradeDatabase_Impl extends GradeDatabase {
   private volatile GradesDao _gradesDao;

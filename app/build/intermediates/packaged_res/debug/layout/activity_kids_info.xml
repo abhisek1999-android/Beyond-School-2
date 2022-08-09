@@ -7,14 +7,6 @@
     android:orientation="vertical"
     tools:context=".KidsInfoActivity">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/corner_r"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-30dp"
-        />
-
     <include
         android:id="@+id/toolBar"
         layout="@layout/tool_bar_layout_back_button"
@@ -27,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/nextButton"
-
         android:layout_below="@id/toolBar">
 
 
@@ -58,7 +49,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/background_round"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="@color/teal_200"
                     android:elevation="30dp"
                     android:padding="10dp"
                     android:src="@drawable/ic_baseline_camera_alt_24"
@@ -124,8 +115,7 @@
                     android:layout_marginLeft="20dp"
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Kid's Name"
-
-                    android:textColor="@color/primary"
+                    android:textColor="@color/teal_700"
                     android:textSize="18sp" />
 
                 <EditText
@@ -153,7 +143,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Kid's Date of Birth"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/teal_700"
                     android:textSize="18sp" />
 
                 <TextView
@@ -180,7 +170,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Kid's Grade"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/teal_700"
                     android:textSize="18sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -192,7 +182,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/background_border"
-
                     android:fontFamily="@font/poppins"
                     android:padding="2dp"
                     app:boxStrokeColor="@color/teal_700"
@@ -208,8 +197,7 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:hint="Choose Kid's Grade"
                         android:inputType="none"
-                        android:padding="12dp"
-
+                        android:padding="10dp"
                         android:textSize="18sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -219,19 +207,19 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="120dp"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="50dp"
-        android:backgroundTint="@color/primary"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/teal_700"
         android:drawableRight="@drawable/ic_next"
         android:fontFamily="@font/poppins"
         android:onClick="goButtonClicked"
         android:text="Next"
         android:textAllCaps="false"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

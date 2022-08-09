@@ -7,7 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.maths.beyond_school_280720220930.database.Converters;
+import com.maths.beyond_school_280720220930.database.converter.Converters;
+import com.maths.beyond_school_280720220930.database.process.ProgressDao;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 
 @Database(entities = {Grades_data.class},version =1)
 @TypeConverters(Converters.class)
