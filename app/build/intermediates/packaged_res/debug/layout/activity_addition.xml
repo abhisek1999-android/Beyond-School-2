@@ -273,7 +273,6 @@
                     </LinearLayout>
 
 
-
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animationVoice"
                         android:layout_width="40dp"

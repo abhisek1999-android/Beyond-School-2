@@ -90,7 +90,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         @Override
         public void onEndOfSpeech() {
             Log.d(TAG, "onEndOfSpeech");
-            assert conversionCallaBack != null;
+       //     assert conversionCallaBack != null;
             conversionCallaBack.onCompletion();
         }
 
@@ -187,6 +187,13 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
                 break;
         }
         return message;
+    }
+
+
+    public void stop(){
+        if (speechRecognizer!=null){
+            speechRecognizer.stopListening();
+        }
     }
 
     // destroy Stp
