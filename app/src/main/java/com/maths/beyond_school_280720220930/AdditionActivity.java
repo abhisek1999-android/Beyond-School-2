@@ -38,6 +38,7 @@ public class AdditionActivity extends AppCompatActivity {
     private TextToSpeckConverter tts;
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
+    private Boolean isCallTTS = true;
     private Toolbar toolbar;
 
 
@@ -68,7 +69,7 @@ public class AdditionActivity extends AppCompatActivity {
         tts = TextToSpeechBuilder.builder(new ConversionCallback() {
             @Override
             public void onCompletion() {
-                if (isCallSTT) {
+                if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS","InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
                         isCallSTT=false;
@@ -210,6 +211,8 @@ public class AdditionActivity extends AppCompatActivity {
             //    binding.textView26.setVisibility(View.GONE);
              //   binding.textViewQuestion.setVisibility(View.VISIBLE);
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+
+                isCallTTS=true;
                 setQuestion();
             } else {
            //     binding.textView26.setVisibility(View.VISIBLE);
@@ -217,25 +220,32 @@ public class AdditionActivity extends AppCompatActivity {
                 binding.animationVoice.setVisibility(View.GONE);
                 binding.questionProgress.setProgress(0);
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-                tts.destroy();
-                stt.stop();
+                isCallSTT=false;
+                isCallTTS=false;
+
+//                tts.destroy();
+//                stt.stop();
                 //stt.destroy();
             }
         });
     }
 
     private void setQuestion() {
-        var currentNum1 = UtilityFunctions.getRandomNumber(1);
-        var currentNum2 = UtilityFunctions.getRandomNumber(1);
 
-     //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
+
+        if (isCallTTS){
+            var currentNum1 = UtilityFunctions.getRandomNumber(1);
+            var currentNum2 = UtilityFunctions.getRandomNumber(1);
+            //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
 //        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
+            binding.digitOne.setText(currentNum1+"");
+            binding.digitTwo.setText(currentNum2+"");
+            currentAnswer = currentNum1 + currentNum2;
+            isCallSTT = true;
+            tts.initialize("What is the sum of " + currentNum1 + " and " + currentNum2, this);
 
-        binding.digitOne.setText(currentNum1+"");
-        binding.digitTwo.setText(currentNum2+"");
-        currentAnswer = currentNum1 + currentNum2;
-        isCallSTT = true;
-        tts.initialize("What is the sum of " + currentNum1 + " and " + currentNum2, this);
+        }
+
 
     }
 
