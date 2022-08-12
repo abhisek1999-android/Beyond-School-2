@@ -84,7 +84,7 @@ public class GradeActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(GradeActivity.this,Select_Subject.class);
+                Intent intent=new Intent(GradeActivity.this,TopicsActivity.class);
                 intent.putExtra("name",getIntent().getStringExtra("name"));
                 intent.putExtra("image",getIntent().getStringExtra("image"));
                 intent.putExtra("age",getIntent().getStringExtra("age"));
