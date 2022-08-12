@@ -163,9 +163,7 @@
                             android:text="+"
                             android:fontFamily="@font/poppins"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
-
-                            android:textStyle="bold" />
+                            android:textSize="30sp" />
 
                         <TextView
                             android:id="@+id/digit_two"
@@ -284,6 +282,7 @@
                         android:layout_marginBottom="5dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
+                        android:visibility="gone"
                         app:lottie_rawRes="@raw/green_blinking_dott"
                         tools:ignore="MissingConstraints" />
 
