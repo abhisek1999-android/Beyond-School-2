@@ -145,7 +145,7 @@ public final class UtilityFunctions {
 
 
     // Un-Mute audio streams
-    public void unMuteAudioStream(Context context) throws InterruptedException {
+    public static void unMuteAudioStream(Context context) throws InterruptedException {
         Thread.sleep(500);
 
         AudioManager amanager =  (AudioManager) ((Activity)context).getSystemService(Context.AUDIO_SERVICE);
@@ -163,7 +163,7 @@ public final class UtilityFunctions {
 
     // Mute audio streams
 
-    public void muteAudioStream(Context context){
+    public static void muteAudioStream(Context context){
        AudioManager amanager =  (AudioManager) ((Activity)context).getSystemService(Context.AUDIO_SERVICE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         try{
