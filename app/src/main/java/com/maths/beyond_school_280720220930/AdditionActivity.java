@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
+import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -35,11 +36,14 @@ public class AdditionActivity extends AppCompatActivity {
     private int wrongAnswer = 0;
     private final int MAX_QUESTION = 10;
     private int DELAY_ON_STARTING_STT=500;
+    private int DELAY_ON_SETTING_QUESTION=3000;
     private TextToSpeckConverter tts;
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
     private Toolbar toolbar;
+
+    private String subject="";
 
 
     @Override
@@ -57,6 +61,7 @@ public class AdditionActivity extends AppCompatActivity {
         setButtonClick();
 
         binding.toolBar.titleText.setText("Addition");
+        subject=getIntent().getStringExtra("subject");
 
 
     }
@@ -115,7 +120,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                     UtilityFunctions.runOnUiThread(() -> {
                         setQuestion();
-                    }, 3000);
+                    }, DELAY_ON_SETTING_QUESTION);
                 } else {
                     resetViews();
                 }
@@ -233,16 +238,25 @@ public class AdditionActivity extends AppCompatActivity {
     private void setQuestion() {
 
 
+
         if (isCallTTS){
             var currentNum1 = UtilityFunctions.getRandomNumber(1);
             var currentNum2 = UtilityFunctions.getRandomNumber(1);
+
+            if (subject.equals("subtraction")){
+
+                if (currentNum1<currentNum2)
+                    MathsHelper.swapValues(currentNum1,currentNum2);
+            }
+
+
             //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
 //        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
             binding.digitOne.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
-            currentAnswer = currentNum1 + currentNum2;
+            currentAnswer = MathsHelper.getMathResult(subject,currentNum1,currentNum2);
             isCallSTT = true;
-            tts.initialize("What is the sum of " + currentNum1 + " and " + currentNum2, this);
+            tts.initialize(MathsHelper.getMathQuestion(subject,currentNum1,currentNum2), this);
 
         }
 
