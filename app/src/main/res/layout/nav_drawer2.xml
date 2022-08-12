@@ -10,17 +10,18 @@
         android:orientation="vertical">
 
 
-        <include
-            android:id="@+id/toolBar"
-            layout="@layout/drawer_header"
-            android:layout_width="match_parent"
-            android:layout_height="270dp" />
         <!--<View
             android:layout_width="wrap_content"
             android:layout_height="5dp"
             android:layout_gravity="center"
             android:background="@drawable/dot_line"/>-->
 
+
+        <include
+            android:id="@+id/toolBar"
+            layout="@layout/drawer_header"
+            android:layout_width="match_parent"
+            android:layout_height="270dp" />
 
         <LinearLayout
             android:id="@+id/dash"

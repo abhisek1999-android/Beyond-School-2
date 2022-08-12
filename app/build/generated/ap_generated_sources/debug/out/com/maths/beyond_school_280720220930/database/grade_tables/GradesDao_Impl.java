@@ -37,16 +37,8 @@ public final class GradesDao_Impl implements GradesDao {
 
       @Override
       public void bind(SupportSQLiteStatement stmt, Grades_data value) {
-        if (value.subject == null) {
-          stmt.bindNull(1);
-        } else {
-          stmt.bindString(1, value.subject);
-        }
-        if (value.subsubject == null) {
-          stmt.bindNull(2);
-        } else {
-          stmt.bindString(2, value.subsubject);
-        }
+        stmt.bindLong(1, value.subject);
+        stmt.bindLong(2, value.subsubject);
         stmt.bindLong(3, value.chapter);
         final String _tmp;
         _tmp = __converters.fromArrayList(value.grade);
@@ -116,10 +108,10 @@ public final class GradesDao_Impl implements GradesDao {
       final List<Grades_data> _result = new ArrayList<Grades_data>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final Grades_data _item;
-        final String _tmpSubject;
-        _tmpSubject = _cursor.getString(_cursorIndexOfSubject);
-        final String _tmpSubsubject;
-        _tmpSubsubject = _cursor.getString(_cursorIndexOfSubsubject);
+        final int _tmpSubject;
+        _tmpSubject = _cursor.getInt(_cursorIndexOfSubject);
+        final int _tmpSubsubject;
+        _tmpSubsubject = _cursor.getInt(_cursorIndexOfSubsubject);
         final int _tmpChapter;
         _tmpChapter = _cursor.getInt(_cursorIndexOfChapter);
         final ArrayList<String> _tmpGrade;

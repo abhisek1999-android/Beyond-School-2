@@ -39,7 +39,8 @@ public class Select_Subject extends AppCompatActivity {
     int val=0;
     BranchAdapter adapter;
     List<BranchModel> list;
-    String name1,img,age1,grade1;
+    String name1,img,age1;
+    int grade1;
     private int NUM_PAGES=2;
     int currentPage=0;
 
@@ -59,7 +60,7 @@ public class Select_Subject extends AppCompatActivity {
         name1=getIntent().getStringExtra("name");
         age1=getIntent().getStringExtra("age");
         img=getIntent().getStringExtra("image");
-        grade1=getIntent().getStringExtra("grade");
+        grade1=getIntent().getIntExtra("grade",0);
 
         name.setText(name1);
         grade.setText(grade1);
