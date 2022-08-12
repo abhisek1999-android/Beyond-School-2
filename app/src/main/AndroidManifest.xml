@@ -64,7 +64,7 @@
             android:name=".LogActivity"
             android:exported="false" />
         <activity
-            android:name=".GradeActivity"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,7 +86,7 @@
             android:name=".ScoreActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".GradeActivity"
             android:exported="true" />
         <activity
             android:name=".TopicsActivity"
