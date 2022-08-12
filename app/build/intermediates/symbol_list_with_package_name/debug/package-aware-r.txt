@@ -3691,6 +3691,7 @@ layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
 layout activity_topics
+layout activity_vocabulary_actvity
 layout branch_item_layout
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row

@@ -37,6 +37,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".VocabularyActivity"
+            android:exported="false" />
+        <activity
             android:name=".PrivacyPolicy"
             android:exported="false" />
         <activity
@@ -96,8 +99,6 @@
             android:name=".Select_Subject"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
-
-
         <activity
             android:name=".table_questions"
             android:exported="true"

@@ -329,6 +329,7 @@ layout activity_table_questions
 layout activity_table_with_hint
 layout activity_test
 layout activity_topics
+layout activity_vocabulary_actvity
 layout branch_item_layout
 layout content_kids_info
 layout drawer_header
