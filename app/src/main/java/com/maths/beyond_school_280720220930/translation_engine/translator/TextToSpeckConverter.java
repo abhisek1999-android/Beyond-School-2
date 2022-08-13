@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.translation_engine.translator;
 
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -29,6 +30,28 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
                 textToSpeech.setLanguage(new Locale("en", "IN"));
                 textToSpeech.setPitch(0.8f);
                 textToSpeech.setSpeechRate(1f);
+
+
+                textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String s) {
+
+                    }
+
+                    @Override
+                    public void onDone(String s) {
+                     //   assert conversionCallaBack != null;
+
+                        conversionCallaBack.onCompletion();
+                    }
+
+                    @Override
+                    public void onError(String s) {
+
+                    }
+                });
+
+
                 tts(message);
             } else {
                 assert conversionCallaBack != null;
@@ -73,12 +96,12 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
     private void tts(String text) {
         String utteranceId = this.hashCode() + "";
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
-        while (textToSpeech.isSpeaking()) {
-            Log.d(TAG, "Speaking");
-        }
-        assert conversionCallaBack != null;
-        conversionCallaBack.onCompletion();
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, TextToSpeech.ACTION_TTS_QUEUE_PROCESSING_COMPLETED);
+
+//        while (textToSpeech.isSpeaking()) {
+//            Log.d(TAG, "Speaking");
+//        }
+
     }
 
     public void destroy() {

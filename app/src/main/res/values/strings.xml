@@ -49,6 +49,8 @@
     <string name="first_time">KEY_FIRST_TIME_OPEN</string>
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
+    <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
+    <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -58,7 +60,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="your_grade">Your Grade</string>
+    <string name="your_grade">Kids Grade</string>
     <string name="alarm_at_time">Set Your Time</string>
     <string name="study_remainder">Set your study reminder</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
@@ -70,5 +72,13 @@
         <item>2nd Grade</item>
         <item>3rd Grade</item>
     </string-array>
+    <string name="title_activity_welcome_screen">WelcomeScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="category">Category : %s</string>
+    <string name="description">Description</string>
+    <string name="name_with_des"><b>%s : </b> %s</string>
+    <string name="vocabulary">Vocabulary</string>
+    <string name="practice">Practice</string>
 </resources>
 

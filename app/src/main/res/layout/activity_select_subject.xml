@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Select_Subject">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="260dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/corner_r" />
+
+    <LinearLayout
+        android:id="@+id/lay3"
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bottom_corners"
+        android:gravity="bottom|center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/c_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/cartoon_image_1" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:text="Aniket Yadav"
+            android:textColor="@color/tp_black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:text="You are 6 years old"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Grade 1"
+            android:textAllCaps="true"
+            android:textColor="@color/tp_black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+<!--<LinearLayout-->
+<!--    android:layout_width="250dp"-->
+<!--    android:layout_height="250dp"-->
+<!--    android:background="@drawable/round_rect_button_bg"-->
+<!--    android:layout_centerInParent="true"-->
+<!--    />-->
+
+    <LinearLayout
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_below="@+id/lay3"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="38dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:paddingLeft="20dp">
+
+        <!--<com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/tp_white"
+            android:gravity="center"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/tp_white"
+                android:gravity="center"
+                android:orientation="horizontal">-->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
+
+            <!-- <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/sweet_grey"
+                android:orientation="vertical">-->
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/imageView7"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="-5dp"
+                android:clipToPadding="false"
+                android:padding="10dp"
+                android:backgroundTint="#70707070"
+                android:background="@drawable/ic_bg"
+                android:foregroundGravity="center"
+                android:overScrollMode="never" />
+            <!--</LinearLayout>-->
+        </com.google.android.material.card.MaterialCardView>
+        <!--</LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>-->
+
+        <ImageView
+            android:id="@+id/gotonext"
+            style="?attr/selectableItemBackground"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="-20dp"
+            android:background="@drawable/background_fill"
+            android:backgroundTint="@color/primary"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_navigate_next_24" />
+    </LinearLayout>
+
+
+    <!--<com.google.android.material.button.MaterialButton
+        android:id="@+id/english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card"
+        android:layout_alignRight="@id/card"
+        android:layout_marginTop="-5dp"
+        android:text="English"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="5dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/math"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay3"
+        android:layout_alignLeft="@id/card"
+        android:layout_marginTop="15dp"
+        android:text="Mathematics"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="5dp" />-->
+
+</RelativeLayout>

@@ -1,11 +1,17 @@
 package com.maths.beyond_school_280720220930.utils;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -40,20 +46,20 @@ public final class UtilityFunctions {
     }
 
     // Extension Function to for Handler to run on UI Thread
+    public static void runOnUiThread(Runnable runnable, long time) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, time);
 
+    }
 
     public static void runOnUiThread(Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);
-    }
 
-    public static void runOnUiThread(Runnable runnable, long delay) {
-        new Handler(Looper.getMainLooper()).postDelayed(runnable, delay);
     }
 
 
     //    Extension Function to get random number by passing digits number
     public static int getRandomNumber(int digits) {
-        var number = (int) (Math.random() * Math.pow(10, digits));
+        int number = (int) (Math.random() * Math.pow(10, digits));
         if (number != 0)
             return number;
         else
@@ -62,6 +68,9 @@ public final class UtilityFunctions {
 
 
     //     Abhishek's Code
+
+
+    // This solves the problem of repeating digits..
     public Boolean matchingSeq(String str1, String str2) {
 
 
@@ -77,13 +86,12 @@ public final class UtilityFunctions {
             } else {
                 return false;
             }
-
         }
-
-
         return true;
     }
 
+
+    // Greet about morning, afternoon etc.
     public String greeting() {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -100,6 +108,8 @@ public final class UtilityFunctions {
         return "";
     }
 
+
+    // Format milisec to h: m: s
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String formatTime(long diff) {
 
@@ -112,6 +122,8 @@ public final class UtilityFunctions {
         return String.format("Time taken :%s", timeInHms);
     }
 
+
+    // Calculates the age of kids
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int calculateAge(String inputDate) {
 
@@ -132,5 +144,54 @@ public final class UtilityFunctions {
 
         }
         return 0;
+    }
+
+
+    // Un-Mute audio streams
+    public static void unMuteAudioStream(Context context) throws InterruptedException {
+        Thread.sleep(500);
+
+        AudioManager amanager = (AudioManager) ((Activity) context).getSystemService(Context.AUDIO_SERVICE);
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+
+        try {
+            amanager.setStreamMute(AudioManager.STREAM_DTMF, false);
+        } catch (Exception e) {
+        }
+        //
+        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+        amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, false);
+
+
+    }
+
+    // Mute audio streams
+
+    public static void muteAudioStream(Context context) {
+        AudioManager amanager = (AudioManager) ((Activity) context).getSystemService(Context.AUDIO_SERVICE);
+        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        try {
+            amanager.setStreamMute(AudioManager.STREAM_DTMF, true);
+        } catch (Exception e) {
+        }
+        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
+        amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, true);
+
+    }
+
+    public void setStatusBarTransparent(Context mContext) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = ((Activity) mContext).getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            View decorView = window.getDecorView();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            }
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 }

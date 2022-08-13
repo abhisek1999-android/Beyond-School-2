@@ -37,6 +37,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".english_activity.EnglishActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyPolicy"
+            android:exported="false" />
+        <activity
             android:name=".AdditionActivity"
             android:exported="false" />
         <activity
@@ -80,7 +86,17 @@
             android:name=".ScoreActivity"
             android:exported="true" />
         <activity
+            android:name=".GradeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TopicsActivity"
+            android:exported="true" />
+        <activity
             android:name=".select_action"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Select_Subject"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity

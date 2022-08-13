@@ -14,7 +14,7 @@
             android:id="@+id/toolBar"
             layout="@layout/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="270dp" />
         <!--<View
             android:layout_width="wrap_content"
             android:layout_height="5dp"
@@ -116,9 +116,9 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:visibility="gone"
 
-           >
+
+            >
 
             <ImageView
                 android:layout_width="40dp"
@@ -138,7 +138,35 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/privacyPolicy"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            >
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:padding="7dp"
+                android:src="@drawable/ic_baseline_policy_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingLeft="28dp"
+                android:text="Privacy Policy"
+                android:textSize="24sp" />
+        </LinearLayout>
 
 
         <LinearLayout
@@ -153,29 +181,29 @@
             android:visibility="gone"
 
             >
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/light_deep_grey"
-                />
+                android:background="@color/light_deep_grey" />
+
             <LinearLayout
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:padding="10dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                >
+                android:orientation="horizontal"
+                android:padding="10dp">
 
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/background_round"
-                    android:padding="7dp"
                     android:backgroundTint="@color/sweet_red"
+                    android:padding="7dp"
                     android:src="@drawable/ic_baseline_logout_24"
                     app:tint="@color/white" />
 

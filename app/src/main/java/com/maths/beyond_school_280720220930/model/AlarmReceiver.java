@@ -38,7 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Beyond_school")
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle("Beyond School")
-                .setContentText("Hey, it's time to read")
+                .setContentText("It's time to practice Tables.")
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

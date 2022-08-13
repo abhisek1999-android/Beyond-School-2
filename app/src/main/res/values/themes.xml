@@ -38,6 +38,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/home_bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
 
     <style name="LoginTheme" parent="FirebaseUI">
         <item name="colorPrimary">@color/teal_200</item>
@@ -57,6 +63,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_ui</item>
         <item name="android:textColorHint">@color/sweet_grey</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -66,5 +74,17 @@
     <style name="PickerTheme">
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="Theme.BEYOND_SCHOOL.Fullscreen" parent="Theme.BEYOND_SCHOOL">
+        <item name="android:actionBarStyle">@style/Widget.Theme.BEYOND_SCHOOL.ActionBar.Fullscreen
+        </item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.BEYOND_SCHOOL.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 </resources>

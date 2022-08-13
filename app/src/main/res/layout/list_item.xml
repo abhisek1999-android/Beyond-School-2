@@ -3,6 +3,6 @@
     android:layout_height="wrap_content"
     android:ellipsize="end"
     android:maxLines="1"
-    android:fontFamily="@font/poppins"
     android:padding="16dp"
+    android:fontFamily="@font/reemkufi_medium"
     android:textAppearance="?attr/textAppearanceSubtitle1" />

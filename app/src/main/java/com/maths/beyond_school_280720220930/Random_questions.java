@@ -877,10 +877,6 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
     }
 
-    @Override
-    public void finishAction() {
-
-    }
 
     @Override
     public void gettingResultSpeech() {
