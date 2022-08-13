@@ -87,5 +87,6 @@
     <string name="description">Description</string>
     <string name="name_with_des"><b>%s : </b> %s</string>
     <string name="vocabulary">Vocabulary</string>
+    <string name="practice">Practice</string>
 </resources>
 

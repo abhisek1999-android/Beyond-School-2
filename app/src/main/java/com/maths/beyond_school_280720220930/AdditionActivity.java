@@ -7,14 +7,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -34,7 +31,7 @@ public class AdditionActivity extends AppCompatActivity {
     private int correctAnswer = 0;
     private int wrongAnswer = 0;
     private final int MAX_QUESTION = 10;
-    private int DELAY_ON_STARTING_STT=500;
+    private int DELAY_ON_STARTING_STT = 500;
     private TextToSpeckConverter tts;
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
@@ -48,7 +45,6 @@ public class AdditionActivity extends AppCompatActivity {
 
         binding = ActivityAdditionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
 
         setToolbar();
@@ -70,9 +66,9 @@ public class AdditionActivity extends AppCompatActivity {
             @Override
             public void onCompletion() {
                 if (isCallSTT && isCallTTS) {
-                    Log.i("inSideTTS","InitSST");
+                    Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
-                        isCallSTT=false;
+                        isCallSTT = false;
                         stt.initialize("", AdditionActivity.this);
                         binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
@@ -102,11 +98,11 @@ public class AdditionActivity extends AppCompatActivity {
                 isCallSTT = false;
                 if (Objects.equals(result, String.valueOf(currentAnswer))) {
                     tts.initialize("Correct Answer", AdditionActivity.this);
-                    DELAY_ON_STARTING_STT=500;
+                    DELAY_ON_STARTING_STT = 500;
                     correctAnswer++;
                 } else {
                     tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, AdditionActivity.this);
-                    DELAY_ON_STARTING_STT=2000;
+                    DELAY_ON_STARTING_STT = 2000;
                     wrongAnswer++;
                 }
                 setWrongCorrectView();
@@ -132,9 +128,9 @@ public class AdditionActivity extends AppCompatActivity {
             @Override
             public void onErrorOccurred(String errorMessage) {
                 isCallSTT = true;
-             tts.initialize("", AdditionActivity.this);
+                tts.initialize("", AdditionActivity.this);
 
-              //  stt.initialize("", AdditionActivity.this);
+                //  stt.initialize("", AdditionActivity.this);
             }
         });
     }
@@ -150,11 +146,10 @@ public class AdditionActivity extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
-      //  binding.textView26.setVisibility(View.VISIBLE);
-      //  binding.textViewQuestion.setVisibility(View.GONE);
+        //  binding.textView26.setVisibility(View.VISIBLE);
+        //  binding.textViewQuestion.setVisibility(View.GONE);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
     }
-
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,7 +163,7 @@ public class AdditionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_log:
-                    startActivity(new Intent(getApplicationContext(),LogActivity.class));
+                startActivity(new Intent(getApplicationContext(), LogActivity.class));
 
                 return true;
             default:
@@ -185,14 +180,14 @@ public class AdditionActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.action_log:
-                    startActivity(new Intent(getApplicationContext(),LogActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LogActivity.class));
 
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
             }
 
-           });
+        });
 
         binding.toolBar.titleText.setText(getIntent().getStringExtra("status"));
 
@@ -208,20 +203,20 @@ public class AdditionActivity extends AppCompatActivity {
             if (binding.playPause.isChecked()) {
                 binding.correctText.setText("0");
                 binding.wrongText.setText("0");
-            //    binding.textView26.setVisibility(View.GONE);
-             //   binding.textViewQuestion.setVisibility(View.VISIBLE);
+                //    binding.textView26.setVisibility(View.GONE);
+                //   binding.textViewQuestion.setVisibility(View.VISIBLE);
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
 
-                isCallTTS=true;
+                isCallTTS = true;
                 setQuestion();
             } else {
-           //     binding.textView26.setVisibility(View.VISIBLE);
-             //   binding.textViewQuestion.setVisibility(View.GONE);
+                //     binding.textView26.setVisibility(View.VISIBLE);
+                //   binding.textViewQuestion.setVisibility(View.GONE);
                 binding.animationVoice.setVisibility(View.GONE);
                 binding.questionProgress.setProgress(0);
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-                isCallSTT=false;
-                isCallTTS=false;
+                isCallSTT = false;
+                isCallTTS = false;
 
 //                tts.destroy();
 //                stt.stop();
@@ -233,13 +228,13 @@ public class AdditionActivity extends AppCompatActivity {
     private void setQuestion() {
 
 
-        if (isCallTTS){
+        if (isCallTTS) {
             var currentNum1 = UtilityFunctions.getRandomNumber(1);
             var currentNum2 = UtilityFunctions.getRandomNumber(1);
             //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
 //        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
-            binding.digitOne.setText(currentNum1+"");
-            binding.digitTwo.setText(currentNum2+"");
+            binding.digitOne.setText(currentNum1 + "");
+            binding.digitTwo.setText(currentNum2 + "");
             currentAnswer = currentNum1 + currentNum2;
             isCallSTT = true;
             tts.initialize("What is the sum of " + currentNum1 + " and " + currentNum2, this);

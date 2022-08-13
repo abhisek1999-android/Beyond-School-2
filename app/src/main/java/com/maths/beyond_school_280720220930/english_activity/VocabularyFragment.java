@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.english_activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,12 @@ public class VocabularyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
         UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
-        binding.textViewDescription.setText(getResources().getString(R.string.name_with_des, vocabulary.getWord(), vocabulary.getDefinition()));
+        binding.textViewDescription.setText(vocabulary.getDefinition());
         binding.textViewItem.setText(vocabulary.getWord());
+        var activity = (EnglishActivity) requireActivity();
+        activity.setVisibleListener(isVisible -> {
+            binding.animationVoice.setVisibility((isVisible) ? View.VISIBLE : View.INVISIBLE);
+        });
     }
+
 }

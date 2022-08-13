@@ -4,15 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/grid_1">
 
     <TextView
         android:id="@+id/text_view_item"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="@dimen/grid_2"
+        android:background="@drawable/background_fill"
+        android:backgroundTint="@color/primary"
         android:fontFamily="@font/reemkufi_medium"
-        android:textColor="@color/primary"
+        android:gravity="center"
+        android:padding="@dimen/grid_1"
+        android:textColor="@color/white"
         android:textSize="21sp"
         tools:text="Mirror" />
 
@@ -23,36 +31,57 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/grid_1" />
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/ShowTable"
-        style="@style/card_background"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="-5dp"
-        android:layout_marginRight="40dp"
-        app:cardElevation="0dp"
-        app:layout_gravity="fill"
-        app:layout_rowWeight="1">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ShowTable"
+            style="@style/card_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/full_round_rect"
-            android:orientation="vertical"
-            android:padding="@dimen/grid_2">
+            android:layout_marginHorizontal="@dimen/grid_3"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_gravity="fill"
+            app:layout_rowWeight="1">
 
-            <TextView
-                android:id="@+id/text_view_description"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/reemkufi_medium"
-                android:textSize="18sp"
-                tools:text="Mirror :- When you look at it you can see yourself reflected in it." />
-        </RelativeLayout>
+                android:background="@drawable/full_round_rect"
+                android:orientation="vertical"
+                android:padding="@dimen/grid_2"
+                android:paddingTop="@dimen/grid_3">
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/text_view_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:textSize="18sp"
+                    tools:text="Mirror :- When you look at it you can see yourself reflected in it." />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationVoice"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/ShowTable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/green_blinking_dott"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>
