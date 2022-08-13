@@ -223,7 +223,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     }
                 }
             }
-            //for English text
+            //for English text practice
             else if(data.getSubject() == R.string.english) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
