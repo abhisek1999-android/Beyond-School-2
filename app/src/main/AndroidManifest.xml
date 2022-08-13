@@ -112,6 +112,11 @@
             android:exported="true"
             android:showOnLockScreen="true" />
 
+        <activity
+            android:name=".english_activity.EnglishActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
+
         <service
             android:name=".ClearService"
             android:stopWithTask="false" />

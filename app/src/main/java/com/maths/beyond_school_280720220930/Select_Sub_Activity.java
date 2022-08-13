@@ -1,19 +1,9 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.navigation.NavigationView;
-import com.maths.beyond_school_280720220930.adapters.LogAdapter;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
+import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
@@ -65,7 +60,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
 
         grade = getIntent().getStringExtra("grade");
-        grade="GRADE 1";
+        grade = "GRADE 1";
         binding.grade.setText(grade);
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
@@ -216,7 +211,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                         String[] res = val.split(" ");
                         for (String str : res) {
                             if (str.equals(getResources().getString(subsub))) {
-                                    list.add(new Subject_Model(data.getChapter(),data.getUrl()));
+                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                             }
                         }
                     } else {
@@ -225,14 +220,14 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
             }
             //for English practice
-            else if(data.getSubject() == R.string.english) {
+            else if (data.getSubject() == R.string.english) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
                         for (String str : res) {
                             if (str.equals(getResources().getString(subsub))) {
-                                list.add(new Subject_Model(data.getChapter(),data.getUrl()));
+                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                             }
                         }
                     } else {

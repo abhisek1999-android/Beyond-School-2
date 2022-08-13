@@ -108,6 +108,7 @@
     <dimen name="grid_5">40dp</dimen>
     <dimen name="grid_5d">5dp</dimen>
     <dimen name="grid_6">48dp</dimen>
+    <dimen name="image_size">230dp</dimen>
     <string name="add">Addition</string>
     <string name="add1">1 digit Addition</string>
     <string name="add2">2 digit Addition</string>
@@ -119,6 +120,7 @@
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="app_name">BEYOND SCHOOL</string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
+    <string name="category">Category %s </string>
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="close">Close</string>
     <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
@@ -156,6 +158,7 @@
     <string name="multiplicand">KEY_MULTIPLICAND</string>
     <string name="multiplier">KEY_MULTIPLIER</string>
     <string name="next">Next</string>
+    <string name="practice">Practice</string>
     <string name="previous">Previous</string>
     <string name="project_id" translatable="false">beyondschool-82497</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
@@ -187,14 +190,14 @@
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
 
         <item name="windowActionBar">false</item>
@@ -205,7 +208,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
     <style name="PickerTheme">
-        <!-- Customize your theme here. -->
+        
         <item name="android:fontFamily">@font/poppins</item>
     </style>
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -215,18 +218,18 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/teal_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        
         <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
 
-        <!-- Customize your theme here. -->
+        
         <item name="android:windowLightStatusBar" ns1:ignore="NewApi">true</item>
     </style>
     <style name="Theme.BEYOND_SCHOOL.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

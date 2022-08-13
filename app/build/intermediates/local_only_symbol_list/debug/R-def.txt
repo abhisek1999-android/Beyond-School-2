@@ -48,6 +48,7 @@ dimen grid_4
 dimen grid_5
 dimen grid_5d
 dimen grid_6
+dimen image_size
 drawable background_border
 drawable background_fill
 drawable background_round
@@ -67,6 +68,7 @@ drawable custom_progress_bg
 drawable dot_line
 drawable eng
 drawable full_bac
+drawable full_round_rect
 drawable girraf_back
 drawable goat
 drawable half_round_rect
@@ -156,6 +158,7 @@ id age
 id animationVoice
 id ansTextView
 id barChart
+id bottom_layout
 id bunny
 id button
 id button2
@@ -170,6 +173,7 @@ id card
 id card2
 id cardView2
 id cardView3
+id card_view_practice
 id certify
 id change_table
 id closeButton
@@ -218,6 +222,7 @@ id imageView6
 id imageView7
 id imageViewBack
 id image_4
+id image_view_object
 id image_view_profile_view
 id img
 id kidsAge
@@ -310,6 +315,9 @@ id textView27
 id textView36
 id textView4
 id textView5
+id text_view_category
+id text_view_description
+id text_view_item
 id textview_first
 id textview_second
 id title
@@ -321,11 +329,13 @@ id totalRight
 id totalWrong
 id tvName
 id userName
+id view_pager
 id wrong
 id wrongText
 layout activity_addition
 layout activity_alarm_at_time
 layout activity_dash_board
+layout activity_english
 layout activity_grade
 layout activity_kids_info
 layout activity_log
@@ -348,6 +358,7 @@ layout content_kids_info
 layout drawer_header
 layout fragment_first
 layout fragment_second
+layout fragment_vocabulary
 layout list_item
 layout log_bottom_sheet
 layout log_dialog
@@ -382,6 +393,7 @@ string alarm_at_time
 string alarm_enable
 string app_name
 string app_name_style
+string category
 string child_name
 string close
 string com.google.firebase.crashlytics.mapping_file_id
@@ -419,6 +431,7 @@ string mul3
 string multiplicand
 string multiplier
 string next
+string practice
 string previous
 string project_id
 string remainder_on_off

@@ -123,6 +123,10 @@
             android:name="com.maths.beyond_school_280720220930.MainActivity"
             android:exported="true"
             android:showOnLockScreen="true" />
+        <activity
+            android:name="com.maths.beyond_school_280720220930.english_activity.EnglishActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
 
         <service
             android:name="com.maths.beyond_school_280720220930.ClearService"

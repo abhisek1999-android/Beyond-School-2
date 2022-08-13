@@ -268,11 +268,11 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     public void goButtonClicked(View view) {
 
-        String uuid= UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();
         if (!kidsName.getText().toString().equals("") && !kidsAge.getText().toString().equals("")) {
 
             if (imageURI != null && mAuth != null) {
-                StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis())+uuid + ".jpg");
+                StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis()) + uuid + ".jpg");
 
                 try {
 
@@ -331,11 +331,11 @@ public class KidsInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
-                            Intent intent=new Intent(getApplicationContext(), GradeActivity.class);
-                            intent.putExtra("name",kidsName.getText().toString());
-                            intent.putExtra("image",imageUrl);
-                            intent.putExtra("age",kidsAge.getText().toString());
-                            intent.putExtra("grade",Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
+                            Intent intent = new Intent(getApplicationContext(), GradeActivity.class);
+                            intent.putExtra("name", kidsName.getText().toString());
+                            intent.putExtra("image", imageUrl);
+                            intent.putExtra("age", kidsAge.getText().toString());
+                            intent.putExtra("grade", Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
                             startActivity(intent);
                             //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }

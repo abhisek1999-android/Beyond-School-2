@@ -139,7 +139,9 @@ public class LoginSignupActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                         finish();
                     } else {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        var i = new Intent(getApplicationContext(), GradeActivity.class);
+                        i.putExtra("grade", "GRADE 1");
+                        startActivity(i);
                         finish();
                     }
 
