@@ -22,10 +22,10 @@ import java.util.List;
 public class BranchAdapter extends PagerAdapter {
     Context context;
     List<BranchModel> list;
-    String grade;
+    int grade;
     //Drawable[] imgs={};
 
-    public BranchAdapter(Context context, List<BranchModel> list,String grade) {
+    public BranchAdapter(Context context, List<BranchModel> list,int grade) {
         this.context = context;
         this.list = list;
         this.grade=grade;

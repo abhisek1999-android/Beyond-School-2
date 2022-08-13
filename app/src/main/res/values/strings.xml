@@ -83,5 +83,44 @@
     <string name="title_activity_welcome_screen">WelcomeScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="grade1">GRADE 1</string>
+    <string name="grade2">GRADE 2</string>
+    <string name="grade3">GRADE 3</string>
+
+    <string name="math">Mathematics</string>
+    <string name="add1">1 digit Addition</string>
+    <string name="sub1">1 digit Subtraction</string>
+    <string name="mul1">10 table Multiplication</string>
+    <string name="div1">1 digit Division</string>
+
+    <string name="add2">2 digit Addition</string>
+    <string name="sub2">2 digit Subtraction</string>
+    <string name="mul2">12 table Multiplication</string>
+    <string name="div2">2 digit Division</string>
+
+    <string name="add">Addition</string>
+    <string name="sub">Subtraction</string>
+    <string name="mul">Multiplication</string>
+    <string name="div">Division</string>
+
+    <string name="add3">3 digit Addition</string>
+    <string name="sub3">3 digit Subtraction</string>
+    <string name="mul3">15 table Multiplication</string>
+    <string name="div3">4 digit Division</string>
+
+    <string name="add4">4 digit Addition</string>
+    <string name="add5">5 digit Addition</string>
+    <string name="sub4">4 digit Subtraction</string>
+    <string name="sub5">5 digit Subtraction</string>
+
+    <string name="english">English</string>
+    <string name="vocabulary">Vocabulary</string>
+
+    <string name="digit">Digit</string>
+    <string name="table">Table</string>
+
+    <string name="grade_1_data">A grade 1 student should know:\n1.Addition upto 2-digits.\n 2.Subtraction upto 2-digits.\n 3.Multiplying of 1-digit \nand tables up to 5.\n 4.Division of numbers upto 20</string>
+    <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
+    <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
 </resources>
 

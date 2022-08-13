@@ -26,7 +26,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/poppins"
         android:gravity="center"
-        android:text="Precutions"
+        android:text="Precautions"
         android:textAllCaps="true"
         android:textSize="24sp" />
 

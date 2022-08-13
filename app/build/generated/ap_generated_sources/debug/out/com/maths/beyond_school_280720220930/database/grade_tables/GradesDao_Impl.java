@@ -32,35 +32,26 @@ public final class GradesDao_Impl implements GradesDao {
     this.__insertionAdapterOfGrades_data = new EntityInsertionAdapter<Grades_data>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `grades` (`subject`,`sub_sub`,`chapter`,`grade`,`url`,`progress_id`) VALUES (?,?,?,?,?,nullif(?, 0))";
+        return "INSERT OR ABORT INTO `grades` (`subject`,`chapter`,`grade`,`url`,`progress_id`) VALUES (?,?,?,?,nullif(?, 0))";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, Grades_data value) {
-        if (value.subject == null) {
-          stmt.bindNull(1);
-        } else {
-          stmt.bindString(1, value.subject);
-        }
-        if (value.subsubject == null) {
-          stmt.bindNull(2);
-        } else {
-          stmt.bindString(2, value.subsubject);
-        }
-        stmt.bindLong(3, value.chapter);
+        stmt.bindLong(1, value.subject);
+        stmt.bindLong(2, value.chapter);
         final String _tmp;
         _tmp = __converters.fromArrayList(value.grade);
         if (_tmp == null) {
-          stmt.bindNull(4);
+          stmt.bindNull(3);
         } else {
-          stmt.bindString(4, _tmp);
+          stmt.bindString(3, _tmp);
         }
         if (value.url == null) {
-          stmt.bindNull(5);
+          stmt.bindNull(4);
         } else {
-          stmt.bindString(5, value.url);
+          stmt.bindString(4, value.url);
         }
-        stmt.bindLong(6, value.progress_id);
+        stmt.bindLong(5, value.progress_id);
       }
     };
     this.__deletionAdapterOfGrades_data = new EntityDeletionOrUpdateAdapter<Grades_data>(__db) {
@@ -108,7 +99,6 @@ public final class GradesDao_Impl implements GradesDao {
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
       final int _cursorIndexOfSubject = CursorUtil.getColumnIndexOrThrow(_cursor, "subject");
-      final int _cursorIndexOfSubsubject = CursorUtil.getColumnIndexOrThrow(_cursor, "sub_sub");
       final int _cursorIndexOfChapter = CursorUtil.getColumnIndexOrThrow(_cursor, "chapter");
       final int _cursorIndexOfGrade = CursorUtil.getColumnIndexOrThrow(_cursor, "grade");
       final int _cursorIndexOfUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "url");
@@ -116,10 +106,8 @@ public final class GradesDao_Impl implements GradesDao {
       final List<Grades_data> _result = new ArrayList<Grades_data>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final Grades_data _item;
-        final String _tmpSubject;
-        _tmpSubject = _cursor.getString(_cursorIndexOfSubject);
-        final String _tmpSubsubject;
-        _tmpSubsubject = _cursor.getString(_cursorIndexOfSubsubject);
+        final int _tmpSubject;
+        _tmpSubject = _cursor.getInt(_cursorIndexOfSubject);
         final int _tmpChapter;
         _tmpChapter = _cursor.getInt(_cursorIndexOfChapter);
         final ArrayList<String> _tmpGrade;
@@ -128,7 +116,7 @@ public final class GradesDao_Impl implements GradesDao {
         _tmpGrade = __converters.fromString(_tmp);
         final String _tmpUrl;
         _tmpUrl = _cursor.getString(_cursorIndexOfUrl);
-        _item = new Grades_data(_tmpSubject,_tmpSubsubject,_tmpChapter,_tmpGrade,_tmpUrl);
+        _item = new Grades_data(_tmpSubject,_tmpChapter,_tmpGrade,_tmpUrl);
         _item.progress_id = _cursor.getInt(_cursorIndexOfProgressId);
         _result.add(_item);
       }

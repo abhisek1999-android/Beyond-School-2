@@ -32,9 +32,9 @@ public final class GradeDatabase_Impl extends GradeDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `grades` (`subject` TEXT, `sub_sub` TEXT, `chapter` INTEGER NOT NULL, `grade` TEXT, `url` TEXT, `progress_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `grades` (`subject` INTEGER NOT NULL, `chapter` INTEGER NOT NULL, `grade` TEXT, `url` TEXT, `progress_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0544453e95974bbd9a29e0725c23df3d')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '067311a598a519b58ac449cb3297e34f')");
       }
 
       @Override
@@ -78,9 +78,8 @@ public final class GradeDatabase_Impl extends GradeDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsGrades = new HashMap<String, TableInfo.Column>(6);
-        _columnsGrades.put("subject", new TableInfo.Column("subject", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsGrades.put("sub_sub", new TableInfo.Column("sub_sub", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsGrades = new HashMap<String, TableInfo.Column>(5);
+        _columnsGrades.put("subject", new TableInfo.Column("subject", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGrades.put("chapter", new TableInfo.Column("chapter", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGrades.put("grade", new TableInfo.Column("grade", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsGrades.put("url", new TableInfo.Column("url", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -96,7 +95,7 @@ public final class GradeDatabase_Impl extends GradeDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "0544453e95974bbd9a29e0725c23df3d", "c9433bfbc14862d7133881a0b8887c9d");
+    }, "067311a598a519b58ac449cb3297e34f", "b84152e750e0baa2c764c779b20db5ad");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
