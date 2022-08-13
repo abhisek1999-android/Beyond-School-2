@@ -24,7 +24,7 @@ public class TopicsActivity extends AppCompatActivity {
     GradeDatabase database;
     CardView add,sub,mul,div;
     int count=16,add_val=0,sub_val=0,mul_val=1,div_val=1;
-    String grade;
+    int grade;
     TextView grade_val;
 
     @Override
@@ -38,33 +38,33 @@ public class TopicsActivity extends AppCompatActivity {
         div=findViewById(R.id.div);
         grade_val=findViewById(R.id.grade_val);
 
-        grade=getIntent().getStringExtra("grade");
+        grade=getIntent().getIntExtra("grade",0);
 
         database = GradeDatabase.getDbInstance(this);
         //list4=new ArrayList<>();
         //list4.add("GRADE 3");
             notes = database.gradesDao().valus();
-            for(int i=0;i<count;i++){
+            /*for(int i=0;i<count;i++){
                 Grades_data data = notes.get(i);
-                if(data.getSubject().equals("Mathematics")) {
+                if(data.getSubject()==R.string.math) {
                 for (String element : data.getGrade()) {
-                        if (element.equals(grade)) {
-                            if(data.getSubsubject().equals("Addition")){
+                        if (element.equals(String.valueOf(grade))) {
+                            if(data.getSubsubject()==R.string.add){
                                 if (data.getChapter()>add_val){
                                     add_val=data.getChapter();
                                 }
                             }
-                            if(data.getSubsubject().equals("Subtraction")){
+                            if(data.getSubsubject()==R.string.sub){
                                 if (data.getChapter()>sub_val){
                                     sub_val=data.getChapter();
                                 }
                             }
-                            if(data.getSubsubject().equals("Multiplication")){
+                            if(data.getSubsubject()==R.string.mul){
                                 if (data.getChapter()>mul_val){
                                     mul_val=data.getChapter();
                                 }
                             }
-                            if(data.getSubsubject().equals("Division")){
+                            if(data.getSubsubject()==R.string.div){
                                 if (data.getChapter()>div_val){
                                     div_val=data.getChapter();
                                 }
@@ -72,15 +72,15 @@ public class TopicsActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
+            }*/
 
             grade_val.setText(grade);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   // Toast.makeText(TopicsActivity.this, String.valueOf(add_val), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),AdditionActivity.class));
+                //Toast.makeText(TopicsActivity.this, String.valueOf(add_val), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),AdditionActivity.class));
             }
         });
         sub.setOnClickListener(new View.OnClickListener() {

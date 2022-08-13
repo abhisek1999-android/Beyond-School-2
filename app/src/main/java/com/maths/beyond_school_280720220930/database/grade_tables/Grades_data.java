@@ -9,19 +9,19 @@ import java.util.ArrayList;
 @Entity(tableName = "grades")
 public class Grades_data {
 
-    public Grades_data(String subject, String subsubject, int chapter, ArrayList<String> grade,String url) {
+    public Grades_data(int subject,int chapter, ArrayList<String> grade,String url) {
         this.subject = subject;
-        this.subsubject = subsubject;
+        //this.subsubject = subsubject;
         this.chapter = chapter;
         this.grade = grade;
         this.url=url;
     }
 
     @ColumnInfo(name="subject")
-    public String subject;
+    public int subject;
 
-    @ColumnInfo(name="sub_sub")
-    public String  subsubject;
+    /*@ColumnInfo(name="sub_sub")
+    public int  subsubject;*/
 
     @ColumnInfo(name="chapter")
     public int  chapter;
@@ -35,21 +35,21 @@ public class Grades_data {
     @PrimaryKey(autoGenerate = true)
     public int  progress_id;
 
-    public String getSubject() {
+    public int getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(int subject) {
         this.subject = subject;
     }
 
-    public String getSubsubject() {
+   /* public int getSubsubject() {
         return subsubject;
     }
 
-    public void setSubsubject(String subsubject) {
+    public void setSubsubject(int subsubject) {
         this.subsubject = subsubject;
-    }
+    }*/
 
     public int getChapter() {
         return chapter;
