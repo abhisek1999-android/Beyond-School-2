@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/reemkufi_medium"
+        android:textColor="@color/primary"
+        android:textSize="21sp"
+        tools:text="Mirror" />
+
+    <ImageView
+        android:id="@+id/image_view_object"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/grid_1" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ShowTable"
+        style="@style/card_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginRight="40dp"
+        app:cardElevation="0dp"
+        app:layout_gravity="fill"
+        app:layout_rowWeight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/full_round_rect"
+            android:orientation="vertical"
+            android:padding="@dimen/grid_2">
+
+            <TextView
+                android:id="@+id/text_view_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/reemkufi_medium"
+                android:textSize="18sp"
+                tools:text="Mirror :- When you look at it you can see yourself reflected in it." />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

@@ -16,5 +16,5 @@ public interface EnglishDao {
     public void update(EnglishModel englishModel);
 
     @Query("SELECT * FROM english_table WHERE grade = :grade")
-    public EnglishModel getEnglishModel(String grade);
+    public EnglishModel getEnglishModel(int grade);
 }

@@ -46,12 +46,15 @@ public final class UtilityFunctions {
     }
 
     // Extension Function to for Handler to run on UI Thread
-    public static void runOnUiThread(Runnable runnable,long time) {
-        new Handler(Looper.getMainLooper()).postDelayed(runnable,time);
+    public static void runOnUiThread(Runnable runnable, long time) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, time);
 
     }
 
+    public static void runOnUiThread(Runnable runnable) {
+        new Handler(Looper.getMainLooper()).post(runnable);
 
+    }
 
 
     //    Extension Function to get random number by passing digits number
@@ -148,12 +151,13 @@ public final class UtilityFunctions {
     public static void unMuteAudioStream(Context context) throws InterruptedException {
         Thread.sleep(500);
 
-        AudioManager amanager =  (AudioManager) ((Activity)context).getSystemService(Context.AUDIO_SERVICE);
+        AudioManager amanager = (AudioManager) ((Activity) context).getSystemService(Context.AUDIO_SERVICE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
-        try{
+        try {
             amanager.setStreamMute(AudioManager.STREAM_DTMF, false);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         //
         amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
         amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, false);
@@ -163,12 +167,13 @@ public final class UtilityFunctions {
 
     // Mute audio streams
 
-    public static void muteAudioStream(Context context){
-       AudioManager amanager =  (AudioManager) ((Activity)context).getSystemService(Context.AUDIO_SERVICE);
+    public static void muteAudioStream(Context context) {
+        AudioManager amanager = (AudioManager) ((Activity) context).getSystemService(Context.AUDIO_SERVICE);
         amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        try{
+        try {
             amanager.setStreamMute(AudioManager.STREAM_DTMF, true);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
         amanager.setStreamMute(AudioManager.STREAM_ACCESSIBILITY, true);
 
@@ -176,7 +181,7 @@ public final class UtilityFunctions {
 
     public void setStatusBarTransparent(Context mContext) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = ((Activity)mContext).getWindow();
+            Window window = ((Activity) mContext).getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 

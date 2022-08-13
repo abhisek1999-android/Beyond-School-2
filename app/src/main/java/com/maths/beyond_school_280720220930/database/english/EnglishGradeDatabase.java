@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.database.english;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -8,6 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
+import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
 
 import java.util.ArrayList;
 
@@ -35,25 +39,38 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            var dao = INSTANCE.englishDao();
+            new PopulateDbAsyncTask(INSTANCE).execute();
+        }
+    };
+
+    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private EnglishDao englishDao;
+
+        public PopulateDbAsyncTask(EnglishGradeDatabase db) {
+            this.englishDao = db.englishDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
             var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "bath",
+                            "Bath",
                             "You fill it with water and use to wash the body.",
                             "https://www.anglomaniacy.pl/img/xv-bath.png.pagespeed.ic.uB6miierqO.webp"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "brush",
+                            "Brush",
                             "A device used to brush and tidy hair.",
                             "https://www.anglomaniacy.pl/img/xv-brush.png.pagespeed.ic.0X3s6eyE6w.webp"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "comb",
+                            "Comb",
                             "A flat device with narrow pointed teeth.",
                             "https://www.anglomaniacy.pl/img/xv-comb.png.pagespeed.ic.4TNQjOLNjJ.webp"
                     )
@@ -72,13 +89,13 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
                             vocabularyDetail
                     )
             );
-            var EnglishModel = new EnglishModel(
+            var englishModel = new EnglishModel(
                     1,
                     listVocabulary
             );
-
-            dao.insert(EnglishModel);
+            englishDao.insert(englishModel);
+            return null;
         }
-    };
+    }
 
 }
