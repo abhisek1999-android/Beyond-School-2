@@ -2105,6 +2105,7 @@ dimen grid_10
 dimen grid_1_5
 dimen grid_2
 dimen grid_3
+dimen grid_31
 dimen grid_4
 dimen grid_5
 dimen grid_5d
@@ -2985,6 +2986,7 @@ id callMeasure
 id cancel_action
 id cancel_button
 id card
+id card2
 id cardView2
 id cardView3
 id carryVelocity
@@ -3891,6 +3893,11 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string add
+string add1
+string add2
+string add3
+string add4
+string add5
 string addition_text_view
 string alarm_at_time
 string alarm_enable
@@ -3930,6 +3937,9 @@ string copy_toast_msg
 string default_web_client_id
 string digit
 string div
+string div1
+string div2
+string div3
 string dummy_button
 string dummy_content
 string english
@@ -4132,6 +4142,9 @@ string mtrl_picker_toggle_to_text_input_mode
 string mtrl_picker_toggle_to_year_selection
 string mtrl_timepicker_confirm
 string mul
+string mul1
+string mul2
+string mul3
 string multiplicand
 string multiplier
 string nav_app_bar_navigate_up_description
@@ -4154,6 +4167,11 @@ string status
 string status_bar_notification_info_overflow
 string study_remainder
 string sub
+string sub1
+string sub2
+string sub3
+string sub4
+string sub5
 string table
 string title_activity_kids_info
 string title_activity_welcome_screen

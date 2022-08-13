@@ -40,12 +40,12 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_score.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_topics.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_topics.xml"
-    },
-    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\sub_layout.xml",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\sub_layout.xml"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_topics.xml",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_topics.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_test.xml",
@@ -84,12 +84,12 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_settings.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_settings.xml"
-    },
-    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_sub.xml",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_sub.xml"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_settings.xml",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_settings.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_profile.xml",
@@ -112,16 +112,16 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\row.xml"
     },
     {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row2.xml",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\row2.xml"
+    },
+    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_grade.xml",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_grade.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_dash_board.xml",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_dash_board.xml"
-    },
-    {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row2.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\row2.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\navigation_layout.xml",

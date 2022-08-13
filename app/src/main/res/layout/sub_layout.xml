@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/grid_5d"
-    android:padding="@dimen/grid_5d"
+    android:layout_margin="@dimen/grid_10"
+    android:padding="@dimen/grid_10"
     style="?attr/selectableItemBackground"
     android:id="@+id/card"
     app:cardCornerRadius="@dimen/grid_1_5">
@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
@@ -19,6 +20,8 @@
             android:layout_height="87dp"
             android:layout_margin="@dimen/grid_5d"
             android:padding="@dimen/grid_10"
+            android:id="@+id/card2"
+            android:visibility="gone"
             app:cardCornerRadius="@dimen/grid_1_5">
 
             <LinearLayout
@@ -58,8 +61,9 @@
             android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
             android:text="Addition"
+            android:paddingVertical="@dimen/grid_10"
             android:textColor="@color/tp_black"
-            android:textSize="@dimen/grid_4" />
+            android:textSize="@dimen/grid_31" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

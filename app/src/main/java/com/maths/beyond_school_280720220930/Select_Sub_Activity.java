@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,7 +40,7 @@ import java.util.List;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 16, name = R.string.math, subject = R.string.math, subsub = R.string.add;
+    int count = 17, name = R.string.math, subject = R.string.math, subsub = R.string.add;
     String grade;
     List<Subject_Model> list;
     Subject_Model subject_model;
@@ -203,17 +204,21 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void recyler() {
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus();
+        //Log.i("msg_notes",notes+"");
+        //Toast.makeText(this,notes+"" , Toast.LENGTH_SHORT).show();
         list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Grades_data data = notes.get(i);
             if (data.getSubject() == R.string.math) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
-                        if (data.getSubsubject() == subsub) {
-                            if (subsub==R.string.mul){
-                                list.add(new Subject_Model(data.getChapter(), R.string.table, data.getSubsubject()));
-                            }else {
-                                list.add(new Subject_Model(data.getChapter(), R.string.digit, data.getSubsubject()));
+                        //Toast.makeText(this, element, Toast.LENGTH_SHORT).show();
+                        String val = getResources().getString(data.getChapter());
+                        //Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
+                        String[] res = val.split(" ");
+                        for (String str : res) {
+                            if (str.equals(getResources().getString(subsub))) {
+                                    list.add(new Subject_Model(data.getChapter(),data.getUrl()));
                             }
                         }
                             /*if(data.getSubsubject()==R.string.sub){
@@ -231,7 +236,37 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                                     div_val=data.getChapter();
                                 }
                             }*/
-                    }else{
+                    } else {
+
+                    }
+                }
+            }
+            else if(data.getSubject() == R.string.english) {
+                for (String element : data.getGrade()) {
+                    if (element.equals(grade)) {
+                        String val = getResources().getString(data.getChapter());
+                        String[] res = val.split(" ");
+                        for (String str : res) {
+                            if (str.equals(getResources().getString(subsub))) {
+                                list.add(new Subject_Model(data.getChapter(),data.getUrl()));
+                            }
+                        }
+                            /*if(data.getSubsubject()==R.string.sub){
+                                /*if (data.getChapter()>sub_val){
+                                    sub_val=data.getChapter();
+                                }
+                            }
+                            if(data.getSubsubject()==R.string.mul){
+                                /*if (data.getChapter()>mul_val){
+                                    mul_val=data.getChapter();
+                                }
+                            }
+                            if(data.getSubsubject()==R.string.div){
+                                /*if (data.getChapter()>div_val){
+                                    div_val=data.getChapter();
+                                }
+                            }*/
+                    } else {
 
                     }
                 }

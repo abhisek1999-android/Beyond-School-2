@@ -37,19 +37,16 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Subject_Model subject_model=list.get(position);
-        try {
-            holder.digit_val.setText(String.valueOf(subject_model.getChapter()));
-            int val1=subject_model.getDigit();
-            holder.digit.setText(val1);
-            int val=subject_model.getSubsub();
+            String val=context.getResources().getString(subject_model.getSubsub());
             holder.operation.setText(val);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            String[] res=val.split(" ");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //needs to be intent
+                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, subject_model.getUrl(), Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -18,15 +18,15 @@
         <item>1st Grade</item>
         <item>2nd Grade</item>
         <item>3rd Grade</item>
-        <!--        <item>4th Grade</item>-->
-        <!--        <item>5th Grade</item>-->
-        <!--        <item>6th Grade</item>-->
-        <!--        <item>7th Grade</item>-->
-        <!--        <item>8th Grade</item>-->
-        <!--        <item>9th Grade</item>-->
-        <!--        <item>10th Grade</item>-->
-        <!--        <item>11th Grade</item>-->
-        <!--        <item>12th Grade</item>-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </string-array>
     <string-array name="numbers">
         <item>2000</item>
@@ -103,11 +103,17 @@
     <dimen name="grid_1_5">14dp</dimen>
     <dimen name="grid_2">16dp</dimen>
     <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_31">28dp</dimen>
     <dimen name="grid_4">32dp</dimen>
     <dimen name="grid_5">40dp</dimen>
     <dimen name="grid_5d">5dp</dimen>
     <dimen name="grid_6">48dp</dimen>
     <string name="add">Addition</string>
+    <string name="add1">1 digit Addition</string>
+    <string name="add2">2 digit Addition</string>
+    <string name="add3">3 digit Addition</string>
+    <string name="add4">4 digit Addition</string>
+    <string name="add5">5 digit Addition</string>
     <string name="addition_text_view">%s + %s = ?</string>
     <string name="alarm_at_time">Set Your Time</string>
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
@@ -119,6 +125,9 @@
     <string name="default_web_client_id" translatable="false">556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com</string>
     <string name="digit">Digit</string>
     <string name="div">Division</string>
+    <string name="div1">1 digit Division</string>
+    <string name="div2">2 digit Division</string>
+    <string name="div3">4 digit Division</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="english">English</string>
@@ -141,6 +150,9 @@
     <string name="log_check">IS_LOG_ENABLE</string>
     <string name="math">Mathematics</string>
     <string name="mul">Multiplication</string>
+    <string name="mul1">10 table Multiplication</string>
+    <string name="mul2">12 table Multiplication</string>
+    <string name="mul3">15 table Multiplication</string>
     <string name="multiplicand">KEY_MULTIPLICAND</string>
     <string name="multiplier">KEY_MULTIPLIER</string>
     <string name="next">Next</string>
@@ -154,6 +166,11 @@
     <string name="status">KEY_STATUS</string>
     <string name="study_remainder">Set your study reminder</string>
     <string name="sub">Subtraction</string>
+    <string name="sub1">1 digit Subtraction</string>
+    <string name="sub2">2 digit Subtraction</string>
+    <string name="sub3">3 digit Subtraction</string>
+    <string name="sub4">4 digit Subtraction</string>
+    <string name="sub5">5 digit Subtraction</string>
     <string name="table">Table</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <string name="title_activity_welcome_screen">WelcomeScreen</string>

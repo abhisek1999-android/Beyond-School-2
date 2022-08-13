@@ -43,6 +43,7 @@ dimen grid_10
 dimen grid_1_5
 dimen grid_2
 dimen grid_3
+dimen grid_31
 dimen grid_4
 dimen grid_5
 dimen grid_5d
@@ -166,6 +167,7 @@ id button_first
 id button_second
 id c_img
 id card
+id card2
 id cardView2
 id cardView3
 id certify
@@ -370,6 +372,11 @@ navigation nav_graph
 raw green_blinking_dott
 raw voice_ip
 string add
+string add1
+string add2
+string add3
+string add4
+string add5
 string addition_text_view
 string alarm_at_time
 string alarm_enable
@@ -381,6 +388,9 @@ string com.google.firebase.crashlytics.mapping_file_id
 string default_web_client_id
 string digit
 string div
+string div1
+string div2
+string div3
 string dummy_button
 string dummy_content
 string english
@@ -403,6 +413,9 @@ string last_table
 string log_check
 string math
 string mul
+string mul1
+string mul2
+string mul3
 string multiplicand
 string multiplier
 string next
@@ -416,6 +429,11 @@ string start
 string status
 string study_remainder
 string sub
+string sub1
+string sub2
+string sub3
+string sub4
+string sub5
 string table
 string title_activity_kids_info
 string title_activity_welcome_screen

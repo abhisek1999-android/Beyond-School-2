@@ -9,9 +9,9 @@ import java.util.ArrayList;
 @Entity(tableName = "grades")
 public class Grades_data {
 
-    public Grades_data(int subject, int subsubject, int chapter, ArrayList<String> grade,String url) {
+    public Grades_data(int subject,int chapter, ArrayList<String> grade,String url) {
         this.subject = subject;
-        this.subsubject = subsubject;
+        //this.subsubject = subsubject;
         this.chapter = chapter;
         this.grade = grade;
         this.url=url;
@@ -20,8 +20,8 @@ public class Grades_data {
     @ColumnInfo(name="subject")
     public int subject;
 
-    @ColumnInfo(name="sub_sub")
-    public int  subsubject;
+    /*@ColumnInfo(name="sub_sub")
+    public int  subsubject;*/
 
     @ColumnInfo(name="chapter")
     public int  chapter;
@@ -43,13 +43,13 @@ public class Grades_data {
         this.subject = subject;
     }
 
-    public int getSubsubject() {
+   /* public int getSubsubject() {
         return subsubject;
     }
 
     public void setSubsubject(int subsubject) {
         this.subsubject = subsubject;
-    }
+    }*/
 
     public int getChapter() {
         return chapter;

@@ -23,6 +23,9 @@ public final class SubLayoutBinding implements ViewBinding {
   public final MaterialCardView card;
 
   @NonNull
+  public final MaterialCardView card2;
+
+  @NonNull
   public final TextView digit;
 
   @NonNull
@@ -32,9 +35,11 @@ public final class SubLayoutBinding implements ViewBinding {
   public final TextView operation;
 
   private SubLayoutBinding(@NonNull MaterialCardView rootView, @NonNull MaterialCardView card,
-      @NonNull TextView digit, @NonNull TextView digitVal, @NonNull TextView operation) {
+      @NonNull MaterialCardView card2, @NonNull TextView digit, @NonNull TextView digitVal,
+      @NonNull TextView operation) {
     this.rootView = rootView;
     this.card = card;
+    this.card2 = card2;
     this.digit = digit;
     this.digitVal = digitVal;
     this.operation = operation;
@@ -69,6 +74,12 @@ public final class SubLayoutBinding implements ViewBinding {
     missingId: {
       MaterialCardView card = (MaterialCardView) rootView;
 
+      id = R.id.card2;
+      MaterialCardView card2 = ViewBindings.findChildViewById(rootView, id);
+      if (card2 == null) {
+        break missingId;
+      }
+
       id = R.id.digit;
       TextView digit = ViewBindings.findChildViewById(rootView, id);
       if (digit == null) {
@@ -87,7 +98,8 @@ public final class SubLayoutBinding implements ViewBinding {
         break missingId;
       }
 
-      return new SubLayoutBinding((MaterialCardView) rootView, card, digit, digitVal, operation);
+      return new SubLayoutBinding((MaterialCardView) rootView, card, card2, digit, digitVal,
+          operation);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

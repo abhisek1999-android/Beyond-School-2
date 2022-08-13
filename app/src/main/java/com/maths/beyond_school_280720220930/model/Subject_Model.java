@@ -2,14 +2,16 @@ package com.maths.beyond_school_280720220930.model;
 
 public class Subject_Model {
     int chapter,digit,subsub;
+    String url;
 
-    public Subject_Model(int chapter, int digit, int subsub) {
-        this.chapter = chapter;
-        this.digit = digit;
+    public Subject_Model (int subsub, String url) {
+        //this.chapter = chapter;
+        //this.digit = digit;
         this.subsub = subsub;
+        this.url=url;
     }
 
-    public int getChapter() {
+    /*public int getChapter() {
         return chapter;
     }
 
@@ -23,6 +25,14 @@ public class Subject_Model {
 
     public void setDigit(int digit) {
         this.digit = digit;
+    }*/
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getSubsub() {

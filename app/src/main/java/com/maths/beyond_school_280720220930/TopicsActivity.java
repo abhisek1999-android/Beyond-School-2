@@ -44,7 +44,7 @@ public class TopicsActivity extends AppCompatActivity {
         //list4=new ArrayList<>();
         //list4.add("GRADE 3");
             notes = database.gradesDao().valus();
-            for(int i=0;i<count;i++){
+            /*for(int i=0;i<count;i++){
                 Grades_data data = notes.get(i);
                 if(data.getSubject()==R.string.math) {
                 for (String element : data.getGrade()) {
@@ -72,7 +72,7 @@ public class TopicsActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
+            }*/
 
             grade_val.setText(grade);
 

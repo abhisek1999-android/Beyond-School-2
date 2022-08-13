@@ -102,16 +102,28 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recylerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/grid_2"
-        android:background="@drawable/goat">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="@dimen/grid_2">
+
 
     </androidx.recyclerview.widget.RecyclerView>
 
+   <!-- <ImageView
+        android:layout_width="245dp"
+        android:layout_height="220dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/goat" />-->
+</RelativeLayout>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
