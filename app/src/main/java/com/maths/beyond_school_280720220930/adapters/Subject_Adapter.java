@@ -46,6 +46,8 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             public void onClick(View view) {
                 //needs to be intent
                 Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
+
+                //this is url
                 Toast.makeText(context, subject_model.getUrl(), Toast.LENGTH_SHORT).show();
 
             }
