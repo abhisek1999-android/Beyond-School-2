@@ -212,30 +212,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             if (data.getSubject() == R.string.math) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
-                        //Toast.makeText(this, element, Toast.LENGTH_SHORT).show();
                         String val = getResources().getString(data.getChapter());
-                        //Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
                         String[] res = val.split(" ");
                         for (String str : res) {
                             if (str.equals(getResources().getString(subsub))) {
                                     list.add(new Subject_Model(data.getChapter(),data.getUrl()));
                             }
                         }
-                            /*if(data.getSubsubject()==R.string.sub){
-                                /*if (data.getChapter()>sub_val){
-                                    sub_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject()==R.string.mul){
-                                /*if (data.getChapter()>mul_val){
-                                    mul_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject()==R.string.div){
-                                /*if (data.getChapter()>div_val){
-                                    div_val=data.getChapter();
-                                }
-                            }*/
                     } else {
 
                     }
@@ -251,21 +234,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                                 list.add(new Subject_Model(data.getChapter(),data.getUrl()));
                             }
                         }
-                            /*if(data.getSubsubject()==R.string.sub){
-                                /*if (data.getChapter()>sub_val){
-                                    sub_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject()==R.string.mul){
-                                /*if (data.getChapter()>mul_val){
-                                    mul_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject()==R.string.div){
-                                /*if (data.getChapter()>div_val){
-                                    div_val=data.getChapter();
-                                }
-                            }*/
                     } else {
 
                     }
