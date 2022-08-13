@@ -65,6 +65,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
 
         grade = getIntent().getStringExtra("grade");
+        grade="GRADE 1";
         binding.grade.setText(grade);
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);

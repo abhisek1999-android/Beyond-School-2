@@ -46,32 +46,33 @@ public class TopicsActivity extends AppCompatActivity {
             notes = database.gradesDao().valus();
             for(int i=0;i<count;i++){
                 Grades_data data = notes.get(i);
-                if(data.getSubject().equals("Mathematics")) {
-                for (String element : data.getGrade()) {
-                        if (element.equals(grade)) {
-                            if(data.getSubsubject().equals("Addition")){
-                                if (data.getChapter()>add_val){
-                                    add_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject().equals("Subtraction")){
-                                if (data.getChapter()>sub_val){
-                                    sub_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject().equals("Multiplication")){
-                                if (data.getChapter()>mul_val){
-                                    mul_val=data.getChapter();
-                                }
-                            }
-                            if(data.getSubsubject().equals("Division")){
-                                if (data.getChapter()>div_val){
-                                    div_val=data.getChapter();
-                                }
-                            }
-                        }
-                    }
-                }
+
+//                if(data.getSubject().equals("Mathematics")) {
+//                for (String element : data.getGrade()) {
+//                        if (element.equals(grade)) {
+//                            if(data.getSubsubject().equals("Addition")){
+//                                if (data.getChapter()>add_val){
+//                                    add_val=data.getChapter();
+//                                }
+//                            }
+//                            if(data.getSubsubject().equals("Subtraction")){
+//                                if (data.getChapter()>sub_val){
+//                                    sub_val=data.getChapter();
+//                                }
+//                            }
+//                            if(data.getSubsubject().equals("Multiplication")){
+//                                if (data.getChapter()>mul_val){
+//                                    mul_val=data.getChapter();
+//                                }
+//                            }
+//                            if(data.getSubsubject().equals("Division")){
+//                                if (data.getChapter()>div_val){
+//                                    div_val=data.getChapter();
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
 
             grade_val.setText(grade);

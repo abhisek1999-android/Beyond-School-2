@@ -72,6 +72,7 @@ public class GradeActivity extends AppCompatActivity {
 
 
         grade1= getIntent().getStringExtra("grade");
+
         grade.setText(grade1);
         if (grade1.equals(getResources().getString(R.string.grade1))){
             desc.setText(R.string.grade_1_data);

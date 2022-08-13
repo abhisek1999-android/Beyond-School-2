@@ -54,6 +54,8 @@ public class MathsHelper {
             return Math.abs(a-b);
         else if (subject.equals("multiplication"))
             return a*b;
+        else if (subject.equals("division"))
+            return a/b;
         return 0;
 
     }
@@ -62,11 +64,14 @@ public class MathsHelper {
     public static String getMathQuestion (String subject,int a, int b){
 
         if (subject.equals("addition"))
-            return "What is the result of"+ a+"+"+ b;
+            return "What is the result of"+ a+" plus "+ b;
         else if (subject.equals("subtraction"))
-            return "What is the result of"+ a+"-"+ b;
+            return "What is the result of"+ a+" minus "+ b;
         else if (subject.equals("multiplication"))
             return "What is the result of"+ a+"multiplied by "+ b;
+
+        else if (subject.equals("division"))
+            return "What is the result of"+ a+"divided by "+ b;
         return "";
 
     }

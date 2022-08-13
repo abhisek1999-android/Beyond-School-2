@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.crashlytics.internal.model.CrashlyticsReport;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
@@ -44,6 +45,7 @@ public class AdditionActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private String subject="";
+    private String digit="";
 
 
     @Override
@@ -52,14 +54,12 @@ public class AdditionActivity extends AppCompatActivity {
 
         binding = ActivityAdditionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
-
-
+        setToolbar();
 
         binding.toolBar.titleText.setText("Addition");
         subject=getIntent().getStringExtra("subject");
-        setToolbar();
+        digit=getIntent().getStringExtra("max_digit");
+
         initTTS();
         initSTT();
         setButtonClick();
@@ -74,7 +74,6 @@ public class AdditionActivity extends AppCompatActivity {
     private void setOperator() {
 
 
-
         if (subject.equals("addition"))
             binding.operator.setText("+");
 
@@ -84,7 +83,8 @@ public class AdditionActivity extends AppCompatActivity {
         else if (subject.equals("multiplication"))
             binding.operator.setText("×");
 
-
+        else if (subject.equals("division"))
+            binding.operator.setText("÷");
 
     }
 
@@ -99,7 +99,7 @@ public class AdditionActivity extends AppCompatActivity {
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS","InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
-                    //    UtilityFunctions.muteAudioStream(AdditionActivity.this);
+                       UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT=false;
                         stt.initialize("", AdditionActivity.this);
                         binding.animationVoice.setVisibility(View.VISIBLE);
@@ -192,28 +192,10 @@ public class AdditionActivity extends AppCompatActivity {
       //  binding.textView26.setVisibility(View.VISIBLE);
       //  binding.textViewQuestion.setVisibility(View.GONE);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+        binding.progress.setText("1/10");
     }
 
 
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.log_menu, menu);
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_log:
-                    startActivity(new Intent(getApplicationContext(),LogActivity.class));
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
 
     private void setToolbar() {
@@ -235,11 +217,6 @@ public class AdditionActivity extends AppCompatActivity {
 
         binding.toolBar.titleText.setText(getIntent().getStringExtra("status"));
 
-        binding.toolBar.imageViewBack.setOnClickListener(view -> {
-            Intent intent = new Intent(this, select_action.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
     private void setButtonClick() {
@@ -266,9 +243,6 @@ public class AdditionActivity extends AppCompatActivity {
                 isCallSTT=false;
                 isCallTTS=false;
 
-//                tts.destroy();
-//                stt.stop();
-                //stt.destroy();
             }
         });
     }
@@ -277,20 +251,33 @@ public class AdditionActivity extends AppCompatActivity {
 
        UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         if (isCallTTS){
-            var currentNum1 = UtilityFunctions.getRandomNumber(1);
-            var currentNum2 = UtilityFunctions.getRandomNumber(1);
+            var currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+            var currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
 
             if (subject.equals("subtraction")){
+                    if (currentNum1<currentNum2){
+                        int temp=currentNum1;
+                        currentNum1=currentNum2;
+                        currentNum2=temp;
+                    }
+            }
+            if (subject.equals("division")){
 
-                if (currentNum1<currentNum2)
-                    MathsHelper.swapValues(currentNum1,currentNum2);
+                currentNum1=UtilityFunctions.getRandomIntegerUpto(20);
+                while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
+                    currentNum1=UtilityFunctions.getRandomIntegerUpto(20);
+                }
             }
 
+            if (subject.equals("multiplication"))
+            {
+                currentNum1=UtilityFunctions.getRandomIntegerUpto(10);
+                currentNum2=UtilityFunctions.getRandomNumber(1);
+            }
 
-            //   binding.questionProgress.setProgress((int) ((((double) currentQuestion) / (double) 3) * 100));
-//        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
             binding.digitOne.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
+            binding.progress.setText(currentQuestion+"/ "+MAX_QUESTION);
             binding.ansTextView.setText("?");
             currentAnswer = MathsHelper.getMathResult(subject,currentNum1,currentNum2);
 

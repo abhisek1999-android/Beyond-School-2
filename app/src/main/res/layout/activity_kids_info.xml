@@ -8,12 +8,11 @@
     tools:context=".KidsInfoActivity">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/corner_r"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-30dp"
-        />
+        android:src="@drawable/corner_r" />
 
     <include
         android:id="@+id/toolBar"
@@ -219,15 +218,17 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="70dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="50dp"
         android:backgroundTint="@color/primary"
-        android:drawableRight="@drawable/ic_next"
-        android:fontFamily="@font/poppins"
+        android:textColor="@color/white"
+
+        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+        android:fontFamily="@font/reemkufi_medium"
         android:onClick="goButtonClicked"
         android:text="Next"
         android:textAllCaps="false"

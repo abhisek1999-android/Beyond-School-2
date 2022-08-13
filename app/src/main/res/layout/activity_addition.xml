@@ -26,15 +26,19 @@
             android:layout_marginTop="10dp">
 
 
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
 
-                android:visibility="gone"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/background_fill"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ProgressBar
                     android:id="@+id/questionProgress"
@@ -59,8 +63,8 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:text="0/10"
                 android:textSize="20sp"
-                android:visibility="gone"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <TextView
@@ -110,11 +114,11 @@
                 style="@style/card_background"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:layout_below="@id/progress"
                 android:layout_marginLeft="40dp"
+                android:layout_marginTop="-5dp"
                 android:layout_marginRight="40dp"
                 app:cardElevation="0dp"
-                android:layout_marginTop="-5dp"
-                android:layout_below="@id/progress"
                 app:layout_gravity="fill"
                 app:layout_rowWeight="1">
 
@@ -128,9 +132,9 @@
                         android:id="@+id/questionView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="50dp"
                         android:gravity="center"
-                        android:layout_centerHorizontal="true"
                         android:orientation="horizontal">
 
 
@@ -159,9 +163,9 @@
                             android:layout_height="40dp"
                             android:background="@drawable/background_round"
                             android:backgroundTint="@color/blue"
+                            android:fontFamily="@font/poppins"
                             android:gravity="center"
                             android:text="+"
-                            android:fontFamily="@font/poppins"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
@@ -199,16 +203,14 @@
                         android:background="@color/light_deep_grey" />
 
 
-
-
                     <LinearLayout
 
-                        android:layout_below="@id/separator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/separator"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:layout_centerHorizontal="true"
                         android:orientation="horizontal">
 
 
@@ -229,8 +231,8 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="30sp"
-                            android:visibility="invisible"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="invisible" />
 
                         <TextView
 
@@ -238,7 +240,6 @@
                             android:layout_height="50dp"
                             android:layout_gravity="center"
 
-                            android:visibility="invisible"
                             android:background="@drawable/background_round"
                             android:backgroundTint="@color/blue"
                             android:gravity="center"
@@ -246,7 +247,8 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/ansTextView"
@@ -254,15 +256,15 @@
                             android:layout_height="60dp"
                             android:layout_below="@id/separator"
                             android:layout_alignParentRight="true"
+                            android:layout_marginLeft="30dp"
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/green"
                             android:fontFamily="@font/reemkufi_medium"
                             android:gravity="center"
+                            android:minWidth="60dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="\?"
-                            android:layout_marginLeft="30dp"
-                            android:minWidth="60dp"
                             android:textColor="@color/white"
                             android:textSize="30sp"
                             android:textStyle="bold" />
@@ -280,9 +282,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
+                        android:visibility="gone"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
-                        android:visibility="gone"
                         app:lottie_rawRes="@raw/green_blinking_dott"
                         tools:ignore="MissingConstraints" />
 
@@ -306,8 +308,7 @@
             android:paddingTop="15dp"
             android:text=""
             android:textOff=""
-            android:textOn=""
-       />
+            android:textOn="" />
 
 
         <TextView
