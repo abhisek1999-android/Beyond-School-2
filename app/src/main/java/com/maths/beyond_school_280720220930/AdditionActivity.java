@@ -55,13 +55,35 @@ public class AdditionActivity extends AppCompatActivity {
 
 
 
+
+
+        binding.toolBar.titleText.setText("Addition");
+        subject=getIntent().getStringExtra("subject");
         setToolbar();
         initTTS();
         initSTT();
         setButtonClick();
+        setOperator();
+        binding.toolBar.imageViewBack.setOnClickListener(v->{
+            onBackPressed();
+        });
 
-        binding.toolBar.titleText.setText("Addition");
-        subject=getIntent().getStringExtra("subject");
+
+    }
+
+    private void setOperator() {
+
+
+
+        if (subject.equals("addition"))
+            binding.operator.setText("+");
+
+        else if (subject.equals("subtraction"))
+            binding.operator.setText("-");
+
+        else if (subject.equals("multiplication"))
+            binding.operator.setText("×");
+
 
 
     }
@@ -77,6 +99,7 @@ public class AdditionActivity extends AppCompatActivity {
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS","InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
+                    //    UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT=false;
                         stt.initialize("", AdditionActivity.this);
                         binding.animationVoice.setVisibility(View.VISIBLE);
@@ -102,10 +125,17 @@ public class AdditionActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
 
+                try {
+                    UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //stt.stop();
                 binding.ansTextView.setText(result);
                 isCallSTT = false;
-                if (Objects.equals(result, String.valueOf(currentAnswer))) {
+                Boolean lcsResult=new UtilityFunctions().matchingSeq(result.trim(),currentAnswer+"");
+
+                if (lcsResult) {
                     tts.initialize("Correct Answer", AdditionActivity.this);
                     DELAY_ON_STARTING_STT=500;
                     correctAnswer++;
@@ -119,7 +149,11 @@ public class AdditionActivity extends AppCompatActivity {
                 if (currentQuestion <= MAX_QUESTION) {
 
                     UtilityFunctions.runOnUiThread(() -> {
-                        setQuestion();
+                        try {
+                            setQuestion();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }, DELAY_ON_SETTING_QUESTION);
                 } else {
                     resetViews();
@@ -218,7 +252,11 @@ public class AdditionActivity extends AppCompatActivity {
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
 
                 isCallTTS=true;
-                setQuestion();
+                try {
+                    setQuestion();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else {
            //     binding.textView26.setVisibility(View.VISIBLE);
              //   binding.textViewQuestion.setVisibility(View.GONE);
@@ -235,10 +273,9 @@ public class AdditionActivity extends AppCompatActivity {
         });
     }
 
-    private void setQuestion() {
+    private void setQuestion() throws InterruptedException {
 
-
-
+       UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         if (isCallTTS){
             var currentNum1 = UtilityFunctions.getRandomNumber(1);
             var currentNum2 = UtilityFunctions.getRandomNumber(1);
@@ -254,7 +291,9 @@ public class AdditionActivity extends AppCompatActivity {
 //        binding.textViewQuestion.setText(getResources().getString(R.string.addition_text_view, String.valueOf(currentNum1), String.valueOf(currentNum2)));
             binding.digitOne.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
+            binding.ansTextView.setText("?");
             currentAnswer = MathsHelper.getMathResult(subject,currentNum1,currentNum2);
+
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject,currentNum1,currentNum2), this);
 

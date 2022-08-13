@@ -80,25 +80,38 @@ public class TopicsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                    // Toast.makeText(TopicsActivity.this, String.valueOf(add_val), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),AdditionActivity.class));
+
+                Intent addIntent=new Intent(getApplicationContext(),AdditionActivity.class);
+                addIntent.putExtra("subject","addition");
+                startActivity(addIntent);
             }
         });
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(TopicsActivity.this, String.valueOf(sub_val), Toast.LENGTH_SHORT).show();
+
+                Intent addIntent=new Intent(getApplicationContext(),AdditionActivity.class);
+                addIntent.putExtra("subject","subtraction");
+                startActivity(addIntent);
+               // Toast.makeText(TopicsActivity.this, String.valueOf(sub_val), Toast.LENGTH_SHORT).show();
             }
         });
         mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(TopicsActivity.this, String.valueOf(mul_val), Toast.LENGTH_SHORT).show();
+                Intent addIntent=new Intent(getApplicationContext(),AdditionActivity.class);
+                addIntent.putExtra("subject","multiplication");
+                startActivity(addIntent);
+                //Toast.makeText(TopicsActivity.this, String.valueOf(mul_val), Toast.LENGTH_SHORT).show();
             }
         });
         div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(TopicsActivity.this, String.valueOf(div_val), Toast.LENGTH_SHORT).show();
+//                Intent addIntent=new Intent(getApplicationContext(),AdditionActivity.class);
+//                addIntent.putExtra("subject","division");
+//                startActivity(addIntent);
+                //Toast.makeText(TopicsActivity.this, String.valueOf(div_val), Toast.LENGTH_SHORT).show();
             }
         });
 
