@@ -37,7 +37,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
-            android:name=".english_activity.EnglishActivity"
+            android:name=".Select_Sub_Activity"
             android:exported="false" />
         <activity
             android:name=".PrivacyPolicy"

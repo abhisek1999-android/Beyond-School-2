@@ -8,58 +8,98 @@ import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
 
 public class MathsHelper {
 
-    private static final String TAG = MathsHelper.class.toString();
-    private static MathsHelper instance = null;
-    private final ReadText readText;
-    private final RecognizeVoice recognizeVoice;
+//    private static final String TAG = MathsHelper.class.toString();
+//    private static MathsHelper instance = null;
+//    private final ReadText readText;
+//    private final RecognizeVoice recognizeVoice;
 
-    public MathsHelper(Context context, ReadText.GetResultSpeech result, RecognizeVoice.GetResult resultSpeech) {
-        readText = new ReadText(context, result);
-        recognizeVoice = new RecognizeVoice(context, resultSpeech);
-    }
+//    public MathsHelper(Context context, ReadText.GetResultSpeech result, RecognizeVoice.GetResult resultSpeech) {
+//        readText = new ReadText(context, result);
+//        recognizeVoice = new RecognizeVoice(context, resultSpeech);
+//    }
+//
+//    public static MathsHelper getInstance(Context context, ReadText.GetResultSpeech resultTTS, RecognizeVoice.GetResult resultSTT) {
+//            instance = new MathsHelper(context, resultTTS, resultSTT);
+//            Log.i("Instance",instance+"");
+//            return instance;
+//    }
 
-    public static MathsHelper getInstance(Context context, ReadText.GetResultSpeech resultTTS, RecognizeVoice.GetResult resultSTT) {
-            instance = new MathsHelper(context, resultTTS, resultSTT);
-            Log.i("Instance",instance+"");
-            return instance;
-    }
+//    public void readText(String text) {
+//        readText.read(text);
+//    }
+//
+//    public void startListening() {
+//        recognizeVoice.startListening();
+//    }
 
-    public void readText(String text) {
-        readText.read(text);
-    }
-
-    public void startListening() {
-        recognizeVoice.startListening();
-    }
-
-    public int add(int a, int b) {
+    public static int add(int a, int b) {
         int result = a + b;
-        readText.read(a + "plus" + b + "is");
+      //  readText.read(a + "plus" + b + "is");
         return result;
     }
 
-    public int sub(int a, int b) {
+    public static int  sub(int a, int b) {
         int result = a - b;
-        readText.read(a + "minus" + b + "is" + result);
-        return result;
+    //    readText.read(a + "minus" + b + "is" + result);
+        return Math.abs(result);
     }
 
-    public void stopReading() {
-        try {
-            readText.textToSpeech.stop();
-        } catch (Exception e) {
-            Log.e(TAG, "stopReading: " + e.getMessage());
-        }
+
+
+    public static int getMathResult(String subject,int a, int b){
+
+        if (subject.equals("addition"))
+            return a+b;
+        else if (subject.equals("subtraction"))
+            return Math.abs(a-b);
+        else if (subject.equals("multiplication"))
+            return a*b;
+        else if (subject.equals("division"))
+            return a/b;
+        return 0;
+
     }
 
-    public void stopListening() {
-        try {
-            recognizeVoice.speech.stopListening();
-         //   recognizeVoice.speech.destroy();
-        } catch (Exception e) {
-            Log.e("AdditionActivity", "stopListening: " + e.getMessage());
-        }
+
+    public static String getMathQuestion (String subject,int a, int b){
+
+        if (subject.equals("addition"))
+            return "What is the result of"+ a+" plus "+ b;
+        else if (subject.equals("subtraction"))
+            return "What is the result of"+ a+" minus "+ b;
+        else if (subject.equals("multiplication"))
+            return "What is the result of"+ a+"multiplied by "+ b;
+
+        else if (subject.equals("division"))
+            return "What is the result of"+ a+"divided by "+ b;
+        return "";
+
     }
+
+    public static void swapValues(int m, int n)
+    {
+        // Swapping the values
+        int temp = m;
+        m = n;
+        n = temp;
+    }
+
+//    public void stopReading() {
+//        try {
+//            readText.textToSpeech.stop();
+//        } catch (Exception e) {
+//            Log.e(TAG, "stopReading: " + e.getMessage());
+//        }
+//    }
+//
+//    public void stopListening() {
+//        try {
+//            recognizeVoice.speech.stopListening();
+//         //   recognizeVoice.speech.destroy();
+//        } catch (Exception e) {
+//            Log.e("AdditionActivity", "stopListening: " + e.getMessage());
+//        }
+//    }
 
 
 }

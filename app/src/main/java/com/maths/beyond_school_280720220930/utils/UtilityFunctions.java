@@ -71,6 +71,20 @@ public final class UtilityFunctions {
 
 
     // This solves the problem of repeating digits..
+
+
+    public static int getRandomIntegerUpto(int maximum) {
+        return ((int) (Math.random() * (maximum - 2))) + 2;
+    }
+
+    public static Boolean isDivisible(int num1,int num2){
+
+        if ((num1 % num2) == 0)
+            return true;
+        else
+            return false;
+    }
+
     public Boolean matchingSeq(String str1, String str2) {
 
 
