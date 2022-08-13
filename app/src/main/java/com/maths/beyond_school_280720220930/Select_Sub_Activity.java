@@ -204,11 +204,10 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void recyler() {
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus();
-        //Log.i("msg_notes",notes+"");
-        //Toast.makeText(this,notes+"" , Toast.LENGTH_SHORT).show();
         list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Grades_data data = notes.get(i);
+            //for mathematics
             if (data.getSubject() == R.string.math) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
@@ -224,6 +223,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     }
                 }
             }
+            //for English
             else if(data.getSubject() == R.string.english) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
