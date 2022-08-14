@@ -125,6 +125,7 @@ drawable logo
 drawable logo_final
 drawable math1
 drawable maths
+drawable one_round_rect
 drawable one_third_round_rect
 drawable play
 drawable play_button
@@ -157,6 +158,7 @@ id add
 id age
 id animationVoice
 id ansTextView
+id avatar
 id barChart
 id bottom_layout
 id bunny
@@ -206,6 +208,7 @@ id greetingsTime
 id head
 id header
 id headerText
+id headingLayout
 id home
 id image
 id image1
@@ -235,6 +238,7 @@ id lay1
 id lay2
 id lay3
 id layout_set
+id learnOrTest
 id linearLayout
 id linearLayout2
 id logCard
@@ -294,6 +298,7 @@ id settings
 id spinner
 id spinner2
 id sub
+id subSub
 id subject
 id subsub
 id tCorrect
@@ -338,6 +343,7 @@ layout activity_dash_board
 layout activity_english
 layout activity_grade
 layout activity_kids_info
+layout activity_learning
 layout activity_log
 layout activity_login_signup
 layout activity_main
@@ -368,7 +374,6 @@ layout progress_card_layout
 layout result_display
 layout row
 layout row2
-layout seekbar_dialog
 layout select_card_layout
 layout sub_layout
 layout table_lay
@@ -376,6 +381,7 @@ layout text_sample_bg
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+layout youtube_dialog
 menu log_menu
 mipmap ic_launcher
 mipmap ic_launcher_round

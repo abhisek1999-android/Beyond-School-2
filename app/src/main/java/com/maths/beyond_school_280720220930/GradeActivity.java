@@ -2,15 +2,24 @@ package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
+import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
+import com.maths.beyond_school_280720220930.model.KidsData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +33,29 @@ public class GradeActivity extends AppCompatActivity {
     String[] desc1 = {""};
     List<String> list1, list2, list4;
 
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade);
         database = GradeDatabase.getDbInstance(this);
+
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+        retrieveKidsData();
         var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
         englishGradeDatabase.englishDao().getEnglishModel(1);
         next = findViewById(R.id.next);
@@ -96,5 +123,26 @@ public class GradeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void retrieveKidsData() {
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        //     Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                        Log.i("No_data", "No_data");
+                    } else {
+
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+
+                            KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
+                            kidsData.setKids_id(queryDocumentSnapshot.getId());
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getGrade(),"KIDS_GRADE");
+                            Log.i("KidsData", kidsData.getName() + "");
+
+                        }
+                    }
+                });
     }
 }

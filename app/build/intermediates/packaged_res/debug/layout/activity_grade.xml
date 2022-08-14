@@ -14,10 +14,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="53dp"
         android:layout_marginBottom="99dp"
-        android:text="Next"
-        app:backgroundTint="@color/primary"
         android:drawableRight="@drawable/ic_baseline_navigate_next_24"
-        android:textStyle="bold" />
+        android:text="Next"
+        android:fontFamily="@font/reemkufi_medium"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:backgroundTint="@color/primary" />
 
     <TextView
         android:id="@+id/textView2"

@@ -53,8 +53,16 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     context.startActivity(intent);
                 } else {
                     Intent intent = new Intent(context, AdditionActivity.class);
-                    intent.putExtra("subject", res[res.length - 1].toLowerCase());
-                    intent.putExtra("max_digit", res[0]);
+
+                    if (!res[0].equals("Multiplication")){
+                        intent.putExtra("subject", res[res.length - 1].toLowerCase());
+                        intent.putExtra("max_digit", res[0]);
+                    }
+                    else{
+                        intent.putExtra("subject", res[0].toLowerCase());
+                        intent.putExtra("max_digit", res[3]);
+                    }
+
                     context.startActivity(intent);
                 }
 

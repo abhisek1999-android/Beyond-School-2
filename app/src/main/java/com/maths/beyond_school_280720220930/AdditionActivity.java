@@ -3,19 +3,12 @@ package com.maths.beyond_school_280720220930;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.firebase.crashlytics.internal.model.CrashlyticsReport;
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -24,8 +17,6 @@ import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuild
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
-
-import java.util.Objects;
 
 public class AdditionActivity extends AppCompatActivity {
 
@@ -56,24 +47,22 @@ public class AdditionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
-        binding.toolBar.titleText.setText("Addition");
+
         subject=getIntent().getStringExtra("subject");
         digit=getIntent().getStringExtra("max_digit");
-
+        
         initTTS();
         initSTT();
         setButtonClick();
-        setOperator();
-        binding.toolBar.imageViewBack.setOnClickListener(v->{
-            onBackPressed();
-        });
-
+        setBasicUiElement();
 
     }
 
-    private void setOperator() {
+    private void setBasicUiElement() {
 
-
+        binding.toolBar.titleText.setText("Practice "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.subject.setText("Mathematics");
+        binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
 
@@ -81,10 +70,22 @@ public class AdditionActivity extends AppCompatActivity {
             binding.operator.setText("-");
 
         else if (subject.equals("multiplication"))
-            binding.operator.setText("×");
+        { binding.operator.setText("×");
+        binding.subSub.setText("Multiplication upto "+digit +"'s Table");}
 
         else if (subject.equals("division"))
             binding.operator.setText("÷");
+
+        binding.toolBar.imageViewBack.setOnClickListener(v->{
+            onBackPressed();
+        });
+
+        binding.learnOrTest.setOnClickListener(v->{
+            Intent intent =new Intent(getApplicationContext(), LearningActivity.class);
+            intent.putExtra("subject",subject);
+            intent.putExtra("max_digit", digit);
+            startActivity(intent);
+        });
 
     }
 
