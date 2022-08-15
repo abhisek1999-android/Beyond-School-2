@@ -87,9 +87,9 @@ public class GradeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(GradeActivity.this,Select_Sub_Activity.class);
-                //intent.putExtra("name",getIntent().getStringExtra("name"));
+                /*intent.putExtra("name",getIntent().getStringExtra("name"));
                 //intent.putExtra("image",getIntent().getStringExtra("image"));
-                //intent.putExtra("age",getIntent().getStringExtra("age"));
+                //intent.putExtra("age",getIntent().getStringExtra("age"));*/
                 intent.putExtra("grade",grade1);
                 startActivity(intent);
                 finish();
