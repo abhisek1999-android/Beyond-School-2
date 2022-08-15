@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.maths.beyond_school_280720220930.adapters.LogAdapter;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
@@ -48,12 +50,19 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     List<Grades_data> notes;
     Subject_Adapter adapter;
     ActionBarDrawerToggle toggle;
+    FirebaseUser user;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySelectSubBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        auth=FirebaseAuth.getInstance();
+        user=auth.getCurrentUser();
+
+
         drinkModels = new ArrayList<>();
 
         drinkModels.add(new SpinnerModel(true, R.string.math));

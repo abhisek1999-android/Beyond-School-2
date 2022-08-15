@@ -8,16 +8,16 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\branch_item_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_first.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\drawer_header.xml",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\drawer_header.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_addition.xml",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_addition.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\drawer_header.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\drawer_header.xml"
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_first.xml",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\tool_bar_layout_back_button.xml",

@@ -8,12 +8,12 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_first.xml.flat",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
-    },
-    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_play.png.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\play.png"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_first.xml.flat",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_play_button.xml.flat",
@@ -36,12 +36,12 @@
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_with_hint.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.webp"
-    },
-    {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_round_rect_button_bg.xml.flat",
         "source": "D:\\beyongschool_android\\app\\src\\main\\res\\drawable\\round_rect_button_bg.xml"
+    },
+    {
+        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_login_signup.xml.flat",

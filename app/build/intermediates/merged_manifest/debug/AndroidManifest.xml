@@ -76,7 +76,7 @@
             android:name="com.maths.beyond_school_280720220930.LogActivity"
             android:exported="false" />
         <activity
-            android:name="com.maths.beyond_school_280720220930.GradeActivity"
+            android:name="com.maths.beyond_school_280720220930.SplashScreen"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,7 +98,7 @@
             android:name="com.maths.beyond_school_280720220930.ScoreActivity"
             android:exported="true" />
         <activity
-            android:name="com.maths.beyond_school_280720220930.SplashScreen"
+            android:name="com.maths.beyond_school_280720220930.GradeActivity"
             android:exported="true" />
         <activity
             android:name="com.maths.beyond_school_280720220930.TopicsActivity"
