@@ -18,6 +18,7 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
+import com.maths.beyond_school_280720220930.databinding.ActivityGradeBinding;
 import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
 import com.maths.beyond_school_280720220930.model.KidsData;
 
@@ -29,6 +30,7 @@ public class GradeActivity extends AppCompatActivity {
     Grades_data data;
     Button next;
     TextView grade, desc;
+    ActivityGradeBinding binding;
     String grade1;
     String[] desc1 = {""};
     List<String> list1, list2, list4;
@@ -47,7 +49,8 @@ public class GradeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grade);
+        binding=ActivityGradeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         database = GradeDatabase.getDbInstance(this);
 
 
@@ -95,18 +98,56 @@ public class GradeActivity extends AppCompatActivity {
         database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul3, new ArrayList<>(list4), "https://youtu.be/RUGs1NmEikQ"));
         database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div3, new ArrayList<>(list4), "https://youtu.be/PFfcC6MO660"));
 
-        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocabulary, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab1, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab2, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab3, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab4, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab5, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab6, new ArrayList<>(list1), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
+
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab8, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab9, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab10, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab11, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab12, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
+
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab14, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab15, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab16, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab17, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(list2), ""));
+        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
 
 
         grade1 = getIntent().getStringExtra("grade");
 
-        grade.setText(grade1);
+        binding.grade.setText(grade1);
         if (grade1.equals(getResources().getString(R.string.grade1))) {
-            desc.setText(R.string.grade_1_data);
+            binding.t1.setText(R.string.t11);
+            binding.t2.setText(R.string.t12);
+            binding.t3.setText(R.string.t13);
+            binding.lay4.setVisibility(View.GONE);
+            binding.lay5.setVisibility(View.GONE);
+            binding.t6.setText(R.string.t16);
+            binding.t7.setText(R.string.t17);
         } else if (grade1.equals(getResources().getString(R.string.grade2))) {
-            desc.setText(R.string.grade_2_data);
+            binding.t1.setText(R.string.t21);
+            binding.t2.setText(R.string.t22);
+            binding.t3.setText(R.string.t23);
+            binding.t4.setText(R.string.t24);
+            binding.t5.setText(R.string.t25);
+            binding.t6.setText(R.string.t26);
+            binding.t7.setText(R.string.t27);
         } else {
-            desc.setText(R.string.grade_3_data);
+            binding.t1.setText(R.string.t31);
+            binding.t2.setText(R.string.t32);
+            binding.t3.setText(R.string.t33);
+            binding.t4.setText(R.string.t34);
+            binding.t5.setText(R.string.t35);
+            binding.t6.setText(R.string.t36);
+            binding.t7.setText(R.string.t37);
         }
 
 

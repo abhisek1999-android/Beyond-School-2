@@ -79,7 +79,7 @@ public class KidsInfoActivity extends AppCompatActivity {
         }
 
         titleText = findViewById(R.id.titleText);
-        titleText.setText("Kids Info");
+        titleText.setText("Kid's Info");
 
         back = findViewById(R.id.imageViewBack);
         back.setVisibility(View.GONE);
