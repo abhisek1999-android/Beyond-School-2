@@ -174,7 +174,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         tapInfoText=findViewById(R.id.tapInfoTextView);
         logPad=findViewById(R.id.logCard);
         mBottomSheetBehavior = BottomSheetBehavior.from(logPad);
-        collectdata = findViewById(R.id.textView24);
+       // collectdata = findViewById(R.id.textView24);
         collectdata.setVisibility(View.GONE);
         mic = findViewById(R.id.animationVoice);
         
