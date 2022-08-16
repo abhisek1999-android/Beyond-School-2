@@ -67,9 +67,9 @@
     <string name="addition_text_view">%s + %s = ?</string>
 
     <string-array name="grades">
-        <item>1st Grade</item>
-        <item>2nd Grade</item>
-        <item>3rd Grade</item>
+        <item>GRADE 1</item>
+        <item>GRADE 2</item>
+        <item>GRADE 3</item>
         <!--        <item>4th Grade</item>-->
         <!--        <item>5th Grade</item>-->
         <!--        <item>6th Grade</item>-->
@@ -90,12 +90,12 @@
     <string name="math">Mathematics</string>
     <string name="add1">1 digit Addition</string>
     <string name="sub1">1 digit Subtraction</string>
-    <string name="mul1">10 table Multiplication</string>
+    <string name="mul1">Multiplication up to 10 \'s table </string>
     <string name="div1">1 digit Division</string>
 
     <string name="add2">2 digit Addition</string>
     <string name="sub2">2 digit Subtraction</string>
-    <string name="mul2">12 table Multiplication</string>
+    <string name="mul2">Multiplication up to 12 \'s table</string>
     <string name="div2">2 digit Division</string>
 
     <string name="add">Addition</string>
@@ -105,7 +105,7 @@
 
     <string name="add3">3 digit Addition</string>
     <string name="sub3">3 digit Subtraction</string>
-    <string name="mul3">15 table Multiplication</string>
+    <string name="mul3">Multiplication up to 15 \'s table</string>
     <string name="div3">4 digit Division</string>
 
     <string name="add4">4 digit Addition</string>
@@ -122,5 +122,7 @@
     <string name="grade_1_data">A grade 1 student should know:\n1.Addition upto 2-digits.\n 2.Subtraction upto 2-digits.\n 3.Multiplying of 1-digit \nand tables up to 5.\n 4.Division of numbers upto 20</string>
     <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
     <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
+    <string name="practice">Practice</string>
+    <string name="category">Category %s </string>
 </resources>
 

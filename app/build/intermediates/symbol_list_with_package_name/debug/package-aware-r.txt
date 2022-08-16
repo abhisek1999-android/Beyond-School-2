@@ -2117,6 +2117,7 @@ dimen hint_alpha_material_dark
 dimen hint_alpha_material_light
 dimen hint_pressed_alpha_material_dark
 dimen hint_pressed_alpha_material_light
+dimen image_size
 dimen item_touch_helper_max_drag_scroll_per_frame
 dimen item_touch_helper_swipe_escape_max_velocity
 dimen item_touch_helper_swipe_escape_velocity
@@ -2707,6 +2708,7 @@ drawable fui_idp_button_background_phone
 drawable fui_idp_button_background_twitter
 drawable fui_idp_button_background_yahoo
 drawable full_bac
+drawable full_round_rect
 drawable girraf_back
 drawable goat
 drawable googleg_disabled_color_18
@@ -2815,6 +2817,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable one_round_rect
 drawable one_third_round_rect
 drawable play
 drawable play_button
@@ -2946,6 +2949,7 @@ id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
 id automatic
+id avatar
 id barChart
 id barrier
 id baseline
@@ -2954,6 +2958,7 @@ id beginning
 id bestChoice
 id blocking
 id bottom
+id bottom_layout
 id bounce
 id bounceBoth
 id bounceEnd
@@ -2989,6 +2994,7 @@ id card
 id card2
 id cardView2
 id cardView3
+id card_view_practice
 id carryVelocity
 id center
 id centerCrop
@@ -3154,6 +3160,7 @@ id headerText
 id header_text
 id header_title
 id heading
+id headingLayout
 id hideable
 id home
 id homeAsUp
@@ -3181,6 +3188,7 @@ id imageView6
 id imageView7
 id imageViewBack
 id image_4
+id image_view_object
 id image_view_profile_view
 id img
 id immediateStop
@@ -3209,6 +3217,7 @@ id lay2
 id lay3
 id layout
 id layout_set
+id learnOrTest
 id left
 id leftToRight
 id legacy
@@ -3470,6 +3479,7 @@ id status_bar_latest_event_content
 id stop
 id stretch
 id sub
+id subSub
 id subject
 id submenuarrow
 id submit_area
@@ -3522,6 +3532,9 @@ id textView5
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
+id text_view_category
+id text_view_description
+id text_view_item
 id textinput_counter
 id textinput_error
 id textinput_helper_text
@@ -3567,6 +3580,7 @@ id userName
 id vertical
 id vertical_only
 id view_offset_helper
+id view_pager
 id view_transition
 id view_tree_lifecycle_owner
 id view_tree_saved_state_registry_owner
@@ -3688,8 +3702,10 @@ layout abc_tooltip
 layout activity_addition
 layout activity_alarm_at_time
 layout activity_dash_board
+layout activity_english
 layout activity_grade
 layout activity_kids_info
+layout activity_learning
 layout activity_log
 layout activity_login_signup
 layout activity_main
@@ -3728,6 +3744,7 @@ layout design_text_input_start_icon
 layout drawer_header
 layout fragment_first
 layout fragment_second
+layout fragment_vocabulary
 layout fui_activity_invisible
 layout fui_activity_register_email
 layout fui_activity_register_phone
@@ -3826,7 +3843,6 @@ layout progress_card_layout
 layout result_display
 layout row
 layout row2
-layout seekbar_dialog
 layout select_card_layout
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
@@ -3854,6 +3870,7 @@ layout text_view_without_line_height
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+layout youtube_dialog
 menu example_menu
 menu example_menu2
 menu log_menu
@@ -3907,6 +3924,7 @@ string app_name_style
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string bottomsheet_action_expand_halfway
+string category
 string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
@@ -4155,6 +4173,7 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string practice
 string previous
 string project_id
 string remainder_on_off

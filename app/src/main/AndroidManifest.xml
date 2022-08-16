@@ -36,6 +36,7 @@
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
+
         <activity
             android:name=".Select_Sub_Activity"
             android:exported="false" />
@@ -50,6 +51,9 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LearningActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
@@ -109,6 +113,10 @@
             android:showOnLockScreen="true" />
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
+        <activity
+            android:name=".english_activity.EnglishActivity"
             android:exported="true"
             android:showOnLockScreen="true" />
 

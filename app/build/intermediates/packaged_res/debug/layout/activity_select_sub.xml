@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="@dimen/grid_10"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/nav"
@@ -23,8 +23,8 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_menu2"
             android:background="@drawable/background_round"
-            android:padding="@dimen/grid_5d"
-            android:layout_marginLeft="@dimen/grid_5d"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
             app:tint="@color/tp_white" />
     <TextView
         android:id="@+id/grade"
@@ -36,8 +36,8 @@
         android:fontFamily="@font/reemkufi_medium"
         android:textColor="@color/tp_black"
         android:gravity="center"
-        android:layout_marginVertical="@dimen/grid_5d"
-        android:padding="@dimen/grid_5d"
+        android:layout_marginVertical="5dp"
+        android:padding="5dp"
         android:textSize="@dimen/grid_3"/>
     </LinearLayout>
     <LinearLayout
@@ -51,7 +51,7 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner2"
         android:layout_width="match_parent"
-        android:padding="@dimen/grid_10"
+        android:padding="10dp"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:layout_height="wrap_content" />
@@ -62,7 +62,7 @@
         android:layout_marginHorizontal="@dimen/grid_2"
         app:cardElevation="0dp"
         android:layout_marginVertical="@dimen/grid_3"
-        app:cardCornerRadius="@dimen/grid_10">
+        app:cardCornerRadius="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -76,8 +76,9 @@
                 android:text="@string/math"
                 android:fontFamily="@font/reemkufi_medium"
                 android:textColor="@color/tp_white"
-                android:layout_marginVertical="@dimen/grid_5d"
-                android:padding="@dimen/grid_5d"
+
+                android:layout_marginVertical="5dp"
+                android:padding="5dp"
                 android:textSize="@dimen/grid_3"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -86,8 +87,8 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:textColor="@color/tp_white"
                 android:layout_marginVertical="@dimen/grid_0_5"
-                android:layout_marginHorizontal="@dimen/grid_10"
-                android:padding="@dimen/grid_5d"
+                android:layout_marginHorizontal="10dp"
+                android:padding="5dp"
                 android:textSize="@dimen/grid_3"/>
             <TextView
                 android:id="@+id/subsub"
@@ -96,8 +97,8 @@
                 android:text="@string/add"
                 android:fontFamily="@font/reemkufi_medium"
                 android:textColor="@color/tp_white"
-                android:layout_marginVertical="@dimen/grid_5d"
-                android:paddingVertical="@dimen/grid_5d"
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="5dp"
                 android:textSize="@dimen/grid_3"/>
 
         </LinearLayout>

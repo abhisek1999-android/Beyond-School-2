@@ -1,17 +1,11 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,17 +18,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.maths.beyond_school_280720220930.adapters.LogAdapter;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
+import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
+import com.maths.beyond_school_280720220930.extras.ReadText;
+import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.SpinnerModel;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
+import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
+import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
+import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
+import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +55,21 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
     int count = 17, name = R.string.math, subject = R.string.math, subsub = R.string.add;
-    String grade;
+    String grade="";
     List<Subject_Model> list;
     Subject_Model subject_model;
     GradeDatabase database;
     List<Grades_data> notes;
     Subject_Adapter adapter;
     ActionBarDrawerToggle toggle;
-    FirebaseUser user;
-    FirebaseAuth auth;
+    private TextToSpeckConverter tts;
+    private SpeechToTextConverter stt;
+    private int REQUEST_RECORD_AUDIO = 1;
+
+   private FirebaseAuth mAuth;
+   private FirebaseUser mCurrentUser;
+   private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +77,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding = ActivitySelectSubBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
-
+        checkAudioPermission();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
 
         drinkModels = new ArrayList<>();
+
 
         drinkModels.add(new SpinnerModel(true, R.string.math));
         drinkModels.add(new SpinnerModel(false, R.string.add));
@@ -73,8 +93,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
 
-        grade = getIntent().getStringExtra("grade");
-        binding.grade.setText(grade);
+       grade = PrefConfig.readIdInPref(getApplicationContext(),"KIDS_GRADE");
+
+
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -132,6 +153,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+
+
 
 
         ArrayAdapter<SpinnerModel> spinnerAdapter = new ArrayAdapter<SpinnerModel>(this, android.R.layout.simple_spinner_dropdown_item, drinkModels) {
@@ -206,11 +229,46 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.spinner2.setGravity(Gravity.CENTER);
         binding.spinner2.setSelection(1);
 
+
         recyler();
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+
+    private void checkAudioPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
+            }
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        if (requestCode == REQUEST_RECORD_AUDIO) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+                finish();
+            } else {
+                checkAudioPermission();
+            }
+        }
 
     }
 
     private void recyler() {
+
+
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus();
         list = new ArrayList<>();
@@ -224,7 +282,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                         String[] res = val.split(" ");
                         for (String str : res) {
                             if (str.equals(getResources().getString(subsub))) {
-                                    list.add(new Subject_Model(data.getChapter(),data.getUrl()));
+                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                             }
                         }
                     } else {
@@ -233,14 +291,14 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
             }
             //for English practice
-            else if(data.getSubject() == R.string.english) {
+            else if (data.getSubject() == R.string.english) {
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
                         for (String str : res) {
                             if (str.equals(getResources().getString(subsub))) {
-                                list.add(new Subject_Model(data.getChapter(),data.getUrl()));
+                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                             }
                         }
                     } else {
@@ -253,6 +311,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         adapter = new Subject_Adapter(list, Select_Sub_Activity.this);
         binding.recylerview.setAdapter(adapter);
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

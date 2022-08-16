@@ -251,9 +251,6 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
 
     private void retrieveKidsData() {
 
-
-
-
         kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots.isEmpty()) {
@@ -276,12 +273,6 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
                         }
                     }
                 });
-
-
-
-
-
-
     }
 
 
