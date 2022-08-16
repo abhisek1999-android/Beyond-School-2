@@ -48,7 +48,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //needs to be intent
+                //needs to be intent values
                 if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                     /*Intent intent = new Intent(context, EnglishActivity.class);
                     context.startActivity(intent);*/
