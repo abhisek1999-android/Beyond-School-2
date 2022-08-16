@@ -46,6 +46,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.BEYOND_SCHOOL" >
         <activity
             android:name="com.maths.beyond_school_280720220930.Select_Sub_Activity"

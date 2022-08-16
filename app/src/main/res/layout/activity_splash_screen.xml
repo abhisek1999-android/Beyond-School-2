@@ -22,12 +22,12 @@
         android:textStyle="bold" />
 
     <TextView
-        android:layout_below="@id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/headerText"
         android:layout_centerInParent="true"
         android:fontFamily="@font/reemkufi_medium"
-        android:text="@string/slogan"
+        android:text="@string/slogan2"
         android:textSize="18dp"
         android:textStyle="bold" />
 
