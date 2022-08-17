@@ -52,7 +52,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/reemkufi_medium"
         android:text="Hi, there"
-        android:textSize="35sp" />
+        android:textSize="20sp" />
 
     <!--<TextView
         android:layout_width="wrap_content"

@@ -40,6 +40,7 @@
                 android:background="@drawable/background_round"
                 android:padding="10dp"
                 android:src="@drawable/ic_baseline_space_dashboard_24"
+                android:backgroundTint="@color/teal_700"
                 app:tint="@color/white" />
 
             <TextView
@@ -49,7 +50,7 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingLeft="28dp"
                 android:text="Dashboard"
-                android:textSize="24sp" />
+                android:textSize="@dimen/default_font_size_big" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,6 +67,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/background_round"
+                android:backgroundTint="@color/teal_700"
                 android:padding="10dp"
                 android:src="@drawable/ic_bell"
                 app:tint="@color/white" />
@@ -77,7 +79,7 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingLeft="28dp"
                 android:text="Set Reminder"
-                android:textSize="24sp" />
+                android:textSize="@dimen/default_font_size_big" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,6 +98,7 @@
                 android:background="@drawable/background_round"
                 android:padding="7dp"
                 android:src="@drawable/ic_settings"
+                android:backgroundTint="@color/teal_700"
                 app:tint="@color/white" />
 
             <TextView
@@ -105,7 +108,7 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingLeft="28dp"
                 android:text="Settings"
-                android:textSize="24sp" />
+                android:textSize="@dimen/default_font_size_big" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,8 +120,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="10dp"
-
-
+            android:visibility="invisible"
             >
 
             <ImageView
@@ -136,7 +138,7 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingLeft="28dp"
                 android:text="Change Table"
-                android:textSize="24sp" />
+                android:textSize="@dimen/default_font_size_big" />
         </LinearLayout>
 
         <LinearLayout

@@ -13,6 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.AdditionActivity;
+import com.maths.beyond_school_280720220930.LearningActivity;
+import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.english_activity.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
@@ -54,18 +56,25 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     context.startActivity(intent);*/
                     Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(context, AdditionActivity.class);
+
 
                     if (!res[0].equals("Multiplication")){
+                        Intent intent = new Intent(context, LearningActivity.class);
                         intent.putExtra("subject", res[res.length - 1].toLowerCase());
                         intent.putExtra("max_digit", res[0]);
+                        intent.putExtra("video_url",subject_model.getUrl());
+                        context.startActivity(intent);
                     }
                     else{
+                        Intent intent=new Intent(context, MainActivity.class);
                         intent.putExtra("subject", res[0].toLowerCase());
                         intent.putExtra("max_digit", res[3]);
+                        intent.putExtra("video_url",subject_model.getUrl());
+                        context.startActivity(intent);
+
                     }
 
-                    context.startActivity(intent);
+
                 }
 
 //                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();

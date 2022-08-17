@@ -905,7 +905,6 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                             Log.i("KidsData",kidsData.getName()+"");
                         }
                     }
-
                 });
     }
 

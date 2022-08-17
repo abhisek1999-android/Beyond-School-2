@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -34,6 +35,7 @@ public class AdditionActivity extends AppCompatActivity {
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
     private Toolbar toolbar;
+    private String videoUrl="";
 
     private String subject="";
     private String digit="";
@@ -42,14 +44,16 @@ public class AdditionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityAdditionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
         setToolbar();
 
 
         subject=getIntent().getStringExtra("subject");
         digit=getIntent().getStringExtra("max_digit");
+        videoUrl=getIntent().getStringExtra("video_url");
         
         initTTS();
         initSTT();
@@ -60,9 +64,9 @@ public class AdditionActivity extends AppCompatActivity {
 
     private void setBasicUiElement() {
 
-        binding.toolBar.titleText.setText("Practice "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        binding.subject.setText("Mathematics");
-        binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.toolBar.titleText.setText( digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+//        binding.subject.setText("Mathematics");
+//        binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
 
@@ -71,7 +75,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         else if (subject.equals("multiplication"))
         { binding.operator.setText("×");
-        binding.subSub.setText("Multiplication upto "+digit +"'s Table");}
+            binding.toolBar.titleText.setText("Multiplication upto "+digit +"'s Table");}
 
         else if (subject.equals("division"))
             binding.operator.setText("÷");
@@ -81,12 +85,50 @@ public class AdditionActivity extends AppCompatActivity {
         });
 
         binding.learnOrTest.setOnClickListener(v->{
-            Intent intent =new Intent(getApplicationContext(), LearningActivity.class);
-            intent.putExtra("subject",subject);
-            intent.putExtra("max_digit", digit);
-            startActivity(intent);
+
+            if (subject.equals("multiplication")){
+
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+            else{
+                Intent intent =new Intent(getApplicationContext(), LearningActivity.class);
+                intent.putExtra("subject",subject);
+                intent.putExtra("max_digit", digit);
+                intent.putExtra("video_url",videoUrl);
+                startActivity(intent);
+            }
+
+
         });
 
+        if (digit.equals("1")){
+
+            binding.digitOne.setText("0");
+            binding.digitTwo.setText("0");
+        }else{
+            binding.digitTwo.setText("00");
+            binding.digitOne.setText("00");
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("digit",digit);
+        outState.putString("video_url",videoUrl);
+        outState.putString("subject",subject);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+        digit=savedInstanceState.getString("digit");
+        videoUrl=savedInstanceState.getString("videoUrl");
+        subject=savedInstanceState.getString("subject");
     }
 
     /**

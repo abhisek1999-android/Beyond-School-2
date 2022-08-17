@@ -1,182 +1,186 @@
 [
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_main.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\text_sample_bg.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\text_sample_bg.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\branch_item_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\branch_item_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_privacy_policy.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_privacy_policy.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\drawer_header.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\drawer_header.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_action.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_action.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_addition.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_addition.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_learning.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_learning.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_first.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\row.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\tool_bar_layout_back_button.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout_back_button.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_grade.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_grade.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_table_with_hint.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_with_hint.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_table_with_hint.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_with_hint.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_subject.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_subject.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_login_signup.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_login_signup.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\progress_card_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\progress_card_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_topics.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_topics.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_score.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_score.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_dash_board.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_dash_board.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\sub_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\sub_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_test.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_test.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_vocabulary.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_vocabulary.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_score.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_score.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_topics.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_topics.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\table_lay.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\table_lay.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\youtube_dialog.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\youtube_dialog.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\branch_item_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\branch_item_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_test.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_test.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_table_questions.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_questions.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_alarm_at_time.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_alarm_at_time.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_second.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_second.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\log_dialog.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\log_dialog.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_log.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_log.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_log.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_log.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_subject.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_subject.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\toolbar_dashboard.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\toolbar_dashboard.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row2.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\row2.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_second.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_second.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_alarm_at_time.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_alarm_at_time.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\text_sample_bg.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\text_sample_bg.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\youtube_dialog.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\youtube_dialog.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_privacy_policy.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_privacy_policy.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_vocabulary.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_vocabulary.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\tool_bar_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\navigation_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\navigation_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_sub.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_sub.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\list_item.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\list_item.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_settings.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_settings.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\toolbar_dashboard.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\toolbar_dashboard.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_profile.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_profile.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_kids_info.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_kids_info.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\list_item.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\list_item.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_profile.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_profile.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_action.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_action.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\select_card_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\select_card_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_learning.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_learning.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_addition.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_addition.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\row.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_first.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\fragment_first.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_english.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_english.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\drawer_header.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\drawer_header.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\row2.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\row2.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\log_bottom_sheet.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\log_bottom_sheet.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_grade.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_grade.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\progress_card_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\progress_card_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_dash_board.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_dash_board.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\result_display.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\result_display.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\navigation_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\navigation_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_main.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\log_bottom_sheet.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\log_bottom_sheet.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\sub_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\sub_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_splash_screen.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\tool_bar_layout.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\result_display.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\result_display.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\hint_dialog.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\hint_dialog.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\select_card_layout.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\select_card_layout.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_select_sub.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_select_sub.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_kids_info.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\content_kids_info.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\video_dialog.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\video_dialog.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\nav_drawer2.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\nav_drawer2.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\tool_bar_layout_back_button.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\tool_bar_layout_back_button.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_login_signup.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_login_signup.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\nav_drawer2.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\nav_drawer2.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_table_questions.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_table_questions.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_english.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_english.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_kids_info.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_kids_info.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_settings.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_settings.xml"
     },
     {
-        "merged": "D:\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\table_lay.xml",
-        "source": "D:\\beyongschool_android\\app\\src\\main\\res\\layout\\table_lay.xml"
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_splash_screen.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_splash_screen.xml"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\content_kids_info.xml",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\content_kids_info.xml"
     }
 ]

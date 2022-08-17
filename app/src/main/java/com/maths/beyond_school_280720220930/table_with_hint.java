@@ -85,7 +85,7 @@ public class table_with_hint extends AppCompatActivity implements ReadText.GetRe
 
         Intent intent=getIntent();
         count=intent.getIntExtra("count",1);
-        TableValue=intent.getIntExtra("ValueOfTable",0);
+        TableValue=intent.getIntExtra("digit",0);
         status=intent.getStringExtra("status");
 
         sharedPreferences=getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

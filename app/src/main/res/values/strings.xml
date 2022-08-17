@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BEYOND SCHOOL</string>
+    <string name="youtube_api">AIzaSyAZQ4zHDUaCXhGrwd12E2qO0P1EP_NdmCU</string>
     <string-array name="numbers">
         <item>2000</item>
         <item>2300</item>
@@ -51,7 +52,6 @@
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
     <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
-    <string name="slogan2">Maths and English Personalized Learning App</string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -66,6 +66,32 @@
     <string name="study_remainder">Set your study reminder</string>
     <string name="remainder_on_off">Reminder: ON/OFF</string>
     <string name="addition_text_view">%s + %s = ?</string>
+
+
+    <string-array name="table_name">
+
+        <item>Table of Two</item>
+        <item>Table of Three</item>
+        <item>Table of Tour</item>
+        <item>Table of Five"</item>
+        <item>Table of Six</item>
+       <item>Table of Seven</item>
+        <item>Table of Eight</item>
+        <item>Table of Nine</item>
+        <item>Table of Ten</item>
+        <item>Table of Eleven</item>
+        <item>Table of Twelve</item>
+        <item>Table of Thirteen</item>
+        <item>Table of Fourteen</item>
+        <item>Table of Fifteen</item>
+        <item>Table of Sixteen</item>
+        <item>Table of Seventeen</item>
+        <item>Table of Eighteen</item>
+        <item>Table of Nineteen</item>
+        <item>Table of Twenty</item>
+
+
+    </string-array>
 
     <string-array name="grades">
         <item>GRADE 1</item>
@@ -89,92 +115,41 @@
     <string name="grade3">GRADE 3</string>
 
     <string name="math">Mathematics</string>
-    <string name="add1">1 -Digit Addition</string>
-    <string name="sub1">1 -Digit Subtraction</string>
+    <string name="add1">1 digit Addition</string>
+    <string name="sub1">1 digit Subtraction</string>
     <string name="mul1">Multiplication up to 10 \'s table </string>
-    <string name="div1">1 -Digit Division</string>
+    <string name="div1">1 digit Division</string>
 
-    <string name="add2">2 -Digit Addition</string>
-    <string name="sub2">2 -Digit Subtraction</string>
+    <string name="add2">2 digit Addition</string>
+    <string name="sub2">2 digit Subtraction</string>
     <string name="mul2">Multiplication up to 12 \'s table</string>
-    <string name="div2">2 -Digit Division</string>
+    <string name="div2">2 digit Division</string>
 
     <string name="add">Addition</string>
     <string name="sub">Subtraction</string>
     <string name="mul">Multiplication</string>
     <string name="div">Division</string>
 
-    <string name="add3">3 -Digit Addition</string>
-    <string name="sub3">3 -Digit Subtraction</string>
+    <string name="add3">3 digit Addition</string>
+    <string name="sub3">3 digit Subtraction</string>
     <string name="mul3">Multiplication up to 15 \'s table</string>
-    <string name="div3">4 -Digit Division</string>
+    <string name="div3">4 digit Division</string>
 
-    <string name="add4">4 -Digit Addition</string>
-    <string name="add5">5 -Digit Addition</string>
-    <string name="sub4">4 -Digit Subtraction</string>
-    <string name="sub5">5 -Digit Subtraction</string>
+    <string name="add4">4 digit Addition</string>
+    <string name="add5">5 digit Addition</string>
+    <string name="sub4">4 digit Subtraction</string>
+    <string name="sub5">5 digit Subtraction</string>
 
     <string name="english">English</string>
     <string name="vocabulary">Vocabulary</string>
 
-    <string name="vocab1">Vocabulary Bathroom</string>
-    <string name="vocab2">Vocabulary Bodyparts</string>
-    <string name="vocab3">Vocabulary Colors</string>
-    <string name="vocab4">Vocabulary Animals</string>
-    <string name="vocab5">Vocabulary Fruits</string>
-    <string name="vocab6">Vocabulary Vegetables</string>
-    <string name="vocab7">Vocabulary Opposites</string>
-
-    <string name="vocab8">Vocabulary Clothes</string>
-    <string name="vocab9">Vocabulary Feelings</string>
-    <string name="vocab10">Vocabulary Insects</string>
-    <string name="vocab11">Vocabulary Kitchen</string>
-    <string name="vocab12">Vocabulary LivingRoom</string>
-    <string name="vocab13">Vocabulary Days</string>
-
-
-    <string name="vocab14">Vocabulary School</string>
-    <string name="vocab15">Vocabulary Summer</string>
-    <string name="vocab16">Vocabulary Town</string>
-    <string name="vocab17">Vocabulary Transport</string>
-    <string name="vocab18">Vocabulary Wheather</string>
-    <string name="vocab19">Vocabulary Professions</string>
-
     <string name="digit">Digit</string>
     <string name="table">Table</string>
 
-    <string name="grade_1_data">A grade 1 student should know:
-            \nMATHS :\n 1. Addition up to 2-digit numbers.\n2. Subtraction up to 2-digit \n         numbers.\n3. Multiplication Tables till Table of \n         10.\nENGLISH :\n1. Vocabulary -> Bathroom, Body\n       parts, Colors, Animals, Fruits,\n       Vegetables and opposites.\n2. Spelling -> Most common words, 3-letter and 4-letter words.</string>
-    <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
-    <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
+    <string name="grade_1_data">A grade 1 student should know:\n 1.Addition upto 2-digits.\n 2.Subtraction upto 2-digits.\n 3.Multiplying of 1-digit\n  and tables up to 5. \n 4.Division of numbers upto   20</string>
+    <string name="grade_2_data">A grade 2 student should know:\n 1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\n  and tables up to 12.\n 4.Division of numbers upto   20</string>
+    <string name="grade_3_data">A grade 3 student should know:\n 1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\n  and tables up to 15.\n 4.Division of numbers upto   20</string>
     <string name="practice">Practice</string>
     <string name="category">Category %s </string>
-
-
-    <!--for grade 1-->
-    <string name="t11">Addition up to 2-digit numbers.</string>
-    <string name="t12">Subtraction up to 2-digit numbers.</string>
-    <string name="t13">Multiplication Tables till Table of 10.</string>
-    <string name="t16">Vocabulary -> Bathroom, Body parts, Colors, Animals, Fruits, Vegetables and opposites.</string>
-    <string name="t17">Spelling -> Most common words, 3-letter and 4-letter words.</string>
-
-    <!--for grade 2-->
-    <string name="t21">Addition up to 3-digit numbers..</string>
-    <string name="t22">Subtraction up to 3-digit numbers.</string>
-    <string name="t23">Multiplication of 2-digit with 1-digit number (carry over).</string>
-    <string name="t24">Multiplication tables till Table of 12.</string>
-    <string name="t25">Division -> 1-digit quotient.</string>
-    <string name="t26">Vocabulary -> Clothes, Feelings, Insects, Kitchen, Living room, days of the week, months of the year.</string>
-    <string name="t27">Spelling -> Essential words, Most common words, Short vowel sound words.</string>
-
-    <!--for grade 3-->
-    <string name="t31">Addition up to 2-digit numbers.</string>
-    <string name="t32">Subtraction up to 4-digit and 5-digit numbers.</string>
-    <string name="t33">Multiplication of 2-digit with 1-digit, 3-digit with 1-digit and 2-digit with 2-digit.</string>
-    <string name="t34">Multiplication Tables till Table of 15.</string>
-    <string name="t35">Division of 2-digit by 1-digit and 4-digit by 1-digit.</string>
-    <string name="t36">Vocabulary-> School, Summer, Town, Transport, Weather, Professions.</string>
-    <string name="t37">Spelling -> Essential words, Most common words, Compound words, Long and Short vowels, Words with double letter after short vowels, Words with double vowels.</string>
-
 </resources>
 
