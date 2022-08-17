@@ -56,6 +56,10 @@ public final class UtilityFunctions {
 
     }
 
+    public static Boolean checkString(String s1, String s2) {
+        return Soundex.getCode(s1).equals(Soundex.getCode(s2));
+    }
+
 
     //    Extension Function to get random number by passing digits number
     public static int getRandomNumber(int digits) {
@@ -77,7 +81,7 @@ public final class UtilityFunctions {
         return ((int) (Math.random() * (maximum - 2))) + 2;
     }
 
-    public static Boolean isDivisible(int num1,int num2){
+    public static Boolean isDivisible(int num1, int num2) {
 
         if ((num1 % num2) == 0)
             return true;

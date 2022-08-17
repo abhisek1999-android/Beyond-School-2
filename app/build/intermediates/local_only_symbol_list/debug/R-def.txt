@@ -158,7 +158,6 @@ id age
 id animationVoice
 id ansTextView
 id barChart
-id bottom_layout
 id bunny
 id button
 id button2
@@ -168,12 +167,12 @@ id button7
 id button_addition
 id button_first
 id button_second
+id button_take_test
 id c_img
 id card
 id card2
 id cardView2
 id cardView3
-id card_view_practice
 id certify
 id change_table
 id closeButton
@@ -224,6 +223,7 @@ id imageViewBack
 id image_4
 id image_view_object
 id image_view_profile_view
+id image_view_teacher
 id img
 id kidsAge
 id kidsAgeTextView
@@ -397,6 +397,7 @@ string category
 string child_name
 string close
 string com.google.firebase.crashlytics.mapping_file_id
+string current_by_all
 string default_web_client_id
 string digit
 string div

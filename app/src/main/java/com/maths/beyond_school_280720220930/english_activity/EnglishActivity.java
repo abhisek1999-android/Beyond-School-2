@@ -37,20 +37,15 @@ public class EnglishActivity extends AppCompatActivity {
 
     private EnglishDao dao;
     private TextToSpeckConverter tts = null;
+    private TextToSpeckConverter ttsHelper = null;
     private SpeechToTextConverterEnglish stt = null;
     private List<VocabularyDetails> vocabularyList;
+    private List<Fragment> fragmentList;
     private Boolean isSpeaking = false;
     private Boolean isSayWordFinish = true;
     private int currentTryCount = 0;
-    private VisibleListener listener;
+    private final int REQUEST_FOR_DES = 345 * 34;
 
-    public interface VisibleListener {
-        void setVisible(Boolean isVisible);
-    }
-
-    public void setVisibleListener(VisibleListener listener) {
-        this.listener = listener;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -74,9 +69,8 @@ public class EnglishActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setViewPager() {
         var data = dao.getEnglishModel(1).getVocabulary().get(0);
-        binding.textViewCategory.setText(getResources().getString(R.string.category, data.getCategory()));
-        var fragments = getFragments(data);
-
+        binding.textViewCategory.setText(getResources().getString(R.string.category, data.getCategory().toUpperCase(Locale.ROOT)));
+        List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
                 fragments,
                 getSupportFragmentManager(),
@@ -84,26 +78,26 @@ public class EnglishActivity extends AppCompatActivity {
         );
 
         binding.viewPager.setAdapter(pagerAdapter);
-        binding.viewPager.setUserInputEnabled(false);
+
     }
 
     private void buttonClick() {
         binding.playPause.setOnClickListener(view -> {
             isSpeaking = binding.playPause.isChecked();
             if (binding.playPause.isChecked()) {
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
                 try {
                     initTTS();
                     intSTT();
+
+                    startSpeaking();
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
-                startSpeaking();
             } else {
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
                 isSayWordFinish = true;
                 tts.destroy();
                 stt.destroy();
+                ttsHelper.destroy();
             }
         });
     }
@@ -113,7 +107,8 @@ public class EnglishActivity extends AppCompatActivity {
     @NonNull
     private List<Fragment> getFragments(VocabularyModel data) {
         vocabularyList = data.getVocabularyDetails();
-        return vocabularyList.stream().map(VocabularyFragment::new).collect(Collectors.toList());
+        fragmentList = vocabularyList.stream().map(VocabularyFragment::new).collect(Collectors.toList());
+        return fragmentList;
     }
 
     private void initTTS() throws ExecutionException, InterruptedException {
@@ -124,7 +119,9 @@ public class EnglishActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     if (isSayWordFinish) {
                         isSayWordFinish = false;
+                        tts.setTextViewAndSentence(null);
                         tts.initialize("Now Say the word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), EnglishActivity.this);
+
                     } else {
                         startListening();
                     }
@@ -138,10 +135,8 @@ public class EnglishActivity extends AppCompatActivity {
         }).get();
     }
 
-    private void startSpeaking() {
-        tts.initialize(vocabularyList.get(binding.viewPager.getCurrentItem()).getWord()
-                + ". "
-                + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), this);
+    private void startSpeaking() throws ExecutionException, InterruptedException {
+        helperTTS(vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), false, REQUEST_FOR_DES);
 
 //        Stop when reach ot last item
         if (binding.viewPager.getCurrentItem() == (vocabularyList.size() - 1))
@@ -159,7 +154,7 @@ public class EnglishActivity extends AppCompatActivity {
 //                    Check the maximum try count
                     if (currentTryCount >= MAX_TRY) {
                         try {
-                            helperTTS("No Problem. Let's go to next word ", true);
+                            helperTTS("No Problem. Let's go to next word ", true, 0);
                             currentTryCount = 0;
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
@@ -168,10 +163,12 @@ public class EnglishActivity extends AppCompatActivity {
                     }
 
 //                    Check  the result
-                    if (result.toLowerCase(Locale.ROOT).equals(vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
-                        helperTTS("Correct", true);
+                    if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
+                        helperTTS("Correct", true, 0);
+
                     } else {
-                        helperTTS("Wrong", false);
+                        helperTTS("Wrong", false, 0);
+
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -180,7 +177,8 @@ public class EnglishActivity extends AppCompatActivity {
 
             @Override
             public void onCompletion() {
-                listener.setVisible(false);
+                var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
+                current.getAnimationView().setVisibility(View.GONE);
             }
 
             @Override
@@ -196,26 +194,36 @@ public class EnglishActivity extends AppCompatActivity {
     //    Helper method to start listening
     private void startListening() {
         UtilityFunctions.runOnUiThread(() -> {
-            listener.setVisible(true);
+            var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
+            current.getAnimationView().setVisibility(View.VISIBLE);
             stt.initialize("Start Listening", this);
         });
 
     }
 
 
-    private void helperTTS(String message, boolean canNavigate) throws ExecutionException, InterruptedException {
-        new TTSHelperAsyncTask().execute(new ConversionCallback() {
+    private void helperTTS(String message, boolean canNavigate, int request) throws
+            ExecutionException, InterruptedException {
+        ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
             @Override
             public void onCompletion() {
+                if (request == REQUEST_FOR_DES && !canNavigate) {
+                    tts.setTextViewAndSentence(vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition());
+                    tts.initialize(vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), EnglishActivity.this);
+                    return;
+                }
                 if (canNavigate) {
                     UtilityFunctions.runOnUiThread(() -> {
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                         isSayWordFinish = true;
-                        if (isSpeaking)
-                            startSpeaking();
-                        else {
+                        if (isSpeaking) {
+                            try {
+                                startSpeaking();
+                            } catch (ExecutionException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
                             binding.playPause.setChecked(false);
-                            binding.tapInfoTextView.setVisibility(View.VISIBLE);
                         }
                     });
                 } else {

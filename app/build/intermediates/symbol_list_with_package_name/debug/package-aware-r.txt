@@ -2956,7 +2956,6 @@ id beginning
 id bestChoice
 id blocking
 id bottom
-id bottom_layout
 id bounce
 id bounceBoth
 id bounceEnd
@@ -2983,6 +2982,7 @@ id button_next
 id button_resend_email
 id button_second
 id button_sign_in
+id button_take_test
 id c_img
 id cache_measures
 id callMeasure
@@ -2992,7 +2992,6 @@ id card
 id card2
 id cardView2
 id cardView3
-id card_view_practice
 id carryVelocity
 id center
 id centerCrop
@@ -3187,6 +3186,7 @@ id imageViewBack
 id image_4
 id image_view_object
 id image_view_profile_view
+id image_view_teacher
 id img
 id immediateStop
 id included
@@ -3946,6 +3946,7 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
+string current_by_all
 string default_web_client_id
 string digit
 string div

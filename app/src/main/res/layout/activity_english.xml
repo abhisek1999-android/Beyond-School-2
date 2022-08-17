@@ -15,89 +15,72 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/text_view_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolBar"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/reemkufi_medium"
-        android:textSize="18sp"
-        tools:text="Category : Personal" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_layout"
-        android:layout_below="@id/text_view_category" />
+        android:layout_below="@id/toolBar"
+        android:fillViewport="true"
+        android:padding="@dimen/grid_1">
 
-    <LinearLayout
-        android:id="@+id/bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/card_view_practice"
-        android:layout_marginBottom="@dimen/grid_1"
-        android:orientation="vertical">
-
-        <ToggleButton
-            android:id="@+id/playPause"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/round_rect_button_bg"
-            android:backgroundTint="@color/primary"
-            android:drawableTop="@drawable/play_button"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="15dp"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
-
-        <TextView
-            android:id="@+id/tapInfoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/reemkufi_medium"
-            android:text="Tap this button to Start"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_practice"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="30dp"
-        android:padding="8dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/primary"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/next"
+                android:id="@+id/text_view_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/reemkufi_medium"
-                android:gravity="center"
-                android:text="@string/practice"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="18sp"
+                tools:text="Category : Personal" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:layout_below="@id/text_view_category" />
+
+            <ToggleButton
+                android:id="@+id/playPause"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/view_pager"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_rect_button_bg"
+                android:backgroundTint="@color/primary"
+                android:drawableTop="@drawable/play_button"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="5dp"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                tools:ignore="UnusedAttribute" />
+
+
+            <ImageView
+                android:id="@+id/image_view_teacher"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_above="@id/button_take_test"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/grid_1"
+                android:src="@drawable/character_teacher" />
+
+            <Button
+                android:id="@+id/button_take_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:background="@drawable/background_border"
+                android:fontFamily="@font/reemkufi_medium"
+                android:padding="@dimen/grid_1"
+                android:text="Take Test"
+                android:textAllCaps="false"
+                android:textSize="16dp"
+                app:backgroundTint="@color/primary" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>

@@ -3,8 +3,16 @@ package com.maths.beyond_school_280720220930.translation_engine.translator;
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
+import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
 
@@ -14,10 +22,16 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
 
     private ConversionCallback conversionCallaBack;
+    private String sentence = null;
 
 
     public TextToSpeckConverter(ConversionCallback callback) {
         this.conversionCallaBack = callback;
+    }
+
+    public void setTextViewAndSentence(String sentence) {
+        this.sentence = sentence;
+        Log.d("XXX", "setTextViewAndSentence: Called");
     }
 
     private static final String TAG = TextToSpeckConverter.class.getSimpleName();
@@ -29,7 +43,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
             if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(new Locale("en", "IN"));
                 textToSpeech.setPitch(0.8f);
-                textToSpeech.setSpeechRate(1f);
+                textToSpeech.setSpeechRate(0.8f);
 
 
                 textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -40,14 +54,23 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
                     @Override
                     public void onDone(String s) {
-                     //   assert conversionCallaBack != null;
-
                         conversionCallaBack.onCompletion();
                     }
 
                     @Override
                     public void onError(String s) {
 
+                    }
+
+                    @Override
+                    public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                        super.onRangeStart(utteranceId, start, end, frame);
+                        var textView = (TextView) appContext.findViewById(R.id.text_view_description);
+                        if (textView != null) {
+                            Spannable textWithHighlights = new SpannableString(sentence);
+                            textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(appContext, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                            textView.setText(textWithHighlights);
+                        }
                     }
                 });
 

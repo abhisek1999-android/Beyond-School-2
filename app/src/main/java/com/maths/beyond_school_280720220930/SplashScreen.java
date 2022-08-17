@@ -19,8 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.english_activity.EnglishActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -45,7 +45,6 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
 
 
         button = findViewById(R.id.mainButton);
@@ -106,7 +105,8 @@ public class SplashScreen extends AppCompatActivity {
                         Log.i("No_data", "No_data");
                         startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                     } else {
-                        startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+//                        startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+                        startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
                     }
                     finish();
 

@@ -33,6 +33,9 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
         words.put("com", "comb");
         words.put("komb", "comb");
         words.put("Kumbh", "comb");
+        words.put("baat", "bath");
+        words.put("singh", "sink");
+        words.put("singh", "sink");
 
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
