@@ -4,5 +4,5 @@
     android:shape="oval"
     tools:ignore="MissingDefaultResource">
 
-    <solid android:color="@color/teal_700"/>
+    <solid android:color="@color/grey"/>
 </shape>

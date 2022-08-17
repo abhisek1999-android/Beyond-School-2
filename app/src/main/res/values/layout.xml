@@ -5,6 +5,8 @@
 
     <dimen name="grid_5d">5dp</dimen>
     <dimen name="grid_10">10dp</dimen>
+    <dimen name="default_font_size">16sp</dimen>
+    <dimen name="default_font_size_big">18sp</dimen>
 
     <!--8dp grid-->
     <dimen name="grid_1">8dp</dimen>

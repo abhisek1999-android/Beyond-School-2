@@ -7,6 +7,7 @@ array grades
 array numbers
 array numbers2
 array preloaded_fonts
+array table_name
 attr? fullscreenBackgroundColor
 attr? fullscreenTextColor
 color accent
@@ -35,6 +36,8 @@ color tp_black
 color tp_white
 color transparent
 color white
+dimen default_font_size
+dimen default_font_size_big
 dimen fab_margin
 dimen grid_0_25
 dimen grid_0_5
@@ -107,6 +110,7 @@ drawable ic_home
 drawable ic_home1
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_learn_icon
 drawable ic_menu
 drawable ic_menu2
 drawable ic_minus
@@ -119,6 +123,7 @@ drawable ic_restart2
 drawable ic_resume_last
 drawable ic_right
 drawable ic_settings
+drawable ic_test_icon
 drawable ic_wrong
 drawable light_bulb
 drawable logo
@@ -157,6 +162,7 @@ id action_log
 id add
 id age
 id animationVoice
+id ansLayout
 id ansTextView
 id avatar
 id barChart
@@ -201,14 +207,15 @@ id drawerLayout2
 id employeeId
 id filterBy
 id getImages
+id giveTestButton
 id gotonext
 id grade
 id grade_val
-id greetingsTime
 id head
 id header
 id headerText
 id headingLayout
+id hintButton
 id home
 id image
 id image1
@@ -226,7 +233,6 @@ id imageView7
 id imageViewBack
 id image_4
 id image_view_object
-id image_view_profile_view
 id img
 id kidsAge
 id kidsAgeTextView
@@ -250,13 +256,13 @@ id logout
 id logoutLayout
 id mainButton
 id materialCardView
+id maxQuestionLayout
+id maxViewLayout
 id mul
 id name
-id nav
 id nav_graph
 id nav_host_fragment_content_kids_info
 id navigation_view
-id navigation_view2
 id next
 id nextButton
 id nextbtn
@@ -268,6 +274,7 @@ id openDialog
 id operation
 id operator
 id playPause
+id playVideoLayout
 id privacyPolicy
 id privacyPolicyView
 id profileImage
@@ -309,7 +316,6 @@ id tableText
 id tablesRecyclerView
 id tapInfoTextView
 id textInputLayoutGrade
-id textView
 id textView2
 id textView22
 id textView23
@@ -334,6 +340,8 @@ id totalRight
 id totalWrong
 id tvName
 id userName
+id videoView
+id viewYouTubePlayer
 id view_pager
 id wrong
 id wrongText
@@ -365,9 +373,9 @@ layout drawer_header
 layout fragment_first
 layout fragment_second
 layout fragment_vocabulary
+layout hint_dialog
 layout list_item
 layout log_bottom_sheet
-layout log_dialog
 layout nav_drawer2
 layout navigation_layout
 layout progress_card_layout
@@ -381,6 +389,7 @@ layout text_sample_bg
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+layout video_dialog
 layout youtube_dialog
 menu log_menu
 mipmap ic_launcher
@@ -459,6 +468,7 @@ string title_activity_welcome_screen
 string vocabulary
 string wrong
 string your_grade
+string youtube_api
 style Button4
 style Button5
 style LoginTheme

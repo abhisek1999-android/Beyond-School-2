@@ -114,7 +114,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:showOnLockScreen="true" />
+            android:showOnLockScreen="true"
+            />
         <activity
             android:name=".english_activity.EnglishActivity"
             android:exported="true"

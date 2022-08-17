@@ -9,8 +9,10 @@
 
 
     <LinearLayout
+        android:id="@+id/maxQuestionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
 
         <include
@@ -24,10 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
-
-
-
-
 
 
             <LinearLayout
@@ -52,8 +50,6 @@
 
 
             </LinearLayout>
-
-
 
 
             <TextView
@@ -92,52 +88,32 @@
             app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
-
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/headingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            app:cardElevation="0dp"
-            android:layout_marginVertical="@dimen/grid_3"
-            android:id="@+id/headingLayout"
-            app:cardCornerRadius="10dp">
+
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/primary"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/subject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/math"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:textColor="@color/tp_white"
 
-                    android:layout_marginVertical="5dp"
-                    android:padding="5dp"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=">"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:textColor="@color/tp_white"
-                    android:layout_marginVertical="@dimen/grid_0_5"
-                    android:layout_marginHorizontal="10dp"
-                    android:padding="5dp"
-                    android:textSize="20sp"/>
                 <TextView
                     android:id="@+id/subSub"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/add"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:textColor="@color/tp_white"
                     android:layout_marginVertical="5dp"
+                    android:fontFamily="@font/reemkufi_medium"
                     android:paddingVertical="5dp"
-                    android:textSize="20sp"/>
+                    android:text="TEST"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:textSize="25sp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -150,47 +126,32 @@
 
 
             <TextView
-                android:id="@+id/learnOrTest"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-10dp"
-                android:layout_marginTop="2dp"
-                android:layout_toEndOf="@id/progress"
-                android:background="@drawable/one_round_rect"
-                android:backgroundTint="@color/primary"
-                android:fontFamily="@font/reemkufi_medium"
-                android:padding="10dp"
-                android:text="Learn"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-
-                />
-
-            <TextView
                 android:id="@+id/progress"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="35dp"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/half_round_rect"
                 android:fontFamily="@font/reemkufi_medium"
-                android:padding="10dp"
+                android:paddingHorizontal="30sp"
+                android:paddingVertical="@dimen/grid_10"
                 android:text="1/10"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/ShowTable"
                 style="@style/card_background"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/progress"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="35dp"
                 android:layout_marginTop="-5dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="35dp"
                 app:cardElevation="0dp"
+                android:backgroundTint="@color/transparent"
                 app:layout_gravity="fill"
                 app:layout_rowWeight="1">
 
@@ -205,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="30dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -219,27 +180,33 @@
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/primary"
                             android:fontFamily="@font/reemkufi_medium"
+                            android:gravity="center"
                             android:minWidth="60dp"
                             android:paddingLeft="10dp"
-                            android:paddingTop="@dimen/grid_0_5"
                             android:paddingRight="10dp"
                             android:text="00"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/operator"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/background_round"
-                            android:backgroundTint="@color/blue"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="center"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:maxHeight="0dp"
+                            android:maxWidth="0dp"
                             android:text="+"
+                            android:elevation="0dp"
+                            android:shadowRadius="0"
+                            android:textSize="@dimen/default_font_size_big"
+                            android:textStyle="bold"
+                            android:background="@drawable/background_round"
+                            android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp" />
+                             />
 
                         <TextView
                             android:id="@+id/digit_two"
@@ -251,14 +218,14 @@
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/accent"
                             android:fontFamily="@font/reemkufi_medium"
+                            android:gravity="center"
                             android:minWidth="60dp"
                             android:paddingLeft="10dp"
-                            android:paddingTop="@dimen/grid_0_5"
                             android:paddingRight="10dp"
                             android:text="00"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
 
@@ -277,17 +244,18 @@
 
                     <LinearLayout
 
+                        android:id="@+id/ansLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/separator"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="30dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:layout_gravity="center"
@@ -295,39 +263,38 @@
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/primary"
                             android:fontFamily="@font/reemkufi_medium"
+                            android:gravity="center"
                             android:minWidth="60dp"
                             android:paddingLeft="10dp"
-                            android:paddingTop="@dimen/grid_0_5"
                             android:paddingRight="10dp"
                             android:text="00"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:visibility="invisible" />
 
-                        <TextView
-
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:background="@drawable/background_round"
-                            android:backgroundTint="@color/blue"
-                            android:gravity="center"
+                            android:elevation="0dp"
+                            android:maxWidth="0dp"
+                            android:maxHeight="0dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:shadowRadius="0"
                             android:text="+"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
-                            android:textStyle="bold"
                             android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/ansTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
-                            android:layout_below="@id/separator"
-                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
                             android:layout_marginLeft="30dp"
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/green"
@@ -337,8 +304,9 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="\?"
+                            android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
 
@@ -349,12 +317,13 @@
                         android:id="@+id/animationVoice"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
+                        android:layout_below="@id/separator"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="50dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
-                        android:visibility="gone"
+
+                        android:visibility="invisible"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/green_blinking_dott"
@@ -369,15 +338,15 @@
 
         <ToggleButton
             android:id="@+id/playPause"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@drawable/round_rect_button_bg"
             android:backgroundTint="@color/primary"
             android:drawableTop="@drawable/play_button"
             android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:text=""
             android:textOff=""
             android:textOn="" />
@@ -390,70 +359,61 @@
             android:layout_gravity="center"
             android:fontFamily="@font/reemkufi_medium"
             android:text="Tap this button to Start"
-            android:textSize="20sp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/animationVoice"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-        </LinearLayout>
+            android:textSize="@dimen/default_font_size" />
 
 
     </LinearLayout>
 
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/half_round_rect"
         android:fontFamily="@font/reemkufi_medium"
-        android:padding="10dp"
+        android:paddingHorizontal="20dp"
         android:text="Score"
         android:textAlignment="center"
         android:layout_above="@id/score"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:visibility="gone"
+        android:textSize="16sp" />
 
 
     <ImageView
-        android:layout_width="140dp"
-        android:layout_height="150dp"
-       android:layout_marginBottom="-10dp"
+        android:layout_width="110dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/character_teacher"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-
+        android:id="@+id/avatar"
+        android:layout_above="@id/learnOrTest"
 
         />
     <LinearLayout
         android:id="@+id/score"
-        android:layout_width="180dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/one_third_round_rect"
-        android:backgroundTint="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maxQuestionLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/grid_10"
+        android:background="@drawable/round_rect_button_bg"
+        android:backgroundTint="@color/green"
         android:orientation="horizontal">
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-
+            android:paddingVertical="@dimen/grid_10"
+            android:paddingHorizontal="@dimen/grid_10"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="@color/red"
 
             >
 
@@ -472,7 +432,7 @@
                     android:gravity="center"
                     android:text="00"
                     android:textColor="@color/white"
-                    android:textSize="30sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -480,19 +440,24 @@
 
         <LinearLayout
             android:id="@+id/layout_set"
-            android:layout_width="match_parent"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+
+
+            >
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/round_rect_button_bg"
                 android:backgroundTint="@color/green"
+                android:paddingVertical="@dimen/grid_10"
+                android:paddingHorizontal="@dimen/grid_10"
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
@@ -510,7 +475,7 @@
                         android:gravity="center"
                         android:text="00"
                         android:textColor="@color/white"
-                        android:textSize="30sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
 
@@ -520,6 +485,28 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/learnOrTest"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="2dp"
+       android:layout_alignParentBottom="true"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/accent"
+        android:fontFamily="@font/reemkufi_medium"
+        android:paddingHorizontal="20sp"
+        android:paddingVertical="@dimen/grid_10"
+        android:text="Practice"
+        android:drawableLeft="@drawable/ic_learn_icon"
+        android:drawableTint="@color/white"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/default_font_size_big"
+        />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -539,7 +526,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="1dp">
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="6dp">
 
         <include layout="@layout/log_bottom_sheet" />
 

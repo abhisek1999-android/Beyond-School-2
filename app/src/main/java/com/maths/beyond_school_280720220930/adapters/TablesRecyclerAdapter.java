@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.Tables;
 import com.maths.beyond_school_280720220930.select_action;
@@ -66,12 +68,12 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
         holder.tableNumber.setText(list.get(position).getDigit()+"X");
 
             holder.mView.setOnClickListener(v->{
-                Intent intent=new Intent(context, select_action.class);
-                intent.putExtra("value",Integer.parseInt(list.get(position).getDigit()));
+                Intent intent=new Intent(context, LearningActivity.class);
+                intent.putExtra("max_digit",list.get(position).getDigit());
+                intent.putExtra("subject","multiplication");
+                intent.putExtra("video_url","default");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-                ((Activity)context).finish();
-
             });
 
 

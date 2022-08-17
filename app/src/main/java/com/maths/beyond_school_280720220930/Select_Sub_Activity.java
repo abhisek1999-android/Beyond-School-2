@@ -96,14 +96,16 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
        grade = PrefConfig.readIdInPref(getApplicationContext(),"KIDS_GRADE");
 
 
+       binding.toolBar.userName.setText(grade);
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        binding.toolBar.imageViewBack.setImageResource(R.drawable.ic_menu2);
         binding.navigationView.setNavigationItemSelectedListener(this);
-        binding.nav.setOnClickListener(new View.OnClickListener() {
+        binding.toolBar.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //finish();
@@ -157,7 +159,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
 
-        ArrayAdapter<SpinnerModel> spinnerAdapter = new ArrayAdapter<SpinnerModel>(this, android.R.layout.simple_spinner_dropdown_item, drinkModels) {
+        ArrayAdapter<SpinnerModel> spinnerAdapter = new ArrayAdapter<SpinnerModel>(this, R.layout.row, drinkModels) {
 
             @Override
             public boolean isEnabled(int position) {

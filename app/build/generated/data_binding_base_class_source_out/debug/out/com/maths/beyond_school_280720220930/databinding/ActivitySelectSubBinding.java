@@ -4,7 +4,6 @@ package com.maths.beyond_school_280720220930.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,12 +26,6 @@ public final class ActivitySelectSubBinding implements ViewBinding {
   public final DrawerLayout drawerLayout;
 
   @NonNull
-  public final TextView grade;
-
-  @NonNull
-  public final ImageView nav;
-
-  @NonNull
   public final NavigationView navigationView;
 
   @NonNull
@@ -50,21 +43,23 @@ public final class ActivitySelectSubBinding implements ViewBinding {
   @NonNull
   public final NavDrawer2Binding tool;
 
+  @NonNull
+  public final ToolBarLayoutBinding toolBar;
+
   private ActivitySelectSubBinding(@NonNull DrawerLayout rootView,
-      @NonNull DrawerLayout drawerLayout, @NonNull TextView grade, @NonNull ImageView nav,
-      @NonNull NavigationView navigationView, @NonNull RecyclerView recylerview,
-      @NonNull AppCompatSpinner spinner2, @NonNull TextView subject, @NonNull TextView subsub,
-      @NonNull NavDrawer2Binding tool) {
+      @NonNull DrawerLayout drawerLayout, @NonNull NavigationView navigationView,
+      @NonNull RecyclerView recylerview, @NonNull AppCompatSpinner spinner2,
+      @NonNull TextView subject, @NonNull TextView subsub, @NonNull NavDrawer2Binding tool,
+      @NonNull ToolBarLayoutBinding toolBar) {
     this.rootView = rootView;
     this.drawerLayout = drawerLayout;
-    this.grade = grade;
-    this.nav = nav;
     this.navigationView = navigationView;
     this.recylerview = recylerview;
     this.spinner2 = spinner2;
     this.subject = subject;
     this.subsub = subsub;
     this.tool = tool;
+    this.toolBar = toolBar;
   }
 
   @Override
@@ -95,18 +90,6 @@ public final class ActivitySelectSubBinding implements ViewBinding {
     int id;
     missingId: {
       DrawerLayout drawerLayout = (DrawerLayout) rootView;
-
-      id = R.id.grade;
-      TextView grade = ViewBindings.findChildViewById(rootView, id);
-      if (grade == null) {
-        break missingId;
-      }
-
-      id = R.id.nav;
-      ImageView nav = ViewBindings.findChildViewById(rootView, id);
-      if (nav == null) {
-        break missingId;
-      }
 
       id = R.id.navigation_view;
       NavigationView navigationView = ViewBindings.findChildViewById(rootView, id);
@@ -145,8 +128,15 @@ public final class ActivitySelectSubBinding implements ViewBinding {
       }
       NavDrawer2Binding binding_tool = NavDrawer2Binding.bind(tool);
 
-      return new ActivitySelectSubBinding((DrawerLayout) rootView, drawerLayout, grade, nav,
-          navigationView, recylerview, spinner2, subject, subsub, binding_tool);
+      id = R.id.toolBar;
+      View toolBar = ViewBindings.findChildViewById(rootView, id);
+      if (toolBar == null) {
+        break missingId;
+      }
+      ToolBarLayoutBinding binding_toolBar = ToolBarLayoutBinding.bind(toolBar);
+
+      return new ActivitySelectSubBinding((DrawerLayout) rootView, drawerLayout, navigationView,
+          recylerview, spinner2, subject, subsub, binding_tool, binding_toolBar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

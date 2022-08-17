@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BEYOND SCHOOL</string>
+    <string name="youtube_api">AIzaSyAZQ4zHDUaCXhGrwd12E2qO0P1EP_NdmCU</string>
     <string-array name="numbers">
         <item>2000</item>
         <item>2300</item>
@@ -66,6 +67,32 @@
     <string name="remainder_on_off">Reminder: ON/OFF</string>
     <string name="addition_text_view">%s + %s = ?</string>
 
+
+    <string-array name="table_name">
+
+        <item>Table of Two</item>
+        <item>Table of Three</item>
+        <item>Table of Tour</item>
+        <item>Table of Five"</item>
+        <item>Table of Six</item>
+       <item>Table of Seven</item>
+        <item>Table of Eight</item>
+        <item>Table of Nine</item>
+        <item>Table of Ten</item>
+        <item>Table of Eleven</item>
+        <item>Table of Twelve</item>
+        <item>Table of Thirteen</item>
+        <item>Table of Fourteen</item>
+        <item>Table of Fifteen</item>
+        <item>Table of Sixteen</item>
+        <item>Table of Seventeen</item>
+        <item>Table of Eighteen</item>
+        <item>Table of Nineteen</item>
+        <item>Table of Twenty</item>
+
+
+    </string-array>
+
     <string-array name="grades">
         <item>GRADE 1</item>
         <item>GRADE 2</item>
@@ -119,9 +146,9 @@
     <string name="digit">Digit</string>
     <string name="table">Table</string>
 
-    <string name="grade_1_data">A grade 1 student should know:\n1.Addition upto 2-digits.\n 2.Subtraction upto 2-digits.\n 3.Multiplying of 1-digit \nand tables up to 5.\n 4.Division of numbers upto 20</string>
-    <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
-    <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
+    <string name="grade_1_data">A grade 1 student should know:\n 1.Addition upto 2-digits.\n 2.Subtraction upto 2-digits.\n 3.Multiplying of 1-digit\n  and tables up to 5. \n 4.Division of numbers upto   20</string>
+    <string name="grade_2_data">A grade 2 student should know:\n 1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\n  and tables up to 12.\n 4.Division of numbers upto   20</string>
+    <string name="grade_3_data">A grade 3 student should know:\n 1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\n  and tables up to 15.\n 4.Division of numbers upto   20</string>
     <string name="practice">Practice</string>
     <string name="category">Category %s </string>
 </resources>

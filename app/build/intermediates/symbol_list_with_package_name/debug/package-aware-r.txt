@@ -80,6 +80,7 @@ array grades
 array numbers
 array numbers2
 array preloaded_fonts
+array table_name
 attr SharedValue
 attr SharedValueId
 attr action
@@ -2031,6 +2032,8 @@ dimen compat_notification_large_icon_max_height
 dimen compat_notification_large_icon_max_width
 dimen def_drawer_elevation
 dimen default_dimension
+dimen default_font_size
+dimen default_font_size_big
 dimen default_gap
 dimen design_appbar_elevation
 dimen design_bottom_navigation_active_item_max_width
@@ -2751,6 +2754,7 @@ drawable ic_home1
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_learn_icon
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
@@ -2770,6 +2774,7 @@ drawable ic_restart2
 drawable ic_resume_last
 drawable ic_right
 drawable ic_settings
+drawable ic_test_icon
 drawable ic_wrong
 drawable light_bulb
 drawable logo
@@ -2937,6 +2942,7 @@ id animateToEnd
 id animateToStart
 id animationVoice
 id anonymous_button
+id ansLayout
 id ansTextView
 id antiClockwise
 id anticipate
@@ -3141,6 +3147,7 @@ id fullscreen_header
 id getImages
 id ghost_view
 id ghost_view_holder
+id giveTestButton
 id glide_custom_view_target_tag
 id gone
 id gotonext
@@ -3148,7 +3155,6 @@ id grade
 id grade_val
 id graph
 id graph_wrap
-id greetingsTime
 id group_divider
 id grouping
 id groups
@@ -3162,6 +3168,7 @@ id header_title
 id heading
 id headingLayout
 id hideable
+id hintButton
 id home
 id homeAsUp
 id honorRequest
@@ -3189,7 +3196,6 @@ id imageView7
 id imageViewBack
 id image_4
 id image_view_object
-id image_view_profile_view
 id img
 id immediateStop
 id included
@@ -3266,6 +3272,8 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id matrix
+id maxQuestionLayout
+id maxViewLayout
 id media_actions
 id message
 id microsoft_signin_button
@@ -3305,7 +3313,6 @@ id mul
 id multiply
 id name
 id name_layout
-id nav
 id nav_controller_view_tag
 id nav_graph
 id nav_host_fragment_container
@@ -3318,7 +3325,6 @@ id navigation_bar_item_large_label_view
 id navigation_bar_item_small_label_view
 id navigation_header_container
 id navigation_view
-id navigation_view2
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
@@ -3364,6 +3370,7 @@ id phone_layout
 id phone_number
 id pin
 id playPause
+id playVideoLayout
 id position
 id postLayout
 id privacyPolicy
@@ -3518,7 +3525,6 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
-id textView
 id textView2
 id textView22
 id textView23
@@ -3579,6 +3585,8 @@ id useLogo
 id userName
 id vertical
 id vertical_only
+id videoView
+id viewYouTubePlayer
 id view_offset_helper
 id view_pager
 id view_transition
@@ -3771,9 +3779,9 @@ layout fui_register_email_layout
 layout fui_welcome_back_email_link_prompt_layout
 layout fui_welcome_back_idp_prompt_layout
 layout fui_welcome_back_password_prompt_layout
+layout hint_dialog
 layout list_item
 layout log_bottom_sheet
-layout log_dialog
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3870,6 +3878,7 @@ layout text_view_without_line_height
 layout tool_bar_layout
 layout tool_bar_layout_back_button
 layout toolbar_dashboard
+layout video_dialog
 layout youtube_dialog
 menu example_menu
 menu example_menu2
@@ -4197,6 +4206,7 @@ string title_activity_welcome_screen
 string vocabulary
 string wrong
 string your_grade
+string youtube_api
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style AndroidThemeColorAccentYellow

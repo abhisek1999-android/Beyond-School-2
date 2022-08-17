@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -11,9 +12,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.maths.beyond_school_280720220930.databinding.ActivityLearningBinding;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.dialogs.VideoDialog;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -22,7 +31,7 @@ import com.maths.beyond_school_280720220930.translation_engine.translator.Speech
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
-public class LearningActivity extends AppCompatActivity {
+public class LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final String TAG = LearningActivity.class.getSimpleName();
     private ActivityLearningBinding binding;
@@ -41,8 +50,12 @@ public class LearningActivity extends AppCompatActivity {
 
     private String subject="";
     private String digit="";
-    
+    private String videoUrl="";
+    private String api_key="";
+    private YouTubePlayer.PlaybackEventListener playbackEventListener;
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
 
+    private YouTubePlayerView ytPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +66,16 @@ public class LearningActivity extends AppCompatActivity {
 
         subject=getIntent().getStringExtra("subject");
         digit=getIntent().getStringExtra("max_digit");
+        videoUrl=getIntent().getStringExtra("video_url");
+        api_key=getResources().getString(R.string.youtube_api);
+
+
+
+        ytPlayer=findViewById(R.id.videoView);
+
+        Log.i("digit",digit);
+        Log.i("url",videoUrl);
+
 
 
 
@@ -60,15 +83,109 @@ public class LearningActivity extends AppCompatActivity {
         initSTT();
         setButtonClick();
         setBasicUiElement();
+
+       // initYouTube();
         binding.toolBar.imageViewBack.setOnClickListener(v->{
             onBackPressed();
         });
+
+
+
+
     }
 
+    private void initYouTube() {
+
+        ytPlayer.initialize(api_key,this);
+        playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+
+            }
+
+            @Override
+            public void onVideoEnded() {
+
+            }
+
+            @Override
+            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+            }
+        };
+
+        playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
+            @Override
+            public void onPlaying() {
+
+            }
+
+            @Override
+            public void onPaused() {
+
+            }
+
+            @Override
+            public void onStopped() {
+
+            }
+
+            @Override
+            public void onBuffering(boolean b) {
+
+            }
+
+            @Override
+            public void onSeekTo(int i) {
+
+            }
+        };
+
+
+    }
+
+    private void displayHintDialog(String answer) {
+
+        HintDialog hintDialog = new HintDialog(LearningActivity.this);
+        hintDialog.setCancelable(false);
+        hintDialog.setAlertTitle("Hint");
+        hintDialog.setAlertDesciption(answer);
+
+        hintDialog.setOnActionListener(viewId->{
+
+            switch (viewId.getId()){
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    isCallTTS=true;
+                    break;
+
+            }
+        });
+
+        hintDialog.show();
+
+    }
 
 
     private void setToolbar() {
 
+       binding.toolBar.imageViewBack.setImageDrawable(getDrawable(R.drawable.ic_baseline_arrow_back_24));
 
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
@@ -84,7 +201,7 @@ public class LearningActivity extends AppCompatActivity {
 
         });
 
-        binding.toolBar.titleText.setText(getIntent().getStringExtra("status"));
+
 
     }
 
@@ -113,8 +230,8 @@ public class LearningActivity extends AppCompatActivity {
 
             if (subject.equals("multiplication"))
             {
-                currentNum1=UtilityFunctions.getRandomIntegerUpto(10);
-                currentNum2=UtilityFunctions.getRandomNumber(1);
+                currentNum1=Integer.parseInt(digit);
+                currentNum2=currentQuestion;
             }
 
             binding.digitOne.setText(currentNum1+"");
@@ -131,35 +248,45 @@ public class LearningActivity extends AppCompatActivity {
 
     }
 
+
+
+    private void play(){
+        binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+        isCallTTS=true;
+        try {
+            setQuestion();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void pause(){
+        binding.animationVoice.setVisibility(View.GONE);
+        binding.questionProgress.setProgress(0);
+        binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+
+        isCallSTT=false;
+        isCallTTS=false;
+    }
+
     private void setButtonClick() {
         binding.playPause.setOnClickListener(v -> {
             if (binding.playPause.isChecked()) {
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-
-                isCallTTS=true;
-                try {
-                    setQuestion();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                //   binding.textView26.setVisibility(View.VISIBLE);
-                //   binding.textViewQuestion.setVisibility(View.GONE);
-                binding.animationVoice.setVisibility(View.GONE);
-                binding.questionProgress.setProgress(0);
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-                isCallSTT=false;
-                isCallTTS=false;
-
+                binding.hintButton.setVisibility(View.VISIBLE);
+                play();
+            }
+            else {
+              pause();
             }
         });
     }
 
     private void setBasicUiElement() {
 
-        binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        binding.subject.setText("Mathematics");
-        binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+       // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.toolBar.titleText.setText( digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+       // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
 
@@ -168,33 +295,100 @@ public class LearningActivity extends AppCompatActivity {
 
         else if (subject.equals("multiplication")){
             binding.operator.setText("×");
-            binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+         //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+            binding.toolBar.titleText.setText("Multiplication upto "+digit +"'s Table");
         }
-
 
 
         else if (subject.equals("division"))
             binding.operator.setText("÷");
-        binding.learnOrTest.setOnClickListener(v->{
+
+
+//        binding.learnOrTest.setOnClickListener(v->{
+//            Intent intent =new Intent(getApplicationContext(), AdditionActivity.class);
+//            intent.putExtra("subject",subject);
+//            intent.putExtra("max_digit", digit);
+//            startActivity(intent);
+//        });
+
+
+
+        binding.hintButton.setOnClickListener(v->{
+            pause();
+            binding.playPause.setChecked(false);
+           displayHintDialog(subject.substring(0, 1).toUpperCase() + subject.substring(1)+" of "+binding.digitOne.getText().toString() +" and "+ binding.digitTwo.getText().toString()+" is "+currentAnswer);
+        });
+
+        binding.playVideoLayout.setOnClickListener(view -> {
+
+            if (!subject.equals("multiplication"))
+            displayVideoDialog();
+
+
+        });
+
+
+        binding.giveTestButton.setOnClickListener(v->{
             Intent intent =new Intent(getApplicationContext(), AdditionActivity.class);
             intent.putExtra("subject",subject);
             intent.putExtra("max_digit", digit);
+            intent.putExtra("video_url",videoUrl);
             startActivity(intent);
         });
 
+
+        if (subject.equals("multiplication"))
+            binding.playVideoLayout.setVisibility(View.INVISIBLE);
+
+        if (digit.equals("1")){
+
+            binding.digitOne.setText("0");
+            binding.digitTwo.setText("0");
+        }else{
+            binding.digitTwo.setText("00");
+            binding.digitOne.setText("00");
+        }
+
     }
 
-
-
-    private void showSetSpeedDialDialog(int i) {
-
+    private void displayVideoDialog() {
         final AlertDialog.Builder alert=new AlertDialog.Builder(LearningActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.youtube_dialog, null);
+        View mView = getLayoutInflater().inflate(R.layout.video_dialog, null);
 
 
+         ytPlayer=mView.findViewById(R.id.videoView);
+        ImageView closeButton=  mView.findViewById(R.id.closeButton);
+         initYouTube();
 
-
-
+//        ytPlayer.initialize(
+//                api_key,
+//                new YouTubePlayer.OnInitializedListener() {
+//                    // Implement two methods by clicking on red
+//                    // error bulb inside onInitializationSuccess
+//                    // method add the video link or the playlist
+//                    // link that you want to play In here we
+//                    // also handle the play and pause
+//                    // functionality
+//                    @Override
+//                    public void onInitializationSuccess(
+//                            YouTubePlayer.Provider provider,
+//                            YouTubePlayer youTubePlayer, boolean b)
+//                    {
+//                        youTubePlayer.loadVideo("HzeK7g8cD0Y");
+//                        youTubePlayer.play();
+//                    }
+//
+//                    // Inside onInitializationFailure
+//                    // implement the failure functionality
+//                    // Here we will show toast
+//                    @Override
+//                    public void onInitializationFailure(YouTubePlayer.Provider provider,
+//                                                        YouTubeInitializationResult
+//                                                                youTubeInitializationResult)
+//                    {
+//                        Toast.makeText(getApplicationContext(), "Video player Failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
@@ -206,15 +400,34 @@ public class LearningActivity extends AppCompatActivity {
         }catch (Exception e){
 
         }
-//        button.setOnClickListener(v->{
-//
-//            alertDialog.dismiss();
-//            Intent intent=new Intent(getApplicationContext(),SearchContactActivity.class);
-//            intent.putExtra("speedDialVal",i+"");
-//            startActivity(intent);
-//        });
+
+        closeButton.setOnClickListener(v->alertDialog.dismiss());
+
+
+
+
 
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("digit",digit);
+        outState.putString("video_url",videoUrl);
+        outState.putString("subject",subject);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+        digit=savedInstanceState.getString("digit");
+        videoUrl=savedInstanceState.getString("videoUrl");
+        subject=savedInstanceState.getString("subject");
+    }
+
 
     /**
      * Initialize TTS engine
@@ -228,11 +441,11 @@ public class LearningActivity extends AppCompatActivity {
                     Log.i("inSideTTS","InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
 
-                        speakAnswer();
-//                        UtilityFunctions.muteAudioStream(LearningActivity.this);
-                          isCallSTT=false;
-//                        stt.initialize("", LearningActivity.this);
-//                        binding.animationVoice.setVisibility(View.VISIBLE);
+                      //  speakAnswer();
+                        UtilityFunctions.muteAudioStream(LearningActivity.this);
+                        isCallSTT=false;
+                        stt.initialize("", LearningActivity.this);
+                        binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
             }
@@ -352,5 +565,21 @@ public class LearningActivity extends AppCompatActivity {
         super.onDestroy();
         tts.destroy();
         stt.destroy();
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+        if(!b){
+            //youTubePlayer.cueVideo("EaXUuwz_caU"); //Start NO automatically the video
+            youTubePlayer.loadVideo(videoUrl.split("/")[3]);//Execute a playlist
+        }
+
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
     }
 }
