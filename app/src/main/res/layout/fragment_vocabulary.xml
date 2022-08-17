@@ -6,6 +6,20 @@
     android:layout_height="420dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/text_view_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="60dp"
+        android:fontFamily="@font/reemkufi_medium"
+        android:gravity="center"
+        android:padding="@dimen/grid_1"
+        android:textAllCaps="true"
+        android:textColor="@color/primary"
+        android:textSize="26sp"
+        tools:text="Mirror" />
+
     <RelativeLayout
         android:id="@+id/questionLayout"
         android:layout_width="match_parent"
@@ -79,7 +93,10 @@
                     android:id="@+id/animationVoice"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_margin="@dimen/grid_0_25"
+                    android:layout_marginStart="@dimen/grid_0_25"
+                    android:layout_marginTop="@dimen/grid_0_25"
+                    android:layout_marginEnd="@dimen/grid_0_25"
+                    android:layout_marginBottom="@dimen/grid_0_25"
                     android:visibility="gone"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
@@ -91,18 +108,4 @@
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/text_view_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="60dp"
-        android:fontFamily="@font/reemkufi_medium"
-        android:gravity="center"
-        android:padding="@dimen/grid_1"
-        android:textAllCaps="true"
-        android:textColor="@color/primary"
-        android:textSize="26sp"
-        tools:text="Mirror" />
 </LinearLayout>

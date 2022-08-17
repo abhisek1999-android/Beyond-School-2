@@ -32,14 +32,14 @@ public final class LogDatabase_Impl extends LogDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `Log` (`log_content` TEXT, `timestamp` TEXT, `log_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `LogEntity` (`log_content` TEXT, `timestamp` TEXT, `log_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '13627dcb9f8a9c2371938f6a39e7b058')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9b82c914bc387969eb0c8d629a85f381')");
       }
 
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("DROP TABLE IF EXISTS `Log`");
+        _db.execSQL("DROP TABLE IF EXISTS `LogEntity`");
         if (mCallbacks != null) {
           for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
             mCallbacks.get(_i).onDestructiveMigration(_db);
@@ -78,22 +78,22 @@ public final class LogDatabase_Impl extends LogDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsLog = new HashMap<String, TableInfo.Column>(3);
-        _columnsLog.put("log_content", new TableInfo.Column("log_content", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsLog.put("timestamp", new TableInfo.Column("timestamp", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsLog.put("log_id", new TableInfo.Column("log_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        final HashSet<TableInfo.ForeignKey> _foreignKeysLog = new HashSet<TableInfo.ForeignKey>(0);
-        final HashSet<TableInfo.Index> _indicesLog = new HashSet<TableInfo.Index>(0);
-        final TableInfo _infoLog = new TableInfo("Log", _columnsLog, _foreignKeysLog, _indicesLog);
-        final TableInfo _existingLog = TableInfo.read(_db, "Log");
-        if (! _infoLog.equals(_existingLog)) {
-          return new RoomOpenHelper.ValidationResult(false, "Log(com.maths.beyond_school_280720220930.database.log.Log).\n"
-                  + " Expected:\n" + _infoLog + "\n"
-                  + " Found:\n" + _existingLog);
+        final HashMap<String, TableInfo.Column> _columnsLogEntity = new HashMap<String, TableInfo.Column>(3);
+        _columnsLogEntity.put("log_content", new TableInfo.Column("log_content", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLogEntity.put("timestamp", new TableInfo.Column("timestamp", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLogEntity.put("log_id", new TableInfo.Column("log_id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysLogEntity = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesLogEntity = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoLogEntity = new TableInfo("LogEntity", _columnsLogEntity, _foreignKeysLogEntity, _indicesLogEntity);
+        final TableInfo _existingLogEntity = TableInfo.read(_db, "LogEntity");
+        if (! _infoLogEntity.equals(_existingLogEntity)) {
+          return new RoomOpenHelper.ValidationResult(false, "LogEntity(com.maths.beyond_school_280720220930.database.log.LogEntity).\n"
+                  + " Expected:\n" + _infoLogEntity + "\n"
+                  + " Found:\n" + _existingLogEntity);
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "13627dcb9f8a9c2371938f6a39e7b058", "d59d34b5215ead356d6dbe2bd7012f23");
+    }, "9b82c914bc387969eb0c8d629a85f381", "b033b8b67c26af5d1a621c94b64a22f1");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -106,7 +106,7 @@ public final class LogDatabase_Impl extends LogDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "Log");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "LogEntity");
   }
 
   @Override
@@ -115,7 +115,7 @@ public final class LogDatabase_Impl extends LogDatabase {
     final SupportSQLiteDatabase _db = super.getOpenHelper().getWritableDatabase();
     try {
       super.beginTransaction();
-      _db.execSQL("DELETE FROM `Log`");
+      _db.execSQL("DELETE FROM `LogEntity`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();

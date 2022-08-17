@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -17,7 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.log.LogEntity;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -68,6 +72,30 @@ public final class UtilityFunctions {
             return number;
         else
             return getRandomNumber(digits);
+    }
+
+
+    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question) {
+        var resultBundle = new Bundle();
+        resultBundle.putString("original_result", result);
+        resultBundle.putString("detected_result", detected);
+        resultBundle.putBoolean("is_correct", tag);
+        resultBundle.putInt("timeTaken", timeTaken);
+        resultBundle.putString("question", question);
+        resultBundle.putString("parent_id", uid);
+        resultBundle.putString("kids_id", kidsId);
+        resultBundle.putString("kids_name", kidsName);
+        resultBundle.putInt("kids_age", age);
+        resultBundle.putString("type", type);
+        mFirebaseAnalytics.logEvent("maths", resultBundle);
+    }
+
+
+    public static void saveLog(LogDatabase db, String log) {
+        var saveLog = new LogEntity(log, String.valueOf(new Date().getTime()));
+        var dao = db.logDao();
+        dao.insertNotes(saveLog);
     }
 
 
@@ -129,7 +157,7 @@ public final class UtilityFunctions {
 
     // Format milisec to h: m: s
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String formatTime(long diff) {
+    public static String formatTime(long diff) {
 
 
         Duration duration = Duration.ofMillis(diff);

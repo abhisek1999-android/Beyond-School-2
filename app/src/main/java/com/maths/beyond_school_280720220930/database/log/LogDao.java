@@ -5,21 +5,19 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.maths.beyond_school_280720220930.database.process.ProgressM;
-
 import java.util.List;
 
 @Dao
 public interface LogDao {
-    @Query("SELECT * FROM log")
-    List<Log> getAllProgress();
+    @Query("SELECT * FROM LogEntity")
+    List<LogEntity> getAllProgress();
 
     @Insert
-    void insertNotes(Log...progresses);
+    void insertNotes(LogEntity...progresses);
 
-    @Query("DELETE FROM log")
+    @Query("DELETE FROM LogEntity")
     void deleteAll();
 
     @Delete
-    void delete(Log progress);
+    void delete(LogEntity progress);
 }

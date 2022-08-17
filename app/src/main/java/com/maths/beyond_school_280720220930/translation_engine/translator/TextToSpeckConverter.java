@@ -3,16 +3,8 @@ package com.maths.beyond_school_280720220930.translation_engine.translator;
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
-import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
 
@@ -23,7 +15,11 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
     private ConversionCallback conversionCallaBack;
     private String sentence = null;
+    private TextRangeListener textRangeListener = null;
 
+    public void setTextRangeListener(TextRangeListener textRangeListener) {
+        this.textRangeListener = textRangeListener;
+    }
 
     public TextToSpeckConverter(ConversionCallback callback) {
         this.conversionCallaBack = callback;
@@ -65,11 +61,10 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
                     @Override
                     public void onRangeStart(String utteranceId, int start, int end, int frame) {
                         super.onRangeStart(utteranceId, start, end, frame);
-                        var textView = (TextView) appContext.findViewById(R.id.text_view_description);
-                        if (textView != null) {
-                            Spannable textWithHighlights = new SpannableString(sentence);
-                            textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(appContext, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                            textView.setText(textWithHighlights);
+                        if (sentence == null)
+                            return;
+                        if (textRangeListener != null) {
+                            textRangeListener.onRangeStart(utteranceId, sentence, start, end, frame);
                         }
                     }
                 });
@@ -134,5 +129,9 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+    }
+
+    public interface TextRangeListener {
+        void onRangeStart(String utteranceId, String sentence, int start, int end, int frame);
     }
 }

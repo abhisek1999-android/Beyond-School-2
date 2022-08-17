@@ -3,19 +3,29 @@ package com.maths.beyond_school_280720220930.english_activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -24,6 +34,7 @@ import com.maths.beyond_school_280720220930.translation_engine.translator.Speech
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -45,6 +56,11 @@ public class EnglishActivity extends AppCompatActivity {
     private Boolean isSayWordFinish = true;
     private int currentTryCount = 0;
     private final int REQUEST_FOR_DES = 345 * 34;
+    private LogDatabase logDatabase;
+    private String logs = "";
+    private long startTime = 0, endTime = 0;
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -55,6 +71,9 @@ public class EnglishActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         var database = EnglishGradeDatabase.getDbInstance(this);
         dao = database.englishDao();
+        logDatabase = LogDatabase.getDbInstance(this);
+        analytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        auth = FirebaseAuth.getInstance();
         setToolbar();
         setViewPager();
         buttonClick();
@@ -78,6 +97,7 @@ public class EnglishActivity extends AppCompatActivity {
         );
 
         binding.viewPager.setAdapter(pagerAdapter);
+        binding.viewPager.setUserInputEnabled(false);
 
     }
 
@@ -121,7 +141,6 @@ public class EnglishActivity extends AppCompatActivity {
                         isSayWordFinish = false;
                         tts.setTextViewAndSentence(null);
                         tts.initialize("Now Say the word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), EnglishActivity.this);
-
                     } else {
                         startListening();
                     }
@@ -133,10 +152,26 @@ public class EnglishActivity extends AppCompatActivity {
                 Log.e(TAG, "onErrorOccurred: " + errorMessage);
             }
         }).get();
+        tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
+            UtilityFunctions.runOnUiThread(() -> {
+                var textView = (TextView) this.findViewById(R.id.text_view_description);
+                if (textView != null) {
+                    Spannable textWithHighlights = new SpannableString(sentence);
+                    textWithHighlights.setSpan(new ForegroundColorSpan(
+                                    ContextCompat.getColor(this, R.color.primary)),
+                            start,
+                            end,
+                            Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    textView.setText(textWithHighlights);
+                }
+            });
+        });
     }
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
         helperTTS(vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), false, REQUEST_FOR_DES);
+//        Question
+        logs += "Question : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition() + ". \n";
 
 //        Stop when reach ot last item
         if (binding.viewPager.getCurrentItem() == (vocabularyList.size() - 1))
@@ -147,6 +182,7 @@ public class EnglishActivity extends AppCompatActivity {
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess:  result " + result + " word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord());
@@ -163,13 +199,26 @@ public class EnglishActivity extends AppCompatActivity {
                     }
 
 //                    Check  the result
+                    endTime = new Date().getTime();
+                    long diff = endTime - startTime;
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
+                        logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS("Correct", true, 0);
 
+                        UtilityFunctions.sendDataToAnalytics(analytics, "auth.getUid().toString()", "kidsid", "Ayaan", "english Vocabulary", 22,
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition());
                     } else {
+                        logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         helperTTS("Wrong", false, 0);
-
+                        UtilityFunctions.sendDataToAnalytics(analytics, "auth.getUid().toString()", "kidsid", "Ayaan",
+                                "english Vocabulary", 22,
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition()
+                        );
                     }
+
+
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -187,6 +236,12 @@ public class EnglishActivity extends AppCompatActivity {
                 binding.playPause.setChecked(false);
                 isSayWordFinish = true;
             }
+
+            @Override
+            public void getLogResult(String title) {
+                ConversionCallback.super.getLogResult(title);
+                logs += title + "\n";
+            }
         }).get();
 
     }
@@ -194,11 +249,29 @@ public class EnglishActivity extends AppCompatActivity {
     //    Helper method to start listening
     private void startListening() {
         UtilityFunctions.runOnUiThread(() -> {
+            startTime = new Date().getTime();
             var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
             current.getAnimationView().setVisibility(View.VISIBLE);
             stt.initialize("Start Listening", this);
         });
 
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        checkLogIsEnable();
+    }
+
+    private void checkLogIsEnable() {
+        if (PrefConfig.readIdInPref(getApplicationContext(), "IS_LOG_ENABLE").equals("true"))
+            saveLog();
+    }
+
+    private void saveLog() {
+        Log.d(TAG, "saveLog: Called " + logs);
+        UtilityFunctions.saveLog(logDatabase, logs);
     }
 
 

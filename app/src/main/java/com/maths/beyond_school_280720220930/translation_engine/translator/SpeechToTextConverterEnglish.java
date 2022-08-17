@@ -35,8 +35,6 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
         words.put("Kumbh", "comb");
         words.put("baat", "bath");
         words.put("singh", "sink");
-        words.put("singh", "sink");
-
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -84,22 +82,25 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
         @Override
         public void onError(int error) {
             Log.d(TAG, "onError");
-            if (conversionCallaBack != null)
+            if (conversionCallaBack != null) {
                 conversionCallaBack.onErrorOccurred(getErrorText(error));
+                conversionCallaBack.getLogResult("onError : " + error);
+            }
         }
 
         @Override
         public void onResults(Bundle results) {
             var translateResults = "";
             var data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            if (data != null) {
-                translateResults = data.get(0);
-            }
+            conversionCallaBack.getLogResult("onResult : " + data.get(0));
+            translateResults = data.get(0);
             var s = words.get(translateResults.trim().toLowerCase(Locale.ROOT));
             if (s != null)
                 translateResults = s;
-            if (conversionCallaBack != null)
+            if (conversionCallaBack != null) {
+                conversionCallaBack.getLogResult("onResultFormatted : " + translateResults);
                 conversionCallaBack.onSuccess(translateResults);
+            }
         }
 
         @Override

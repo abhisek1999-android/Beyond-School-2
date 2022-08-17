@@ -75,7 +75,13 @@ public class SplashScreen extends AppCompatActivity {
 
                 /* Create an Intent that will start the Menu-Activity. */
                 if (mCurrentUser == null) {
-                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+//                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+                    Intent intent = new Intent(getApplicationContext(), GradeActivity.class);
+                    intent.putExtra("name", "Ayaan");
+                    intent.putExtra("image", "");
+                    intent.putExtra("age", "10");
+                    intent.putExtra("grade", "GRADE 2");
+                    startActivity(intent);
                     finish();
                 } else {
                     checkUserAlreadyAvailable();
