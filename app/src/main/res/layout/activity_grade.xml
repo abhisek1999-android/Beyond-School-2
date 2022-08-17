@@ -78,7 +78,7 @@
             \nMATHS :"
                 android:textAlignment="viewStart"
                 android:textColor="@color/primary"
-                android:textSize="@dimen/grid_20"
+                android:textSize="20sp"
                 tools:ignore="RtlCompat" />
 
             <LinearLayout
@@ -258,7 +258,7 @@
                 android:textAlignment="viewStart"
                 android:textAllCaps="true"
                 android:textColor="@color/primary"
-                android:textSize="@dimen/default_font_size_big"
+                android:textSize="20sp"
                 tools:ignore="RtlCompat" />
 
             <LinearLayout

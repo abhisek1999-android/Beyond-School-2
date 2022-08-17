@@ -205,16 +205,16 @@ public class EnglishActivity extends AppCompatActivity {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS("Correct", true, 0);
 
-                        UtilityFunctions.sendDataToAnalytics(analytics, "auth.getUid().toString()", "kidsid", "Ayaan", "english Vocabulary", 22,
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition());
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(),"english");
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         helperTTS("Wrong", false, 0);
-                        UtilityFunctions.sendDataToAnalytics(analytics, "auth.getUid().toString()", "kidsid", "Ayaan",
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan",
                                 "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition()
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(),"english"
                         );
                     }
 

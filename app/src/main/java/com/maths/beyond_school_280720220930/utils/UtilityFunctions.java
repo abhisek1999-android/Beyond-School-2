@@ -76,7 +76,7 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question,String subject) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -88,7 +88,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
         resultBundle.putString("type", type);
-        mFirebaseAnalytics.logEvent("maths", resultBundle);
+        mFirebaseAnalytics.logEvent(subject, resultBundle);
     }
 
 

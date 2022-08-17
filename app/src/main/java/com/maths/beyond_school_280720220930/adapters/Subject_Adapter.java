@@ -52,9 +52,9 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             public void onClick(View view) {
                 //needs to be intent values
                 if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
-                    /*Intent intent = new Intent(context, EnglishActivity.class);
-                    context.startActivity(intent);*/
-                    Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, EnglishActivity.class);
+                    context.startActivity(intent);
+                   // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                 } else {
 
 
