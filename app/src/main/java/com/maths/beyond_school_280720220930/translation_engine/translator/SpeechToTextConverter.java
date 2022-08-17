@@ -99,6 +99,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
             Log.d(TAG, "onError");
             assert conversionCallaBack != null;
             conversionCallaBack.onErrorOccurred(getErrorText(error));
+            conversionCallaBack.getLogResult("onError : " + error);
         }
 
         @Override
@@ -110,13 +111,16 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
                 text.append(result).append("\n");
             result = matches.get(0).trim();
 
+            conversionCallaBack.getLogResult("onResult : " + matches.get(0).trim());
             assert conversionCallaBack != null;
             conversionCallaBack.onPartialResult("Result: " + matches.get(0).trim() + "\n");
             if (matches.get(0).trim().matches(onlyNumber)) {
                 conversionCallaBack.onSuccess(matches.get(0).trim());
+                conversionCallaBack.getLogResult("onResult : " + matches.get(0).trim());
             } else {
                 try {
                     conversionCallaBack.onSuccess(stringToText.get(matches.get(0).trim().toLowerCase()));
+                    conversionCallaBack.getLogResult("onResultFormatted : " + stringToText.get(matches.get(0).trim().toLowerCase()));
                 } catch (Exception e) {
                     conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }

@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -8,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,10 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityLearningBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.dialogs.VideoDialog;
@@ -30,6 +36,8 @@ import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuild
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+
+import java.util.Date;
 
 public class LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
@@ -52,6 +60,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private String digit="";
     private String videoUrl="";
     private String api_key="";
+    private LogDatabase logDatabase;
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private long startTime = 0, endTime = 0;
+    private String logs = "";
+    int currentNum1=0 ;
+    int currentNum2=0;
     private YouTubePlayer.PlaybackEventListener playbackEventListener;
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
 
@@ -63,7 +78,9 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         setContentView(binding.getRoot());
         setToolbar();
 
-
+        logDatabase = LogDatabase.getDbInstance(this);
+        analytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        auth = FirebaseAuth.getInstance();
         subject=getIntent().getStringExtra("subject");
         digit=getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
@@ -233,7 +250,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 currentNum1=Integer.parseInt(digit);
                 currentNum2=currentQuestion;
             }
-
+            logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
             binding.digitOne.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
             binding.progress.setText(currentQuestion+"/ "+MAX_QUESTION);
@@ -444,6 +461,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                       //  speakAnswer();
                         UtilityFunctions.muteAudioStream(LearningActivity.this);
                         isCallSTT=false;
+                        startTime=new Date().getTime();
                         stt.initialize("", LearningActivity.this);
                         binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
@@ -495,6 +513,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
      */
     private void initSTT() {
         stt = SpeechToTextBuilder.builder(new ConversionCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
@@ -509,12 +528,21 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 isCallSTT = false;
                 Boolean lcsResult=new UtilityFunctions().matchingSeq(result.trim(),currentAnswer+"");
 
+                endTime=new Date().getTime();
                 if (lcsResult) {
                     tts.initialize("Correct Answer", LearningActivity.this);
+                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                            "Mathematics-Practice"+ subject, 22,currentAnswer+"", result, true, (int) (endTime-startTime),
+                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                    logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
                     DELAY_ON_STARTING_STT=500;
                     correctAnswer++;
                 } else {
                     tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
+                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                            "Mathematics-Practice"+ subject, 22,currentAnswer+"", result, false, (int) (endTime-startTime),
+                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                    logs+="Tag: Wrong\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
                     DELAY_ON_STARTING_STT=2000;
                     wrongAnswer++;
                 }
@@ -543,6 +571,12 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             }
 
             @Override
+            public void getLogResult(String title) {
+                ConversionCallback.super.getLogResult(title);
+                logs+=title+"\n";
+            }
+
+            @Override
             public void onErrorOccurred(String errorMessage) {
                 isCallSTT = true;
                 tts.initialize("", LearningActivity.this);
@@ -557,6 +591,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         super.onPause();
         tts.destroy();
         stt.destroy();
+        checkLogIsEnable();
     }
 
 
@@ -565,6 +600,17 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         super.onDestroy();
         tts.destroy();
         stt.destroy();
+    }
+
+
+    private void checkLogIsEnable() {
+        if (PrefConfig.readIdInPref(getApplicationContext(), "IS_LOG_ENABLE").equals("true"))
+            saveLog();
+    }
+
+    private void saveLog() {
+        Log.d(TAG, "saveLog: Called " + logs);
+        UtilityFunctions.saveLog(logDatabase, logs);
     }
 
     @Override

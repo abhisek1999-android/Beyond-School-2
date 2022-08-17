@@ -1,13 +1,19 @@
 package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -16,6 +22,8 @@ import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuild
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+
+import java.util.Date;
 
 public class AdditionActivity extends AppCompatActivity {
 
@@ -37,6 +45,13 @@ public class AdditionActivity extends AppCompatActivity {
     private String subject = "";
     private String digit = "";
 
+    private LogDatabase logDatabase;
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private long startTime = 0, endTime = 0,diff=0;
+    private String logs = "";
+    private int currentNum1=0 ;
+    private int currentNum2=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +64,10 @@ public class AdditionActivity extends AppCompatActivity {
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
+
+        logDatabase = LogDatabase.getDbInstance(this);
+        analytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        auth = FirebaseAuth.getInstance();
 
         initTTS();
         initSTT();
@@ -89,6 +108,7 @@ public class AdditionActivity extends AppCompatActivity {
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
+                        startTime=new Date().getTime();
                         UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT = false;
                         stt.initialize("", AdditionActivity.this);
@@ -111,26 +131,51 @@ public class AdditionActivity extends AppCompatActivity {
      */
     private void initSTT() {
         stt = SpeechToTextBuilder.builder(new ConversionCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
+
+
+                endTime=new Date().getTime();
 
                 try {
                     UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                logs+="Detected Result"+result+"\n";
+
                 //stt.stop();
                 binding.ansTextView.setText(result);
                 isCallSTT = false;
                 Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
 
+
+
                 if (lcsResult) {
+
+                    diff=endTime-startTime;
+
                     tts.initialize("Correct Answer", AdditionActivity.this);
+                    logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+
+
+                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                            "Mathematics-Test "+ subject, 22,currentAnswer+"", result, true, (int) (diff),
+                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+
                     DELAY_ON_STARTING_STT = 500;
                     correctAnswer++;
                 } else {
+
+                    logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
                     tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, AdditionActivity.this);
+
+                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                            "Mathematics-Test "+ subject, 22,currentAnswer+"", result, false, (int) (diff),
+                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
                     DELAY_ON_STARTING_STT = 2000;
                     wrongAnswer++;
                 }
@@ -156,6 +201,12 @@ public class AdditionActivity extends AppCompatActivity {
             public void onCompletion() {
                 Log.d(TAG, "onCompletion: Done");
                 binding.animationVoice.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void getLogResult(String title) {
+                ConversionCallback.super.getLogResult(title);
+                logs+=title+"\n";
             }
 
             @Override
@@ -239,8 +290,8 @@ public class AdditionActivity extends AppCompatActivity {
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         if (isCallTTS) {
-            var currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-            var currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+             currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+             currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
 
             if (subject.equals("subtraction")) {
                 if (currentNum1 < currentNum2) {
@@ -262,6 +313,8 @@ public class AdditionActivity extends AppCompatActivity {
                 currentNum2 = UtilityFunctions.getRandomNumber(1);
             }
 
+
+            logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
             binding.digitOne.setText(currentNum1 + "");
             binding.digitTwo.setText(currentNum2 + "");
             binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
@@ -282,6 +335,18 @@ public class AdditionActivity extends AppCompatActivity {
         super.onPause();
         tts.destroy();
         stt.destroy();
+
+        checkLogIsEnable();
+    }
+
+    private void checkLogIsEnable() {
+        if (PrefConfig.readIdInPref(getApplicationContext(), "IS_LOG_ENABLE").equals("true"))
+            saveLog();
+    }
+
+    private void saveLog() {
+        Log.d(TAG, "saveLog: Called " + logs);
+        UtilityFunctions.saveLog(logDatabase, logs);
     }
 
 
