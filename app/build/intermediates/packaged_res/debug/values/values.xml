@@ -147,7 +147,7 @@
     <string name="alarm_enable">KEY_ALARM_ENABLE</string>
     <string name="app_name">BEYOND SCHOOL</string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
-    <string name="category">CATEGORY : %s </string>
+    <string name="category">Category %s </string>
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="close">Close</string>
     <string name="com.google.firebase.crashlytics.mapping_file_id" ns1:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>

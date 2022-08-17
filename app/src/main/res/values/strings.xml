@@ -204,5 +204,5 @@
     <string name="t35">Division of 2-digit by 1-digit and 4-digit by 1-digit.</string>
     <string name="t36">Vocabulary-> School, Summer, Town, Transport, Weather, Professions.</string>
     <string name="t37">Spelling -> Essential words, Most common words, Compound words, Long and Short vowels, Words with double letter after short vowels, Words with double vowels.</string>
-
+    <string name="current_by_all">%s / %s</string>
 </resources>
