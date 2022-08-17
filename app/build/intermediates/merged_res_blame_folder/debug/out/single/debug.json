@@ -260,10 +260,6 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_negative.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_row.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\row.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_ic_test_icon.png.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_test_icon.png"
     },
@@ -272,16 +268,20 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v24\\ic_test_icon.xml"
     },
     {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_row.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\row.xml"
+    },
+    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_one_third_round_rect.xml.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\one_third_round_rect.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_privacy_policy.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_privacy_policy.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_test_icon.png.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_test_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_privacy_policy.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\layout\\activity_privacy_policy.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_mic_off_24.xml.flat",
@@ -480,12 +480,12 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\bottom_border.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_pause_circle_outline_24.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_pause_circle_outline_24.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_test_icon.png.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_test_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_pause_circle_outline_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_pause_circle_outline_24.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_background_border.xml.flat",
@@ -656,12 +656,12 @@
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_home1.xml"
     },
     {
-        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_perm_identity_24.xml.flat",
-        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_perm_identity_24.xml"
-    },
-    {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_test_icon.png.flat",
         "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_test_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_perm_identity_24.xml.flat",
+        "source": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\src\\main\\res\\drawable\\ic_baseline_perm_identity_24.xml"
     },
     {
         "merged": "C:\\Users\\Hp\\AndroidStudioProjects\\beyongschool_android\\app\\build\\intermediates\\merged_res\\debug\\drawable_score_icon.xml.flat",
