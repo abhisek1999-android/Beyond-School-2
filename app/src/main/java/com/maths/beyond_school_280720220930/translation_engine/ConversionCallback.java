@@ -11,5 +11,9 @@ public interface ConversionCallback {
 
     void onCompletion();
 
+    default void getLogResult(String title) {
+
+    }
+
     void onErrorOccurred(String errorMessage);
 }

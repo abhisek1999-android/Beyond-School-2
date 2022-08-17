@@ -9,8 +9,7 @@ import android.widget.ImageView;
 
 
 import com.maths.beyond_school_280720220930.adapters.LogAdapter;
-import com.maths.beyond_school_280720220930.adapters.ProgressAdapter;
-import com.maths.beyond_school_280720220930.database.log.Log;
+import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class LogActivity extends AppCompatActivity {
     private void loadNoteList() {
 
         LogDatabase db = LogDatabase.getDbInstance(this.getApplicationContext());
-        List<Log> notesList = db.logDao().getAllProgress();
+        List<LogEntity> notesList = db.logDao().getAllProgress();
         logAdapter.setNotesList(notesList);
 
     }

@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.extras.ReadText;
@@ -499,9 +500,9 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
 
         try {
             LogDatabase db = LogDatabase.getDbInstance(this.getApplicationContext());
-            com.maths.beyond_school_280720220930.database.log.Log logInfo = new com.maths.beyond_school_280720220930.database.log.Log();
-            logInfo.log_content = logTextView.getText().toString();
-            logInfo.timestamp = timeStamp.getTime() + "";
+            LogEntity logInfo = new LogEntity("", "");
+//            logInfo.log_content = logTextView.getText().toString();
+//            logInfo.timestamp = timeStamp.getTime() + "";
 
             db.logDao().insertNotes(logInfo);
         } catch (Exception e) {

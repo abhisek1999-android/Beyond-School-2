@@ -21,61 +21,61 @@ import javax.annotation.processing.Generated;
 public final class LogDao_Impl implements LogDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter<Log> __insertionAdapterOfLog;
+  private final EntityInsertionAdapter<LogEntity> __insertionAdapterOfLogEntity;
 
-  private final EntityDeletionOrUpdateAdapter<Log> __deletionAdapterOfLog;
+  private final EntityDeletionOrUpdateAdapter<LogEntity> __deletionAdapterOfLogEntity;
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteAll;
 
   public LogDao_Impl(RoomDatabase __db) {
     this.__db = __db;
-    this.__insertionAdapterOfLog = new EntityInsertionAdapter<Log>(__db) {
+    this.__insertionAdapterOfLogEntity = new EntityInsertionAdapter<LogEntity>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `Log` (`log_content`,`timestamp`,`log_id`) VALUES (?,?,nullif(?, 0))";
+        return "INSERT OR ABORT INTO `LogEntity` (`log_content`,`timestamp`,`log_id`) VALUES (?,?,nullif(?, 0))";
       }
 
       @Override
-      public void bind(SupportSQLiteStatement stmt, Log value) {
-        if (value.log_content == null) {
+      public void bind(SupportSQLiteStatement stmt, LogEntity value) {
+        if (value.getLog_content() == null) {
           stmt.bindNull(1);
         } else {
-          stmt.bindString(1, value.log_content);
+          stmt.bindString(1, value.getLog_content());
         }
-        if (value.timestamp == null) {
+        if (value.getTimestamp() == null) {
           stmt.bindNull(2);
         } else {
-          stmt.bindString(2, value.timestamp);
+          stmt.bindString(2, value.getTimestamp());
         }
-        stmt.bindLong(3, value.log_id);
+        stmt.bindLong(3, value.getLog_id());
       }
     };
-    this.__deletionAdapterOfLog = new EntityDeletionOrUpdateAdapter<Log>(__db) {
+    this.__deletionAdapterOfLogEntity = new EntityDeletionOrUpdateAdapter<LogEntity>(__db) {
       @Override
       public String createQuery() {
-        return "DELETE FROM `Log` WHERE `log_id` = ?";
+        return "DELETE FROM `LogEntity` WHERE `log_id` = ?";
       }
 
       @Override
-      public void bind(SupportSQLiteStatement stmt, Log value) {
-        stmt.bindLong(1, value.log_id);
+      public void bind(SupportSQLiteStatement stmt, LogEntity value) {
+        stmt.bindLong(1, value.getLog_id());
       }
     };
     this.__preparedStmtOfDeleteAll = new SharedSQLiteStatement(__db) {
       @Override
       public String createQuery() {
-        final String _query = "DELETE FROM log";
+        final String _query = "DELETE FROM LogEntity";
         return _query;
       }
     };
   }
 
   @Override
-  public void insertNotes(final Log... progresses) {
+  public void insertNotes(final LogEntity... progresses) {
     __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
-      __insertionAdapterOfLog.insert(progresses);
+      __insertionAdapterOfLogEntity.insert(progresses);
       __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
@@ -83,11 +83,11 @@ public final class LogDao_Impl implements LogDao {
   }
 
   @Override
-  public void delete(final Log progress) {
+  public void delete(final LogEntity progress) {
     __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
-      __deletionAdapterOfLog.handle(progress);
+      __deletionAdapterOfLogEntity.handle(progress);
       __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
@@ -109,8 +109,8 @@ public final class LogDao_Impl implements LogDao {
   }
 
   @Override
-  public List<Log> getAllProgress() {
-    final String _sql = "SELECT * FROM log";
+  public List<LogEntity> getAllProgress() {
+    final String _sql = "SELECT * FROM LogEntity";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     __db.assertNotSuspendingTransaction();
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
@@ -118,13 +118,17 @@ public final class LogDao_Impl implements LogDao {
       final int _cursorIndexOfLogContent = CursorUtil.getColumnIndexOrThrow(_cursor, "log_content");
       final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
       final int _cursorIndexOfLogId = CursorUtil.getColumnIndexOrThrow(_cursor, "log_id");
-      final List<Log> _result = new ArrayList<Log>(_cursor.getCount());
+      final List<LogEntity> _result = new ArrayList<LogEntity>(_cursor.getCount());
       while(_cursor.moveToNext()) {
-        final Log _item;
-        _item = new Log();
-        _item.log_content = _cursor.getString(_cursorIndexOfLogContent);
-        _item.timestamp = _cursor.getString(_cursorIndexOfTimestamp);
-        _item.log_id = _cursor.getInt(_cursorIndexOfLogId);
+        final LogEntity _item;
+        final String _tmpLog_content;
+        _tmpLog_content = _cursor.getString(_cursorIndexOfLogContent);
+        final String _tmpTimestamp;
+        _tmpTimestamp = _cursor.getString(_cursorIndexOfTimestamp);
+        _item = new LogEntity(_tmpLog_content,_tmpTimestamp);
+        final int _tmpLog_id;
+        _tmpLog_id = _cursor.getInt(_cursorIndexOfLogId);
+        _item.setLog_id(_tmpLog_id);
         _result.add(_item);
       }
       return _result;

@@ -14,10 +14,20 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
 
     private ConversionCallback conversionCallaBack;
+    private String sentence = null;
+    private TextRangeListener textRangeListener = null;
 
+    public void setTextRangeListener(TextRangeListener textRangeListener) {
+        this.textRangeListener = textRangeListener;
+    }
 
     public TextToSpeckConverter(ConversionCallback callback) {
         this.conversionCallaBack = callback;
+    }
+
+    public void setTextViewAndSentence(String sentence) {
+        this.sentence = sentence;
+        Log.d("XXX", "setTextViewAndSentence: Called");
     }
 
     private static final String TAG = TextToSpeckConverter.class.getSimpleName();
@@ -29,7 +39,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
             if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(new Locale("en", "IN"));
                 textToSpeech.setPitch(0.8f);
-                textToSpeech.setSpeechRate(1f);
+                textToSpeech.setSpeechRate(0.8f);
 
 
                 textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -40,14 +50,22 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
                     @Override
                     public void onDone(String s) {
-                     //   assert conversionCallaBack != null;
-
                         conversionCallaBack.onCompletion();
                     }
 
                     @Override
                     public void onError(String s) {
 
+                    }
+
+                    @Override
+                    public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                        super.onRangeStart(utteranceId, start, end, frame);
+                        if (sentence == null)
+                            return;
+                        if (textRangeListener != null) {
+                            textRangeListener.onRangeStart(utteranceId, sentence, start, end, frame);
+                        }
                     }
                 });
 
@@ -111,5 +129,9 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+    }
+
+    public interface TextRangeListener {
+        void onRangeStart(String utteranceId, String sentence, int start, int end, int frame);
     }
 }
