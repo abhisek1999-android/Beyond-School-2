@@ -176,7 +176,6 @@ id button7
 id button_addition
 id button_first
 id button_second
-id button_take_test
 id c_img
 id card
 id card2

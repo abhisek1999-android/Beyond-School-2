@@ -2991,7 +2991,6 @@ id button_next
 id button_resend_email
 id button_second
 id button_sign_in
-id button_take_test
 id c_img
 id cache_measures
 id callMeasure
