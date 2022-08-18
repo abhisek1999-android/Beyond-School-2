@@ -64,14 +64,14 @@ public class MathsHelper {
     public static String getMathQuestion (String subject,int a, int b){
 
         if (subject.equals("addition"))
-            return "What is the result of"+ a+" plus "+ b;
+            return  a+" plus "+ b;
         else if (subject.equals("subtraction"))
-            return "What is the result of"+ a+" minus "+ b;
+            return  a+" minus "+ b;
         else if (subject.equals("multiplication"))
-            return "What is the result of"+ a+"multiplied by "+ b;
+            return  a+"multiplied by "+ b;
 
         else if (subject.equals("division"))
-            return "What is the result of"+ a+"divided by "+ b;
+            return  a+"divided by "+ b;
         return "";
 
     }

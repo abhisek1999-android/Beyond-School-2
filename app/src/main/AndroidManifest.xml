@@ -14,7 +14,11 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
-
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
     <queries>
         <package android:name="com.google.android.googlequicksearchbox" />
     </queries>
@@ -36,7 +40,9 @@
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
-
+        <activity
+            android:name=".signin_methods.PhoneNumberLogin"
+            android:exported="false" />
         <activity
             android:name=".Select_Sub_Activity"
             android:exported="false" />
@@ -108,14 +114,16 @@
             android:exported="true"
             android:showOnLockScreen="true" />
         <activity
+            android:name=".signin_methods.GoogleSignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".table_with_hint"
             android:exported="true"
             android:showOnLockScreen="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:showOnLockScreen="true"
-            />
+            android:showOnLockScreen="true" />
         <activity
             android:name=".english_activity.EnglishActivity"
             android:exported="true"

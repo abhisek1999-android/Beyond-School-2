@@ -24,6 +24,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.navigation.NavigationView;
@@ -34,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
+import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
@@ -42,6 +45,7 @@ import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.SpinnerModel;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
+import com.maths.beyond_school_280720220930.model.Tables;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
@@ -51,21 +55,23 @@ import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 17, name = R.string.math, subject = R.string.math, subsub = R.string.add;
+    int count = 18, name = R.string.math, subject = R.string.math, subsub = R.string.add;
     String grade="";
     List<Subject_Model> list;
     Subject_Model subject_model;
     GradeDatabase database;
     List<Grades_data> notes;
+    TablesRecyclerAdapter tablesRecyclerAdapter;
     Subject_Adapter adapter;
     ActionBarDrawerToggle toggle;
     private TextToSpeckConverter tts;
     private SpeechToTextConverter stt;
     private int REQUEST_RECORD_AUDIO = 1;
-
+    private List<Tables> tablesList;
+    private String[] tableList;
    private FirebaseAuth mAuth;
    private FirebaseUser mCurrentUser;
    private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
@@ -85,6 +91,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels = new ArrayList<>();
 
 
+
         drinkModels.add(new SpinnerModel(true, R.string.math));
         drinkModels.add(new SpinnerModel(false, R.string.add));
         drinkModels.add(new SpinnerModel(false, R.string.sub));
@@ -95,8 +102,21 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
        grade = PrefConfig.readIdInPref(getApplicationContext(),"KIDS_GRADE");
 
+       if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.log_check)).equals(""))
+        PrefConfig.writeIdInPref(getApplicationContext(),"true",getResources().getString(R.string.log_check));
 
        binding.toolBar.userName.setText(grade);
+
+
+       binding.tool.toolBar.kidsName.setText("Hi ,"+PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_name)));
+
+       binding.tool.logoutLayout.setVisibility(View.VISIBLE);
+
+       binding.tool.logout.setOnClickListener(v->{
+           mAuth.signOut();
+           mCurrentUser=null;
+           finish();
+       });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -198,8 +218,14 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 tvName.setText("Change Subjects");
                 subsub = model.getName();
                 binding.subject.setText(name);
+
+//                if (subsub==R.string.mul){
+//                    multiplicationList();
+//                }
+
                 if (subsub != R.string.math && subsub != R.string.english) {
                     binding.subsub.setText(subsub);
+                //    Toast.makeText(Select_Sub_Activity.this, subsub, Toast.LENGTH_SHORT).show();
                     recyler();
                 }
                 return v;
@@ -268,6 +294,22 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
     }
 
+
+    private void multiplicationList(int digit){
+
+
+        tableList = getResources().getStringArray(R.array.table_name);
+        tablesList = new ArrayList<>();
+        for (int i=1;i<digit;i++){
+            tablesList.add(new Tables(i+1+"",tableList[i-1]));
+        }
+        binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this,LinearLayoutManager.VERTICAL,false));
+
+        tablesRecyclerAdapter = new TablesRecyclerAdapter(tablesList, Select_Sub_Activity.this);
+        binding.recylerview.setAdapter(tablesRecyclerAdapter);
+        ViewCompat.setNestedScrollingEnabled(binding.recylerview, false);
+
+    }
     private void recyler() {
 
 
@@ -282,11 +324,17 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
-                        for (String str : res) {
-                            if (str.equals(getResources().getString(subsub))) {
-                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                        if (!res[0].equals(getResources().getString(R.string.mul))){
+                            for (String str : res) {
+                                if (str.equals(getResources().getString(subsub))) {
+                                    list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                                }
                             }
                         }
+                        else{
+                            multiplicationList(Integer.parseInt(res[3]));
+                        }
+
                     } else {
 
                     }
@@ -309,9 +357,10 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
             }
         }
+        if (subsub!=R.string.mul){
         binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
-        adapter = new Subject_Adapter(list, Select_Sub_Activity.this);
-        binding.recylerview.setAdapter(adapter);
+        adapter = new Subject_Adapter(list, Select_Sub_Activity.this,this);
+        binding.recylerview.setAdapter(adapter);}
     }
 
 
@@ -319,5 +368,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void multiplicationSelected() {
+
+
     }
 }

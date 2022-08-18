@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/change_table"
-        app:showAsAction="never"
-        android:title="Change Table">
-    </item>
-
-    <item
         android:id="@+id/action_log"
         app:showAsAction="never"
         android:title="Log">

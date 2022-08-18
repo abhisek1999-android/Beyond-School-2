@@ -38,6 +38,7 @@ color transparent
 color white
 dimen default_font_size
 dimen default_font_size_big
+dimen default_font_size_small
 dimen fab_margin
 dimen grid_0_25
 dimen grid_0_5
@@ -90,6 +91,7 @@ drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_info_24
 drawable ic_baseline_insert_emoticon_24
+drawable ic_baseline_local_phone_24
 drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -107,6 +109,7 @@ drawable ic_bell
 drawable ic_bg
 drawable ic_divide
 drawable ic_down
+drawable ic_google_icon
 drawable ic_home
 drawable ic_home1
 drawable ic_launcher_background
@@ -182,7 +185,6 @@ id card2
 id cardView2
 id cardView3
 id certify
-id change_table
 id closeButton
 id completeLayout
 id correctText
@@ -207,15 +209,19 @@ id employeeId
 id filterBy
 id getImages
 id giveTestButton
+id googleSignIn
 id gotonext
 id grade
 id grade_val
 id head
-id header
 id headerText
 id headingLayout
 id hintButton
 id home
+id idBtnGetOtp
+id idBtnVerify
+id idEdtOtp
+id idEdtPhoneNumber
 id image
 id image1
 id image3
@@ -258,7 +264,6 @@ id logSwitch
 id logTextView
 id logout
 id logoutLayout
-id mainButton
 id materialCardView
 id maxQuestionLayout
 id maxViewLayout
@@ -273,10 +278,14 @@ id nextbtn
 id noData
 id noDataText
 id num
+id numberLayout
 id numberTextView
 id openDialog
 id operation
 id operator
+id otpLayout
+id otpTextView
+id phoneNumberSignIn
 id playPause
 id playVideoLayout
 id privacyPolicy
@@ -297,6 +306,7 @@ id rLayout
 id recyler
 id recylerview
 id remind
+id resendOtp
 id result
 id resultText
 id resume
@@ -306,6 +316,7 @@ id scrollView2
 id separator
 id setAlarm
 id settings
+id slogan
 id spinner
 id spinner2
 id sub
@@ -365,6 +376,7 @@ layout activity_learning
 layout activity_log
 layout activity_login_signup
 layout activity_main
+layout activity_phone_number_login
 layout activity_privacy_policy
 layout activity_profile
 layout activity_score
@@ -447,6 +459,11 @@ string grade_2_data
 string grade_3_data
 string hello_first_fragment
 string hello_second_fragment
+string kids_dob
+string kids_grade
+string kids_id
+string kids_name
+string kids_profile_url
 string last_table
 string log_check
 string math
@@ -533,6 +550,7 @@ style Theme.BEYOND_SCHOOL.PopupOverlay
 style Widget.Theme.BEYOND_SCHOOL.ActionBar.Fullscreen
 style Widget.Theme.BEYOND_SCHOOL.ButtonBar.Fullscreen
 style background
+style background_text
 style card_background
 style card_bg
 styleable FullscreenAttrs fullscreenBackgroundColor fullscreenTextColor

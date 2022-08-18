@@ -47,7 +47,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-        button = findViewById(R.id.mainButton);
+
         startService(new Intent(getBaseContext(), ClearService.class));
 
         mAuth = FirebaseAuth.getInstance();
@@ -83,15 +83,6 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, 1000);
 
-
-        button.setOnClickListener(view -> {
-
-            Toast.makeText(this, "xxx", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
     private void checkUserAlreadyAvailable() {

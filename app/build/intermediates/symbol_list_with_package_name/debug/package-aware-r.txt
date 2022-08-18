@@ -2034,6 +2034,7 @@ dimen def_drawer_elevation
 dimen default_dimension
 dimen default_font_size
 dimen default_font_size_big
+dimen default_font_size_small
 dimen default_gap
 dimen design_appbar_elevation
 dimen design_bottom_navigation_active_item_max_width
@@ -2732,6 +2733,7 @@ drawable ic_baseline_filter_alt_24
 drawable ic_baseline_hourglass_top_24
 drawable ic_baseline_info_24
 drawable ic_baseline_insert_emoticon_24
+drawable ic_baseline_local_phone_24
 drawable ic_baseline_logout_24
 drawable ic_baseline_mic_24
 drawable ic_baseline_mic_off_24
@@ -2750,6 +2752,7 @@ drawable ic_bg
 drawable ic_clock_black_24dp
 drawable ic_divide
 drawable ic_down
+drawable ic_google_icon
 drawable ic_home
 drawable ic_home1
 drawable ic_keyboard_black_24dp
@@ -3010,7 +3013,6 @@ id certify
 id chain
 id chain2
 id chains
-id change_table
 id checkbox
 id checked
 id chip
@@ -3149,6 +3151,7 @@ id ghost_view_holder
 id giveTestButton
 id glide_custom_view_target_tag
 id gone
+id googleSignIn
 id gotonext
 id grade
 id grade_val
@@ -3176,6 +3179,10 @@ id horizontal_only
 id icon
 id icon_group
 id icon_only
+id idBtnGetOtp
+id idBtnVerify
+id idEdtOtp
+id idEdtPhoneNumber
 id ifRoom
 id ignore
 id ignoreRequest
@@ -3250,7 +3257,6 @@ id logout
 id logoutLayout
 id lottie_layer_name
 id ltr
-id mainButton
 id main_tos_and_pp
 id masked
 id match_constraint
@@ -3346,6 +3352,7 @@ id notification_background
 id notification_main_column
 id notification_main_column_container
 id num
+id numberLayout
 id numberTextView
 id off
 id on
@@ -3353,6 +3360,8 @@ id onInterceptTouchReturnSwipe
 id openDialog
 id operation
 id operator
+id otpLayout
+id otpTextView
 id outline
 id outward
 id overshoot
@@ -3369,6 +3378,7 @@ id path
 id pathRelative
 id peekHeight
 id percent
+id phoneNumberSignIn
 id phone_button
 id phone_layout
 id phone_number
@@ -3400,6 +3410,7 @@ id rectangles
 id recyler
 id recylerview
 id remind
+id resendOtp
 id resend_barrier
 id resend_code
 id restart
@@ -3460,6 +3471,7 @@ id skipped
 id slide
 id sliding_pane_detail_container
 id sliding_pane_layout
+id slogan
 id snackbar_action
 id snackbar_text
 id snap
@@ -3727,6 +3739,7 @@ layout activity_learning
 layout activity_log
 layout activity_login_signup
 layout activity_main
+layout activity_phone_number_login
 layout activity_privacy_policy
 layout activity_profile
 layout activity_score
@@ -4104,6 +4117,11 @@ string hello_second_fragment
 string hide_bottom_view_on_scroll_behavior
 string icon_content_description
 string item_view_role_description
+string kids_dob
+string kids_grade
+string kids_id
+string kids_name
+string kids_profile_url
 string label
 string last_table
 string log_check
@@ -5386,6 +5404,7 @@ style Widget_Support_CoordinatorLayout
 style Widget_Theme_BEYOND_SCHOOL_ActionBar_Fullscreen
 style Widget_Theme_BEYOND_SCHOOL_ButtonBar_Fullscreen
 style background
+style background_text
 style card_background
 style card_bg
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle

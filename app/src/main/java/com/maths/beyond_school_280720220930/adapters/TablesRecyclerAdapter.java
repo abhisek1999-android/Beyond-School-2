@@ -43,7 +43,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
     public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-            View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.select_card_layout,parent, false);
+            View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_layout,parent, false);
             ContactsViewHolder contactsViewHolder=new  ContactsViewHolder(view);
             return contactsViewHolder;
 
@@ -64,8 +64,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
 
 
-        holder.tableDesc.setText(list.get(position).getDecs());
-        holder.tableNumber.setText(list.get(position).getDigit()+"X");
+        holder.operation.setText(list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
 
             holder.mView.setOnClickListener(v->{
                 Intent intent=new Intent(context, LearningActivity.class);
@@ -116,15 +115,17 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     protected class ContactsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tableNumber,tableDesc;
+        TextView digit_val, digit, operation;
+//        TextView tableNumber,tableDesc;
         View mView;
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mView=itemView;
+            operation = itemView.findViewById(R.id.operation);
 
-            tableNumber=mView.findViewById(R.id.numberTextView);
-            tableDesc=mView.findViewById(R.id.descriptionTextView);
+//            tableNumber=mView.findViewById(R.id.numberTextView);
+//            tableDesc=mView.findViewById(R.id.descriptionTextView);
 
         }
     }

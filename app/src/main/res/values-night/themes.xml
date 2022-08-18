@@ -14,7 +14,11 @@
         <!-- Customize your theme here. -->
 
     </style>
+    <style name="background_text">
 
+        <item name="android:background">@color/black</item>
+
+    </style>
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_night</item>
         <item name="android:windowFullscreen">true</item>
@@ -44,9 +48,8 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/splash_night</item>
+        <item name="android:windowBackground">@drawable/home_bg</item>
         <item name="android:textColorHint">@color/sweet_grey</item>
-        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="card_bg" parent="CardView.Light">

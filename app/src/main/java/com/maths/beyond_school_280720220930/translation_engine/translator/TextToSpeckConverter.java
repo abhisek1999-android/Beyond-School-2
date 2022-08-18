@@ -131,6 +131,14 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         }
     }
 
+    public void stop() {
+        if (textToSpeech != null) {
+            Log.d("TAG", "destroy: destroying TTS");
+            conversionCallaBack = null;
+            textToSpeech.stop();
+        }
+    }
+
     public interface TextRangeListener {
         void onRangeStart(String utteranceId, String sentence, int start, int end, int frame);
     }

@@ -179,7 +179,12 @@ public class GradeActivity extends AppCompatActivity {
 
                             KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                             kidsData.setKids_id(queryDocumentSnapshot.getId());
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getGrade(),"KIDS_GRADE");
+                            // saving kids data in locally
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getGrade(),getResources().getString(R.string.kids_grade));
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getName(),getResources().getString(R.string.kids_name));
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getAge(),getResources().getString(R.string.kids_dob));
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getKids_id(),getResources().getString(R.string.kids_profile_url));
+
                             Log.i("KidsData", kidsData.getName() + "");
 
                         }

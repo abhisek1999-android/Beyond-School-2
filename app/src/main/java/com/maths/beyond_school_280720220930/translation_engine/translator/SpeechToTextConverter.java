@@ -99,7 +99,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
             Log.d(TAG, "onError");
             assert conversionCallaBack != null;
             conversionCallaBack.onErrorOccurred(getErrorText(error));
-            conversionCallaBack.getLogResult("onError : " + error);
+            conversionCallaBack.getLogResult("onError : " + getErrorText(error));
         }
 
         @Override

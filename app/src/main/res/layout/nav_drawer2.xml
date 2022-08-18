@@ -120,7 +120,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             >
 
             <ImageView
@@ -217,7 +217,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Logout"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
 
         </LinearLayout>

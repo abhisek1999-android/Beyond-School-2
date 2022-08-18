@@ -80,7 +80,7 @@
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
     <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
-    <string name="slogan2">Maths and English Personalized Learning App</string>
+    <string name="slogan2">Maths and English Personalized  <font color="#6CC8CD">Learning App</font></string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -205,4 +205,12 @@
     <string name="t36">Vocabulary-> School, Summer, Town, Transport, Weather, Professions.</string>
     <string name="t37">Spelling -> Essential words, Most common words, Compound words, Long and Short vowels, Words with double letter after short vowels, Words with double vowels.</string>
     <string name="current_by_all">%s / %s</string>
+
+
+
+    <string name="kids_grade">KIDS_GRADE</string>
+    <string name="kids_name">KIDS_NAME</string>
+    <string name="kids_dob">KIDS_DOB</string>
+    <string name="kids_id">KIDS_ID</string>
+    <string name="kids_profile_url">KIDS_PROFILE_URL</string>
 </resources>

@@ -43,7 +43,7 @@ public class AdditionActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private String subject = "";
-    private String digit = "";
+    private String digit = "",videoUrl="";
 
     private LogDatabase logDatabase;
     private FirebaseAnalytics analytics;
@@ -64,6 +64,7 @@ public class AdditionActivity extends AppCompatActivity {
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
+        videoUrl=getIntent().getStringExtra("video_url");
 
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
@@ -72,7 +73,7 @@ public class AdditionActivity extends AppCompatActivity {
         initTTS();
         initSTT();
         setButtonClick();
-        setOperator();
+        setBasicUiElement();
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -80,23 +81,55 @@ public class AdditionActivity extends AppCompatActivity {
 
     }
 
-    private void setOperator() {
+    private void setBasicUiElement() {
 
-
+        // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.toolBar.titleText.setText( digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
 
         else if (subject.equals("subtraction"))
             binding.operator.setText("-");
 
-        else if (subject.equals("multiplication"))
+        else if (subject.equals("multiplication")){
             binding.operator.setText("×");
+            //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+            binding.toolBar.titleText.setText("Multiplication upto "+digit +"'s Table");
+        }
+
 
         else if (subject.equals("division"))
             binding.operator.setText("÷");
 
-    }
 
+//        binding.learnOrTest.setOnClickListener(v->{
+//            Intent intent =new Intent(getApplicationContext(), AdditionActivity.class);
+//            intent.putExtra("subject",subject);
+//            intent.putExtra("max_digit", digit);
+//            startActivity(intent);
+//        });
+
+
+        if (digit.equals("1")){
+
+            binding.digitOne.setText("0");
+            binding.digitTwo.setText("0");
+        }else{
+            binding.digitTwo.setText("00");
+            binding.digitOne.setText("00");
+        }
+
+
+        binding.learnOrTest.setOnClickListener(v->{
+            Intent intent =new Intent(getApplicationContext(), LearningActivity.class);
+            intent.putExtra("subject",subject);
+            intent.putExtra("max_digit", digit);
+            intent.putExtra("video_url",videoUrl);
+            startActivity(intent);
+        });
+
+    }
     /**
      * Initialize TTS engine
      * Answer will be check here
@@ -163,10 +196,11 @@ public class AdditionActivity extends AppCompatActivity {
 
 
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test "+ subject, 22,currentAnswer+"", result, true, (int) (diff),
+                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
                             currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
 
                     DELAY_ON_STARTING_STT = 500;
+                    DELAY_ON_SETTING_QUESTION=2000;
                     correctAnswer++;
                 } else {
 
@@ -174,9 +208,10 @@ public class AdditionActivity extends AppCompatActivity {
                     tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, AdditionActivity.this);
 
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test "+ subject, 22,currentAnswer+"", result, false, (int) (diff),
+                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
                             currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    DELAY_ON_STARTING_STT = 2000;
+                    DELAY_ON_STARTING_STT = 1800;
+                    DELAY_ON_SETTING_QUESTION=3000;
                     wrongAnswer++;
                 }
                 setWrongCorrectView();
@@ -211,8 +246,10 @@ public class AdditionActivity extends AppCompatActivity {
 
             @Override
             public void onErrorOccurred(String errorMessage) {
-                isCallSTT = true;
-                tts.initialize("", AdditionActivity.this);
+                UtilityFunctions.runOnUiThread(()->{
+                    isCallSTT = true;
+                    tts.initialize("", AdditionActivity.this);
+                },250);
 
                 //  stt.initialize("", AdditionActivity.this);
             }
@@ -226,6 +263,8 @@ public class AdditionActivity extends AppCompatActivity {
 
     private void resetViews() {
         binding.playPause.setChecked(false);
+        isCallSTT = false;
+        isCallTTS = false;
         currentQuestion = 1;
         correctAnswer = 0;
         wrongAnswer = 0;
@@ -333,10 +372,20 @@ public class AdditionActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        tts.destroy();
-        stt.destroy();
+        isCallTTS=false;
+        isCallSTT=false;
+
+        tts.stop();
+        stt.stop();
 
         checkLogIsEnable();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        isCallTTS=true;
     }
 
     private void checkLogIsEnable() {

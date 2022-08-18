@@ -26,10 +26,13 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 
     List<Subject_Model> list;
     Context context;
+    MultiplicationOption multiplicationOption;
 
-    public Subject_Adapter(List<Subject_Model> list, Context context) {
+    public Subject_Adapter(List<Subject_Model> list, Context context,MultiplicationOption multiplicationOption) {
         this.list = list;
         this.context = context;
+        this.multiplicationOption=multiplicationOption;
+
     }
 
     @NonNull
@@ -59,6 +62,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 
 
                     if (!res[0].equals("Multiplication")){
+                        multiplicationOption.multiplicationSelected();
                         Intent intent = new Intent(context, LearningActivity.class);
                         intent.putExtra("subject", res[res.length - 1].toLowerCase());
                         intent.putExtra("max_digit", res[0]);
@@ -92,6 +96,11 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public interface MultiplicationOption{
+
+        void multiplicationSelected();
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {

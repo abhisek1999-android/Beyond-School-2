@@ -27,6 +27,7 @@
         android:fontFamily="@font/reemkufi_medium"
         android:minHeight="0dp"
         android:padding="0dp"
+        android:textSize="22sp"
         android:text="Beyond School" />
 
 
