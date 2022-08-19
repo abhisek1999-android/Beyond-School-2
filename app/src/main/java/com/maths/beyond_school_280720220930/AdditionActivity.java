@@ -43,7 +43,7 @@ public class AdditionActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private String subject = "";
-    private String digit = "",videoUrl="";
+    private String digit = "",videoUrl="",selectedSub="";
 
     private LogDatabase logDatabase;
     private FirebaseAnalytics analytics;
@@ -65,6 +65,7 @@ public class AdditionActivity extends AppCompatActivity {
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
+        selectedSub=getIntent().getStringExtra("selected_sub");
 
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
@@ -84,7 +85,7 @@ public class AdditionActivity extends AppCompatActivity {
     private void setBasicUiElement() {
 
         // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        binding.toolBar.titleText.setText( digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.toolBar.titleText.setText(selectedSub);
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
@@ -95,7 +96,7 @@ public class AdditionActivity extends AppCompatActivity {
         else if (subject.equals("multiplication")){
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
-            binding.toolBar.titleText.setText("Multiplication upto "+digit +"'s Table");
+
         }
 
 
@@ -126,7 +127,9 @@ public class AdditionActivity extends AppCompatActivity {
             intent.putExtra("subject",subject);
             intent.putExtra("max_digit", digit);
             intent.putExtra("video_url",videoUrl);
+            intent.putExtra("selected_sub",selectedSub);
             startActivity(intent);
+            finish();
         });
 
     }
@@ -205,13 +208,13 @@ public class AdditionActivity extends AppCompatActivity {
                 } else {
 
                     logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-                    tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, AdditionActivity.this);
+                    tts.initialize("Wrong Answer", AdditionActivity.this);
 
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                             "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
                             currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    DELAY_ON_STARTING_STT = 1800;
-                    DELAY_ON_SETTING_QUESTION=3000;
+                    DELAY_ON_STARTING_STT = 500;
+                    DELAY_ON_SETTING_QUESTION=2000;
                     wrongAnswer++;
                 }
                 setWrongCorrectView();

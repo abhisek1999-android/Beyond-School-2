@@ -20,10 +20,14 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.GradeActivity;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.Select_Sub_Activity;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
+import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -223,8 +227,16 @@ public class PhoneNumberLogin extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                             finish();
                         } else {
-                            var i = new Intent(getApplicationContext(), GradeActivity.class);
-                            i.putExtra("grade", "GRADE 1");
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+
+                                KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
+                                kidsData.setKids_id(queryDocumentSnapshot.getId());
+                                UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                Log.i("KidsData", kidsData.getName() + "");
+
+
+                            }
+                            var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
                             startActivity(i);
                             finish();
                         }

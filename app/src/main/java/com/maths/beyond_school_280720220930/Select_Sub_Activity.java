@@ -90,6 +90,18 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
         drinkModels = new ArrayList<>();
 
+        uiChnages();
+
+
+    }
+
+    private void uiChnages() {
+
+
+
+
+        drinkModels.clear();
+
 
 
         drinkModels.add(new SpinnerModel(true, R.string.math));
@@ -100,23 +112,27 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
 
-       grade = PrefConfig.readIdInPref(getApplicationContext(),"KIDS_GRADE");
+        grade = PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade));
 
-       if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.log_check)).equals(""))
-        PrefConfig.writeIdInPref(getApplicationContext(),"true",getResources().getString(R.string.log_check));
+        if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.log_check)).equals(""))
+            PrefConfig.writeIdInPref(getApplicationContext(),"true",getResources().getString(R.string.log_check));
 
-       binding.toolBar.userName.setText(grade);
+        binding.toolBar.userName.setText(grade);
 
 
-       binding.tool.toolBar.kidsName.setText("Hi ,"+PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_name)));
+        binding.tool.toolBar.kidsName.setText("Hi ,"+PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_name)));
 
-       binding.tool.logoutLayout.setVisibility(View.VISIBLE);
+        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)),  binding.tool.toolBar.imageView6);
 
-       binding.tool.logout.setOnClickListener(v->{
-           mAuth.signOut();
-           mCurrentUser=null;
-           finish();
-       });
+        Log.i("ImageUrl",PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)));
+
+        binding.tool.logoutLayout.setVisibility(View.VISIBLE);
+
+        binding.tool.logout.setOnClickListener(v->{
+            mAuth.signOut();
+            mCurrentUser=null;
+            finish();
+        });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -159,6 +175,20 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
                 finish();
             }
+        });
+
+        binding.tool.toolBar.imageView6.setOnClickListener(v->{
+
+
+            Intent intent=new Intent(getApplicationContext(),KidsInfoActivity.class);
+            intent.putExtra("type","update");
+            startActivity(intent);
+            binding.drawerLayout.closeDrawer(Gravity.LEFT);
+
+
+
+
+
         });
         findViewById(R.id.remind).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,7 +255,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
                 if (subsub != R.string.math && subsub != R.string.english) {
                     binding.subsub.setText(subsub);
-                //    Toast.makeText(Select_Sub_Activity.this, subsub, Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(Select_Sub_Activity.this, subsub, Toast.LENGTH_SHORT).show();
                     recyler();
                 }
                 return v;
@@ -269,6 +299,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        uiChnages();
+    }
 
     private void checkAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
@@ -277,6 +312,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             }
         }
     }
+
+
+
 
     @SuppressLint("MissingSuperCall")
     public void onRequestPermissionsResult(int requestCode,

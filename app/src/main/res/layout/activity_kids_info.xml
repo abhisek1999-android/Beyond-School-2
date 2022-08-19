@@ -22,6 +22,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+    <TextView
+        android:id="@+id/deleteProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="0dp"
+       android:visibility="gone"
+        android:layout_alignParentBottom="true"
+         android:fontFamily="@font/reemkufi_medium"
+        android:textColor="@color/red"
+        android:elevation="60dp"
+        android:padding="10dp"
+     android:text="Delete this Profile"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:tint="@color/white" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -200,6 +220,7 @@
                     app:hintTextColor="@android:color/transparent">
 
                     <AutoCompleteTextView
+                        android:id="@+id/kidsGrade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_border"
@@ -225,7 +246,6 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/tv_shape"
         android:drawableRight="@drawable/ic_baseline_navigate_next_24"
-
         android:fontFamily="@font/reemkufi_medium"
         android:onClick="goButtonClicked"
         android:text="Next"
@@ -233,6 +253,24 @@
         android:textColor="@color/white"
         android:textSize="@dimen/default_font_size"
         app:backgroundTint="@color/primary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/tv_shape"
+        android:fontFamily="@font/reemkufi_medium"
+        android:onClick="goButtonClicked"
+        android:text="Update"
+        android:visibility="gone"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/default_font_size"
+        app:backgroundTint="@color/accent" />
 
 
 </RelativeLayout>

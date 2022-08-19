@@ -57,6 +57,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private Toolbar toolbar;
 
     private String subject="";
+    private String selectedSub="";
     private String digit="";
     private String videoUrl="";
     private String api_key="";
@@ -84,6 +85,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         subject=getIntent().getStringExtra("subject");
         digit=getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
+        selectedSub=getIntent().getStringExtra("selected_sub");
         api_key=getResources().getString(R.string.youtube_api);
 
 
@@ -302,7 +304,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private void setBasicUiElement() {
 
        // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        binding.toolBar.titleText.setText( digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        binding.toolBar.titleText.setText(selectedSub);
        // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
         if (subject.equals("addition"))
             binding.operator.setText("+");
@@ -313,7 +315,6 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         else if (subject.equals("multiplication")){
             binding.operator.setText("×");
          //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
-            binding.toolBar.titleText.setText("Multiplication upto "+digit +"'s Table");
         }
 
 
@@ -350,6 +351,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             intent.putExtra("subject",subject);
             intent.putExtra("max_digit", digit);
             intent.putExtra("video_url",videoUrl);
+            intent.putExtra("selected_sub",selectedSub);
             startActivity(intent);
             finish();
         });
@@ -434,6 +436,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         outState.putString("digit",digit);
         outState.putString("video_url",videoUrl);
         outState.putString("subject",subject);
+        outState.putString("selected_sub",selectedSub);
     }
 
     @Override
@@ -444,6 +447,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         digit=savedInstanceState.getString("digit");
         videoUrl=savedInstanceState.getString("videoUrl");
         subject=savedInstanceState.getString("subject");
+        selectedSub=savedInstanceState.getString("selected_sub");
     }
 
 

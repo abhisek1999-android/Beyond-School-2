@@ -34,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -48,26 +51,32 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class KidsInfoActivity extends AppCompatActivity {
 
-
-    CircleImageView profileImageView;
-    EditText kidsName;
-
-    TextView kidsAge;
-    ImageButton getImages;
     FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     Uri imageURI;
     private int GALLERY_REQUEST_CODE = 200;
     private StorageReference mStorageReference;
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
-    TextView titleText;
-    ImageView back;
-    TextInputLayout textInputLayoutGrade;
+    private ActivityKidsInfoBinding binding;
+    private String type = "next";
+    String[] array;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kids_info);
+
+        binding = ActivityKidsInfoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        mStorageReference=FirebaseStorage.getInstance().getReference();
+
+
+        binding.toolBar.titleText.setText("Kid's Info");
+
 
         if (Build.VERSION.SDK_INT >= 24) {
             try {
@@ -78,20 +87,8 @@ public class KidsInfoActivity extends AppCompatActivity {
             }
         }
 
-        titleText = findViewById(R.id.titleText);
-        titleText.setText("Kid's Info");
 
-        back = findViewById(R.id.imageViewBack);
-        back.setVisibility(View.GONE);
 
-        profileImageView = findViewById(R.id.kidsProfileImage);
-        mStorageReference = FirebaseStorage.getInstance().getReference();
-        kidsName = findViewById(R.id.kidsNameTextView);
-        kidsAge = findViewById(R.id.kidsAgeTextView);
-        getImages = findViewById(R.id.getImages);
-        textInputLayoutGrade = findViewById(R.id.textInputLayoutGrade);
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = mAuth.getCurrentUser();
 
 
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
@@ -106,7 +103,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         // handle select date button which opens the
         // material design date picker
-        kidsAge.setOnClickListener(
+        binding.kidsAgeTextView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -127,73 +124,83 @@ public class KidsInfoActivity extends AppCompatActivity {
             calendar.setTimeInMillis(Long.parseLong(selection.toString()));
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String formattedDate = format.format(calendar.getTime());
-            kidsAge.setText(formattedDate);
+            binding.kidsAgeTextView.setText(formattedDate);
 
 
         });
 
-        getImages.setOnClickListener(v -> {
+        binding.getImages.setOnClickListener(v -> {
             selectImage();
         });
 
-        //  showSetSpeedDialDialog(0);
+        binding.updateButton.setOnClickListener(v -> {
+            uploadImage();
+        });
+
+        binding.deleteProfile.setOnClickListener(v->{
+         //   deleteProfile();
+        });
+
+
+        binding.toolBar.imageViewBack.setOnClickListener(v->{onBackPressed();});
+
         setUpTextLayoutGrade();
-    }
 
-    private void setUpTextLayoutGrade() {
-        String[] array = getResources().getStringArray(R.array.grades);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, array);
-        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) textInputLayoutGrade.getEditText());
-        editText.setAdapter(adapter);
-    }
-
-
-    private void showSetSpeedDialDialog(int i) {
-
-
-        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
-
-        // now define the properties of the
-        // materialDateBuilder that is title text as SELECT A DATE
-        materialDateBuilder.setTitleText("SELECT A DATE");
-
-        // now create the instance of the material date
-        // picker
-        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
-
-        final AlertDialog.Builder alert = new AlertDialog.Builder(KidsInfoActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.result_display, null);
-
-
-        TextView title = mView.findViewById(R.id.openDialog);
-
-
-        alert.setView(mView);
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         try {
-            alertDialog.show();
+            type = getIntent().getStringExtra("type");
         } catch (Exception e) {
-
         }
 
 
-        title.setOnClickListener(v -> {
-            materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
-        });
-        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
-
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            calendar.setTimeInMillis(Long.parseLong(selection.toString()));
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String formattedDate = format.format(calendar.getTime());
-            //   kidsAge.setText(formattedDate);
-            title.setText(formattedDate);
 
 
-        });
+
+        if (type.equals("update")) {
+
+            binding.deleteProfile.setVisibility(View.VISIBLE);
+            String grade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)).split(" ")[1].trim();
+            //    binding.textInputLayoutGrade.getEditText().setText(array[1]);
+            binding.kidsNameTextView.setText(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
+            binding.kidsAgeTextView.setText(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
+            UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)), binding.kidsProfileImage);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(Integer.parseInt(grade) - 1).toString(), false);
+            }
+            binding.toolBar.titleText.setText("Kid's Profile");
+            binding.nextButton.setVisibility(View.GONE);
+            binding.updateButton.setVisibility(View.VISIBLE);
+        }
+        else{
+            binding.toolBar.imageViewBack.setVisibility(View.GONE);
+        }
+
+
+
+
+
+    }
+
+    private void deleteProfile() {
+
+
+
+
+        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").
+                document(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)))
+                .delete().addOnSuccessListener(unused -> {
+
+                }).addOnFailureListener(e->{
+
+                });
+
+    }
+
+    private void setUpTextLayoutGrade() {
+        array = getResources().getStringArray(R.array.grades);
+        adapter = new ArrayAdapter(this, R.layout.list_item, array);
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.textInputLayoutGrade.getEditText());
+        editText.setAdapter(adapter);
 
     }
 
@@ -204,36 +211,6 @@ public class KidsInfoActivity extends AppCompatActivity {
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, GALLERY_REQUEST_CODE);
-
-//        final CharSequence[] o = {"Take Photo", "Choose from Gallery",
-//                "Cancel"};
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(KidsInfoActivity.this);
-//        builder.setTitle("Add Photo!");
-//        builder.setItems(o, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int item) {
-//                if (o[item].equals("Take Photo")) {
-//
-//
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    // Declare mUri as globel varibale in class
-//                    imageURI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "pic_"+ String.valueOf(System.currentTimeMillis()) + ".jpg"));
-//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
-//                    startActivityForResult(intent, 12);
-//                }
-//                else if (o[item].equals("Choose from Gallery")) {
-//                    Intent intent = new Intent(
-//                            Intent.ACTION_PICK,
-//                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);startActivityForResult(intent, 22);
-//
-//                }
-//                else if (o[item].equals("Cancel")) {
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//        builder.show();
     }
 
 
@@ -241,35 +218,26 @@ public class KidsInfoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//         if (resultCode == RESULT_OK) {
-//            if (requestCode == 12) {
-//
-//                if (imageURI!=null){
-//
-//                    //  Bitmap bmp= BitmapFactory.decodeStream(getContentResolver().openInputStream(imageURI));
-//                    //  contact_bitmap=bmp;
-//                    profileImageView.setImageURI(imageURI);
-//                }
-//
-//            }
 
         if (requestCode == GALLERY_REQUEST_CODE) {
 
-            Uri selectedImage = data.getData();
-            imageURI = selectedImage;
-            // Bitmap bmp=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-            // contact_bitmap=bmp;
-            // userImage.setImageBitmap(bmp);
-            profileImageView.setImageURI(selectedImage);
+            try {
+                Uri selectedImage = data.getData();
+                imageURI = selectedImage;
+                binding.kidsProfileImage.setImageURI(selectedImage);
+            } catch (Exception e) {
+
+                Log.i("ImageException",e.getMessage());
+            }
+
         }
-
-
     }
 
-    public void goButtonClicked(View view) {
+
+    private void uploadImage() {
 
         String uuid = UUID.randomUUID().toString();
-        if (!kidsName.getText().toString().equals("") && !kidsAge.getText().toString().equals("")) {
+        if (!binding.kidsNameTextView.getText().toString().equals("") && !binding.kidsAgeTextView.getText().toString().equals("")) {
 
             if (imageURI != null && mAuth != null) {
                 StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis()) + uuid + ".jpg");
@@ -285,8 +253,10 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     final String downloadUrl = task.getResult().toString();
 
                                     if (task.isSuccessful()) {
-
-                                        saveKidsData(downloadUrl);
+                                        if (type.equals("next"))
+                                            saveKidsData(downloadUrl);
+                                        else
+                                            updateKidsData(downloadUrl);
                                         Log.i("Image Uploaded", downloadUrl);
 
                                     } else {
@@ -305,10 +275,47 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                 }
             } else {
-                saveKidsData("default");
+                if (mAuth != null) {
+
+                    if (type.equals("next"))
+                        saveKidsData("default");
+                    else
+                        updateKidsData(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
+                }
+
             }
         } else {
             Toast.makeText(this, "Name and Age is required!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public void goButtonClicked(View view) {
+        uploadImage();
+    }
+
+
+    private void updateKidsData(String imageUrl) {
+
+        if (mAuth != null) {
+
+
+            Log.i("data", binding.kidsNameTextView.getText().toString() + "," + binding.kidsAgeTextView.getText().toString() + "," +
+                    Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString() + "," + imageUrl);
+
+            kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").
+                    document(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id))).update(
+                            "name", binding.kidsNameTextView.getText().toString(),
+                            "age", binding.kidsAgeTextView.getText().toString(),
+                            "grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(),
+                            "profile_url", imageUrl
+                    ).addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                        UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
+                                binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to update" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
 
     }
@@ -318,12 +325,12 @@ public class KidsInfoActivity extends AppCompatActivity {
 
             String uuid = kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document().getId();
             Map<String, Object> kidsData = new HashMap<>();
-            kidsData.put("name", kidsName.getText().toString());
+            kidsData.put("name", binding.kidsNameTextView.getText().toString());
             kidsData.put("kids_id", uuid);
             kidsData.put("profile_url", imageUrl);
             kidsData.put("parent_id", mCurrentUser.getUid());
-            kidsData.put("age", kidsAge.getText().toString());
-            kidsData.put("grade", Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
+            kidsData.put("age", binding.kidsAgeTextView.getText().toString());
+            kidsData.put("grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString());
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document(uuid)
                     .set(kidsData)
@@ -331,11 +338,16 @@ public class KidsInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
-                            Intent intent = new Intent(getApplicationContext(), GradeActivity.class);
-                            intent.putExtra("name", kidsName.getText().toString());
+
+
+                            UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
+                                    binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
+
+                            Intent intent = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                            intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
-                            intent.putExtra("age", kidsAge.getText().toString());
-                            intent.putExtra("grade", Objects.requireNonNull(textInputLayoutGrade.getEditText()).getText().toString());
+                            intent.putExtra("age", binding.kidsAgeTextView.getText().toString());
+                            intent.putExtra("grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString());
                             startActivity(intent);
                             //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
@@ -350,4 +362,6 @@ public class KidsInfoActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

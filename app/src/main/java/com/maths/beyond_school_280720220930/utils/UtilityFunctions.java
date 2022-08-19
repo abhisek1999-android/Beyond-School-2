@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
 
@@ -37,7 +38,6 @@ public final class UtilityFunctions {
     public static void loadImage(String url, android.widget.ImageView imageView) {
         Glide.with(imageView.getContext())
                 .load(url)
-                .error(R.drawable.cartoon_image_1)
                 .into(imageView);
     }
 
@@ -107,6 +107,16 @@ public final class UtilityFunctions {
 
     public static int getRandomIntegerUpto(int maximum) {
         return ((int) (Math.random() * (maximum - 2))) + 2;
+    }
+
+
+
+   public static void saveDataLocally(Context context,String grade,String name,String dob,String imageUrl,String uuid){
+        PrefConfig.writeIdInPref(context, grade,context.getResources().getString(R.string.kids_grade));
+        PrefConfig.writeIdInPref(context,name,context.getResources().getString(R.string.kids_name));
+        PrefConfig.writeIdInPref(context, dob,context.getResources().getString(R.string.kids_dob));
+        PrefConfig.writeIdInPref(context,imageUrl,context.getResources().getString(R.string.kids_profile_url));
+        PrefConfig.writeIdInPref(context,uuid,context.getResources().getString(R.string.kids_id));
     }
 
     public static Boolean isDivisible(int num1, int num2) {

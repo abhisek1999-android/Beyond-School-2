@@ -207,6 +207,7 @@
     <string name="current_by_all">%s / %s</string>
 
 
+    <string name="is_data_loaded">DATA_LOADED</string>
 
     <string name="kids_grade">KIDS_GRADE</string>
     <string name="kids_name">KIDS_NAME</string>

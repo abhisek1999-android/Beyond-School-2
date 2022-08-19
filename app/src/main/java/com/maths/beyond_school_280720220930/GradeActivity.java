@@ -59,6 +59,9 @@ public class GradeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
         retrieveKidsData();
+
+
+
         var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
         englishGradeDatabase.englishDao().getEnglishModel(1);
         next = findViewById(R.id.next);
@@ -183,7 +186,8 @@ public class GradeActivity extends AppCompatActivity {
                             PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getGrade(),getResources().getString(R.string.kids_grade));
                             PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getName(),getResources().getString(R.string.kids_name));
                             PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getAge(),getResources().getString(R.string.kids_dob));
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getKids_id(),getResources().getString(R.string.kids_profile_url));
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getProfile_url(),getResources().getString(R.string.kids_profile_url));
+                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getKids_id(),getResources().getString(R.string.kids_id));
 
                             Log.i("KidsData", kidsData.getName() + "");
 

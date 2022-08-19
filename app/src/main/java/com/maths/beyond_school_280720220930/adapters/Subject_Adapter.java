@@ -64,6 +64,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     if (!res[0].equals("Multiplication")){
                         multiplicationOption.multiplicationSelected();
                         Intent intent = new Intent(context, LearningActivity.class);
+                        intent.putExtra("selected_sub",val);
                         intent.putExtra("subject", res[res.length - 1].toLowerCase());
                         intent.putExtra("max_digit", res[0]);
                         intent.putExtra("video_url",subject_model.getUrl());
@@ -71,6 +72,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     }
                     else{
                         Intent intent=new Intent(context, MainActivity.class);
+                        intent.putExtra("selected_sub",val);
                         intent.putExtra("subject", res[0].toLowerCase());
                         intent.putExtra("max_digit", res[3]);
                         intent.putExtra("video_url",subject_model.getUrl());

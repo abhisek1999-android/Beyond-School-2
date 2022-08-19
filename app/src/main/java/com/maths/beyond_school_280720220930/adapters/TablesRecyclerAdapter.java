@@ -68,6 +68,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
             holder.mView.setOnClickListener(v->{
                 Intent intent=new Intent(context, LearningActivity.class);
+                intent.putExtra("selected_sub",list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
                 intent.putExtra("max_digit",list.get(position).getDigit());
                 intent.putExtra("subject","multiplication");
                 intent.putExtra("video_url","default");

@@ -22,10 +22,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.GradeActivity;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
 import com.maths.beyond_school_280720220930.LoginSignupActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.Select_Sub_Activity;
+import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 public class GoogleSignInActivity extends LoginSignupActivity {
 
@@ -117,10 +122,20 @@ public class GoogleSignInActivity extends LoginSignupActivity {
                             startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                             finish();
                         } else {
-                            var i = new Intent(getApplicationContext(), GradeActivity.class);
-                            i.putExtra("grade", "GRADE 1");
+
+
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+
+                                KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
+                                kidsData.setKids_id(queryDocumentSnapshot.getId());
+                                UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                Log.i("KidsData", kidsData.getName() + "");
+
+                            }
+                            var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
                             startActivity(i);
                             finish();
+
                         }
 
                     });
@@ -128,6 +143,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
 
 
     }
+
     private void updateUI(FirebaseUser user) {
         checkUserAlreadyAvailable(user);
     }
