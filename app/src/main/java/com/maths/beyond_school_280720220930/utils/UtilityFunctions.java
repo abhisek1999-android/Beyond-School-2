@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
 
@@ -30,14 +31,18 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
 
     //    Ayaan's Code
+
     // Extension Function To load image in imageview Using Glide Library
     public static void loadImage(String url, android.widget.ImageView imageView) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .error(R.drawable.cartoon_image_1)
                 .into(imageView);
     }
 
@@ -72,6 +77,22 @@ public final class UtilityFunctions {
             return number;
         else
             return getRandomNumber(digits);
+    }
+
+    public enum VocabularyCategories {
+        bathroom, body_parts, colors, animals, fruits,
+        vegetables, cloth, feeling, insert, kitchen,
+        living_room, summer, town, transport, weather
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static VocabularyModel getVocabularyDetailsFromType(List<VocabularyModel> models, VocabularyCategories type) {
+        var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
+        if (filterList.size() > 0) {
+            return filterList.get(0);
+        } else {
+            return null;
+        }
     }
 
 
