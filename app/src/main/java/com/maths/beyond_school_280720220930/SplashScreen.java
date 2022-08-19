@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.english_activity.EnglishActivity;
 
@@ -87,20 +88,18 @@ public class SplashScreen extends AppCompatActivity {
 
     private void checkUserAlreadyAvailable() {
 
-        FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
-        kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+        if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)).equals("")){
+            var intent=new Intent(getApplicationContext(), KidsInfoActivity.class);
+            intent.putExtra("type","next");
+            startActivity(intent);
+            finish();
 
+        }else{
+            startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+            finish();
+        }
 
-                    if (queryDocumentSnapshots.isEmpty()) {
-                        Log.i("No_data", "No_data");
-                        startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
-                    } else {
-                        startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
-                    }
-                    finish();
-
-                });
+        finish();
     }
 
     @Override

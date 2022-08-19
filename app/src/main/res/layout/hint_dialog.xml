@@ -58,7 +58,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -69,6 +71,17 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:layout_margin="5dp"
                         android:textAlignment="center"
+                        />
+
+                    <Button
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/buttonAction"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/red"
+                        android:layout_marginTop="@dimen/grid_10"
+                        android:text="DELETE"
                         />
 
                 </LinearLayout>

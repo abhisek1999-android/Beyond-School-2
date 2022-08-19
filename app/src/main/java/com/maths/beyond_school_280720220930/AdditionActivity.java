@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class AdditionActivity extends AppCompatActivity {
     private Boolean isCallTTS = true;
     private Toolbar toolbar;
 
+    private TextView digit1Text;
     private String subject = "";
     private String digit = "",videoUrl="",selectedSub="";
 
@@ -87,21 +89,37 @@ public class AdditionActivity extends AppCompatActivity {
         // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
         binding.toolBar.titleText.setText(selectedSub);
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        if (subject.equals("addition"))
+        if (subject.equals("addition")){
             binding.operator.setText("+");
+            binding.digitOneH.setVisibility(View.VISIBLE);
+            binding.digitOne.setVisibility(View.INVISIBLE);
 
-        else if (subject.equals("subtraction"))
-            binding.operator.setText("-");
-
-        else if (subject.equals("multiplication")){
-            binding.operator.setText("×");
-            //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+            digit1Text=binding.digitOneH;
 
         }
 
 
-        else if (subject.equals("division"))
+        else if (subject.equals("subtraction")){
+            binding.operator.setText("-");
+            binding.digitOneH.setVisibility(View.VISIBLE);
+            binding.digitOne.setVisibility(View.INVISIBLE);
+            digit1Text=binding.digitOneH;
+        }
+
+
+        else if (subject.equals("multiplication")){
+            binding.operator.setText("×");
+            //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+            digit1Text=binding.digitOne;
+
+        }
+
+
+        else if (subject.equals("division")){
             binding.operator.setText("÷");
+            digit1Text=binding.digitOne;
+        }
+
 
 
 //        binding.learnOrTest.setOnClickListener(v->{
@@ -111,15 +129,6 @@ public class AdditionActivity extends AppCompatActivity {
 //            startActivity(intent);
 //        });
 
-
-        if (digit.equals("1")){
-
-            binding.digitOne.setText("0");
-            binding.digitTwo.setText("0");
-        }else{
-            binding.digitTwo.setText("00");
-            binding.digitOne.setText("00");
-        }
 
 
         binding.learnOrTest.setOnClickListener(v->{
@@ -357,7 +366,7 @@ public class AdditionActivity extends AppCompatActivity {
 
 
             logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
-            binding.digitOne.setText(currentNum1 + "");
+            digit1Text.setText(currentNum1 + "");
             binding.digitTwo.setText(currentNum2 + "");
             binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
             binding.ansTextView.setText("?");

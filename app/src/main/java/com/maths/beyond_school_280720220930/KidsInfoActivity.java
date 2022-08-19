@@ -36,6 +36,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.lang.reflect.Method;
@@ -61,6 +63,7 @@ public class KidsInfoActivity extends AppCompatActivity {
     private String type = "next";
     String[] array;
     ArrayAdapter adapter;
+   private CustomProgressDialogue customProgressDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         mStorageReference=FirebaseStorage.getInstance().getReference();
 
+        customProgressDialogue=new CustomProgressDialogue(KidsInfoActivity.this);
 
         binding.toolBar.titleText.setText("Kid's Info");
 
@@ -135,10 +139,12 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         binding.updateButton.setOnClickListener(v -> {
             uploadImage();
+            customProgressDialogue.show();
         });
 
         binding.deleteProfile.setOnClickListener(v->{
-         //   deleteProfile();
+
+            displayHintDialog();
         });
 
 
@@ -181,17 +187,51 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     }
 
+    private void displayHintDialog() {
+
+        HintDialog hintDialog = new HintDialog(KidsInfoActivity.this);
+        hintDialog.setCancelable(false);
+        hintDialog.setAlertTitle("ALERT !");
+        hintDialog.setAlertDesciption("Are you sure you want to delete this profile?");
+
+        hintDialog.actionButton();
+        hintDialog.setOnActionListener(viewId->{
+
+            switch (viewId.getId()){
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+                case R.id.buttonAction:
+
+                    hintDialog.dismiss();
+                    deleteProfile();
+                    break;
+            }
+        });
+
+        hintDialog.show();
+
+    }
+
     private void deleteProfile() {
 
 
-
+        customProgressDialogue.show();
 
         kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").
                 document(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)))
-                .delete().addOnSuccessListener(unused -> {
+                .update("status","deleted").addOnSuccessListener(unused -> {
 
+                    UtilityFunctions.saveDataLocally(getApplicationContext(),"","","","","");
+                    startActivity(new Intent(getApplicationContext(),SplashScreen.class));
+                    finish();
+                    customProgressDialogue.dismiss();
                 }).addOnFailureListener(e->{
 
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    customProgressDialogue.dismiss();
                 });
 
     }
@@ -262,6 +302,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     } else {
                                         //show exception
                                         Log.i("Error Uploading Image", "Error");
+                                        customProgressDialogue.dismiss();
                                     }
                                 }
 
@@ -292,6 +333,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     public void goButtonClicked(View view) {
         uploadImage();
+        customProgressDialogue.show();
     }
 
 
@@ -311,9 +353,11 @@ public class KidsInfoActivity extends AppCompatActivity {
                             "profile_url", imageUrl
                     ).addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                        customProgressDialogue.dismiss();
                         UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
                                 binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
                     }).addOnFailureListener(e -> {
+                        customProgressDialogue.dismiss();
                         Toast.makeText(this, "Failed to update" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
@@ -330,6 +374,7 @@ public class KidsInfoActivity extends AppCompatActivity {
             kidsData.put("profile_url", imageUrl);
             kidsData.put("parent_id", mCurrentUser.getUid());
             kidsData.put("age", binding.kidsAgeTextView.getText().toString());
+            kidsData.put("status","active");
             kidsData.put("grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString());
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document(uuid)
@@ -342,7 +387,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                             UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
                                     binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
-
+                            customProgressDialogue.dismiss();
                             Intent intent = new Intent(getApplicationContext(), Select_Sub_Activity.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
@@ -357,6 +402,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             //  Log.w(TAG, "Error writing document", e);
                             Toast.makeText(KidsInfoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            customProgressDialogue.dismiss();
                         }
                     });
         }

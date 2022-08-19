@@ -24,23 +24,6 @@
 
 
 
-    <TextView
-        android:id="@+id/deleteProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="0dp"
-       android:visibility="gone"
-        android:layout_alignParentBottom="true"
-         android:fontFamily="@font/reemkufi_medium"
-        android:textColor="@color/red"
-        android:elevation="60dp"
-        android:padding="10dp"
-     android:text="Delete this Profile"
-        android:src="@drawable/ic_baseline_delete_24"
-        app:tint="@color/white" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -78,7 +61,7 @@
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/background_round"
                     android:backgroundTint="@color/primary"
-                    android:elevation="60dp"
+                    android:elevation="6dp"
                     android:padding="10dp"
                     android:src="@drawable/ic_baseline_camera_alt_24"
                     app:tint="@color/white" />
@@ -126,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/nextButton"
 
+                android:id="@+id/infoLayout"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
@@ -231,7 +215,27 @@
 
                         android:textSize="@dimen/default_font_size" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/deleteProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_gravity="right"
 
+                    android:visibility="gone"
+                    android:drawableLeft="@drawable/ic_baseline_delete_24"
+                    android:drawableTint="@color/red"
+                    android:layout_marginTop="@dimen/grid_10"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+
+                    android:layout_marginRight="20dp"
+                    android:elevation="60dp"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    android:text="Delete this Profile"
+                    android:textColor="@color/red"
+                    app:tint="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
