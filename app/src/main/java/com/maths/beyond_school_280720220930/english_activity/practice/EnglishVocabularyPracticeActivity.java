@@ -55,6 +55,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         dao = EnglishGradeDatabase.getDbInstance(this).englishDao();
         setToolbar();
+        setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
             var category = getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_CATEGORY);
             setPager(category);
@@ -62,6 +63,13 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         } else {
             throw new IllegalArgumentException("No category provided");
         }
+    }
+
+    private void setPracticeClick() {
+        binding.learnOrTest.setOnClickListener(v -> {
+            destroyedEngines();
+            finish();
+        });
     }
 
 
@@ -88,7 +96,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         );
 
         binding.viewPagerTest.setAdapter(pagerAdapter);
-//        binding.viewPagerText.setUserInputEnabled(false);
+        binding.viewPagerTest.setUserInputEnabled(false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
