@@ -29,6 +29,7 @@ import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLogin
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneNumberLogin extends AppCompatActivity {
@@ -224,21 +225,37 @@ public class PhoneNumberLogin extends AppCompatActivity {
                         if (queryDocumentSnapshots.isEmpty()) {
 
                             Log.i("No_data", "No_data");
-                            startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
+                            var intent=new Intent(getApplicationContext(), KidsInfoActivity.class);
+                            intent.putExtra("type","next");
+                            startActivity(intent);
+                            finish();
                             finish();
                         } else {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
 
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
-                                UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
-                                Log.i("KidsData", kidsData.getName() + "");
+                                try{
+                                    if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
+                                        UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                        Log.i("KidsData", kidsData.getName() + "");
+                                        var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                        startActivity(i);
+                                        finish();
+                                        break;
+                                    }
+                                }catch (Exception e){
+
+                                    UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                    Log.i("KidsData", kidsData.getName() + "");
+                                    var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                    startActivity(i);
+                                    finish();
+                                    break;
+                                }
 
 
                             }
-                            var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
-                            startActivity(i);
-                            finish();
                         }
 
                     });

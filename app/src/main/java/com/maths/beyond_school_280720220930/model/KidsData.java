@@ -2,7 +2,7 @@ package com.maths.beyond_school_280720220930.model;
 
 public class KidsData {
 
-    String name,kids_id,profile_url,age,grade;
+    String name,kids_id,profile_url,age,grade,status;
 
     public KidsData(){}
     public String getName() {
@@ -45,11 +45,20 @@ public class KidsData {
         this.grade = grade;
     }
 
-    public KidsData(String name, String kids_id, String profile_url, String age, String grade) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public KidsData(String name, String kids_id, String profile_url, String age, String grade, String status) {
         this.name = name;
         this.kids_id = kids_id;
         this.profile_url = profile_url;
         this.age = age;
         this.grade=grade;
+        this.status=status;
     }
 }

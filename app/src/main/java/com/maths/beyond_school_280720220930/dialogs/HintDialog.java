@@ -18,6 +18,7 @@ public class HintDialog extends AlertDialog {
     private DialogActionListener dialogActionListener;
     private TextView ansViewText,title;
     private ImageButton closeButton;
+    private Button actionButton;
 
     public HintDialog(Context context) {
         super(context);
@@ -30,8 +31,10 @@ public class HintDialog extends AlertDialog {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             ansViewText = view.findViewById(R.id.ansTextView);
             closeButton=  view.findViewById(R.id.closeButton);
+            actionButton= view.findViewById(R.id.buttonAction);
+
             title=view.findViewById(R.id.title);
-            setClickListener(closeButton);
+            setClickListener(closeButton,actionButton);
             setView(view);
 
     }
@@ -49,6 +52,10 @@ public class HintDialog extends AlertDialog {
         }
     };
 
+
+    public void actionButton(){
+        actionButton.setVisibility(View.VISIBLE);
+    }
 
     public void setAlertTitle(String titleText) {
         if(titleText != null){

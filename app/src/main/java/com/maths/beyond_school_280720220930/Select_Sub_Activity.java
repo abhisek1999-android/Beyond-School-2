@@ -28,6 +28,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,7 +123,12 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
         binding.tool.toolBar.kidsName.setText("Hi ,"+PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_name)));
 
-        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)),  binding.tool.toolBar.imageView6);
+
+        Glide.with(this)
+                .load(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)))
+                .into( binding.tool.toolBar.imageView6);
+
+      //  UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)),  binding.tool.toolBar.imageView6);
 
         Log.i("ImageUrl",PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)));
 
@@ -131,6 +137,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.tool.logout.setOnClickListener(v->{
             mAuth.signOut();
             mCurrentUser=null;
+            startActivity(new Intent(getApplicationContext(),SplashScreen.class));
             finish();
         });
 
@@ -190,6 +197,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
         });
+
+        binding.tool.dash.setVisibility(View.GONE);
         findViewById(R.id.remind).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -240,7 +249,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     SpinnerModel model = drinkModels.get(i);
                     if (model.isHeader()) {
                         name = model.getName();
-                        tvName.setTextColor(R.color.primary);
+                        tvName.setTextColor(R.color.red);
                         break;
                     }
                 }

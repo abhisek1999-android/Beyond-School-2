@@ -68,6 +68,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private String logs = "";
     int currentNum1=0 ;
     int currentNum2=0;
+    private TextView digit1Text;
     private YouTubePlayer.PlaybackEventListener playbackEventListener;
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
 
@@ -194,6 +195,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                     isCallTTS=true;
                     break;
 
+
             }
         });
 
@@ -253,7 +255,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 currentNum2=currentQuestion;
             }
             logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
-            binding.digitOne.setText(currentNum1+"");
+            digit1Text.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
             binding.progress.setText(currentQuestion+"/ "+MAX_QUESTION);
             binding.ansTextView.setText("?");
@@ -306,21 +308,36 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
        // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
         binding.toolBar.titleText.setText(selectedSub);
        // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
-        if (subject.equals("addition"))
+        if (subject.equals("addition")){
             binding.operator.setText("+");
+            binding.digitOneH.setVisibility(View.VISIBLE);
+            binding.digitOne.setVisibility(View.INVISIBLE);
 
-        else if (subject.equals("subtraction"))
-            binding.operator.setText("-");
+            digit1Text=binding.digitOneH;
 
-        else if (subject.equals("multiplication")){
-            binding.operator.setText("×");
-         //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
         }
 
 
-        else if (subject.equals("division"))
-            binding.operator.setText("÷");
+        else if (subject.equals("subtraction")){
+            binding.operator.setText("-");
+            binding.digitOneH.setVisibility(View.VISIBLE);
+            binding.digitOne.setVisibility(View.INVISIBLE);
+            digit1Text=binding.digitOneH;
+        }
 
+
+        else if (subject.equals("multiplication")){
+            binding.operator.setText("×");
+            //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
+            digit1Text=binding.digitOne;
+
+        }
+
+
+        else if (subject.equals("division")){
+            binding.operator.setText("÷");
+            digit1Text=binding.digitOne;
+        }
 
 //        binding.learnOrTest.setOnClickListener(v->{
 //            Intent intent =new Intent(getApplicationContext(), AdditionActivity.class);
@@ -360,14 +377,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         if (subject.equals("multiplication"))
             binding.playVideoLayout.setVisibility(View.INVISIBLE);
 
-        if (digit.equals("1")){
 
-            binding.digitOne.setText("0");
-            binding.digitTwo.setText("0");
-        }else{
-            binding.digitTwo.setText("00");
-            binding.digitOne.setText("00");
-        }
 
     }
 
