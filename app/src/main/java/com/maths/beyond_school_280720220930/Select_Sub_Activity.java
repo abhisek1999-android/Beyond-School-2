@@ -58,7 +58,7 @@ import java.util.List;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 18, name = R.string.math, subject = R.string.math, subsub = R.string.add;
+    int count = 35, name = R.string.math, subject = R.string.math, subsub = R.string.add;
     String grade="";
     List<Subject_Model> list;
     Subject_Model subject_model;
