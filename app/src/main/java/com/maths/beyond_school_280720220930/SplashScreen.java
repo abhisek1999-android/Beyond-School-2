@@ -105,7 +105,8 @@ public class SplashScreen extends AppCompatActivity {
                         Log.i("No_data", "No_data");
                         startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                     } else {
-                        startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+//                        startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+                        startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
                     }
                     finish();
 

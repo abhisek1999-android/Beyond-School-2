@@ -338,7 +338,9 @@ id textView4
 id textView5
 id text_view_category
 id text_view_description
+id text_view_guess_question
 id text_view_item
+id text_view_question
 id textview_first
 id textview_second
 id title
@@ -351,6 +353,7 @@ id totalWrong
 id tvName
 id userName
 id videoView
+id viewPager_test
 id viewYouTubePlayer
 id view_pager
 id wrong
@@ -359,6 +362,7 @@ layout activity_addition
 layout activity_alarm_at_time
 layout activity_dash_board
 layout activity_english
+layout activity_english_vocabulary_practice
 layout activity_grade
 layout activity_kids_info
 layout activity_learning
@@ -383,6 +387,7 @@ layout drawer_header
 layout fragment_first
 layout fragment_second
 layout fragment_vocabulary
+layout fragment_vocabulary_test
 layout hint_dialog
 layout list_item
 layout log_bottom_sheet
@@ -418,6 +423,7 @@ string alarm_at_time
 string alarm_enable
 string app_name
 string app_name_style
+string blanks
 string category
 string child_name
 string close
@@ -445,6 +451,7 @@ string grade3
 string grade_1_data
 string grade_2_data
 string grade_3_data
+string guess_the_word
 string hello_first_fragment
 string hello_second_fragment
 string last_table
@@ -460,6 +467,7 @@ string next
 string practice
 string previous
 string project_id
+string question_mark
 string remainder_on_off
 string right
 string second_fragment_label

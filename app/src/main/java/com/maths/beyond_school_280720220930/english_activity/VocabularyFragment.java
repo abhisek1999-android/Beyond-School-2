@@ -23,11 +23,13 @@ public class VocabularyFragment extends Fragment {
     private final VocabularyDetails vocabulary;
 
     private FragmentVocabularyBinding binding = null;
+    private int currentPage;
 
 
-    public VocabularyFragment(VocabularyDetails vocabulary) {
+    public VocabularyFragment(VocabularyDetails vocabulary, int currentPage) {
         super(R.layout.fragment_vocabulary);
         this.vocabulary = vocabulary;
+        this.currentPage = currentPage;
     }
 
     public LottieAnimationView getAnimationView() {
@@ -44,7 +46,10 @@ public class VocabularyFragment extends Fragment {
         binding.textViewItem.setText(vocabulary.getWord());
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
-        binding.progress.setText(getResources().getString(R.string.current_by_all, String.valueOf(viewPager.getCurrentItem() + 1), String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
+        binding.progress.setText(getResources()
+                .getString(R.string.current_by_all,
+                        String.valueOf(currentPage),
+                        String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
     }
 
 }

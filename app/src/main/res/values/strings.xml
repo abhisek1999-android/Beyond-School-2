@@ -177,7 +177,7 @@
     <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
     <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
     <string name="practice">Practice</string>
-    <string name="category">Category %s </string>
+    <string name="category">Category > %s </string>
 
 
     <!--for grade 1-->
@@ -205,4 +205,7 @@
     <string name="t36">Vocabulary-> School, Summer, Town, Transport, Weather, Professions.</string>
     <string name="t37">Spelling -> Essential words, Most common words, Compound words, Long and Short vowels, Words with double letter after short vowels, Words with double vowels.</string>
     <string name="current_by_all">%s / %s</string>
+    <string name="guess_the_word">Guess the name of the picture ?</string>
+    <string name="blanks">_________</string>
+    <string name="question_mark">\??</string>
 </resources>
