@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
-import com.maths.beyond_school_280720220930.english_activity.EnglishActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -97,6 +96,7 @@ public class SplashScreen extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
                     } else {
                         startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+//                        startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
                     }
                     finish();
 

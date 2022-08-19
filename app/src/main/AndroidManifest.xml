@@ -41,6 +41,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
+            android:name=".english_activity.practice.EnglishVocabularyPracticeActivity"
+            android:exported="false" />
+        <activity
             android:name=".signin_methods.PhoneNumberLogin"
             android:exported="false" />
         <activity

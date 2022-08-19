@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,11 +28,14 @@ import com.maths.beyond_school_280720220930.database.english.model.VocabularyDet
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
+import com.maths.beyond_school_280720220930.english_activity.practice.EnglishVocabularyPracticeActivity;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverterEnglish;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
+import com.maths.beyond_school_280720220930.utils.CollectionUtils;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Date;
@@ -45,6 +49,7 @@ public class EnglishActivity extends AppCompatActivity {
     private ActivityEnglishBinding binding;
     private static final String TAG = EnglishActivity.class.getSimpleName();
     private static final int MAX_TRY = 2 /* Giver u three chance */;
+    private static final int DELAY_TIME = 300;
 
     private EnglishDao dao;
     private TextToSpeckConverter tts = null;
@@ -77,6 +82,18 @@ public class EnglishActivity extends AppCompatActivity {
         setToolbar();
         setViewPager();
         buttonClick();
+        practiceButton();
+    }
+
+    private void practiceButton() {
+        binding.giveTestButton.setOnClickListener(v -> {
+            if (tts != null && stt != null) {
+                destroyedEngines();
+            }
+            var intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
+            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, UtilityFunctions.VocabularyCategories.bathroom.toString());
+            startActivity(intent);
+        });
     }
 
 
@@ -87,7 +104,14 @@ public class EnglishActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setViewPager() {
-        var data = dao.getEnglishModel(1).getVocabulary().get(0);
+        var data = UtilityFunctions.
+                getVocabularyDetailsFromType(
+                        dao.getEnglishModel(1).getVocabulary(),
+                        UtilityFunctions.VocabularyCategories.bathroom);
+        if (data == null) {
+            UtilityFunctions.simpleToast(this, "No data found");
+            return;
+        }
         binding.textViewCategory.setText(getResources().getString(R.string.category, data.getCategory().toUpperCase(Locale.ROOT)));
         List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
@@ -114,10 +138,7 @@ public class EnglishActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else {
-                isSayWordFinish = true;
-                tts.destroy();
-                stt.destroy();
-                ttsHelper.destroy();
+                destroyedEngines();
             }
         });
     }
@@ -127,7 +148,7 @@ public class EnglishActivity extends AppCompatActivity {
     @NonNull
     private List<Fragment> getFragments(VocabularyModel data) {
         vocabularyList = data.getVocabularyDetails();
-        fragmentList = vocabularyList.stream().map(VocabularyFragment::new).collect(Collectors.toList());
+        fragmentList = CollectionUtils.mapWithIndex(vocabularyList.stream(), (index, item) -> new VocabularyFragment(item, index + 1)).collect(Collectors.toList());
         return fragmentList;
     }
 
@@ -188,7 +209,7 @@ public class EnglishActivity extends AppCompatActivity {
                 Log.d(TAG, "onSuccess:  result " + result + " word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord());
                 try {
 //                    Check the maximum try count
-                    if (currentTryCount >= MAX_TRY) {
+                    if (currentTryCount > MAX_TRY) {
                         try {
                             helperTTS("No Problem. Let's go to next word ", true, 0);
                             currentTryCount = 0;
@@ -207,14 +228,14 @@ public class EnglishActivity extends AppCompatActivity {
 
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(),"english");
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         helperTTS("Wrong", false, 0);
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan",
                                 "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(),"english"
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english"
                         );
                     }
 
@@ -234,7 +255,10 @@ public class EnglishActivity extends AppCompatActivity {
             public void onErrorOccurred(String errorMessage) {
                 Log.d(TAG, "onErrorOccurred: " + errorMessage);
                 binding.playPause.setChecked(false);
+                var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
+                current.getAnimationView().setVisibility(View.GONE);
                 isSayWordFinish = true;
+                currentTryCount = 0;
             }
 
             @Override
@@ -298,7 +322,7 @@ public class EnglishActivity extends AppCompatActivity {
                         } else {
                             binding.playPause.setChecked(false);
                         }
-                    });
+                    }, DELAY_TIME);
                 } else {
                     isSayWordFinish = false;
                     currentTryCount++;
@@ -332,5 +356,21 @@ public class EnglishActivity extends AppCompatActivity {
         protected SpeechToTextConverterEnglish doInBackground(ConversionCallback... conversionCallbacks) {
             return SpeechToTextBuilder.englishBuilder(conversionCallbacks[0]);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        destroyedEngines();
+    }
+
+    private void destroyedEngines() {
+        binding.playPause.setChecked(false);
+        if (tts != null)
+            tts.destroy();
+        if (stt != null)
+            stt.destroy();
+        if (ttsHelper != null)
+            ttsHelper.destroy();
     }
 }

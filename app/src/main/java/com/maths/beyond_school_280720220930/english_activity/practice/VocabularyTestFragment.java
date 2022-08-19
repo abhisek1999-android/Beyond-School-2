@@ -1,7 +1,8 @@
-package com.maths.beyond_school_280720220930.english_activity;
+package com.maths.beyond_school_280720220930.english_activity.practice;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,23 +12,21 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
-import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyBinding;
+import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyTestBinding;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Objects;
 
-public class VocabularyFragment extends Fragment {
+public class VocabularyTestFragment extends Fragment {
 
 
-    private static final String TAG = VocabularyFragment.class.getSimpleName();
+    private static final String TAG = VocabularyTestFragment.class.getSimpleName();
     private final VocabularyDetails vocabulary;
-
-    private FragmentVocabularyBinding binding = null;
     private final int currentPage;
+    private FragmentVocabularyTestBinding binding = null;
 
-
-    public VocabularyFragment(VocabularyDetails vocabulary, int currentPage) {
-        super(R.layout.fragment_vocabulary);
+    public VocabularyTestFragment(VocabularyDetails vocabulary, int currentPage) {
+        super(R.layout.fragment_vocabulary_test);
         this.vocabulary = vocabulary;
         this.currentPage = currentPage;
     }
@@ -36,20 +35,19 @@ public class VocabularyFragment extends Fragment {
         return binding.animationVoice;
     }
 
+    public TextView getTextView() {
+        return binding.textViewQuestion;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = FragmentVocabularyBinding.bind(view);
+        binding = FragmentVocabularyTestBinding.bind(view);
         UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
-        binding.textViewDescription.setText(vocabulary.getDefinition());
-        binding.textViewItem.setText(vocabulary.getWord());
-
-        var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
+        var viewPager = (ViewPager2) requireActivity().findViewById(R.id.viewPager_test);
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(currentPage),
                         String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
     }
-
 }
