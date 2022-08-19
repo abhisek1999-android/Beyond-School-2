@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.navigation.NavigationView;
@@ -33,21 +32,15 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
-import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
-import com.maths.beyond_school_280720220930.extras.ReadText;
-import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.model.SpinnerModel;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.model.Tables;
-import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
-import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
@@ -59,7 +52,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
     int count = 35, name = R.string.math, subject = R.string.math, subsub = R.string.add;
-    String grade="";
+    String grade = "";
     List<Subject_Model> list;
     Subject_Model subject_model;
     GradeDatabase database;
@@ -72,9 +65,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private int REQUEST_RECORD_AUDIO = 1;
     private List<Tables> tablesList;
     private String[] tableList;
-   private FirebaseAuth mAuth;
-   private FirebaseUser mCurrentUser;
-   private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -98,10 +91,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void uiChnages() {
 
 
-
-
         drinkModels.clear();
-
 
 
         drinkModels.add(new SpinnerModel(true, R.string.math));
@@ -112,25 +102,25 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
 
-        grade = PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade));
+        grade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
 
-        if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.log_check)).equals(""))
-            PrefConfig.writeIdInPref(getApplicationContext(),"true",getResources().getString(R.string.log_check));
+        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals(""))
+            PrefConfig.writeIdInPref(getApplicationContext(), "true", getResources().getString(R.string.log_check));
 
         binding.toolBar.userName.setText(grade);
 
 
-        binding.tool.toolBar.kidsName.setText("Hi ,"+PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_name)));
+        binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
 
-        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)),  binding.tool.toolBar.imageView6);
+        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)), binding.tool.toolBar.imageView6);
 
-        Log.i("ImageUrl",PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)));
+        Log.i("ImageUrl", PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
 
         binding.tool.logoutLayout.setVisibility(View.VISIBLE);
 
-        binding.tool.logout.setOnClickListener(v->{
+        binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
-            mCurrentUser=null;
+            mCurrentUser = null;
             finish();
         });
 
@@ -177,16 +167,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             }
         });
 
-        binding.tool.toolBar.imageView6.setOnClickListener(v->{
+        binding.tool.toolBar.imageView6.setOnClickListener(v -> {
 
 
-            Intent intent=new Intent(getApplicationContext(),KidsInfoActivity.class);
-            intent.putExtra("type","update");
+            Intent intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+            intent.putExtra("type", "update");
             startActivity(intent);
             binding.drawerLayout.closeDrawer(Gravity.LEFT);
-
-
-
 
 
         });
@@ -205,8 +192,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-
-
 
 
         ArrayAdapter<SpinnerModel> spinnerAdapter = new ArrayAdapter<SpinnerModel>(this, R.layout.row, drinkModels) {
@@ -314,8 +299,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     }
 
 
-
-
     @SuppressLint("MissingSuperCall")
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -333,21 +316,22 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     }
 
 
-    private void multiplicationList(int digit){
+    private void multiplicationList(int digit) {
 
 
         tableList = getResources().getStringArray(R.array.table_name);
         tablesList = new ArrayList<>();
-        for (int i=1;i<digit;i++){
-            tablesList.add(new Tables(i+1+"",tableList[i-1]));
+        for (int i = 1; i < digit; i++) {
+            tablesList.add(new Tables(i + 1 + "", tableList[i - 1]));
         }
-        binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this,LinearLayoutManager.VERTICAL,false));
+        binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
 
         tablesRecyclerAdapter = new TablesRecyclerAdapter(tablesList, Select_Sub_Activity.this);
         binding.recylerview.setAdapter(tablesRecyclerAdapter);
         ViewCompat.setNestedScrollingEnabled(binding.recylerview, false);
 
     }
+
     private void recyler() {
 
 
@@ -362,14 +346,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
-                        if (!res[0].equals(getResources().getString(R.string.mul))){
+                        if (!res[0].equals(getResources().getString(R.string.mul))) {
                             for (String str : res) {
                                 if (str.equals(getResources().getString(subsub))) {
                                     list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                                 }
                             }
-                        }
-                        else{
+                        } else {
                             multiplicationList(Integer.parseInt(res[3]));
                         }
 
@@ -395,12 +378,12 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
             }
         }
-        if (subsub!=R.string.mul){
-        binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
-        adapter = new Subject_Adapter(list, Select_Sub_Activity.this,this);
-        binding.recylerview.setAdapter(adapter);}
+        if (subsub != R.string.mul) {
+            binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
+            adapter = new Subject_Adapter(list, Select_Sub_Activity.this, this);
+            binding.recylerview.setAdapter(adapter);
+        }
     }
-
 
 
     @Override

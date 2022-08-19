@@ -1,14 +1,14 @@
 package com.maths.beyond_school_280720220930.signin_methods;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,9 +21,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.maths.beyond_school_280720220930.GradeActivity;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
-import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.model.KidsData;
@@ -45,7 +43,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding=ActivityPhoneNumberLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityPhoneNumberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
@@ -104,9 +102,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
         });
 
 
-
     }
-
 
 
     private void signInWithCredential(PhoneAuthCredential credential) {
@@ -119,7 +115,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // if the code is correct and the task is successful
                             // we are sending our user to new activity.
-                           checkUserAlreadyAvailable(mAuth.getCurrentUser());
+                            checkUserAlreadyAvailable(mAuth.getCurrentUser());
                         } else {
                             // if the code is not correct then we are
                             // displaying an error message to the user.
@@ -215,7 +211,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
     private void checkUserAlreadyAvailable(FirebaseUser user) {
 
 
-        if (user!=null){
+        if (user != null) {
             FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
             kidsDb.collection("users").document(user.getUid()).collection("kids").get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -224,14 +220,16 @@ public class PhoneNumberLogin extends AppCompatActivity {
                         if (queryDocumentSnapshots.isEmpty()) {
 
                             Log.i("No_data", "No_data");
-                            startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
+                            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+                            intent.putExtra("type", "next");
+                            startActivity(intent);
                             finish();
                         } else {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
 
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
-                                UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
                                 Log.i("KidsData", kidsData.getName() + "");
 
 

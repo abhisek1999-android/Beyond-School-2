@@ -119,7 +119,9 @@ public class GoogleSignInActivity extends LoginSignupActivity {
                         if (queryDocumentSnapshots.isEmpty()) {
 
                             Log.i("No_data", "No_data");
-                            startActivity(new Intent(getApplicationContext(), KidsInfoActivity.class));
+                            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+                            intent.putExtra("type","next");
+                            startActivity(intent);
                             finish();
                         } else {
 

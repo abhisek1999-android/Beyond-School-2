@@ -76,7 +76,7 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question,String subject) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -110,13 +110,12 @@ public final class UtilityFunctions {
     }
 
 
-
-   public static void saveDataLocally(Context context,String grade,String name,String dob,String imageUrl,String uuid){
-        PrefConfig.writeIdInPref(context, grade,context.getResources().getString(R.string.kids_grade));
-        PrefConfig.writeIdInPref(context,name,context.getResources().getString(R.string.kids_name));
-        PrefConfig.writeIdInPref(context, dob,context.getResources().getString(R.string.kids_dob));
-        PrefConfig.writeIdInPref(context,imageUrl,context.getResources().getString(R.string.kids_profile_url));
-        PrefConfig.writeIdInPref(context,uuid,context.getResources().getString(R.string.kids_id));
+    public static void saveDataLocally(Context context, String grade, String name, String dob, String imageUrl, String uuid) {
+        PrefConfig.writeIdInPref(context, grade, context.getResources().getString(R.string.kids_grade));
+        PrefConfig.writeIdInPref(context, name, context.getResources().getString(R.string.kids_name));
+        PrefConfig.writeIdInPref(context, dob, context.getResources().getString(R.string.kids_dob));
+        PrefConfig.writeIdInPref(context, imageUrl, context.getResources().getString(R.string.kids_profile_url));
+        PrefConfig.writeIdInPref(context, uuid, context.getResources().getString(R.string.kids_id));
     }
 
     public static Boolean isDivisible(int num1, int num2) {
