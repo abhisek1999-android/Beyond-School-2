@@ -23,7 +23,7 @@ public class VocabularyFragment extends Fragment {
     private final VocabularyDetails vocabulary;
 
     private FragmentVocabularyBinding binding = null;
-    private int currentPage;
+    private final int currentPage;
 
 
     public VocabularyFragment(VocabularyDetails vocabulary, int currentPage) {
