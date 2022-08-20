@@ -361,9 +361,18 @@ public class AdditionActivity extends AppCompatActivity {
             }
             if (subject.equals("division")) {
 
-                currentNum1 = UtilityFunctions.getRandomIntegerUpto(20);
+                int maxVal=20;
+                if (digit.equals("2"))
+                    maxVal=99;
+                if (digit.equals("3"))
+                    maxVal=999;
+                if (digit.equals("4"))
+                    maxVal=9999;
+
+                currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal);
+                currentNum2=UtilityFunctions.getRandomIntegerUpto(9);
                 while (!UtilityFunctions.isDivisible(currentNum1, currentNum2)) {
-                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(20);
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal);
                 }
             }
 
