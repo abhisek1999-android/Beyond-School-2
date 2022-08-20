@@ -54,6 +54,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
+    private Boolean isNewQuestionGenerated = true;
+    private Boolean isAnswered = false;
     private Toolbar toolbar;
 
     private String subject="";
@@ -230,9 +232,18 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private void setQuestion() throws InterruptedException {
 
         UtilityFunctions.unMuteAudioStream(LearningActivity.this);
+
+
+
+        isAnswered=false;
+
+
         if (isCallTTS){
-            var currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-            var currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+
+
+            if (isNewQuestionGenerated){
+            currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+            currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
 
             if (subject.equals("subtraction")){
                 if (currentNum1<currentNum2){
@@ -243,9 +254,19 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             }
             if (subject.equals("division")){
 
-                currentNum1=UtilityFunctions.getRandomIntegerUpto(20);
+                int maxVal=20;
+                if (digit.equals("2"))
+                    maxVal=99;
+                if (digit.equals("3"))
+                    maxVal=999;
+                if (digit.equals("4"))
+                    maxVal=9999;
+
+
+                currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal);
+                currentNum2=UtilityFunctions.getRandomIntegerUpto(9);
                 while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
-                    currentNum1=UtilityFunctions.getRandomIntegerUpto(20);
+                    currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal);
                 }
             }
 
@@ -253,7 +274,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             {
                 currentNum1=Integer.parseInt(digit);
                 currentNum2=currentQuestion;
-            }
+            }}
             logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
             digit1Text.setText(currentNum1+"");
             binding.digitTwo.setText(currentNum2+"");
@@ -264,6 +285,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject,currentNum1,currentNum2), this);
 
+            isNewQuestionGenerated=true;
         }
 
 
@@ -289,6 +311,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         isCallSTT=false;
         isCallTTS=false;
+        if (!isAnswered)
+        isNewQuestionGenerated=false;
     }
 
     private void setButtonClick() {
@@ -535,6 +559,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
 
+                isAnswered=true;
                 try {
                     UtilityFunctions.unMuteAudioStream(LearningActivity.this);
                 } catch (InterruptedException e) {
@@ -550,16 +575,17 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                     tts.initialize("Correct Answer", LearningActivity.this);
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                             "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, true, (int) (endTime-startTime),
-                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
                     logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
                     DELAY_ON_STARTING_STT=500;
                     DELAY_ON_SETTING_QUESTION=2000;
                     correctAnswer++;
+
                 } else {
                     tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                             "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, false, (int) (endTime-startTime),
-                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
                     logs+="Tag: Wrong\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
                     DELAY_ON_STARTING_STT=1800;
                     DELAY_ON_SETTING_QUESTION=3000;
@@ -622,6 +648,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     protected void onResume() {
         super.onResume();
         isCallTTS=true;
+        initSTT();
+        initTTS();
     }
     @Override
     protected void onDestroy() {

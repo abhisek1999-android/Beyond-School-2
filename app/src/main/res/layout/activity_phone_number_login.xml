@@ -54,6 +54,7 @@
             />
 
         <!--Edittext for getting users phone number-->
+
         <EditText
             android:layout_below="@id/numberTextView"
             android:id="@+id/idEdtPhoneNumber"

@@ -265,6 +265,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                 Uri selectedImage = data.getData();
                 imageURI = selectedImage;
                 binding.kidsProfileImage.setImageURI(selectedImage);
+                uploadImage();
             } catch (Exception e) {
 
                 Log.i("ImageException",e.getMessage());
@@ -276,6 +277,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     private void uploadImage() {
 
+        customProgressDialogue.show();
         String uuid = UUID.randomUUID().toString();
         if (!binding.kidsNameTextView.getText().toString().equals("") && !binding.kidsAgeTextView.getText().toString().equals("")) {
 
@@ -293,8 +295,12 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     final String downloadUrl = task.getResult().toString();
 
                                     if (task.isSuccessful()) {
-                                        if (type.equals("next"))
+                                        if (type.equals("next")){
                                             saveKidsData(downloadUrl);
+
+                                            UtilityFunctions.loadImage(downloadUrl,binding.kidsProfileImage);
+                                        }
+
                                         else
                                             updateKidsData(downloadUrl);
                                         Log.i("Image Uploaded", downloadUrl);

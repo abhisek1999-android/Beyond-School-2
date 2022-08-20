@@ -542,7 +542,7 @@
         android:backgroundTint="@color/accent"
         android:fontFamily="@font/reemkufi_medium"
         android:paddingHorizontal="20sp"
-        android:text="Practice"
+        android:text="Learn"
         android:gravity="center"
         android:textAllCaps="true"
         android:drawableTint="@color/white"
