@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930.english_activity.practice;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private final String TAG = EnglishVocabularyPracticeActivity.class.getSimpleName();
     private static final int DELAY_TIME = 500;
+    private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
     private ActivityEnglishVocabularyPracticeBinding binding;
     private EnglishDao dao;
     private List<VocabularyDetails> vocabularyList;
@@ -42,7 +44,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
     private SpeechToTextConverterEnglish stt = null;
-    private int correctAnswers = 0;
+    private int correctAnswers = 0, currentTryCountForSpeech = 0;
     private int wrongAnswers = 0;
     private Boolean isSpeaking = false;
     private int tryAgainCount = 0;
@@ -193,6 +195,17 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
             @Override
             public void onErrorOccurred(String errorMessage) {
+                if (errorMessage.equals("No match")) {
+                    currentTryCountForSpeech++;
+                    if (currentTryCountForSpeech < MAX_TRY_FOR_SPEECH) {
+                        Log.d(TAG, "onErrorOccurred: " + currentTryCountForSpeech);
+                        UtilityFunctions.runOnUiThread(() -> {
+                            startListening();
+                        }, 400);
+
+                        return;
+                    }
+                }
                 var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
                 current.getAnimationView().setVisibility(View.GONE);
                 binding.playPause.setChecked(false);

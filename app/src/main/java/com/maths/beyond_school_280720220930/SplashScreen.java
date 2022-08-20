@@ -5,13 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +44,6 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
 
 
         startService(new Intent(getBaseContext(), ClearService.class));
@@ -88,14 +85,15 @@ public class SplashScreen extends AppCompatActivity {
 
     private void checkUserAlreadyAvailable() {
 
-        if (PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)).equals("")){
-            var intent=new Intent(getApplicationContext(), KidsInfoActivity.class);
-            intent.putExtra("type","next");
+        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)).equals("")) {
+            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+            intent.putExtra("type", "next");
             startActivity(intent);
             finish();
 
-        }else{
+        } else {
             startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+//            startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
             finish();
         }
 

@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +50,7 @@ public class EnglishActivity extends AppCompatActivity {
     private ActivityEnglishBinding binding;
     private static final String TAG = EnglishActivity.class.getSimpleName();
     private static final int MAX_TRY = 2 /* Giver u three chance */;
+    private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
     private static final int DELAY_TIME = 300;
 
     private EnglishDao dao;
@@ -59,7 +61,7 @@ public class EnglishActivity extends AppCompatActivity {
     private List<Fragment> fragmentList;
     private Boolean isSpeaking = false;
     private Boolean isSayWordFinish = true;
-    private int currentTryCount = 0;
+    private int currentTryCount = 0, currentTryCountForSpeech = 0;
     private final int REQUEST_FOR_DES = 345 * 34;
     private LogDatabase logDatabase;
     private String logs = "";
@@ -121,8 +123,25 @@ public class EnglishActivity extends AppCompatActivity {
         );
 
         binding.viewPager.setAdapter(pagerAdapter);
+        binding.viewPager.setPageTransformer((page, position) -> {
+            updatePagerHeightForChild(page, binding.viewPager);
+        });
         binding.viewPager.setUserInputEnabled(false);
 
+    }
+
+    private void updatePagerHeightForChild(View view, ViewPager2 pager) {
+        view.post(() -> {
+            {
+                var wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
+                var hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                view.measure(wMeasureSpec, hMeasureSpec);
+                var lp = pager.getLayoutParams();
+                lp.height = view.getMeasuredHeight();
+                pager.setLayoutParams(lp);
+                pager.invalidate();
+            }
+        });
     }
 
     private void buttonClick() {
@@ -254,7 +273,19 @@ public class EnglishActivity extends AppCompatActivity {
             @Override
             public void onErrorOccurred(String errorMessage) {
                 Log.d(TAG, "onErrorOccurred: " + errorMessage);
+                if (errorMessage.equals("No match")) {
+                    currentTryCountForSpeech++;
+                    if (currentTryCountForSpeech < MAX_TRY_FOR_SPEECH) {
+                        Log.d(TAG, "onErrorOccurred: " + currentTryCountForSpeech);
+                        UtilityFunctions.runOnUiThread(() -> {
+                            startListening();
+                        }, 400);
+
+                        return;
+                    }
+                }
                 binding.playPause.setChecked(false);
+                currentTryCountForSpeech = 0;
                 var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
                 current.getAnimationView().setVisibility(View.GONE);
                 isSayWordFinish = true;

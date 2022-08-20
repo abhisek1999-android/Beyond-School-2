@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
@@ -28,10 +26,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     Context context;
     MultiplicationOption multiplicationOption;
 
-    public Subject_Adapter(List<Subject_Model> list, Context context,MultiplicationOption multiplicationOption) {
+    public Subject_Adapter(List<Subject_Model> list, Context context, MultiplicationOption multiplicationOption) {
         this.list = list;
         this.context = context;
-        this.multiplicationOption=multiplicationOption;
+        this.multiplicationOption = multiplicationOption;
 
     }
 
@@ -47,7 +45,13 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Subject_Model subject_model = list.get(position);
         String val = context.getResources().getString(subject_model.getSubsub());
-        holder.operation.setText(val);
+        var finalString = "";
+        if (val.contains("Vocabulary")) {
+            finalString = val.replace("Vocabulary", "");
+        } else {
+            finalString = val;
+        }
+        holder.operation.setText(finalString);
         String[] res = val.split(" ");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -57,25 +61,24 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                 if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                     Intent intent = new Intent(context, EnglishActivity.class);
                     context.startActivity(intent);
-                   // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                 } else {
 
 
-                    if (!res[0].equals("Multiplication")){
+                    if (!res[0].equals("Multiplication")) {
                         multiplicationOption.multiplicationSelected();
                         Intent intent = new Intent(context, LearningActivity.class);
-                        intent.putExtra("selected_sub",val);
+                        intent.putExtra("selected_sub", val);
                         intent.putExtra("subject", res[res.length - 1].toLowerCase());
                         intent.putExtra("max_digit", res[0]);
-                        intent.putExtra("video_url",subject_model.getUrl());
+                        intent.putExtra("video_url", subject_model.getUrl());
                         context.startActivity(intent);
-                    }
-                    else{
-                        Intent intent=new Intent(context, MainActivity.class);
-                        intent.putExtra("selected_sub",val);
+                    } else {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("selected_sub", val);
                         intent.putExtra("subject", res[0].toLowerCase());
                         intent.putExtra("max_digit", res[3]);
-                        intent.putExtra("video_url",subject_model.getUrl());
+                        intent.putExtra("video_url", subject_model.getUrl());
                         context.startActivity(intent);
 
                     }
@@ -100,7 +103,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         return list.size();
     }
 
-    public interface MultiplicationOption{
+    public interface MultiplicationOption {
 
         void multiplicationSelected();
     }

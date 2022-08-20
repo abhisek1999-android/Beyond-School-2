@@ -34,17 +34,18 @@
         android:fillViewport="true"
         android:padding="@dimen/grid_1">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/grid_1">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/playPause"
-                android:layout_alignParentTop="true"
-                android:padding="@dimen/grid_1" />
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/playPause"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <ToggleButton
                 android:id="@+id/playPause"
@@ -56,10 +57,14 @@
                 android:backgroundTint="@color/primary"
                 android:drawableTop="@drawable/play_button"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingTop="5dp"
+                android:paddingTop="10dp"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
+                app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
+                app:layout_constraintEnd_toEndOf="@+id/image_view_teacher"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_view_teacher"
                 tools:ignore="UnusedAttribute" />
 
 
@@ -69,8 +74,9 @@
                 android:layout_height="120dp"
                 android:layout_above="@id/giveTestButton"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/grid_1"
-                android:src="@drawable/character_teacher" />
+                android:src="@drawable/character_teacher"
+                app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <LinearLayout
@@ -78,20 +84,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginHorizontal="30dp"
                 android:background="@drawable/tv_shape"
                 android:backgroundTint="@color/primary"
                 android:orientation="horizontal"
-                android:padding="@dimen/grid_10">
+                android:padding="@dimen/grid_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:src="@drawable/ic_test_icon"-->
-
-<!--                    app:tint="@color/white" />-->
 
                 <TextView
                     android:layout_width="match_parent"
@@ -101,15 +102,15 @@
                     android:gravity="center"
 
 
-                    android:textAllCaps="true"
                     android:text="Take Test"
                     android:textAlignment="center"
+                    android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/default_font_size_big" />
 
 
             </LinearLayout>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
