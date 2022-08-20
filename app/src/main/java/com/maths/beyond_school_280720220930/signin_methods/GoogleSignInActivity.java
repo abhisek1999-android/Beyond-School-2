@@ -32,6 +32,8 @@ import com.maths.beyond_school_280720220930.Select_Sub_Activity;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.Locale;
+
 public class GoogleSignInActivity extends LoginSignupActivity {
 
     FirebaseAuth mAuth;
@@ -130,13 +132,29 @@ public class GoogleSignInActivity extends LoginSignupActivity {
 
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
-                                UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
-                                Log.i("KidsData", kidsData.getName() + "");
+
+                                try{
+                                    if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
+                                        UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                        Log.i("KidsData", kidsData.getName() + "");
+                                        var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                        startActivity(i);
+                                        finish();
+                                        break;
+                                    }
+                                }catch (Exception e){
+
+                                    UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                    Log.i("KidsData", kidsData.getName() + "");
+                                    var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                    startActivity(i);
+                                    finish();
+                                    break;
+                                }
+
 
                             }
-                            var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
-                            startActivity(i);
-                            finish();
+
 
                         }
 

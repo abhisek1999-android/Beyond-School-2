@@ -294,7 +294,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private void setButtonClick() {
         binding.playPause.setOnClickListener(v -> {
             if (binding.playPause.isChecked()) {
-                binding.hintButton.setVisibility(View.VISIBLE);
+              //  binding.hintButton.setVisibility(View.VISIBLE);
                 play();
             }
             else {

@@ -31,7 +31,7 @@ public class AlarmAtTime extends AppCompatActivity {
     private static final String KEY_HOUR = "hour";
     private static final String KEY_MINUTE = "minute";
     TextView titletext;
-    ImageView back;
+
     Calendar calendar;
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
@@ -47,9 +47,11 @@ public class AlarmAtTime extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_at_time);
 
         binding=ActivityAlarmAtTimeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
         titletext = findViewById(R.id.titleText);
 
         picker = (TimePicker) findViewById(R.id.datePicker1);
@@ -231,8 +233,7 @@ public class AlarmAtTime extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(AlarmAtTime.this, MainActivity.class);
-        startActivity(intent);
+
         finish();
     }
 }
