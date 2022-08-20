@@ -126,8 +126,8 @@ public final class UtilityFunctions {
     // This solves the problem of repeating digits..
 
 
-    public static int getRandomIntegerUpto(int maximum) {
-        return ((int) (Math.random() * (maximum - 2))) + 2;
+    public static int getRandomIntegerUpto(int maximum,int minimum) {
+        return ((int) (Math.random() * (maximum - minimum))) + minimum;
     }
 
 

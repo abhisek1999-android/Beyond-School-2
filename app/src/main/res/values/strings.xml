@@ -146,28 +146,28 @@
     <string name="english">English</string>
     <string name="vocabulary">Vocabulary</string>
 
-    <string name="vocab1"> Bathroom</string>
-    <string name="vocab2"> Bodyparts</string>
-    <string name="vocab3"> Colors</string>
-    <string name="vocab4"> Animals</string>
-    <string name="vocab5"> Fruits</string>
-    <string name="vocab6"> Vegetables</string>
-    <string name="vocab7"> Opposites</string>
+    <string name="vocab1">Vocabulary Bathroom</string>
+    <string name="vocab2">Vocabulary Bodyparts</string>
+    <string name="vocab3">Vocabulary Colors</string>
+    <string name="vocab4">Vocabulary Animals</string>
+    <string name="vocab5">Vocabulary Fruits</string>
+    <string name="vocab6">Vocabulary Vegetables</string>
+    <string name="vocab7">Vocabulary Opposites</string>
 
-    <string name="vocab8"> Clothes</string>
-    <string name="vocab9"> Feelings</string>
-    <string name="vocab10"> Insects</string>
-    <string name="vocab11"> Kitchen</string>
-    <string name="vocab12"> LivingRoom</string>
-    <string name="vocab13"> Days</string>
+    <string name="vocab8">Vocabulary Clothes</string>
+    <string name="vocab9">Vocabulary Feelings</string>
+    <string name="vocab10">Vocabulary Insects</string>
+    <string name="vocab11">Vocabulary Kitchen</string>
+    <string name="vocab12">Vocabulary LivingRoom</string>
+    <string name="vocab13">Vocabulary Days</string>
 
 
-    <string name="vocab14"> School</string>
-    <string name="vocab15"> Summer</string>
-    <string name="vocab16"> Town</string>
-    <string name="vocab17"> Transport</string>
-    <string name="vocab18"> Wheather</string>
-    <string name="vocab19"> Professions</string>
+    <string name="vocab14">Vocabulary School</string>
+    <string name="vocab15">Vocabulary Summer</string>
+    <string name="vocab16">Vocabulary Town</string>
+    <string name="vocab17">Vocabulary Transport</string>
+    <string name="vocab18">Vocabulary Wheather</string>
+    <string name="vocab19">Vocabulary Professions</string>
 
     <string name="digit">Digit</string>
     <string name="table">Table</string>

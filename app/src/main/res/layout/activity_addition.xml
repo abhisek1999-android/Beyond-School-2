@@ -388,7 +388,7 @@
             android:backgroundTint="@color/primary"
             android:drawableTop="@drawable/play_button"
             android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="15dp"
+            android:paddingTop="18dp"
             android:text=""
             android:textOff=""
             android:textOn="" />

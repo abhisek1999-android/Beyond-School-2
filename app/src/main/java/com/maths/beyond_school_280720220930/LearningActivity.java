@@ -234,41 +234,51 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         UtilityFunctions.unMuteAudioStream(LearningActivity.this);
 
 
-
         isAnswered=false;
-
-
         if (isCallTTS){
+            int maxVal=20;
+            int minVal=2;
+            if (digit.equals("2")){
+                maxVal=99;
+                minVal=10;
+            }
+
+            if (digit.equals("3")){
+                maxVal=999;
+                minVal=100;
+
+            }
+            if (digit.equals("4")){
+                maxVal=9999;
+                minVal=1000;
+
+            }
 
 
             if (isNewQuestionGenerated){
-            currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-            currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-
-            if (subject.equals("subtraction")){
-                if (currentNum1<currentNum2){
-                    int temp=currentNum1;
-                    currentNum1=currentNum2;
-                    currentNum2=temp;
+                if (digit.equals("1")){
+                    currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
+                    currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
                 }
-            }
-            if (subject.equals("division")){
-
-                int maxVal=20;
-                if (digit.equals("2"))
-                    maxVal=99;
-                if (digit.equals("3"))
-                    maxVal=999;
-                if (digit.equals("4"))
-                    maxVal=9999;
-
-
-                currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal);
-                currentNum2=UtilityFunctions.getRandomIntegerUpto(9);
-                while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
-                    currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal);
+                else{
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
+                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
                 }
-            }
+
+                if (subject.equals("subtraction")){
+                    if (currentNum1<currentNum2){
+                        int temp=currentNum1;
+                        currentNum1=currentNum2;
+                        currentNum2=temp;
+                    }
+                }
+                if (subject.equals("division")){
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
+                    currentNum2=UtilityFunctions.getRandomIntegerUpto(9,2);
+                    while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
+                        currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
+                    }
+                }
 
             if (subject.equals("multiplication"))
             {
