@@ -91,8 +91,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         grade = new MutableLiveData<>();
         subSub = new MutableLiveData<>();
         // add value to live data
-        grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
-        subSub.setValue(getResources().getString(R.string.add));
+        UtilityFunctions.runOnUiThread(() -> {
+            grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
+            subSub.setValue(getResources().getString(R.string.add));
+        });
+
 
         observerGrade();
 
@@ -422,6 +425,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     @Override
     protected void onResume() {
         super.onResume();
-
+        grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
     }
 }
