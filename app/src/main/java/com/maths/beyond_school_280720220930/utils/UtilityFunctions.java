@@ -134,15 +134,15 @@ public final class UtilityFunctions {
                 return VocabularyCategories.fruits;
             case "vegetables":
                 return VocabularyCategories.vegetables;
-            case "clothes":
+            case "cloth":
                 return VocabularyCategories.cloth;
-            case "feelings":
+            case "feeling":
                 return VocabularyCategories.feeling;
-            case "inserts":
+            case "insert":
                 return VocabularyCategories.insert;
             case "kitchen":
                 return VocabularyCategories.kitchen;
-            case "livingroom":
+            case "living_room":
                 return VocabularyCategories.living_room;
             case "summer":
                 return VocabularyCategories.summer;
@@ -171,11 +171,11 @@ public final class UtilityFunctions {
                 return VocabularyCategories.fruits;
             case "vegetables":
                 return VocabularyCategories.vegetables;
-            case "cloths":
+            case "clothes":
                 return VocabularyCategories.cloth;
             case "feelings":
                 return VocabularyCategories.feeling;
-            case "inserts":
+            case "insects":
                 return VocabularyCategories.insert;
             case "kitchen":
                 return VocabularyCategories.kitchen;
@@ -237,7 +237,7 @@ public final class UtilityFunctions {
     // This solves the problem of repeating digits..
 
 
-    public static int getRandomIntegerUpto(int maximum,int minimum) {
+    public static int getRandomIntegerUpto(int maximum, int minimum) {
         return ((int) (Math.random() * (maximum - minimum))) + minimum;
     }
 
