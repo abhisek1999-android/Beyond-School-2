@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +16,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -43,6 +48,26 @@ public final class UtilityFunctions {
         Glide.with(imageView.getContext())
                 .load(url)
                 .error(R.drawable.cartoon_image_1)
+                .into(imageView);
+    }
+
+    public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .error(R.drawable.cartoon_image_1)
+                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
                 .into(imageView);
     }
 
@@ -82,7 +107,19 @@ public final class UtilityFunctions {
     public enum VocabularyCategories {
         bathroom, body_parts, colors, animals, fruits,
         vegetables, cloth, feeling, insert, kitchen,
-        living_room, summer, town, transport, weather
+        living_room, summer, town, transport, weather,
+        school
+    }
+
+    public static int getGrade(String grade) {
+        switch (grade) {
+            case "GRADE 1":
+                return 1;
+            case "GRADE 2":
+                return 2;
+            default:
+                return 3;
+        }
     }
 
     public static VocabularyCategories getVocabularyFromString(String category) {
@@ -97,15 +134,15 @@ public final class UtilityFunctions {
                 return VocabularyCategories.fruits;
             case "vegetables":
                 return VocabularyCategories.vegetables;
-            case "cloth":
+            case "clothes":
                 return VocabularyCategories.cloth;
-            case "feeling":
+            case "feelings":
                 return VocabularyCategories.feeling;
-            case "insert":
+            case "inserts":
                 return VocabularyCategories.insert;
             case "kitchen":
                 return VocabularyCategories.kitchen;
-            case "living_room":
+            case "livingroom":
                 return VocabularyCategories.living_room;
             case "summer":
                 return VocabularyCategories.summer;
@@ -115,6 +152,8 @@ public final class UtilityFunctions {
                 return VocabularyCategories.transport;
             case "weather":
                 return VocabularyCategories.weather;
+            case "school":
+                return VocabularyCategories.school;
             default:
                 return VocabularyCategories.animals;
         }
@@ -132,16 +171,18 @@ public final class UtilityFunctions {
                 return VocabularyCategories.fruits;
             case "vegetables":
                 return VocabularyCategories.vegetables;
-            case "cloth":
+            case "cloths":
                 return VocabularyCategories.cloth;
-            case "feeling":
+            case "feelings":
                 return VocabularyCategories.feeling;
-            case "insert":
+            case "inserts":
                 return VocabularyCategories.insert;
             case "kitchen":
                 return VocabularyCategories.kitchen;
             case "livingroom":
                 return VocabularyCategories.living_room;
+            case "school":
+                return VocabularyCategories.school;
             case "summer":
                 return VocabularyCategories.summer;
             case "town":

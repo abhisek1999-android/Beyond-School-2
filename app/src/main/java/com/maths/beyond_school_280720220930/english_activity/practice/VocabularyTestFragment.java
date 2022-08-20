@@ -43,7 +43,7 @@ public class VocabularyTestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyTestBinding.bind(view);
-        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
+        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.viewPager_test);
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
