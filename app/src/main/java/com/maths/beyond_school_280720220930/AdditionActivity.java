@@ -41,6 +41,8 @@ public class AdditionActivity extends AppCompatActivity {
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
+    private Boolean isNewQuestionGenerated = true;
+    private Boolean isAnswered = false;
     private Toolbar toolbar;
 
     private TextView digit1Text;
@@ -209,7 +211,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                             "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
-                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
 
                     DELAY_ON_STARTING_STT = 500;
                     DELAY_ON_SETTING_QUESTION=2000;
@@ -221,7 +223,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                     UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                             "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
-                            currentAnswer+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
                     DELAY_ON_STARTING_STT = 500;
                     DELAY_ON_SETTING_QUESTION=2000;
                     wrongAnswer++;
@@ -332,6 +334,8 @@ public class AdditionActivity extends AppCompatActivity {
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
                 isCallSTT = false;
                 isCallTTS = false;
+                if (!isAnswered)
+                    isNewQuestionGenerated=false;
 
             }
         });
@@ -340,7 +344,11 @@ public class AdditionActivity extends AppCompatActivity {
     private void setQuestion() throws InterruptedException {
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+        isAnswered=false;
+
         if (isCallTTS) {
+
+            if (isNewQuestionGenerated){
              currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
              currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
 
@@ -362,7 +370,7 @@ public class AdditionActivity extends AppCompatActivity {
             if (subject.equals("multiplication")) {
                 currentNum1 = UtilityFunctions.getRandomIntegerUpto(10);
                 currentNum2 = UtilityFunctions.getRandomNumber(1);
-            }
+            }}
 
 
             logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
@@ -396,8 +404,9 @@ public class AdditionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         isCallTTS=true;
+        initSTT();
+        initTTS();
     }
 
     private void checkLogIsEnable() {

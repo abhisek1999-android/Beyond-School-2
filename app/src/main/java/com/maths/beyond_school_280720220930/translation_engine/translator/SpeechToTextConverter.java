@@ -48,7 +48,8 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         stringToText.put("party", "40");
         stringToText.put("tatti", "30");
         stringToText.put("tati", "30");
-        stringToText.put("badi stop", "buddy stop");
+        stringToText.put("tati", "30");
+        stringToText.put("aur", "4");
         stringToText.put("stop", "buddy stop");
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);

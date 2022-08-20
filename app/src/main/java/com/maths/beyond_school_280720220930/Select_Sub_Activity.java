@@ -51,7 +51,7 @@ import java.util.List;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 17, name = R.string.math, subject = R.string.math, subsub = R.string.add;
+    int count = 17, name = R.string.math, subsub=R.string.add ;
     String grade = "";
     List<Subject_Model> list;
     Subject_Model subject_model;
@@ -65,6 +65,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private int REQUEST_RECORD_AUDIO = 1;
     private List<Tables> tablesList;
     private String[] tableList;
+    private boolean defaultCall=false;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
@@ -83,17 +84,39 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
         drinkModels = new ArrayList<>();
 
-        uiChnages();
+        uiChnages(subsub);
 
 
     }
 
-    private void uiChnages() {
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("subSub",subsub);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        subsub=savedInstanceState.getInt("subSub");
+
+    }
+
+
+    private void uiChnages(int sub) {
+
+
 
 
         drinkModels.clear();
 
 
+        subsub=sub;
         drinkModels.add(new SpinnerModel(true, R.string.math));
         drinkModels.add(new SpinnerModel(false, R.string.add));
         drinkModels.add(new SpinnerModel(false, R.string.sub));
@@ -197,6 +220,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         });
 
 
+
+
         ArrayAdapter<SpinnerModel> spinnerAdapter = new ArrayAdapter<SpinnerModel>(this, R.layout.row, drinkModels) {
 
             @Override
@@ -234,16 +259,23 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
                 SpinnerModel model = drinkModels.get(position);
                 tvName.setText("Change Subjects");
-                subsub = model.getName();
+                if (defaultCall)
+                {
+                    subsub = model.getName();
+                }
+                else
+                {
+                    defaultCall=true;
+                    subsub=sub;
+                }
+
                 binding.subject.setText(name);
 
-//                if (subsub==R.string.mul){
-//                    multiplicationList();
-//                }
 
                 if (subsub != R.string.math && subsub != R.string.english) {
                     binding.subsub.setText(subsub);
-                    //    Toast.makeText(Select_Sub_Activity.this, subsub, Toast.LENGTH_SHORT).show();
+
+                  //  Toast.makeText(Select_Sub_Activity.this, getResources().getString(subject)+","+getResources().getString(name), Toast.LENGTH_SHORT).show();
                     recyler();
                 }
                 return v;
@@ -276,7 +308,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.spinner2.setSelection(1);
 
 
-        recyler();
 
 
     }
@@ -290,7 +321,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     @Override
     protected void onResume() {
         super.onResume();
-        uiChnages();
+
+        defaultCall=false;
+        uiChnages(subsub);
     }
 
     private void checkAudioPermission() {
@@ -337,7 +370,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
     private void recyler() {
 
-
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus();
         list = new ArrayList<>();
@@ -348,14 +380,20 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 for (String element : data.getGrade()) {
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
+
                         String[] res = val.split(" ");
-                        if (!res[0].equals(getResources().getString(R.string.mul))) {
+
+                        if (!res[0].equals("Multiplication")) {
+
+                            Log.i("val",val);
                             for (String str : res) {
+
                                 if (str.equals(getResources().getString(subsub))) {
                                     list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                                 }
                             }
                         } else {
+
                             multiplicationList(Integer.parseInt(res[3]));
                         }
 

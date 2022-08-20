@@ -64,11 +64,11 @@ public class MathsHelper {
     public static String getMathQuestion (String subject,int a, int b){
 
         if (subject.equals("addition"))
-            return  a+" plus "+ b;
+            return  a+" plus "+ b+" equals";
         else if (subject.equals("subtraction"))
-            return  a+" minus "+ b;
+            return  a+" minus "+ b+" equals";
         else if (subject.equals("multiplication"))
-            return  a+"multiplied by "+ b;
+            return  a+" "+ b+"'s are";
 
         else if (subject.equals("division"))
             return  a+"divided by "+ b;
