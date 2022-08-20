@@ -419,6 +419,11 @@ public class AdditionActivity extends AppCompatActivity {
         isCallTTS=false;
         isCallSTT=false;
 
+        try {
+            UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         tts.stop();
         stt.stop();
 
@@ -449,5 +454,10 @@ public class AdditionActivity extends AppCompatActivity {
         super.onDestroy();
         tts.destroy();
         stt.destroy();
+        try {
+            UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

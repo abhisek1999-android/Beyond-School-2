@@ -147,7 +147,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
             mCurrentUser = null;
-            finish();
+            startActivity(new Intent(getApplicationContext(),SplashScreen.class));
         });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
@@ -371,7 +371,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
-                        if (!res[0].equals(getResources().getString(R.string.mul))) {
+                        if (!res[0].equals("Multiplication")) {
                             for (String str : res) {
                                 if (str.equals(subSub)) {
                                     list.add(new Subject_Model(data.getChapter(), data.getUrl()));

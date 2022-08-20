@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,24 +24,28 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
+import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
+import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneNumberLogin extends AppCompatActivity {
 
     private ActivityPhoneNumberLoginBinding binding;
 
-
+    private String[] array;
     // variable for FirebaseAuth class
     private FirebaseAuth mAuth;
     // string for storing our verification ID
     private String verificationId;
-
+    private ArrayAdapter adapter;
+    private CustomProgressDialogue customProgressDialogue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +53,10 @@ public class PhoneNumberLogin extends AppCompatActivity {
         binding = ActivityPhoneNumberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        customProgressDialogue=new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
+
+        setUpTextLayoutGrade();
 
         binding.idBtnGetOtp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +70,9 @@ public class PhoneNumberLogin extends AppCompatActivity {
                 } else {
                     // if the text field is not empty we are calling our
                     // send OTP method for getting OTP from Firebase.
-                    String phone = "+91" + binding.idEdtPhoneNumber.getText().toString();
+                    String phone = binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
                     sendVerificationCode(phone);
+                    customProgressDialogue.show();
                 }
             }
         });
@@ -105,6 +114,14 @@ public class PhoneNumberLogin extends AppCompatActivity {
 
     }
 
+    private void setUpTextLayoutGrade() {
+        array = getResources().getStringArray(R.array.country_code);
+        adapter = new ArrayAdapter(this, R.layout.list_item, array);
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.textInputLayoutCountryCode.getEditText());
+        editText.setAdapter(adapter);
+
+    }
+
 
     private void signInWithCredential(PhoneAuthCredential credential) {
         // inside this method we are checking if
@@ -121,6 +138,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                             // if the code is not correct then we are
                             // displaying an error message to the user.
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            customProgressDialogue.dismiss();
                         }
                     }
                 });
@@ -159,6 +177,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
             // contains a unique id which
             // we are storing in our string
             // which we have already created.
+            customProgressDialogue.dismiss();
             verificationId = s;
             binding.numberLayout.setVisibility(View.GONE);
             binding.otpLayout.setVisibility(View.VISIBLE);
@@ -194,6 +213,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
             // displaying error message with firebase exception.
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             binding.numberLayout.setVisibility(View.VISIBLE);
+            customProgressDialogue.dismiss();
         }
     };
 

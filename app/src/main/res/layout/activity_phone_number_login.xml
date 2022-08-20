@@ -54,21 +54,57 @@
             />
 
         <!--Edittext for getting users phone number-->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
 
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutCountryCode"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/background_border"
+        android:layout_weight="2"
+        android:fontFamily="@font/poppins"
+        app:boxStrokeColor="@color/teal_700"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false"
+        app:hintTextColor="@android:color/transparent">
+
+        <AutoCompleteTextView
+            android:id="@+id/countryCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_border"
+            android:fontFamily="@font/reemkufi_medium"
+            android:inputType="none"
+            android:padding="15dp"
+            android:text="+91"
+            android:textSize="@dimen/default_font_size" />
+    </com.google.android.material.textfield.TextInputLayout>
         <EditText
+            android:layout_weight="1"
             android:layout_below="@id/numberTextView"
             android:id="@+id/idEdtPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="@dimen/grid_20"
+            android:layout_marginRight="@dimen/grid_20"
+            android:layout_marginLeft="@dimen/grid_0_5"
             android:hint="Enter your phone"
             android:background="@drawable/background_border"
             android:padding="@dimen/grid_1_5"
+
             android:fontFamily="@font/reemkufi_medium"
             android:importantForAutofill="no"
             android:inputType="phone" />
-
+</LinearLayout>
         <!--Button for getting OTP-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/idBtnGetOtp"

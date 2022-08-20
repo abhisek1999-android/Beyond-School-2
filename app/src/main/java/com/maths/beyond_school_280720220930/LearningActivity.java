@@ -652,6 +652,11 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         tts.stop();
         stt.stop();
         checkLogIsEnable();
+        try {
+            UtilityFunctions.unMuteAudioStream(LearningActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -660,12 +665,18 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         isCallTTS=true;
         initSTT();
         initTTS();
+
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         tts.destroy();
         stt.destroy();
+        try{
+        UtilityFunctions.unMuteAudioStream(LearningActivity.this);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     }
 
 
