@@ -68,6 +68,7 @@ public class EnglishActivity extends AppCompatActivity {
     private long startTime = 0, endTime = 0;
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
+    private UtilityFunctions.VocabularyCategories category;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -93,7 +94,7 @@ public class EnglishActivity extends AppCompatActivity {
                 destroyedEngines();
             }
             var intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
-            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, UtilityFunctions.VocabularyCategories.bathroom.toString());
+            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, category.name());
             startActivity(intent);
         });
     }
@@ -106,10 +107,14 @@ public class EnglishActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setViewPager() {
+
+        if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)) {
+            category = UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY));
+        } else {
+            category = UtilityFunctions.VocabularyCategories.bathroom;
+        }
         var data = UtilityFunctions.
-                getVocabularyDetailsFromType(
-                        dao.getEnglishModel(1).getVocabulary(),
-                        UtilityFunctions.VocabularyCategories.bathroom);
+                getVocabularyDetailsFromType(dao.getEnglishModel(1).getVocabulary(), category);
         if (data == null) {
             UtilityFunctions.simpleToast(this, "No data found");
             return;
