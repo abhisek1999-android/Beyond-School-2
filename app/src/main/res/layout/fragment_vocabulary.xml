@@ -74,8 +74,9 @@
                 android:layout_height="@dimen/image_size"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                app:layout_constraintEnd_toStartOf="@+id/image_button_next"
-                app:layout_constraintStart_toEndOf="@+id/image_button_prev"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
