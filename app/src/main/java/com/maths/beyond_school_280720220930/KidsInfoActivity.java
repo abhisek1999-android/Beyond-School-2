@@ -295,8 +295,12 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     final String downloadUrl = task.getResult().toString();
 
                                     if (task.isSuccessful()) {
-                                        if (type.equals("next"))
+                                        if (type.equals("next")){
                                             saveKidsData(downloadUrl);
+
+                                            UtilityFunctions.loadImage(downloadUrl,binding.kidsProfileImage);
+                                        }
+
                                         else
                                             updateKidsData(downloadUrl);
                                         Log.i("Image Uploaded", downloadUrl);
