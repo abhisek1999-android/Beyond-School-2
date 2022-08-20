@@ -85,6 +85,76 @@ public final class UtilityFunctions {
         living_room, summer, town, transport, weather
     }
 
+    public static VocabularyCategories getVocabularyFromString(String category) {
+        switch (category) {
+            case "bathroom":
+                return VocabularyCategories.bathroom;
+            case "body_parts":
+                return VocabularyCategories.body_parts;
+            case "colors":
+                return VocabularyCategories.colors;
+            case "fruits":
+                return VocabularyCategories.fruits;
+            case "vegetables":
+                return VocabularyCategories.vegetables;
+            case "cloth":
+                return VocabularyCategories.cloth;
+            case "feeling":
+                return VocabularyCategories.feeling;
+            case "insert":
+                return VocabularyCategories.insert;
+            case "kitchen":
+                return VocabularyCategories.kitchen;
+            case "living_room":
+                return VocabularyCategories.living_room;
+            case "summer":
+                return VocabularyCategories.summer;
+            case "town":
+                return VocabularyCategories.town;
+            case "transport":
+                return VocabularyCategories.transport;
+            case "weather":
+                return VocabularyCategories.weather;
+            default:
+                return VocabularyCategories.animals;
+        }
+    }
+
+    public static VocabularyCategories getVocabularyCategoryFromAdapter(String category) {
+        switch (category) {
+            case "bathroom":
+                return VocabularyCategories.bathroom;
+            case "bodyparts":
+                return VocabularyCategories.body_parts;
+            case "colors":
+                return VocabularyCategories.colors;
+            case "fruits":
+                return VocabularyCategories.fruits;
+            case "vegetables":
+                return VocabularyCategories.vegetables;
+            case "cloth":
+                return VocabularyCategories.cloth;
+            case "feeling":
+                return VocabularyCategories.feeling;
+            case "insert":
+                return VocabularyCategories.insert;
+            case "kitchen":
+                return VocabularyCategories.kitchen;
+            case "livingroom":
+                return VocabularyCategories.living_room;
+            case "summer":
+                return VocabularyCategories.summer;
+            case "town":
+                return VocabularyCategories.town;
+            case "transport":
+                return VocabularyCategories.transport;
+            case "weather":
+                return VocabularyCategories.weather;
+            default:
+                return VocabularyCategories.animals;
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static VocabularyModel getVocabularyDetailsFromType(List<VocabularyModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());

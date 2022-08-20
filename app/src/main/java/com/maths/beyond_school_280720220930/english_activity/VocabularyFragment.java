@@ -42,10 +42,18 @@ public class VocabularyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
         UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
+        var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.textViewDescription.setText(vocabulary.getDefinition());
         binding.textViewItem.setText(vocabulary.getWord());
+        binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.GONE : View.VISIBLE);
+        binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.GONE : View.VISIBLE);
 
-        var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
+        binding.imageButtonNext.setOnClickListener(v -> {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        });
+        binding.imageButtonPrev.setOnClickListener(v -> {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(currentPage),

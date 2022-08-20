@@ -19,7 +19,6 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityGradeBinding;
-import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
 import com.maths.beyond_school_280720220930.model.KidsData;
 
 import java.util.ArrayList;
@@ -42,24 +41,18 @@ public class GradeActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityGradeBinding.inflate(getLayoutInflater());
+        binding = ActivityGradeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         database = GradeDatabase.getDbInstance(this);
-
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
         retrieveKidsData();
-
 
 
         var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
@@ -107,21 +100,21 @@ public class GradeActivity extends AppCompatActivity {
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab4, new ArrayList<>(list1), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab5, new ArrayList<>(list1), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab6, new ArrayList<>(list1), ""));
-        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
+//        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
 
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab8, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab9, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab10, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab11, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab12, new ArrayList<>(list2), ""));
-        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
+//        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
 
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab14, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab15, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab16, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab17, new ArrayList<>(list2), ""));
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(list2), ""));
-        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
+//        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
 
 
         grade1 = getIntent().getStringExtra("grade");
@@ -183,11 +176,11 @@ public class GradeActivity extends AppCompatActivity {
                             KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                             kidsData.setKids_id(queryDocumentSnapshot.getId());
                             // saving kids data in locally
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getGrade(),getResources().getString(R.string.kids_grade));
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getName(),getResources().getString(R.string.kids_name));
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getAge(),getResources().getString(R.string.kids_dob));
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getProfile_url(),getResources().getString(R.string.kids_profile_url));
-                            PrefConfig.writeIdInPref(getApplicationContext(),kidsData.getKids_id(),getResources().getString(R.string.kids_id));
+                            PrefConfig.writeIdInPref(getApplicationContext(), kidsData.getGrade(), getResources().getString(R.string.kids_grade));
+                            PrefConfig.writeIdInPref(getApplicationContext(), kidsData.getName(), getResources().getString(R.string.kids_name));
+                            PrefConfig.writeIdInPref(getApplicationContext(), kidsData.getAge(), getResources().getString(R.string.kids_dob));
+                            PrefConfig.writeIdInPref(getApplicationContext(), kidsData.getProfile_url(), getResources().getString(R.string.kids_profile_url));
+                            PrefConfig.writeIdInPref(getApplicationContext(), kidsData.getKids_id(), getResources().getString(R.string.kids_id));
 
                             Log.i("KidsData", kidsData.getName() + "");
 

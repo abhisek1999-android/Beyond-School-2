@@ -51,7 +51,7 @@ import java.util.List;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 17, name = R.string.math, subsub=R.string.add ;
+    int count = 32, name = R.string.math, subject = R.string.math, subsub = R.string.add;
     String grade = "";
     List<Subject_Model> list;
     Subject_Model subject_model;
@@ -308,6 +308,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.spinner2.setSelection(1);
 
 
+        recyler();
 
 
     }
@@ -369,6 +370,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     }
 
     private void recyler() {
+
 
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus();
