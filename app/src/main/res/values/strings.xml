@@ -166,7 +166,7 @@
     <string name="vocab15">Vocabulary Summer</string>
     <string name="vocab16">Vocabulary Town</string>
     <string name="vocab17">Vocabulary Transport</string>
-    <string name="vocab18">Vocabulary Wheather</string>
+    <string name="vocab18">Vocabulary Weather</string>
 <!--    <string name="vocab19">Vocabulary Professions</string>-->
 
     <string name="digit">Digit</string>
@@ -217,4 +217,5 @@
     <string name="kids_dob">KIDS_DOB</string>
     <string name="kids_id">KIDS_ID</string>
     <string name="kids_profile_url">KIDS_PROFILE_URL</string>
+    <string name="learn">Learn</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
@@ -84,7 +85,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private void setPager(String category) {
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(
-                        dao.getEnglishModel(1).getVocabulary(),
+                        dao.getEnglishModel(PrefConfig.readIntInPref(this, getResources().getString(R.string.kids_grade))).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
         if (data == null) {
             UtilityFunctions.simpleToast(this, "No data found");

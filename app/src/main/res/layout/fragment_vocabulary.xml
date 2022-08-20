@@ -74,17 +74,17 @@
                 android:layout_height="@dimen/image_size"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                app:layout_constraintEnd_toStartOf="@+id/image_button_next"
-                app:layout_constraintStart_toEndOf="@+id/image_button_prev"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="2dp"
                 android:layout_below="@id/image_view_object"
                 android:layout_marginHorizontal="@dimen/grid_2"
-
                 android:background="@color/light_deep_grey"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_object"
                 tools:layout_editor_absoluteX="16dp" />
@@ -93,14 +93,15 @@
             <TextView
                 android:id="@+id/text_view_description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_below="@id/separator"
                 android:layout_marginHorizontal="@dimen/grid_1"
                 android:fontFamily="@font/reemkufi_medium"
                 android:gravity="center"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_object"
-                tools:layout_editor_absoluteX="24dp"
                 tools:text="Mirror :- When you look at it you can see yourself reflected in it." />
 
             <com.airbnb.lottie.LottieAnimationView
