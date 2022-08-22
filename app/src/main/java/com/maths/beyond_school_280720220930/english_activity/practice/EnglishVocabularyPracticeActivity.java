@@ -85,7 +85,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private void setPager(String category) {
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(
-                        dao.getEnglishModel(PrefConfig.readIntInPref(this, getResources().getString(R.string.kids_grade))).getVocabulary(),
+                        dao.getEnglishModel(UtilityFunctions.getGrade(PrefConfig.readIdInPref(
+                                this,
+                                getResources().getString(R.string.kids_grade)))
+                        ).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
         if (data == null) {
             UtilityFunctions.simpleToast(this, "No data found");
@@ -308,6 +311,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
+        var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
+        current.getAnimationView().setVisibility(View.GONE);
     }
 
     @Override

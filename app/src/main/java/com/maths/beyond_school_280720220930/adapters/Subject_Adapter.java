@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                 //needs to be intent values
                 if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                     Intent intent = new Intent(context, EnglishActivity.class);
+                    Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                     intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                     context.startActivity(intent);
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();

@@ -113,8 +113,14 @@ public class EnglishActivity extends AppCompatActivity {
         } else {
             category = UtilityFunctions.VocabularyCategories.bathroom;
         }
+        Log.d(TAG, "setViewPager: category " + category.name() + " Intent : " + UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)));
+
         var data = UtilityFunctions.
-                getVocabularyDetailsFromType(dao.getEnglishModel(1).getVocabulary(), category);
+                getVocabularyDetailsFromType(dao.getEnglishModel(
+                        UtilityFunctions.getGrade(
+                                PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade))
+                        )
+                ).getVocabulary(), category);
         if (data == null) {
             UtilityFunctions.simpleToast(this, "No data found");
             return;
