@@ -41,10 +41,7 @@
 
     <string-array name="country_code">
         <item>+91</item>
-        <item>
-            +93
-
-        </item>
+        <item>+93</item>
         <item>
            +355
         </item>
@@ -60,9 +57,7 @@
         <item>
             +244
         </item>
-        <item>
-            +1264
-        </item>
+        <item>+1264</item>
         <item>
             +672
         </item>

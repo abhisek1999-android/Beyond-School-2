@@ -22,6 +22,7 @@ import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuild
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
+import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Date;
@@ -44,6 +45,10 @@ public class AdditionActivity extends AppCompatActivity {
     private Boolean isNewQuestionGenerated = true;
     private Boolean isAnswered = false;
     private Toolbar toolbar;
+
+    long timeLimit=10000;
+    private long maxStQuesTime=0;
+    private long maxEtQuesTime=0;
 
     private TextView digit1Text;
     private String subject = "";
@@ -156,6 +161,7 @@ public class AdditionActivity extends AppCompatActivity {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
                         startTime=new Date().getTime();
+                        maxStQuesTime=new Date().getTime();
                         UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT = false;
                         stt.initialize("", AdditionActivity.this);
@@ -183,65 +189,8 @@ public class AdditionActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
 
+                successResultCalling(result);
 
-                endTime=new Date().getTime();
-
-                try {
-                    UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                logs+="Detected Result"+result+"\n";
-
-                //stt.stop();
-                binding.ansTextView.setText(result);
-                isCallSTT = false;
-                Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
-
-
-
-                if (lcsResult) {
-
-                    diff=endTime-startTime;
-
-                    tts.initialize("Correct Answer", AdditionActivity.this);
-                    logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-
-
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-
-                    DELAY_ON_STARTING_STT = 500;
-                    DELAY_ON_SETTING_QUESTION=2000;
-                    correctAnswer++;
-                } else {
-
-                    logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-                    tts.initialize("Wrong Answer", AdditionActivity.this);
-
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    DELAY_ON_STARTING_STT = 500;
-                    DELAY_ON_SETTING_QUESTION=2000;
-                    wrongAnswer++;
-                }
-                setWrongCorrectView();
-                currentQuestion++;
-                if (currentQuestion <= MAX_QUESTION) {
-
-                    UtilityFunctions.runOnUiThread(() -> {
-                        try {
-                            setQuestion();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }, DELAY_ON_SETTING_QUESTION);
-                } else {
-                    resetViews();
-                }
 
             }
 
@@ -257,17 +206,110 @@ public class AdditionActivity extends AppCompatActivity {
                 ConversionCallback.super.getLogResult(title);
                 logs+=title+"\n";
             }
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void getStringResult(String title) {
+                ConversionCallback.super.getStringResult(title);
+                Log.i("SoundXCalled",title+",title: "+ Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
+                    successResultCalling(currentAnswer+"");
+                }
+
+
+            }
 
             @Override
             public void onErrorOccurred(String errorMessage) {
-                UtilityFunctions.runOnUiThread(()->{
-                    isCallSTT = true;
-                    tts.initialize("", AdditionActivity.this);
-                },250);
+
+                if ((new Date().getTime() - maxStQuesTime)< timeLimit){
+                    UtilityFunctions.runOnUiThread(()->{
+                        isCallSTT = true;
+                        tts.initialize("", AdditionActivity.this);
+                    },250);
+                }else{
+                    setWrongCorrectView();
+                    currentQuestion++;
+                    if (currentQuestion <= MAX_QUESTION) {
+
+                        UtilityFunctions.runOnUiThread(() -> {
+                            try {
+                                setQuestion();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }, DELAY_ON_SETTING_QUESTION);
+                    } else {
+                        resetViews();
+                    }
+                }
 
                 //  stt.initialize("", AdditionActivity.this);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void successResultCalling(String result) {
+
+        endTime=new Date().getTime();
+
+        try {
+            UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        logs+="Detected Result"+result+"\n";
+
+        //stt.stop();
+        binding.ansTextView.setText(result);
+        isCallSTT = false;
+        Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
+
+
+
+        if (lcsResult) {
+
+            diff=endTime-startTime;
+
+            tts.initialize("Correct Answer", AdditionActivity.this);
+            logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+
+
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+
+            DELAY_ON_STARTING_STT = 500;
+            DELAY_ON_SETTING_QUESTION=2000;
+            correctAnswer++;
+        } else {
+
+            logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+            tts.initialize("Wrong Answer", AdditionActivity.this);
+
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            DELAY_ON_STARTING_STT = 500;
+            DELAY_ON_SETTING_QUESTION=2000;
+            wrongAnswer++;
+        }
+        setWrongCorrectView();
+        currentQuestion++;
+        if (currentQuestion <= MAX_QUESTION) {
+
+            UtilityFunctions.runOnUiThread(() -> {
+                try {
+                    setQuestion();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, DELAY_ON_SETTING_QUESTION);
+        } else {
+            resetViews();
+        }
+
     }
 
     private void setWrongCorrectView() {
@@ -362,6 +404,11 @@ public class AdditionActivity extends AppCompatActivity {
             if (digit.equals("4")){
                 maxVal=9999;
                 minVal=1000;
+
+            }
+            if (digit.equals("5")){
+                maxVal=99999;
+                minVal=10000;
 
             }
             if (isNewQuestionGenerated){

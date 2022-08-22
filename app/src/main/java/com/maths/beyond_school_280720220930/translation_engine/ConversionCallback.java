@@ -15,5 +15,9 @@ public interface ConversionCallback {
 
     }
 
+    default void getStringResult(String title) {
+
+    }
+
     void onErrorOccurred(String errorMessage);
 }

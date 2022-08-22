@@ -123,6 +123,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
                     conversionCallaBack.onSuccess(stringToText.get(matches.get(0).trim().toLowerCase()));
                     conversionCallaBack.getLogResult("onResultFormatted : " + stringToText.get(matches.get(0).trim().toLowerCase()));
                 } catch (Exception e) {
+                    conversionCallaBack.getStringResult(matches.get(0).trim().toLowerCase());
                     conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }
             }

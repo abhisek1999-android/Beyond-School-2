@@ -35,6 +35,7 @@ import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuild
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
+import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Date;
@@ -567,54 +568,10 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
-                Log.d(TAG, "onSuccess: " + result);
 
-                isAnswered=true;
-                try {
-                    UtilityFunctions.unMuteAudioStream(LearningActivity.this);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //stt.stop();
-                binding.ansTextView.setText(result);
-                isCallSTT = false;
-                Boolean lcsResult=new UtilityFunctions().matchingSeq(result.trim(),currentAnswer+"");
+                successResultCalling(result);
 
-                endTime=new Date().getTime();
-                if (lcsResult) {
-                    tts.initialize("Correct Answer", LearningActivity.this);
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, true, (int) (endTime-startTime),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
-                    DELAY_ON_STARTING_STT=500;
-                    DELAY_ON_SETTING_QUESTION=2000;
-                    correctAnswer++;
 
-                } else {
-                    tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, false, (int) (endTime-startTime),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    logs+="Tag: Wrong\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
-                    DELAY_ON_STARTING_STT=1800;
-                    DELAY_ON_SETTING_QUESTION=3000;
-                    wrongAnswer++;
-                }
-
-                currentQuestion++;
-                if (currentQuestion <= MAX_QUESTION) {
-
-                    UtilityFunctions.runOnUiThread(() -> {
-                        try {
-                            setQuestion();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }, DELAY_ON_SETTING_QUESTION);
-                } else {
-                    resetViews();
-                }
 
             }
 
@@ -631,6 +588,18 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 logs+=title+"\n";
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void getStringResult(String title) {
+                ConversionCallback.super.getStringResult(title);
+                Log.i("SoundXCalled",title+",title: "+Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
+                    successResultCalling(currentAnswer+"");
+                }
+
+
+            }
+
             @Override
             public void onErrorOccurred(String errorMessage) {
 
@@ -643,6 +612,61 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 //  stt.initialize("", LearningActivity.this);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void successResultCalling(String result) {
+
+        Log.d(TAG, "onSuccess: " + result);
+
+        isAnswered=true;
+        try {
+            UtilityFunctions.unMuteAudioStream(LearningActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //stt.stop();
+        binding.ansTextView.setText(result);
+        isCallSTT = false;
+        Boolean lcsResult=new UtilityFunctions().matchingSeq(result.trim(),currentAnswer+"");
+
+        endTime=new Date().getTime();
+        if (lcsResult) {
+            tts.initialize("Correct Answer", LearningActivity.this);
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, true, (int) (endTime-startTime),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
+            DELAY_ON_STARTING_STT=500;
+            DELAY_ON_SETTING_QUESTION=2000;
+            correctAnswer++;
+
+        } else {
+            tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, false, (int) (endTime-startTime),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            logs+="Tag: Wrong\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
+            DELAY_ON_STARTING_STT=1800;
+            DELAY_ON_SETTING_QUESTION=3000;
+            wrongAnswer++;
+        }
+
+        currentQuestion++;
+        if (currentQuestion <= MAX_QUESTION) {
+
+            UtilityFunctions.runOnUiThread(() -> {
+                try {
+                    setQuestion();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, DELAY_ON_SETTING_QUESTION);
+        } else {
+            resetViews();
+        }
+
+
     }
 
     @Override
