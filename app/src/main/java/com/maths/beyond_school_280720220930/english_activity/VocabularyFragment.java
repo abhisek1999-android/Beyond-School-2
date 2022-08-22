@@ -45,8 +45,8 @@ public class VocabularyFragment extends Fragment {
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.textViewDescription.setText(vocabulary.getDefinition());
         binding.textViewItem.setText(vocabulary.getWord());
-        binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.GONE : View.VISIBLE);
-        binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.GONE : View.VISIBLE);
+        binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
+        binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
 
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);

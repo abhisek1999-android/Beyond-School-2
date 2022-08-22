@@ -111,6 +111,45 @@ public final class UtilityFunctions {
         school
     }
 
+    public static String vocabularyCategoriesToString(VocabularyCategories vocabularyCategories) {
+        switch (vocabularyCategories) {
+            case bathroom:
+                return "Bathroom";
+            case body_parts:
+                return "Body Parts";
+            case colors:
+                return "Colors";
+            case animals:
+                return "Animals";
+            case fruits:
+                return "Fruits";
+            case vegetables:
+                return "Vegetables";
+            case cloth:
+                return "Clothes";
+            case feeling:
+                return "Feelings";
+            case insert:
+                return "Insects";
+            case kitchen:
+                return "Kitchen";
+            case living_room:
+                return "Living Room";
+            case summer:
+                return "Summer";
+            case town:
+                return "Town";
+            case transport:
+                return "Transport";
+            case weather:
+                return "Weather";
+            case school:
+                return "School";
+            default:
+                return "";
+        }
+    }
+
     public static int getGrade(String grade) {
         switch (grade) {
             case "GRADE 1":
