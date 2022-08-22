@@ -409,6 +409,15 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
     @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
