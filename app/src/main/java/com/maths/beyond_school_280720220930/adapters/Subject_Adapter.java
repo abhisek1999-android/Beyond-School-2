@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -47,7 +48,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Subject_Model subject_model = list.get(position);
-        String val = context.getResources().getString(subject_model.getSubsub());
+        String val = subject_model.getSubsub();
         var finalString = "";
         if (val.contains("Vocabulary")) {
             finalString = val.replace("Vocabulary", "");
@@ -67,6 +68,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                     context.startActivity(intent);
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
+                } else if (val.equals("Spelling")) {
+
+                    Toast.makeText(context, "spelling clicked", Toast.LENGTH_SHORT).show();
+                    
                 } else {
 
 

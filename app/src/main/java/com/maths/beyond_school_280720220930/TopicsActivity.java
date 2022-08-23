@@ -43,7 +43,7 @@ public class TopicsActivity extends AppCompatActivity {
         database = GradeDatabase.getDbInstance(this);
         //list4=new ArrayList<>();
         //list4.add("GRADE 3");
-            notes = database.gradesDao().valus();
+            /*notes = database.gradesDao().valus();
             for(int i=0;i<count;i++){
                 Grades_data data = notes.get(i);
 
@@ -73,7 +73,7 @@ public class TopicsActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                }
-            }
+            }*/
 
             grade_val.setText(grade);
 

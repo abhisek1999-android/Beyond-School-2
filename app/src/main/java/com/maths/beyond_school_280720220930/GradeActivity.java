@@ -74,7 +74,7 @@ public class GradeActivity extends AppCompatActivity {
 
         list4 = new ArrayList<>();
         list4.add("GRADE 3");
-
+/*
         database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add1, new ArrayList<>(list1), "https://youtu.be/1RaL_2okktE"));
         database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add2, new ArrayList<>(list1), "https://youtu.be/RKL0TX8ogmw"));
         database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub1, new ArrayList<>(list1), "https://youtu.be/ShCq1BVVbQ0"));
@@ -116,7 +116,7 @@ public class GradeActivity extends AppCompatActivity {
         database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(list2), ""));
 //        database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
 
-
+*/
         grade1 = getIntent().getStringExtra("grade");
 
         binding.grade.setText(grade1);
