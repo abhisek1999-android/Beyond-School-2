@@ -121,6 +121,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(en4), ""));
 //            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
 
+            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,new ArrayList<>(list1),""));
         }
     }
 

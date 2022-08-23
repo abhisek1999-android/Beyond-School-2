@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -67,6 +68,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                     context.startActivity(intent);
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
+                } else if (val.equals("Spelling")) {
+
+                    Toast.makeText(context, "spelling clicked", Toast.LENGTH_SHORT).show();
+                    
                 } else {
 
 

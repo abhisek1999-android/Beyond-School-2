@@ -54,7 +54,7 @@ import java.util.Objects;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 32, name = R.string.math, subject = R.string.math;/*subsub = R.string.add;*/
+    int count = 33, name = R.string.math, subject = R.string.math;/*subsub = R.string.add;*/
     MutableLiveData<String> grade;
     MutableLiveData<String> subSub;
     List<Subject_Model> list;
@@ -127,6 +127,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(false, R.string.div));
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
+        drinkModels.add(new SpinnerModel(false, R.string.spelling));
 
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals("")) {
