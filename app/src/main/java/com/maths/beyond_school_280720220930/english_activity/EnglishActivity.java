@@ -255,14 +255,14 @@ public class EnglishActivity extends AppCompatActivity {
                     long diff = endTime - startTime;
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
-                        helperTTS("Correct", true, 0);
+                        helperTTS(UtilityFunctions.getCompliment(true), true, 0);
 
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
-                        helperTTS("Wrong", false, 0);
+                        helperTTS(UtilityFunctions.getCompliment(false), false, 0);
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan",
                                 "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,

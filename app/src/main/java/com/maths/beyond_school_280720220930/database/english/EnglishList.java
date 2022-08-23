@@ -787,7 +787,7 @@ public abstract class EnglishList {
                     new VocabularyDetails(
                             "Beetle",
                             "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
-                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webphttps://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
+                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
                     )
             );
             vocabularyDetail.add(
