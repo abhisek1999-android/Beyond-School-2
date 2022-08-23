@@ -48,7 +48,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Subject_Model subject_model = list.get(position);
-        String val = context.getResources().getString(subject_model.getSubsub());
+        String val = subject_model.getSubsub();
         var finalString = "";
         if (val.contains("Vocabulary")) {
             finalString = val.replace("Vocabulary", "");

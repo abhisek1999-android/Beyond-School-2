@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Entity(tableName = "grades")
 public class Grades_data {
 
-    public Grades_data(int subject,int chapter, boolean grade1,boolean grade2,boolean grade3,String url) {
+    public Grades_data(String subject,String chapter, boolean grade1,boolean grade2,boolean grade3,boolean unlock,String url) {
         this.subject = subject;
         //this.subsubject = subsubject;
         this.chapter = chapter;
@@ -17,16 +17,17 @@ public class Grades_data {
         this.grade2 = grade2;
         this.grade3 = grade3;
         this.url=url;
+        this.unlock=unlock;
     }
 
     @ColumnInfo(name="subject")
-    public int subject;
+    public String subject;
 
     /*@ColumnInfo(name="sub_sub")
     public int  subsubject;*/
 
     @ColumnInfo(name="chapter")
-    public int  chapter;
+    public String chapter;
 
    /* @ColumnInfo(name="grade")
     public ArrayList<String> grade;*/
@@ -43,18 +44,28 @@ public class Grades_data {
     @ColumnInfo(name="url")
     public String  url;
 
+    @ColumnInfo(name = "unlock")
+    public boolean unlock;
+
     @PrimaryKey(autoGenerate = true)
     public int  progress_id;
 
-    public int getSubject() {
+    public String getSubject() {
         return subject;
     }
 
-    public void setSubject(int subject) {
+    public void setSubject(String subject) {
         this.subject = subject;
     }
 
-   /* public int getSubsubject() {
+    public boolean isUnlock() {
+        return unlock;
+    }
+
+    public void setUnlock(boolean unlock) {
+        this.unlock = unlock;
+    }
+/* public int getSubsubject() {
         return subsubject;
     }
 
@@ -62,11 +73,11 @@ public class Grades_data {
         this.subsubject = subsubject;
     }*/
 
-    public int getChapter() {
+    public String getChapter() {
         return chapter;
     }
 
-    public void setChapter(int chapter) {
+    public void setChapter(String chapter) {
         this.chapter = chapter;
     }
 
