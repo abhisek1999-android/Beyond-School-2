@@ -125,7 +125,8 @@ public class EnglishActivity extends AppCompatActivity {
             UtilityFunctions.simpleToast(this, "No data found");
             return;
         }
-        binding.textViewCategory.setText(getResources().getString(R.string.category, data.getCategory().toUpperCase(Locale.ROOT)));
+        binding.textViewCategory.setText(getResources().getString(R.string.category,
+                UtilityFunctions.vocabularyCategoriesToString(category)));
         List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
                 fragments,

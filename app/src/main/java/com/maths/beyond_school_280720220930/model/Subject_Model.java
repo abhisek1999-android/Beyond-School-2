@@ -1,10 +1,11 @@
 package com.maths.beyond_school_280720220930.model;
 
 public class Subject_Model {
-    int chapter,digit,subsub;
+    int chapter,digit;
+    String subsub;
     String url;
 
-    public Subject_Model (int subsub, String url) {
+    public Subject_Model (String subsub, String url) {
         //this.chapter = chapter;
         //this.digit = digit;
         this.subsub = subsub;
@@ -35,11 +36,11 @@ public class Subject_Model {
         this.url = url;
     }
 
-    public int getSubsub() {
+    public String getSubsub() {
         return subsub;
     }
 
-    public void setSubsub(int subsub) {
+    public void setSubsub(String subsub) {
         this.subsub = subsub;
     }
 }

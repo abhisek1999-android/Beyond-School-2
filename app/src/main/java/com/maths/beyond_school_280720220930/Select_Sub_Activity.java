@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -54,7 +56,7 @@ import java.util.Objects;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 32, name = R.string.math, subject = R.string.math;/*subsub = R.string.add;*/
+    int count = 33, name = R.string.math, subject = R.string.math;/*subsub = R.string.add;*/
     MutableLiveData<String> grade;
     MutableLiveData<String> subSub;
     List<Subject_Model> list;
@@ -127,6 +129,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(false, R.string.div));
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
+        drinkModels.add(new SpinnerModel(false, R.string.spelling));
 
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals("")) {
@@ -145,7 +148,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
             mCurrentUser = null;
-            startActivity(new Intent(getApplicationContext(),SplashScreen.class));
+            startActivity(new Intent(getApplicationContext(), SplashScreen.class));
         });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
@@ -366,9 +369,28 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
         database = GradeDatabase.getDbInstance(this);
-        notes = database.gradesDao().valus();
+        notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " = true"/*grade.replaceAll(" ","").toLowerCase()*/));
         list = new ArrayList<>();
+        //data fetching
         for (int i = 0; i < count; i++) {
+            try {
+                Grades_data data = notes.get(i);
+                String val = data.getChapter();
+                String[] res = val.split(" ");
+                if (!res[0].equals("Multiplication")) {
+                    for (String str : res) {
+                        if (str.equals(subSub)) {
+                            list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                        }
+                    }
+                } else {
+                    multiplicationList(Integer.parseInt(res[3]));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        /*for (int i = 0; i < count; i++) {
             Grades_data data = notes.get(i);
             //for mathematics
             if (data.getSubject() == R.string.math) {
@@ -407,7 +429,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     }
                 }
             }
-        }
+        }*/
         if (!Objects.equals(subSub, getResources().getString(R.string.mul))) {
             binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
             adapter = new Subject_Adapter(list, Select_Sub_Activity.this, this);
