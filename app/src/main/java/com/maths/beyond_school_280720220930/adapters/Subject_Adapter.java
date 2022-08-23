@@ -70,6 +70,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                 } else if (val.equals("Spelling")) {
 
+                    //for spelling
                     Toast.makeText(context, "spelling clicked", Toast.LENGTH_SHORT).show();
                     
                 } else {

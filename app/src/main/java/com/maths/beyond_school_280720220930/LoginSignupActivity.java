@@ -80,6 +80,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             en4 = new ArrayList<>();
             en4.add("GRADE 3");
 
+            //database
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math),getResources().getString(R.string.add1),true,true,true,true,"https://youtu.be/1RaL_2okktE"));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math),getResources().getString(R.string.add2),true,true,true,false,"https://youtu.be/RKL0TX8ogmw"));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math),getResources().getString(R.string.sub1),true,true,true,true,"https://youtu.be/ShCq1BVVbQ0"));

@@ -363,6 +363,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         database = GradeDatabase.getDbInstance(this);
         notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " = true"/*grade.replaceAll(" ","").toLowerCase()*/));
         list = new ArrayList<>();
+        //data fetching
         for (int i = 0; i < count; i++) {
             try {
                 Grades_data data = notes.get(i);
