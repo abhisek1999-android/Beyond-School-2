@@ -1,9 +1,12 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.model.ProgressDate;
@@ -18,8 +21,9 @@ public interface GradesDao {
     /*@Query("SELECT * FROM grades ORDER BY timestamp DESC")
     List<ProgressM> getAllProgress();*/
 
-    @Query("SELECT * FROM grades ")
-    List<Grades_data> valus();
+    //@Query("SELECT * FROM grades where :val = true")
+    @RawQuery(observedEntities = Grades_data.class)
+    List<Grades_data> valus(SupportSQLiteQuery query);
 
 
     /*@Query("SELECT * FROM Grades_data WHERE date=:date ORDER BY timestamp DESC")

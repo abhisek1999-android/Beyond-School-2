@@ -9,11 +9,13 @@ import java.util.ArrayList;
 @Entity(tableName = "grades")
 public class Grades_data {
 
-    public Grades_data(int subject,int chapter, ArrayList<String> grade,String url) {
+    public Grades_data(int subject,int chapter, boolean grade1,boolean grade2,boolean grade3,String url) {
         this.subject = subject;
         //this.subsubject = subsubject;
         this.chapter = chapter;
-        this.grade = grade;
+        this.grade1 = grade1;
+        this.grade2 = grade2;
+        this.grade3 = grade3;
         this.url=url;
     }
 
@@ -26,8 +28,17 @@ public class Grades_data {
     @ColumnInfo(name="chapter")
     public int  chapter;
 
-    @ColumnInfo(name="grade")
-    public ArrayList<String> grade;
+   /* @ColumnInfo(name="grade")
+    public ArrayList<String> grade;*/
+
+    @ColumnInfo(name = "grade1")
+    public boolean grade1;
+
+    @ColumnInfo(name = "grade2")
+    public boolean grade2;
+
+    @ColumnInfo(name = "grade3")
+    public boolean grade3;
 
     @ColumnInfo(name="url")
     public String  url;
@@ -59,12 +70,36 @@ public class Grades_data {
         this.chapter = chapter;
     }
 
-    public ArrayList<String> getGrade() {
+    /*public ArrayList<String> getGrade() {
         return grade;
     }
 
     public void setGrade(ArrayList<String> grade) {
         this.grade = grade;
+    }*/
+
+    public boolean isGrade1() {
+        return grade1;
+    }
+
+    public void setGrade1(boolean grade1) {
+        this.grade1 = grade1;
+    }
+
+    public boolean isGrade2() {
+        return grade2;
+    }
+
+    public void setGrade2(boolean grade2) {
+        this.grade2 = grade2;
+    }
+
+    public boolean isGrade3() {
+        return grade3;
+    }
+
+    public void setGrade3(boolean grade3) {
+        this.grade3 = grade3;
     }
 
     public int getProgress_id() {

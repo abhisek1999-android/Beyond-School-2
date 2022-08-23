@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -146,7 +148,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
             mCurrentUser = null;
-            startActivity(new Intent(getApplicationContext(),SplashScreen.class));
+            startActivity(new Intent(getApplicationContext(), SplashScreen.class));
         });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
@@ -359,9 +361,43 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
         database = GradeDatabase.getDbInstance(this);
-        notes = database.gradesDao().valus();
+        notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where "+grade.replaceAll(" ","").toLowerCase()+" = true"/*grade.replaceAll(" ","").toLowerCase()*/));
+        //Toast.makeText(this, grade.replaceAll(" ","").toLowerCase(), Toast.LENGTH_SHORT).show();
         list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
+            try {
+                Grades_data data = notes.get(i);
+                if (data.getSubject() == R.string.math) {
+                    String val = getResources().getString(data.getChapter());
+                    String[] res = val.split(" ");
+                    if (!res[0].equals("Multiplication")) {
+                        for (String str : res) {
+                            if (str.equals(subSub)) {
+                                list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                            }
+                        }
+                    } else {
+                        multiplicationList(Integer.parseInt(res[3]));
+                    }
+
+
+                }
+                //for English practice
+                else if (data.getSubject() == R.string.english) {
+                    String val = getResources().getString(data.getChapter());
+                    String[] res = val.split(" ");
+                    for (String str : res) {
+                        if (str.equals(subSub)) {
+                            list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                        }
+
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        /*for (int i = 0; i < count; i++) {
             Grades_data data = notes.get(i);
             //for mathematics
             if (data.getSubject() == R.string.math) {
@@ -400,7 +436,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     }
                 }
             }
-        }
+        }*/
         if (!Objects.equals(subSub, getResources().getString(R.string.mul))) {
             binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
             adapter = new Subject_Adapter(list, Select_Sub_Activity.this, this);

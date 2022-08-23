@@ -80,7 +80,49 @@ public class LoginSignupActivity extends AppCompatActivity {
             en4 = new ArrayList<>();
             en4.add("GRADE 3");
 
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add1, new ArrayList<>(list1), "https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.add1,true,true,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.add2,true,true,true,"https://youtu.be/RKL0TX8ogmw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.sub1,true,true,true,"https://youtu.be/ShCq1BVVbQ0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.sub2,true,true,true,"https://youtu.be/sBJp_Toqlhw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.mul1,true,true,true,"https://youtu.be/fZFwHpiAVE0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.div1,true,true,true,"https://youtu.be/5VaqKu0ENlY"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.add3,false,true,true,"https://youtu.be/TBzsG75tvhw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.sub3,false,true,true,"https://youtu.be/f0HPkXpzKf0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.mul2,false,true,true,"https://youtu.be/Yo_6G5TrNqo"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.div2,false,true,true,"https://youtu.be/2muobEZUalE"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.add4,false,false,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.add5,false,false,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.sub4,false,false,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.sub5,false,false,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.mul3,false,false,true,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math,R.string.div3,false,false,true,"https://youtu.be/1RaL_2okktE"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab1, true,false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab2, true,false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab3,true,false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab4,true,false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab5, true,false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab6, true,false,false, ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab8, false,true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab9, false,true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab10, false,true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab11, false,true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab12, false,true,false, ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab14,false,false,true, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab15, false,false,true, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab16,false,false,true, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab17, false,false,true, ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, false,false,true, ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,true,true,true,""));
+           /* database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add1, new ArrayList<>(list1), "https://youtu.be/1RaL_2okktE"));
             database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add2, new ArrayList<>(list1), "https://youtu.be/RKL0TX8ogmw"));
             database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub1, new ArrayList<>(list1), "https://youtu.be/ShCq1BVVbQ0"));
             database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub2, new ArrayList<>(list1), "https://youtu.be/sBJp_Toqlhw"));
@@ -121,7 +163,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(en4), ""));
 //            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
 
-            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,new ArrayList<>(list1),""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,new ArrayList<>(list1),""));*/
         }
     }
 
