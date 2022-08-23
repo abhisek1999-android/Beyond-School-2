@@ -104,10 +104,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void observerGrade() {
 
         grade.observe(this, grade -> {
-            Log.d("XXX", "observerGrade: " + grade);
             binding.toolBar.userName.setText(grade);
             subSub.observe(this, subSub -> {
-                Log.d("XXX", "observerGrade: Sub" + subSub);
                 binding.subsub.setText(subSub);
                 setRecyclerView(grade, subSub);
             });
@@ -272,7 +270,6 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                         getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
                                 getResources().getString(R.string.add) : getResources().getString(model.getName())
                 );
-                Log.e("XXX", "getView:" + getResources().getString(model.getName()));
                 binding.subject.setText(name);
 
 //                if (subsub==R.string.mul){
@@ -397,6 +394,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             //for English practice
             else if (data.getSubject() == R.string.english) {
                 for (String element : data.getGrade()) {
+                    Log.d("XXX", "setRecyclerView: " + element);
                     if (element.equals(grade)) {
                         String val = getResources().getString(data.getChapter());
                         String[] res = val.split(" ");
@@ -404,9 +402,8 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                             if (str.equals(subSub)) {
                                 list.add(new Subject_Model(data.getChapter(), data.getUrl()));
                             }
-                        }
-                    } else {
 
+                        }
                     }
                 }
             }
@@ -418,6 +415,15 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

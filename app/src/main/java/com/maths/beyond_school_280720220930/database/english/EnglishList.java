@@ -892,7 +892,7 @@ public abstract class EnglishList {
 
 
             var listVocabulary = new ArrayList<VocabularyModel>();
-            listVocabulary.add(new VocabularyModel("cloth", vocabularyDetailCloth));
+            listVocabulary.add(new VocabularyModel("school", vocabularyDetailCloth));
             listVocabulary.add(new VocabularyModel("summer", vocabularyDetailSummer));
             listVocabulary.add(new VocabularyModel("town", vocabularyDetailTown));
             listVocabulary.add(new VocabularyModel("transport", vocabularyDetailTransport));
