@@ -11,6 +11,8 @@ import android.util.Log;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -99,7 +101,11 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
                 translateResults = s;
             if (conversionCallaBack != null) {
                 conversionCallaBack.getLogResult("onResultFormatted : " + translateResults);
-                conversionCallaBack.onSuccess(translateResults);
+                try {
+                    conversionCallaBack.onSuccess(translateResults);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

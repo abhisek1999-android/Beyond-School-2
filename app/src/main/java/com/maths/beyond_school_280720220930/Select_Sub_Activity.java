@@ -213,6 +213,14 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+
+        binding.tool.privacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), PrivacyPolicy.class));
+                binding.drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

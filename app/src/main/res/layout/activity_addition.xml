@@ -423,17 +423,22 @@
         android:textSize="16sp" />
 
 
-    <ImageView
-        android:layout_width="110dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="0dp"
-        android:src="@drawable/character_teacher"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:id="@+id/avatar"
-        android:layout_above="@id/learnOrTest"
+<!--Animation is generated using Lottipy-->
 
-        />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animWoman"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/learnOrTest"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="30dp"
+        app:lottie_autoPlay="true"
+        android:forceDarkAllowed="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/talking_avatar"
+        tools:ignore="MissingConstraints" />
+
     <LinearLayout
         android:id="@+id/score"
         android:layout_width="wrap_content"

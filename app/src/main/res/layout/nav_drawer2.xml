@@ -143,7 +143,6 @@
 
         <LinearLayout
             android:id="@+id/privacyPolicy"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -158,6 +157,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/background_round"
                 android:padding="7dp"
+                android:backgroundTint="@color/teal_700"
                 android:src="@drawable/ic_baseline_policy_24"
                 app:tint="@color/white" />
 
@@ -168,7 +168,7 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingLeft="28dp"
                 android:text="Privacy Policy"
-                android:textSize="24sp" />
+                android:textSize="@dimen/default_font_size_big" />
         </LinearLayout>
 
 

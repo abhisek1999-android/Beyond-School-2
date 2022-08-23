@@ -13,9 +13,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -25,7 +27,13 @@ import com.maths.beyond_school_280720220930.translation_engine.translator.TextTo
 import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AdditionActivity extends AppCompatActivity {
 
@@ -61,7 +69,11 @@ public class AdditionActivity extends AppCompatActivity {
     private String logs = "";
     private int currentNum1=0 ;
     private int currentNum2=0;
-
+    private FirebaseFirestore kidsDb;
+    private List ansList;
+    private List timeList;
+    private String kidsId;
+    private JSONArray kidsActivityJsonArray = new JSONArray();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,15 +82,25 @@ public class AdditionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
+        ansList=new ArrayList();
+        timeList=new ArrayList();
+
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
         selectedSub=getIntent().getStringExtra("selected_sub");
 
+        kidsId=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id));
+
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
+
+
+        kidsDb=FirebaseFirestore.getInstance();
+
+
 
         initTTS();
         initSTT();
@@ -186,7 +208,7 @@ public class AdditionActivity extends AppCompatActivity {
         stt = SpeechToTextBuilder.builder(new ConversionCallback() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String result) throws JSONException {
                 Log.d(TAG, "onSuccess: " + result);
 
                 successResultCalling(result);
@@ -208,7 +230,7 @@ public class AdditionActivity extends AppCompatActivity {
             }
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void getStringResult(String title) {
+            public void getStringResult(String title) throws JSONException {
                 ConversionCallback.super.getStringResult(title);
                 Log.i("SoundXCalled",title+",title: "+ Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
                 if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
@@ -249,7 +271,7 @@ public class AdditionActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void successResultCalling(String result) {
+    private void successResultCalling(String result) throws JSONException {
 
         endTime=new Date().getTime();
 
@@ -259,12 +281,15 @@ public class AdditionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        logs+="Detected Result"+result+"\n";
+        ansList.add(result);
+        timeList.add((endTime-startTime));
 
+        logs+="Detected Result"+result+"\n";
         //stt.stop();
         binding.ansTextView.setText(result);
         isCallSTT = false;
         Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
+
 
 
 
@@ -279,6 +304,7 @@ public class AdditionActivity extends AppCompatActivity {
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                     "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
                     currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,true);
 
             DELAY_ON_STARTING_STT = 500;
             DELAY_ON_SETTING_QUESTION=2000;
@@ -287,7 +313,7 @@ public class AdditionActivity extends AppCompatActivity {
 
             logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
             tts.initialize("Wrong Answer", AdditionActivity.this);
-
+            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,false);
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                     "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
                     currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
@@ -307,8 +333,35 @@ public class AdditionActivity extends AppCompatActivity {
                 }
             }, DELAY_ON_SETTING_QUESTION);
         } else {
+
+//null check req
+            if (correctAnswer>=9)
+
+            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+            else
+            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId, selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+
             resetViews();
         }
+
+    }
+
+    private void putJsonData(String question,String ans,long timeTaken,boolean isCorrect) throws JSONException {
+
+
+        JSONObject activityData = new JSONObject();
+        try {
+            activityData.put("question", question);
+            activityData.put("ans", ans);
+            activityData.put("time_taken", timeTaken);
+            activityData.put("is_correct", isCorrect);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        kidsActivityJsonArray.put(activityData);
+
 
     }
 

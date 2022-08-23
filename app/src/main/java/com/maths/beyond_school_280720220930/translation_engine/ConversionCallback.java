@@ -1,7 +1,9 @@
 package com.maths.beyond_school_280720220930.translation_engine;
 
+import org.json.JSONException;
+
 public interface ConversionCallback {
-    default void onSuccess(String result) {
+    default void onSuccess(String result) throws JSONException {
 
     }
 
@@ -15,7 +17,7 @@ public interface ConversionCallback {
 
     }
 
-    default void getStringResult(String title) {
+    default void getStringResult(String title) throws JSONException {
 
     }
 

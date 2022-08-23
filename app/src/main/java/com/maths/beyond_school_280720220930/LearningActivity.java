@@ -38,6 +38,8 @@ import com.maths.beyond_school_280720220930.translation_engine.translator.TextTo
 import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import org.json.JSONException;
+
 import java.util.Date;
 
 public class LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
@@ -590,7 +592,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void getStringResult(String title) {
+            public void getStringResult(String title) throws JSONException {
                 ConversionCallback.super.getStringResult(title);
                 Log.i("SoundXCalled",title+",title: "+Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
                 if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){

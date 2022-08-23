@@ -222,6 +222,7 @@
                    android:layout_gravity="right"
 
 
+                    android:visibility="gone"
                     android:drawableLeft="@drawable/ic_baseline_delete_24"
                     android:drawableTint="@color/red"
                     android:layout_marginTop="@dimen/grid_10"
