@@ -123,13 +123,14 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-   <!-- <ImageView
+ <ImageView
         android:layout_width="245dp"
         android:layout_height="220dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/goat" />-->
+        android:alpha="0.4"
+        android:src="@drawable/goat" />
 </RelativeLayout>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView

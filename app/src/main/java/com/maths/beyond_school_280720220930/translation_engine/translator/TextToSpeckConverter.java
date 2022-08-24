@@ -8,7 +8,9 @@ import android.util.Log;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverter> {
 
@@ -37,11 +39,22 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
     public TextToSpeckConverter initialize(String message, Activity appContext) {
         textToSpeech = new TextToSpeech(appContext, status -> {
             if (status != TextToSpeech.ERROR) {
+
+
+                Set<Locale> avail = textToSpeech.getAvailableLanguages();
+                for (Locale locale : avail) {
+                    Log.e(TAG,"local: "+locale);
+                    if (locale.getDisplayVariant() != null) {
+                        Log.e(TAG,"  var: "+locale.getVariant());
+                    }
+                }
+                List<TextToSpeech.EngineInfo> engineInfo = textToSpeech.getEngines();
+                for (TextToSpeech.EngineInfo info : engineInfo) {
+                    Log.e(TAG,"info: "+info);
+                }
                 textToSpeech.setLanguage(new Locale("en", "IN"));
-                textToSpeech.setPitch(0.8f);
-                textToSpeech.setSpeechRate(0.8f);
-
-
+                textToSpeech.setPitch(0.9f);
+                textToSpeech.setSpeechRate(0.9f);
                 textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override
                     public void onStart(String s) {

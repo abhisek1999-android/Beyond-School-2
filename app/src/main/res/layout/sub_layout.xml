@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/grid_10"
     android:padding="@dimen/grid_10"
+    android:background="@color/white"
     style="?attr/selectableItemBackground"
     android:id="@+id/card"
     app:cardCornerRadius="@dimen/grid_1_5">
@@ -61,8 +62,22 @@
             android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
             android:text="Addition"
+            android:layout_weight="1"
             android:paddingVertical="@dimen/grid_10"
             android:textSize="@dimen/default_font_size" />
+
+
+
+        <ImageView
+            android:id="@+id/isLocked"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_lock_24"
+            android:background="@drawable/round_rect_button_bg"
+            android:padding="@dimen/grid_10"
+            android:layout_margin="@dimen/grid_0_5"
+            android:backgroundTint="@color/accent"
+            />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

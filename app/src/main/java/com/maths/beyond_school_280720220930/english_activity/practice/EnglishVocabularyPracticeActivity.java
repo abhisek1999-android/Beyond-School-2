@@ -29,6 +29,8 @@ import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import org.json.JSONException;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -174,7 +176,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         stt = task.execute(new ConversionCallback() {
 
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String result) throws JSONException {
                 ConversionCallback.super.onSuccess(result);
                 try {
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT),

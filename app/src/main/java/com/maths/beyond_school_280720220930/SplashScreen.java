@@ -46,7 +46,8 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-        startService(new Intent(getBaseContext(), ClearService.class));
+        try{        startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
+
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();

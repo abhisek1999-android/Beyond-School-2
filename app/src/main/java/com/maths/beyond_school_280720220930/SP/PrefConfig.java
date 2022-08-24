@@ -33,7 +33,7 @@ public class PrefConfig {
     public static int readIntInPref(Context context, String LIST_KEY) {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        int values = pref.getInt(LIST_KEY, 0);
+        int values = pref.getInt(LIST_KEY, 1);
         return values;
     }
 

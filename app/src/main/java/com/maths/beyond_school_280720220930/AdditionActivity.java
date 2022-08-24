@@ -13,18 +13,28 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
+import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AdditionActivity extends AppCompatActivity {
 
@@ -45,6 +55,10 @@ public class AdditionActivity extends AppCompatActivity {
     private Boolean isAnswered = false;
     private Toolbar toolbar;
 
+    long timeLimit=10000;
+    private long maxStQuesTime=0;
+    private long maxEtQuesTime=0;
+
     private TextView digit1Text;
     private String subject = "";
     private String digit = "",videoUrl="",selectedSub="";
@@ -56,7 +70,13 @@ public class AdditionActivity extends AppCompatActivity {
     private String logs = "";
     private int currentNum1=0 ;
     private int currentNum2=0;
-
+    private FirebaseFirestore kidsDb;
+    private List ansList;
+    private List timeList;
+    private String kidsGrade;
+    private GradeDatabase databaseGrade;
+    private String kidsId;
+    private JSONArray kidsActivityJsonArray = new JSONArray();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,15 +85,27 @@ public class AdditionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
+        ansList=new ArrayList();
+        timeList=new ArrayList();
+        databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
         selectedSub=getIntent().getStringExtra("selected_sub");
 
+
+        kidsId=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id));
+        kidsGrade=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade));
+
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
+
+
+        kidsDb=FirebaseFirestore.getInstance();
+
+
 
         initTTS();
         initSTT();
@@ -156,6 +188,7 @@ public class AdditionActivity extends AppCompatActivity {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
                         startTime=new Date().getTime();
+                        maxStQuesTime=new Date().getTime();
                         UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT = false;
                         stt.initialize("", AdditionActivity.this);
@@ -180,68 +213,11 @@ public class AdditionActivity extends AppCompatActivity {
         stt = SpeechToTextBuilder.builder(new ConversionCallback() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String result) throws JSONException {
                 Log.d(TAG, "onSuccess: " + result);
 
+                successResultCalling(result);
 
-                endTime=new Date().getTime();
-
-                try {
-                    UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                logs+="Detected Result"+result+"\n";
-
-                //stt.stop();
-                binding.ansTextView.setText(result);
-                isCallSTT = false;
-                Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
-
-
-
-                if (lcsResult) {
-
-                    diff=endTime-startTime;
-
-                    tts.initialize("Correct Answer", AdditionActivity.this);
-                    logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-
-
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-
-                    DELAY_ON_STARTING_STT = 500;
-                    DELAY_ON_SETTING_QUESTION=2000;
-                    correctAnswer++;
-                } else {
-
-                    logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-                    tts.initialize("Wrong Answer", AdditionActivity.this);
-
-                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                            "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
-                            currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                    DELAY_ON_STARTING_STT = 500;
-                    DELAY_ON_SETTING_QUESTION=2000;
-                    wrongAnswer++;
-                }
-                setWrongCorrectView();
-                currentQuestion++;
-                if (currentQuestion <= MAX_QUESTION) {
-
-                    UtilityFunctions.runOnUiThread(() -> {
-                        try {
-                            setQuestion();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }, DELAY_ON_SETTING_QUESTION);
-                } else {
-                    resetViews();
-                }
 
             }
 
@@ -257,17 +233,147 @@ public class AdditionActivity extends AppCompatActivity {
                 ConversionCallback.super.getLogResult(title);
                 logs+=title+"\n";
             }
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void getStringResult(String title) throws JSONException {
+                ConversionCallback.super.getStringResult(title);
+                Log.i("SoundXCalled",title+",title: "+ Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
+                    successResultCalling(currentAnswer+"");
+                }
+
+
+            }
 
             @Override
             public void onErrorOccurred(String errorMessage) {
-                UtilityFunctions.runOnUiThread(()->{
-                    isCallSTT = true;
-                    tts.initialize("", AdditionActivity.this);
-                },250);
+
+                if ((new Date().getTime() - maxStQuesTime)< timeLimit){
+                    UtilityFunctions.runOnUiThread(()->{
+                        isCallSTT = true;
+                        tts.initialize("", AdditionActivity.this);
+                    },250);
+                }else{
+                    setWrongCorrectView();
+                    currentQuestion++;
+                    if (currentQuestion <= MAX_QUESTION) {
+
+                        UtilityFunctions.runOnUiThread(() -> {
+                            try {
+                                setQuestion();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }, DELAY_ON_SETTING_QUESTION);
+                    } else {
+                        resetViews();
+                    }
+                }
 
                 //  stt.initialize("", AdditionActivity.this);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void successResultCalling(String result) throws JSONException {
+
+        endTime=new Date().getTime();
+
+        try {
+            UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ansList.add(result);
+        timeList.add((endTime-startTime));
+
+        logs+="Detected Result"+result+"\n";
+        //stt.stop();
+        binding.ansTextView.setText(result);
+        isCallSTT = false;
+        Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
+
+
+
+
+        if (lcsResult) {
+
+            diff=endTime-startTime;
+
+            tts.initialize("Correct Answer", AdditionActivity.this);
+            logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+
+
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,true);
+
+            DELAY_ON_STARTING_STT = 500;
+            DELAY_ON_SETTING_QUESTION=2000;
+            correctAnswer++;
+        } else {
+
+            logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+            tts.initialize("Wrong Answer", AdditionActivity.this);
+            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,false);
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
+                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
+                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+            DELAY_ON_STARTING_STT = 500;
+            DELAY_ON_SETTING_QUESTION=2000;
+            wrongAnswer++;
+        }
+        setWrongCorrectView();
+        currentQuestion++;
+        if (currentQuestion <= MAX_QUESTION) {
+
+            UtilityFunctions.runOnUiThread(() -> {
+                try {
+                    setQuestion();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, DELAY_ON_SETTING_QUESTION);
+        } else {
+
+            //null check req
+            if (correctAnswer>=9)
+            {
+                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+               if (!subject.equals("multiplication"))
+                UtilityFunctions.updateDbUnlock(databaseGrade,kidsGrade,subject,selectedSub);
+               else
+                   PrefConfig.writeIntInPref(getApplicationContext(),Integer.parseInt(digit),getResources().getString(R.string.multiplication_upto));
+            }
+
+            else
+            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId, selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+
+            resetViews();
+        }
+
+    }
+
+    private void putJsonData(String question,String ans,long timeTaken,boolean isCorrect) throws JSONException {
+
+
+        JSONObject activityData = new JSONObject();
+        try {
+            activityData.put("question", question);
+            activityData.put("ans", ans);
+            activityData.put("time_taken", timeTaken);
+            activityData.put("is_correct", isCorrect);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        kidsActivityJsonArray.put(activityData);
+
+
     }
 
     private void setWrongCorrectView() {
@@ -364,6 +470,11 @@ public class AdditionActivity extends AppCompatActivity {
                 minVal=1000;
 
             }
+            if (digit.equals("5")){
+                maxVal=99999;
+                minVal=10000;
+
+            }
             if (isNewQuestionGenerated){
                 if (digit.equals("1")){
                     currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
@@ -390,7 +501,7 @@ public class AdditionActivity extends AppCompatActivity {
                 }
 
             if (subject.equals("multiplication")) {
-                currentNum1 = UtilityFunctions.getRandomIntegerUpto(10,2);
+                currentNum1 = Integer.parseInt(digit);
                 currentNum2 = UtilityFunctions.getRandomNumber(1);
             }
 

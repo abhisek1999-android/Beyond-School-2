@@ -61,7 +61,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     MutableLiveData<String> subSub;
     List<Subject_Model> list;
     Subject_Model subject_model;
-    GradeDatabase database;
+    private GradeDatabase database;
     List<Grades_data> notes;
     TablesRecyclerAdapter tablesRecyclerAdapter;
     Subject_Adapter adapter;
@@ -86,7 +86,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
-
+        database = GradeDatabase.getDbInstance(this);
         drinkModels = new ArrayList<>();
 
         uiChnages();
@@ -100,6 +100,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
 
         observerGrade();
+
 
     }
 
@@ -211,6 +212,14 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), AlarmAtTime.class));
+                binding.drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        binding.tool.privacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), PrivacyPolicy.class));
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -346,8 +355,16 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
         tableList = getResources().getStringArray(R.array.table_name);
         tablesList = new ArrayList<>();
+
+        int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+
+    //    Toast.makeText(this, mul_upto+"", Toast.LENGTH_SHORT).show();
         for (int i = 1; i < digit; i++) {
-            tablesList.add(new Tables(i + 1 + "", tableList[i - 1]));
+
+            if (i<=mul_upto)
+            tablesList.add(new Tables(i + 1 + "", tableList[i - 1],true));
+            else
+            tablesList.add(new Tables(i + 1 + "", tableList[i - 1],false)) ;
         }
         binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
 
@@ -360,8 +377,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void setRecyclerView(String grade, String subSub) {
 
 
-        database = GradeDatabase.getDbInstance(this);
-        notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " = true"/*grade.replaceAll(" ","").toLowerCase()*/));
+
+
+
+
+        notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + this.grade.getValue().replaceAll(" ", "").toLowerCase() + " =1"/*grade.replaceAll(" ","").toLowerCase()*/));
         list = new ArrayList<>();
         //data fetching
         for (int i = 0; i < count; i++) {
@@ -372,7 +392,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 if (!res[0].equals("Multiplication")) {
                     for (String str : res) {
                         if (str.equals(subSub)) {
-                            list.add(new Subject_Model(data.getChapter(), data.getUrl()));
+                            list.add(new Subject_Model(data.getChapter(), data.getUrl(),data.unlock));
                         }
                     }
                 } else {

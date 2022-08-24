@@ -5,11 +5,33 @@ public class Subject_Model {
     String subsub;
     String url;
 
+    boolean is_locked;
+
     public Subject_Model (String subsub, String url) {
         //this.chapter = chapter;
         //this.digit = digit;
         this.subsub = subsub;
         this.url=url;
+
+
+    }
+
+    public boolean isIs_locked() {
+        return is_locked;
+    }
+
+    public void setIs_locked(boolean is_locked) {
+        this.is_locked = is_locked;
+    }
+
+    public Subject_Model (String subsub, String url, boolean is_locked) {
+        //this.chapter = chapter;
+        //this.digit = digit;
+        this.subsub = subsub;
+        this.url=url;
+        this.is_locked=is_locked;
+
+
     }
 
     /*public int getChapter() {

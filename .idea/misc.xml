@@ -21,7 +21,6 @@
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/content_kids_info.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/drawer_header.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_vocabulary.xml" value="0.29347826086956524" />
-        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_vocabulary_test.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/list_item.xml" value="0.3614583333333333" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/nav_drawer2.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/sub_layout.xml" value="0.3625" />
@@ -58,6 +57,7 @@
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_phone_number_login.xml" value="0.30675675675675673" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_privacy_policy.xml" value="0.29157759726378796" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_profile.xml" value="0.30720720720720723" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_score.xml" value="0.33" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_select_action.xml" value="0.25" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_select_sub.xml" value="0.29157759726378796" />
@@ -87,7 +87,7 @@
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/row2.xml" value="0.30720720720720723" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/seekbar_dialog.xml" value="0.261650277896537" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/select_card_layout.xml" value="0.35520833333333335" />
-        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/sub_layout.xml" value="0.30720720720720723" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/sub_layout.xml" value="0.33" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/table_lay.xml" value="0.29157759726378796" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/text_sample_bg.xml" value="0.28788518362178134" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/tool_bar_layout.xml" value="0.33" />

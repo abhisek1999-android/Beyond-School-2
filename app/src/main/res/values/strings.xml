@@ -41,10 +41,7 @@
 
     <string-array name="country_code">
         <item>+91</item>
-        <item>
-            +93
-
-        </item>
+        <item>+93</item>
         <item>
            +355
         </item>
@@ -60,9 +57,7 @@
         <item>
             +244
         </item>
-        <item>
-            +1264
-        </item>
+        <item>+1264</item>
         <item>
             +672
         </item>
@@ -897,6 +892,8 @@
 
     <string name="digit">Digit</string>
     <string name="table">Table</string>
+
+    <string name="multiplication_upto">MULTIPLICATION_UPTO</string>
 
     <string name="grade_1_data">A grade 1 student should know:
             \nMATHS :\n 1. Addition up to 2-digit numbers.\n2. Subtraction up to 2-digit \n         numbers.\n3. Multiplication Tables till Table of \n         10.\nENGLISH :\n1. Vocabulary -> Bathroom, Body\n       parts, Colors, Animals, Fruits,\n       Vegetables and opposites.\n2. Spelling -> Most common words, 3-letter and 4-letter words.</string>

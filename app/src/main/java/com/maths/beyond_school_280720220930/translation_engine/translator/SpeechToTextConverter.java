@@ -11,6 +11,8 @@ import android.util.Log;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -116,13 +118,22 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
             assert conversionCallaBack != null;
             conversionCallaBack.onPartialResult("Result: " + matches.get(0).trim() + "\n");
             if (matches.get(0).trim().matches(onlyNumber)) {
-                conversionCallaBack.onSuccess(matches.get(0).trim());
+                try {
+                    conversionCallaBack.onSuccess(matches.get(0).trim());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 conversionCallaBack.getLogResult("onResult : " + matches.get(0).trim());
             } else {
                 try {
                     conversionCallaBack.onSuccess(stringToText.get(matches.get(0).trim().toLowerCase()));
                     conversionCallaBack.getLogResult("onResultFormatted : " + stringToText.get(matches.get(0).trim().toLowerCase()));
                 } catch (Exception e) {
+                    try {
+                        conversionCallaBack.getStringResult(matches.get(0).trim().toLowerCase());
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
                     conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }
             }
