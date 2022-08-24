@@ -57,15 +57,16 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/phoneNumberSignIn"
         android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="@dimen/grid_10"
+        android:background="@drawable/round_rect_button_bg"
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_google_icon"
         android:fontFamily="@font/reemkufi_medium"
         android:padding="@dimen/grid_10"
-        app:backgroundTint="@color/white"
-        android:layout_marginBottom="@dimen/grid_10"
-        android:background="@drawable/round_rect_button_bg"
         android:text="Sign in with Google"
-        android:textColor="@color/grey" />
+        android:textColor="@color/grey"
+        android:visibility="gone"
+        app:backgroundTint="@color/white" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/phoneNumberSignIn"
@@ -73,12 +74,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="60dp"
-        app:backgroundTint="@color/primary"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/round_rect_button_bg"
         android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+        android:drawableTint="@color/primary"
         android:fontFamily="@font/reemkufi_medium"
         android:padding="@dimen/grid_10"
+
         android:text="Sign in With Phone"
-        android:textColor="@color/white" />
+        android:textColor="@color/primary"
+        app:backgroundTint="@color/white" />
 </RelativeLayout>

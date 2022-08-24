@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.table_values;
-import com.maths.beyond_school_280720220930.select_action;
 
 import java.util.List;
 
@@ -43,10 +42,7 @@ public class NavTableAdapter extends RecyclerView.Adapter<NavTableAdapter.NavVie
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, select_action.class);
-                intent.putExtra("value",tableValues.getVal());
-                context.startActivity(intent);
-                ((Activity)context).finish();
+ 
             }
         });
 

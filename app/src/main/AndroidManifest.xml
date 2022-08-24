@@ -105,10 +105,6 @@
             android:name=".TopicsActivity"
             android:exported="true" />
         <activity
-            android:name=".select_action"
-            android:exported="true"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".table_questions"
             android:exported="true"
             android:showOnLockScreen="true" />

@@ -113,6 +113,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="245dp"
+        android:layout_height="220dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.7"
+        android:scaleType="centerCrop"
+        android:src="@drawable/goat" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recylerview"
         android:layout_width="match_parent"
@@ -123,14 +131,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
- <ImageView
-        android:layout_width="245dp"
-        android:layout_height="220dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:alpha="0.4"
-        android:src="@drawable/goat" />
+
 </RelativeLayout>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView

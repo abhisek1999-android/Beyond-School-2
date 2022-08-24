@@ -35,7 +35,7 @@
                 android:layout_height="350dp"
                 android:layout_centerHorizontal="true"
                 android:rotation="35"
-                android:src="@drawable/cartoon_action_page" />
+                />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ShowTable"

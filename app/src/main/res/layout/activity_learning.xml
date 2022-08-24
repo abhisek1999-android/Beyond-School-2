@@ -468,7 +468,7 @@
             android:backgroundTint="@color/primary"
             android:drawableTop="@drawable/play_button"
             android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="10dp"
+            android:paddingTop="12dp"
             android:text=""
             android:textOff=""
             android:textOn="" />
@@ -487,15 +487,19 @@
     </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animWoman"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
         android:layout_above="@id/giveTestButton"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="35dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/character_teacher" />
+        android:forceDarkAllowed="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/talking_avatar"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/giveTestButton"
@@ -545,7 +549,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="-6dp">
+        android:layout_marginBottom="-5dp">
 
         <include layout="@layout/log_bottom_sheet" />
 

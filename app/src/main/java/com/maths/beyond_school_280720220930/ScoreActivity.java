@@ -105,18 +105,10 @@ public class ScoreActivity extends AppCompatActivity {
                 }
                 else{
                     if (status.equals("practice")){
-                        Intent intent=new Intent(ScoreActivity.this,select_action.class);
-                        intent.putExtra("value",maxTable+1);
-                        intent.putExtra("status","tableWithoutHint");
-                        startActivity(intent);
-                        finishAffinity();
+
                     }
                     else {
-                        Intent intent=new Intent(ScoreActivity.this,select_action.class);
-                        intent.putExtra("value",tname+1);
-                        intent.putExtra("status","tableWithoutHint");
-                        startActivity(intent);
-                        finishAffinity();
+
                     }
 
                 }

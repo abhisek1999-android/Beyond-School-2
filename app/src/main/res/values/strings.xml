@@ -786,6 +786,9 @@
     </string-array>
 
 
+    <string name="math_extra">Mathematics Extra</string>
+    <string name="english_extra">English Extra</string>
+
     <string name="start">Start</string>
     <string name="close">Close</string>
     <string name="log_check">IS_LOG_ENABLE</string>

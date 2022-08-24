@@ -265,10 +265,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(Random_questions.this, select_action.class);
-                intent.putExtra("value", TableValue);
-                startActivity(intent);
-                finish();
+
             }
         });
         logPadController();
@@ -299,10 +296,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         } catch (Exception e) {
 
         }
-        Intent intent = new Intent(Random_questions.this, select_action.class);
-        intent.putExtra("value", TableValue);
-        startActivity(intent);
-        finish();
+
     }
 
 

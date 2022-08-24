@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/grid_10"
-    android:padding="@dimen/grid_10"
-    android:background="@color/white"
+    android:padding="@dimen/grid_1_5"
     style="?attr/selectableItemBackground"
     android:id="@+id/card"
+    app:cardElevation="5dp"
     app:cardCornerRadius="@dimen/grid_1_5">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:padding="@dimen/grid_10"
         android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
@@ -67,17 +68,20 @@
             android:textSize="@dimen/default_font_size" />
 
 
-
         <ImageView
             android:id="@+id/isLocked"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_lock_24"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="@dimen/grid_0_5"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:layout_marginEnd="@dimen/grid_0_5"
+            android:layout_marginBottom="@dimen/grid_0_5"
             android:background="@drawable/round_rect_button_bg"
-            android:padding="@dimen/grid_10"
-            android:layout_margin="@dimen/grid_0_5"
             android:backgroundTint="@color/accent"
-            />
-    </LinearLayout>
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_lock_24" />
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

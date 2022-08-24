@@ -2,7 +2,6 @@ package com.maths.beyond_school_280720220930.adapters;
 
 import android.annotation.SuppressLint;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.Tables;
-import com.maths.beyond_school_280720220930.select_action;
 
 import java.util.List;
 
@@ -83,7 +81,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
                 context.startActivity(intent);}
 
                 else
-                    Toast.makeText(context, "Hey, this is locked for now", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Hey, Please complete previous level to unlock", Toast.LENGTH_SHORT).show();
             });
 
 

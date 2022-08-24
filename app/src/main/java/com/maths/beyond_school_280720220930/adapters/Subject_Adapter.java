@@ -115,7 +115,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                 }
                 else{
 
-                    Toast.makeText(context, "Hey, this is locked for now", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Hey, Please complete previous level to unlock.", Toast.LENGTH_SHORT).show();
                 }
 
 

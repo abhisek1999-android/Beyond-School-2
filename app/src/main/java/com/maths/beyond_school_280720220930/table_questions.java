@@ -251,10 +251,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(table_questions.this, select_action.class);
-                intent.putExtra("value", TableValue);
-                startActivity(intent);
-                finish();
+
             }
         });
         logPadController();
@@ -328,10 +325,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
         recognizeVoice.speech.stopListening();
         readText.textToSpeech.shutdown();
         isActive = false;
-        Intent intent = new Intent(table_questions.this, select_action.class);
-        intent.putExtra("value", TableValue);
-        startActivity(intent);
-        finish();
+
 
 
     }

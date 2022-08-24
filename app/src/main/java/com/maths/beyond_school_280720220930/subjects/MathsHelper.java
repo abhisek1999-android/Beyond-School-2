@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.maths.beyond_school_280720220930.extras.ReadText;
 import com.maths.beyond_school_280720220930.extras.RecognizeVoice;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 public class MathsHelper {
 
@@ -68,7 +69,7 @@ public class MathsHelper {
         else if (subject.equals("subtraction"))
             return  a+" minus "+ b+" equals";
         else if (subject.equals("multiplication"))
-            return  a+" "+ b+"'s are";
+            return  a+" "+ UtilityFunctions.numberToWords(b) +"s are";
 
         else if (subject.equals("division"))
             return  a+"divided by "+ b;

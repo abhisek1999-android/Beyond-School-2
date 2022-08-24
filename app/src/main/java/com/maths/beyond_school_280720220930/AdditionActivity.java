@@ -189,6 +189,7 @@ public class AdditionActivity extends AppCompatActivity {
                     UtilityFunctions.runOnUiThread(() -> {
                         startTime=new Date().getTime();
                         maxStQuesTime=new Date().getTime();
+                        binding.animWoman.cancelAnimation();
                         UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT = false;
                         stt.initialize("", AdditionActivity.this);
@@ -296,6 +297,7 @@ public class AdditionActivity extends AppCompatActivity {
         Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
 
 
+        binding.animWoman.playAnimation();
 
 
         if (lcsResult) {
@@ -389,6 +391,7 @@ public class AdditionActivity extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
+        binding.animWoman.cancelAnimation();
         //  binding.textView26.setVisibility(View.VISIBLE);
         //  binding.textViewQuestion.setVisibility(View.GONE);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
@@ -517,7 +520,7 @@ public class AdditionActivity extends AppCompatActivity {
 
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
-
+            binding.animWoman.playAnimation();
         }
 
 
@@ -529,7 +532,7 @@ public class AdditionActivity extends AppCompatActivity {
         super.onPause();
         isCallTTS=false;
         isCallSTT=false;
-
+        binding.animWoman.cancelAnimation();
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         } catch (InterruptedException e) {
