@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.practice;
+package com.maths.beyond_school_280720220930.english_activity.vocabulary.practice;
 
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -19,7 +19,7 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
-import com.maths.beyond_school_280720220930.english_activity.EnglishViewPager;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;

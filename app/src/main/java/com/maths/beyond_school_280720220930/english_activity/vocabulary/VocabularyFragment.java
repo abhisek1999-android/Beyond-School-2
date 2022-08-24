@@ -1,7 +1,6 @@
-package com.maths.beyond_school_280720220930.english_activity;
+package com.maths.beyond_school_280720220930.english_activity.vocabulary;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;

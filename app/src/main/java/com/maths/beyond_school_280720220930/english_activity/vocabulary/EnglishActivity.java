@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity;
+package com.maths.beyond_school_280720220930.english_activity.vocabulary;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -30,7 +30,7 @@ import com.maths.beyond_school_280720220930.database.english.model.VocabularyDet
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
-import com.maths.beyond_school_280720220930.english_activity.practice.EnglishVocabularyPracticeActivity;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -140,6 +140,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         binding.viewPager.setUserInputEnabled(false);
         try {
             binding.playPause.setChecked(true);
+            isSpeaking = binding.playPause.isChecked();
             initTTS();
             intSTT();
             initMediaPlayer();

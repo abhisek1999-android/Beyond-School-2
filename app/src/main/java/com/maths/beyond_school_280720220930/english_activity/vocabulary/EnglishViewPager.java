@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity;
+package com.maths.beyond_school_280720220930.english_activity.vocabulary;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
