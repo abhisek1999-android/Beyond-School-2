@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.english_activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,7 +70,7 @@ public class EnglishActivity extends AppCompatActivity {
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
     private UtilityFunctions.VocabularyCategories category;
-
+    private MediaPlayer mediaPlayer = null;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -163,7 +164,7 @@ public class EnglishActivity extends AppCompatActivity {
                 try {
                     initTTS();
                     intSTT();
-
+                    initMediaPlayer();
                     startSpeaking();
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -183,6 +184,10 @@ public class EnglishActivity extends AppCompatActivity {
         return fragmentList;
     }
 
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
+    }
+
     private void initTTS() throws ExecutionException, InterruptedException {
         var task = new TTSAsyncTask();
         tts = task.execute(new ConversionCallback() {
@@ -192,7 +197,8 @@ public class EnglishActivity extends AppCompatActivity {
                     if (isSayWordFinish) {
                         isSayWordFinish = false;
                         tts.setTextViewAndSentence(null);
-                        tts.initialize("Now Say the word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), EnglishActivity.this);
+//                        tts.initialize("Now Say the word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), EnglishActivity.this);
+                        tts.initialize(UtilityFunctions.getQuestionsFromVocabularyCategories(category), EnglishActivity.this);
                     } else {
                         startListening();
                     }
@@ -256,7 +262,7 @@ public class EnglishActivity extends AppCompatActivity {
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
-
+                        mediaPlayer.start();
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
@@ -354,6 +360,7 @@ public class EnglishActivity extends AppCompatActivity {
                 }
                 if (canNavigate) {
                     UtilityFunctions.runOnUiThread(() -> {
+                        mediaPlayer.pause();
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                         isSayWordFinish = true;
                         if (isSpeaking) {
@@ -415,5 +422,9 @@ public class EnglishActivity extends AppCompatActivity {
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
+        if (mediaPlayer != null)
+            mediaPlayer.release();
+        var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
+        current.getAnimationView().setVisibility(View.GONE);
     }
 }

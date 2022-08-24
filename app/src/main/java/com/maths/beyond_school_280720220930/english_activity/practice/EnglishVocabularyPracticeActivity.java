@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.practice;
 
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private Boolean isSpeaking = false;
     private int tryAgainCount = 0;
     private String category;
+    private MediaPlayer mediaPlayer = null;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -132,6 +134,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     initTTS();
                     intSTT();
                     startSpeaking();
+                    initMediaPlayer();
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -162,6 +165,9 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             isSpeaking = false;
     }
 
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
+    }
 
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
@@ -174,6 +180,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT),
                             vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))
                     ) {
+                        mediaPlayer.start();
                         helperTTS(UtilityFunctions.getCompliment(true), true, false);
                         ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                 .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
@@ -262,6 +269,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     tts.initialize("", EnglishVocabularyPracticeActivity.this);
                 } else
                     UtilityFunctions.runOnUiThread(() -> {
+                        mediaPlayer.pause();
                         binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
                         binding.textViewGuessQuestion.
                                 setText(UtilityFunctions.
@@ -322,6 +330,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
+        if (mediaPlayer != null)
+            mediaPlayer.release();
         var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
         current.getAnimationView().setVisibility(View.GONE);
     }

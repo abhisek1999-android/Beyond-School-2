@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -130,13 +131,13 @@ public final class UtilityFunctions {
             case bathroom:
                 return getRandomItem(new String[]{"Can you name this object? ", " Try naming this object ", " Can you tell what is this object called?"});
             case body_parts:
-                return getRandomItem(new String[]{"Can you name this body part? ", " Try naming this body part; Can you name this one?"});
+                return getRandomItem(new String[]{"Can you name this body part? ", " Try naming this body part", "Can you name this one?"});
             case colors:
                 return getRandomItem(new String[]{" Can you name this color? ", " Which color is this?", " Try naming this color ", " Which color do you see here?"});
             case animals:
                 return getRandomItem(new String[]{" Can you name this animal? ", " Try naming this animal", " Can you identify this?"});
             case fruits:
-                return getRandomItem(new String[]{"Can you name this fruit? ", "Name this fruit; Can you identify this fruit?"});
+                return getRandomItem(new String[]{"Can you name this fruit? ", "Name this fruit", "Can you identify this fruit?"});
             case vegetables:
                 return getRandomItem(new String[]{"Can you name this vegetable? ", "Name this vegetable", "Can you identify this vegetable?"});
             case cloth:
@@ -308,6 +309,13 @@ public final class UtilityFunctions {
         var saveLog = new LogEntity(log, String.valueOf(new Date().getTime()));
         var dao = db.logDao();
         dao.insertNotes(saveLog);
+    }
+
+
+    public static MediaPlayer playClapSound(Activity activity) {
+        var m = MediaPlayer.create(activity, R.raw.clap_sound);
+        m.setVolume(0.2f, 0.2f);
+        return m;
     }
 
 
