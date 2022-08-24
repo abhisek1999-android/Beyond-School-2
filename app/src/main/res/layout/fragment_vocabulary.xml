@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start"
-    android:padding="@dimen/grid_1">
+    android:layout_gravity="start">
 
 
     <TextView

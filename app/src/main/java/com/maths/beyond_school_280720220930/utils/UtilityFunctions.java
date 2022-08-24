@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
@@ -106,9 +108,76 @@ public final class UtilityFunctions {
 
     public enum VocabularyCategories {
         bathroom, body_parts, colors, animals, fruits,
-        vegetables, cloth, feeling, insert, kitchen,
+        vegetables, cloth, feeling, insect, kitchen,
         living_room, summer, town, transport, weather,
         school
+    }
+
+    public static String getRandomItem(String[] list) {
+        Random random = new Random();
+        return list[random.nextInt(list.length)];
+    }
+
+    public static String getCompliment(Boolean isCorrect) {
+        return (isCorrect)
+                ? getRandomItem(new String[]{"Fantastic !", "well done !", "great job !", "amazing !", "awesome !", "High-five !", "wow !", "That’s wonderful !!"})
+                :
+                getRandomItem(new String[]{"That’s incorrect ! ", "you can try again ! ", "That’s not correct !", "let’s try again !"});
+
+    }
+
+    public static String getQuestionTitle(VocabularyCategories categories) {
+        switch (categories) {
+            case bathroom:
+                return "Let us learn about Bathroom and objects we use there.";
+            case body_parts:
+                return "Here we will learn about our different body parts.";
+            case colors:
+                return "It’s the turn of colors now. Let us learn them.";
+            case animals:
+                return "Let us learn and know some animals. ";
+            case fruits:
+                return "I am sure, you all love eating fruits. Let us try to learn different fruits and their names.";
+            case vegetables:
+                return "Vegetables are good for health. We will learn about some of them now.";
+            case cloth:
+                return "We all wear different types of clothes to look nice. Let us know about them.";
+            case feeling:
+                return "Let us learn about feelings and emotions we all undergo.";
+            case insect:
+                return "Now we will discover different types of insects.";
+            case kitchen:
+                return "Let us learn and know some of the objects used by our mothers in Kitchen.";
+            default:
+                return "Let us learn and know about " + UtilityFunctions.vocabularyCategoriesToString(categories);
+        }
+    }
+
+    public static String getQuestionsFromVocabularyCategories(VocabularyCategories categories) {
+        switch (categories) {
+            case bathroom:
+                return getRandomItem(new String[]{"Can you name this object? ", " Try naming this object ", " Can you tell what is this object called?"});
+            case body_parts:
+                return getRandomItem(new String[]{"Can you name this body part? ", " Try naming this body part", "Can you name this one?"});
+            case colors:
+                return getRandomItem(new String[]{" Can you name this color? ", " Which color is this?", " Try naming this color ", " Which color do you see here?"});
+            case animals:
+                return getRandomItem(new String[]{" Can you name this animal? ", " Try naming this animal", " Can you identify this?"});
+            case fruits:
+                return getRandomItem(new String[]{"Can you name this fruit? ", "Name this fruit", "Can you identify this fruit?"});
+            case vegetables:
+                return getRandomItem(new String[]{"Can you name this vegetable? ", "Name this vegetable", "Can you identify this vegetable?"});
+            case cloth:
+                return getRandomItem(new String[]{"Can you name this object?", "Name this ?", "Can you identify this?"});
+            case feeling:
+                return getRandomItem(new String[]{"What is this feeling called? ", "Name this ?", "Can you identify this?"});
+            case insect:
+                return getRandomItem(new String[]{"What is this insect called?", "Name this ?"});
+            case kitchen:
+                return getRandomItem(new String[]{" What is this object called?", "Name this object", "Can you identify this?"});
+            default:
+                return getRandomItem(new String[]{"Name this object", "Can you identify this object?"});
+        }
     }
 
     public static String vocabularyCategoriesToString(VocabularyCategories vocabularyCategories) {
@@ -129,7 +198,7 @@ public final class UtilityFunctions {
                 return "Clothes";
             case feeling:
                 return "Feelings";
-            case insert:
+            case insect:
                 return "Insects";
             case kitchen:
                 return "Kitchen";
@@ -177,8 +246,8 @@ public final class UtilityFunctions {
                 return VocabularyCategories.cloth;
             case "feeling":
                 return VocabularyCategories.feeling;
-            case "insert":
-                return VocabularyCategories.insert;
+            case "insect":
+                return VocabularyCategories.insect;
             case "kitchen":
                 return VocabularyCategories.kitchen;
             case "living_room":
@@ -215,7 +284,7 @@ public final class UtilityFunctions {
             case "feelings":
                 return VocabularyCategories.feeling;
             case "insects":
-                return VocabularyCategories.insert;
+                return VocabularyCategories.insect;
             case "kitchen":
                 return VocabularyCategories.kitchen;
             case "livingroom":
@@ -267,6 +336,13 @@ public final class UtilityFunctions {
         var saveLog = new LogEntity(log, String.valueOf(new Date().getTime()));
         var dao = db.logDao();
         dao.insertNotes(saveLog);
+    }
+
+
+    public static MediaPlayer playClapSound(Activity activity) {
+        var m = MediaPlayer.create(activity, R.raw.clap_sound);
+        m.setVolume(0.2f, 0.2f);
+        return m;
     }
 
 

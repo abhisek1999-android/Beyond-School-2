@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.practice;
 
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private final String TAG = EnglishVocabularyPracticeActivity.class.getSimpleName();
-    private static final int DELAY_TIME = 500;
+    private static final int DELAY_TIME = 800;
     private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
     private ActivityEnglishVocabularyPracticeBinding binding;
     private EnglishDao dao;
@@ -49,6 +50,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private int wrongAnswers = 0;
     private Boolean isSpeaking = false;
     private int tryAgainCount = 0;
+    private String category;
+    private MediaPlayer mediaPlayer = null;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -60,7 +63,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
-            var category = getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_CATEGORY);
+            category = getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_CATEGORY);
             setPager(category);
             buttonClick();
         } else {
@@ -83,6 +86,11 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setPager(String category) {
+        binding.textViewGuessQuestion.
+                setText(UtilityFunctions.
+                        getQuestionsFromVocabularyCategories(
+                                UtilityFunctions.getVocabularyFromString(category)
+                        ));
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(
                         dao.getEnglishModel(UtilityFunctions.getGrade(PrefConfig.readIdInPref(
@@ -102,7 +110,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         );
 
         binding.viewPagerTest.setAdapter(pagerAdapter);
-        binding.viewPagerTest.setUserInputEnabled(false);
+
+//        binding.viewPagerTest.setUserInputEnabled(false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -125,6 +134,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     initTTS();
                     intSTT();
                     startSpeaking();
+                    initMediaPlayer();
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -150,12 +160,14 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     }
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
-        tts.initialize(getResources().getString(R.string.guess_the_word), this);
-
+        tts.initialize(binding.textViewGuessQuestion.getText().toString(), this);
         if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1))
             isSpeaking = false;
     }
 
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
+    }
 
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
@@ -168,7 +180,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT),
                             vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))
                     ) {
-                        helperTTS("Correct Answer ", true, false);
+                        mediaPlayer.start();
+                        helperTTS(UtilityFunctions.getCompliment(true), true, false);
                         ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                 .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
                         correctAnswers++;
@@ -181,7 +194,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
                             return;
                         }
-                        helperTTS("Wrong Answer ", false, false);
+                        helperTTS(UtilityFunctions.getCompliment(false), false, false);
                     }
                     updateViews();
 
@@ -253,10 +266,16 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
                 if (!canNavigate && tryAgainCount != 2) {
                     tryAgainCount++;
-                    tts.initialize("Try Again", EnglishVocabularyPracticeActivity.this);
+                    tts.initialize("", EnglishVocabularyPracticeActivity.this);
                 } else
                     UtilityFunctions.runOnUiThread(() -> {
+                        mediaPlayer.pause();
                         binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
+                        binding.textViewGuessQuestion.
+                                setText(UtilityFunctions.
+                                        getQuestionsFromVocabularyCategories(
+                                                UtilityFunctions.getVocabularyFromString(category)
+                                        ));
                         try {
                             if (isSpeaking)
                                 startSpeaking();
@@ -311,6 +330,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
+        if (mediaPlayer != null)
+            mediaPlayer.release();
         var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
         current.getAnimationView().setVisibility(View.GONE);
     }
