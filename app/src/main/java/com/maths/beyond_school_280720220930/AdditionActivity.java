@@ -15,6 +15,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
@@ -72,6 +73,8 @@ public class AdditionActivity extends AppCompatActivity {
     private FirebaseFirestore kidsDb;
     private List ansList;
     private List timeList;
+    private String kidsGrade;
+    private GradeDatabase databaseGrade;
     private String kidsId;
     private JSONArray kidsActivityJsonArray = new JSONArray();
     @Override
@@ -84,14 +87,16 @@ public class AdditionActivity extends AppCompatActivity {
 
         ansList=new ArrayList();
         timeList=new ArrayList();
-
+        databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
         videoUrl=getIntent().getStringExtra("video_url");
         selectedSub=getIntent().getStringExtra("selected_sub");
 
+
         kidsId=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id));
+        kidsGrade=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade));
 
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
@@ -334,10 +339,16 @@ public class AdditionActivity extends AppCompatActivity {
             }, DELAY_ON_SETTING_QUESTION);
         } else {
 
-//null check req
+            //null check req
             if (correctAnswer>=9)
+            {
+                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+               if (!subject.equals("multiplication"))
+                UtilityFunctions.updateDbUnlock(databaseGrade,kidsGrade,subject,selectedSub);
+               else
+                   PrefConfig.writeIntInPref(getApplicationContext(),Integer.parseInt(digit),getResources().getString(R.string.multiplication_upto));
+            }
 
-            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
             else
             CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId, selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
 
@@ -490,7 +501,7 @@ public class AdditionActivity extends AppCompatActivity {
                 }
 
             if (subject.equals("multiplication")) {
-                currentNum1 = UtilityFunctions.getRandomIntegerUpto(10,2);
+                currentNum1 = Integer.parseInt(digit);
                 currentNum2 = UtilityFunctions.getRandomNumber(1);
             }
 

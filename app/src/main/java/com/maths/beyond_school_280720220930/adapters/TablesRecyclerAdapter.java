@@ -6,11 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,17 +65,25 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 //        }
 
 
+        if (list.get(position).isIs_locked())
+            holder.isLocked.setVisibility(View.INVISIBLE);
+
+        Log.i("MUL_LIST",list.get(position).isIs_locked()+"");
 
         holder.operation.setText(list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
 
             holder.mView.setOnClickListener(v->{
+                if (list.get(position).isIs_locked()){
                 Intent intent=new Intent(context, LearningActivity.class);
                 intent.putExtra("selected_sub",list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
                 intent.putExtra("max_digit",list.get(position).getDigit());
                 intent.putExtra("subject","multiplication");
                 intent.putExtra("video_url","default");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                context.startActivity(intent);}
+
+                else
+                    Toast.makeText(context, "Hey, this is locked for now", Toast.LENGTH_SHORT).show();
             });
 
 
@@ -119,6 +129,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
         TextView digit_val, digit, operation;
 //        TextView tableNumber,tableDesc;
         View mView;
+        ImageView isLocked;
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -127,7 +138,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
 //            tableNumber=mView.findViewById(R.id.numberTextView);
 //            tableDesc=mView.findViewById(R.id.descriptionTextView);
-
+            isLocked=itemView.findViewById(R.id.isLocked);
         }
     }
 

@@ -18,15 +18,19 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
 
@@ -34,9 +38,11 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
@@ -507,5 +513,37 @@ public final class UtilityFunctions {
                 answer += (multiplier[(int)++t] + " ");
         }
         return (answer);
+    }
+
+
+    public static void updateDbUnlock(GradeDatabase database, String grade,String chapter,String subSub){
+
+        List<Grades_data> dbData=new ArrayList<>();
+        dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%'"));
+        Log.i("CHAPTER",chapter);
+        Log.i("DB_DATA",dbData+"");
+        for (int i=0;i<dbData.size();i++){
+           if (dbData.get(i).chapter.equals(subSub)){
+
+               try{
+                   database.gradesDao().update(true,dbData.get(i+1).chapter);
+                   Log.i("DB_DATA",dbData.get(i+1).chapter);
+                   break;
+               }catch (Exception e){
+
+                   Log.i("DB_DATA_EXP",e.getMessage());
+                   break;
+               }
+
+           }
+
+       }
+
+
+
+
+
+
+
     }
 }

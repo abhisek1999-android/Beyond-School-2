@@ -138,9 +138,9 @@ public class MainActivity extends AppCompatActivity implements ReadText.GetResul
         tablesList = new ArrayList<>();
 
 
-        for (int i=1;i<Integer.parseInt(digit);i++){
-            tablesList.add(new Tables(i+1+"",tableList[i-1]));
-        }
+//        for (int i=1;i<Integer.parseInt(digit);i++){
+//            tablesList.add(new Tables(i+1+"",tableList[i-1]));
+//        }
 
 //        tablesList.add(new Tables("2", "Table of Two"));
 //        tablesList.add(new Tables("3", "Table of Three"));

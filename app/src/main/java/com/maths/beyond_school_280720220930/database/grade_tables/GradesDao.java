@@ -36,6 +36,10 @@ public interface GradesDao {
     @Query("SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM Grades_data WHERE date=:date GROUP BY `table`")
     List<ProgressTableWise> getSumOFTableDataByDate(String date);*/
 
+
+    @Query("UPDATE grades SET unlock=:is_lock WHERE chapter = :chapter")
+    void update(boolean is_lock, String chapter);
+
     @Insert
     void insertNotes(Grades_data...progresses);
 

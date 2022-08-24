@@ -893,6 +893,8 @@
     <string name="digit">Digit</string>
     <string name="table">Table</string>
 
+    <string name="multiplication_upto">MULTIPLICATION_UPTO</string>
+
     <string name="grade_1_data">A grade 1 student should know:
             \nMATHS :\n 1. Addition up to 2-digit numbers.\n2. Subtraction up to 2-digit \n         numbers.\n3. Multiplication Tables till Table of \n         10.\nENGLISH :\n1. Vocabulary -> Bathroom, Body\n       parts, Colors, Animals, Fruits,\n       Vegetables and opposites.\n2. Spelling -> Most common words, 3-letter and 4-letter words.</string>
     <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
