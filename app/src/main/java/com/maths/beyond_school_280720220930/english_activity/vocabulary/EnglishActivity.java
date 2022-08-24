@@ -24,10 +24,10 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.database.english.EnglishDao;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
@@ -56,7 +56,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     private final int REQUEST_FOR_DES = 345 * 34;
     private final int REQUEST_FOR_QUESTION = 345 * 35;
 
-    private EnglishDao dao;
+    private VocabularyDao dao;
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
     private SpeechToTextConverterEnglish stt = null;
@@ -190,7 +190,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
-    private List<Fragment> getFragments(VocabularyModel data) {
+    private List<Fragment> getFragments(VocabularyCategoryModel data) {
         vocabularyList = data.getVocabularyDetails();
         fragmentList = CollectionUtils.mapWithIndex(vocabularyList.stream(), (index, item) -> new VocabularyFragment(item, index + 1, this)).collect(Collectors.toList());
         return fragmentList;

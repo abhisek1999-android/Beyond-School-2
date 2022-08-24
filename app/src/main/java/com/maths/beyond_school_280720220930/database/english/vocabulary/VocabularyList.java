@@ -1,17 +1,18 @@
-package com.maths.beyond_school_280720220930.database.english;
+package com.maths.beyond_school_280720220930.database.english.vocabulary;
 
 import androidx.annotation.NonNull;
 
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 
 import java.util.ArrayList;
 
-public abstract class EnglishList {
+public abstract class VocabularyList {
 
 
-    protected abstract static class GradeOneVocabulary {
-        protected static EnglishModel englishListGrade1() {
+    public abstract static class GradeOneVocabulary {
+        public static VocabularyModel englishListGrade1() {
 
             ArrayList<VocabularyDetails> vocabularyDetailBathroom = getVocabularyDetailsBathroom();
             ArrayList<VocabularyDetails> vocabularyDetailBody = getVocabularyDetailsBodyParts();
@@ -21,45 +22,45 @@ public abstract class EnglishList {
             ArrayList<VocabularyDetails> vocabularyDetailVegetables = getVocabularyDetailsVegetables();
 
 
-            var listVocabulary = new ArrayList<VocabularyModel>();
+            var listVocabulary = new ArrayList<VocabularyCategoryModel>();
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "bathroom",
                             vocabularyDetailBathroom
                     )
             );
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "body_parts",
                             vocabularyDetailBody
                     )
             );
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "colors",
                             vocabularyDetailColor
                     )
             );
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "animals",
                             vocabularyDetailAnimals
                     )
             );
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "fruits",
                             vocabularyDetailFruits
                     )
             );
             listVocabulary.add(
-                    new VocabularyModel(
+                    new VocabularyCategoryModel(
                             "vegetables",
                             vocabularyDetailVegetables
                     )
             );
 
-            return new EnglishModel(
+            return new VocabularyModel(
                     1,
                     listVocabulary
             );
@@ -615,25 +616,25 @@ public abstract class EnglishList {
         }
     }
 
-    protected abstract static class GradeTwoVocabulary {
+    public abstract static class GradeTwoVocabulary {
 
-        protected static EnglishModel englishListGrade2() {
+        public static VocabularyModel englishListGrade2() {
             var vocabularyDetailCloth = getVocabularyDetailsCloths();
             var vocabularyDetailFeeling = getVocabularyDetailsFeelings();
             var vocabularyDetailInsert = getVocabularyDetailsInsect();
             var vocabularyDetailKitchen = getVocabularyDetailsKitchen();
             var vocabularyDetailsLivingRoom = getVocabularyDetailsLivingRoom();
 
-            var listVocabulary = new ArrayList<VocabularyModel>();
+            var listVocabulary = new ArrayList<VocabularyCategoryModel>();
 
-            listVocabulary.add(new VocabularyModel("cloth", vocabularyDetailCloth));
-            listVocabulary.add(new VocabularyModel("feeling", vocabularyDetailFeeling));
-            listVocabulary.add(new VocabularyModel("insect", vocabularyDetailInsert));
-            listVocabulary.add(new VocabularyModel("kitchen", vocabularyDetailKitchen));
-            listVocabulary.add(new VocabularyModel("living_room", vocabularyDetailsLivingRoom));
+            listVocabulary.add(new VocabularyCategoryModel("cloth", vocabularyDetailCloth));
+            listVocabulary.add(new VocabularyCategoryModel("feeling", vocabularyDetailFeeling));
+            listVocabulary.add(new VocabularyCategoryModel("insect", vocabularyDetailInsert));
+            listVocabulary.add(new VocabularyCategoryModel("kitchen", vocabularyDetailKitchen));
+            listVocabulary.add(new VocabularyCategoryModel("living_room", vocabularyDetailsLivingRoom));
 
 
-            return new EnglishModel(
+            return new VocabularyModel(
                     2,
                     listVocabulary
             );
@@ -1050,8 +1051,8 @@ public abstract class EnglishList {
 //    }
     }
 
-    protected abstract static class GradeThreeVocabulary {
-        protected static EnglishModel englishListGrade3() {
+    public abstract static class GradeThreeVocabulary {
+        public static VocabularyModel englishListGrade3() {
             var vocabularyDetailCloth = getVocabularyDetailsSchool();
             var vocabularyDetailSummer = getVocabularyDetailsSummer();
             var vocabularyDetailTown = getVocabularyDetailsTown();
@@ -1059,14 +1060,14 @@ public abstract class EnglishList {
             var vocabularyDetailWeather = getVocabularyDetailsWeather();
 
 
-            var listVocabulary = new ArrayList<VocabularyModel>();
-            listVocabulary.add(new VocabularyModel("school", vocabularyDetailCloth));
-            listVocabulary.add(new VocabularyModel("summer", vocabularyDetailSummer));
-            listVocabulary.add(new VocabularyModel("town", vocabularyDetailTown));
-            listVocabulary.add(new VocabularyModel("transport", vocabularyDetailTransport));
-            listVocabulary.add(new VocabularyModel("weather", vocabularyDetailWeather));
+            var listVocabulary = new ArrayList<VocabularyCategoryModel>();
+            listVocabulary.add(new VocabularyCategoryModel("school", vocabularyDetailCloth));
+            listVocabulary.add(new VocabularyCategoryModel("summer", vocabularyDetailSummer));
+            listVocabulary.add(new VocabularyCategoryModel("town", vocabularyDetailTown));
+            listVocabulary.add(new VocabularyCategoryModel("transport", vocabularyDetailTransport));
+            listVocabulary.add(new VocabularyCategoryModel("weather", vocabularyDetailWeather));
 
-            return new EnglishModel(
+            return new VocabularyModel(
                     3,
                     listVocabulary
             );

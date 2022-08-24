@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.database.english.model;
+package com.maths.beyond_school_280720220930.database.english.vocabulary.model;
 
 import androidx.annotation.Keep;
 

@@ -1,15 +1,15 @@
-package com.maths.beyond_school_280720220930.database.english.model;
+package com.maths.beyond_school_280720220930.database.english.vocabulary.model;
 
 import androidx.annotation.Keep;
 
 import java.util.List;
 
 @Keep
-public class VocabularyModel {
+public class VocabularyCategoryModel {
     private String category;
     private List<VocabularyDetails> vocabularyDetails;
 
-    public VocabularyModel(String category, List<VocabularyDetails> vocabularyDetails) {
+    public VocabularyCategoryModel(String category, List<VocabularyDetails> vocabularyDetails) {
         this.category = category;
         this.vocabularyDetails = vocabularyDetails;
     }

@@ -10,11 +10,17 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {EnglishModel.class}, version = 1)
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyList;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetailsConverter;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
+
+@Database(entities = {VocabularyModel.class}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class})
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
-    public abstract EnglishDao englishDao();
+    public abstract VocabularyDao englishDao();
 
     private static EnglishGradeDatabase INSTANCE;
 
@@ -40,17 +46,17 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        private EnglishDao englishDao;
+        private VocabularyDao vocabularyDao;
 
         public PopulateDbAsyncTask(EnglishGradeDatabase db) {
-            this.englishDao = db.englishDao();
+            this.vocabularyDao = db.englishDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            englishDao.insert(EnglishList.GradeOneVocabulary.englishListGrade1());
-            englishDao.insert(EnglishList.GradeTwoVocabulary.englishListGrade2());
-            englishDao.insert(EnglishList.GradeThreeVocabulary.englishListGrade3());
+            vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
+            vocabularyDao.insert(VocabularyList.GradeTwoVocabulary.englishListGrade2());
+            vocabularyDao.insert(VocabularyList.GradeThreeVocabulary.englishListGrade3());
             return null;
         }
     }

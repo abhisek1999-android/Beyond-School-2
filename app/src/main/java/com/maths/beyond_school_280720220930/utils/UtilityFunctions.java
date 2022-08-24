@@ -26,10 +26,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
@@ -44,7 +43,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
@@ -311,7 +309,7 @@ public final class UtilityFunctions {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static VocabularyModel getVocabularyDetailsFromType(List<VocabularyModel> models, VocabularyCategories type) {
+    public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
         if (filterList.size() > 0) {
             return filterList.get(0);

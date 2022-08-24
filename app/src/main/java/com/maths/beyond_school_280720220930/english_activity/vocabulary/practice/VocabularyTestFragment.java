@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyTestBinding;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 

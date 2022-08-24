@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.database.english.EnglishDao;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyDetails;
-import com.maths.beyond_school_280720220930.database.english.model.VocabularyModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -42,7 +42,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private static final int DELAY_TIME = 800;
     private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
     private ActivityEnglishVocabularyPracticeBinding binding;
-    private EnglishDao dao;
+    private VocabularyDao dao;
     private List<VocabularyDetails> vocabularyList;
     private List<Fragment> fragmentList;
     private TextToSpeckConverter tts = null;
@@ -118,7 +118,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
-    private List<Fragment> getFragments(VocabularyModel data) {
+    private List<Fragment> getFragments(VocabularyCategoryModel data) {
         vocabularyList = data.getVocabularyDetails();
         fragmentList = CollectionUtils.
                 mapWithIndex(vocabularyList.stream(),
