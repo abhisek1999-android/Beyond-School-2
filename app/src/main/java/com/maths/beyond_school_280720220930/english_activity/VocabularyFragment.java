@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.english_activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -24,12 +25,14 @@ public class VocabularyFragment extends Fragment {
 
     private FragmentVocabularyBinding binding = null;
     private final int currentPage;
+    private final OnRootClick onRootClick;
 
 
-    public VocabularyFragment(VocabularyDetails vocabulary, int currentPage) {
+    public VocabularyFragment(VocabularyDetails vocabulary, int currentPage, OnRootClick onRootClick) {
         super(R.layout.fragment_vocabulary);
         this.vocabulary = vocabulary;
         this.currentPage = currentPage;
+        this.onRootClick = onRootClick;
     }
 
     public LottieAnimationView getAnimationView() {
@@ -58,6 +61,17 @@ public class VocabularyFragment extends Fragment {
                 .getString(R.string.current_by_all,
                         String.valueOf(currentPage),
                         String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
+
+
+        binding.getRoot().setOnClickListener(v -> {
+
+            onRootClick.onRootClick();
+        });
+
+    }
+
+    interface OnRootClick {
+        void onRootClick();
     }
 
 }

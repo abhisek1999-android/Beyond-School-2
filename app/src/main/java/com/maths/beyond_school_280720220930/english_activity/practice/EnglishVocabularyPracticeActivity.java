@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private final String TAG = EnglishVocabularyPracticeActivity.class.getSimpleName();
-    private static final int DELAY_TIME = 500;
+    private static final int DELAY_TIME = 800;
     private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
     private ActivityEnglishVocabularyPracticeBinding binding;
     private EnglishDao dao;

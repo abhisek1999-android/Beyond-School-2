@@ -932,7 +932,7 @@
     <string name="current_by_all">%s / %s</string>
     <string name="guess_the_word">Guess the name of the picture ?</string>
     <string name="blanks">_________</string>
-    <string name="question_mark">\?</string>
+    <string name="question_mark">0</string>
 
 
     <string name="is_data_loaded">DATA_LOADED</string>

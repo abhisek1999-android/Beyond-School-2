@@ -126,6 +126,33 @@ public final class UtilityFunctions {
 
     }
 
+    public static String getQuestionTitle(VocabularyCategories categories) {
+        switch (categories) {
+            case bathroom:
+                return "Let us learn about Bathroom and objects we use there.";
+            case body_parts:
+                return "Here we will learn about our different body parts.";
+            case colors:
+                return "It’s the turn of colors now. Let us learn them.";
+            case animals:
+                return "Let us learn and know some animals. ";
+            case fruits:
+                return "I am sure, you all love eating fruits. Let us try to learn different fruits and their names.";
+            case vegetables:
+                return "Vegetables are good for health. We will learn about some of them now.";
+            case cloth:
+                return "We all wear different types of clothes to look nice. Let us know about them.";
+            case feeling:
+                return "Let us learn about feelings and emotions we all undergo.";
+            case insect:
+                return "Now we will discover different types of insects.";
+            case kitchen:
+                return "Let us learn and know some of the objects used by our mothers in Kitchen.";
+            default:
+                return "Let us learn and know about " + UtilityFunctions.vocabularyCategoriesToString(categories);
+        }
+    }
+
     public static String getQuestionsFromVocabularyCategories(VocabularyCategories categories) {
         switch (categories) {
             case bathroom:

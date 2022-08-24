@@ -32,15 +32,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_view_category"
-        android:textAllCaps="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/reemkufi_medium"
         android:text="Learn"
+        android:textAllCaps="true"
         android:textColor="@color/primary"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
-
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

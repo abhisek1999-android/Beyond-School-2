@@ -46,13 +46,15 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-public class EnglishActivity extends AppCompatActivity {
+public class EnglishActivity extends AppCompatActivity implements VocabularyFragment.OnRootClick {
 
     private ActivityEnglishBinding binding;
     private static final String TAG = EnglishActivity.class.getSimpleName();
     private static final int MAX_TRY = 2 /* Giver u three chance */;
     private static final int MAX_TRY_FOR_SPEECH = 4 /* Giver u three chance */;
-    private static final int DELAY_TIME = 300;
+    private static final int DELAY_TIME = 800;
+    private final int REQUEST_FOR_DES = 345 * 34;
+    private final int REQUEST_FOR_QUESTION = 345 * 35;
 
     private EnglishDao dao;
     private TextToSpeckConverter tts = null;
@@ -63,7 +65,6 @@ public class EnglishActivity extends AppCompatActivity {
     private Boolean isSpeaking = false;
     private Boolean isSayWordFinish = true;
     private int currentTryCount = 0, currentTryCountForSpeech = 0;
-    private final int REQUEST_FOR_DES = 345 * 34;
     private LogDatabase logDatabase;
     private String logs = "";
     private long startTime = 0, endTime = 0;
@@ -108,14 +109,11 @@ public class EnglishActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setViewPager() {
-
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)) {
             category = UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY));
         } else {
             category = UtilityFunctions.VocabularyCategories.bathroom;
         }
-        Log.d(TAG, "setViewPager: category " + category.name() + " Intent : " + UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)));
-
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(dao.getEnglishModel(
                         UtilityFunctions.getGrade(
@@ -140,6 +138,15 @@ public class EnglishActivity extends AppCompatActivity {
             updatePagerHeightForChild(page, binding.viewPager);
         });
         binding.viewPager.setUserInputEnabled(false);
+        try {
+            binding.playPause.setChecked(true);
+            initTTS();
+            intSTT();
+            initMediaPlayer();
+            helperTTS(UtilityFunctions.getQuestionTitle(category), false, REQUEST_FOR_QUESTION);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -160,19 +167,23 @@ public class EnglishActivity extends AppCompatActivity {
     private void buttonClick() {
         binding.playPause.setOnClickListener(view -> {
             isSpeaking = binding.playPause.isChecked();
-            if (binding.playPause.isChecked()) {
-                try {
-                    initTTS();
-                    intSTT();
-                    initMediaPlayer();
-                    startSpeaking();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                destroyedEngines();
-            }
+            startEngine();
         });
+    }
+
+    private void startEngine() {
+        if (binding.playPause.isChecked()) {
+            try {
+                initTTS();
+                intSTT();
+                initMediaPlayer();
+                startSpeaking();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            destroyedEngines();
+        }
     }
 
 
@@ -180,7 +191,7 @@ public class EnglishActivity extends AppCompatActivity {
     @NonNull
     private List<Fragment> getFragments(VocabularyModel data) {
         vocabularyList = data.getVocabularyDetails();
-        fragmentList = CollectionUtils.mapWithIndex(vocabularyList.stream(), (index, item) -> new VocabularyFragment(item, index + 1)).collect(Collectors.toList());
+        fragmentList = CollectionUtils.mapWithIndex(vocabularyList.stream(), (index, item) -> new VocabularyFragment(item, index + 1, this)).collect(Collectors.toList());
         return fragmentList;
     }
 
@@ -216,7 +227,11 @@ public class EnglishActivity extends AppCompatActivity {
                 if (textView != null) {
                     Spannable textWithHighlights = new SpannableString(sentence);
                     textWithHighlights.setSpan(new ForegroundColorSpan(
-                                    ContextCompat.getColor(this, R.color.primary)),
+                                    ContextCompat.
+                                            getColor(
+                                                    this,
+                                                    R.color.primary
+                                            )),
                             start,
                             end,
                             Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -358,6 +373,17 @@ public class EnglishActivity extends AppCompatActivity {
                     tts.initialize(vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), EnglishActivity.this);
                     return;
                 }
+                if (request == REQUEST_FOR_QUESTION && !canNavigate) {
+                    UtilityFunctions.runOnUiThread(() -> {
+                        try {
+                            startSpeaking();
+                        } catch (ExecutionException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }, DELAY_TIME);
+                    return;
+                }
+
                 if (canNavigate) {
                     UtilityFunctions.runOnUiThread(() -> {
                         mediaPlayer.pause();
@@ -385,6 +411,12 @@ public class EnglishActivity extends AppCompatActivity {
 
             }
         }).get().initialize(message, this);
+    }
+
+    @Override
+    public void onRootClick() {
+        binding.playPause.setChecked(!binding.playPause.isChecked());
+        startEngine();
     }
 
     static class TTSAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
