@@ -2,12 +2,14 @@ package com.maths.beyond_school_280720220930.database.english.spelling.model;
 
 import androidx.annotation.Keep;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.List;
 
 @Keep
 @Entity(tableName = "spelling_table")
 public class SpellingModel {
+    @PrimaryKey()
     int grade;
     List<SpellingCategoryModel> spelling;
 

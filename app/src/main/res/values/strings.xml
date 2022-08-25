@@ -872,14 +872,14 @@
     <string name="vocab4">Vocabulary Animals</string>
     <string name="vocab5">Vocabulary Fruits</string>
     <string name="vocab6">Vocabulary Vegetables</string>
-<!--    <string name="vocab7">Vocabulary Opposites</string>-->
+    <!--    <string name="vocab7">Vocabulary Opposites</string>-->
 
     <string name="vocab8">Vocabulary Clothes</string>
     <string name="vocab9">Vocabulary Feelings</string>
     <string name="vocab10">Vocabulary Insects</string>
     <string name="vocab11">Vocabulary Kitchen</string>
     <string name="vocab12">Vocabulary LivingRoom</string>
-<!--    <string name="vocab13">Vocabulary Days</string>-->
+    <!--    <string name="vocab13">Vocabulary Days</string>-->
 
 
     <string name="vocab14">Vocabulary School</string>
@@ -888,7 +888,7 @@
     <string name="vocab17">Vocabulary Transport</string>
     <string name="vocab18">Vocabulary Weather</string>
     <string name="spelling">Spelling</string>
-<!--    <string name="vocab19">Vocabulary Professions</string>-->
+    <!--    <string name="vocab19">Vocabulary Professions</string>-->
 
     <string name="digit">Digit</string>
     <string name="table">Table</string>

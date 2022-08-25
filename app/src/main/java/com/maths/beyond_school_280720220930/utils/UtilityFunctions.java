@@ -184,6 +184,45 @@ public final class UtilityFunctions {
         }
     }
 
+    public static String getDbName(VocabularyCategories categories, Context context) {
+        switch (categories) {
+            case bathroom:
+                return context.getString(R.string.vocab1);
+            case body_parts:
+                return context.getString(R.string.vocab2);
+            case colors:
+                return context.getString(R.string.vocab3);
+            case animals:
+                return context.getString(R.string.vocab4);
+            case fruits:
+                return context.getString(R.string.vocab5);
+            case vegetables:
+                return context.getString(R.string.vocab6);
+            case cloth:
+                return context.getString(R.string.vocab8);
+            case feeling:
+                return context.getString(R.string.vocab9);
+            case insect:
+                return context.getString(R.string.vocab10);
+            case kitchen:
+                return context.getString(R.string.vocab11);
+            case living_room:
+                return context.getString(R.string.vocab12);
+            case school:
+                return context.getString(R.string.vocab14);
+            case summer:
+                return context.getString(R.string.vocab15);
+            case town:
+                return context.getString(R.string.vocab16);
+            case transport:
+                return context.getString(R.string.vocab17);
+            case weather:
+                return context.getString(R.string.vocab18);
+            default:
+                return "";
+        }
+    }
+
     public static String vocabularyCategoriesToString(VocabularyCategories vocabularyCategories) {
         switch (vocabularyCategories) {
             case bathroom:
@@ -502,8 +541,7 @@ public final class UtilityFunctions {
     }
 
 
-   public  static String numberToWords(long n)
-    {
+    public static String numberToWords(long n) {
         long limit = 1000000000000L, curr_hun, t = 0;
 
         // If zero return zero
@@ -511,27 +549,27 @@ public final class UtilityFunctions {
             return ("Zero");
 
         // Array to store the powers of 10
-        String multiplier[] = { "", "Trillion", "Billion",
-                "Million", "Thousand" };
+        String multiplier[] = {"", "Trillion", "Billion",
+                "Million", "Thousand"};
 
         // Array to store numbers till 20
         String first_twenty[] = {
-                "",        "One",       "Two",      "Three",
-                "Four",    "Five",      "Six",      "Seven",
-                "Eight",   "Nine",      "Ten",      "Eleven",
-                "Twelve",  "Thirteen",  "Fourteen", "Fifteen",
+                "", "One", "Two", "Three",
+                "Four", "Five", "Six", "Seven",
+                "Eight", "Nine", "Ten", "Eleven",
+                "Twelve", "Thirteen", "Fourteen", "Fifteen",
                 "Sixteen", "Seventeen", "Eighteen", "Nineteen"
         };
 
         // Array to store multiples of ten
-        String tens[] = { "",        "Twenty", "Thirty",
-                "Forty",   "Fifty",  "Sixty",
-                "Seventy", "Eighty", "Ninety" };
+        String tens[] = {"", "Twenty", "Thirty",
+                "Forty", "Fifty", "Sixty",
+                "Seventy", "Eighty", "Ninety"};
 
         // If number is less than 20, return without any
         // further computation
         if (n < 20L)
-            return (first_twenty[(int)n]);
+            return (first_twenty[(int) n]);
         String answer = "";
         for (long i = n; i > 0; i %= limit, limit /= 1000) {
             curr_hun = i / limit;
@@ -559,7 +597,7 @@ public final class UtilityFunctions {
             // If current hundered is greater that 99, Add
             // the hundreds' place
             if (curr_hun > 99)
-                answer += (first_twenty[(int)curr_hun / 100]
+                answer += (first_twenty[(int) curr_hun / 100]
                         + " Hundred ");
 
             // Bring the current hundered to tens
@@ -568,56 +606,50 @@ public final class UtilityFunctions {
             // If the value in tens belongs to [1,19], add
             // using the first_twenty
             if (curr_hun > 0 && curr_hun < 20)
-                answer += (first_twenty[(int)curr_hun] + " ");
+                answer += (first_twenty[(int) curr_hun] + " ");
 
                 // If curr_hun is now a multiple of 10, but not
                 // 0 Add the tens' value using the tens array
             else if (curr_hun % 10 == 0 && curr_hun != 0)
-                answer += (tens[(int)curr_hun / 10 - 1] + " ");
+                answer += (tens[(int) curr_hun / 10 - 1] + " ");
 
             else if (curr_hun > 20 && curr_hun < 100)
                 answer
-                        += (tens[(int)curr_hun / 10 - 1] + " "
-                        + first_twenty[(int)curr_hun % 10]
+                        += (tens[(int) curr_hun / 10 - 1] + " "
+                        + first_twenty[(int) curr_hun % 10]
                         + " ");
 
             // If Multiplier has not become less than 1000,
             // shift it
             if (t < 4)
-                answer += (multiplier[(int)++t] + " ");
+                answer += (multiplier[(int) ++t] + " ");
         }
         return (answer);
     }
 
 
-    public static void updateDbUnlock(GradeDatabase database, String grade,String chapter,String subSub){
+    public static void updateDbUnlock(GradeDatabase database, String grade, String chapter, String subSub) {
 
-        List<Grades_data> dbData=new ArrayList<>();
-        dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%'"));
-        Log.i("CHAPTER",chapter);
-        Log.i("DB_DATA",dbData+"");
-        for (int i=0;i<dbData.size();i++){
-           if (dbData.get(i).chapter.equals(subSub)){
+        List<Grades_data> dbData = new ArrayList<>();
+        dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", dbData + "");
+        for (int i = 0; i < dbData.size(); i++) {
+            if (dbData.get(i).chapter.equals(subSub)) {
 
-               try{
-                   database.gradesDao().update(true,dbData.get(i+1).chapter);
-                   Log.i("DB_DATA",dbData.get(i+1).chapter);
-                   break;
-               }catch (Exception e){
+                try {
+                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
+                    Log.i("DB_DATA", dbData.get(i + 1).chapter);
+                    break;
+                } catch (Exception e) {
 
-                   Log.i("DB_DATA_EXP",e.getMessage());
-                   break;
-               }
+                    Log.i("DB_DATA_EXP", e.getMessage());
+                    break;
+                }
 
-           }
+            }
 
-       }
-
-
-
-
-
-
+        }
 
     }
 }
