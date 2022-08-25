@@ -608,10 +608,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             @Override
             public void onErrorOccurred(String errorMessage) {
 
+                try{
                 UtilityFunctions.runOnUiThread(()->{
                     isCallSTT = true;
                     tts.initialize("", LearningActivity.this);
-                },250);
+                },250);}catch (Exception e){
+                    pause();
+                }
 
 
                 //  stt.initialize("", LearningActivity.this);
