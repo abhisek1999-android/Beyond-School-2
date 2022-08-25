@@ -14,10 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -54,6 +55,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private int tryAgainCount = 0;
     private String category;
     private MediaPlayer mediaPlayer = null;
+    private GradeDatabase databaseGrade;
+    private String kidsGrade;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -62,6 +65,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         binding = ActivityEnglishVocabularyPracticeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dao = EnglishGradeDatabase.getDbInstance(this).englishDao();
+        databaseGrade = GradeDatabase.getDbInstance(this);
+        kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -113,7 +118,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
         binding.viewPagerTest.setAdapter(pagerAdapter);
 
-//        binding.viewPagerTest.setUserInputEnabled(false);
+        binding.viewPagerTest.setUserInputEnabled(false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -163,8 +168,24 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
         tts.initialize(binding.textViewGuessQuestion.getText().toString(), this);
-        if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1))
+        if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1)) {
             isSpeaking = false;
+
+        }
+    }
+
+    private void checkResult() {
+        Log.d("XXXX", "checkResult: " + UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this));
+        if (correctAnswers >= vocabularyList.size() - 2) {
+            binding.textViewGuessQuestion.setText("You have completed all the questions");
+            UtilityFunctions.updateDbUnlock(
+                    databaseGrade,
+                    kidsGrade,
+                    "Vocabulary",
+                    UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this)
+            );
+
+        }
     }
 
     private void initMediaPlayer() {
@@ -281,8 +302,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         try {
                             if (isSpeaking)
                                 startSpeaking();
-                            else
+                            else {
+                                checkResult();
                                 binding.playPause.setChecked(false);
+                            }
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }

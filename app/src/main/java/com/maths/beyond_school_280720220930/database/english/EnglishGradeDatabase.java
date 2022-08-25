@@ -10,17 +10,26 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
+import com.maths.beyond_school_280720220930.database.english.spelling.SpellingList;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingCategoryModelConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingsDetailsConverter;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyList;
-import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetailsConverter;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class}, version = 1)
-@TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class})
+@Database(entities = {VocabularyModel.class, SpellingModel.class}, version = 1)
+@TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
+        SpellingsDetailsConverter.class, SpellingCategoryModelConverter.class
+})
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     public abstract VocabularyDao englishDao();
+
+    public abstract SpellingDao spellingDao();
 
     private static EnglishGradeDatabase INSTANCE;
 
@@ -46,10 +55,12 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        private VocabularyDao vocabularyDao;
+        private final VocabularyDao vocabularyDao;
+        private final SpellingDao spellingDao;
 
         public PopulateDbAsyncTask(EnglishGradeDatabase db) {
             this.vocabularyDao = db.englishDao();
+            this.spellingDao = db.spellingDao();
         }
 
         @Override
@@ -57,6 +68,9 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
             vocabularyDao.insert(VocabularyList.GradeTwoVocabulary.englishListGrade2());
             vocabularyDao.insert(VocabularyList.GradeThreeVocabulary.englishListGrade3());
+
+//            Adding Spellings
+            spellingDao.insert(SpellingList.SpellingGradeOne.getSpellingList());
             return null;
         }
     }

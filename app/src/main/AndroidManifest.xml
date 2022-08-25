@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
+
     <queries>
         <intent>
             <action android:name="com.google.android.youtube.api.service.START" />
@@ -40,6 +41,9 @@
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
+        <activity
+            android:name=".EnglishSpellingActivity"
+            android:exported="false" />
         <activity
             android:name=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity"
             android:exported="false" />
