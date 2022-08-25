@@ -52,6 +52,8 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         var finalString = "";
         if (val.contains("Vocabulary")) {
             finalString = val.replace("Vocabulary", "");
+        }else if (val.contains("Spelling")) {
+            finalString = val.replace("Spelling", "");
         } else {
             finalString = val;
         }
@@ -68,7 +70,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                     context.startActivity(intent);
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
-                } else if (val.equals("Spelling")) {
+                } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
 
                     //for spelling
                     Toast.makeText(context, "spelling clicked", Toast.LENGTH_SHORT).show();

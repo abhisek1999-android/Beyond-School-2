@@ -95,7 +95,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         // add value to live data
         UtilityFunctions.runOnUiThread(() -> {
             grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
-            subSub.setValue(getResources().getString(R.string.add));
+            subSub.setValue(getResources().getString(R.string.mul));
         });
 
 
@@ -263,7 +263,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 tvName.setText("Change Subjects");
                 subSub.setValue(
                         getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
-                                getResources().getString(R.string.add) : getResources().getString(model.getName())
+                                getResources().getString(R.string.mul) : getResources().getString(model.getName())
                 );
                 binding.subject.setText(name);
 
