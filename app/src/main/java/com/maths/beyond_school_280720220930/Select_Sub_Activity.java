@@ -195,6 +195,10 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             }
         });
 
+//        binding.goatImage.setOnClickListener(v->{
+//            startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
+//        });
+
         binding.tool.toolBar.imageView6.setOnClickListener(v -> {
 
 

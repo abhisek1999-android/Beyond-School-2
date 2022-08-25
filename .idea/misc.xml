@@ -55,6 +55,7 @@
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_log.xml" value="0.35520833333333335" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_login_signup.xml" value="0.33958333333333335" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_maths_tutorial.xml" value="0.30720720720720723" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_phone_number_login.xml" value="0.30675675675675673" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_privacy_policy.xml" value="0.29157759726378796" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_profile.xml" value="0.30720720720720723" />
@@ -67,6 +68,7 @@
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_table_questions.xml" value="0.33" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_table_with_hint.xml" value="0.33" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_test.xml" value="0.3385416666666667" />
+        <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_topics.xml" value="0.30720720720720723" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/activity_welcome_screen.xml" value="0.29157759726378796" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/branch_item_layout.xml" value="0.30720720720720723" />
         <entry key="..\:/Users/Hp/AndroidStudioProjects/beyongschool_android/app/src/main/res/layout/content_kids_info.xml" value="0.30720720720720723" />
@@ -132,18 +134,15 @@
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_select_action.xml" value="0.1" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_select_sub.xml" value="0.209375" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_select_subject.xml" value="0.22" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_settings.xml" value="0.22" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/activity_topics.xml" value="0.22" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/branch_item_layout.xml" value="0.2046875" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/content_kids_info.xml" value="0.209375" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/drawer_header.xml" value="0.209375" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/list_item.xml" value="0.19814814814814816" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/nav_drawer2.xml" value="0.209375" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/navigation_layout.xml" value="0.2046875" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/row.xml" value="0.209375" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/row2.xml" value="0.209375" />
         <entry key="..\:/beyongschool_android/app/src/main/res/layout/sub_layout.xml" value="0.22" />
-        <entry key="..\:/beyongschool_android/app/src/main/res/layout/youtube_dialog.xml" value="0.2046875" />
       </map>
     </option>
   </component>
