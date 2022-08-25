@@ -90,9 +90,11 @@ public class SettingsActivity extends AppCompatActivity{
 
         spinner.setAdapter(ad);
         spinner.setSelection(selection);
+
         /*PrefConfig.writeIdInPref(getApplicationContext(),countries[0],"Country");
         PrefConfig.writeIdInPref(getApplicationContext(),c_code[0],"Country_code");
         PrefConfig.writeIntInPref(getApplicationContext(),0,"set_select");*/
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
