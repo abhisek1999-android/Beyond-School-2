@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,11 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Subject_Model subject_model = list.get(position);
         String val = subject_model.getSubsub();
+
+
+        if (subject_model.isIs_locked())
+            holder.isLocked.setVisibility(View.INVISIBLE);
+
         var finalString = "";
         if (val.contains("Vocabulary")) {
             finalString = val.replace("Vocabulary", "");
@@ -63,6 +69,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (subject_model.isIs_locked()){
                 //needs to be intent values
                 if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                     Intent intent = new Intent(context, EnglishActivity.class);
@@ -97,6 +104,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     }
 
 
+                }}
+                else{
+
+                    Toast.makeText(context, "Hey, Please complete previous level to unlock.", Toast.LENGTH_SHORT).show();
                 }
 
 //                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
@@ -124,6 +135,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
         TextView digit_val, digit, operation;
         CardView card;
+        ImageView isLocked;
 
         public SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,6 +144,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             digit = itemView.findViewById(R.id.digit);
             operation = itemView.findViewById(R.id.operation);
             card = itemView.findViewById(R.id.card);
+            isLocked=itemView.findViewById(R.id.isLocked);
 
         }
     }

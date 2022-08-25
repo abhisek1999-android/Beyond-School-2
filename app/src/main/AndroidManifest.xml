@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.maths.beyond_school_280720220930">
+    package="com.maths.beyond_school_280720220930" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -40,7 +40,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BEYOND_SCHOOL">
+        android:theme="@style/Theme.BEYOND_SCHOOL" >
+        <activity
+            android:name=".MathsTutorialActivity"
+            android:exported="false" />
         <activity
             android:name=".EnglishSpellingActivity"
             android:exported="false" />
@@ -82,7 +85,7 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -106,19 +109,12 @@
             android:name=".GradeActivity"
             android:exported="true" />
         <activity
-            android:name=".TopicsActivity"
-            android:exported="true" />
-        <activity
             android:name=".table_questions"
             android:exported="true"
             android:showOnLockScreen="true" />
         <activity
             android:name=".signin_methods.GoogleSignInActivity"
             android:exported="false" />
-        <activity
-            android:name=".table_with_hint"
-            android:exported="true"
-            android:showOnLockScreen="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -135,7 +131,7 @@
         <receiver
             android:name=".model.AlarmReceiver"
             android:exported="false"
-            android:process=":remote">
+            android:process=":remote" >
             <intent-filter>
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>

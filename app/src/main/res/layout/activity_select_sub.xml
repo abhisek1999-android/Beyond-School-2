@@ -114,6 +114,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/goatImage"
         android:layout_width="245dp"
         android:layout_height="220dp"
         android:layout_alignParentLeft="true"
