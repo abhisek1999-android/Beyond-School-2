@@ -95,6 +95,7 @@ public class SettingsActivity extends AppCompatActivity{
         PrefConfig.writeIdInPref(getApplicationContext(),c_code[0],"Country_code");
         PrefConfig.writeIntInPref(getApplicationContext(),0,"set_select");*/
 
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

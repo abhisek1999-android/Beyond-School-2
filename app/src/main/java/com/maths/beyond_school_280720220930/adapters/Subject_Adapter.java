@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.english_activity.EnglishActivity;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;

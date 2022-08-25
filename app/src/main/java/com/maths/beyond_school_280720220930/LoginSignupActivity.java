@@ -79,7 +79,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             en2.add("GRADE 2");
             en4 = new ArrayList<>();
             en4.add("GRADE 3");
-            //for language
+            //for language to set initial value
             PrefConfig.writeIdInPref(getApplicationContext(),"India","Country");
             PrefConfig.writeIdInPref(getApplicationContext(),"IN","Country_code");
             PrefConfig.writeIntInPref(getApplicationContext(),0,"set_select");
