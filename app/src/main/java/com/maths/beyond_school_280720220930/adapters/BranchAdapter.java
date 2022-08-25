@@ -12,9 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.google.android.material.card.MaterialCardView;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.TopicsActivity;
 import com.maths.beyond_school_280720220930.model.BranchModel;
 
 import java.util.List;
@@ -55,10 +53,10 @@ public class BranchAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 if (position==0){
-                        Intent intent=new Intent(context, TopicsActivity.class);
-                        intent.putExtra("grade",grade);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+//                        Intent intent=new Intent(context, TopicsActivity.class);
+//                        intent.putExtra("grade",grade);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
                 }else if (position==1){
                     Toast.makeText(context, "You have selected English", Toast.LENGTH_SHORT).show();
                 }

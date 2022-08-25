@@ -144,11 +144,11 @@
             android:id="@+id/playVideoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/grid_0_5"
             android:layout_marginHorizontal="35dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/tv_shape"
             android:backgroundTint="@color/red"
+            android:minHeight="@dimen/grid_0_5"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -160,13 +160,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginRight="@dimen/grid_10"
                 android:fontFamily="@font/reemkufi_medium"
                 android:text="Learning Video"
                 android:textColor="@color/white"
                 android:textSize="@dimen/default_font_size_big"
                 android:textStyle="bold"
-                android:layout_gravity="center"
 
                 />
 
@@ -239,9 +239,6 @@
                     android:orientation="vertical">
 
 
-
-
-
                     <LinearLayout
                         android:id="@+id/questionView"
                         android:layout_width="wrap_content"
@@ -253,7 +250,6 @@
 
 
                         <TextView
-                            android:visibility="visible"
                             android:id="@+id/digit_one"
                             android:layout_width="wrap_content"
                             android:layout_height="55dp"
@@ -270,40 +266,40 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="visible" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/operator"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:background="@drawable/background_round"
+                            android:elevation="0dp"
+                            android:maxWidth="0dp"
+                            android:maxHeight="0dp"
                             android:minWidth="0dp"
                             android:minHeight="0dp"
-                            android:maxHeight="0dp"
-                            android:maxWidth="0dp"
-                            android:text="+"
-                            android:elevation="0dp"
                             android:shadowRadius="0"
-                            android:textSize="@dimen/default_font_size_big"
-                            android:textStyle="bold"
-                            android:background="@drawable/background_round"
+                            android:text="+"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            />
+                            android:textSize="@dimen/default_font_size_big"
+                            android:textStyle="bold" />
 
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_marginLeft="35dp"
-                            >
+                            android:orientation="vertical">
+
                             <TextView
 
                                 android:id="@+id/digit_one_h"
-                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="55dp"
                                 android:layout_gravity="center"
+                                android:layout_marginBottom="5dp"
                                 android:background="@drawable/round_rect_button_bg"
                                 android:backgroundTint="@color/primary"
                                 android:fontFamily="@font/reemkufi_medium"
@@ -316,8 +312,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
-                                android:layout_marginBottom="5dp"
-                                />
+                                android:visibility="gone" />
 
 
                             <TextView
@@ -340,12 +335,7 @@
                                 android:textStyle="bold" />
 
 
-
-
                         </LinearLayout>
-
-
-
 
 
                     </LinearLayout>
@@ -521,8 +511,8 @@
             android:gravity="center"
             android:maxHeight="45dp"
             android:text="Take Test"
-            android:textAllCaps="true"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/default_font_size_big" />
 
