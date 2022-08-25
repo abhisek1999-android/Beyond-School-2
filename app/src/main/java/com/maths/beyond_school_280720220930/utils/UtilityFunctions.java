@@ -347,6 +347,51 @@ public final class UtilityFunctions {
         }
     }
 
+    public enum Spellings {
+        Most_Common_Words,
+        Words_with_short_a_sounds,
+        Spelling_Words_with_L_blends,
+        Spelling_Words_with_double_consonants,
+        Spelling_Words_with_Long_o_sound,
+        Spelling_Words_with_sh
+    }
+
+    public static Spellings getSpellingsFromString(String spelling) {
+        switch (spelling) {
+            case "Spelling Words with short ‘a’ sounds":
+                return Spellings.Words_with_short_a_sounds;
+            case "Spelling Words with ‘L’ blends":
+                return Spellings.Spelling_Words_with_L_blends;
+            case "Spelling Words with double consonants":
+                return Spellings.Spelling_Words_with_double_consonants;
+            case "Spelling Words with Long ‘o’ sound":
+                return Spellings.Spelling_Words_with_Long_o_sound;
+            case "Spelling Words with ‘sh’":
+                return Spellings.Spelling_Words_with_sh;
+            default:
+                return Spellings.Most_Common_Words;
+        }
+    }
+
+    public static String getDBNameSpelling(Spellings spellings, Context context) {
+        switch (spellings) {
+            case Most_Common_Words:
+                return context.getString(R.string.spelling1);
+            case Words_with_short_a_sounds:
+                return context.getString(R.string.spelling2);
+            case Spelling_Words_with_L_blends:
+                return context.getString(R.string.spelling3);
+            case Spelling_Words_with_double_consonants:
+                return context.getString(R.string.spelling4);
+            case Spelling_Words_with_Long_o_sound:
+                return context.getString(R.string.spelling5);
+            case Spelling_Words_with_sh:
+                return context.getString(R.string.spelling6);
+            default:
+                return "";
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
