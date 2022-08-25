@@ -127,6 +127,10 @@
             android:name=".english_activity.vocabulary.EnglishActivity"
             android:exported="true"
             android:showOnLockScreen="true" />
+        <activity
+            android:name=".english_activity.spelling.EnglishSpellingActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
 
         <service
             android:name=".ClearService"
