@@ -331,7 +331,7 @@
                             android:textColor="@color/white"
                             android:visibility="invisible" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/ansTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="55dp"
@@ -349,6 +349,8 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="18sp"
+                            android:inputType="number"
+                            android:imeOptions="actionDone"
                             android:textStyle="bold" />
 
 
@@ -478,7 +480,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
-                    android:text="00"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -504,15 +506,15 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_rect_button_bg"
                 android:backgroundTint="@color/green"
-                android:paddingVertical="@dimen/grid_10"
+                android:gravity="center"
                 android:paddingHorizontal="@dimen/grid_10"
-                android:gravity="center">
+                android:paddingVertical="@dimen/grid_10">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="40dp"
                     app:cardBackgroundColor="@color/transparent"
+                    app:cardCornerRadius="40dp"
                     app:cardElevation="0dp">
 
                     <TextView
@@ -521,7 +523,7 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/reemkufi_medium"
                         android:gravity="center"
-                        android:text="00"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />

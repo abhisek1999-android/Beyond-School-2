@@ -401,28 +401,55 @@
                             android:textColor="@color/white"
                             android:visibility="invisible" />
 
-                        <TextView
-                            android:id="@+id/ansTextView"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="55dp"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="35dp"
-                            android:background="@drawable/round_rect_button_bg"
-                            android:backgroundTint="@color/green"
-                            android:fontFamily="@font/reemkufi_medium"
-                            android:gravity="center"
-                            android:minWidth="55dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="\?"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_marginLeft="35dp"
+                            >
+
+                            <EditText
+                                android:id="@+id/ansTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="55dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+
+                                android:background="@drawable/round_rect_button_bg"
+                                android:backgroundTint="@color/green"
+                                android:fontFamily="@font/reemkufi_medium"
+                                android:gravity="center"
+                                android:minWidth="55dp"
+
+                                android:text="\?"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:inputType="number"
+                                android:imeOptions="actionDone"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:visibility="invisible"
+                                android:id="@+id/indicator"
+                                android:layout_width="20dp"
+                                android:layout_height="5dp"
+                                android:layout_below="@id/questionView"
+                                android:layout_marginLeft="50dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="50dp"
+                                android:background="@color/light_deep_grey" />
+
+                        </LinearLayout>
+
+
+
 
 
                     </LinearLayout>
+
 
 
                     <com.airbnb.lottie.LottieAnimationView

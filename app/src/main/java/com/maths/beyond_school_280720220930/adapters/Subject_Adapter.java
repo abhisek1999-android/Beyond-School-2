@@ -107,7 +107,9 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                 }}
                 else{
 
-                    Toast.makeText(context, "Hey, Please complete previous level to unlock.", Toast.LENGTH_SHORT).show();
+                    UtilityFunctions.displayCustomDialog(context,"Chapter Locked","Hey, Please complete previous level to unlock.");
+
+
                 }
 
 //                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();

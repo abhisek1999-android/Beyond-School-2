@@ -30,17 +30,23 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.Subject_Adapter;
 import com.maths.beyond_school_280720220930.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivitySelectSubBinding;
+import com.maths.beyond_school_280720220930.model.KidsActivity;
 import com.maths.beyond_school_280720220930.model.SpinnerModel;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.model.Tables;
@@ -102,7 +108,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         observerGrade();
 
 
+
+
     }
+
+
 
     private void observerGrade() {
 
@@ -195,9 +205,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
             }
         });
 
-//        binding.goatImage.setOnClickListener(v->{
-//            startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
-//        });
+        binding.goatImage.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
+        });
 
         binding.tool.toolBar.imageView6.setOnClickListener(v -> {
 

@@ -229,10 +229,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                     Spannable textWithHighlights = new SpannableString(sentence);
                     textWithHighlights.setSpan(new ForegroundColorSpan(
                                     ContextCompat.
-                                            getColor(
-                                                    this,
-                                                    R.color.primary
-                                            )),
+                                            getColor(this, R.color.primary)),
                             start,
                             end,
                             Spanned.SPAN_INCLUSIVE_INCLUSIVE);

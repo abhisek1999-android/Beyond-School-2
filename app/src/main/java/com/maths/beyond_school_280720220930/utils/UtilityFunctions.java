@@ -26,6 +26,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
@@ -33,6 +34,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -651,5 +653,34 @@ public final class UtilityFunctions {
 
         }
 
+
+
+
+
     }
+
+   public static void displayCustomDialog(Context context,String title, String body) {
+
+        HintDialog hintDialog = new HintDialog(context);
+        hintDialog.setCancelable(true);
+        hintDialog.setAlertTitle(title);
+        hintDialog.setAlertDesciption(body);
+
+        hintDialog.displayAnim();
+        hintDialog.setOnActionListener(viewId->{
+
+            switch (viewId.getId()){
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+
+
+            }
+        });
+
+        hintDialog.show();
+
+    }
+
 }

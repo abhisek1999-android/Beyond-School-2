@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
 
 public class HintDialog extends AlertDialog {
@@ -20,6 +21,7 @@ public class HintDialog extends AlertDialog {
     private ImageButton closeButton;
     private Button actionButton;
 
+    private LottieAnimationView animationView;
     public HintDialog(Context context) {
         super(context);
         initDialog();
@@ -32,6 +34,7 @@ public class HintDialog extends AlertDialog {
             ansViewText = view.findViewById(R.id.ansTextView);
             closeButton=  view.findViewById(R.id.closeButton);
             actionButton= view.findViewById(R.id.buttonAction);
+            animationView=view.findViewById(R.id.animationView);
 
             title=view.findViewById(R.id.title);
             setClickListener(closeButton,actionButton);
@@ -52,6 +55,9 @@ public class HintDialog extends AlertDialog {
         }
     };
 
+    public void displayAnim(){
+        animationView.setVisibility(View.VISIBLE);
+    }
 
     public void actionButton(){
         actionButton.setVisibility(View.VISIBLE);

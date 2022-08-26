@@ -77,11 +77,11 @@
         android:layout_marginBottom="100dp"
         android:background="@drawable/round_rect_button_bg"
         android:drawableLeft="@drawable/ic_baseline_local_phone_24"
-        android:drawableTint="@color/primary"
+        android:drawableTint="@color/white"
         android:fontFamily="@font/reemkufi_medium"
         android:padding="@dimen/grid_10"
 
         android:text="Sign in With Phone"
-        android:textColor="@color/primary"
-        app:backgroundTint="@color/white" />
+        android:textColor="@color/white"
+        app:backgroundTint="@color/primary" />
 </RelativeLayout>
