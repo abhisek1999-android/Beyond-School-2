@@ -1,17 +1,26 @@
 package com.maths.beyond_school_280720220930.firebase;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.model.KidsActivity;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 
 import org.json.JSONArray;
@@ -122,7 +131,44 @@ public class CallFirebaseForInfo {
 
     }
 
+    public static void upDateActivities(FirebaseFirestore kidsDb, FirebaseAuth mAuth, String kids_id, String grade, Context context, GradeDatabase database) {
+        CollectionReference kidsActivityRef= kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
+                .collection("kids").document(kids_id).collection("test");
 
+        kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        KidsActivity kidsActivity=document.toObject(KidsActivity.class);
+
+
+                        if (kidsActivity.getStatus().equals("pass")){
+
+                            try{
+                                if (!document.getId().split("_")[1].equals("multiplication"))
+                                    UtilityFunctions.updateDbUnlock(database,grade,document.getId().replace(" ","").split("_")[1],document.getId().split("_")[2]);
+                                else{
+                                    Log.i("doc_id",document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
+                                    int maxVal=Integer.parseInt(document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
+                                    if (PrefConfig.readIntInPref(context,context.getResources().getString(R.string.multiplication_upto))<maxVal){
+                                        PrefConfig.writeIntInPref(context,maxVal,context.getResources().getString(R.string.multiplication_upto));
+                                    }
+
+                                }
+                            }catch (Exception e){}
+
+
+                        }
+                    }
+                } else {
+                    Log.d("TAG", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+    }
 
 
 

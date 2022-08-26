@@ -5,11 +5,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class AdditionActivity extends AppCompatActivity {
 
     private static final String TAG = AdditionActivity.class.getSimpleName();
@@ -76,7 +79,9 @@ public class AdditionActivity extends AppCompatActivity {
     private String kidsGrade;
     private GradeDatabase databaseGrade;
     private String kidsId;
+    private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +92,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         ansList=new ArrayList();
         timeList=new ArrayList();
+        numberList=new ArrayList<>();
         databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
@@ -118,11 +124,47 @@ public class AdditionActivity extends AppCompatActivity {
 
     }
 
+    private TextView.OnEditorActionListener editorActionListener= (textView, i, keyEvent) -> {
+
+        switch (i){
+            case EditorInfo.IME_ACTION_DONE:
+                isCallTTS=true;
+                initSTT();
+                isNewQuestionGenerated=true;
+                try {
+                    successResultCalling(binding.ansTextView.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                binding.ansTextView.clearFocus();
+
+                break;
+        }
+        return false;
+
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setBasicUiElement() {
 
         // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
         binding.toolBar.titleText.setText(selectedSub);
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+
+
+
+        binding.ansTextView.setOnEditorActionListener(editorActionListener);
+        binding.ansTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                     pause();
+                    stt.destroy();
+                } else {
+                    //lost focus
+                }
+            }
+        });
         if (subject.equals("addition")){
             binding.operator.setText("+");
             binding.digitOneH.setVisibility(View.VISIBLE);
@@ -216,9 +258,7 @@ public class AdditionActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) throws JSONException {
                 Log.d(TAG, "onSuccess: " + result);
-
                 successResultCalling(result);
-
 
             }
 
@@ -303,8 +343,8 @@ public class AdditionActivity extends AppCompatActivity {
         if (lcsResult) {
 
             diff=endTime-startTime;
-
-            tts.initialize("Correct Answer", AdditionActivity.this);
+            binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.green));
+            tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivity.this);
             logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
 
 
@@ -317,9 +357,9 @@ public class AdditionActivity extends AppCompatActivity {
             DELAY_ON_SETTING_QUESTION=2000;
             correctAnswer++;
         } else {
-
+            binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.red));
             logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
-            tts.initialize("Wrong Answer", AdditionActivity.this);
+            tts.initialize(UtilityFunctions.getCompliment(false), AdditionActivity.this);
             putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,false);
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                     "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
@@ -391,6 +431,7 @@ public class AdditionActivity extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
+        numberList.clear();
         binding.animWoman.cancelAnimation();
         //  binding.textView26.setVisibility(View.VISIBLE);
         //  binding.textViewQuestion.setVisibility(View.GONE);
@@ -425,8 +466,6 @@ public class AdditionActivity extends AppCompatActivity {
             if (binding.playPause.isChecked()) {
                 binding.correctText.setText("0");
                 binding.wrongText.setText("0");
-                //    binding.textView26.setVisibility(View.GONE);
-                //   binding.textViewQuestion.setVisibility(View.VISIBLE);
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
 
                 isCallTTS = true;
@@ -436,25 +475,28 @@ public class AdditionActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else {
-                //     binding.textView26.setVisibility(View.VISIBLE);
-                //   binding.textViewQuestion.setVisibility(View.GONE);
-                binding.animationVoice.setVisibility(View.GONE);
-                binding.questionProgress.setProgress(0);
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-                isCallSTT = false;
-                isCallTTS = false;
-                if (!isAnswered)
-                    isNewQuestionGenerated=false;
+
+                 pause();
 
             }
         });
+    }
+
+    public void pause(){
+        binding.animationVoice.setVisibility(View.GONE);
+        binding.questionProgress.setProgress(0);
+        binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+        isCallSTT = false;
+        isCallTTS = false;
+        if (!isAnswered)
+            isNewQuestionGenerated=false;
     }
 
     private void setQuestion() throws InterruptedException {
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         isAnswered=false;
-
+        binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.green));
         if (isCallTTS) {
             int maxVal=20;
             int minVal=2;
@@ -505,7 +547,17 @@ public class AdditionActivity extends AppCompatActivity {
 
             if (subject.equals("multiplication")) {
                 currentNum1 = Integer.parseInt(digit);
+
                 currentNum2 = UtilityFunctions.getRandomNumber(1);
+                while (true){
+                    if (numberList.contains(currentNum2)){
+                    currentNum2=UtilityFunctions.getRandomIntegerUpto(11,1);
+                    Log.i("CurrentNumber",currentNum2+"");
+                    }else{
+                        numberList.add(currentNum2);
+                        break;}
+
+                }
             }
 
             }

@@ -1,7 +1,10 @@
 package com.maths.beyond_school_280720220930.signin_methods;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.TelecomManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +13,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
+import com.google.android.gms.auth.api.credentials.CredentialsClient;
+import com.google.android.gms.auth.api.credentials.CredentialsOptions;
+import com.google.android.gms.auth.api.credentials.HintRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -26,8 +36,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
@@ -45,7 +57,11 @@ public class PhoneNumberLogin extends AppCompatActivity {
     // string for storing our verification ID
     private String verificationId;
     private ArrayAdapter adapter;
+    private GradeDatabase database;
     private CustomProgressDialogue customProgressDialogue;
+    private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
+    private TelecomManager telecomManager;
+    private int CREDENTIAL_PICKER_REQUEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +69,12 @@ public class PhoneNumberLogin extends AppCompatActivity {
         binding = ActivityPhoneNumberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         customProgressDialogue=new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
-
+        database = GradeDatabase.getDbInstance(this);
         setUpTextLayoutGrade();
-
+        telecomManager = (TelecomManager) getApplicationContext().getSystemService(Context.TELECOM_SERVICE);
         binding.idBtnGetOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +129,53 @@ public class PhoneNumberLogin extends AppCompatActivity {
         });
 
 
+        phoneSelection();
+    }
+
+
+    private void phoneSelection() {
+        // To retrieve the Phone Number hints, first, configure
+        // the hint selector dialog by creating a HintRequest object.
+        HintRequest hintRequest = new HintRequest.Builder()
+                .setPhoneNumberIdentifierSupported(true)
+                .build();
+
+        CredentialsOptions options = new CredentialsOptions.Builder()
+                .forceEnableSaveDialog()
+                .build();
+
+        // Then, pass the HintRequest object to
+        // credentialsClient.getHintPickerIntent()
+        // to get an intent to prompt the user to
+        // choose a phone number.
+        CredentialsClient credentialsClient = Credentials.getClient(getApplicationContext(), options);
+        PendingIntent intent = credentialsClient.getHintPickerIntent(hintRequest);
+        try {
+            startIntentSenderForResult(intent.getIntentSender(), CREDENTIAL_PICKER_REQUEST, null, 0, 0, UtilityFunctions.getPendingIntentFlag(), new Bundle());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREDENTIAL_PICKER_REQUEST && resultCode == RESULT_OK)
+        {
+            // Obtain the phone number from the result
+            Credential credentials = data.getParcelableExtra(Credential.EXTRA_KEY);
+            binding.idEdtPhoneNumber.setText(credentials.getId().substring(3)); //get the selected phone number
+//Do what ever you want to do with your selected phone number here
+
+
+        }
+        else if (requestCode == CREDENTIAL_PICKER_REQUEST && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE)
+        {
+            // *** No phone numbers available ***
+            Toast.makeText(getApplicationContext(), "No phone numbers found", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setUpTextLayoutGrade() {
@@ -252,6 +316,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                 try{
                                     if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                        CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
                                         var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
                                         startActivity(i);
@@ -259,7 +324,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                         break;
                                     }
                                 }catch (Exception e){
-
+                                    CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
                                     var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
@@ -278,4 +343,6 @@ public class PhoneNumberLogin extends AppCompatActivity {
 
 
     }
+
+
 }

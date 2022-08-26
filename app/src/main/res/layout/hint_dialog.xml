@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    app:cardCornerRadius="20sp"
+    app:cardCornerRadius="@dimen/grid_10"
     android:layout_marginTop="@dimen/grid_0_5"
     android:layout_height="wrap_content">
 
@@ -23,30 +23,39 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageButton
                     android:id="@+id/closeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_close_24"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/background_round"
+                    android:backgroundTint="@color/sweet_red"
                     android:padding="@dimen/grid_0_5"
-                    android:backgroundTint="@color/primary"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_baseline_close_24"
                     app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="@dimen/grid_0_5"
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Hint"
-                    android:layout_centerHorizontal="true"
                     android:textSize="20sp" />
 
             </RelativeLayout>
 
+            <View
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/questionView"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_deep_grey" />
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,14 +64,36 @@
                 android:padding="20sp"
                 >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="2"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/lock_animation"
+
+                    tools:ignore="MissingConstraints" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_weight="1"
                     >
 
                     <TextView
+                        android:backgroundTint="@color/light_gray"
+                        android:padding="@dimen/grid_10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/ansTextView"
@@ -84,6 +115,7 @@
                         android:text="DELETE"
                         />
 
+                </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

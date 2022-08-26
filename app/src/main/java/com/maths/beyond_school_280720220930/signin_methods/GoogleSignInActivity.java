@@ -29,6 +29,8 @@ import com.maths.beyond_school_280720220930.LoginSignupActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
@@ -41,6 +43,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN=101;
     ProgressDialog progressDialog;
+    private GradeDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
         progressDialog=new ProgressDialog(GoogleSignInActivity.this);
         progressDialog.setMessage("Google Sign in...");
         progressDialog.show();
-
+        database = GradeDatabase.getDbInstance(this);
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -135,6 +138,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
 
                                 try{
                                     if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
+                                        CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),GoogleSignInActivity.this,database);
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         Log.i("KidsData", kidsData.getName() + "");
                                         var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
@@ -143,7 +147,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
                                         break;
                                     }
                                 }catch (Exception e){
-
+                                    CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),GoogleSignInActivity.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
                                     var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);

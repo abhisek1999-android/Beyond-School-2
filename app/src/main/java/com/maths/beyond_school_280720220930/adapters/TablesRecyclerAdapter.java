@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -17,11 +18,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.Tables;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.List;
 
@@ -51,6 +54,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -81,7 +85,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
                 context.startActivity(intent);}
 
                 else
-                    Toast.makeText(context, "Hey, Please complete previous level to unlock", Toast.LENGTH_SHORT).show();
+                    UtilityFunctions.displayCustomDialog(context,"Chapter Locked","Hey, Please complete previous level to unlock.");
             });
 
 

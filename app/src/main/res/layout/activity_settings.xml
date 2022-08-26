@@ -46,7 +46,7 @@
             android:layout_toEndOf="@id/image"
             android:fontFamily="@font/reemkufi_medium"
             android:text="Enable Log"
-            android:textSize="20sp" />
+            android:textSize="@dimen/default_font_size" />
 
         <Switch
             android:id="@+id/logSwitch"
@@ -77,9 +77,9 @@
             android:layout_height="40dp"
             android:background="@drawable/background_round"
             android:backgroundTint="@color/teal_700"
-            android:padding="@dimen/grid_5d"
-            android:src="@drawable/ic_language"
+            android:padding="8dp"
             android:scaleType="fitXY"
+            android:src="@drawable/ic_language"
             app:tint="@color/white" />
 
         <TextView
@@ -91,20 +91,20 @@
             android:layout_toEndOf="@id/image2"
             android:fontFamily="@font/reemkufi_medium"
             android:text="Select Local"
-            android:textSize="@dimen/grid_20" />
+            android:textSize="@dimen/default_font_size" />
 
         <TextView
             android:id="@+id/txt2"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
             android:layout_toEndOf="@id/txt"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
             android:paddingTop="@dimen/grid_5d"
             android:text="United States"
-            android:layout_marginLeft="3dp"
-            android:textSize="18sp" />
+            android:textSize="@dimen/default_font_size" />
 
         <Spinner
             android:id="@+id/spinner"

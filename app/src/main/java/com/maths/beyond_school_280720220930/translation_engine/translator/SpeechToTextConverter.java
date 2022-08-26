@@ -99,7 +99,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
 
         @Override
         public void onError(int error) {
-            Log.d(TAG, "onError");
+            Log.d(TAG, "onError"+error);
             assert conversionCallaBack != null;
             conversionCallaBack.onErrorOccurred(getErrorText(error));
             conversionCallaBack.getLogResult("onError : " + getErrorText(error));
@@ -134,7 +134,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
                     } catch (JSONException ex) {
                         ex.printStackTrace();
                     }
-                    conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
+                   // conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }
             }
         }
