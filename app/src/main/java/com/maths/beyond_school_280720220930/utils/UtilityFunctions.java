@@ -110,6 +110,17 @@ public final class UtilityFunctions {
             return getRandomNumber(digits);
     }
 
+    // Extension function to add space between String
+    public static String addSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            if (i != s.length() - 1)
+                sb.append(" ");
+        }
+        return sb.toString();
+    }
+
     public enum VocabularyCategories {
         bathroom, body_parts, colors, animals, fruits,
         vegetables, cloth, feeling, insect, kitchen,
@@ -130,7 +141,7 @@ public final class UtilityFunctions {
 
     }
 
-    public static String getQuestionTitle(VocabularyCategories categories) {
+    public static String getQuestionTitleVocabulary(VocabularyCategories categories) {
         switch (categories) {
             case bathroom:
                 return "Let us learn about Bathroom and objects we use there.";

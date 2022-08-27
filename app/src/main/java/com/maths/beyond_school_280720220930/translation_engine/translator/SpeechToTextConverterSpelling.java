@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTextConverterEnglish> {
+public class SpeechToTextConverterSpelling implements ConverterEngine<SpeechToTextConverterSpelling> {
 
     private static final String TAG = SpeechToTextConverterEnglish.class.getSimpleName();
 
@@ -25,28 +25,40 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
     private SpeechRecognizer speechRecognizer = null;
     private Map<String, String> words = new HashMap<>();
 
-    public SpeechToTextConverterEnglish(ConversionCallback callback) {
+    public SpeechToTextConverterSpelling(ConversionCallback callback) {
         this.conversionCallaBack = callback;
     }
 
 
     @Override
-    public SpeechToTextConverterEnglish initialize(String message, Activity appContext) {
-        words.put("com", "comb");
-        words.put("komb", "comb");
-        words.put("Kumbh", "comb");
-        words.put("baat", "bath");
-        words.put("singh", "sink");
-        words.put("salary", "celery");
-        words.put("Court", "skirt");
-        words.put("Yeah", "ear");
-        words.put("near", "ear");
-        words.put("year", "ear");
-        words.put("tamil", "towel");
-        words.put("b", "the");
-
-
-
+    public SpeechToTextConverterSpelling initialize(String message, Activity appContext) {
+        words.put("ye", "a");
+        words.put("yay", "a");
+        words.put("bee", "b");
+        words.put("see", "c");
+        words.put("dee", "d");
+        words.put("ee", "e");
+        words.put("eff", "f");
+        words.put("gee", "g");
+        words.put("aitch", "h");
+        words.put("eye", "i");
+        words.put("jay", "j");
+        words.put("kay", "k");
+        words.put("ell", "l");
+        words.put("em", "m");
+        words.put("en", "n");
+        words.put("oh", "o");
+        words.put("pee", "p");
+        words.put("cue", "q");
+        words.put("are", "r");
+        words.put("ess", "s");
+        words.put("tee", "t");
+        words.put("you", "u");
+        words.put("vee", "v");
+        words.put("double you", "w");
+        words.put("ex", "x");
+        words.put("why", "y");
+        words.put("zed", "z");
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -59,6 +71,60 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
         speechRecognizer.setRecognitionListener(listener);
         speechRecognizer.startListening(intent);
         return this;
+    }
+
+    @Override
+    public String getErrorText(int errorCode) {
+        var message = "";
+        switch (errorCode) {
+            case SpeechRecognizer.ERROR_AUDIO:
+                message = "Audio recording error";
+                break;
+            case SpeechRecognizer.ERROR_CLIENT:
+                message = "Client side error";
+                break;
+            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                message = "Insufficient permissions";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK:
+                message = "Network error";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                message = "Network timeout";
+                break;
+            case SpeechRecognizer.ERROR_NO_MATCH:
+                message = "No match";
+                break;
+            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                message = "RecognitionService busy";
+                break;
+            case SpeechRecognizer.ERROR_SERVER:
+                message = "error from server";
+                break;
+            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                message = "No speech input";
+                break;
+            default:
+                message = "Didn't understand, please try again.";
+                break;
+        }
+        return message;
+    }
+
+    public void stop() {
+        if (speechRecognizer != null) {
+            speechRecognizer.stopListening();
+        }
+    }
+
+    // destroy Stp
+    public void destroy() {
+        if (speechRecognizer != null) {
+            speechRecognizer.stopListening();
+            speechRecognizer.destroy();
+            conversionCallaBack = null;
+            Log.d("TAG", "destroy: destroying STT ");
+        }
     }
 
     class CustomRecognitionListener implements RecognitionListener {
@@ -112,7 +178,7 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
             if (conversionCallaBack != null) {
                 conversionCallaBack.getLogResult("onResultFormatted : " + translateResults);
                 try {
-                    conversionCallaBack.onSuccess(translateResults);
+                    conversionCallaBack.onSuccess(translateResults.toLowerCase(Locale.ROOT));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -144,61 +210,6 @@ public class SpeechToTextConverterEnglish implements ConverterEngine<SpeechToTex
         @Override
         public void onEvent(int eventType, Bundle params) {
             Log.d(TAG, "onEvent");
-        }
-    }
-
-    @Override
-    public String getErrorText(int errorCode) {
-        var message = "";
-        switch (errorCode) {
-            case SpeechRecognizer.ERROR_AUDIO:
-                message = "Audio recording error";
-                break;
-            case SpeechRecognizer.ERROR_CLIENT:
-                message = "Client side error";
-                break;
-            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                message = "Insufficient permissions";
-                break;
-            case SpeechRecognizer.ERROR_NETWORK:
-                message = "Network error";
-                break;
-            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                message = "Network timeout";
-                break;
-            case SpeechRecognizer.ERROR_NO_MATCH:
-                message = "No match";
-                break;
-            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                message = "RecognitionService busy";
-                break;
-            case SpeechRecognizer.ERROR_SERVER:
-                message = "error from server";
-                break;
-            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                message = "No speech input";
-                break;
-            default:
-                message = "Didn't understand, please try again.";
-                break;
-        }
-        return message;
-    }
-
-
-    public void stop() {
-        if (speechRecognizer != null) {
-            speechRecognizer.stopListening();
-        }
-    }
-
-    // destroy Stp
-    public void destroy() {
-        if (speechRecognizer != null) {
-            speechRecognizer.stopListening();
-            speechRecognizer.destroy();
-            conversionCallaBack = null;
-            Log.d("TAG", "destroy: destroying STT ");
         }
     }
 }

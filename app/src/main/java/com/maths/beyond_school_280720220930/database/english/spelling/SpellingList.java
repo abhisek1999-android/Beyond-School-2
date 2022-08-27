@@ -19,12 +19,12 @@ public abstract class SpellingList {
             var wordsWithSh = getSpellingDetailWordsWithSh();
 
             var spellingCategoryModelsList = new ArrayList<SpellingCategoryModel>();
-            spellingCategoryModelsList.add(new SpellingCategoryModel("most common word", mostCommonWord));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("words with short a sound", wordsWithShortASound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("words with short l sound", wordsWithShortLSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("words with double consonant", wordsWithDoubleConsonant));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("words with long o sound", wordsWithLongOSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("words with sh", wordsWithSh));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words", mostCommonWord));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with short ‘a’ sounds", wordsWithShortASound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘L’ blends", wordsWithShortLSound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with double consonants", wordsWithDoubleConsonant));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with Long ‘o’ sound", wordsWithLongOSound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with ‘sh’", wordsWithSh));
 
             return new SpellingModel(1, spellingCategoryModelsList);
         }
