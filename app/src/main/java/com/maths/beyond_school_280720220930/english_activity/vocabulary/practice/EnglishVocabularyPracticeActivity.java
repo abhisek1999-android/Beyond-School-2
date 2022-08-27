@@ -19,6 +19,7 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.Vocabula
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -32,6 +33,7 @@ import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import org.json.JSONException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -58,6 +60,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private GradeDatabase databaseGrade;
     private String kidsGrade;
 
+    private LogDatabase logDatabase;
+    private String logs = "";
+    private long startTime = 0, endTime = 0;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         dao = EnglishGradeDatabase.getDbInstance(this).englishDao();
         databaseGrade = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
+        logDatabase = LogDatabase.getDbInstance(this);
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -168,6 +175,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
         tts.initialize(binding.textViewGuessQuestion.getText().toString(), this);
+        logs += "Question : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition() + ". \n";
         if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1)) {
             isSpeaking = false;
 
@@ -196,10 +204,15 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) throws JSONException {
                 ConversionCallback.super.onSuccess(result);
                 try {
+
+                    endTime = new Date().getTime();
+                    long diff = endTime - startTime;
+
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT),
                             vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))
                     ) {
@@ -208,10 +221,12 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                 .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
                         correctAnswers++;
+                        logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                     } else {
                         if (tryAgainCount == 2) {
                             wrongAnswers++;
                             updateViews();
+                            logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                             helperTTS("No problem ,Answer is  " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord(), false, true);
                             ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
@@ -250,6 +265,12 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                 current.getAnimationView().setVisibility(View.GONE);
                 binding.playPause.setChecked(false);
             }
+
+            @Override
+            public void getLogResult(String title) {
+                ConversionCallback.super.getLogResult(title);
+                logs += title + "\n";
+            }
         }).get();
     }
 
@@ -260,6 +281,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private void startListening() {
         UtilityFunctions.runOnUiThread(() -> {
+            startTime = new Date().getTime();
             var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
             current.getAnimationView().setVisibility(View.VISIBLE);
             stt.initialize("Start Listening", this);
@@ -345,6 +367,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         destroyedEngines();
+        checkLogIsEnable();
     }
 
     private void destroyedEngines() {
@@ -360,6 +383,18 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
         current.getAnimationView().setVisibility(View.GONE);
     }
+
+
+    private void checkLogIsEnable() {
+        if (PrefConfig.readIdInPref(getApplicationContext(), "IS_LOG_ENABLE").equals("true"))
+            saveLog();
+    }
+
+    private void saveLog() {
+        Log.d(TAG, "saveLog: Called " + logs);
+        UtilityFunctions.saveLog(logDatabase, logs);
+    }
+
 
     @Override
     protected void onDestroy() {

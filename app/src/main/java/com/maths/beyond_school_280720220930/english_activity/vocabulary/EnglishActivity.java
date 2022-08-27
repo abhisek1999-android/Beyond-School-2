@@ -144,7 +144,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             initTTS();
             intSTT();
             initMediaPlayer();
-            helperTTS(UtilityFunctions.getQuestionTitle(category), false, REQUEST_FOR_QUESTION);
+            helperTTS(UtilityFunctions.getQuestionTitleVocabulary(category), false, REQUEST_FOR_QUESTION);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

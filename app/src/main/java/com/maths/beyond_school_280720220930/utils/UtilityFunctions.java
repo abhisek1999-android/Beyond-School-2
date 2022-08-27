@@ -112,6 +112,17 @@ public final class UtilityFunctions {
             return getRandomNumber(digits);
     }
 
+    // Extension function to add space between String
+    public static String addSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            if (i != s.length() - 1)
+                sb.append(" ");
+        }
+        return sb.toString();
+    }
+
     public enum VocabularyCategories {
         bathroom, body_parts, colors, animals, fruits,
         vegetables, cloth, feeling, insect, kitchen,
@@ -132,7 +143,7 @@ public final class UtilityFunctions {
 
     }
 
-    public static String getQuestionTitle(VocabularyCategories categories) {
+    public static String getQuestionTitleVocabulary(VocabularyCategories categories) {
         switch (categories) {
             case bathroom:
                 return "Let us learn about Bathroom and objects we use there.";
@@ -346,6 +357,51 @@ public final class UtilityFunctions {
                 return VocabularyCategories.weather;
             default:
                 return VocabularyCategories.animals;
+        }
+    }
+
+    public enum Spellings {
+        Most_Common_Words,
+        Words_with_short_a_sounds,
+        Spelling_Words_with_L_blends,
+        Spelling_Words_with_double_consonants,
+        Spelling_Words_with_Long_o_sound,
+        Spelling_Words_with_sh
+    }
+
+    public static Spellings getSpellingsFromString(String spelling) {
+        switch (spelling) {
+            case "Spelling Words with short ‘a’ sounds":
+                return Spellings.Words_with_short_a_sounds;
+            case "Spelling Words with ‘L’ blends":
+                return Spellings.Spelling_Words_with_L_blends;
+            case "Spelling Words with double consonants":
+                return Spellings.Spelling_Words_with_double_consonants;
+            case "Spelling Words with Long ‘o’ sound":
+                return Spellings.Spelling_Words_with_Long_o_sound;
+            case "Spelling Words with ‘sh’":
+                return Spellings.Spelling_Words_with_sh;
+            default:
+                return Spellings.Most_Common_Words;
+        }
+    }
+
+    public static String getDBNameSpelling(Spellings spellings, Context context) {
+        switch (spellings) {
+            case Most_Common_Words:
+                return context.getString(R.string.spelling1);
+            case Words_with_short_a_sounds:
+                return context.getString(R.string.spelling2);
+            case Spelling_Words_with_L_blends:
+                return context.getString(R.string.spelling3);
+            case Spelling_Words_with_double_consonants:
+                return context.getString(R.string.spelling4);
+            case Spelling_Words_with_Long_o_sound:
+                return context.getString(R.string.spelling5);
+            case Spelling_Words_with_sh:
+                return context.getString(R.string.spelling6);
+            default:
+                return "";
         }
     }
 

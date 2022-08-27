@@ -88,6 +88,6 @@ dependencies {
     implementation files('libs\\YouTubeAndroidPlayerApi.jar')
 
     //implementation 'com.github.joielechong:countrycodepicker:2.4.2'
-    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
+
 
 }
