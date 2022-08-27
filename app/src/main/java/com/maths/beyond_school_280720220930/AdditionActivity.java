@@ -58,21 +58,21 @@ public class AdditionActivity extends AppCompatActivity {
     private Boolean isAnswered = false;
     private Toolbar toolbar;
 
-    long timeLimit=10000;
-    private long maxStQuesTime=0;
-    private long maxEtQuesTime=0;
+    long timeLimit = 10000;
+    private long maxStQuesTime = 0;
+    private long maxEtQuesTime = 0;
 
     private TextView digit1Text;
     private String subject = "";
-    private String digit = "",videoUrl="",selectedSub="";
+    private String digit = "", videoUrl = "", selectedSub = "";
 
     private LogDatabase logDatabase;
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
-    private long startTime = 0, endTime = 0,diff=0;
+    private long startTime = 0, endTime = 0, diff = 0;
     private String logs = "";
-    private int currentNum1=0 ;
-    private int currentNum2=0;
+    private int currentNum1 = 0;
+    private int currentNum2 = 0;
     private FirebaseFirestore kidsDb;
     private List ansList;
     private List timeList;
@@ -81,6 +81,7 @@ public class AdditionActivity extends AppCompatActivity {
     private String kidsId;
     private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,27 +91,26 @@ public class AdditionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
-        ansList=new ArrayList();
-        timeList=new ArrayList();
-        numberList=new ArrayList<>();
+        ansList = new ArrayList();
+        timeList = new ArrayList();
+        numberList = new ArrayList<>();
         databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
-        videoUrl=getIntent().getStringExtra("video_url");
-        selectedSub=getIntent().getStringExtra("selected_sub");
+        videoUrl = getIntent().getStringExtra("video_url");
+        selectedSub = getIntent().getStringExtra("selected_sub");
 
 
-        kidsId=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id));
-        kidsGrade=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
 
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
 
 
-        kidsDb=FirebaseFirestore.getInstance();
-
+        kidsDb = FirebaseFirestore.getInstance();
 
 
         initTTS();
@@ -124,13 +124,13 @@ public class AdditionActivity extends AppCompatActivity {
 
     }
 
-    private TextView.OnEditorActionListener editorActionListener= (textView, i, keyEvent) -> {
+    private TextView.OnEditorActionListener editorActionListener = (textView, i, keyEvent) -> {
 
-        switch (i){
+        switch (i) {
             case EditorInfo.IME_ACTION_DONE:
-                isCallTTS=true;
+                isCallTTS = true;
                 initSTT();
-                isNewQuestionGenerated=true;
+                isNewQuestionGenerated = true;
                 try {
                     successResultCalling(binding.ansTextView.getText().toString());
                 } catch (JSONException e) {
@@ -152,50 +152,42 @@ public class AdditionActivity extends AppCompatActivity {
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
 
 
-
         binding.ansTextView.setOnEditorActionListener(editorActionListener);
         binding.ansTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                     pause();
+                    pause();
                     stt.destroy();
+                    UtilityFunctions.runOnUiThread(() -> {
+                        binding.ansTextView.setText("");
+                    }, 100);
                 } else {
                     //lost focus
                 }
             }
         });
-        if (subject.equals("addition")){
+        if (subject.equals("addition")) {
             binding.operator.setText("+");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
 
-            digit1Text=binding.digitOneH;
+            digit1Text = binding.digitOneH;
 
-        }
-
-
-        else if (subject.equals("subtraction")){
+        } else if (subject.equals("subtraction")) {
             binding.operator.setText("-");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
-            digit1Text=binding.digitOneH;
-        }
-
-
-        else if (subject.equals("multiplication")){
+            digit1Text = binding.digitOneH;
+        } else if (subject.equals("multiplication")) {
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
-            digit1Text=binding.digitOne;
+            digit1Text = binding.digitOne;
 
-        }
-
-
-        else if (subject.equals("division")){
+        } else if (subject.equals("division")) {
             binding.operator.setText("÷");
-            digit1Text=binding.digitOne;
+            digit1Text = binding.digitOne;
         }
-
 
 
 //        binding.learnOrTest.setOnClickListener(v->{
@@ -206,18 +198,18 @@ public class AdditionActivity extends AppCompatActivity {
 //        });
 
 
-
-        binding.learnOrTest.setOnClickListener(v->{
-            Intent intent =new Intent(getApplicationContext(), LearningActivity.class);
-            intent.putExtra("subject",subject);
+        binding.learnOrTest.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
+            intent.putExtra("subject", subject);
             intent.putExtra("max_digit", digit);
-            intent.putExtra("video_url",videoUrl);
-            intent.putExtra("selected_sub",selectedSub);
+            intent.putExtra("video_url", videoUrl);
+            intent.putExtra("selected_sub", selectedSub);
             startActivity(intent);
             finish();
         });
 
     }
+
     /**
      * Initialize TTS engine
      * Answer will be check here
@@ -229,8 +221,8 @@ public class AdditionActivity extends AppCompatActivity {
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
-                        startTime=new Date().getTime();
-                        maxStQuesTime=new Date().getTime();
+                        startTime = new Date().getTime();
+                        maxStQuesTime = new Date().getTime();
                         binding.animWoman.cancelAnimation();
                         UtilityFunctions.muteAudioStream(AdditionActivity.this);
                         isCallSTT = false;
@@ -272,15 +264,16 @@ public class AdditionActivity extends AppCompatActivity {
             @Override
             public void getLogResult(String title) {
                 ConversionCallback.super.getLogResult(title);
-                logs+=title+"\n";
+                logs += title + "\n";
             }
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void getStringResult(String title) throws JSONException {
                 ConversionCallback.super.getStringResult(title);
-                Log.i("SoundXCalled",title+",title: "+ Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
-                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
-                    successResultCalling(currentAnswer+"");
+                Log.i("SoundXCalled", title + ",title: " + Soundex.getCode(title) + ", ans:" + Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))) {
+                    successResultCalling(currentAnswer + "");
                 }
 
 
@@ -289,12 +282,12 @@ public class AdditionActivity extends AppCompatActivity {
             @Override
             public void onErrorOccurred(String errorMessage) {
 
-                if ((new Date().getTime() - maxStQuesTime)< timeLimit){
-                    UtilityFunctions.runOnUiThread(()->{
+                if ((new Date().getTime() - maxStQuesTime) < timeLimit) {
+                    UtilityFunctions.runOnUiThread(() -> {
                         isCallSTT = true;
                         tts.initialize("", AdditionActivity.this);
-                    },250);
-                }else{
+                    }, 250);
+                } else {
                     setWrongCorrectView();
                     currentQuestion++;
                     if (currentQuestion <= MAX_QUESTION) {
@@ -319,7 +312,7 @@ public class AdditionActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void successResultCalling(String result) throws JSONException {
 
-        endTime=new Date().getTime();
+        endTime = new Date().getTime();
 
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
@@ -328,9 +321,9 @@ public class AdditionActivity extends AppCompatActivity {
         }
 
         ansList.add(result);
-        timeList.add((endTime-startTime));
+        timeList.add((endTime - startTime));
 
-        logs+="Detected Result"+result+"\n";
+        logs += "Detected Result" + result + "\n";
         //stt.stop();
         binding.ansTextView.setText(result);
         isCallSTT = false;
@@ -342,30 +335,30 @@ public class AdditionActivity extends AppCompatActivity {
 
         if (lcsResult) {
 
-            diff=endTime-startTime;
+            diff = endTime - startTime;
             binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.green));
             tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivity.this);
-            logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+            logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
 
 
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, true, (int) (diff),
-                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,true);
+                    "Mathematics-Test-" + subject, 22, currentAnswer + "", result, true, (int) (diff),
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+            putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, true);
 
             DELAY_ON_STARTING_STT = 500;
-            DELAY_ON_SETTING_QUESTION=2000;
+            DELAY_ON_SETTING_QUESTION = 2000;
             correctAnswer++;
         } else {
             binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.red));
-            logs+="Tag: Wrong\n"+"Time Taken: "+UtilityFunctions.formatTime(diff)+"\n";
+            logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
             tts.initialize(UtilityFunctions.getCompliment(false), AdditionActivity.this);
-            putJsonData(currentNum1+""+binding.operator.getText()+""+currentNum2+"=?",result,diff,false);
+            putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, false);
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Test-"+ subject, 22,currentAnswer+"", result, false, (int) (diff),
-                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
+                    "Mathematics-Test-" + subject, 22, currentAnswer + "", result, false, (int) (diff),
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
             DELAY_ON_STARTING_STT = 500;
-            DELAY_ON_SETTING_QUESTION=2000;
+            DELAY_ON_SETTING_QUESTION = 2000;
             wrongAnswer++;
         }
         setWrongCorrectView();
@@ -382,24 +375,21 @@ public class AdditionActivity extends AppCompatActivity {
         } else {
 
             //null check req
-            if (correctAnswer>=9)
-            {
-                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
-               if (!subject.equals("multiplication"))
-                UtilityFunctions.updateDbUnlock(databaseGrade,kidsGrade,subject,selectedSub);
-               else
-                   PrefConfig.writeIntInPref(getApplicationContext(),Integer.parseInt(digit),getResources().getString(R.string.multiplication_upto));
-            }
-
-            else
-            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId, selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+            if (correctAnswer >= 9) {
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+                if (!subject.equals("multiplication"))
+                    UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
+                else
+                    PrefConfig.writeIntInPref(getApplicationContext(), Integer.parseInt(digit), getResources().getString(R.string.multiplication_upto));
+            } else
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
             resetViews();
         }
 
     }
 
-    private void putJsonData(String question,String ans,long timeTaken,boolean isCorrect) throws JSONException {
+    private void putJsonData(String question, String ans, long timeTaken, boolean isCorrect) throws JSONException {
 
 
         JSONObject activityData = new JSONObject();
@@ -476,94 +466,94 @@ public class AdditionActivity extends AppCompatActivity {
                 }
             } else {
 
-                 pause();
+                pause();
 
             }
         });
     }
 
-    public void pause(){
+    public void pause() {
         binding.animationVoice.setVisibility(View.GONE);
         binding.questionProgress.setProgress(0);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         isCallSTT = false;
         isCallTTS = false;
         if (!isAnswered)
-            isNewQuestionGenerated=false;
+            isNewQuestionGenerated = false;
     }
 
     private void setQuestion() throws InterruptedException {
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
-        isAnswered=false;
+        isAnswered = false;
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivity.this, R.color.green));
         if (isCallTTS) {
-            int maxVal=20;
-            int minVal=2;
-            if (digit.equals("2")){
-                maxVal=99;
-                minVal=10;
+            int maxVal = 20;
+            int minVal = 2;
+            if (digit.equals("2")) {
+                maxVal = 99;
+                minVal = 10;
             }
 
-            if (digit.equals("3")){
-                maxVal=999;
-                minVal=100;
+            if (digit.equals("3")) {
+                maxVal = 999;
+                minVal = 100;
 
             }
-            if (digit.equals("4")){
-                maxVal=9999;
-                minVal=1000;
+            if (digit.equals("4")) {
+                maxVal = 9999;
+                minVal = 1000;
 
             }
-            if (digit.equals("5")){
-                maxVal=99999;
-                minVal=10000;
+            if (digit.equals("5")) {
+                maxVal = 99999;
+                minVal = 10000;
 
             }
-            if (isNewQuestionGenerated){
-                if (digit.equals("1")){
+            if (isNewQuestionGenerated) {
+                if (digit.equals("1")) {
                     currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
                     currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-                }
-                else{
-                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
+                } else {
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
+                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
                 }
 
-                if (subject.equals("subtraction")){
-                    if (currentNum1<currentNum2){
-                        int temp=currentNum1;
-                        currentNum1=currentNum2;
-                        currentNum2=temp;
+                if (subject.equals("subtraction")) {
+                    if (currentNum1 < currentNum2) {
+                        int temp = currentNum1;
+                        currentNum1 = currentNum2;
+                        currentNum2 = temp;
                     }
                 }
-                if (subject.equals("division")){
-                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                    currentNum2=UtilityFunctions.getRandomIntegerUpto(9,2);
-                    while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
-                        currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
+                if (subject.equals("division")) {
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
+                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(9, 2);
+                    while (!UtilityFunctions.isDivisible(currentNum1, currentNum2)) {
+                        currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
                     }
                 }
 
-            if (subject.equals("multiplication")) {
-                currentNum1 = Integer.parseInt(digit);
+                if (subject.equals("multiplication")) {
+                    currentNum1 = Integer.parseInt(digit);
 
-                currentNum2 = UtilityFunctions.getRandomNumber(1);
-                while (true){
-                    if (numberList.contains(currentNum2)){
-                    currentNum2=UtilityFunctions.getRandomIntegerUpto(11,1);
-                    Log.i("CurrentNumber",currentNum2+"");
-                    }else{
-                        numberList.add(currentNum2);
-                        break;}
+                    currentNum2 = UtilityFunctions.getRandomNumber(1);
+                    while (true) {
+                        if (numberList.contains(currentNum2)) {
+                            currentNum2 = UtilityFunctions.getRandomIntegerUpto(11, 1);
+                            Log.i("CurrentNumber", currentNum2 + "");
+                        } else {
+                            numberList.add(currentNum2);
+                            break;
+                        }
 
+                    }
                 }
-            }
 
             }
 
 
-            logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
+            logs += "Question :" + currentNum1 + binding.operator.getText() + "" + currentNum2 + "=?\n";
             digit1Text.setText(currentNum1 + "");
             binding.digitTwo.setText(currentNum2 + "");
             binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
@@ -582,8 +572,8 @@ public class AdditionActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        isCallTTS=false;
-        isCallSTT=false;
+        isCallTTS = false;
+        isCallSTT = false;
         binding.animWoman.cancelAnimation();
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
@@ -599,7 +589,7 @@ public class AdditionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        isCallTTS=true;
+        isCallTTS = true;
         initSTT();
         initTTS();
     }

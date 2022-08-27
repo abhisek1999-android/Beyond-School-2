@@ -1,11 +1,5 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,15 +8,17 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -34,7 +30,6 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityLearningBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
-import com.maths.beyond_school_280720220930.dialogs.VideoDialog;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -58,35 +53,36 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private int correctAnswer = 0;
     private int wrongAnswer = 0;
     private final int MAX_QUESTION = 10;
-    private int DELAY_ON_STARTING_STT=500;
-    private int DELAY_ON_SETTING_QUESTION=3000;
+    private int DELAY_ON_STARTING_STT = 500;
+    private int DELAY_ON_SETTING_QUESTION = 3000;
     private TextToSpeckConverter tts;
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
     private Boolean isNewQuestionGenerated = true;
     private Boolean isAnswered = false;
-    private boolean isAnsByTyping=false;
+    private boolean isAnsByTyping = false;
     private Toolbar toolbar;
     Animation myFadeInAnimation;
-    private String subject="";
-    private String selectedSub="";
-    private String digit="";
-    private String videoUrl="";
-    private String api_key="";
+    private String subject = "";
+    private String selectedSub = "";
+    private String digit = "";
+    private String videoUrl = "";
+    private String api_key = "";
     private LogDatabase logDatabase;
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
     private long startTime = 0, endTime = 0;
     private String logs = "";
-    int currentNum1=0 ;
-    int currentNum2=0;
+    int currentNum1 = 0;
+    int currentNum2 = 0;
     private TextView digit1Text;
     private YouTubePlayer.PlaybackEventListener playbackEventListener;
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
     private MediaPlayer mediaPlayer = null;
-    private int attempt=3;
+    private int attempt = 3;
     private YouTubePlayerView ytPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,21 +93,17 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
-        subject=getIntent().getStringExtra("subject");
-        digit=getIntent().getStringExtra("max_digit");
-        videoUrl=getIntent().getStringExtra("video_url");
-        selectedSub=getIntent().getStringExtra("selected_sub");
-        api_key=getResources().getString(R.string.youtube_api);
+        subject = getIntent().getStringExtra("subject");
+        digit = getIntent().getStringExtra("max_digit");
+        videoUrl = getIntent().getStringExtra("video_url");
+        selectedSub = getIntent().getStringExtra("selected_sub");
+        api_key = getResources().getString(R.string.youtube_api);
 
 
+        ytPlayer = findViewById(R.id.videoView);
 
-
-        ytPlayer=findViewById(R.id.videoView);
-
-        Log.i("digit",digit);
-        Log.i("url",videoUrl);
-
-
+        Log.i("digit", digit);
+        Log.i("url", videoUrl);
 
 
         initTTS();
@@ -120,23 +112,23 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         setBasicUiElement();
 
         initMediaPlayer();
-       // initYouTube();
-        binding.toolBar.imageViewBack.setOnClickListener(v->{
+        // initYouTube();
+        binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
 
         initProcess();
 
 
-
-
     }
+
     private void initMediaPlayer() {
         mediaPlayer = UtilityFunctions.playClapSound(this);
     }
+
     private void initYouTube() {
 
-        ytPlayer.initialize(api_key,this);
+        ytPlayer.initialize(api_key, this);
         playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
             @Override
             public void onLoading() {
@@ -202,10 +194,11 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        try{
-        tts.initialize(" ",LearningActivity.this);
+        try {
+            tts.initialize(" ", LearningActivity.this);
             tts.shutdown();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
     }
 
@@ -216,13 +209,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         hintDialog.setAlertTitle("HINT");
         hintDialog.setAlertDesciption(answer);
 
-        hintDialog.setOnActionListener(viewId->{
+        hintDialog.setOnActionListener(viewId -> {
 
-            switch (viewId.getId()){
+            switch (viewId.getId()) {
 
                 case R.id.closeButton:
                     hintDialog.dismiss();
-                    isCallTTS=true;
+                    isCallTTS = true;
                     break;
 
 
@@ -235,7 +228,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
     private void setToolbar() {
 
-       binding.toolBar.imageViewBack.setImageDrawable(getDrawable(R.drawable.ic_baseline_arrow_back_24));
+        binding.toolBar.imageViewBack.setImageDrawable(getDrawable(R.drawable.ic_baseline_arrow_back_24));
 
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
@@ -252,7 +245,6 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         });
 
 
-
     }
 
 
@@ -261,81 +253,79 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         UtilityFunctions.unMuteAudioStream(LearningActivity.this);
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(LearningActivity.this, R.color.green));
 
-        isAnswered=false;
+        isAnswered = false;
 
-        if (isCallTTS){
-            int maxVal=20;
-            int minVal=2;
-            if (digit.equals("2")){
-                maxVal=99;
-                minVal=10;
+        if (isCallTTS) {
+            int maxVal = 20;
+            int minVal = 2;
+            if (digit.equals("2")) {
+                maxVal = 99;
+                minVal = 10;
             }
 
-            if (digit.equals("3")){
-                maxVal=999;
-                minVal=100;
+            if (digit.equals("3")) {
+                maxVal = 999;
+                minVal = 100;
 
             }
-            if (digit.equals("4")){
-                maxVal=9999;
-                minVal=1000;
+            if (digit.equals("4")) {
+                maxVal = 9999;
+                minVal = 1000;
 
             }
 
 
-            if (isNewQuestionGenerated){
-                if (digit.equals("1")){
+            if (isNewQuestionGenerated) {
+                if (digit.equals("1")) {
                     currentNum1 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
                     currentNum2 = UtilityFunctions.getRandomNumber(Integer.parseInt(digit.trim()));
-                }
-                else{
-                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                }
-
-                if (subject.equals("subtraction")){
-                    if (currentNum1<currentNum2){
-                        int temp=currentNum1;
-                        currentNum1=currentNum2;
-                        currentNum2=temp;
-                    }
-                }
-                if (subject.equals("division")){
-                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                    currentNum2=UtilityFunctions.getRandomIntegerUpto(9,2);
-                    while (!UtilityFunctions.isDivisible(currentNum1,currentNum2)){
-                        currentNum1=UtilityFunctions.getRandomIntegerUpto(maxVal,minVal);
-                    }
+                } else {
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
+                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
                 }
 
-            if (subject.equals("multiplication"))
-            {
-                currentNum1=Integer.parseInt(digit);
-                currentNum2=currentQuestion;
-            }}
-            logs+="Question :"+currentNum1+binding.operator.getText()+""+currentNum2+"=?\n";
-            digit1Text.setText(currentNum1+"");
-            binding.digitTwo.setText(currentNum2+"");
-            binding.progress.setText(currentQuestion+"/ "+MAX_QUESTION);
+                if (subject.equals("subtraction")) {
+                    if (currentNum1 < currentNum2) {
+                        int temp = currentNum1;
+                        currentNum1 = currentNum2;
+                        currentNum2 = temp;
+                    }
+                }
+                if (subject.equals("division")) {
+                    currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
+                    currentNum2 = UtilityFunctions.getRandomIntegerUpto(9, 2);
+                    while (!UtilityFunctions.isDivisible(currentNum1, currentNum2)) {
+                        currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
+                    }
+                }
+
+                if (subject.equals("multiplication")) {
+                    currentNum1 = Integer.parseInt(digit);
+                    currentNum2 = currentQuestion;
+                }
+            }
+            logs += "Question :" + currentNum1 + binding.operator.getText() + "" + currentNum2 + "=?\n";
+            digit1Text.setText(currentNum1 + "");
+            binding.digitTwo.setText(currentNum2 + "");
+            binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
             binding.ansTextView.setText("?");
-            currentAnswer = MathsHelper.getMathResult(subject,currentNum1,currentNum2);
+            currentAnswer = MathsHelper.getMathResult(subject, currentNum1, currentNum2);
 
 
             isCallSTT = true;
-            tts.initialize(MathsHelper.getMathQuestion(subject,currentNum1,currentNum2), this);
+            tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
             binding.animWoman.playAnimation();
-            isNewQuestionGenerated=true;
+            isNewQuestionGenerated = true;
         }
 
 
     }
 
 
-
-    private void play(){
+    private void play() {
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         binding.playPause.setChecked(true);
-        isCallTTS=true;
+        isCallTTS = true;
         try {
             setQuestion();
         } catch (InterruptedException e) {
@@ -344,35 +334,34 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
     }
 
-    private void pause(){
+    private void pause() {
         binding.animationVoice.setVisibility(View.GONE);
         binding.questionProgress.setProgress(0);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
 
         binding.animWoman.pauseAnimation();
-        isCallSTT=false;
-        isCallTTS=false;
+        isCallSTT = false;
+        isCallTTS = false;
         if (!isAnswered)
-        isNewQuestionGenerated=false;
+            isNewQuestionGenerated = false;
     }
 
     private void setButtonClick() {
         binding.playPause.setOnClickListener(v -> {
             if (binding.playPause.isChecked()) {
-              //  binding.hintButton.setVisibility(View.VISIBLE);
+                //  binding.hintButton.setVisibility(View.VISIBLE);
                 play();
-            }
-            else {
-              pause();
+            } else {
+                pause();
             }
         });
     }
 
     private void setBasicUiElement() {
 
-       // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
         binding.toolBar.titleText.setText(selectedSub);
-       // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
+        // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
 
         binding.ansTextView.setOnEditorActionListener(editorActionListener);
 
@@ -387,6 +376,9 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                     binding.indicator.clearAnimation();
                     pause();
                     stt.destroy();
+                    UtilityFunctions.runOnUiThread(() -> {
+                        binding.ansTextView.setText("");
+                    }, 100);
                 } else {
                     //lost focus
                 }
@@ -394,35 +386,26 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         });
 
 
-        if (subject.equals("addition")){
+        if (subject.equals("addition")) {
             binding.operator.setText("+");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
 
-            digit1Text=binding.digitOneH;
+            digit1Text = binding.digitOneH;
 
-        }
-
-
-        else if (subject.equals("subtraction")){
+        } else if (subject.equals("subtraction")) {
             binding.operator.setText("-");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
-            digit1Text=binding.digitOneH;
-        }
-
-
-        else if (subject.equals("multiplication")){
+            digit1Text = binding.digitOneH;
+        } else if (subject.equals("multiplication")) {
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
-            digit1Text=binding.digitOne;
+            digit1Text = binding.digitOne;
 
-        }
-
-
-        else if (subject.equals("division")){
+        } else if (subject.equals("division")) {
             binding.operator.setText("÷");
-            digit1Text=binding.digitOne;
+            digit1Text = binding.digitOne;
         }
 
 //        binding.learnOrTest.setOnClickListener(v->{
@@ -433,28 +416,27 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 //        });
 
 
-
-        binding.hintButton.setOnClickListener(v->{
+        binding.hintButton.setOnClickListener(v -> {
             pause();
             binding.playPause.setChecked(false);
-           displayHintDialog("The answer is "+currentAnswer);
+            displayHintDialog("The answer is " + currentAnswer);
         });
 
         binding.playVideoLayout.setOnClickListener(view -> {
 
             if (!subject.equals("multiplication"))
-            displayVideoDialog();
+                displayVideoDialog();
 
 
         });
 
 
-        binding.giveTestButton.setOnClickListener(v->{
-            Intent intent =new Intent(getApplicationContext(), AdditionActivity.class);
-            intent.putExtra("subject",subject);
+        binding.giveTestButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), AdditionActivity.class);
+            intent.putExtra("subject", subject);
             intent.putExtra("max_digit", digit);
-            intent.putExtra("video_url",videoUrl);
-            intent.putExtra("selected_sub",selectedSub);
+            intent.putExtra("video_url", videoUrl);
+            intent.putExtra("selected_sub", selectedSub);
             startActivity(intent);
             finish();
         });
@@ -464,17 +446,16 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             binding.playVideoLayout.setVisibility(View.INVISIBLE);
 
 
-
     }
 
     private void displayVideoDialog() {
-        final AlertDialog.Builder alert=new AlertDialog.Builder(LearningActivity.this);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(LearningActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.video_dialog, null);
 
 
-         ytPlayer=mView.findViewById(R.id.videoView);
-        ImageView closeButton=  mView.findViewById(R.id.closeButton);
-         initYouTube();
+        ytPlayer = mView.findViewById(R.id.videoView);
+        ImageView closeButton = mView.findViewById(R.id.closeButton);
+        initYouTube();
 
 //        ytPlayer.initialize(
 //                api_key,
@@ -511,16 +492,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        try{
+        try {
             alertDialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
-        closeButton.setOnClickListener(v->alertDialog.dismiss());
-
-
-
+        closeButton.setOnClickListener(v -> alertDialog.dismiss());
 
 
     }
@@ -529,10 +507,10 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("digit",digit);
-        outState.putString("video_url",videoUrl);
-        outState.putString("subject",subject);
-        outState.putString("selected_sub",selectedSub);
+        outState.putString("digit", digit);
+        outState.putString("video_url", videoUrl);
+        outState.putString("subject", subject);
+        outState.putString("selected_sub", selectedSub);
     }
 
     @Override
@@ -540,10 +518,10 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         super.onRestoreInstanceState(savedInstanceState);
 
 
-        digit=savedInstanceState.getString("digit");
-        videoUrl=savedInstanceState.getString("videoUrl");
-        subject=savedInstanceState.getString("subject");
-        selectedSub=savedInstanceState.getString("selected_sub");
+        digit = savedInstanceState.getString("digit");
+        videoUrl = savedInstanceState.getString("videoUrl");
+        subject = savedInstanceState.getString("subject");
+        selectedSub = savedInstanceState.getString("selected_sub");
     }
 
 
@@ -558,15 +536,15 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
 
                 if (isCallSTT && isCallTTS) {
-                    Log.i("inSideTTS","InitSST");
+                    Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
 
-                      //  speakAnswer();
-                        startTime=new Date().getTime();
+                        //  speakAnswer();
+                        startTime = new Date().getTime();
                         UtilityFunctions.muteAudioStream(LearningActivity.this);
 
-                        isCallSTT=false;
-                        isAnsByTyping=false;
+                        isCallSTT = false;
+                        isAnsByTyping = false;
                         binding.animWoman.cancelAnimation();
                         stt.initialize("", LearningActivity.this);
                         binding.animationVoice.setVisibility(View.VISIBLE);
@@ -595,14 +573,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     }
 
 
-
     //TODO: Must be turn on
-    private void initProcess(){
+    private void initProcess() {
 
-        tts.initialize("Lets learn " + selectedSub.split("\\(")[0]+" , you can speak and write answer in the answer box", LearningActivity.this);
+        tts.initialize("Lets learn " + selectedSub.split("\\(")[0] + " , you can speak and write answer in the answer box", LearningActivity.this);
 
-        UtilityFunctions.runOnUiThread(()->play(),2000);
-       // play();
+        UtilityFunctions.runOnUiThread(() -> play(), 2000);
+        // play();
 
     }
 
@@ -611,9 +588,9 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
      * Answer will be check here
      */
 
-    private TextView.OnEditorActionListener editorActionListener= (textView, i, keyEvent) -> {
+    private TextView.OnEditorActionListener editorActionListener = (textView, i, keyEvent) -> {
 
-        switch (i){
+        switch (i) {
             case EditorInfo.IME_ACTION_DONE:
                 if (!binding.digitTwo.getText().toString().equals("?")) {
                     isCallTTS = true;
@@ -629,15 +606,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     };
 
 
-
-
     private void initSTT() {
         stt = SpeechToTextBuilder.builder(new ConversionCallback() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
 
-                Log.i(TAG,"On Succcess"+result);
+                Log.i(TAG, "On Succcess" + result);
                 successResultCalling(result);
             }
 
@@ -650,26 +625,27 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
             @Override
             public void getLogResult(String title) {
-                Log.i("INLOG",title);
+                Log.i("INLOG", title);
                 ConversionCallback.super.getLogResult(title);
-                logs+=title+"\n";
+                logs += title + "\n";
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void getStringResult(String title) throws JSONException {
                 ConversionCallback.super.getStringResult(title);
-                Log.i("SoundXCalled",title+",title: "+Soundex.getCode(title)+", ans:"+Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
-                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))){
-                    successResultCalling(currentAnswer+"");
-                }else{
+                Log.i("SoundXCalled", title + ",title: " + Soundex.getCode(title) + ", ans:" + Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))) {
+                    successResultCalling(currentAnswer + "");
+                } else {
                     // Changes
-                    try{
-                        UtilityFunctions.runOnUiThread(()->{
+                    try {
+                        UtilityFunctions.runOnUiThread(() -> {
                             isCallSTT = true;
                             tts.initialize("", LearningActivity.this);
-                        },250);}catch (Exception e){
-                        Log.i(TAG,"Inside String res");
+                        }, 250);
+                    } catch (Exception e) {
+                        Log.i(TAG, "Inside String res");
                         pause();
                     }
                 }
@@ -680,26 +656,24 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             @Override
             public void onErrorOccurred(String errorMessage) {
 
-                Log.i(TAG, "Inside err"+errorMessage);
-                    if (errorMessage.equals("No match")) {
-                        try {
-                            UtilityFunctions.runOnUiThread(() -> {
-                                isCallSTT = true;
-                                tts.initialize("", LearningActivity.this);
-                            }, 250);
+                Log.i(TAG, "Inside err" + errorMessage);
+                if (errorMessage.equals("No match")) {
+                    try {
+                        UtilityFunctions.runOnUiThread(() -> {
+                            isCallSTT = true;
+                            tts.initialize("", LearningActivity.this);
+                        }, 250);
 
-                        } catch (Exception e) {
-                            Log.i(TAG, "Inside err");
-                            pause();
-                        }
-                    } else {
-
-                        Log.i(TAG, "InsideErrElse" + errorMessage+isCallSTT+isCallTTS+isAnsByTyping);
-                       // binding.playPause.setChecked(false);
-                        //pause();
+                    } catch (Exception e) {
+                        Log.i(TAG, "Inside err");
+                        pause();
                     }
+                } else {
 
-
+                    Log.i(TAG, "InsideErrElse" + errorMessage + isCallSTT + isCallTTS + isAnsByTyping);
+                    // binding.playPause.setChecked(false);
+                    //pause();
+                }
 
 
             }
@@ -708,12 +682,12 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void justifyAns(String result){
+    private void justifyAns(String result) {
         binding.indicator.setVisibility(View.INVISIBLE);
         binding.indicator.clearAnimation();
 
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(LearningActivity.this, R.color.green));
-        isAnswered=true;
+        isAnswered = true;
         try {
             UtilityFunctions.unMuteAudioStream(LearningActivity.this);
         } catch (InterruptedException e) {
@@ -722,24 +696,24 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         //stt.stop();
         binding.ansTextView.setText(result);
         isCallSTT = false;
-        Boolean lcsResult=new UtilityFunctions().matchingSeq(result.trim(),currentAnswer+"");
+        Boolean lcsResult = new UtilityFunctions().matchingSeq(result.trim(), currentAnswer + "");
 
 
-        endTime=new Date().getTime();
+        endTime = new Date().getTime();
         binding.animWoman.playAnimation();
         if (lcsResult) {
             tts.initialize(UtilityFunctions.getCompliment(true), LearningActivity.this);
             mediaPlayer.start();
             //TODO: PLACE CORRECT KIDS DATA
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, true, (int) (endTime-startTime),
-                    currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-            logs+="Tag: Correct\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
-            DELAY_ON_STARTING_STT=500;
+                    "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, true, (int) (endTime - startTime),
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+            logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
+            DELAY_ON_STARTING_STT = 500;
 
-            DELAY_ON_SETTING_QUESTION=2000;
+            DELAY_ON_SETTING_QUESTION = 2000;
             correctAnswer++;
-            attempt=3;
+            attempt = 3;
 
             setNewQuestion();
 
@@ -747,26 +721,27 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
             binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(LearningActivity.this, R.color.red));
 
-            if (attempt>0){
+            if (attempt > 0) {
                 binding.indicator.setVisibility(View.VISIBLE);
                 binding.indicator.setAnimation(myFadeInAnimation);
                 attempt--;
-                isCallSTT=true;
+                isCallSTT = true;
                 tts.initialize(UtilityFunctions.getCompliment(false), LearningActivity.this);
-            }else{
+            } else {
                 //TODO: PLACE CORRECT KIDS DATA
                 tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
                 UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                        "Mathematics-Practice-"+ subject, 22,currentAnswer+"", result, false, (int) (endTime-startTime),
-                        currentNum1+""+binding.operator.getText()+""+currentNum2+"=?","maths");
-                logs+="Tag: Wrong\n" +"Time Taken: "+UtilityFunctions.formatTime(endTime-startTime)+"\n";
-                DELAY_ON_STARTING_STT=1800;
-                DELAY_ON_SETTING_QUESTION=3000;
+                        "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, false, (int) (endTime - startTime),
+                        currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+                logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
+                DELAY_ON_STARTING_STT = 1800;
+                DELAY_ON_SETTING_QUESTION = 3000;
                 wrongAnswer++;
-                attempt=3;
-                isCallTTS=true;
+                attempt = 3;
+                isCallTTS = true;
                 setNewQuestion();
-            }}
+            }
+        }
 
     }
 
@@ -775,7 +750,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         Log.d(TAG, "onSuccess: " + result);
 
-       justifyAns(result);
+        justifyAns(result);
 
     }
 
@@ -799,21 +774,20 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("OnStop","OnStop");
+        Log.i("OnStop", "OnStop");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         pause();
-        Log.i("OnPause","OnPause");
+        Log.i("OnPause", "OnPause");
         tts.destroy();
         stt.destroy();
-        try
-        {
+        try {
             tts.shutdown();
-            tts.initialize(" ",LearningActivity.this);
-        }catch (Exception e){
+            tts.initialize(" ", LearningActivity.this);
+        } catch (Exception e) {
 
 
         }
@@ -829,21 +803,22 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     @Override
     protected void onResume() {
         super.onResume();
-        isCallTTS=true;
+        isCallTTS = true;
         initSTT();
         initTTS();
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         tts.destroy();
         stt.destroy();
-        try{
-        UtilityFunctions.unMuteAudioStream(LearningActivity.this);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
+        try {
+            UtilityFunctions.unMuteAudioStream(LearningActivity.this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -861,7 +836,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
         youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
-        if(!b){
+        if (!b) {
             //youTubePlayer.cueVideo("EaXUuwz_caU"); //Start NO automatically the video
             youTubePlayer.loadVideo(videoUrl.split("/")[3]);//Execute a playlist
         }
