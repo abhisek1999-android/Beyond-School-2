@@ -252,7 +252,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         UtilityFunctions.unMuteAudioStream(LearningActivity.this);
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(LearningActivity.this, R.color.green));
-
+        binding.ansTextView.setEnabled(true);
         isAnswered = false;
 
         if (isCallTTS) {
@@ -364,6 +364,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
 
         binding.ansTextView.setOnEditorActionListener(editorActionListener);
+        binding.ansTextView.setEnabled(false);
 
         myFadeInAnimation = AnimationUtils.loadAnimation(LearningActivity.this, R.anim.blink);
 
