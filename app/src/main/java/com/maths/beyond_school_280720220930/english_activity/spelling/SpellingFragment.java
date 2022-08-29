@@ -54,8 +54,9 @@ public class SpellingFragment extends Fragment {
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         });
+//        binding.otpViewWord.
 
-
+        
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(pos),

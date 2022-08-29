@@ -121,6 +121,14 @@ public final class UtilityFunctions {
         return sb.toString();
     }
 
+    public static String addSpaceAnswer(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i)).append(" ");
+        }
+        return sb.toString();
+    }
+
     public enum VocabularyCategories {
         bathroom, body_parts, colors, animals, fruits,
         vegetables, cloth, feeling, insect, kitchen,
@@ -140,6 +148,19 @@ public final class UtilityFunctions {
                 getRandomItem(new String[]{"That’s incorrect ! ", "you can try again ! ", "That’s not correct !", "let’s try again !"});
 
     }
+
+    public static String convertCardinalNumberToOrdinalNumber(int number) {
+        String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th"};
+        switch (number % 100) {
+            case 11:
+            case 12:
+            case 13:
+                return number + "th";
+            default:
+                return number + suffixes[number % 10];
+        }
+    }
+
 
     public static String getQuestionTitleVocabulary(VocabularyCategories categories) {
         switch (categories) {
