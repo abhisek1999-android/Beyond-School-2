@@ -29,11 +29,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
                     android:background="@drawable/background_round"
                     android:backgroundTint="@color/sweet_red"
                     android:padding="@dimen/grid_0_5"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
+
                     android:src="@drawable/ic_baseline_close_24"
                     app:tint="@color/white" />
 
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:fillViewport="true"
 
-                android:padding="20sp"
+                android:padding="10sp"
                 >
 
                 <LinearLayout
@@ -82,6 +83,7 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/lock_animation"
 
+                    android:visibility="gone"
                     tools:ignore="MissingConstraints" />
 
                 <LinearLayout
@@ -93,7 +95,7 @@
 
                     <TextView
                         android:backgroundTint="@color/light_gray"
-                        android:padding="@dimen/grid_10"
+                        android:padding="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/ansTextView"
@@ -105,7 +107,7 @@
                         />
 
                     <Button
-                        android:visibility="gone"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/buttonAction"
@@ -113,6 +115,10 @@
                         android:backgroundTint="@color/red"
                         android:layout_marginTop="@dimen/grid_10"
                         android:text="DELETE"
+                        android:textSize="@dimen/default_font_size_small"
+                        android:padding="@dimen/grid_10"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:textColor="@color/white"
                         />
 
                 </LinearLayout>

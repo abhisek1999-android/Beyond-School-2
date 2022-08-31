@@ -32,7 +32,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
     }
 
     private static final String TAG = TextToSpeckConverter.class.getSimpleName();
-    private TextToSpeech textToSpeech;
+    public TextToSpeech textToSpeech;
 
     @Override
     public TextToSpeckConverter initialize(String message, Activity appContext) {

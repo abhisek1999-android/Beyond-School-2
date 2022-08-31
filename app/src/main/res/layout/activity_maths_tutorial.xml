@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/boardLayout"
-            android:visibility="invisible"
             android:orientation="vertical">
 
 
@@ -28,8 +27,9 @@
                 android:id="@+id/questionView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="0dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -125,16 +125,6 @@
 
 
             </LinearLayout>
-
-            <View
-                android:id="@+id/separator"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/questionView"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="50dp"
-                android:background="@color/light_deep_grey" />
 
 
             <LinearLayout

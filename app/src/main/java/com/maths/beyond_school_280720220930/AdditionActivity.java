@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,7 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityAdditionBinding;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.subjects.MathsHelper;
@@ -37,6 +41,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AdditionActivity extends AppCompatActivity {
@@ -81,6 +90,13 @@ public class AdditionActivity extends AppCompatActivity {
     private String kidsId;
     private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
+    private ProgressDataBase progressDataBase;
+
+    private List<ProgressM> progressData;
+    private long timeSpend=0;
+    public static final int TIMER_VALUE = 15;
+    private boolean isTimerRunning=true;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +109,10 @@ public class AdditionActivity extends AppCompatActivity {
         ansList=new ArrayList();
         timeList=new ArrayList();
         numberList=new ArrayList<>();
+        progressData=new ArrayList<>();
+
+        progressDataBase=ProgressDataBase.getDbInstance(AdditionActivity.this);
+
         databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
         subject = getIntent().getStringExtra("subject");
@@ -117,9 +137,43 @@ public class AdditionActivity extends AppCompatActivity {
         initSTT();
         setButtonClick();
         setBasicUiElement();
+        checkProgressData();
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
+
+
+    }
+
+    private void checkProgressData() {
+        progressData=UtilityFunctions.checkProgressAvailable(progressDataBase,"Mathematics"+subject,selectedSub,new Date(),0,true);
+
+        if (progressData!=null){
+            timeSpend=progressData.get(0).time_spend;
+        }
+    }
+
+
+
+    private void timer(){
+        isTimerRunning=false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
+
+                        binding.timerProgress.setMax(15);
+                        binding.timerProgress.setProgress(Integer.parseInt((x+1)+""));
+                        binding.timeText.setText((x+1)+"");
+                        Log.i("task",x+"");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK","task")
+                ).subscribe();
 
 
     }
@@ -147,12 +201,11 @@ public class AdditionActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setBasicUiElement() {
 
+
+
         // binding.toolBar.titleText.setText("Learn "+ subject.substring(0, 1).toUpperCase() + subject.substring(1));
         binding.toolBar.titleText.setText(selectedSub);
         // binding.subSub.setText(digit+" Digit "+subject.substring(0, 1).toUpperCase() + subject.substring(1));
-
-
-
         binding.ansTextView.setOnEditorActionListener(editorActionListener);
         binding.ansTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -384,15 +437,18 @@ public class AdditionActivity extends AppCompatActivity {
             //null check req
             if (correctAnswer>=9)
             {
-                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,
+                        selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
                if (!subject.equals("multiplication"))
                 UtilityFunctions.updateDbUnlock(databaseGrade,kidsGrade,subject,selectedSub);
                else
+                   if (PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto))<Integer.parseInt(digit))
                    PrefConfig.writeIntInPref(getApplicationContext(),Integer.parseInt(digit),getResources().getString(R.string.multiplication_upto));
             }
 
             else
-            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId, selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId,
+                    selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
 
             resetViews();
         }
@@ -427,6 +483,7 @@ public class AdditionActivity extends AppCompatActivity {
         binding.playPause.setChecked(false);
         isCallSTT = false;
         isCallTTS = false;
+        gotoScoreCard();
         currentQuestion = 1;
         correctAnswer = 0;
         wrongAnswer = 0;
@@ -437,6 +494,18 @@ public class AdditionActivity extends AppCompatActivity {
         //  binding.textViewQuestion.setVisibility(View.GONE);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         binding.progress.setText("1/10");
+
+
+    }
+
+    private void gotoScoreCard() {
+
+        Intent intent=new Intent(getApplicationContext(),ScoreActivity.class);
+        intent.putExtra("wrongAns",wrongAnswer);
+        intent.putExtra("correctAns",correctAnswer);
+        intent.putExtra("chapter",selectedSub);
+
+        startActivity(intent);
     }
 
 
@@ -464,6 +533,10 @@ public class AdditionActivity extends AppCompatActivity {
     private void setButtonClick() {
         binding.playPause.setOnClickListener(v -> {
             if (binding.playPause.isChecked()) {
+
+                if (isTimerRunning)
+                    timer();
+
                 binding.correctText.setText("0");
                 binding.wrongText.setText("0");
                 binding.tapInfoTextView.setVisibility(View.INVISIBLE);
@@ -594,6 +667,9 @@ public class AdditionActivity extends AppCompatActivity {
         stt.stop();
 
         checkLogIsEnable();
+        UtilityFunctions.checkProgressAvailable(progressDataBase,"Mathematics"+subject,selectedSub,new Date(),
+                timeSpend+Integer.parseInt(binding.timeText.getText().toString()),false);
+
     }
 
     @Override

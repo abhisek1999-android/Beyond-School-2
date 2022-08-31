@@ -31,11 +31,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
                 android:layout_marginRight="10dp"
                 android:background="@drawable/background_fill"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                >
 
                 <ProgressBar
                     android:id="@+id/questionProgress"
@@ -43,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
-
+                    android:visibility="gone"
                     android:layout_weight="1"
                     android:progressDrawable="@drawable/custom_progress_bg" />
 
@@ -51,40 +50,8 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:fontFamily="@font/reemkufi_medium"
-                android:text="0/10"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="98dp"
-            android:fontFamily="@font/poppins"
-            android:text="Practice Table"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintVertical_bias="0.027" />
-
-        <ImageView
-            android:id="@+id/imageViewBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/background_round"
-            android:padding="5dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
         <com.google.android.material.card.MaterialCardView
@@ -139,16 +106,20 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            >
 
         <LinearLayout
             android:id="@+id/playVideoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/tv_shape"
             android:backgroundTint="@color/red"
             android:minHeight="@dimen/grid_0_5"
+            android:layout_centerVertical="true"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -171,6 +142,53 @@
                 />
 
         </LinearLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/accent">
+
+                <ProgressBar
+                    android:id="@+id/timerProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/roundbar"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timeText"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="-6dp"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Min"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
 
 
         <RelativeLayout

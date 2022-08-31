@@ -23,9 +23,14 @@ public interface ProgressDao {
     @Query("SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date ORDER BY timestamp DESC")
     List<ProgressDate> getSumOFData();
 
+    @Query("SELECT * FROM progressM WHERE chapter=:chapter")
+    List<ProgressM> isAvailable(String chapter);
 
     @Query("SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM progressM WHERE date=:date GROUP BY `table`")
     List<ProgressTableWise> getSumOFTableDataByDate(String date);
+
+    @Query("UPDATE progressM SET time_spend=:time WHERE chapter = :chapter")
+    void update(long time, String chapter);
 
     @Insert
     void insertNotes(ProgressM...progresses);

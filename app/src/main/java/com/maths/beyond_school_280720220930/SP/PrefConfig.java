@@ -37,6 +37,21 @@ public class PrefConfig {
         return values;
     }
 
+    public static void writeIntDInPref(Context context, int value, String LIST_KEY) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(LIST_KEY, value);
+        editor.apply();
+    }
+
+    public static int readIntDInPref(Context context, String LIST_KEY) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        int values = pref.getInt(LIST_KEY, 0);
+        return values;
+    }
+
     // function to write boolean in SharedPreferences
     public static void writeBooleanInPref(Context context, boolean value, String LIST_KEY) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

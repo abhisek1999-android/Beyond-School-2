@@ -32,7 +32,6 @@ public class MathsTutorialActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-
         initTTS();
         slideLeftAnim= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_in_left);
         slideRightAnim=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_in_right);

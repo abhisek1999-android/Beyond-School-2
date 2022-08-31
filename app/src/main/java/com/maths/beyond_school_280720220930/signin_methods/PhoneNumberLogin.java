@@ -33,6 +33,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
@@ -318,7 +319,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
-                                        var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                        var i = new Intent(getApplicationContext(), HomeScreen.class);
                                         startActivity(i);
                                         finish();
                                         break;
@@ -327,7 +328,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                     CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
-                                    var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                    var i = new Intent(getApplicationContext(), HomeScreen.class);
                                     startActivity(i);
                                     finish();
                                     break;

@@ -119,6 +119,58 @@
         </com.google.android.material.card.MaterialCardView>
 
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            >
+
+
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/primary">
+
+                <ProgressBar
+                    android:id="@+id/timerProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/roundbar"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timeText"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="-6dp"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Min"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/questionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,11 +187,11 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:paddingHorizontal="30sp"
                 android:paddingVertical="@dimen/grid_10"
-                android:text="1/10"
-                android:textStyle="bold"
+                android:text="-/-"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/ShowTable"

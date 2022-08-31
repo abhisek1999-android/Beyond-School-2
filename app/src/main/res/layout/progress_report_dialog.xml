@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/grid_10"
+    android:layout_margin="@dimen/grid_10"
+
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/grid_10"
+        android:id="@+id/headerLayout"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/reemkufi_medium"
+            android:padding="@dimen/grid_10"
+            android:text="Your Progress"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/default_font_size_big" />
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:src="@drawable/ic_chart"-->
+<!--            android:layout_margin="10dp"-->
+<!--            />-->
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/background_round"
+            android:backgroundTint="@color/sweet_red"
+            android:padding="@dimen/grid_0_5"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/headerLayout"
+        android:background="@color/light_deep_grey" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/progressRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="@dimen/grid_1_5"
+        android:paddingBottom="@dimen/grid_20"
+        android:layout_marginHorizontal="5dp" />
+</RelativeLayout>
+
+</androidx.cardview.widget.CardView>

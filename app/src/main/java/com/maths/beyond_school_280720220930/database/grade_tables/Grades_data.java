@@ -9,7 +9,15 @@ import java.util.ArrayList;
 @Entity(tableName = "grades")
 public class Grades_data {
 
-    public Grades_data(String subject,String chapter, boolean grade1,boolean grade2,boolean grade3,boolean unlock,String url) {
+    public boolean isIs_completed() {
+        return is_completed;
+    }
+
+    public void setIs_completed(boolean is_completed) {
+        this.is_completed = is_completed;
+    }
+
+    public Grades_data(String subject, String chapter, boolean grade1, boolean grade2, boolean grade3, boolean unlock, boolean is_completed, String url) {
         this.subject = subject;
         //this.subsubject = subsubject;
         this.chapter = chapter;
@@ -18,7 +26,10 @@ public class Grades_data {
         this.grade3 = grade3;
         this.url=url;
         this.unlock=unlock;
+        this.is_completed=is_completed;
     }
+
+
 
     @ColumnInfo(name="subject")
     public String subject;
@@ -46,6 +57,9 @@ public class Grades_data {
 
     @ColumnInfo(name = "unlock")
     public boolean unlock;
+
+    @ColumnInfo(name = "is_complete")
+    public boolean is_completed;
 
     @PrimaryKey(autoGenerate = true)
     public int  progress_id;

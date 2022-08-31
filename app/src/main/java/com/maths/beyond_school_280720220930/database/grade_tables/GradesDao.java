@@ -40,6 +40,9 @@ public interface GradesDao {
     @Query("UPDATE grades SET unlock=:is_lock WHERE chapter = :chapter")
     void update(boolean is_lock, String chapter);
 
+    @Query("UPDATE grades SET is_complete=:is_lock WHERE chapter = :chapter")
+    void updateIsComplete(boolean is_lock, String chapter);
+
     @Insert
     void insertNotes(Grades_data...progresses);
 
