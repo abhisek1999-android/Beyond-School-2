@@ -52,7 +52,6 @@
                 android:fontFamily="@font/reemkufi_medium"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toStartOf="@+id/animationVoice"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="She ran to" />

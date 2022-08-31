@@ -84,6 +84,9 @@ public class SpellingTest extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         setToolbar();
         setData();
+        binding.learnOrTest.setOnClickListener((c) -> {
+            onBackPressed();
+        });
     }
 
     private void setData() {
