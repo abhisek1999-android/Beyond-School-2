@@ -23,7 +23,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
+    <TextView
+        android:id="@+id/deleteProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:drawableLeft="@drawable/ic_baseline_delete_24"
+        android:drawableTint="@color/red"
+        android:layout_marginTop="@dimen/grid_10"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:elevation="60dp"
+        android:fontFamily="@font/reemkufi_medium"
+        android:padding="10dp"
+        android:layout_below="@id/toolBar"
+        android:text=""
+        android:textColor="@color/red"
+        app:tint="@color/white" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -215,27 +231,7 @@
 
                         android:textSize="@dimen/default_font_size" />
                 </com.google.android.material.textfield.TextInputLayout>
-                <TextView
-                    android:id="@+id/deleteProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                   android:layout_gravity="right"
 
-
-                    android:visibility="gone"
-                    android:drawableLeft="@drawable/ic_baseline_delete_24"
-                    android:drawableTint="@color/red"
-                    android:layout_marginTop="@dimen/grid_10"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-
-                    android:layout_marginRight="20dp"
-                    android:elevation="60dp"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:padding="10dp"
-                    android:text="Delete this Profile"
-                    android:textColor="@color/red"
-                    app:tint="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

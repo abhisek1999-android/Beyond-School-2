@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.airbnb.lottie.LottieAnimationView;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 
 public class HintDialog extends AlertDialog {
@@ -59,8 +62,15 @@ public class HintDialog extends AlertDialog {
         animationView.setVisibility(View.VISIBLE);
     }
 
-    public void actionButton(){
+    public void actionButton(String buttonText){
+
+
         actionButton.setVisibility(View.VISIBLE);
+        actionButton.setText(buttonText);
+    }
+   public void actionButtonBackgroundColor(int colorId){
+       actionButton.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), colorId));
+
     }
 
     public void setAlertTitle(String titleText) {

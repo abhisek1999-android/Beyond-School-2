@@ -30,6 +30,14 @@ public class ProgressM {
 
     @ColumnInfo(name="is_complete")
     public String   is_completed;
+    @ColumnInfo(name="time_spend")
+    public long   time_spend;
+
+    @ColumnInfo(name="subject")
+    public String  subject;
+
+    @ColumnInfo(name="chapter")
+    public String  chapter;
 
     @PrimaryKey(autoGenerate = true)
     public int  progress_id;

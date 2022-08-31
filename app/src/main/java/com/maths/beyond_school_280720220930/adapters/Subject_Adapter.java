@@ -72,7 +72,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         String[] res = val.split(" ");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 if (subject_model.isIs_locked()) {

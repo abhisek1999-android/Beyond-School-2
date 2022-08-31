@@ -20,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SplashScreen extends AppCompatActivity {
 
 
@@ -45,9 +48,12 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-        try{        startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
+        try{startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
 
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
 
+        if (PrefConfig.readIdInPref(SplashScreen.this,getResources().getString(R.string.alter_maths)).equals("")){
+            PrefConfig.writeIdInPref(SplashScreen.this,simpleDateFormat.format(new Date()),getResources().getString(R.string.alter_maths));}
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
@@ -92,7 +98,7 @@ public class SplashScreen extends AppCompatActivity {
             finish();
 
         } else {
-            startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
 //            startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
             finish();
         }

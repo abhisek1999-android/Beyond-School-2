@@ -48,6 +48,9 @@
             android:name=".english_activity.spelling.spelling_test.SpellingTest"
             android:exported="false" />
         <activity
+            android:name=".HomeScreen"
+            android:exported="false" />
+        <activity
             android:name=".MathsTutorialActivity"
             android:exported="false" />
         <activity

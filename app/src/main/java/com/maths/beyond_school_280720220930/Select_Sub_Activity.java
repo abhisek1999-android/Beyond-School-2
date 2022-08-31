@@ -81,6 +81,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private FirebaseUser mCurrentUser;
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     private FirebaseAnalytics mFirebaseAnalytics;
+    private String intentSubject="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +90,21 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         setContentView(binding.getRoot());
 
         checkAudioPermission();
+        try {
+            intentSubject=getIntent().getStringExtra("subSubject");
+        }catch (Exception e){
+            intentSubject="";
+        }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
         database = GradeDatabase.getDbInstance(this);
         drinkModels = new ArrayList<>();
+
+
+
+
 
         uiChnages();
         grade = new MutableLiveData<>();
@@ -101,7 +112,17 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         // add value to live data
         UtilityFunctions.runOnUiThread(() -> {
             grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
-            subSub.setValue(getResources().getString(R.string.mul));
+            try{
+                if (intentSubject.equals(""))
+                    subSub.setValue(getResources().getString(R.string.mul));
+                else
+                    subSub.setValue(intentSubject);
+
+            }catch (Exception e){
+
+                subSub.setValue(getResources().getString(R.string.mul));
+            }
+
         });
 
 
@@ -167,19 +188,21 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         toggle.syncState();
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        binding.toolBar.imageViewBack.setImageResource(R.drawable.ic_menu2);
+//        binding.toolBar.imageViewBack.setImageResource(R.drawable.ic_menu2);
         binding.navigationView.setNavigationItemSelectedListener(this);
         binding.toolBar.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //finish();
-                try {
-                    binding.drawerLayout.openDrawer(Gravity.LEFT);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(Select_Sub_Activity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
-                }
+                onBackPressed();
+                //finish();
+//                try {
+//                    binding.drawerLayout.openDrawer(Gravity.LEFT);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(Select_Sub_Activity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -206,7 +229,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         });
 
         binding.goatImage.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
+            startActivity(new Intent(getApplicationContext(),HomeScreen.class));
         });
 
         binding.tool.toolBar.imageView6.setOnClickListener(v -> {
@@ -284,10 +307,22 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 }
                 SpinnerModel model = drinkModels.get(position);
                 tvName.setText("Change Subjects");
+
+
+
+                try{
+
+                if (!intentSubject.equals(""))
                 subSub.setValue(
                         getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
-                                getResources().getString(R.string.mul) : getResources().getString(model.getName())
-                );
+                                intentSubject.toLowerCase(): getResources().getString(model.getName())
+                );}catch (Exception e){
+                    subSub.setValue(
+                            getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
+                                    getResources().getString(R.string.add)   : getResources().getString(model.getName())
+                    );
+                }
+
                 binding.subject.setText(name);
 
 //                if (subsub==R.string.mul){
@@ -466,11 +501,11 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+     super.onBackPressed();
+//        Intent a = new Intent(Intent.ACTION_MAIN);
+//        a.addCategory(Intent.CATEGORY_HOME);
+//        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(a);
     }
 
     @Override

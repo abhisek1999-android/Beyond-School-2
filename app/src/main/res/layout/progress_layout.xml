@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+
+    android:clickable="true"
+    app:cardCornerRadius="@dimen/grid_10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        >
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="@dimen/grid_10"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="#f0f0f0"
+            android:src="@drawable/ic_addition" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:layout_toEndOf="@id/image"
+        android:layout_marginLeft="5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subSubject"
+            android:layout_marginTop="@dimen/grid_10"
+            android:fontFamily="@font/reemkufi_medium"
+            android:textSize="@dimen/default_font_size"
+            android:layout_marginRight="@dimen/grid_10"
+            android:textStyle="bold"
+            android:text="Sub Subject"
+            />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/reemkufi_medium"
+            android:textSize="@dimen/default_font_size_small"
+            android:layout_marginRight="@dimen/grid_10"
+            android:text="You have mastered  10/10"
+            android:layout_marginBottom="5dp"
+
+            />
+
+        <ProgressBar
+            android:id="@+id/learningProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="@dimen/grid_10"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/grid_10"
+            android:progressDrawable="@drawable/custom_progress_bg" />
+
+    </LinearLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

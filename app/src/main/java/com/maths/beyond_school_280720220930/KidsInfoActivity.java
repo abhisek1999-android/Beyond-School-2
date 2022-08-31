@@ -137,6 +137,9 @@ public class KidsInfoActivity extends AppCompatActivity {
             selectImage();
         });
 
+        binding.kidsProfileImage.setOnClickListener(v->{
+            selectImage();
+        });
         binding.updateButton.setOnClickListener(v -> {
             uploadImage();
             customProgressDialogue.show();
@@ -184,7 +187,6 @@ public class KidsInfoActivity extends AppCompatActivity {
 
 
 
-
     }
 
     private void displayHintDialog() {
@@ -194,7 +196,7 @@ public class KidsInfoActivity extends AppCompatActivity {
         hintDialog.setAlertTitle("ALERT !");
         hintDialog.setAlertDesciption("Are you sure you want to delete this profile?");
 
-        hintDialog.actionButton();
+        hintDialog.actionButton("DELETE");
         hintDialog.setOnActionListener(viewId->{
 
             switch (viewId.getId()){
@@ -394,7 +396,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                             UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
                                     binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
                             customProgressDialogue.dismiss();
-                            Intent intent = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
                             intent.putExtra("age", binding.kidsAgeTextView.getText().toString());

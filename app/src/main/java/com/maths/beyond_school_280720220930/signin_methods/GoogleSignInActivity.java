@@ -24,11 +24,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.GradeActivity;
+import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.KidsInfoActivity;
 import com.maths.beyond_school_280720220930.LoginSignupActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.Select_Sub_Activity;
+
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
@@ -141,7 +141,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
                                         CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),GoogleSignInActivity.this,database);
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         Log.i("KidsData", kidsData.getName() + "");
-                                        var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                        var i = new Intent(getApplicationContext(), HomeScreen.class);
                                         startActivity(i);
                                         finish();
                                         break;
@@ -150,7 +150,7 @@ public class GoogleSignInActivity extends LoginSignupActivity {
                                     CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),GoogleSignInActivity.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
-                                    var i = new Intent(getApplicationContext(), Select_Sub_Activity.class);
+                                    var i = new Intent(getApplicationContext(), HomeScreen.class);
                                     startActivity(i);
                                     finish();
                                     break;

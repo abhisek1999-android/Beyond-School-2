@@ -182,6 +182,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
         recognizeVoice = new RecognizeVoice(Random_questions.this, this);
         readText = new ReadText(getApplicationContext(), Random_questions.this);
         counter = 0;
+
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.numbers2, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

@@ -33,8 +33,11 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -565,7 +568,7 @@ public final class UtilityFunctions {
 
     // Calculates the age of kids
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int calculateAge(String inputDate) {
+    public static int calculateAge(String inputDate) {
 
         LocalDate curDate = LocalDate.now();
         SimpleDateFormat as = new SimpleDateFormat("dd/mm/yyyy");
@@ -723,7 +726,9 @@ public final class UtilityFunctions {
     }
 
 
-    public static void updateDbUnlock(GradeDatabase database, String grade, String chapter, String subSub) {
+
+    // Function for unlocking
+    public static void updateDbUnlock(GradeDatabase database, String grade,String chapter,String subSub){
 
         List<Grades_data> dbData = new ArrayList<>();
         dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
@@ -732,11 +737,12 @@ public final class UtilityFunctions {
         for (int i = 0; i < dbData.size(); i++) {
             if (dbData.get(i).chapter.equals(subSub)) {
 
-                try {
-                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
-                    Log.i("DB_DATA", dbData.get(i + 1).chapter);
-                    break;
-                } catch (Exception e) {
+               try{
+                   database.gradesDao().updateIsComplete(true,dbData.get(i).chapter);
+                   database.gradesDao().update(true,dbData.get(i+1).chapter);
+                   Log.i("DB_DATA",dbData.get(i+1).chapter);
+                   break;
+               }catch (Exception e){
 
                     Log.i("DB_DATA_EXP", e.getMessage());
                     break;
@@ -744,10 +750,112 @@ public final class UtilityFunctions {
 
             }
 
+       }
+    }
+
+
+    // getting first false data
+    public static Grades_data getFirstFalseData(GradeDatabase database, String grade, String chapter){
+
+        List<Grades_data> dbData=new ArrayList<>();
+        dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%' AND is_complete=0 LIMIT 1"));
+        Log.i("CHAPTER",chapter);
+        Log.i("DB_DATA",dbData+"");
+        try {
+            return dbData.get(0);
+        }catch (Exception e){
+
+            return null;
+        }
+
+    }
+
+
+    public static List<Grades_data> gettingSubSubjectData(GradeDatabase database, String grade, String chapter,boolean is_all_needed){
+
+        List<Grades_data> dbData=new ArrayList<>();
+        if (is_all_needed)
+              dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%'"));
+        else
+              dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%' AND is_complete=1"));
+
+        Log.i("CHAPTER",chapter);
+        Log.i("DB_DATA",dbData+"");
+        try {
+            return dbData;
+        }catch (Exception e){
+
+            return null;
+        }
+
+    }
+
+
+    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed){
+
+        List<ProgressM> list=db.progressDao().isAvailable(chapter);
+
+        if (!is_data_needed){
+        if (list.size()>0){
+            updateProgressData(db,subject,chapter,time_spend);
+        }else{
+
+            addProgressData(db,subject,chapter,timeStamp,time_spend);
+        }}
+        return list;
+    }
+
+    public static void updateProgressData(ProgressDataBase db,String subject,String chapter,long time_spend) {
+
+        try{
+            db.progressDao().update(time_spend,chapter);
+
+        }catch (Exception e){e.printStackTrace();}
+
+    }
         }
 
 
+    public static void addProgressData(ProgressDataBase db,String subject,String chapter,Date timeStamp,long time_spend) {
+
+        try {
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss a");
+            long diff = date.getTime() - timeStamp.getTime();
+            ProgressM progressM = new ProgressM();
+            progressM.correct = 0;
+            progressM.time_to_complete = diff;
+            progressM.wrong = 0;
+            progressM.time = timeFormatter.format(date) + "";
+            progressM.is_completed = "Yes";
+            progressM.subject = subject;
+            progressM.chapter = chapter;
+            progressM.time_spend=time_spend;
+            progressM.date = formatter.format(date) + "";
+            progressM.timestamp = date.getTime();
+            db.progressDao().insertNotes(progressM);
+
+        } catch (Exception e) {
+
+        }
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static void displayCustomDialog(Context context, String title, String body) {
 
@@ -764,8 +872,6 @@ public final class UtilityFunctions {
                 case R.id.closeButton:
                     hintDialog.dismiss();
                     break;
-
-
             }
         });
 
