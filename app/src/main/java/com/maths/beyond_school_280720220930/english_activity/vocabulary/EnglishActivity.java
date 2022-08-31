@@ -22,10 +22,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
@@ -105,6 +106,18 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     private void setToolbar() {
         binding.toolBar.titleText.setText(getResources().getString(R.string.vocabulary));
         binding.toolBar.imageViewBack.setOnClickListener(view -> finish());
+        binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
+        binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
+
+            if (item.getItemId() == R.id.action_log) {
+                startActivity(new Intent(getApplicationContext(), LogActivity.class));
+
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+
+        });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

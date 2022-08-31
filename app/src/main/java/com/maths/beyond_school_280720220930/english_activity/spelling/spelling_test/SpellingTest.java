@@ -1,12 +1,14 @@
-package com.maths.beyond_school_280720220930.english_activity.spelling;
+package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
+import static com.maths.beyond_school_280720220930.utils.UtilityFunctions.capitalize;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,7 +21,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
@@ -29,8 +30,7 @@ import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDa
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingDetail;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
-import com.maths.beyond_school_280720220930.databinding.ActivityEnglishSpellingBinding;
-import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
+import com.maths.beyond_school_280720220930.databinding.ActivitySpellingTestBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -47,28 +47,29 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class EnglishSpellingActivity extends AppCompatActivity {
+public class SpellingTest extends AppCompatActivity {
 
-    private static final String TAG = EnglishSpellingActivity.class.getSimpleName();
-    private static final int MAX_TRY = 5 /* Giver u three chance */;
+
+    private static final String TAG = "SpellingTest";
+    private ActivitySpellingTestBinding binding;
+    private static final int MAX_TRY = 2 /* Giver u three chance */;
     private static final int DELAY_TIME = 800;
-    private final int REQUEST_FOR_DES = 345 * 34;
     private final int REQUEST_FOR_QUESTION = 345 * 35;
 
 
     private Boolean isSpeaking = false;
-    private Boolean isSayWordFinish = true;
     private int currentTryCount = 0;
 
-    private ActivityEnglishSpellingBinding binding;
     private UtilityFunctions.Spellings spellings = null;
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
     private SpeechToTextConverterSpelling stt = null;
     private MediaPlayer mediaPlayer = null;
     private LogDatabase logDatabase;
+
     private String logs = "";
     private long startTime = 0, endTime = 0;
+    private int correctCount = 0, wrongCount = 0;
     private StringBuilder currentWordBuilder = new StringBuilder();
     private SpellingDao dao;
     private List<SpellingDetail> spellingDetails;
@@ -78,13 +79,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEnglishSpellingBinding.inflate(getLayoutInflater());
+        binding = ActivitySpellingTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         logDatabase = LogDatabase.getDbInstance(this);
         setToolbar();
         setData();
     }
-
 
     private void setData() {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {
@@ -92,29 +92,25 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             dao = EnglishGradeDatabase.getDbInstance(this).spellingDao();
             setViews();
             buttonClick();
-            binding.giveTestButton.setOnClickListener((view) -> {
-                var intent = new Intent(this, SpellingTest.class);
-                intent.putExtra(EXTRA_SPELLING_DETAIL, spellings.name());
-                startActivity(intent);
-            });
         } else {
             UtilityFunctions.simpleToast(this, "No data found");
         }
     }
 
+
+    private void setViews() {
+        binding.subSub.setText(UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", "").trim());
+        setPager();
+    }
+
+
     private void buttonClick() {
         binding.playPause.setOnClickListener(view -> {
             isSpeaking = binding.playPause.isChecked();
+            logs += "Question : " + spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord() + " : " + spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription() + ". \n";
             startEngine();
         });
 
-    }
-
-    private void playPauseAnimation(Boolean play) {
-        if (play)
-            binding.imageViewTeacher.playAnimation();
-        else
-            binding.imageViewTeacher.pauseAnimation();
     }
 
     private void startEngine() {
@@ -124,7 +120,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                 intSTT();
                 initMediaPlayer();
                 startSpeaking();
-
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -133,13 +128,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         }
     }
 
-    private void setViews() {
-        binding.subSub.setText(UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", "").trim());
-        setPager();
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
     }
 
+
     private void setPager() {
-        Log.d(TAG, "setPager: " + UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", ""));
         var data = getSpellingFromType(dao.getSpellingModel(1).getSpelling(),
                 UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", "").trim());
 
@@ -155,57 +149,17 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                 getLifecycle()
         );
 
-        binding.viewPager.setAdapter(pagerAdapter);
-        binding.viewPager.setPageTransformer((page, position) -> {
-            updatePagerHeightForChild(page, binding.viewPager);
-        });
-        binding.viewPager.setUserInputEnabled(false);
-        try {
-            binding.playPause.setChecked(true);
-            isSpeaking = binding.playPause.isChecked();
-            initTTS();
-            intSTT();
-            initMediaPlayer();
-            playPauseAnimation(true);
-            helperTTS("Hi kids !! Let us, learn spelling of some"
-                            + UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", "")
-                    ,
-                    false
-                    , REQUEST_FOR_QUESTION);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        binding.viewPagerTest.setAdapter(pagerAdapter);
+        isSpeaking = binding.playPause.isChecked();
     }
 
-
-    private String getQuestion() {
-        return "The " + UtilityFunctions.
-                convertCardinalNumberToOrdinalNumber(binding.viewPager.getCurrentItem() + 1)
-                + " word is " +
-                (spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().equals("The")
-                        ? "'di'" :
-                        "'" + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord() + "'"
-                ) + ".\n\n"
-                + "We spell it as "
-                ;
-    }
-
-    private String getDescription() {
-        return spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription();
-    }
-
-    private String getSpellLetter() {
-        return "IT's your turn to spell the word " + (spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().equals("The")
-                ? "'di'" :
-                "'" + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()) + "' .";
-    }
 
     private List<Fragment> getFragments(SpellingCategoryModel data) {
         spellingDetails = data.getDetails();
         fragments = CollectionUtils.
                 mapWithIndex(
                         spellingDetails.stream(), (index, item) ->
-                                new SpellingFragment(item, index + 1)).collect(Collectors.toList()
+                                new SpellingTestFragment(item, index + 1)).collect(Collectors.toList()
                 );
         return fragments;
     }
@@ -219,24 +173,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         }
     }
 
-    private void updatePagerHeightForChild(View view, ViewPager2 pager) {
-        view.post(() -> {
-            {
-                var wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
-                var hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                view.measure(wMeasureSpec, hMeasureSpec);
-                var lp = pager.getLayoutParams();
-                lp.height = view.getMeasuredHeight();
-                pager.setLayoutParams(lp);
-                pager.invalidate();
-            }
-        });
-    }
-
-
-    private void initMediaPlayer() {
-        mediaPlayer = UtilityFunctions.playClapSound(this);
-    }
 
     private void initTTS() throws ExecutionException, InterruptedException {
         var task = new TTSAsyncTask();
@@ -244,16 +180,22 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             @Override
             public void onCompletion() {
                 UtilityFunctions.runOnUiThread(() -> {
-                    if (isSayWordFinish) {
-                        isSayWordFinish = false;
-                        var textView = (TextView) findViewById(R.id.text_view_word);
-                        textView.setTextColor(getResources().getColor(R.color.black));
-                        tts.setTextViewAndSentence(null);
+                    tts.setTextViewAndSentence(null);
+                    playPauseAnimation(false);
+                    var textView = (TextView) findViewById(R.id.text_view_part_1);
+                    var spellingDetail = spellingDetails.get(binding.viewPagerTest.getCurrentItem());
+                    var split = spellingDetail.getDescription().toLowerCase(Locale.ROOT).split(spellingDetail.getWord().toLowerCase(Locale.ROOT), 2);
 
-                        tts.initialize(getSpellLetter(),
-                                EnglishSpellingActivity.this);
-                    } else {
-                        startListening();
+                    textView.setText(Html.fromHtml(capitalize(split[0]) + " <font color='#64c1c7'>" +
+                            spellingDetail.getWord().replaceAll("[A-Za-z]", "_") + "</font> "
+                            + split[1]));
+                    try {
+                        helperTTS("Now Spell the word " + (spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord().equals("The")
+                                ? "'di'" :
+                                "'" + spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()) + "' .", false, REQUEST_FOR_QUESTION);
+                        playPauseAnimation(true);
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
                     }
                 });
             }
@@ -265,7 +207,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         }).get();
         tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
             UtilityFunctions.runOnUiThread(() -> {
-                var textView = (TextView) this.findViewById(R.id.text_view_word);
+                var textView = (TextView) this.findViewById(R.id.text_view_part_1);
                 if (textView != null) {
                     Spannable textWithHighlights = new SpannableString(sentence);
                     textWithHighlights.setSpan(new ForegroundColorSpan(
@@ -284,19 +226,23 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
-        UtilityFunctions.runOnUiThread(() -> playPauseAnimation(true));
-        helperTTS(getQuestion(), false, 3 * 45);
-//        ttsHelper.setTextViewAndSentence(UtilityFunctions.addComma(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()));
-//        Question
-        logs += "Question : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord() + " : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription() + ". \n";
+        tts.initialize(
+                spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription()
+                , SpellingTest.this);
+        var spellingDetail = spellingDetails.get(binding.viewPagerTest.getCurrentItem());
+        var split = spellingDetail.getDescription().toLowerCase(Locale.ROOT).split(spellingDetail.getWord().toLowerCase(Locale.ROOT), 2);
 
-//        Stop when reach ot last item
-        if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1))
+        var sentence = capitalize(split[0]) +
+                spellingDetail.getWord().replaceAll("[A-Z a-z]", "_") +
+                split[1];
+        tts.setTextViewAndSentence(sentence);
+        playPauseAnimation(true);
+        if (binding.viewPagerTest.getCurrentItem() == (spellingDetails.size() - 1))
             isSpeaking = false;
     }
 
 
-    //    TODO : STT is here
+    //
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
@@ -304,51 +250,70 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
+                var currentWord = spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
+                var currentWordArray = currentWord.toCharArray();
+                var split = result.replace(" ", "").toCharArray();
+
+                Log.d(TAG, "onSuccess: currentTryCount " + currentTryCount);
                 if (currentTryCount > MAX_TRY) {
                     try {
-                        helperTTS("No Problem. Let's go to next word ", true, 0);
                         currentTryCount = 0;
+                        currentWordPosition = 0;
+                        helperTTS("No problem ,We spell it as " + UtilityFunctions.addComma(
+                                spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()), true, 2 * 44);
+                        playPauseAnimation(true);
+                        currentWordBuilder = new StringBuilder();
                     } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
                     }
                     return;
                 }
-
                 endTime = new Date().getTime();
                 long diff = endTime - startTime;
-                var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
-                var currentWordArray = currentWord.toCharArray();
-                var split = result.replace(" ", "").toCharArray();
-                Log.d(TAG, "onSuccess: length " + split.length + " Current Word " + currentWordArray.length);
                 if (split.length != 0) {
                     if (split.length == 1) {
+                        logs += "Single Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + split[0] + "\n";
+                        Log.d(TAG, "onSuccess: currentWord " + currentWordPosition);
                         if (currentWordArray[currentWordPosition] == (split[0])) {
                             logs += "Single Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + split[0] + "\n";
                             currentWordBuilder.append(split[0]);
                             currentWordPosition++;
-                            ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView()
-                                    .setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                            var textView = ((SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem())).getTextView();
+                            textView.setText(Html.fromHtml(
+                                    textView.getText().toString()
+                                            .replaceFirst("_", "<font color='#64c1c7'>" + split[0] + "</font>")
+                            ));
                             try {
                                 if (currentWordPosition < currentWord.length())
                                     helperTTS("", false, 2 * 45);
                             } catch (ExecutionException | InterruptedException e) {
                                 e.printStackTrace();
                             }
+                        } else {
+                            try {
+                                currentTryCount++;
+                                Log.d(TAG, "onSuccess: count Called" + currentTryCount);
+                                helperTTS("", false, 2 * 45);
+                            } catch (ExecutionException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     } else {
-                        Log.d(TAG, "onSuccess: called");
                         try {
                             for (int i = 0; i < split.length; i++) {
                                 if (currentWordArray[0] == (split[0]))
                                     if (i < currentWordArray.length) //
                                         if (currentWordArray[i] == split[i]) {
                                             currentWordBuilder.append(split[i]);
+                                            var textView = ((SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem())).getTextView();
+                                            textView.setText(Html.fromHtml(
+                                                    textView.getText().toString()
+                                                            .replaceFirst("_", "<font color='#64c1c7'>" + split[i] + "</font>")
+                                            ));
                                             currentWordPosition++;
                                         }
+                                logs += "Multi Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + currentWordBuilder.toString() + "\n";
                             }
-                            var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                            currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
-                            Log.d(TAG, "onSuccess: called " + currentWordBuilder.toString());
                             if (currentWordPosition < currentWord.length())
                                 helperTTS("", false, 2 * 45);
                         } catch (ExecutionException | InterruptedException e) {
@@ -360,28 +325,35 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                             if (currentWordBuilder.toString().equals(currentWord)) {
                                 mediaPlayer.start();
                                 playPauseAnimation(true);
-                                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                                currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                                var textView = ((SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem())).getTextView();
+                                textView.setText(Html.fromHtml(
+                                        textView.getText().toString()
+                                                .replaceFirst(currentWordBuilder.toString(), "<font color='#64c1c7'>" + currentWordBuilder + "</font>")
+                                ));
                                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
+                                playPauseAnimation(true);
                                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                                 currentWordBuilder = new StringBuilder();
                                 currentWordPosition = 0;
+                                correctCount++;
                             } else {
-                                playPauseAnimation(true);
-                                helperTTS(UtilityFunctions.getCompliment(false), false, 0);
                                 currentTryCount++;
-                                currentWordBuilder = new StringBuilder();
-                                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                                currentFragment.getTextView().setText("");
+                                currentWordPosition = 0;
+                                Log.d(TAG, "onSuccess: count Called" + currentTryCount);
                                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
+                                helperTTS("", false, 2 * 45);
                             }
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
                     } else if (split.length > 1 && currentWord.length() < currentWordBuilder.length()) {
                         try {
-                            helperTTS(UtilityFunctions.getCompliment(false), false, 0);
-                            currentTryCount++;
+                            currentWordBuilder = new StringBuilder();
+                            currentTryCount = 0;
+                            currentWordPosition = 0;
+                            playPauseAnimation(true);
+                            helperTTS("No problem ,We spell it as " + UtilityFunctions.addComma(currentWord), true, 2 * 44);
+                            logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -392,11 +364,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                         startListening();
                     }, 400);
                 }
+                updateViews();
             }
 
             @Override
             public void onCompletion() {
-                var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                var current = (SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem());
                 current.getAnimationView().setVisibility(View.GONE);
             }
 
@@ -420,12 +393,15 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     }
 
+    private void updateViews() {
+        binding.correctText.setText(String.valueOf(correctCount));
+        binding.wrongText.setText(String.valueOf(wrongCount));
+    }
 
-    //    Helper method to start listening
     private void startListening() {
         UtilityFunctions.runOnUiThread(() -> {
             startTime = new Date().getTime();
-            var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+            var current = (SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem());
             current.getAnimationView().setVisibility(View.VISIBLE);
             playPauseAnimation(false);
             stt.initialize("Start Listening", this);
@@ -433,57 +409,37 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     }
 
-
     private void helperTTS(String message, boolean canNavigate, int request) throws
             ExecutionException, InterruptedException {
         ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
                     @Override
                     public void onCompletion() {
-                        if (request == 3 * 46) {
-                            ttsHelper.setTextRangeListener(null);
-                            try {
-                                helperTTS("Example : ", false, REQUEST_FOR_DES);
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            return;
-                        }
-
-                        if (request == 3 * 45) {
-                            try {
-                                ttsHelper.setTextRangeListener(null);
-                                var textView = (TextView) findViewById(R.id.text_view_des);
-                                textView.setTextColor(ContextCompat.getColor(EnglishSpellingActivity.this, R.color.primary));
-                                helperTTS(UtilityFunctions.addComma(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord())
-                                        , false, 3 * 46);
-
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            return;
-                        }
-
-                        if (request == 2 * 45) {
+                        UtilityFunctions.runOnUiThread(() -> playPauseAnimation(false));
+                        if (canNavigate && request == 2 * 44) {
                             UtilityFunctions.runOnUiThread(() -> {
-                                var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                                current.getAnimationView().setVisibility(View.VISIBLE);
-                                stt.initialize("", EnglishSpellingActivity.this);
-                            }, 800);
+                                binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
+                                wrongCount++;
+                                updateViews();
+                                try {
+                                    startSpeaking();
+                                } catch (ExecutionException | InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.d(TAG, "onCompletion: Called");
+                            }, 400);
                             return;
                         }
-                        if (request == REQUEST_FOR_QUESTION && !canNavigate) {
-                            try {
-                                startSpeaking();
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
+
+                        if (!canNavigate && request == 2 * 45) {
+                            startListening();
                             return;
                         }
-                        if (request == REQUEST_FOR_DES && !canNavigate) {
-                            tts.setTextViewAndSentence(spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription());
-                            tts.initialize(getDescription(), EnglishSpellingActivity.this);
+
+                        if (!canNavigate && request == REQUEST_FOR_QUESTION) {
+                            startListening();
                             return;
                         }
+
                         if (canNavigate) {
                             UtilityFunctions.runOnUiThread(() -> {
                                 try {
@@ -492,8 +448,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                 } catch (IllegalStateException e) {
                                     e.printStackTrace();
                                 }
-                                binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-                                isSayWordFinish = true;
+                                binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
                                 if (isSpeaking) {
                                     try {
                                         startSpeaking();
@@ -502,12 +457,14 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     binding.playPause.setChecked(false);
+                                    unlockDB();
                                 }
                             }, DELAY_TIME);
                         } else {
-                            isSayWordFinish = false;
-                            currentTryCount++;
-                            tts.initialize("Spell the Word " + UtilityFunctions.addComma(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()), EnglishSpellingActivity.this);
+                            playPauseAnimation(true);
+                            tts.initialize("Spell the Word " + (spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord().equals("The")
+                                    ? "'di'" :
+                                    "'" + spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()) + "' .", SpellingTest.this);
                         }
                     }
 
@@ -518,6 +475,10 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                 }).
                 get().
                 initialize(message, this);
+    }
+
+    private void unlockDB() {
+
     }
 
     static class TTSAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
@@ -553,7 +514,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             ttsHelper.destroy();
         if (mediaPlayer != null)
             mediaPlayer.release();
-        var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+        var current = (SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem());
         current.getAnimationView().setVisibility(View.GONE);
     }
 
@@ -561,12 +522,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         checkLogIsEnable();
-        destroyedEngines();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
         destroyedEngines();
     }
 
@@ -580,6 +535,18 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         UtilityFunctions.saveLog(logDatabase, logs);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        destroyedEngines();
+    }
+
+    private void playPauseAnimation(Boolean play) {
+        if (play)
+            binding.imageViewTeacher.playAnimation();
+        else
+            binding.imageViewTeacher.pauseAnimation();
+    }
 
     private void setToolbar() {
         binding.toolBar.titleText.setText(getResources().getString(R.string.spelling));

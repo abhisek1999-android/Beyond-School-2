@@ -2,9 +2,9 @@ package com.maths.beyond_school_280720220930.database.english.vocabulary;
 
 import androidx.annotation.NonNull;
 
-import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
+import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 
 import java.util.ArrayList;
 
@@ -544,9 +544,23 @@ public abstract class VocabularyList {
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
+                            "Bath Mat",
+                            "A mat or washable rug used to stand on when entering or leaving a bath.",
+                            "https://thumbs.dreamstime.com/b/bath-mat-clip-art-illustration-vector-isolated-bath-mat-clip-art-illustration-vector-isolated-white-background-198036649.jpg"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
                             "Comb",
                             "A flat device with narrow pointed teeth. It is used to smooth, arrange, or hold hair in place.",
                             "https://www.anglomaniacy.pl/img/xv-comb.png.pagespeed.ic.4TNQjOLNjJ.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Detergent",
+                            "A chemical which is in form of liquid, powder that people use for washing things, mainly clothes",
+                            "https://momlovesbest.com/wp-content/uploads/2017/09/regular-or-high-efficiency.png"
                     )
             );
             vocabularyDetail.add(
@@ -563,13 +577,13 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-shampoo.png.pagespeed.ic.waMOpaxyIy.webp"
                     )
             );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Shower",
-                            "A soap solution used to clean the hair.",
-                            "https://www.anglomaniacy.pl/img/xv-shower.png.pagespeed.ic.UiDmUVTwFm.webp"
-                    )
-            );
+
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsBathroom1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Sink",
@@ -600,18 +614,26 @@ public abstract class VocabularyList {
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Toothpaste",
-                            "A paste used to clean your teeth.",
-                            "https://www.anglomaniacy.pl/img/xv-toothpaste.png.pagespeed.ic.Yrr8cEEVyi.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
                             "Towel",
                             "A piece or length of soft cloth used to wipe or dry the face and body.",
                             "https://www.anglomaniacy.pl/img/xv-towel.png.pagespeed.ic.lJWcXp8ukA.webp"
                     )
             );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Tap",
+                            "A device to control the flow of liquid or gas from a pipe. In bathroom, we draw water from it.",
+                            "data:image/jpeg;base64,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"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Washing machine",
+                            "A machine that washes laundry or clothes.",
+                            "https://img.freepik.com/premium-vector/happy-cute-kid-laundry-with-washing-machine_97632-3732.jpg?w=2000"
+                    )
+            );
+
             return vocabularyDetail;
         }
     }

@@ -4,6 +4,7 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLIN
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,6 +72,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         String[] res = val.split(" ");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 if (subject_model.isIs_locked()) {

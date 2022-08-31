@@ -23,10 +23,15 @@ public class SpellingFragment extends Fragment {
     private final int pos;
     private FragmentSpellingBinding binding;
 
+
     public SpellingFragment(SpellingDetail spellingDetail, int pos) {
         super(R.layout.fragment_spelling);
         this.spellingDetail = spellingDetail;
         this.pos = pos;
+    }
+
+    public TextView getWordTextView() {
+        return binding.textViewWord;
     }
 
     public TextView getTextView() {
@@ -41,8 +46,8 @@ public class SpellingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentSpellingBinding.bind(view);
-        binding.textViewDes.setText(spellingDetail.getDescription());
-        binding.textViewWord.setText(spellingDetail.getWord());
+        binding.textViewDes.setText(spellingDetail.getWord());
+        binding.textViewWord.setText(spellingDetail.getDescription());
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.imageButtonPrev.setVisibility((pos == 1) ? View.INVISIBLE : View.VISIBLE);
@@ -56,7 +61,7 @@ public class SpellingFragment extends Fragment {
         });
 //        binding.otpViewWord.
 
-        
+
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(pos),

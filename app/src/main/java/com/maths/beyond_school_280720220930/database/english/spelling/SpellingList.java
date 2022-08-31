@@ -12,6 +12,7 @@ public abstract class SpellingList {
 
         public static SpellingModel getSpellingList() {
             var mostCommonWord = getSpellingDetailMostCommonWords();
+            var mostCommonWord1 = getSpellingDetailMostCommonWords1();
             var wordsWithShortASound = getSpellingDetailWordsWithShortASound();
             var wordsWithShortLSound = getSpellingDetailWordsWithShortLSound();
             var wordsWithDoubleConsonant = getSpellingDetailWordsWithDoubleConsonant();
@@ -19,7 +20,8 @@ public abstract class SpellingList {
             var wordsWithSh = getSpellingDetailWordsWithSh();
 
             var spellingCategoryModelsList = new ArrayList<SpellingCategoryModel>();
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words", mostCommonWord));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words 1", mostCommonWord));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words 2", mostCommonWord1));
             spellingCategoryModelsList.add(new SpellingCategoryModel("Words with short ‘a’ sounds", wordsWithShortASound));
             spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘L’ blends", wordsWithShortLSound));
             spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with double consonants", wordsWithDoubleConsonant));
@@ -72,6 +74,12 @@ public abstract class SpellingList {
                     "It",
                     "It is raining again. "
             ));
+
+            return list;
+        }
+
+        private static List<SpellingDetail> getSpellingDetailMostCommonWords1() {
+            var list = new ArrayList<SpellingDetail>();
             list.add(new SpellingDetail(
                     "He",
                     "He is a good man."
@@ -112,6 +120,7 @@ public abstract class SpellingList {
                     "I",
                     "I love playing cricket."
             ));
+
             return list;
         }
 

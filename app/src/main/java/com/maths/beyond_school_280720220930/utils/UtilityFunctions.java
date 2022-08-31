@@ -26,7 +26,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
@@ -116,9 +115,20 @@ public final class UtilityFunctions {
     public static String addComma(String s) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            sb.append("'").append(s.charAt(i)).append("' ,");
+            sb.append("'").append(s.charAt(i)).append("' !");
         }
         return sb.toString();
+    }
+
+    public static String capitalize(String s) {
+        if (s.length() == 0) return s;
+        String[] words = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            sb.append(Character.toUpperCase(word.charAt(0)))
+                    .append(word.substring(1)).append(" ");
+        }
+        return sb.toString().trim();
     }
 
     public static String addSpaceAnswer(String s) {
@@ -380,7 +390,8 @@ public final class UtilityFunctions {
     }
 
     public enum Spellings {
-        Most_Common_Words,
+        Most_Common_Words_1,
+        Most_Common_Words_2,
         Words_with_short_a_sounds,
         Spelling_Words_with_L_blends,
         Spelling_Words_with_double_consonants,
@@ -400,15 +411,19 @@ public final class UtilityFunctions {
                 return Spellings.Spelling_Words_with_Long_o_sound;
             case "Spelling Words with ‘sh’":
                 return Spellings.Spelling_Words_with_sh;
+            case "Most Common Words 2":
+                return Spellings.Most_Common_Words_2;
             default:
-                return Spellings.Most_Common_Words;
+                return Spellings.Most_Common_Words_1;
         }
     }
 
     public static String getDBNameSpelling(Spellings spellings, Context context) {
         switch (spellings) {
-            case Most_Common_Words:
+            case Most_Common_Words_1:
                 return context.getString(R.string.spelling1);
+            case Most_Common_Words_2:
+                return context.getString(R.string.spelling1_1);
             case Words_with_short_a_sounds:
                 return context.getString(R.string.spelling2);
             case Spelling_Words_with_L_blends:
@@ -729,12 +744,9 @@ public final class UtilityFunctions {
         }
 
 
-
-
-
     }
 
-   public static void displayCustomDialog(Context context,String title, String body) {
+    public static void displayCustomDialog(Context context, String title, String body) {
 
         HintDialog hintDialog = new HintDialog(context);
         hintDialog.setCancelable(true);
@@ -742,9 +754,9 @@ public final class UtilityFunctions {
         hintDialog.setAlertDesciption(body);
 
         hintDialog.displayAnim();
-        hintDialog.setOnActionListener(viewId->{
+        hintDialog.setOnActionListener(viewId -> {
 
-            switch (viewId.getId()){
+            switch (viewId.getId()) {
 
                 case R.id.closeButton:
                     hintDialog.dismiss();
