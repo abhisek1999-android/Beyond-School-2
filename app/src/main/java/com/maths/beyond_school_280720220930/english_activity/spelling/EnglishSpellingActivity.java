@@ -88,13 +88,13 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     private void setData() {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {
-            spellings = UtilityFunctions.getSpellingsFromString(getIntent().getStringExtra(EXTRA_SPELLING_DETAIL));
+            spellings = UtilityFunctions.getSpellingsFromString(getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
             dao = EnglishGradeDatabase.getDbInstance(this).spellingDao();
             setViews();
             buttonClick();
             binding.giveTestButton.setOnClickListener((view) -> {
                 var intent = new Intent(this, SpellingTest.class);
-                intent.putExtra(EXTRA_SPELLING_DETAIL, spellings.name());
+                intent.putExtra(EXTRA_SPELLING_DETAIL, getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
                 startActivity(intent);
             });
         } else {
@@ -139,7 +139,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void setPager() {
-        Log.d(TAG, "setPager: " + UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", ""));
+        Log.d("XXX", "setPager: " + spellings + " db name " + UtilityFunctions.getDBNameSpelling(spellings, this));
         var data = getSpellingFromType(dao.getSpellingModel(1).getSpelling(),
                 UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", "").trim());
 
@@ -553,8 +553,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             ttsHelper.destroy();
         if (mediaPlayer != null)
             mediaPlayer.release();
-        var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-        current.getAnimationView().setVisibility(View.GONE);
+        try {
+            var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+            current.getAnimationView().setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

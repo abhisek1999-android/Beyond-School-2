@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -84,8 +83,9 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                         context.startActivity(intent);
                         // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                     } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
+                        Log.d("XXX", "onClick :subject adapter :-  " + UtilityFunctions.getSpellingsFromString(val).name() + " " + val);
                         var intent = new Intent(context, EnglishSpellingActivity.class);
-                        intent.putExtra(EXTRA_SPELLING_DETAIL, UtilityFunctions.getSpellingsFromString(val).name());
+                        intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                         context.startActivity(intent);
                     } else {
 
@@ -112,15 +112,15 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     }
                 } else {
 
-                    UtilityFunctions.displayCustomDialog(context,"Chapter Locked","Hey, Please complete previous level to unlock.");
+                    UtilityFunctions.displayCustomDialog(context, "Chapter Locked", "Hey, Please complete previous level to unlock.");
 
 
                 }
-
+//
 //                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
 //
 //
-//                Toast.makeText(context, res[res.length-1], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, res[res.length - 1], Toast.LENGTH_SHORT).show();
 //                //this is url
 //                Toast.makeText(context, subject_model.getUrl(), Toast.LENGTH_SHORT).show();
 

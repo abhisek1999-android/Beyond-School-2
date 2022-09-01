@@ -390,10 +390,10 @@ public final class UtilityFunctions {
         Most_Common_Words_1,
         Most_Common_Words_2,
         Words_with_short_a_sounds,
-        Spelling_Words_with_L_blends,
-        Spelling_Words_with_double_consonants,
-        Spelling_Words_with_Long_o_sound,
-        Spelling_Words_with_sh
+        Words_with_L_blends,
+        Words_with_double_consonants,
+        Words_with_Long_o_sound,
+        Words_with_sh
     }
 
     public static Spellings getSpellingsFromString(String spelling) {
@@ -401,14 +401,14 @@ public final class UtilityFunctions {
             case "Spelling Words with short ‘a’ sounds":
                 return Spellings.Words_with_short_a_sounds;
             case "Spelling Words with ‘L’ blends":
-                return Spellings.Spelling_Words_with_L_blends;
+                return Spellings.Words_with_L_blends;
             case "Spelling Words with double consonants":
-                return Spellings.Spelling_Words_with_double_consonants;
+                return Spellings.Words_with_double_consonants;
             case "Spelling Words with Long ‘o’ sound":
-                return Spellings.Spelling_Words_with_Long_o_sound;
+                return Spellings.Words_with_Long_o_sound;
             case "Spelling Words with ‘sh’":
-                return Spellings.Spelling_Words_with_sh;
-            case "Most Common Words 2":
+                return Spellings.Words_with_sh;
+            case "Spelling Most Common Words 2":
                 return Spellings.Most_Common_Words_2;
             default:
                 return Spellings.Most_Common_Words_1;
@@ -423,13 +423,13 @@ public final class UtilityFunctions {
                 return context.getString(R.string.spelling1_1);
             case Words_with_short_a_sounds:
                 return context.getString(R.string.spelling2);
-            case Spelling_Words_with_L_blends:
+            case Words_with_L_blends:
                 return context.getString(R.string.spelling3);
-            case Spelling_Words_with_double_consonants:
+            case Words_with_double_consonants:
                 return context.getString(R.string.spelling4);
-            case Spelling_Words_with_Long_o_sound:
+            case Words_with_Long_o_sound:
                 return context.getString(R.string.spelling5);
-            case Spelling_Words_with_sh:
+            case Words_with_sh:
                 return context.getString(R.string.spelling6);
             default:
                 return "";

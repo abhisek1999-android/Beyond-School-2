@@ -24,9 +24,9 @@ public abstract class SpellingList {
             spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words 2", mostCommonWord1));
             spellingCategoryModelsList.add(new SpellingCategoryModel("Words with short ‘a’ sounds", wordsWithShortASound));
             spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘L’ blends", wordsWithShortLSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with double consonants", wordsWithDoubleConsonant));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with Long ‘o’ sound", wordsWithLongOSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Spelling Words with ‘sh’", wordsWithSh));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with double consonants", wordsWithDoubleConsonant));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with Long ‘o’ sound", wordsWithLongOSound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘sh’", wordsWithSh));
 
             return new SpellingModel(1, spellingCategoryModelsList);
         }
