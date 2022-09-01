@@ -80,11 +80,8 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
             try {
 
-
                 timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, "mul", "Table of "+UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter))+"( "+grades_data.chapter+"X )",
                         new Date(), 0, true).get(0).time_spend;
-
-
                 if (timeSpend>=8) {
                     holder.status.setText("Complete");
                     holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));

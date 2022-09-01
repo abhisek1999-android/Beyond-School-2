@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -39,12 +40,14 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
     Context context;
     ProgressDataBase progressDataBase;
     long timeSpend = 0;
-    String subSub="",chapter="";
+    private String subSub="",chapter="";
+    private AlertDialog alertDialog;
 
 
-    public ProgressRecyclerAdapter(List<SubSubject> list, Context context) {
+    public ProgressRecyclerAdapter(List<SubSubject> list, Context context, AlertDialog alertDialog) {
         this.list = list;
         this.context = context;
+        this.alertDialog=alertDialog;
 
         progressDataBase = ProgressDataBase.getDbInstance(context);
 
@@ -73,6 +76,7 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
             Intent intent=new Intent(context, Select_Sub_Activity.class);
             intent.putExtra("subSubject",list.get(position).getSubSubject());
             context.startActivity(intent );
+
         });
 
 
