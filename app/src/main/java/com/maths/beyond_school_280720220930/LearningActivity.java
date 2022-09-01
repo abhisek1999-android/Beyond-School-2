@@ -49,6 +49,7 @@ import org.json.JSONException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -75,7 +76,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private final int MAX_QUESTION = 10;
     private int DELAY_ON_STARTING_STT = 500;
     private int DELAY_ON_SETTING_QUESTION = 3000;
-    private TextToSpeckConverter tts;
+    private TextToSpeckConverter tts,ttsHelper;
     private SpeechToTextConverter stt;
     private Boolean isCallSTT = false;
     private Boolean isCallTTS = true;
@@ -141,11 +142,19 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         Log.i("url",videoUrl);
 
 
+
         initTTS();
         initSTT();
         setButtonClick();
         setBasicUiElement();
 
+        try {
+            initTTS_helper();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         initMediaPlayer();
        // initYouTube();
         binding.toolBar.imageViewBack.setOnClickListener(v->{
@@ -723,12 +732,28 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     }
 
 
+    private void initTTS_helper() throws ExecutionException, InterruptedException {
+        ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback[]{new ConversionCallback() {
+            @Override
+            public void onCompletion() {
+
+                UtilityFunctions.runOnUiThread(() -> {
+                    play();
+                }, 10);
+            }
+
+            @Override
+            public void onErrorOccurred(String errorMessage) {
+
+                ttsHelper.destroy();
+            }
+        }}).get();
+    }
+
     //TODO: Must be turn on
     private void initProcess() {
 
-        tts.initialize("Lets learn " + selectedSub.split("\\(")[0] + " , you can speak and write answer in the answer box", LearningActivity.this);
-
-        UtilityFunctions.runOnUiThread(() -> play(), 2000);
+        ttsHelper.initialize("Lets learn " + selectedSub.split("\\(")[0] + " , you can speak and write answer in the answer box", LearningActivity.this);
         // play();
 
     }
@@ -930,6 +955,12 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     protected void onStop() {
         super.onStop();
         Log.i("OnStop", "OnStop");
+        if (tts!=null) {
+            tts.stop();
+            tts.destroy();
+        }
+        if (ttsHelper!=null)
+            ttsHelper.destroy();
     }
 
     @Override
@@ -967,6 +998,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         initTTS();
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -1010,7 +1042,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     }
 
 
-    static class TTSAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
+    static class TTSHelperAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
         @Override
         protected TextToSpeckConverter doInBackground(ConversionCallback... conversionCallbacks) {
             return TextToSpeechBuilder.builder(conversionCallbacks[0]);
