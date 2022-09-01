@@ -915,6 +915,8 @@
 
     <string name="alter_maths">ALTER_MATHS</string>
     <string name="alter_maths_value">ALTER_MATHS_VALUE</string>
+    <string name="saved_maths_value">SAVED_MATHS_VALUE</string>
+    <string name="saved_english_value">ENGLISH_MATHS_VALUE</string>
 
     <string name="multiplication_upto">MULTIPLICATION_UPTO</string>
 

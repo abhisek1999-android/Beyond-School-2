@@ -813,7 +813,7 @@ public final class UtilityFunctions {
         }catch (Exception e){e.printStackTrace();}
 
     }
-        }
+
 
 
     public static void addProgressData(ProgressDataBase db,String subject,String chapter,Date timeStamp,long time_spend) {

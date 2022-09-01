@@ -128,16 +128,16 @@ public class LoginSignupActivity extends AppCompatActivity {
 //            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab19, new ArrayList<>(list2), ""));
 
 //            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling), true, true, true, true, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1), true, true, true, true, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1_1), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1), true, true, true, true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1_1), true, true, true, false,false,  ""));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling2), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling2), true, true, true, false, false, ""));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling3), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling3), true, true, true, false, false, ""));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling4), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling4), true, true, true, false, false, ""));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling5), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling5), true, true, true, false, false, ""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling1),true,false,false,true,false,""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling2),true,false,false,false,false,""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling3),true,false,false,false,false,""));
@@ -145,7 +145,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling5),true,false,false,false,false,""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling6),true,false,false,false,false,""));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling6), true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling6), true, true, true, false, false, ""));
 
 
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling7),false,true,false,true,false,""));

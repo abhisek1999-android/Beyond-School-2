@@ -1,5 +1,7 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -23,6 +25,7 @@ import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
@@ -65,16 +68,38 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         String chapter = grades_data.subject;
         String[] res = val.split(" ");
 
+        if (grades_data.is_completed){
+            holder.status.setText("Completed");
+            holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+
+        }
+
         if (grades_data.subject.equals("Multiplication Tables")){
             holder.subSub.setText(grades_data.subject);
             holder.chapters.setText("Table of "+UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter))+"( "+grades_data.chapter+"X )");
 
+            try {
+
+
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, "mul", "Table of "+UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter))+"( "+grades_data.chapter+"X )",
+                        new Date(), 0, true).get(0).time_spend;
+
+
+                if (timeSpend>=8) {
+                    holder.status.setText("Complete");
+                    holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+
+                }
+
+                holder.timeText.setText(timeSpend + "/15 m");
+
+            } catch (Exception e) {
+
+            }
+
         }
 
-
         if (chapter.equals("Mathematics")) {
-
-
 
                 subSub=grades_data.chapter.split(" ")[2];
                 chapter=list.get(position).chapter;
@@ -91,7 +116,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
                     }
 
-                    holder.timeText.setText(timeSpend + "m");
+                    holder.timeText.setText(timeSpend + "/15 m");
 
                 } catch (Exception e) {
 
@@ -111,9 +136,8 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
             try{
                 timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0],list.get(position).chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
-                holder.timeText.setText(timeSpend + "m");
+                holder.timeText.setText(timeSpend + "/15 m");
 
-                Toast.makeText(context, timeSpend+"", Toast.LENGTH_SHORT).show();
                 if (timeSpend >= 8) {
                     holder.status.setText("Complete");
                     holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
@@ -132,13 +156,15 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
                 Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
-                intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.VocabularyCategories.bathroom.name());
                 context.startActivity(intent);
                 // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
             } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
 
                 //for spelling
-                Toast.makeText(context, "spelling clicked", Toast.LENGTH_SHORT).show();
+                var intent = new Intent(context, EnglishSpellingActivity.class);
+                intent.putExtra(EXTRA_SPELLING_DETAIL, UtilityFunctions.Spellings.Most_Common_Words_1.name());
+                context.startActivity(intent);
 
             } else {
 

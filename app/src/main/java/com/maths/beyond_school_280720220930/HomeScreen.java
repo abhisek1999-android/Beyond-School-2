@@ -43,6 +43,7 @@ import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
+import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SpinnerModel;
 import com.maths.beyond_school_280720220930.model.SubSubject;
@@ -81,6 +82,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     ActionBarDrawerToggle toggle;
     private int REQUEST_RECORD_AUDIO = 1;
+    private List<String> chapterListEng;
+    private List<String> chapterListMath;
+    private CustomProgressDialogue customProgressDialogue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +98,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));
 
+        customProgressDialogue=new CustomProgressDialogue(HomeScreen.this);
         mathSub=new ArrayList<>();
         engSub=new ArrayList<>();
 
@@ -119,7 +124,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         });
 
         uiChnages();
-        getUiData();
+    //    getUiData(true);
 
     }
 
@@ -141,7 +146,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         if (requestCode == REQUEST_RECORD_AUDIO) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivity(new Intent(getApplicationContext(), Select_Sub_Activity.class));
+                startActivity(new Intent(getApplicationContext(), HomeScreen.class));
                 finish();
             } else {
                 checkAudioPermission();
@@ -167,7 +172,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 Log.i("Mul_Data",total+","+UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i].split(" ")[0],false));
                 int mulUpto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
                 total=Integer.parseInt(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i].split(" ")[0],true).get(total-1).chapter.split(" ")[3]);
-                subMathList.add(new SubSubject(math[i],total,mulUpto,resMath[i]));
+                if (mulUpto==1)
+                     subMathList.add(new SubSubject(math[i],total,0,resMath[i]));
+                else
+                    subMathList.add(new SubSubject(math[i],total,mulUpto,resMath[i]));
             }
         }
 
@@ -221,43 +229,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals("")) {
             PrefConfig.writeIdInPref(getApplicationContext(), "true", getResources().getString(R.string.log_check));
         }
+        dateChecking();
 
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-
-        if (!PrefConfig.readIdInPref(HomeScreen.this,getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()) )){
-
-            PrefConfig.writeIdInPref(HomeScreen.this,simpleDateFormat.format(new Date()),getResources().getString(R.string.alter_maths));
-            if (PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value))== 0){
-                Toast.makeText(this, PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value)), Toast.LENGTH_SHORT).show();
-                PrefConfig.writeIntDInPref(HomeScreen.this,2,getResources().getString(R.string.alter_maths_value));
-                startIndex=2;
-            }
-            else{
-                Toast.makeText(this, PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value)), Toast.LENGTH_SHORT).show();
-                PrefConfig.writeIntDInPref(HomeScreen.this,0,getResources().getString(R.string.alter_maths_value));
-                startIndex=0;
-            }
-        }
-
-        else{
-            if (startIndex==0){
-                PrefConfig.writeIntDInPref(HomeScreen.this,0,getResources().getString(R.string.alter_maths_value));
-            }
-            else{
-                PrefConfig.writeIntDInPref(HomeScreen.this,2,getResources().getString(R.string.alter_maths_value));
-            }
-        }
-
-
-
-
-        binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        subjectRecyclerAdapter=new SubjectRecyclerAdapter(subMathsData,HomeScreen.this);
-        binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
-
-        binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        subjectRecyclerAdapter=new SubjectRecyclerAdapter(subEngData,HomeScreen.this);
-        binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
 
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
 
@@ -357,45 +330,178 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    private void dateChecking() {
 
-    private void getUiData() {
+
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+
+        if (!PrefConfig.readIdInPref(HomeScreen.this,getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()))){
+
+
+
+            PrefConfig.writeIdInPref(HomeScreen.this,simpleDateFormat.format(new Date()),getResources().getString(R.string.alter_maths));
+            if (PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value))== 0){
+                PrefConfig.writeIntDInPref(HomeScreen.this,2,getResources().getString(R.string.alter_maths_value));
+                startIndex=2;
+            }
+            else{
+                PrefConfig.writeIntDInPref(HomeScreen.this,0,getResources().getString(R.string.alter_maths_value));
+                startIndex=0;
+            }
+            getUiData(true);
+            customProgressDialogue.show();
+        }
+
+        else{
+
+            Log.i("List_data sd",PrefConfig.readNormalListInPref(getApplicationContext(),getResources().getString(R.string.saved_english_value))+"");
+
+            if (PrefConfig.readNormalListInPref(getApplicationContext(),getResources().getString(R.string.saved_english_value))==null)
+             getUiData(true);
+            else
+             getUiData(false);
+            if (startIndex==0){
+                PrefConfig.writeIntDInPref(HomeScreen.this,0,getResources().getString(R.string.alter_maths_value));
+            }
+            else{
+                PrefConfig.writeIntDInPref(HomeScreen.this,2,getResources().getString(R.string.alter_maths_value));
+            }
+        }
+
+
+    }
+
+
+    private void getUiData(boolean isNewCall)  throws ArrayIndexOutOfBoundsException,NullPointerException{
 
         subMathsData.clear();
         subEngData.clear();
 
-        for (int i=startIndex;i<startIndex+2;i++)
-        {
-        if (!math[i].equals("Multiplication Tables"))   {
-        if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i))!=null){
-            subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i)));
-            Log.i("DATA",UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i))+"");
-        }
+        chapterListEng=new ArrayList<>();
+        chapterListMath=new ArrayList<>();
+
+
+        if (isNewCall){
+
+
+            UtilityFunctions.runOnUiThread(()->{
+                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
+                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
+
+                startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));
+                customProgressDialogue.dismiss();
+
+                for (int i=startIndex;i<startIndex+2;i++)
+                {
+                    if (!math[i].equals("Multiplication Tables"))   {
+                        if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i))!=null){
+                            subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i)));
+                            chapterListMath.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i)).chapter);
+
+                            Log.i("DATA",UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,mathSub.get(i))+"");
+                        }
+                    }
+                    else{
+
+                        int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+1+"",false,false,false,false,false,""));
+                        chapterListMath.add("Multiplication Tables");
+                    }
+
+                }
+
+                Log.i("LIST_DATA",subMathsData+"");
+
+                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
+
+                for (int i=0;i<2;i++)
+                {
+                    if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
+                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
+                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
+                    }}
+
+                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
+
+                Log.i("LIST_DATA",subEngData+"");
+
+
+                binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+                subjectRecyclerAdapter=new SubjectRecyclerAdapter(subMathsData,HomeScreen.this);
+                binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
+
+                binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+                subjectRecyclerAdapter=new SubjectRecyclerAdapter(subEngData,HomeScreen.this);
+                binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
+
+            },1000);
+
+
+
         }
         else{
 
-            int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+1+"",false,false,false,false,false,""));
+            chapterListEng.clear();
+            chapterListMath.clear();
+
+            chapterListEng=PrefConfig.readNormalListInPref(HomeScreen.this,getResources().getString(R.string.saved_english_value));
+
+            chapterListMath=PrefConfig.readNormalListInPref(HomeScreen.this,getResources().getString(R.string.saved_maths_value));
+
+            Log.i("MathList",chapterListMath+"");
+
+            int l_index=0;
+
+            for (int i=startIndex;i<startIndex+2;i++)
+            {
+                if (!chapterListMath.get(l_index).equals("Multiplication Tables"))   {
+                    if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
+                        Log.i("Data_chap",chapterListMath+"");
+                        Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
+                        subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
+
+                    }
+                }
+                else{
+
+                    int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+                    subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+"",false,false,false,false,true,""));
+                }
+                l_index++;
+
+            }
+
+            Log.i("LIST_DATA",subMathsData+"");
+
+            l_index=0;
+            for (int i=0;i<2;i++)
+            {
+                if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true)!=null){
+                    subEngData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true).get(0));
+                }
+            l_index++;
+            }
+
+            Log.i("LIST_DATA",subEngData+"");
+
+
+            binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+            subjectRecyclerAdapter=new SubjectRecyclerAdapter(subMathsData,HomeScreen.this);
+            binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
+
+            binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+            subjectRecyclerAdapter=new SubjectRecyclerAdapter(subEngData,HomeScreen.this);
+            binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
         }
 
-        }
 
-        Log.i("LIST_DATA",subMathsData+"");
-
-        for (int i=0;i<2;i++)
-        {
-        if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
-            subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
-        }}
-
-        Log.i("LIST_DATA",subEngData+"");
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getUiData();
-        uiChnages();
+      uiChnages();
     }
 
     @Override
