@@ -237,6 +237,10 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                 Log.e(TAG, "onErrorOccurred: " + errorMessage);
             }
         }).get();
+
+
+
+
         tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
             UtilityFunctions.runOnUiThread(() -> {
                 var textView = (TextView) this.findViewById(R.id.text_view_description);

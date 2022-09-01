@@ -57,6 +57,8 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
                     @Override
                     public void onError(String s) {
 
+                        Log.i("TTS_ERROR",s);
+
                     }
 
                     @Override

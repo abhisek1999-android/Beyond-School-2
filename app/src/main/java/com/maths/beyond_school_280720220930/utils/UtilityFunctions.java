@@ -784,7 +784,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
+    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed){
 
         List<ProgressM> list = db.progressDao().isAvailable(chapter);
 
@@ -810,6 +810,7 @@ public final class UtilityFunctions {
 
 
     }
+
 
 
     public static void addProgressData(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend) {
