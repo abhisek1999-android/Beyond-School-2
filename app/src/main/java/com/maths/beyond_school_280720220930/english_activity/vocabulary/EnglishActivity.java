@@ -157,6 +157,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             initTTS();
             intSTT();
             initMediaPlayer();
+            playPauseAnimation(true);
             helperTTS(UtilityFunctions.getQuestionTitleVocabulary(category), false, REQUEST_FOR_QUESTION);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -196,6 +197,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                 e.printStackTrace();
             }
         } else {
+            playPauseAnimation(false);
             destroyedEngines();
         }
     }
@@ -269,6 +271,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
+                playPauseAnimation(false);
                 Log.d(TAG, "onSuccess:  result " + result + " word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord());
                 try {
 //                    Check the maximum try count
@@ -292,6 +295,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
+                        playPauseAnimation(true);
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         helperTTS(UtilityFunctions.getCompliment(false), false, 0);
@@ -300,6 +304,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english"
                         );
+                        playPauseAnimation(true);
                     }
 
 
@@ -470,4 +475,12 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
         current.getAnimationView().setVisibility(View.GONE);
     }
+
+    private void playPauseAnimation(Boolean play) {
+        if (play)
+            binding.imageViewTeacher.playAnimation();
+        else
+            binding.imageViewTeacher.pauseAnimation();
+    }
+
 }

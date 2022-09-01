@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
@@ -22,6 +24,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -31,7 +34,9 @@ import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
@@ -60,9 +65,12 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private GradeDatabase databaseGrade;
     private String kidsGrade;
 
+    private FirebaseFirestore kidsDb;
+    private String kidsId;
     private LogDatabase logDatabase;
     private String logs = "";
     private long startTime = 0, endTime = 0;
+    private JSONArray kidsActivityJsonArray = new JSONArray();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -74,6 +82,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         databaseGrade = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         logDatabase = LogDatabase.getDbInstance(this);
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidsDb = FirebaseFirestore.getInstance();
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -154,6 +164,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                 }
             } else {
                 destroyedEngines();
+                playPauseAnimation(false);
             }
         });
     }
@@ -174,6 +185,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     }
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
+        playPauseAnimation(true);
         tts.initialize(binding.textViewGuessQuestion.getText().toString(), this);
         logs += "Question : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition() + ". \n";
         if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1)) {
@@ -183,6 +195,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     }
 
     private void checkResult() {
+        var auth = FirebaseAuth.getInstance();
         Log.d("XXXX", "checkResult: " + UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this));
         if (correctAnswers >= vocabularyList.size() - 2) {
             binding.textViewGuessQuestion.setText("You have completed all the questions");
@@ -192,7 +205,23 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                     "Vocabulary",
                     UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this)
             );
-
+            try {
+                CallFirebaseForInfo.checkActivityData(kidsDb,
+                        kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
+                                getDbName(UtilityFunctions.getVocabularyFromString(category), this),
+                        "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                CallFirebaseForInfo.checkActivityData(kidsDb,
+                        kidsActivityJsonArray, "fail", auth, kidsId, UtilityFunctions.
+                                getDbName(UtilityFunctions.getVocabularyFromString(category), this),
+                        "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -209,6 +238,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             public void onSuccess(String result) throws JSONException {
                 ConversionCallback.super.onSuccess(result);
                 try {
+                    playPauseAnimation(false);
 
                     endTime = new Date().getTime();
                     long diff = endTime - startTime;
@@ -217,22 +247,33 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                             vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))
                     ) {
                         mediaPlayer.start();
+                        playPauseAnimation(true);
                         helperTTS(UtilityFunctions.getCompliment(true), true, false);
                         ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                 .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
                         correctAnswers++;
+                        putJsonData("Question : " +
+                                        vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                        + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(),
+                                result, diff, true);
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                     } else {
                         if (tryAgainCount == 2) {
                             wrongAnswers++;
+                            putJsonData("Question : " +
+                                            vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                            + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(),
+                                    result, diff, false);
                             updateViews();
                             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
+                            playPauseAnimation(true);
                             helperTTS("No problem ,Answer is  " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord(), false, true);
                             ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
                             return;
                         }
                         helperTTS(UtilityFunctions.getCompliment(false), false, false);
+                        playPauseAnimation(true);
                     }
                     updateViews();
 
@@ -281,6 +322,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
     private void startListening() {
         UtilityFunctions.runOnUiThread(() -> {
+            playPauseAnimation(false);
             startTime = new Date().getTime();
             var current = (VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem());
             current.getAnimationView().setVisibility(View.VISIBLE);
@@ -297,6 +339,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             public void onCompletion() {
 
                 if (requestTryAgain) {
+                    playPauseAnimation(true);
                     UtilityFunctions.runOnUiThread(() -> {
                         binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
                         tryAgainCount = 0;
@@ -322,6 +365,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                                                 UtilityFunctions.getVocabularyFromString(category)
                                         ));
                         try {
+                            playPauseAnimation(true);
                             if (isSpeaking)
                                 startSpeaking();
                             else {
@@ -401,5 +445,32 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         super.onDestroy();
         destroyedEngines();
     }
+
+    private void putJsonData(String question, String ans, long timeTaken, boolean isCorrect) throws JSONException {
+
+
+        JSONObject activityData = new JSONObject();
+        try {
+            activityData.put("question", question);
+            activityData.put("ans", ans);
+            activityData.put("time_taken", timeTaken);
+            activityData.put("is_correct", isCorrect);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        kidsActivityJsonArray.put(activityData);
+
+
+    }
+
+    private void playPauseAnimation(Boolean play) {
+        if (play)
+            binding.imageViewTeacher.playAnimation();
+        else
+            binding.imageViewTeacher.pauseAnimation();
+    }
+
 
 }

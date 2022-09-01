@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -29,9 +31,11 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingDetail;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingTestBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -39,6 +43,10 @@ import com.maths.beyond_school_280720220930.translation_engine.translator.Speech
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
@@ -75,6 +83,12 @@ public class SpellingTest extends AppCompatActivity {
     private List<SpellingDetail> spellingDetails;
     private List<Fragment> fragments;
     private int currentWordPosition = 0;
+    private GradeDatabase gradeDatabase;
+    private FirebaseFirestore kidsDb;
+    private String kidsGrade;
+    private String kidsId;
+    private GradeDatabase databaseGrade;
+    private JSONArray kidsActivityJsonArray = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +96,11 @@ public class SpellingTest extends AppCompatActivity {
         binding = ActivitySpellingTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         logDatabase = LogDatabase.getDbInstance(this);
+        databaseGrade = GradeDatabase.getDbInstance(this);
+        kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
+        logDatabase = LogDatabase.getDbInstance(this);
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidsDb = FirebaseFirestore.getInstance();
         setToolbar();
         setData();
         binding.learnOrTest.setOnClickListener((c) -> {
@@ -151,7 +170,7 @@ public class SpellingTest extends AppCompatActivity {
                 getSupportFragmentManager(),
                 getLifecycle()
         );
-
+        binding.viewPagerTest.setUserInputEnabled(false);
         binding.viewPagerTest.setAdapter(pagerAdapter);
         isSpeaking = binding.playPause.isChecked();
     }
@@ -339,6 +358,13 @@ public class SpellingTest extends AppCompatActivity {
                                 currentWordBuilder = new StringBuilder();
                                 currentWordPosition = 0;
                                 correctCount++;
+                                putJsonData(
+                                        spellingDetails.get(binding.viewPagerTest.getCurrentItem())
+                                                .getDescription(),
+                                        spellingDetails.get(binding.viewPagerTest.getCurrentItem())
+                                                .getWord(),
+                                        diff,
+                                        true);
                             } else {
                                 currentTryCount++;
                                 currentWordPosition = 0;
@@ -346,7 +372,7 @@ public class SpellingTest extends AppCompatActivity {
                                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                                 helperTTS("", false, 2 * 45);
                             }
-                        } catch (ExecutionException | InterruptedException e) {
+                        } catch (ExecutionException | InterruptedException | JSONException e) {
                             e.printStackTrace();
                         }
                     } else if (split.length > 1 && currentWord.length() < currentWordBuilder.length()) {
@@ -422,6 +448,17 @@ public class SpellingTest extends AppCompatActivity {
                             UtilityFunctions.runOnUiThread(() -> {
                                 binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
                                 wrongCount++;
+                                try {
+                                    putJsonData(
+                                            spellingDetails.get(binding.viewPagerTest.getCurrentItem())
+                                                    .getDescription(),
+                                            spellingDetails.get(binding.viewPagerTest.getCurrentItem())
+                                                    .getWord(),
+                                            endTime - startTime,
+                                            true);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 updateViews();
                                 try {
                                     startSpeaking();
@@ -460,7 +497,7 @@ public class SpellingTest extends AppCompatActivity {
                                     }
                                 } else {
                                     binding.playPause.setChecked(false);
-                                    unlockDB();
+                                    checkResult();
                                 }
                             }, DELAY_TIME);
                         } else {
@@ -480,9 +517,35 @@ public class SpellingTest extends AppCompatActivity {
                 initialize(message, this);
     }
 
-    private void unlockDB() {
-
+    private void checkResult() {
+        var auth = FirebaseAuth.getInstance();
+        if (correctCount >= spellingDetails.size() - 2) {
+            UtilityFunctions.updateDbUnlock(
+                    databaseGrade,
+                    kidsGrade,
+                    "spelling",
+                    UtilityFunctions.getDBNameSpelling(spellings, this)
+            );
+            try {
+                CallFirebaseForInfo.checkActivityData(kidsDb,
+                        kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
+                                getDBNameSpelling(spellings, this),
+                        "spelling", correctCount, wrongCount, spellingDetails.size(), "english");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                CallFirebaseForInfo.checkActivityData(kidsDb,
+                        kidsActivityJsonArray, "fail", auth, kidsId, UtilityFunctions.
+                                getDBNameSpelling(spellings, this),
+                        "spelling", correctCount, wrongCount, spellingDetails.size(), "english");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     static class TTSAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
         @Override
@@ -565,6 +628,25 @@ public class SpellingTest extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
 
         });
+
+    }
+
+    private void putJsonData(String question, String ans, long timeTaken, boolean isCorrect) throws JSONException {
+
+
+        JSONObject activityData = new JSONObject();
+        try {
+            activityData.put("question", question);
+            activityData.put("ans", ans);
+            activityData.put("time_taken", timeTaken);
+            activityData.put("is_correct", isCorrect);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        kidsActivityJsonArray.put(activityData);
+
 
     }
 }

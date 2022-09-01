@@ -125,13 +125,7 @@ public final class UtilityFunctions {
 
     public static String capitalize(String s) {
         if (s.length() == 0) return s;
-        String[] words = s.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            sb.append(Character.toUpperCase(word.charAt(0)))
-                    .append(word.substring(1)).append(" ");
-        }
-        return sb.toString().trim();
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
     public static String addSpaceAnswer(String s) {
@@ -726,9 +720,8 @@ public final class UtilityFunctions {
     }
 
 
-
     // Function for unlocking
-    public static void updateDbUnlock(GradeDatabase database, String grade,String chapter,String subSub){
+    public static void updateDbUnlock(GradeDatabase database, String grade, String chapter, String subSub) {
 
         List<Grades_data> dbData = new ArrayList<>();
         dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
@@ -737,12 +730,12 @@ public final class UtilityFunctions {
         for (int i = 0; i < dbData.size(); i++) {
             if (dbData.get(i).chapter.equals(subSub)) {
 
-               try{
-                   database.gradesDao().updateIsComplete(true,dbData.get(i).chapter);
-                   database.gradesDao().update(true,dbData.get(i+1).chapter);
-                   Log.i("DB_DATA",dbData.get(i+1).chapter);
-                   break;
-               }catch (Exception e){
+                try {
+                    database.gradesDao().updateIsComplete(true, dbData.get(i).chapter);
+                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
+                    Log.i("DB_DATA", dbData.get(i + 1).chapter);
+                    break;
+                } catch (Exception e) {
 
                     Log.i("DB_DATA_EXP", e.getMessage());
                     break;
@@ -750,20 +743,20 @@ public final class UtilityFunctions {
 
             }
 
-       }
+        }
     }
 
 
     // getting first false data
-    public static Grades_data getFirstFalseData(GradeDatabase database, String grade, String chapter){
+    public static Grades_data getFirstFalseData(GradeDatabase database, String grade, String chapter) {
 
-        List<Grades_data> dbData=new ArrayList<>();
-        dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%' AND is_complete=0 LIMIT 1"));
-        Log.i("CHAPTER",chapter);
-        Log.i("DB_DATA",dbData+"");
+        List<Grades_data> dbData = new ArrayList<>();
+        dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=0 LIMIT 1"));
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", dbData + "");
         try {
             return dbData.get(0);
-        }catch (Exception e){
+        } catch (Exception e) {
 
             return null;
         }
@@ -771,19 +764,19 @@ public final class UtilityFunctions {
     }
 
 
-    public static List<Grades_data> gettingSubSubjectData(GradeDatabase database, String grade, String chapter,boolean is_all_needed){
+    public static List<Grades_data> gettingSubSubjectData(GradeDatabase database, String grade, String chapter, boolean is_all_needed) {
 
-        List<Grades_data> dbData=new ArrayList<>();
+        List<Grades_data> dbData = new ArrayList<>();
         if (is_all_needed)
-              dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%'"));
+            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
         else
-              dbData= database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%"+chapter+"%' AND is_complete=1"));
+            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
 
-        Log.i("CHAPTER",chapter);
-        Log.i("DB_DATA",dbData+"");
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", dbData + "");
         try {
             return dbData;
-        }catch (Exception e){
+        } catch (Exception e) {
 
             return null;
         }
@@ -791,32 +784,35 @@ public final class UtilityFunctions {
     }
 
 
-    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed){
+    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
 
-        List<ProgressM> list=db.progressDao().isAvailable(chapter);
+        List<ProgressM> list = db.progressDao().isAvailable(chapter);
 
-        if (!is_data_needed){
-        if (list.size()>0){
-            updateProgressData(db,subject,chapter,time_spend);
-        }else{
+        if (!is_data_needed) {
+            if (list.size() > 0) {
+                updateProgressData(db, subject, chapter, time_spend);
+            } else {
 
-            addProgressData(db,subject,chapter,timeStamp,time_spend);
-        }}
+                addProgressData(db, subject, chapter, timeStamp, time_spend);
+            }
+        }
         return list;
     }
 
-    public static void updateProgressData(ProgressDataBase db,String subject,String chapter,long time_spend) {
+    public static void updateProgressData(ProgressDataBase db, String subject, String chapter, long time_spend) {
 
-        try{
-            db.progressDao().update(time_spend,chapter);
+        try {
+            db.progressDao().update(time_spend, chapter);
 
-        }catch (Exception e){e.printStackTrace();}
-
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
-    public static void addProgressData(ProgressDataBase db,String subject,String chapter,Date timeStamp,long time_spend) {
+    }
+
+
+    public static void addProgressData(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend) {
 
         try {
             Date date = new Date();
@@ -831,7 +827,7 @@ public final class UtilityFunctions {
             progressM.is_completed = "Yes";
             progressM.subject = subject;
             progressM.chapter = chapter;
-            progressM.time_spend=time_spend;
+            progressM.time_spend = time_spend;
             progressM.date = formatter.format(date) + "";
             progressM.timestamp = date.getTime();
             db.progressDao().insertNotes(progressM);
@@ -841,20 +837,6 @@ public final class UtilityFunctions {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public static void displayCustomDialog(Context context, String title, String body) {

@@ -82,15 +82,16 @@
                 tools:ignore="UnusedAttribute" />
 
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/image_view_teacher"
                 android:layout_width="110dp"
                 android:layout_height="120dp"
                 android:layout_above="@id/giveTestButton"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/character_teacher"
                 app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/talking_avatar" />
 
 
             <LinearLayout
