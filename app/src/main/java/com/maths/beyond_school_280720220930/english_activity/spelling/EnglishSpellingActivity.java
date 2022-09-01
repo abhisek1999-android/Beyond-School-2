@@ -30,6 +30,7 @@ import com.maths.beyond_school_280720220930.database.english.spelling.model.Spel
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingDetail;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishSpellingBinding;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -93,13 +94,17 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             setViews();
             buttonClick();
             binding.giveTestButton.setOnClickListener((view) -> {
-                var intent = new Intent(this, SpellingTest.class);
-                intent.putExtra(EXTRA_SPELLING_DETAIL, getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
-                startActivity(intent);
+                navigateToTest();
             });
         } else {
             UtilityFunctions.simpleToast(this, "No data found");
         }
+    }
+
+    private void navigateToTest() {
+        var intent = new Intent(this, SpellingTest.class);
+        intent.putExtra(EXTRA_SPELLING_DETAIL, getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
+        startActivity(intent);
     }
 
     private void buttonClick() {
@@ -291,8 +296,10 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         logs += "Question : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord() + " : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription() + ". \n";
 
 //        Stop when reach ot last item
-        if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1))
+        if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
             isSpeaking = false;
+            displayCompleteDialog();
+        }
     }
 
 
@@ -502,6 +509,10 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     binding.playPause.setChecked(false);
+                                    if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
+                                        displayCompleteDialog();
+                                    }
+                                    playPauseAnimation(false);
                                 }
                             }, DELAY_TIME);
                         } else {
@@ -599,6 +610,33 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
 
         });
+
+    }
+
+    private void displayCompleteDialog() {
+
+        HintDialog hintDialog = new HintDialog(EnglishSpellingActivity.this);
+        hintDialog.setCancelable(false);
+        hintDialog.setAlertTitle("Woohoo!!");
+        hintDialog.setAlertDesciption("Hey, you completed practice successfully !!\nNow you can proceed to take test.");
+
+        hintDialog.actionButton("START TEST");
+        hintDialog.actionButtonBackgroundColor(R.color.primary);
+        hintDialog.setOnActionListener(viewId -> {
+
+            switch (viewId.getId()) {
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+                case R.id.buttonAction:
+                    navigateToTest();
+                    break;
+            }
+        });
+
+
+        hintDialog.show();
 
     }
 }

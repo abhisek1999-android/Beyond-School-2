@@ -22,11 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.ScoreActivity;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingCategoryModel;
@@ -90,6 +92,13 @@ public class SpellingTest extends AppCompatActivity {
     private GradeDatabase databaseGrade;
     private JSONArray kidsActivityJsonArray = new JSONArray();
 
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private int kidAge;
+    private String kidName;
+    private String gResult = "";
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +110,11 @@ public class SpellingTest extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsDb = FirebaseFirestore.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
+        auth = FirebaseAuth.getInstance();
+        kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
         setToolbar();
         setData();
         binding.learnOrTest.setOnClickListener((c) -> {
@@ -272,6 +286,7 @@ public class SpellingTest extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
+                gResult = result;
                 var currentWord = spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
                 var currentWordArray = currentWord.toCharArray();
                 var split = result.replace(" ", "").toCharArray();
@@ -365,6 +380,12 @@ public class SpellingTest extends AppCompatActivity {
                                                 .getWord(),
                                         diff,
                                         true);
+
+                                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                                        "English-Test-" + "Spelling", kidAge, spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                        , result, false, (int) (diff),
+                                        spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription(),
+                                        "english");
                             } else {
                                 currentTryCount++;
                                 currentWordPosition = 0;
@@ -456,6 +477,11 @@ public class SpellingTest extends AppCompatActivity {
                                                     .getWord(),
                                             endTime - startTime,
                                             true);
+                                    UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                                            "English-Test-" + "Spelling", kidAge, spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                            , gResult, false, (int) (endTime - startTime),
+                                            spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription(),
+                                            "english");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -544,6 +570,7 @@ public class SpellingTest extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        gotoScoreCard();
     }
 
 
@@ -647,6 +674,15 @@ public class SpellingTest extends AppCompatActivity {
         }
         kidsActivityJsonArray.put(activityData);
 
+    }
 
+    private void gotoScoreCard() {
+
+        Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+        intent.putExtra("wrongAns", correctCount);
+        intent.putExtra("correctAns", wrongCount);
+        intent.putExtra("chapter", UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", ""));
+
+        startActivity(intent);
     }
 }

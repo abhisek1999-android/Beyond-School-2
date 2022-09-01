@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.vocabulary.practice;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,10 +13,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.ScoreActivity;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
@@ -64,7 +67,6 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer = null;
     private GradeDatabase databaseGrade;
     private String kidsGrade;
-
     private FirebaseFirestore kidsDb;
     private String kidsId;
     private LogDatabase logDatabase;
@@ -72,7 +74,13 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private long startTime = 0, endTime = 0;
     private JSONArray kidsActivityJsonArray = new JSONArray();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private int kidAge;
+    private String kidName;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +92,12 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsDb = FirebaseFirestore.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
+        auth = FirebaseAuth.getInstance();
+        kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -190,7 +204,6 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         logs += "Question : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition() + ". \n";
         if (binding.viewPagerTest.getCurrentItem() == (vocabularyList.size() - 1)) {
             isSpeaking = false;
-
         }
     }
 
@@ -223,6 +236,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        gotoScoreCard();
     }
 
     private void initMediaPlayer() {
@@ -257,6 +271,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                                         + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(),
                                 result, diff, true);
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                                "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                , result, true, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                        + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english");
                     } else {
                         if (tryAgainCount == 2) {
                             wrongAnswers++;
@@ -270,6 +288,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                             helperTTS("No problem ,Answer is  " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord(), false, true);
                             ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
+                            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                                    "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                    , result, false, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
+                                            + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english");
                             return;
                         }
                         helperTTS(UtilityFunctions.getCompliment(false), false, false);
@@ -470,6 +492,17 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             binding.imageViewTeacher.playAnimation();
         else
             binding.imageViewTeacher.pauseAnimation();
+    }
+
+
+    private void gotoScoreCard() {
+
+        Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+        intent.putExtra("wrongAns", wrongAnswers);
+        intent.putExtra("correctAns", correctAnswers);
+        intent.putExtra("chapter", category);
+
+        startActivity(intent);
     }
 
 

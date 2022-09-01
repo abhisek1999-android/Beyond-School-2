@@ -31,6 +31,7 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
@@ -96,10 +97,14 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             if (tts != null && stt != null) {
                 destroyedEngines();
             }
-            var intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
-            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, category.name());
-            startActivity(intent);
+            navigateToTest();
         });
+    }
+
+    private void navigateToTest() {
+        var intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
+        intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, category.name());
+        startActivity(intent);
     }
 
 
@@ -239,8 +244,6 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         }).get();
 
 
-
-
         tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
             UtilityFunctions.runOnUiThread(() -> {
                 var textView = (TextView) this.findViewById(R.id.text_view_description);
@@ -264,8 +267,9 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         logs += "Question : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition() + ". \n";
 
 //        Stop when reach ot last item
-        if (binding.viewPager.getCurrentItem() == (vocabularyList.size() - 1))
+        if (binding.viewPager.getCurrentItem() == (vocabularyList.size() - 1)) {
             isSpeaking = false;
+        }
     }
 
 
@@ -417,6 +421,9 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                             }
                         } else {
                             binding.playPause.setChecked(false);
+                            playPauseAnimation(false);
+                            if (binding.viewPager.getCurrentItem() == (vocabularyList.size()) - 1)
+                                displayCompleteDialog();
                         }
                     }, DELAY_TIME);
                 } else {
@@ -485,6 +492,33 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             binding.imageViewTeacher.playAnimation();
         else
             binding.imageViewTeacher.pauseAnimation();
+    }
+
+    private void displayCompleteDialog() {
+
+        HintDialog hintDialog = new HintDialog(EnglishActivity.this);
+        hintDialog.setCancelable(false);
+        hintDialog.setAlertTitle("Woohoo!!");
+        hintDialog.setAlertDesciption("Hey, you completed practice successfully !!\nNow you can proceed to take test.");
+
+        hintDialog.actionButton("START TEST");
+        hintDialog.actionButtonBackgroundColor(R.color.primary);
+        hintDialog.setOnActionListener(viewId -> {
+
+            switch (viewId.getId()) {
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+                case R.id.buttonAction:
+                    navigateToTest();
+                    break;
+            }
+        });
+
+
+        hintDialog.show();
+
     }
 
 }

@@ -91,9 +91,11 @@ public class AdditionActivity extends AppCompatActivity {
     private ProgressDataBase progressDataBase;
 
     private List<ProgressM> progressData;
-    private long timeSpend=0;
+    private long timeSpend = 0;
     public static final int TIMER_VALUE = 15;
-    private boolean isTimerRunning=true;
+    private boolean isTimerRunning = true;
+    private String kidName;
+    private int kidAge;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -104,12 +106,12 @@ public class AdditionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
-        ansList=new ArrayList();
-        timeList=new ArrayList();
-        numberList=new ArrayList<>();
-        progressData=new ArrayList<>();
+        ansList = new ArrayList();
+        timeList = new ArrayList();
+        numberList = new ArrayList<>();
+        progressData = new ArrayList<>();
 
-        progressDataBase=ProgressDataBase.getDbInstance(AdditionActivity.this);
+        progressDataBase = ProgressDataBase.getDbInstance(AdditionActivity.this);
 
         databaseGrade = GradeDatabase.getDbInstance(this);
         binding.toolBar.titleText.setText("Addition");
@@ -121,6 +123,8 @@ public class AdditionActivity extends AppCompatActivity {
 
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
+        kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
 
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
@@ -144,22 +148,21 @@ public class AdditionActivity extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData=UtilityFunctions.checkProgressAvailable(progressDataBase,"Mathematics"+subject,selectedSub,new Date(),0,true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(), 0, true);
 
-        try{
-            if (progressData!=null){
-                timeSpend=progressData.get(0).time_spend;
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
             }
-        }catch (Exception e){
-            timeSpend=0;
+        } catch (Exception e) {
+            timeSpend = 0;
         }
 
     }
 
 
-
-    private void timer(){
-        isTimerRunning=false;
+    private void timer() {
+        isTimerRunning = false;
         Observable.interval(60, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<Long>() {
@@ -167,21 +170,21 @@ public class AdditionActivity extends AppCompatActivity {
                         // update your view here
 
                         binding.timerProgress.setMax(15);
-                        binding.timerProgress.setProgress(Integer.parseInt((x+1)+""));
-                        binding.timeText.setText((x+1)+"");
-                        Log.i("task",x+"");
+                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.timeText.setText((x + 1) + "");
+                        Log.i("task", x + "");
                     }
                 })
                 .takeUntil(aLong -> aLong == TIMER_VALUE)
                 .doOnComplete(() ->
                         // do whatever you need on complete
-                        Log.i("TSK","task")
+                        Log.i("TSK", "task")
                 ).subscribe();
 
 
     }
 
-    private TextView.OnEditorActionListener editorActionListener= (textView, i, keyEvent) -> {
+    private TextView.OnEditorActionListener editorActionListener = (textView, i, keyEvent) -> {
 
         switch (i) {
             case EditorInfo.IME_ACTION_DONE:
@@ -213,6 +216,7 @@ public class AdditionActivity extends AppCompatActivity {
         // play();
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setBasicUiElement() {
 
@@ -410,8 +414,8 @@ public class AdditionActivity extends AppCompatActivity {
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
 
 
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Test-" + subject, 22, currentAnswer + "", result, true, (int) (diff),
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, true);
 
@@ -423,8 +427,8 @@ public class AdditionActivity extends AppCompatActivity {
             logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
             tts.initialize(UtilityFunctions.getCompliment(false), AdditionActivity.this);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, false);
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Test-" + subject, 22, currentAnswer + "", result, false, (int) (diff),
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, false, (int) (diff),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
             DELAY_ON_STARTING_STT = 500;
             DELAY_ON_SETTING_QUESTION = 2000;
@@ -444,20 +448,16 @@ public class AdditionActivity extends AppCompatActivity {
         } else {
 
             //null check req
-            if (correctAnswer>=9)
-            {
-                CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"pass",auth,kidsId,
-                        selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
-               if (!subject.equals("multiplication"))
-                UtilityFunctions.updateDbUnlock(databaseGrade,kidsGrade,subject,selectedSub);
-               else
-                   if (PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto))<Integer.parseInt(digit))
-                   PrefConfig.writeIntInPref(getApplicationContext(),Integer.parseInt(digit),getResources().getString(R.string.multiplication_upto));
-            }
-
-            else
-            CallFirebaseForInfo.checkActivityData(kidsDb,kidsActivityJsonArray,"fail", auth, kidsId,
-                    selectedSub,subject,correctAnswer,wrongAnswer,currentQuestion-1,"mathematics");
+            if (correctAnswer >= 9) {
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
+                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+                if (!subject.equals("multiplication"))
+                    UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
+                else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))
+                    PrefConfig.writeIntInPref(getApplicationContext(), Integer.parseInt(digit), getResources().getString(R.string.multiplication_upto));
+            } else
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,
+                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
             resetViews();
         }
@@ -509,10 +509,10 @@ public class AdditionActivity extends AppCompatActivity {
 
     private void gotoScoreCard() {
 
-        Intent intent=new Intent(getApplicationContext(),ScoreActivity.class);
-        intent.putExtra("wrongAns",wrongAnswer);
-        intent.putExtra("correctAns",correctAnswer);
-        intent.putExtra("chapter",selectedSub);
+        Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+        intent.putExtra("wrongAns", wrongAnswer);
+        intent.putExtra("correctAns", correctAnswer);
+        intent.putExtra("chapter", selectedSub);
 
         startActivity(intent);
     }
@@ -676,8 +676,8 @@ public class AdditionActivity extends AppCompatActivity {
         stt.stop();
 
         checkLogIsEnable();
-        UtilityFunctions.checkProgressAvailable(progressDataBase,"Mathematics"+subject,selectedSub,new Date(),
-                timeSpend+Integer.parseInt(binding.timeText.getText().toString()),false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(),
+                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
 
     }
 
