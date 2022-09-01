@@ -161,7 +161,9 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             onBackPressed();
         });
         //TODO: To be turned on
+        binding.playPause.setEnabled(false);
         initProcess();
+
 
 
 
@@ -740,6 +742,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 UtilityFunctions.runOnUiThread(() -> {
                     play();
                 }, 10);
+
+                binding.playPause.setEnabled(true);
             }
 
             @Override
