@@ -23,8 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_marginTop="10dp">
 
 
             <LinearLayout
@@ -75,7 +74,7 @@
             app:layout_constraintVertical_bias="0.027" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/background_round"
@@ -85,18 +84,18 @@
 
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/questionLayout"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
             <ImageView
+                android:id="@+id/bunny"
                 android:layout_width="350dp"
                 android:layout_height="350dp"
                 android:layout_centerHorizontal="true"
                 android:rotation="35"
-                android:src="@drawable/cartoon_action_page" />
+                />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/ShowTable"
@@ -141,6 +140,7 @@
                         android:textColor="@color/teal_700"
                         android:textSize="40sp"
                         android:textStyle="bold" />
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animationVoice"
                         android:layout_width="40dp"
@@ -159,12 +159,12 @@
         </RelativeLayout>
 
 
-
         <ToggleButton
-            android:layout_margin="10dp"
             android:id="@+id/playPause"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:background="@drawable/background_round"
             android:clickable="true"
             android:drawableTop="@drawable/play_button"
@@ -173,7 +173,6 @@
             android:text=""
             android:textOff=""
             android:textOn=""
-            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
 
 
@@ -181,11 +180,10 @@
             android:id="@+id/tapInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap this button to Start"
-            android:fontFamily="@font/reemkufi_medium"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            />
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Tap this button to Start"
+            android:textSize="20sp" />
 
 
         <LinearLayout
@@ -201,61 +199,21 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/score"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        >
+        android:orientation="horizontal">
 
 
         <LinearLayout
-            android:id="@+id/layout_set"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="40dp"
-                    app:cardElevation="0dp">
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@color/teal_700"
-                        android:fontFamily="@font/reemkufi_medium"
-                        android:gravity="center"
-                        android:text="08"
-                        android:textColor="@color/white"
-                        android:textSize="40sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
@@ -272,14 +230,52 @@
                     android:id="@+id/textView36"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@color/sweet_red"
                     android:fontFamily="@font/reemkufi_medium"
                     android:gravity="center"
                     android:text="02"
-                    android:textColor="@color/white"
+                    android:textColor="@color/sweet_red"
                     android:textSize="40sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_set"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:gravity="center"
+                        android:text="08"
+                        android:textColor="@color/teal_700"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -305,5 +301,15 @@
         android:visibility="gone"
         android:textSize="24sp" />
 
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/dialPadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/log_bottom_sheet" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_0_25">2dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+
+    <dimen name="grid_5d">5dp</dimen>
+    <dimen name="grid_10">10dp</dimen>
+    <dimen name="default_font_size">16sp</dimen>
+    <dimen name="default_font_size_big">18sp</dimen>
+    <dimen name="default_font_size_small">14sp</dimen>
+
+    <!--8dp grid-->
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_1_5">14dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
+    <dimen name="grid_20">20dp</dimen>
+    <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_31">28dp</dimen>
+    <dimen name="grid_4">32dp</dimen>
+    <dimen name="grid_5">40dp</dimen>
+    <dimen name="grid_6">48dp</dimen>
+    <dimen name="grid_7">56dp</dimen>
+    <dimen name="image_size">180dp</dimen>
+</resources>

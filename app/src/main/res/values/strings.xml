@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BEYOND SCHOOL</string>
+    <string name="youtube_api">AIzaSyAZQ4zHDUaCXhGrwd12E2qO0P1EP_NdmCU</string>
     <string-array name="numbers">
         <item>2000</item>
         <item>2300</item>
@@ -37,4 +38,934 @@
 
 
     </string-array>
+
+    <string-array name="country_code">
+        <item>+91</item>
+        <item>+93</item>
+        <item>
+           +355
+        </item>
+        <item>
+            +213
+        </item>
+        <item>
+            +1684
+        </item>
+        <item>
+            +376
+        </item>
+        <item>
+            +244
+        </item>
+        <item>+1264</item>
+        <item>
+            +672
+        </item>
+        <item>
+            +1268
+        </item>
+        <item>
+            +54
+        </item>
+        <item>
+            +374
+        </item>
+        <item>
+          +297
+        </item>
+        <item>
+            +61
+        </item>
+        <item>
+            +43
+        </item>
+        <item>
+            +994
+        </item>
+        <item>
+            +1242
+        </item>
+        <item>
+            +973
+        </item>
+        <item>
+            +880
+        </item>
+        <item>
+            +1246
+        </item>
+        <item>
+           +375
+        </item>
+        <item>
+            +32
+        </item>
+        <item>
+            +501
+        </item>
+        <item>
+            +229
+        </item>
+        <item>
+            +1441
+        </item>
+        <item>
+            +975
+        </item>
+        <item>
+            +591
+        </item>
+        <item>
+            +387
+        </item>
+        <item>
+            +267
+        </item>
+        <item>
+            +55
+        </item>
+        <item>
+            +246
+        </item>
+        <item>
+            +1284
+        </item>
+        <item>
+            +673
+        </item>
+        <item>
+            +359
+        </item>
+        <item>
+            +226
+        </item>
+        <item>
+            +257
+        </item>
+        <item>
+            +855
+        </item>
+        <item>
+            +237
+        </item>
+        <item>
+            +1
+        </item>
+        <item>
+            +238
+        </item>
+        <item>
+            +1345
+        </item>
+        <item>
+            +236
+        </item>
+        <item>
+            +235
+        </item>
+        <item>
+            +56
+        </item>
+        <item>
+           +86
+        </item>
+        <item>
+            +61
+        </item>
+        <item>
+            +61
+        </item>
+        <item>
+            +57
+        </item>
+        <item>
+            +269
+        </item>
+        <item>
+            +682
+        </item>
+        <item>
+            +506
+        </item>
+        <item>
+            +385
+        </item>
+        <item>
+            +53
+        </item>
+        <item>
+            +599
+        </item>
+        <item>
+            +357
+        </item>
+        <item>
+            +420
+        </item>
+        <item>
+            +243
+        </item>
+        <item>
+           +45
+        </item>
+        <item>
+            +253
+        </item>
+        <item>
+            +1767
+        </item>
+        <item>
+            +1809
+        </item>
+        <item>
+            +670
+        </item>
+        <item>
+            +593
+        </item>
+        <item>
+            +20
+        </item>
+        <item>
+           +503
+        </item>
+        <item>
+           +240
+        </item>
+        <item>
+            +291
+        </item>
+        <item>
+            +372
+        </item>
+        <item>
+            +251
+        </item>
+        <item>
+            +500
+        </item>
+        <item>
+            +298
+        </item>
+        <item>
+           +679
+        </item>
+        <item>
+            +358
+        </item>
+        <item>
+            +33
+        </item>
+        <item>
+            +689
+        </item>
+        <item>
+            +241
+        </item>
+        <item>
+            +220
+        </item>
+        <item>
+            +995
+        </item>
+        <item>
+           +49
+        </item>
+        <item>
+            +233
+        </item>
+        <item>
+            +350
+        </item>
+        <item>
+            +30
+        </item>
+        <item>
+            +299
+        </item>
+        <item>
+           +1473
+        </item>
+        <item>
+            +1671
+        </item>
+        <item>
+            +502
+        </item>
+        <item>
+            +441481
+        </item>
+        <item>
+           +224
+        </item>
+        <item>
+            +245
+        </item>
+        <item>
+            +592
+        </item>
+        <item>
+            +509
+        </item>
+        <item>
+            +504
+        </item>
+        <item>
+           +852
+        </item>
+        <item>
+            +36
+        </item>
+        <item>
+            +354
+        </item>
+        <item>
+            +62
+        </item>
+        <item>
+            +98
+        </item>
+        <item>
+           +964
+        </item>
+        <item>
+            +53
+        </item>
+        <item>
+         +441624
+        </item>
+        <item>
+           +972
+        </item>
+        <item>
+            +39
+        </item>
+        <item>
+           +225
+        </item>
+        <item>
+           +1876
+        </item>
+        <item>
+            +81
+        </item>
+        <item>
+            +441534
+        </item>
+        <item>
+            +962
+        </item>
+        <item>
+           +7
+        </item>
+        <item>
+            +254
+        </item>
+        <item>
+           +686
+        </item>
+        <item>
+            +383
+        </item>
+        <item>
+            +965
+        </item>
+        <item>
+           +996
+        </item>
+        <item>
+            +856
+        </item>
+        <item>
+           +371
+        </item>
+        <item>
+            +961
+        </item>
+        <item>
+            +266
+        </item>
+        <item>
+            +231
+        </item>
+        <item>
+            +218
+        </item>
+        <item>
+           +423
+        </item>
+        <item>
+          +370
+        </item>
+        <item>
+            +352
+        </item>
+        <item>
+            +853
+        </item>
+        <item>
+           +389
+        </item>
+        <item>
+           +261
+        </item>
+        <item>
+          +265
+        </item>
+        <item>
+           +60
+        </item>
+        <item>
+           +960
+        </item>
+        <item>
+            +223
+        </item>
+        <item>
+            +356
+        </item>
+        <item>
+            +692
+        </item>
+        <item>
+          +222
+        </item>
+        <item>
+           +230
+        </item>
+        <item>
+           +262
+        </item>
+        <item>
+           +52
+        </item>
+        <item>
+           +691
+        </item>
+        <item>
+           +373
+        </item>
+        <item>
+         +377
+        </item>
+        <item>
+            +976
+        </item>
+        <item>
+            +382
+        </item>
+        <item>
+           +1664
+        </item>
+        <item>
+            +212
+        </item>
+        <item>
+            +258
+        </item>
+        <item>
+          +95
+        </item>
+        <item>
+           +264
+        </item>
+        <item>
+            +674
+        </item>
+        <item>
+           +977
+        </item>
+        <item>
+            +31
+        </item>
+        <item>
+            +599
+        </item>
+        <item>
+            +687
+        </item>
+        <item>
+          +64
+
+        </item>
+        <item>
+            +505
+        </item>
+        <item>
+            +227
+        </item>
+        <item>
+            +234
+        </item>
+        <item>
+            +683
+        </item>
+        <item>
+            +850
+        </item>
+        <item>
+            +1670
+        </item>
+        <item>
+            +47
+        </item>
+        <item>
+           +968
+        </item>
+        <item>
+           +92
+        </item>
+        <item>
+            +680
+        </item>
+        <item>
+            +970
+        </item>
+        <item>
+            +507
+        </item>
+        <item>
+            +675
+        </item>
+        <item>
+            +595
+        </item>
+        <item>
+           +51
+        </item>
+        <item>
+           +63
+        </item>
+        <item>
+           +64
+        </item>
+        <item>
+            +48
+        </item>
+        <item>
+            +351
+        </item>
+        <item>
+           +1787
+        </item>
+        <item>
+            +974
+        </item>
+        <item>
+           +242
+        </item>
+        <item>
+            +262
+        </item>
+        <item>
+           +40
+        </item>
+        <item>
+          +7
+        </item>
+        <item>
+            +250
+        </item>
+        <item>
+            +590
+        </item>
+        <item>
+            +290
+        </item>
+        <item>
+            +1869
+        </item>
+        <item>
+            +1758
+        </item>
+        <item>
+            +590
+        </item>
+        <item>
+            +508
+        </item>
+        <item>
+            +1784
+        </item>
+        <item>
+            +685
+        </item>
+        <item>
+            +378
+        </item>
+        <item>
+            +239
+        </item>
+        <item>
+            +966
+        </item>
+        <item>
+            +221
+        </item>
+        <item>
+            +381
+        </item>
+        <item>
+            +248
+        </item>
+        <item>
+           +232
+        </item>
+        <item>
+           +65
+        </item>
+        <item>
+           +1721
+        </item>
+        <item>
+            +421
+        </item>
+        <item>
+            +386
+        </item>
+        <item>
+            +677
+        </item>
+        <item>
+            +252
+        </item>
+        <item>
+          +27
+        </item>
+        <item>
+           +82
+        </item>
+        <item>
+           +211
+        </item>
+        <item>
+           +34
+        </item>
+        <item>
+            +94
+        </item>
+        <item>
+          +249
+        </item>
+        <item>
+         +597
+        </item>
+        <item>
+           +47
+        </item>
+        <item>
+            +268
+        </item>
+        <item>
+           +46
+        </item>
+        <item>
+            +41
+        </item>
+        <item>
+           +963
+        </item>
+        <item>
+            +886
+        </item>
+        <item>
+            +992
+        </item>
+        <item>
+            +255
+        </item>
+        <item>
+           +66
+        </item>
+        <item>
+            +228
+        </item>
+        <item>
+           +690
+        </item>
+        <item>
+            +676
+        </item>
+        <item>
+           +1868
+        </item>
+        <item>
+           +216
+        </item>
+        <item>
+            +90
+        </item>
+        <item>
+           +993
+        </item>
+        <item>
+            +1649
+        </item>
+        <item>
+            +688
+        </item>
+        <item>
+            +1340
+        </item>
+        <item>
+            +256
+        </item>
+        <item>
+            +380
+        </item>
+        <item>
+           +971
+        </item>
+        <item>
+            +44
+        </item>
+        <item>
+            +1
+        </item>
+        <item>
+           +598
+        </item>
+        <item>
+            +998
+        </item>
+        <item>
+            +678
+        </item>
+        <item>
+            +379
+        </item>
+        <item>
+            +58
+        </item>
+        <item>
+            +84
+        </item>
+        <item>
+           +681
+        </item>
+        <item>
+            +212
+        </item>
+        <item>
+            967
+        </item>
+        <item>
+            260
+        </item>
+        <item>
+            263
+        </item>
+
+
+    </string-array>
+
+
+    <string-array name="table_name">
+
+        <item>Table of Two</item>
+        <item>Table of Three</item>
+        <item>Table of Four</item>
+        <item>Table of Five"</item>
+        <item>Table of Six</item>
+        <item>Table of Seven</item>
+        <item>Table of Eight</item>
+        <item>Table of Nine</item>
+        <item>Table of Ten</item>
+        <item>Table of Eleven</item>
+        <item>Table of Twelve</item>
+        <item>Table of Thirteen</item>
+        <item>Table of Fourteen</item>
+        <item>Table of Fifteen</item>
+        <item>Table of Sixteen</item>
+        <item>Table of Seventeen</item>
+        <item>Table of Eighteen</item>
+        <item>Table of Nineteen</item>
+        <item>Table of Twenty</item>
+
+
+    </string-array>
+
+
+    <string name="math_extra">Mathematics Extra</string>
+    <string name="english_extra">English Extra</string>
+
+    <string name="start">Start</string>
+    <string name="close">Close</string>
+    <string name="log_check">IS_LOG_ENABLE</string>
+    <string name="last_table">LAST_TABLE</string>
+    <string name="right">KEY_RIGHT</string>
+    <string name="wrong">KEY_WRONG</string>
+    <string name="multiplier">KEY_MULTIPLIER</string>
+    <string name="multiplicand">KEY_MULTIPLICAND</string>
+    <string name="status">KEY_STATUS</string>
+    <string name="first_time">KEY_FIRST_TIME_OPEN</string>
+    <string name="alarm_enable">KEY_ALARM_ENABLE</string>
+    <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
+    <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
+    <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
+    <string name="slogan2">Maths and English Personalized  <font color="#6CC8CD">Learning App</font></string>
+    <string name="title_activity_kids_info">KidsInfoActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="your_grade">Kids Grade</string>
+    <string name="alarm_at_time">Set Your Time</string>
+    <string name="study_remainder">Set your study reminder</string>
+    <string name="remainder_on_off">Reminder: ON/OFF</string>
+    <string name="addition_text_view">%s + %s = ?</string>
+
+    <string-array name="grades">
+        <item>GRADE 1</item>
+        <item>GRADE 2</item>
+        <item>GRADE 3</item>
+        <!--        <item>4th Grade</item>-->
+        <!--        <item>5th Grade</item>-->
+        <!--        <item>6th Grade</item>-->
+        <!--        <item>7th Grade</item>-->
+        <!--        <item>8th Grade</item>-->
+        <!--        <item>9th Grade</item>-->
+        <!--        <item>10th Grade</item>-->
+        <!--        <item>11th Grade</item>-->
+        <!--        <item>12th Grade</item>-->
+    </string-array>
+    <string name="title_activity_welcome_screen">WelcomeScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="grade1">GRADE 1</string>
+    <string name="grade2">GRADE 2</string>
+    <string name="grade3">GRADE 3</string>
+
+    <string name="math">Mathematics</string>
+    <string name="add1">1 -Digit Addition</string>
+    <string name="sub1">1 -Digit Subtraction</string>
+    <string name="mul1">Multiplication up to 10 \'s table </string>
+    <string name="div1">1 -Digit Division</string>
+
+    <string name="add2">2 -Digit Addition</string>
+    <string name="sub2">2 -Digit Subtraction</string>
+    <string name="mul2">Multiplication up to 12 \'s table</string>
+    <string name="div2">2 -Digit Division</string>
+
+    <string name="add">Addition</string>
+    <string name="sub">Subtraction</string>
+    <string name="mul">Multiplication Tables</string>
+    <string name="div">Division</string>
+
+    <string name="add3">3 -Digit Addition</string>
+    <string name="sub3">3 -Digit Subtraction</string>
+    <string name="mul3">Multiplication up to 15 \'s table</string>
+    <string name="div3">4 -Digit Division</string>
+
+    <string name="add4">4 -Digit Addition</string>
+    <string name="add5">5 -Digit Addition</string>
+    <string name="sub4">4 -Digit Subtraction</string>
+    <string name="sub5">5 -Digit Subtraction</string>
+
+    <string name="english">English</string>
+    <string name="vocabulary">Vocabulary</string>
+
+    <string name="vocab1">Vocabulary Bathroom</string>
+    <string name="vocab2">Vocabulary Bodyparts</string>
+    <string name="vocab3">Vocabulary Colors</string>
+    <string name="vocab4">Vocabulary Animals</string>
+    <string name="vocab5">Vocabulary Fruits</string>
+    <string name="vocab6">Vocabulary Vegetables</string>
+    <!--    <string name="vocab7">Vocabulary Opposites</string>-->
+
+    <string name="vocab8">Vocabulary Clothes</string>
+    <string name="vocab9">Vocabulary Feelings</string>
+    <string name="vocab10">Vocabulary Insects</string>
+    <string name="vocab11">Vocabulary Kitchen</string>
+    <string name="vocab12">Vocabulary LivingRoom</string>
+    <!--    <string name="vocab13">Vocabulary Days</string>-->
+
+
+    <string name="vocab14">Vocabulary School</string>
+    <string name="vocab15">Vocabulary Summer</string>
+    <string name="vocab16">Vocabulary Town</string>
+    <string name="vocab17">Vocabulary Transport</string>
+    <string name="vocab18">Vocabulary Weather</string>
+
+    <string name="spelling">Spelling</string>
+    <string name="spelling1">Spelling Most Common Words 1</string>
+    <string name="spelling1_1">Spelling Most Common Words 2</string>
+
+    <string name="spelling2">Spelling Words with short ‘a’ sounds 1</string>
+
+    <string name="spelling3">Spelling Words with ‘L’ blends 1 </string>
+
+    <string name="spelling4">Spelling Words with double consonants 1</string>
+
+    <string name="spelling5">Spelling Words with Long ‘o’ sound 1</string>
+
+    <string name="spelling6">Spelling Words with ‘sh’ 1</string>
+
+    <string name="spelling7">Spelling spellings</string>
+    <!--    <string name="vocab19">Vocabulary Professions</string>-->
+    <!--    <string name="vocab19">Vocabulary Professions</string>-->
+    <!--    <string name="vocab19">Vocabulary Professions</string>-->
+
+    <string name="digit">Digit</string>
+    <string name="table">Table</string>
+
+    <string name="alter_maths">ALTER_MATHS</string>
+    <string name="alter_maths_value">ALTER_MATHS_VALUE</string>
+    <string name="saved_maths_value">SAVED_MATHS_VALUE</string>
+    <string name="saved_english_value">ENGLISH_MATHS_VALUE</string>
+
+    <string name="multiplication_upto">MULTIPLICATION_UPTO</string>
+
+    <string name="grade_1_data">A grade 1 student should know:
+            \nMATHS :\n 1. Addition up to 2-digit numbers.\n2. Subtraction up to 2-digit \n         numbers.\n3. Multiplication Tables till Table of \n         10.\nENGLISH :\n1. Vocabulary -> Bathroom, Body\n       parts, Colors, Animals, Fruits,\n       Vegetables and opposites.\n2. Spelling -> Most common words, 3-letter and 4-letter words.</string>
+    <string name="grade_2_data">A grade 2 student should know:\n1.Addition upto 3-digits.\n 2.Subtraction upto 3-digits.\n 3.Multiplying of 2-digit\nand tables up to 12.\n 4.Division of numbers upto 20</string>
+    <string name="grade_3_data">A grade 3 student should know:\n1.Addition upto 5-digits.\n 2.Subtraction upto 5-digits.\n 3.Multiplying of 2-digit\nand tables up to 15.\n 4.Division of numbers upto 20</string>
+    <string name="practice">Practice</string>
+    <string name="category">Category > %s </string>
+
+
+    <!--for grade 1-->
+    <string name="t11">Addition up to 2-digit numbers.</string>
+    <string name="t12">Subtraction up to 2-digit numbers.</string>
+    <string name="t13">Multiplication Tables till Table of 10.</string>
+    <string name="t16">Vocabulary -> Bathroom, Body parts, Colors, Animals, Fruits, Vegetables and opposites.</string>
+    <string name="t17">Spelling -> Most common words, 3-letter and 4-letter words.</string>
+
+    <!--for grade 2-->
+    <string name="t21">Addition up to 3-digit numbers..</string>
+    <string name="t22">Subtraction up to 3-digit numbers.</string>
+    <string name="t23">Multiplication of 2-digit with 1-digit number (carry over).</string>
+    <string name="t24">Multiplication tables till Table of 12.</string>
+    <string name="t25">Division -> 1-digit quotient.</string>
+    <string name="t26">Vocabulary -> Clothes, Feelings, Insects, Kitchen, Living room, days of the week, months of the year.</string>
+    <string name="t27">Spelling -> Essential words, Most common words, Short vowel sound words.</string>
+
+    <!--for grade 3-->
+    <string name="t31">Addition up to 2-digit numbers.</string>
+    <string name="t32">Subtraction up to 4-digit and 5-digit numbers.</string>
+    <string name="t33">Multiplication of 2-digit with 1-digit, 3-digit with 1-digit and 2-digit with 2-digit.</string>
+    <string name="t34">Multiplication Tables till Table of 15.</string>
+    <string name="t35">Division of 2-digit by 1-digit and 4-digit by 1-digit.</string>
+    <string name="t36">Vocabulary-> School, Summer, Town, Transport, Weather, Professions.</string>
+    <string name="t37">Spelling -> Essential words, Most common words, Compound words, Long and Short vowels, Words with double letter after short vowels, Words with double vowels.</string>
+    <string name="current_by_all">%s / %s</string>
+    <string name="guess_the_word">Guess the name of the picture ?</string>
+    <string name="blanks">_________</string>
+    <string name="question_mark">0</string>
+
+
+    <string name="is_data_loaded">DATA_LOADED</string>
+
+    <string name="kids_grade">KIDS_GRADE</string>
+    <string name="kids_name">KIDS_NAME</string>
+    <string name="kids_dob">KIDS_DOB</string>
+    <string name="kids_id">KIDS_ID</string>
+    <string name="kids_profile_url">KIDS_PROFILE_URL</string>
+    <string name="learn">Learn</string>
+
+    <string name="spelling_text">%s  %s %s</string>
 </resources>

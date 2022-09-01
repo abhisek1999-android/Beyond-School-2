@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/grid_20"
+    app:cardElevation="5dp"
+    android:layout_margin="5dp"
+    android:minHeight="200dp"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/grid_10"
+                android:layout_marginTop="@dimen/grid_10"
+                android:layout_marginEnd="@dimen/grid_10"
+                android:layout_marginBottom="@dimen/grid_10"
+                android:background="@drawable/tv_round"
+                android:backgroundTint="@color/primary"
+                android:fontFamily="@font/reemkufi_medium"
+                android:gravity="center"
+                android:text="0m"
+                android:textSize="10sp"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/subSubject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="5dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Subject"
+                android:textAlignment="center"
+                android:textSize="@dimen/default_font_size_big"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/chapters"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/subSubject"
+                android:text="Subject"
+
+                android:textAlignment="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:textSize="@dimen/default_font_size"
+                />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/grid_10"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            >
+
+            <TextView
+
+                android:id="@+id/status"
+               android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chapters"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/accent"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingHorizontal="@dimen/grid_10"
+                android:text="Incomplete"
+
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size_small" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

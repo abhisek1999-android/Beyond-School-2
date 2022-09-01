@@ -5,20 +5,26 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.Tables;
-import com.maths.beyond_school_280720220930.select_action;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.List;
 
@@ -40,7 +46,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
     public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-            View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.select_card_layout,parent, false);
+            View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_layout,parent, false);
             ContactsViewHolder contactsViewHolder=new  ContactsViewHolder(view);
             return contactsViewHolder;
 
@@ -48,6 +54,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -60,16 +67,25 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 //        }
 
 
+        if (list.get(position).isIs_locked())
+            holder.isLocked.setVisibility(View.INVISIBLE);
 
-        holder.tableDesc.setText(list.get(position).getDecs());
-        holder.tableNumber.setText(list.get(position).getDigit()+"X");
+        Log.i("MUL_LIST",list.get(position).isIs_locked()+"");
+
+        holder.operation.setText(list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
 
             holder.mView.setOnClickListener(v->{
-                Intent intent=new Intent(context, select_action.class);
-                intent.putExtra("value",Integer.parseInt(list.get(position).getDigit()));
+                if (list.get(position).isIs_locked()){
+                Intent intent=new Intent(context, LearningActivity.class);
+                intent.putExtra("selected_sub",list.get(position).getDecs()+"( "+list.get(position).getDigit()+"X )");
+                intent.putExtra("max_digit",list.get(position).getDigit());
+                intent.putExtra("subject","multiplication");
+                intent.putExtra("video_url","default");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                context.startActivity(intent);}
 
+                else
+                    UtilityFunctions.displayCustomDialog(context,"Chapter Locked","Hey, Please complete previous level to unlock.");
             });
 
 
@@ -112,16 +128,19 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     protected class ContactsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tableNumber,tableDesc;
+        TextView digit_val, digit, operation;
+//        TextView tableNumber,tableDesc;
         View mView;
+        ImageView isLocked;
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mView=itemView;
+            operation = itemView.findViewById(R.id.operation);
 
-            tableNumber=mView.findViewById(R.id.numberTextView);
-            tableDesc=mView.findViewById(R.id.descriptionTextView);
-
+//            tableNumber=mView.findViewById(R.id.numberTextView);
+//            tableDesc=mView.findViewById(R.id.descriptionTextView);
+            isLocked=itemView.findViewById(R.id.isLocked);
         }
     }
 

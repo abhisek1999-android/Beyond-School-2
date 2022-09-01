@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.extras;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +10,13 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.table_questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 public class RecognizeVoice implements RecognitionListener {
 
@@ -24,13 +28,16 @@ public class RecognizeVoice implements RecognitionListener {
     String method="";
     String onlyNumber="^[0-9]*$";
     Map<String, String> stringToText=new HashMap();
+    private CompositeDisposable disposable;
 
-   // ProgressBar progressBar;
+    int resultFromActivity=0;
+    // ProgressBar progressBar;
     public RecognizeVoice(Context context,GetResult getResult){
 
         this.mContext=context;
         this.getResult=getResult;
-       // progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
+        // progressBar=((Activity)mContext).findViewById(R.id.progressBar1);
+        // resultFromActivity=((Activity)mContext).result;
         speech = SpeechRecognizer.createSpeechRecognizer(mContext);
         speech.setRecognitionListener(this);
 
@@ -54,18 +61,21 @@ public class RecognizeVoice implements RecognitionListener {
         stringToText.put("stop","buddy stop");
 
         recognizerIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
-
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        //        recognizerIntent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
+        //        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES,true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
-       //https://issuetracker.google.com/issues/36928328
+
+        disposable=new CompositeDisposable();
+
+
+
     }
 
 
@@ -86,13 +96,16 @@ public class RecognizeVoice implements RecognitionListener {
     public void onBeginningOfSpeech() {
         ///progressBar.setIndeterminate(false);
         //progressBar.setMax(10);
+        getResult.getLogResult("Going to start Of Speech\n");
     }
 
     @Override
     public void onRmsChanged(float v) {
 
+        Log.i("LOG_Recognizer", "EndOfSpeech");
+
         Log.i("onRmsChanged",v+"");
-      //  progressBar.setProgress((int) v);
+        //  progressBar.setProgress((int) v);
     }
 
     @Override
@@ -102,9 +115,10 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onEndOfSpeech() {
-        Log.i("LOG_TAG", "EndOfSpeech");
+        Log.i("LOG_Recognizer", "EndOfSpeech");
         Log.i("LOG_TAG", "onEndOfSpeech");
-       // progressBar.setIndeterminate(true);
+        // progressBar.setIndeterminate(true);
+        //  getResult.getLogResult("End Of Speech\n");
         stopListening();
 
     }
@@ -112,7 +126,8 @@ public class RecognizeVoice implements RecognitionListener {
     @Override
     public void onError(int i) {
 
-        Log.i("SpeechError",getErrorText(i));
+        //  getResult.getLogResult("Error : "+getErrorText(i)+"\n");
+        Log.i("LOG_Recognizer",getErrorText(i));
         try {
             getResult.errorAction(i);
         } catch (InterruptedException e) {
@@ -122,68 +137,60 @@ public class RecognizeVoice implements RecognitionListener {
 
     @Override
     public void onResults(Bundle bundle) {
-       Log.i("LOG_TAG", "onResults"+result);
-//        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//        String text = "";
-//        for (String result : matches)
-//            text += result + "\n";
-//        result=matches.get(0).trim();
-//
-//        if (result.matches(onlyNumber)){
-//        getResult.gettingResult(result);
-//        }
-//        else{
-//
-//            try{
-//                getResult.gettingResult(stringToText.get(result.toLowerCase()));
-//            }catch (Exception e){
-//                getResult.gettingResult(result.toLowerCase());
-//            }
-//        }
-//       stopListening();
+        Log.i("LOG_Recognizer", "onResults"+result);
+        ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        String text = "";
+        for (String result : matches)
+            text += result + "\n";
+        result=matches.get(0).trim();
+
+        getResult.getLogResult("Result: "+matches.get(0).trim()+"\n");
+        if (matches.get(0).trim().matches(onlyNumber)){
+            try {
+                getResult.gettingResult(matches.get(0).trim());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+
+            try{
+                getResult.gettingResult(stringToText.get(matches.get(0).trim().toLowerCase()));
+            }catch (Exception e){
+                // getResult.gettingResult(result.toLowerCase());
+                startListening();
+            }
+        }
+        stopListening();
 
     }
 
     @Override
     public void onPartialResults(Bundle bundle) {
 
-        Log.i("LOG_TAG", "onPertialResults"+result);
+
+        Log.i("LOG_Recognizer", "onPertialResults"+result);
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String text = "";
-        for (String result : matches)
-            text += result + "\n";
 
         if (matches.size()!=0){
 
             result=matches.get(0).trim();
-            Log.i("ResultsP",matches+"");
-
-
+            getResult.getLogResult("Partial: "+matches.get(0).trim()+"\n");
+            Log.i("ResultsIntP",result+"");
             if (!result.equals("")){
-                if (result.matches(onlyNumber)){
+                try{
+                    int res=Integer.parseInt(result.replace(" ","").trim());
+                    Log.i("ResultInt ",res+"");
                     stopListening();
-                    getResult.gettingResult(result);
-
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-                else{
 
-                    try{
-                        stopListening();
-                        getResult.gettingResult(stringToText.get(result.toLowerCase()));
-
-                    }catch (Exception e){
-                        stopListening();
-                        getResult.gettingResult(result.toLowerCase());
-
-                    }
-                }
             }
 
-          //  stopListening();
+            //  stopListening();
 
         }
-
-
 
     }
 
@@ -231,8 +238,10 @@ public class RecognizeVoice implements RecognitionListener {
 
     public interface GetResult{
 
-        void gettingResult(String title);
+        void gettingResult(String title) throws InterruptedException;
+        void getLogResult(String title);
         void errorAction(int i) throws InterruptedException;
 
     }
+
 }

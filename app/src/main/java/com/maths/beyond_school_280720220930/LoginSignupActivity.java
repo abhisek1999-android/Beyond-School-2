@@ -1,151 +1,226 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
+import com.maths.beyond_school_280720220930.databinding.ActivityLoginSignupBinding;
+import com.maths.beyond_school_280720220930.signin_methods.GoogleSignInActivity;
+import com.maths.beyond_school_280720220930.signin_methods.PhoneNumberLogin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginSignupActivity extends AppCompatActivity {
-Button login,signup,log,sign;
-    private FirebaseAuth mAuth;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String regex = "^(.+)@(.+)$";
-    CardView logcard,signcard;
-    TextInputEditText email,password,name,confirmpassword,emaillog,passwordlog;
-    Intent loginIntent;
+
+
+    private ActivityLoginSignupBinding binding;
+    GradeDatabase database;
+    Grades_data data;
+    String[] desc1 = {""};
+    List<String> list1, list2, list4;
+    List<String> en1, en2, en4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_signup);
-        email=findViewById(R.id.useremail);
-        password=findViewById(R.id.password);
-        signup=findViewById(R.id.signup);
-        name=findViewById(R.id.username);
-        emaillog=findViewById(R.id.useremaillog);
-        passwordlog=findViewById(R.id.passwordlog);
-        login=findViewById(R.id.login);
-        log=findViewById(R.id.button3);
-        sign=findViewById(R.id.button5);
-        logcard=findViewById(R.id.logincard);
-        signcard=findViewById(R.id.signupcard);
-        mAuth = FirebaseAuth.getInstance();
-        loginIntent=new Intent(getApplicationContext(),TestActivity.class);
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signcard.setVisibility(View.GONE);
-                logcard.setVisibility(View.VISIBLE);
-            }
-        });
-        sign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signcard.setVisibility(View.VISIBLE);
-                logcard.setVisibility(View.GONE);
-            }
-        });
-        login.setOnClickListener(view -> {
-            mAuth.signInWithEmailAndPassword(emaillog.getText().toString(), passwordlog.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                getuser();
-                                startActivity(loginIntent);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                            //    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                             //   updateUI(null);
-                            }
-                        }
-                    });
-        });
-        signup.setOnClickListener(view -> {
-            String mail,username,pass,confirmpass;
-            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                               // Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(getApplicationContext(), "signup done", Toast.LENGTH_SHORT).show();
-                                adduser();
-                             //   updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                              //  Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(LoginSignupActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                               // updateUI(null);
-                            }
-                        }
-                    });
-        });
-    }
-    public  void getuser(){
-        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid().toString());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        loginIntent.putExtra("Nameofchild",  document.get("name").toString());
-                    } else {
-                      //  Log.d(TAG, "No such document");
-                    }
-                } else {
-                   // Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
+        binding = ActivityLoginSignupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.googleSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
 
+        binding.phoneNumberSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), PhoneNumberLogin.class));
+        });
+
+        insertData();
+
+
     }
-    public void adduser(){
-        Map<String, Object> user = new HashMap<>();
-       user.put("email",email.getText().toString());
-       user.put("name",name.getText().toString());
-// Add a new document with a generated ID
-        db.collection("users").document(mAuth.getCurrentUser().getUid())
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                       // Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                      //  Log.w(TAG, "Error writing document", e);
-                    }
-                });
+
+    private void insertData() {
+
+
+        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.is_data_loaded)).equals("")) {
+
+
+            PrefConfig.writeIdInPref(getApplicationContext(), "YES", getResources().getString(R.string.is_data_loaded));
+
+
+            database = GradeDatabase.getDbInstance(this);
+
+            var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
+            englishGradeDatabase.englishDao().getEnglishModel(1);
+            englishGradeDatabase.spellingDao().getSpellingModel(1);
+
+            list1 = new ArrayList<>();
+            list1.add("GRADE 1");
+            list1.add("GRADE 2");
+            list1.add("GRADE 3");
+
+            list2 = new ArrayList<>();
+            list2.add("GRADE 2");
+            list2.add("GRADE 3");
+
+        /*list3=new ArrayList<>();
+        list3.add("GRADE 2");*/
+
+            list4 = new ArrayList<>();
+            list4.add("GRADE 3");
+            en1 = new ArrayList<>();
+            en1.add("GRADE 1");
+            en2 = new ArrayList<>();
+            en2.add("GRADE 2");
+            en4 = new ArrayList<>();
+            en4.add("GRADE 3");
+            //for language to set initial value
+            PrefConfig.writeIdInPref(getApplicationContext(), "India", "Country");
+            PrefConfig.writeIdInPref(getApplicationContext(), "IN", "Country_code");
+            PrefConfig.writeIntInPref(getApplicationContext(), 0, "set_select");
+
+            //database
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add1), true, true, true, true, false,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add2), true, true, true, false, false,"https://youtu.be/RKL0TX8ogmw"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub1), true, true, true, true, false,"https://youtu.be/ShCq1BVVbQ0"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub2), true, true, true, false,false, "https://youtu.be/sBJp_Toqlhw"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul1), true, true, true, true, false,"https://youtu.be/fZFwHpiAVE0"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div1), true, true, true, true, false,"https://youtu.be/5VaqKu0ENlY"));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add3), false, true, true, false, false,"https://youtu.be/TBzsG75tvhw"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub3), false, true, true, false,false, "https://youtu.be/f0HPkXpzKf0"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul2), false, true, true, false,false, "https://youtu.be/Yo_6G5TrNqo"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div2), false, true, true, false,false, "https://youtu.be/2muobEZUalE"));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add4), false, false, true, false, false,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add5), false, false, true, false, false,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub4), false, false, true, false,false, "https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub5), false, false, true, false,false, "https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul3), false, false, true, false, false,"https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div3), false, false, true, false,false, "https://youtu.be/1RaL_2okktE"));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab1), true, false, false, true, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab2), true, false, false, false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab3), true, false, false, false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab4), true, false, false, false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab5), true, false, false, false, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab6), true, false, false, false, false,""));
+//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab7, new ArrayList<>(list1), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab8), true, true, false, true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab9), true, true, false, false, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab10), true, true, false, false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab11), true, true, false, false,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab12), true, true, false, false,false, ""));
+//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab13, new ArrayList<>(list2), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab14), true, true, true, true, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab15), true, true, true, false, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab16), true, true, true, false, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab17), true, true, true, false, false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab18), true, true, true, false,false, ""));
+//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab19, new ArrayList<>(list2), ""));
+
+//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling), true, true, true, true, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1), true, true, true, true,false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1_1), true, true, true, false,false,  ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling2), true, true, true, false, false, ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling3), true, true, true, false, false, ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling4), true, true, true, false, false, ""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling5), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling1),true,false,false,true,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling2),true,false,false,false,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling3),true,false,false,false,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling4),true,false,false,false,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling5),true,false,false,false,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling6),true,false,false,false,false,""));
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling6), true, true, true, false, false, ""));
+
+
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling7),false,true,false,true,false,""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english),getResources().getString(R.string.spelling7),false,false,true,true,false,""));
+
+           /* database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add1, new ArrayList<>(list1), "https://youtu.be/1RaL_2okktE"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add2, new ArrayList<>(list1), "https://youtu.be/RKL0TX8ogmw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub1, new ArrayList<>(list1), "https://youtu.be/ShCq1BVVbQ0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub2, new ArrayList<>(list1), "https://youtu.be/sBJp_Toqlhw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul1, new ArrayList<>(list1), "https://youtu.be/fZFwHpiAVE0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div1, new ArrayList<>(list1), "https://youtu.be/5VaqKu0ENlY"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add3, new ArrayList<>(list2), "https://youtu.be/TBzsG75tvhw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub3, new ArrayList<>(list2), "https://youtu.be/f0HPkXpzKf0"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul2, new ArrayList<>(list2), "https://youtu.be/Yo_6G5TrNqo"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div2, new ArrayList<>(list2), "https://youtu.be/2muobEZUalE"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add4, new ArrayList<>(list4), "https://youtu.be/fu7K8QFPt1o"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add5, new ArrayList<>(list4), "https://youtu.be/2BGAUI2cdyw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub4, new ArrayList<>(list4), "https://youtu.be/83ePrGNcUiw"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub5, new ArrayList<>(list4), "https://youtu.be/pvU6eNBKfaI"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul3, new ArrayList<>(list4), "https://youtu.be/RUGs1NmEikQ"));
+            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div3, new ArrayList<>(list4), "https://youtu.be/PFfcC6MO660"));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab1, new ArrayList<>(en1), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab2, new ArrayList<>(en1), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab3, new ArrayList<>(en1), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab4, new ArrayList<>(en1), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab5, new ArrayList<>(en1), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab6, new ArrayList<>(en1), ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab8, new ArrayList<>(en2), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab9, new ArrayList<>(en2), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab10, new ArrayList<>(en2), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab11, new ArrayList<>(en2), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab12, new ArrayList<>(en2), ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab14, new ArrayList<>(en4), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab15, new ArrayList<>(en4), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab16, new ArrayList<>(en4), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab17, new ArrayList<>(en4), ""));
+            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(en4), ""));
+//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
+
+            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,new ArrayList<>(list1),""));*/
+        }
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
 }

@@ -11,5 +11,19 @@
     <color name="tp_black">#E9000000</color>
     <color name="sweet_dark">#2D2D2D</color>
     <color name="sweet_grey">#E4E4E4</color>
+    <color name="light_deep_grey">#757575</color>
     <color name="sweet_red">#FA7575</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="primary">#64c1c7</color>
+    <color name="accent">#ffb74d</color>
+    <color name="green">#5acd9f</color>
+    <color name="red">#fa7575</color>
+    <color name="grey">#707070</color>
+    <color name="blue">#597499</color>
+    <color name="transparent">#00000000</color>
 </resources>

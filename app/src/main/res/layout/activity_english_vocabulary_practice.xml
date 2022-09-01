@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity">
+
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/subSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="TEST"
+        android:textColor="@color/primary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/subSub"
+        android:padding="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/text_view_guess_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:textSize="18sp"
+            tools:text="@string/guess_the_word" />
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/playPause"
+            android:layout_below="@id/text_view_guess_question" />
+
+
+        <ToggleButton
+            android:id="@+id/playPause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@id/score"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="@color/primary"
+            android:drawableTop="@drawable/play_button"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingTop="10dp"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="110dp"
+            android:layout_height="120dp"
+            android:layout_above="@id/learnOrTest"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/character_teacher"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/grid_0_25"
+            android:layout_marginBottom="@dimen/grid_0_25"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="@color/green"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/round_rect_button_bg"
+                android:backgroundTint="@color/red"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/grid_10"
+                android:paddingVertical="@dimen/grid_10"
+
+                >
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/transparent"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/wrongText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:gravity="center"
+                        android:text="@string/question_mark"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_set"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_rect_button_bg"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/grid_10"
+                    android:paddingVertical="@dimen/grid_10">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardCornerRadius="40dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:id="@+id/correctText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/reemkufi_medium"
+                            android:gravity="center"
+                            android:text="@string/question_mark"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/learnOrTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/accent"
+            android:drawableTint="@color/white"
+            android:fontFamily="@font/reemkufi_medium"
+            android:paddingHorizontal="20sp"
+            android:paddingVertical="@dimen/grid_10"
+            android:text="@string/learn"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size_big" />
+
+    </RelativeLayout>
+</RelativeLayout>

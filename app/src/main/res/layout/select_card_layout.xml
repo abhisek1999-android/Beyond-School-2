@@ -28,6 +28,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/primary"
                 android:background="@drawable/background_round"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"

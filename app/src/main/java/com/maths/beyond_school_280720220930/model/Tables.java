@@ -4,6 +4,7 @@ public class Tables {
 
     String digit;
     String Decs;
+    boolean is_locked;
 
     public Tables(){
 
@@ -25,8 +26,17 @@ public class Tables {
         Decs = decs;
     }
 
-    public Tables(String digit, String decs) {
+    public boolean isIs_locked() {
+        return is_locked;
+    }
+
+    public void setIs_locked(boolean is_locked) {
+        this.is_locked = is_locked;
+    }
+
+    public Tables(String digit, String decs, boolean is_locked) {
         this.digit = digit;
         Decs = decs;
+        this.is_locked=is_locked;
     }
 }
