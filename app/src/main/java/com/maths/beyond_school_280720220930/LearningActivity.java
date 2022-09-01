@@ -739,11 +739,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             @Override
             public void onCompletion() {
 
+
                 UtilityFunctions.runOnUiThread(() -> {
                     play();
                 }, 10);
 
                 binding.playPause.setEnabled(true);
+                binding.animWoman.cancelAnimation();
             }
 
             @Override
@@ -759,6 +761,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         ttsHelper.initialize("Lets learn " + selectedSub.split("\\(")[0] + " , you can speak and write answer in the answer box", LearningActivity.this);
         // play();
+        binding.animWoman.playAnimation();
 
     }
 
