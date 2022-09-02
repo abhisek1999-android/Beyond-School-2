@@ -110,7 +110,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         sectionList=new ArrayList<>();
 
         tableList = getResources().getStringArray(R.array.table_name);
-
+        subjectRecyclerAdapter=new SubjectRecyclerAdapter(subMathsData,HomeScreen.this);
 
         kidsGrade=PrefConfig.readIdInPref(HomeScreen.this,getResources().getString(R.string.kids_grade));
         gradeDatabase=GradeDatabase.getDbInstance(HomeScreen.this);
@@ -381,12 +381,19 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         chapterListMath=new ArrayList<>();
 
 
+        chapterListMath.clear();
+        chapterListEng.clear();
+
+        subjectRecyclerAdapter.notifyDataSetChanged();
+
+
         if (isNewCall){
 
 
+//            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
+//            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
+            
             UtilityFunctions.runOnUiThread(()->{
-                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
-                PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
 
                 startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));
                 customProgressDialogue.dismiss();
@@ -454,6 +461,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             for (int i=startIndex;i<startIndex+2;i++)
             {
+
                 if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
                     if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
                         Log.i("Data_chap",chapterListMath+"");
@@ -504,7 +512,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     @Override
     protected void onResume() {
         super.onResume();
-      uiChnages();
+      //getUiData(false);
     }
 
     @Override
