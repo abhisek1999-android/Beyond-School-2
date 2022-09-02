@@ -158,6 +158,7 @@ public final class UtilityFunctions {
 
     public static String convertCardinalNumberToOrdinalNumber(int number) {
         String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th"};
+        try{
         switch (number % 100) {
             case 11:
             case 12:
@@ -165,6 +166,8 @@ public final class UtilityFunctions {
                 return number + "th";
             default:
                 return number + suffixes[number % 10];
+        }}catch (Exception e){
+            return "";
         }
     }
 

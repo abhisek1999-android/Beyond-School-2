@@ -298,7 +298,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 //        Stop when reach ot last item
         if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
             isSpeaking = false;
-            displayCompleteDialog();
+          //  displayCompleteDialog();
         }
     }
 
@@ -404,7 +404,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             if (currentWord.length() == currentWordBuilder.length()) {
                 try {
                     if (currentWordBuilder.toString().equals(currentWord)) {
-                        mediaPlayer.start();
+                        try{
+                        mediaPlayer.start();}
+                        catch (Exception e){}
                         playPauseAnimation(true);
                         var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
                         currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
