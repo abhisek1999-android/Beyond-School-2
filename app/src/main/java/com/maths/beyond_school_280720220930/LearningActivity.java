@@ -993,6 +993,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             e.printStackTrace();
         }
 
+        UtilityFunctions.checkProgressAvailable(progressDataBase,"Mathematics"+subject,selectedSub,new Date(),
+                timeSpend+Integer.parseInt(binding.timeText.getText().toString()),false);
 
         super.onPause();
     }

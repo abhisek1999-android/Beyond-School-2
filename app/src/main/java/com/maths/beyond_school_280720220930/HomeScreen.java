@@ -405,7 +405,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                         int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
                         subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+1+"",false,false,false,false,false,""));
-                        chapterListMath.add("Multiplication Tables");
+                        chapterListMath.add("Multiplication Tables "+(mul_upto+1));
                     }
 
                 }
@@ -454,7 +454,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             for (int i=startIndex;i<startIndex+2;i++)
             {
-                if (!chapterListMath.get(l_index).equals("Multiplication Tables"))   {
+                if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
                     if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
                         Log.i("Data_chap",chapterListMath+"");
                         Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
@@ -465,7 +465,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 else{
 
                     int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                    subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+"",false,false,false,false,true,""));
+                    if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
+                    subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
+                    else
+                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));
                 }
                 l_index++;
 
