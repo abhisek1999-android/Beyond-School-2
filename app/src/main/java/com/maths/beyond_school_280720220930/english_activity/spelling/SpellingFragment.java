@@ -1,11 +1,13 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -42,6 +44,7 @@ public class SpellingFragment extends Fragment {
         return binding.animationVoice;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -52,12 +55,15 @@ public class SpellingFragment extends Fragment {
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.imageButtonPrev.setVisibility((pos == 1) ? View.INVISIBLE : View.VISIBLE);
         binding.imageButtonNext.setVisibility((pos == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
+        var activity = (EnglishSpellingActivity) requireActivity();
 
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            activity.restartEngine();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            activity.restartEngine();
         });
 //        binding.otpViewWord.
 

@@ -59,12 +59,18 @@ public class SpeechToTextConverterSpelling implements ConverterEngine<SpeechToTe
         words.put("ex", "x");
         words.put("why", "y");
         words.put("zed", "z");
+        words.put("as", "s");
+        words.put("es", "s");
+
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, true);
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
         var listener = new CustomRecognitionListener();
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(appContext);
@@ -187,24 +193,14 @@ public class SpeechToTextConverterSpelling implements ConverterEngine<SpeechToTe
 
         @Override
         public void onPartialResults(Bundle partialResults) {
-            //            Log.i("LOG_TAG", "onPertialResults" + result);
-//            ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//
-//            if (matches.size() != 0) {
-//
-//                result = matches.get(0).trim();
-//                conversionCallaBack.onPartialResult("Partial: " + matches.get(0).trim() + "\n");
-//                Log.i("ResultsIntP", result + "");
-//                if (!result.equals("")) {
-//                    try {
-//                        int res = Integer.parseInt(result.replace(" ", "").trim());
-//                        Log.i("ResultInt ", res + "");
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
+            var d = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            Log.d("XXX", "onPartialResults : " + d.toString());
+            if (conversionCallaBack != null && d.get(0).length() > 0) {
+                conversionCallaBack.getLogResult("onPartialResult : " + d.get(0));
+                conversionCallaBack.onPartialResult(d.get(0).toLowerCase(Locale.ROOT));
+            }
+
+
         }
 
         @Override
