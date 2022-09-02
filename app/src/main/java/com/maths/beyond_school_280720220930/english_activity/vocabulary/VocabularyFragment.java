@@ -50,11 +50,15 @@ public class VocabularyFragment extends Fragment {
         binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
         binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
 
+        var activity = (EnglishActivity) requireActivity();
+
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            activity.restartEngine();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            activity.restartEngine();
         });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,

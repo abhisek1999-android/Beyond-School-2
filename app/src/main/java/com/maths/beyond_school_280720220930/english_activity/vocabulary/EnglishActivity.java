@@ -521,4 +521,14 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     }
 
+
+    public void restartEngine() {
+        destroyedEngines();
+        try {
+            startSpeaking();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        binding.playPause.setChecked(true);
+    }
 }

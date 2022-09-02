@@ -307,98 +307,19 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
+
+            @Override
+            public void onPartialResult(String result) {
+                ConversionCallback.super.onPartialResult(result);
+//                checkResult(result);
+//                UtilityFunctions.simpleToast(EnglishSpellingActivity.this, result);
+            }
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
-                if (currentTryCount > MAX_TRY) {
-                    try {
-                        helperTTS("No Problem. Let's go to next word ", true, 0);
-                        currentTryCount = 0;
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-
-                endTime = new Date().getTime();
-                long diff = endTime - startTime;
-                var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
-                var currentWordArray = currentWord.toCharArray();
-                var split = result.replace(" ", "").toCharArray();
-                Log.d(TAG, "onSuccess: length " + split.length + " Current Word " + currentWordArray.length);
-                if (split.length != 0) {
-                    if (split.length == 1) {
-                        if (currentWordArray[currentWordPosition] == (split[0])) {
-                            logs += "Single Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + split[0] + "\n";
-                            currentWordBuilder.append(split[0]);
-                            currentWordPosition++;
-                            ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView()
-                                    .setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
-                            try {
-                                if (currentWordPosition < currentWord.length())
-                                    helperTTS("", false, 2 * 45);
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "onSuccess: called");
-                        try {
-                            for (int i = 0; i < split.length; i++) {
-                                if (currentWordArray[0] == (split[0]))
-                                    if (i < currentWordArray.length) //
-                                        if (currentWordArray[i] == split[i]) {
-                                            currentWordBuilder.append(split[i]);
-                                            currentWordPosition++;
-                                        }
-                            }
-                            var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                            currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
-                            Log.d(TAG, "onSuccess: called " + currentWordBuilder.toString());
-                            if (currentWordPosition < currentWord.length())
-                                helperTTS("", false, 2 * 45);
-                        } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (currentWord.length() == currentWordBuilder.length()) {
-                        try {
-                            if (currentWordBuilder.toString().equals(currentWord)) {
-                                mediaPlayer.start();
-                                playPauseAnimation(true);
-                                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                                currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
-                                helperTTS(UtilityFunctions.getCompliment(true), true, 0);
-                                logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
-                                currentWordBuilder = new StringBuilder();
-                                currentWordPosition = 0;
-                            } else {
-                                playPauseAnimation(true);
-                                helperTTS(UtilityFunctions.getCompliment(false), false, 0);
-                                currentTryCount++;
-                                currentWordBuilder = new StringBuilder();
-                                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                                currentFragment.getTextView().setText("");
-                                logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
-                            }
-                        } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (split.length > 1 && currentWord.length() < currentWordBuilder.length()) {
-                        try {
-                            helperTTS(UtilityFunctions.getCompliment(false), false, 0);
-                            currentTryCount++;
-                        } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                } else {
-                    UtilityFunctions.runOnUiThread(() -> {
-                        startListening();
-                    }, 400);
-                }
+                checkResult(result);
             }
 
             @Override
@@ -425,6 +346,98 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             }
         }).get();
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void checkResult(String result) {
+        if (currentTryCount > MAX_TRY) {
+            try {
+                helperTTS("No Problem. Let's go to next word ", true, 0);
+                currentTryCount = 0;
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        endTime = new Date().getTime();
+        long diff = endTime - startTime;
+        var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
+        var currentWordArray = currentWord.toCharArray();
+        var split = result.replace(" ", "").toCharArray();
+        Log.d(TAG, "onSuccess: length " + split.length + " Current Word " + currentWordArray.length);
+        if (split.length != 0) {
+            if (split.length == 1) {
+                if (currentWordArray[currentWordPosition] == (split[0])) {
+                    logs += "Single Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + split[0] + "\n";
+                    currentWordBuilder.append(split[0]);
+                    currentWordPosition++;
+                    ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView()
+                            .setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                    try {
+                        if (currentWordPosition < currentWord.length())
+                            helperTTS("", false, 2 * 45);
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                Log.d(TAG, "onSuccess: called");
+                try {
+                    for (int i = 0; i < split.length; i++) {
+                        if (currentWordArray[currentWordPosition] == (split[0]))
+                            if (i < currentWordArray.length) //
+                                if (currentWordArray[i] == split[i]) {
+                                    currentWordBuilder.append(split[i]);
+                                    currentWordPosition++;
+                                }
+                    }
+                    var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                    currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                    Log.d(TAG, "onSuccess: called " + currentWordBuilder.toString());
+                    if (currentWordPosition < currentWord.length())
+                        helperTTS("", false, 2 * 45);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (currentWord.length() == currentWordBuilder.length()) {
+                try {
+                    if (currentWordBuilder.toString().equals(currentWord)) {
+                        mediaPlayer.start();
+                        playPauseAnimation(true);
+                        var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                        currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                        helperTTS(UtilityFunctions.getCompliment(true), true, 0);
+                        logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
+                        currentWordBuilder = new StringBuilder();
+                        currentWordPosition = 0;
+                    } else {
+                        playPauseAnimation(true);
+                        helperTTS(UtilityFunctions.getCompliment(false), false, 0);
+                        currentTryCount++;
+                        currentWordBuilder = new StringBuilder();
+                        var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                        currentFragment.getTextView().setText("");
+                        logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else if (split.length > 1 && currentWord.length() < currentWordBuilder.length()) {
+                try {
+                    helperTTS(UtilityFunctions.getCompliment(false), false, 0);
+                    currentTryCount++;
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            UtilityFunctions.runOnUiThread(() -> {
+                startListening();
+            }, 400);
+        }
     }
 
 
@@ -638,5 +651,15 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
         hintDialog.show();
 
+    }
+
+    public void restartEngine() {
+        destroyedEngines();
+        try {
+            startSpeaking();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        binding.playPause.setChecked(true);
     }
 }
