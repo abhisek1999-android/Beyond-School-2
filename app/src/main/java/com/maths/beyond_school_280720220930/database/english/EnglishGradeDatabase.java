@@ -66,8 +66,6 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
-            vocabularyDao.insert(VocabularyList.GradeTwoVocabulary.englishListGrade2());
-            vocabularyDao.insert(VocabularyList.GradeThreeVocabulary.englishListGrade3());
 
 //            Adding Spellings
             spellingDao.insert(SpellingList.SpellingGradeOne.getSpellingList());

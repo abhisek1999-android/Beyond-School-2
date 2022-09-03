@@ -134,9 +134,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         }
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(dao.getEnglishModel(
-                        UtilityFunctions.getGrade(
-                                PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade))
-                        )
+                        1
                 ).getVocabulary(), category);
         if (data == null) {
             UtilityFunctions.simpleToast(this, "No data found");

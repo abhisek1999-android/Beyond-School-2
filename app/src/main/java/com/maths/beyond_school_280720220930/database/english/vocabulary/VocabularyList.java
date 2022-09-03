@@ -32,6 +32,23 @@ public abstract class VocabularyList {
             ArrayList<VocabularyDetails> vocabularyDetailVegetables = getVocabularyDetailsVegetables();
             ArrayList<VocabularyDetails> vocabularyDetailVegetables1 = getVocabularyDetailsVegetables1();
 
+            var vocabularyDetailCloth = getVocabularyDetailsCloths();
+            var vocabularyDetailCloth1 = getVocabularyDetailsCloths1();
+            var vocabularyDetailFeeling = getVocabularyDetailsFeelings();
+            var vocabularyDetailFeeling1 = getVocabularyDetailsFeelings1();
+            var vocabularyDetailInsert = getVocabularyDetailsInsect();
+            var vocabularyDetailInsert1 = getVocabularyDetailsInsect1();
+            var vocabularyDetailKitchen = getVocabularyDetailsKitchen();
+            var vocabularyDetailKitchen1 = getVocabularyDetailsKitchen1();
+            var vocabularyDetailsLivingRoom = getVocabularyDetailsLivingRoom();
+
+
+            var vocabularyDetailSchool = getVocabularyDetailsSchool();
+            var vocabularyDetailSummer = getVocabularyDetailsSummer();
+            var vocabularyDetailTown = getVocabularyDetailsTown();
+            var vocabularyDetailTransport = getVocabularyDetailsTransport();
+            var vocabularyDetailWeather = getVocabularyDetailsWeather();
+
 
             var listVocabulary = new ArrayList<VocabularyCategoryModel>();
             listVocabulary.add(
@@ -119,6 +136,22 @@ public abstract class VocabularyList {
                     )
             );
 
+            listVocabulary.add(new VocabularyCategoryModel("cloth_1", vocabularyDetailCloth));
+            listVocabulary.add(new VocabularyCategoryModel("cloth_2", vocabularyDetailCloth1));
+            listVocabulary.add(new VocabularyCategoryModel("feeling_1", vocabularyDetailFeeling));
+            listVocabulary.add(new VocabularyCategoryModel("feeling_2", vocabularyDetailFeeling1));
+            listVocabulary.add(new VocabularyCategoryModel("insect_1", vocabularyDetailInsert));
+            listVocabulary.add(new VocabularyCategoryModel("insect_2", vocabularyDetailInsert1));
+            listVocabulary.add(new VocabularyCategoryModel("kitchen_1", vocabularyDetailKitchen));
+            listVocabulary.add(new VocabularyCategoryModel("kitchen_2", vocabularyDetailKitchen1));
+            listVocabulary.add(new VocabularyCategoryModel("living_room", vocabularyDetailsLivingRoom));
+
+            listVocabulary.add(new VocabularyCategoryModel("school", vocabularyDetailSchool));
+            listVocabulary.add(new VocabularyCategoryModel("summer", vocabularyDetailSummer));
+            listVocabulary.add(new VocabularyCategoryModel("town", vocabularyDetailTown));
+            listVocabulary.add(new VocabularyCategoryModel("transport", vocabularyDetailTransport));
+            listVocabulary.add(new VocabularyCategoryModel("weather", vocabularyDetailWeather));
+
             return new VocabularyModel(
                     1,
                     listVocabulary
@@ -131,7 +164,414 @@ public abstract class VocabularyList {
 //
 //        return vocabularyDetail;
 //    }
-//
+
+        @NonNull
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Cap",
+                            "A kind of soft, flat hat, typically with a peak. It is used to cover our head.",
+                            "https://www.anglomaniacy.pl/img/xa-cap.png.pagespeed.ic.jfjxV2Px78.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Coat",
+                            "A piece of outer clothing with long sleeves, usually worn to keep us warm.",
+                            "https://www.anglomaniacy.pl/img/xv-coat.png.pagespeed.ic.0YJylO7S5s.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Dress",
+                            "A one-piece garment consisting of a top and skirt that is usually worn by a woman.",
+                            "https://www.anglomaniacy.pl/img/xv-dress.png.pagespeed.ic.IHd8g1j_Ap.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Jacket",
+                            "A short coat used as a piece of outer clothing.",
+                            "https://www.anglomaniacy.pl/img/xa-jacket.png.pagespeed.ic.mTbNEa9Hou.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Blouse",
+                            "A piece of clothing worn on the upper body, usually by women and girls.",
+                            "https://www.anglomaniacy.pl/img/xv-blouse.png.pagespeed.ic.PVpPh1srSL.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Scarf",
+                            "A long piece of cloth or knitted material worn around the neck, head, or shoulders.",
+                            "https://www.anglomaniacy.pl/img/xa-scarf.png.pagespeed.ic.zG1z4xgSoL.webp"
+                    )
+            );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Shirt",
+                            "A long piece of cloth or knitted material worn around the neck, head, or shoulders.",
+                            "https://www.anglomaniacy.pl/img/xv-shirt.png.pagespeed.ic.RRSKEE-VSA.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Shoes",
+                            "A protective covering for the human foot, often made of leather or canvas.",
+                            "https://www.anglomaniacy.pl/img/a-shoes.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Skirt",
+                            "A piece of clothing that hangs from the waist and is worn by a woman or girl.",
+                            "https://www.anglomaniacy.pl/img/xv-skirt.png.pagespeed.ic.E12pEkg92N.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Socks",
+                            "A covering for the foot made of a woven or knitted material. ",
+                            "https://www.anglomaniacy.pl/img/a-socks.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Sweater",
+                            "A knitted shirt, pullover, or jacket. It keeps us warm on cold days.",
+                            "https://www.anglomaniacy.pl/img/xv-sweater.png.pagespeed.ic.lnjVXMhJeN.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Trouser",
+                            "A cloth that cover the lower part of the body from the waist to the foot and include separate sections for each leg.",
+                            "https://www.anglomaniacy.pl/img/xa-trousers.png.pagespeed.ic.Q2gdJF-qYa.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        @NonNull
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsFeelings() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Angry",
+                            "A strong feeling of displeasure.",
+                            "https://www.anglomaniacy.pl/img/xv-angry.png.pagespeed.ic.IoefhbyxXY.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Bored",
+                            "Dull, not interesting or exciting.",
+                            "https://www.anglomaniacy.pl/img/xv-bored.png.pagespeed.ic.TB0CGcKCu8.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Cold",
+                            "Suffering from lack of warmth.",
+                            "https://www.anglomaniacy.pl/img/xv-cold-f.png.pagespeed.ic.UWKs1Dui8U.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Happy",
+                            "Feeling of joy or pleasure; being glad.",
+                            "https://www.anglomaniacy.pl/img/xv-happy.png.pagespeed.ic.crNMKF58iO.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Hot",
+                            "Holding or giving off great heat.",
+                            "https://www.anglomaniacy.pl/img/xv-hot-f.png.pagespeed.ic.zXEDzj-3Wy.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Sad",
+                            "Unhappy or without joy.",
+                            "https://www.anglomaniacy.pl/img/xv-sad.png.pagespeed.ic.BgsB5n1Pv5.webp"
+                    )
+            );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsFeelings1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Scared",
+                            "Feeling fear; afraid. ",
+                            "https://www.anglomaniacy.pl/img/xv-scared.png.pagespeed.ic.guK4o67McZ.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Sky",
+                            "Not comfortable with other people.",
+                            "https://www.anglomaniacy.pl/img/xv-shy.png.pagespeed.ic.x-BOAnUgjd.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Sleepy",
+                            "In need of or starting to sleep.",
+                            "https://www.anglomaniacy.pl/img/xv-sleepy.png.pagespeed.ic.Jx1DizzNpi.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Surprised",
+                            "Shocked or amazed by something which is not expected.",
+                            "https://www.anglomaniacy.pl/img/xv-surprised.png.pagespeed.ic.Ocjqg4p3Jb.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Tried",
+                            "Without strength or energy.",
+                            "https://www.anglomaniacy.pl/img/xv-tired.png.pagespeed.ic.tVdQkncNM0.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Worried",
+                            "Feeling trouble about something that might happen.",
+                            "https://www.anglomaniacy.pl/img/xv-worried.png.pagespeed.ic.zAR1AFzT45.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        @NonNull
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsInsect() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Ant",
+                            "An insect that lives in large, organized groups called colonies.",
+                            "https://www.anglomaniacy.pl/img/a-ant.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Bee",
+                            "A bee is an insect with a yellow-and-black striped body that makes a buzzing noise as it flies. Bees make honey, and can sting.",
+                            "https://www.anglomaniacy.pl/img/xv-bee.png.pagespeed.ic.YounKdLadq.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Beetle",
+                            "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
+                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Butterfly",
+                            "Butterflies are closely related to moths but have thinner bodies and are usually more brightly colored.",
+                            "https://www.anglomaniacy.pl/img/a-butterfly.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Centipede",
+                            "A small animal with a narrow body like a worm. It has many legs.",
+                            "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsInsect1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Ant",
+                            "An insect that lives in large, organized groups called colonies.",
+                            "https://www.anglomaniacy.pl/img/a-ant.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Bee",
+                            "A bee is an insect with a yellow-and-black striped body that makes a buzzing noise as it flies. Bees make honey, and can sting.",
+                            "https://www.anglomaniacy.pl/img/xv-bee.png.pagespeed.ic.YounKdLadq.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Beetle",
+                            "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
+                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Butterfly",
+                            "Butterflies are closely related to moths but have thinner bodies and are usually more brightly colored.",
+                            "https://www.anglomaniacy.pl/img/a-butterfly.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Centipede",
+                            "A small animal with a narrow body like a worm. It has many legs.",
+                            "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        @NonNull
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsKitchen() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Cooker",
+                            "Small utensil, or device used for cooking.",
+                            "https://www.anglomaniacy.pl/img/xv-cooker.png.pagespeed.ic.WxEVYqLbIR.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Cup",
+                            "A small container used for drinking.",
+                            "https://www.anglomaniacy.pl/img/xv-cup.png.pagespeed.ic.t0IZcBQbV6.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Fork",
+                            "A tool with a handle and two or more points. They are used for eating solid food.",
+                            "https://www.anglomaniacy.pl/img/v-fork.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Fridge",
+                            "A room, box, or object where food is kept cold to prevent spoiling.",
+                            "data:image/webp;base64,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"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Kettle",
+                            "Object used to make and then pour tea or other hot drinks.",
+                            "https://www.anglomaniacy.pl/img/xa-kettle.png.pagespeed.ic.5paETIDc5e.webp"
+                    )
+            );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsKitchen1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Knife",
+                            "A tool with a handle and a thin, sharp blade, used for cutting.",
+                            "data:image/webp;base64,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"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Mug",
+                            "A large and deep cup with a handle.",
+                            "https://www.anglomaniacy.pl/img/xa-mug.png.pagespeed.ic.4m5OUwIshd.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Pan",
+                            "An open, shallow metal container for cooking or baking.",
+                            "https://www.anglomaniacy.pl/img/xv-pan.png.pagespeed.ic.5ZMTqjug8s.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Plate",
+                            "A flat dish on which we serve food.",
+                            "https://www.anglomaniacy.pl/img/xv-plate.png.pagespeed.ic.fqYfcQdsnF.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Pot",
+                            "Deep and round, used for cooking soups and other food.",
+                            "https://www.anglomaniacy.pl/img/xv-pot.png.pagespeed.ic.B_nyrwt3Iv.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Spoon",
+                            "A tool with a small, shallow bowl at the end of a handle, used for eating, stirring, serving, or measuring.",
+                            "data:image/webp;base64,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"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Teapot",
+                            "Used for brewing tea.",
+                            "https://www.anglomaniacy.pl/img/xv-teapot.png.pagespeed.ic.4UJA7nNYNE.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        @NonNull
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsLivingRoom() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Armchair",
+                            "A chair with a back and arms.",
+                            "https://www.anglomaniacy.pl/img/xv-armchair.png.pagespeed.ic.3gDh8VV2vy.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Carpet",
+                            "A floor covering.",
+                            "https://www.anglomaniacy.pl/img/xv-carpet.png.pagespeed.ic.GEpaHiC3yn.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Clock",
+                            "Shows current time.",
+                            "https://www.anglomaniacy.pl/img/xv-clock.png.pagespeed.ic.swU-Qq1ToJ.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Curtains",
+                            "Hang in a window to decorate a room.",
+                            "https://www.anglomaniacy.pl/img/xa-window.png.pagespeed.ic.0VSdNMRLv0.webp"
+                    )
+            );
+            return vocabularyDetail;
+        }
+
+        //
         @NonNull
         private static ArrayList<VocabularyDetails> getVocabularyDetailsVegetables() {
             var vocabularyDetail = new ArrayList<VocabularyDetails>();
@@ -747,471 +1187,7 @@ public abstract class VocabularyList {
 
             return vocabularyDetail;
         }
-    }
 
-    public abstract static class GradeTwoVocabulary {
-
-        public static VocabularyModel englishListGrade2() {
-            var vocabularyDetailCloth = getVocabularyDetailsCloths();
-            var vocabularyDetailCloth1 = getVocabularyDetailsCloths1();
-            var vocabularyDetailFeeling = getVocabularyDetailsFeelings();
-            var vocabularyDetailFeeling1 = getVocabularyDetailsFeelings1();
-            var vocabularyDetailInsert = getVocabularyDetailsInsect();
-            var vocabularyDetailInsert1 = getVocabularyDetailsInsect1();
-            var vocabularyDetailKitchen = getVocabularyDetailsKitchen();
-            var vocabularyDetailKitchen1 = getVocabularyDetailsKitchen1();
-            var vocabularyDetailsLivingRoom = getVocabularyDetailsLivingRoom();
-
-
-            var listVocabulary = new ArrayList<VocabularyCategoryModel>();
-
-            listVocabulary.add(new VocabularyCategoryModel("cloth_1", vocabularyDetailCloth));
-            listVocabulary.add(new VocabularyCategoryModel("cloth_2", vocabularyDetailCloth1));
-            listVocabulary.add(new VocabularyCategoryModel("feeling_1", vocabularyDetailFeeling));
-            listVocabulary.add(new VocabularyCategoryModel("feeling_2", vocabularyDetailFeeling1));
-            listVocabulary.add(new VocabularyCategoryModel("insect_1", vocabularyDetailInsert));
-            listVocabulary.add(new VocabularyCategoryModel("insect_2", vocabularyDetailInsert1));
-            listVocabulary.add(new VocabularyCategoryModel("kitchen_1", vocabularyDetailKitchen));
-            listVocabulary.add(new VocabularyCategoryModel("kitchen_2", vocabularyDetailKitchen1));
-            listVocabulary.add(new VocabularyCategoryModel("living_room", vocabularyDetailsLivingRoom));
-
-
-            return new VocabularyModel(
-                    2,
-                    listVocabulary
-            );
-        }
-
-        @NonNull
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Cap",
-                            "A kind of soft, flat hat, typically with a peak. It is used to cover our head.",
-                            "https://www.anglomaniacy.pl/img/xa-cap.png.pagespeed.ic.jfjxV2Px78.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Coat",
-                            "A piece of outer clothing with long sleeves, usually worn to keep us warm.",
-                            "https://www.anglomaniacy.pl/img/xv-coat.png.pagespeed.ic.0YJylO7S5s.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Dress",
-                            "A one-piece garment consisting of a top and skirt that is usually worn by a woman.",
-                            "https://www.anglomaniacy.pl/img/xv-dress.png.pagespeed.ic.IHd8g1j_Ap.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Jacket",
-                            "A short coat used as a piece of outer clothing.",
-                            "https://www.anglomaniacy.pl/img/xa-jacket.png.pagespeed.ic.mTbNEa9Hou.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Blouse",
-                            "A piece of clothing worn on the upper body, usually by women and girls.",
-                            "https://www.anglomaniacy.pl/img/xv-blouse.png.pagespeed.ic.PVpPh1srSL.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Scarf",
-                            "A long piece of cloth or knitted material worn around the neck, head, or shoulders.",
-                            "https://www.anglomaniacy.pl/img/xa-scarf.png.pagespeed.ic.zG1z4xgSoL.webp"
-                    )
-            );
-
-            return vocabularyDetail;
-        }
-
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths1() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Shirt",
-                            "A long piece of cloth or knitted material worn around the neck, head, or shoulders.",
-                            "https://www.anglomaniacy.pl/img/xv-shirt.png.pagespeed.ic.RRSKEE-VSA.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Shoes",
-                            "A protective covering for the human foot, often made of leather or canvas.",
-                            "https://www.anglomaniacy.pl/img/a-shoes.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Skirt",
-                            "A piece of clothing that hangs from the waist and is worn by a woman or girl.",
-                            "https://www.anglomaniacy.pl/img/xv-skirt.png.pagespeed.ic.E12pEkg92N.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Socks",
-                            "A covering for the foot made of a woven or knitted material. ",
-                            "https://www.anglomaniacy.pl/img/a-socks.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Sweater",
-                            "A knitted shirt, pullover, or jacket. It keeps us warm on cold days.",
-                            "https://www.anglomaniacy.pl/img/xv-sweater.png.pagespeed.ic.lnjVXMhJeN.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Trouser",
-                            "A cloth that cover the lower part of the body from the waist to the foot and include separate sections for each leg.",
-                            "https://www.anglomaniacy.pl/img/xa-trousers.png.pagespeed.ic.Q2gdJF-qYa.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-        @NonNull
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsFeelings() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Angry",
-                            "A strong feeling of displeasure.",
-                            "https://www.anglomaniacy.pl/img/xv-angry.png.pagespeed.ic.IoefhbyxXY.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Bored",
-                            "Dull, not interesting or exciting.",
-                            "https://www.anglomaniacy.pl/img/xv-bored.png.pagespeed.ic.TB0CGcKCu8.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Cold",
-                            "Suffering from lack of warmth.",
-                            "https://www.anglomaniacy.pl/img/xv-cold-f.png.pagespeed.ic.UWKs1Dui8U.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Happy",
-                            "Feeling of joy or pleasure; being glad.",
-                            "https://www.anglomaniacy.pl/img/xv-happy.png.pagespeed.ic.crNMKF58iO.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Hot",
-                            "Holding or giving off great heat.",
-                            "https://www.anglomaniacy.pl/img/xv-hot-f.png.pagespeed.ic.zXEDzj-3Wy.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Sad",
-                            "Unhappy or without joy.",
-                            "https://www.anglomaniacy.pl/img/xv-sad.png.pagespeed.ic.BgsB5n1Pv5.webp"
-                    )
-            );
-
-            return vocabularyDetail;
-        }
-
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsFeelings1() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Scared",
-                            "Feeling fear; afraid. ",
-                            "https://www.anglomaniacy.pl/img/xv-scared.png.pagespeed.ic.guK4o67McZ.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Sky",
-                            "Not comfortable with other people.",
-                            "https://www.anglomaniacy.pl/img/xv-shy.png.pagespeed.ic.x-BOAnUgjd.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Sleepy",
-                            "In need of or starting to sleep.",
-                            "https://www.anglomaniacy.pl/img/xv-sleepy.png.pagespeed.ic.Jx1DizzNpi.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Surprised",
-                            "Shocked or amazed by something which is not expected.",
-                            "https://www.anglomaniacy.pl/img/xv-surprised.png.pagespeed.ic.Ocjqg4p3Jb.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Tried",
-                            "Without strength or energy.",
-                            "https://www.anglomaniacy.pl/img/xv-tired.png.pagespeed.ic.tVdQkncNM0.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Worried",
-                            "Feeling trouble about something that might happen.",
-                            "https://www.anglomaniacy.pl/img/xv-worried.png.pagespeed.ic.zAR1AFzT45.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-        @NonNull
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsInsect() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Ant",
-                            "An insect that lives in large, organized groups called colonies.",
-                            "https://www.anglomaniacy.pl/img/a-ant.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Bee",
-                            "A bee is an insect with a yellow-and-black striped body that makes a buzzing noise as it flies. Bees make honey, and can sting.",
-                            "https://www.anglomaniacy.pl/img/xv-bee.png.pagespeed.ic.YounKdLadq.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Beetle",
-                            "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
-                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Butterfly",
-                            "Butterflies are closely related to moths but have thinner bodies and are usually more brightly colored.",
-                            "https://www.anglomaniacy.pl/img/a-butterfly.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Centipede",
-                            "A small animal with a narrow body like a worm. It has many legs.",
-                            "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsInsect1() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Ant",
-                            "An insect that lives in large, organized groups called colonies.",
-                            "https://www.anglomaniacy.pl/img/a-ant.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Bee",
-                            "A bee is an insect with a yellow-and-black striped body that makes a buzzing noise as it flies. Bees make honey, and can sting.",
-                            "https://www.anglomaniacy.pl/img/xv-bee.png.pagespeed.ic.YounKdLadq.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Beetle",
-                            "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
-                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Butterfly",
-                            "Butterflies are closely related to moths but have thinner bodies and are usually more brightly colored.",
-                            "https://www.anglomaniacy.pl/img/a-butterfly.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Centipede",
-                            "A small animal with a narrow body like a worm. It has many legs.",
-                            "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-        @NonNull
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsKitchen() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Cooker",
-                            "Small utensil, or device used for cooking.",
-                            "https://www.anglomaniacy.pl/img/xv-cooker.png.pagespeed.ic.WxEVYqLbIR.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Cup",
-                            "A small container used for drinking.",
-                            "https://www.anglomaniacy.pl/img/xv-cup.png.pagespeed.ic.t0IZcBQbV6.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Fork",
-                            "A tool with a handle and two or more points. They are used for eating solid food.",
-                            "https://www.anglomaniacy.pl/img/v-fork.png"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Fridge",
-                            "A room, box, or object where food is kept cold to prevent spoiling.",
-                            "data:image/webp;base64,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"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Kettle",
-                            "Object used to make and then pour tea or other hot drinks.",
-                            "https://www.anglomaniacy.pl/img/xa-kettle.png.pagespeed.ic.5paETIDc5e.webp"
-                    )
-            );
-
-            return vocabularyDetail;
-        }
-
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsKitchen1() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Knife",
-                            "A tool with a handle and a thin, sharp blade, used for cutting.",
-                            "data:image/webp;base64,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"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Mug",
-                            "A large and deep cup with a handle.",
-                            "https://www.anglomaniacy.pl/img/xa-mug.png.pagespeed.ic.4m5OUwIshd.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Pan",
-                            "An open, shallow metal container for cooking or baking.",
-                            "https://www.anglomaniacy.pl/img/xv-pan.png.pagespeed.ic.5ZMTqjug8s.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Plate",
-                            "A flat dish on which we serve food.",
-                            "https://www.anglomaniacy.pl/img/xv-plate.png.pagespeed.ic.fqYfcQdsnF.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Pot",
-                            "Deep and round, used for cooking soups and other food.",
-                            "https://www.anglomaniacy.pl/img/xv-pot.png.pagespeed.ic.B_nyrwt3Iv.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Spoon",
-                            "A tool with a small, shallow bowl at the end of a handle, used for eating, stirring, serving, or measuring.",
-                            "data:image/webp;base64,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"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Teapot",
-                            "Used for brewing tea.",
-                            "https://www.anglomaniacy.pl/img/xv-teapot.png.pagespeed.ic.4UJA7nNYNE.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-        @NonNull
-        private static ArrayList<VocabularyDetails> getVocabularyDetailsLivingRoom() {
-            var vocabularyDetail = new ArrayList<VocabularyDetails>();
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Armchair",
-                            "A chair with a back and arms.",
-                            "https://www.anglomaniacy.pl/img/xv-armchair.png.pagespeed.ic.3gDh8VV2vy.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Carpet",
-                            "A floor covering.",
-                            "https://www.anglomaniacy.pl/img/xv-carpet.png.pagespeed.ic.GEpaHiC3yn.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Clock",
-                            "Shows current time.",
-                            "https://www.anglomaniacy.pl/img/xv-clock.png.pagespeed.ic.swU-Qq1ToJ.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Curtains",
-                            "Hang in a window to decorate a room.",
-                            "https://www.anglomaniacy.pl/img/xa-window.png.pagespeed.ic.0VSdNMRLv0.webp"
-                    )
-            );
-            return vocabularyDetail;
-        }
-
-
-    }
-
-    public abstract static class GradeThreeVocabulary {
-        public static VocabularyModel englishListGrade3() {
-            var vocabularyDetailCloth = getVocabularyDetailsSchool();
-            var vocabularyDetailSummer = getVocabularyDetailsSummer();
-            var vocabularyDetailTown = getVocabularyDetailsTown();
-            var vocabularyDetailTransport = getVocabularyDetailsTransport();
-            var vocabularyDetailWeather = getVocabularyDetailsWeather();
-
-
-            var listVocabulary = new ArrayList<VocabularyCategoryModel>();
-            listVocabulary.add(new VocabularyCategoryModel("school", vocabularyDetailCloth));
-            listVocabulary.add(new VocabularyCategoryModel("summer", vocabularyDetailSummer));
-            listVocabulary.add(new VocabularyCategoryModel("town", vocabularyDetailTown));
-            listVocabulary.add(new VocabularyCategoryModel("transport", vocabularyDetailTransport));
-            listVocabulary.add(new VocabularyCategoryModel("weather", vocabularyDetailWeather));
-
-            return new VocabularyModel(
-                    3,
-                    listVocabulary
-            );
-        }
 
         @NonNull
         private static ArrayList<VocabularyDetails> getVocabularyDetailsSchool() {
@@ -1391,6 +1367,6 @@ public abstract class VocabularyList {
             return vocabularyDetail;
         }
     }
-
 }
+
 

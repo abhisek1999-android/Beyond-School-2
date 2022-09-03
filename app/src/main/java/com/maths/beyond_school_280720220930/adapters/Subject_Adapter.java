@@ -79,8 +79,8 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 //                    needs to be intent values
                     if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                         Intent intent = new Intent(context, EnglishActivity.class);
-                        Log.d("EnglishActivity", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
-                        intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                        Log.d("EnglishActivityXXX", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                        intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary","").trim().toLowerCase(Locale.ROOT)).name());
                         context.startActivity(intent);
                         // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                     } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {

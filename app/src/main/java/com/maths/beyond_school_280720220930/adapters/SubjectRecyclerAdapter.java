@@ -124,7 +124,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             chapter = grades_data.chapter.replace(grades_data.chapter.split(" ")[0], "");
 
             holder.subSub.setText(subSub);
-            holder.chapters.setText(chapter);
+            holder.chapters.setText(chapter.replace("_", " "));
 
             try {
                 timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], list.get(position).chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
@@ -150,7 +150,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
                 Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
-                intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary", "").trim().toLowerCase(Locale.ROOT)).name());
                 context.startActivity(intent);
                 // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
             } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
