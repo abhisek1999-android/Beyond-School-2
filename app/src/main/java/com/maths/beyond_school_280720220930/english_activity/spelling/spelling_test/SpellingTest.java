@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -35,6 +36,8 @@ import com.maths.beyond_school_280720220930.database.english.spelling.model.Spel
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingDetail;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingTestBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
@@ -50,11 +53,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class SpellingTest extends AppCompatActivity {
@@ -97,6 +106,11 @@ public class SpellingTest extends AppCompatActivity {
     private int kidAge;
     private String kidName;
     private String gResult = "";
+    private long timeSpend = 0;
+    public static final int TIMER_VALUE = 15;
+    private boolean isTimerRunning = true;
+    private ProgressDataBase progressDataBase;
+    private List<ProgressM> progressData;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -115,6 +129,8 @@ public class SpellingTest extends AppCompatActivity {
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        progressDataBase = ProgressDataBase.getDbInstance(SpellingTest.this);
+        progressData = new ArrayList<>();
         setToolbar();
         setData();
         binding.learnOrTest.setOnClickListener((c) -> {
@@ -338,7 +354,7 @@ public class SpellingTest extends AppCompatActivity {
                     } else {
                         try {
                             for (int i = 0; i < split.length; i++) {
-                                if (currentWordArray[0] == (split[0]))
+                                if (currentWordArray[0] == (split[0])) {
                                     if (i < currentWordArray.length) //
                                         if (currentWordArray[i] == split[i]) {
                                             currentWordBuilder.append(split[i]);
@@ -349,6 +365,18 @@ public class SpellingTest extends AppCompatActivity {
                                             ));
                                             currentWordPosition++;
                                         }
+                                } else if (currentWordArray[currentWordPosition] == (split[i])) {
+                                    if (i < currentWordArray.length) //
+                                        if (currentWordArray[currentWordPosition] == split[i]) {
+                                            currentWordBuilder.append(split[i]);
+                                            var textView = ((SpellingTestFragment) fragments.get(binding.viewPagerTest.getCurrentItem())).getTextView();
+                                            textView.setText(Html.fromHtml(
+                                                    textView.getText().toString()
+                                                            .replaceFirst("_", "<font color='#64c1c7'>" + split[i] + "</font>")
+                                            ));
+                                            currentWordPosition++;
+                                        }
+                                }
                                 logs += "Multi Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + currentWordBuilder.toString() + "\n";
                             }
                             if (currentWordPosition < currentWord.length())
@@ -616,6 +644,9 @@ public class SpellingTest extends AppCompatActivity {
         super.onPause();
         checkLogIsEnable();
         destroyedEngines();
+        checkProgressData();
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", UtilityFunctions.getDBNameSpelling(spellings, this), new Date(),
+                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void checkLogIsEnable() {
@@ -684,5 +715,41 @@ public class SpellingTest extends AppCompatActivity {
         intent.putExtra("chapter", UtilityFunctions.getDBNameSpelling(spellings, this).replace("Spelling", ""));
 
         startActivity(intent);
+    }
+
+    private void timer() {
+        isTimerRunning = false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
+
+                        binding.timerProgress.setMax(15);
+                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.timeText.setText((x + 1) + "");
+                        Log.i("task", x + "");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK", "task")
+                ).subscribe();
+
+
+    }
+
+    private void checkProgressData() {
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", UtilityFunctions.getDBNameSpelling(spellings, this), new Date(), 0, true);
+
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
+            }
+        } catch (Exception e) {
+            timeSpend = 0;
+        }
+
     }
 }

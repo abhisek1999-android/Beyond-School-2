@@ -130,7 +130,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)) {
             category = UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY));
         } else {
-            category = UtilityFunctions.VocabularyCategories.bathroom;
+            category = UtilityFunctions.VocabularyCategories.bathroom_1;
         }
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(dao.getEnglishModel(
@@ -483,8 +483,13 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             ttsHelper.destroy();
         if (mediaPlayer != null)
             mediaPlayer.release();
-        var current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
-        current.getAnimationView().setVisibility(View.GONE);
+        VocabularyFragment current = null;
+        try {
+            current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
+            current.getAnimationView().setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void playPauseAnimation(Boolean play) {

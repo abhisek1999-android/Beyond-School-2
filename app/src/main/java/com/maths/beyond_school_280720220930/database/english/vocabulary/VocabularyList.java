@@ -15,48 +15,107 @@ public abstract class VocabularyList {
         public static VocabularyModel englishListGrade1() {
 
             ArrayList<VocabularyDetails> vocabularyDetailBathroom = getVocabularyDetailsBathroom();
+            ArrayList<VocabularyDetails> vocabularyDetailBathroom1 = getVocabularyDetailsBathroom1();
+
             ArrayList<VocabularyDetails> vocabularyDetailBody = getVocabularyDetailsBodyParts();
+            ArrayList<VocabularyDetails> vocabularyDetailBody1 = getVocabularyDetailsBodyParts1();
+
             ArrayList<VocabularyDetails> vocabularyDetailColor = getVocabularyDetailsColors();
+            ArrayList<VocabularyDetails> vocabularyDetailColor1 = getVocabularyDetailsColors1();
+
             ArrayList<VocabularyDetails> vocabularyDetailAnimals = getVocabularyDetailsAnimals();
+            ArrayList<VocabularyDetails> vocabularyDetailAnimals1 = getVocabularyDetailsAnimals1();
+
             ArrayList<VocabularyDetails> vocabularyDetailFruits = getVocabularyDetailsFruits();
+            ArrayList<VocabularyDetails> vocabularyDetailFruits1 = getVocabularyDetailsFruits1();
+
             ArrayList<VocabularyDetails> vocabularyDetailVegetables = getVocabularyDetailsVegetables();
+            ArrayList<VocabularyDetails> vocabularyDetailVegetables1 = getVocabularyDetailsVegetables1();
 
 
             var listVocabulary = new ArrayList<VocabularyCategoryModel>();
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "bathroom",
+                            "bathroom_1",
                             vocabularyDetailBathroom
                     )
             );
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "body_parts",
+                            "bathroom_2",
+                            vocabularyDetailBathroom1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "body_parts_1",
                             vocabularyDetailBody
                     )
             );
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "colors",
+                            "body_parts_2",
+                            vocabularyDetailBody1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "colors_1",
                             vocabularyDetailColor
                     )
             );
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "animals",
+                            "colors_2",
+                            vocabularyDetailColor1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "animals_1",
                             vocabularyDetailAnimals
                     )
             );
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "fruits",
+                            "animals_2",
+                            vocabularyDetailAnimals1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "fruits_1",
                             vocabularyDetailFruits
                     )
             );
             listVocabulary.add(
                     new VocabularyCategoryModel(
-                            "vegetables",
+                            "fruits_2",
+                            vocabularyDetailFruits1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "bathroom_1",
+                            vocabularyDetailBathroom
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "bathroom_2",
+                            vocabularyDetailBathroom1
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "vegetables_1",
                             vocabularyDetailVegetables
+                    )
+            );
+            listVocabulary.add(
+                    new VocabularyCategoryModel(
+                            "vegetables_2",
+                            vocabularyDetailVegetables1
                     )
             );
 
@@ -111,6 +170,12 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-cucumber.png.pagespeed.ic.50uPDxIdE9.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsVegetables1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Leek",
@@ -160,6 +225,7 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xa-tomato.png.pagespeed.ic.ZMlSNW2BBw.webp"
                     )
             );
+
             return vocabularyDetail;
         }
 
@@ -208,6 +274,11 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xa-orange.png.pagespeed.ic.YIZoYKL7lG.webp"
                     )
             );
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsFruits1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Peach",
@@ -252,6 +323,7 @@ public abstract class VocabularyList {
             );
             return vocabularyDetail;
         }
+
 
         @NonNull
         private static ArrayList<VocabularyDetails> getVocabularyDetailsAnimals() {
@@ -312,6 +384,12 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xa-horse.png.pagespeed.ic.LHJmdvDwVc.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsAnimals1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Pig",
@@ -335,9 +413,30 @@ public abstract class VocabularyList {
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Turkey",
-                            "Has a snood and can gobble.",
-                            "https://www.anglomaniacy.pl/img/xa-turkey.png.pagespeed.ic.iTI11qpBPV.webp"
+                            "Elephant",
+                            "An elephant is an enormous, four-footed animal with big ears and a long trunk.",
+                            "https://clipart.world/wp-content/uploads/2020/07/cartoon-elephant.jpg"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Camel",
+                            "A large animal with long legs and a long neck. They are domesticated mammals; people use camels for riding and for carrying loads across deserts. ",
+                            "https://cliparting.com/wp-content/uploads/2017/01/Cute-camel-clipart-funny-pictures.png"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Lion",
+                            "A large wild animal of the cat family with yellowish-brown fur.",
+                            "https://www.dreamstime.com/illustration/lion.html"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
+                            "Tiger",
+                            "A large, very strong mammal with short, yellow-orange fur and black stripes.",
+                            "https://clipart.world/wp-content/uploads/2020/06/realistic-tiger-walking.jpg"
                     )
             );
             return vocabularyDetail;
@@ -388,6 +487,11 @@ public abstract class VocabularyList {
                             "data:image/webp;base64,UklGRhgEAABXRUJQVlA4TAsEAAAv+YA1EPegJgDaBurf6h7wBRsCksT+bw4YtZHkyPxZbvpdqANwkkG2kYowhEN4f7kPoP5fYpFYJPaRuCzHdbFILL0BRFYUahQigUKkEIgUKg4UZNuO20ZfsjN5egAIQCTIj/0vNDEcC++x547o/wTY//7/AzK9+zTFUtuO4b3VEs9NrM3xG73VeFLyhk+55dORVsen9TWdiFAOfPKjhHMQquMOvQb9QnXcqdcgXj5wx0dWLjbceYuyFcfde9GsN0yxdcGKY5Je5KqYaNUqNEy1BaG6Y7LeZUqO6XoSKWHKSaKMSWeBMqad5cmYeBYnYupRmgWTX4SJPjuPsoQD0z+CKisIrqJkUMySRJCMgoSDxRH0aKDZ5CggWsSIzsSjFjuo7lIUkC1CdGfjXYcGuk2GBMJJhYPRIUIF5SpBcE4eFKggXQXooN353QC8vQy+kbjR6wBwvbz/ygKdXQXwdBn8AZaVXHAADwMPoOmBWwbwfBl84oHM7QDwdeABRA9qEcDbZfCJCSKzFcD3gSuorsSCA3gY+M7FA68M4Pky+MYFmdcG4NvAI8hutAIAXAee2CCwygCeL4NvdDKrDcC3gQfQ3Vg5gOvAdz5OagHwehl84oPE6QbgaQSEb5x2AF8GHhjtlAIAXAa/MkJgtAB4GflBaWFUAfwYeaZUGTUAX0ZeKTVGDuA6AspOqAN4vSiAzicBeBr5QirxqQB+aFD5rAC+jHwjtfJpAK4jP0g1Pg7gooHzgQ6gE5WIbNKHPLFKbJYPeWG1sKlK1L/CtA/5wWo7cY3Sl9GnM6Xifz6oStS/whQlCpukRPrjrCvR2ZgSRvfQ4eDTdGh8Vh1WPlWHyifpkPh0HTofcxXcCDcVGqOqQmW0qLAwCioERrZrsBvlVYOV06LBwiloEDhZU6AZ6aJAYdUV6Kxs57cb7cKv8Or8Oi/b2G1GPLPLzMy5uVG/cbtx69w6N1uZrUY+MovsrPFqRj/xSvyssWomYGKVFLCV02oSdmfkXQOrjKqJGA4+R1DBFj6L6bix2UzI4Fw8KGGJSzItNyabiRl2HntQwyKPaHpmFtkUXTmspunOYDdRQ5tfC6pYOGZ3BNM1+tw8mrLZZ+aLabvMbDF187wW0zfPajGF85Q8m8bLhDyZytFn49F0jvtc9m5KhzaTLZjYt3kU03vxORzJFA9tBlsw0bPf25FM99Du6xZM+tTuZ+0mf9rvoyU7hfn4fC3ZaUzbp/Jbt1PZy/5ZtmwntJf9t/mWg53VsNT2Yd5qstPbU62ttV/trdWSgp3o8qvNznbEO5eztb/Hw7m64d3bqUoYzCcqHCPez9OG4XaaFnxgOUndP8L7ScrH2JFPkpktN3+P35Kd61jqT0u0//3/RyQA"
                     )
             );
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsColors1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Pink",
@@ -472,6 +576,13 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-hair.png.pagespeed.ic.j6ABDqdL88.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsBodyParts1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Hand",
@@ -642,17 +753,26 @@ public abstract class VocabularyList {
 
         public static VocabularyModel englishListGrade2() {
             var vocabularyDetailCloth = getVocabularyDetailsCloths();
+            var vocabularyDetailCloth1 = getVocabularyDetailsCloths1();
             var vocabularyDetailFeeling = getVocabularyDetailsFeelings();
+            var vocabularyDetailFeeling1 = getVocabularyDetailsFeelings1();
             var vocabularyDetailInsert = getVocabularyDetailsInsect();
+            var vocabularyDetailInsert1 = getVocabularyDetailsInsect1();
             var vocabularyDetailKitchen = getVocabularyDetailsKitchen();
+            var vocabularyDetailKitchen1 = getVocabularyDetailsKitchen1();
             var vocabularyDetailsLivingRoom = getVocabularyDetailsLivingRoom();
+
 
             var listVocabulary = new ArrayList<VocabularyCategoryModel>();
 
-            listVocabulary.add(new VocabularyCategoryModel("cloth", vocabularyDetailCloth));
-            listVocabulary.add(new VocabularyCategoryModel("feeling", vocabularyDetailFeeling));
-            listVocabulary.add(new VocabularyCategoryModel("insect", vocabularyDetailInsert));
-            listVocabulary.add(new VocabularyCategoryModel("kitchen", vocabularyDetailKitchen));
+            listVocabulary.add(new VocabularyCategoryModel("cloth_1", vocabularyDetailCloth));
+            listVocabulary.add(new VocabularyCategoryModel("cloth_2", vocabularyDetailCloth1));
+            listVocabulary.add(new VocabularyCategoryModel("feeling_1", vocabularyDetailFeeling));
+            listVocabulary.add(new VocabularyCategoryModel("feeling_2", vocabularyDetailFeeling1));
+            listVocabulary.add(new VocabularyCategoryModel("insect_1", vocabularyDetailInsert));
+            listVocabulary.add(new VocabularyCategoryModel("insect_2", vocabularyDetailInsert1));
+            listVocabulary.add(new VocabularyCategoryModel("kitchen_1", vocabularyDetailKitchen));
+            listVocabulary.add(new VocabularyCategoryModel("kitchen_2", vocabularyDetailKitchen1));
             listVocabulary.add(new VocabularyCategoryModel("living_room", vocabularyDetailsLivingRoom));
 
 
@@ -666,13 +786,6 @@ public abstract class VocabularyList {
         private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths() {
             var vocabularyDetail = new ArrayList<VocabularyDetails>();
 
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Blouse",
-                            "A piece of clothing worn on the upper body, usually by women and girls.",
-                            "https://www.anglomaniacy.pl/img/xv-blouse.png.pagespeed.ic.PVpPh1srSL.webp"
-                    )
-            );
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Cap",
@@ -703,11 +816,25 @@ public abstract class VocabularyList {
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
+                            "Blouse",
+                            "A piece of clothing worn on the upper body, usually by women and girls.",
+                            "https://www.anglomaniacy.pl/img/xv-blouse.png.pagespeed.ic.PVpPh1srSL.webp"
+                    )
+            );
+            vocabularyDetail.add(
+                    new VocabularyDetails(
                             "Scarf",
                             "A long piece of cloth or knitted material worn around the neck, head, or shoulders.",
                             "https://www.anglomaniacy.pl/img/xa-scarf.png.pagespeed.ic.zG1z4xgSoL.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsCloths1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Shirt",
@@ -750,7 +877,6 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xa-trousers.png.pagespeed.ic.Q2gdJF-qYa.webp"
                     )
             );
-
             return vocabularyDetail;
         }
 
@@ -799,6 +925,13 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-sad.png.pagespeed.ic.BgsB5n1Pv5.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsFeelings1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
+
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Scared",
@@ -841,7 +974,6 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-worried.png.pagespeed.ic.zAR1AFzT45.webp"
                     )
             );
-
             return vocabularyDetail;
         }
 
@@ -883,53 +1015,44 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
                     )
             );
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsInsect1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Dragonfly",
-                            "An insect with long, powerful hind legs for jumping and two pairs of wings. Grasshoppers eat plants.",
-                            "https://www.anglomaniacy.pl/img/xa-dragonfly.png.pagespeed.ic.AXptQcq6pm.webp"
+                            "Ant",
+                            "An insect that lives in large, organized groups called colonies.",
+                            "https://www.anglomaniacy.pl/img/a-ant.png"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Fly",
-                            "",
-                            "https://www.anglomaniacy.pl/img/xa-fly.png.pagespeed.ic.j0zUCTuBJU.webp"
+                            "Bee",
+                            "A bee is an insect with a yellow-and-black striped body that makes a buzzing noise as it flies. Bees make honey, and can sting.",
+                            "https://www.anglomaniacy.pl/img/xv-bee.png.pagespeed.ic.YounKdLadq.webp"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Grasshopper",
-                            "An insect with long, powerful hind legs for jumping and two pairs of wings. Grasshoppers eat plants.",
-                            "https://www.anglomaniacy.pl/img/v-grasshopper.png"
+                            "Beetle",
+                            "A type of insect with wings that form a hard cover on its back when it is not flying. It has biting mouthpart.",
+                            "https://www.anglomaniacy.pl/img/xv-beetle.png.pagespeed.ic.CtwoLowprK.webp"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Ladybird",
-                            "A small round beetle that is red with black spots.",
-                            "https://www.anglomaniacy.pl/img/xa-ladybird.png.pagespeed.ic.2yPqvUFMoQ.webp"
+                            "Butterfly",
+                            "Butterflies are closely related to moths but have thinner bodies and are usually more brightly colored.",
+                            "https://www.anglomaniacy.pl/img/a-butterfly.png"
                     )
             );
             vocabularyDetail.add(
                     new VocabularyDetails(
-                            "Mosquito",
-                            "An insect with a thin body and two wings. The females bite and suck the blood. Some mosquitoes spread disease.",
-                            "https://www.anglomaniacy.pl/img/xa-mosquito.png.pagespeed.ic.cXfdlx6udB.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Moth",
-                            "An insect that has broad wings and flies mostly at night. Moths look like butterflies, but they usually have thicker bodies and are less colorful.",
-                            "https://www.anglomaniacy.pl/img/xv-moth.png.pagespeed.ic.NSkX2T1g6R.webp"
-                    )
-            );
-            vocabularyDetail.add(
-                    new VocabularyDetails(
-                            "Worm",
-                            "With a long body, no bones and no legs.",
-                            "https://www.anglomaniacy.pl/img/xa-worm.png.pagespeed.ic.xZEj3Cl5c9.webp"
+                            "Centipede",
+                            "A small animal with a narrow body like a worm. It has many legs.",
+                            "https://www.anglomaniacy.pl/img/xv-centipede.png.pagespeed.ic.UOrxyUSYZr.webp"
                     )
             );
             return vocabularyDetail;
@@ -973,6 +1096,12 @@ public abstract class VocabularyList {
                             "https://www.anglomaniacy.pl/img/xa-kettle.png.pagespeed.ic.5paETIDc5e.webp"
                     )
             );
+
+            return vocabularyDetail;
+        }
+
+        private static ArrayList<VocabularyDetails> getVocabularyDetailsKitchen1() {
+            var vocabularyDetail = new ArrayList<VocabularyDetails>();
             vocabularyDetail.add(
                     new VocabularyDetails(
                             "Knife",
@@ -1059,18 +1188,7 @@ public abstract class VocabularyList {
             return vocabularyDetail;
         }
 
-//    @NonNull
-//    private static ArrayList<VocabularyDetails> getVocabularyDetailsDayOfWeek() {
-//        var vocabularyDetail = new ArrayList<VocabularyDetails>();
-//        vocabularyDetail.add(
-//                new VocabularyDetails(
-//                        "",
-//                        "",
-//                        ""
-//                )
-//        );
-//        return vocabularyDetail;
-//    }
+
     }
 
     public abstract static class GradeThreeVocabulary {

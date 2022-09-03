@@ -48,7 +48,7 @@ public abstract class SpellingList {
             ));
             list.add(new SpellingDetail(
                     "A",
-                    "Rita is a good girl."
+                    "Sophie is a good girl."
             ));
             list.add(new SpellingDetail(
                     "To",

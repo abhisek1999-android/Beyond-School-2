@@ -45,6 +45,47 @@
             android:textSize="20sp"
             tools:text="AppTest" />
 
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/viewPager_test"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/primary">
+
+            <ProgressBar
+                android:id="@+id/timerProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/roundbar"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeText"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Min"
+                android:textColor="@color/white" />
+
+
+        </RelativeLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager_test"

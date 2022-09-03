@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/grid_2"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/reemkufi_medium"
                 android:gravity="center"
                 android:text="Learn"
@@ -42,12 +42,57 @@
                 android:textColor="@color/primary"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/view_pager"
+                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="HardcodedText" />
 
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/grid_6"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/primary"
+                app:layout_constraintBottom_toTopOf="@+id/view_pager"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ProgressBar
+                    android:id="@+id/timerProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/roundbar"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timeText"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="-6dp"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Min"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"

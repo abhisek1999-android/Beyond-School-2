@@ -137,8 +137,26 @@ public final class UtilityFunctions {
     }
 
     public enum VocabularyCategories {
-        bathroom, body_parts, colors, animals, fruits,
-        vegetables, cloth, feeling, insect, kitchen,
+        bathroom_1,
+        bathroom_2,
+        body_parts_1,
+        body_parts_2,
+        colors_1,
+        colors_2,
+        animals_1,
+        animals_2,
+        fruits_1,
+        fruits_2,
+        vegetables_1,
+        vegetables_2,
+        cloth_1,
+        cloth_2,
+        feeling_1,
+        feeling_2,
+        insect_1,
+        insect_2,
+        kitchen_1,
+        kitchen_2,
         living_room, summer, town, transport, weather,
         school
     }
@@ -158,15 +176,16 @@ public final class UtilityFunctions {
 
     public static String convertCardinalNumberToOrdinalNumber(int number) {
         String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th"};
-        try{
-        switch (number % 100) {
-            case 11:
-            case 12:
-            case 13:
-                return number + "th";
-            default:
-                return number + suffixes[number % 10];
-        }}catch (Exception e){
+        try {
+            switch (number % 100) {
+                case 11:
+                case 12:
+                case 13:
+                    return number + "th";
+                default:
+                    return number + suffixes[number % 10];
+            }
+        } catch (Exception e) {
             return "";
         }
     }
@@ -174,25 +193,35 @@ public final class UtilityFunctions {
 
     public static String getQuestionTitleVocabulary(VocabularyCategories categories) {
         switch (categories) {
-            case bathroom:
+            case bathroom_1:
+            case bathroom_2:
                 return "Let us learn about Bathroom and objects we use there.";
-            case body_parts:
+            case body_parts_1:
+            case body_parts_2:
                 return "Here we will learn about our different body parts.";
-            case colors:
+            case colors_1:
+            case colors_2:
                 return "It’s the turn of colors now. Let us learn them.";
-            case animals:
+            case animals_1:
+            case animals_2:
                 return "Let us learn and know some animals. ";
-            case fruits:
+            case fruits_1:
+            case fruits_2:
                 return "I am sure, you all love eating fruits. Let us try to learn different fruits and their names.";
-            case vegetables:
+            case vegetables_1:
+            case vegetables_2:
                 return "Vegetables are good for health. We will learn about some of them now.";
-            case cloth:
+            case cloth_1:
+            case cloth_2:
                 return "We all wear different types of clothes to look nice. Let us know about them.";
-            case feeling:
+            case feeling_1:
+            case feeling_2:
                 return "Let us learn about feelings and emotions we all undergo.";
-            case insect:
+            case insect_1:
+            case insect_2:
                 return "Now we will discover different types of insects.";
-            case kitchen:
+            case kitchen_1:
+            case kitchen_2:
                 return "Let us learn and know some of the objects used by our mothers in Kitchen.";
             default:
                 return "Let us learn and know about " + UtilityFunctions.vocabularyCategoriesToString(categories);
@@ -201,25 +230,35 @@ public final class UtilityFunctions {
 
     public static String getQuestionsFromVocabularyCategories(VocabularyCategories categories) {
         switch (categories) {
-            case bathroom:
+            case bathroom_1:
+            case bathroom_2:
                 return getRandomItem(new String[]{"Can you name this object? ", " Try naming this object ", " Can you tell what is this object called?"});
-            case body_parts:
+            case body_parts_1:
+            case body_parts_2:
                 return getRandomItem(new String[]{"Can you name this body part? ", " Try naming this body part", "Can you name this one?"});
-            case colors:
+            case colors_1:
+            case colors_2:
                 return getRandomItem(new String[]{" Can you name this color? ", " Which color is this?", " Try naming this color ", " Which color do you see here?"});
-            case animals:
+            case animals_1:
+            case animals_2:
                 return getRandomItem(new String[]{" Can you name this animal? ", " Try naming this animal", " Can you identify this?"});
-            case fruits:
+            case fruits_1:
+            case fruits_2:
                 return getRandomItem(new String[]{"Can you name this fruit? ", "Name this fruit", "Can you identify this fruit?"});
-            case vegetables:
+            case vegetables_1:
+            case vegetables_2:
                 return getRandomItem(new String[]{"Can you name this vegetable? ", "Name this vegetable", "Can you identify this vegetable?"});
-            case cloth:
+            case cloth_1:
+            case cloth_2:
                 return getRandomItem(new String[]{"Can you name this object?", "Name this ?", "Can you identify this?"});
-            case feeling:
+            case feeling_1:
+            case feeling_2:
                 return getRandomItem(new String[]{"What is this feeling called? ", "Name this ?", "Can you identify this?"});
-            case insect:
+            case insect_1:
+            case insect_2:
                 return getRandomItem(new String[]{"What is this insect called?", "Name this ?"});
-            case kitchen:
+            case kitchen_1:
+            case kitchen_2:
                 return getRandomItem(new String[]{" What is this object called?", "Name this object", "Can you identify this?"});
             default:
                 return getRandomItem(new String[]{"Name this object", "Can you identify this object?"});
@@ -228,26 +267,46 @@ public final class UtilityFunctions {
 
     public static String getDbName(VocabularyCategories categories, Context context) {
         switch (categories) {
-            case bathroom:
+            case bathroom_1:
                 return context.getString(R.string.vocab1);
-            case body_parts:
+            case bathroom_2:
+                return context.getString(R.string.vocab1_1);
+            case body_parts_1:
                 return context.getString(R.string.vocab2);
-            case colors:
+            case body_parts_2:
+                return context.getString(R.string.vocab2_1);
+            case colors_1:
                 return context.getString(R.string.vocab3);
-            case animals:
+            case colors_2:
+                return context.getString(R.string.vocab3_1);
+            case animals_1:
                 return context.getString(R.string.vocab4);
-            case fruits:
+            case animals_2:
+                return context.getString(R.string.vocab4_1);
+            case fruits_1:
                 return context.getString(R.string.vocab5);
-            case vegetables:
+            case fruits_2:
+                return context.getString(R.string.vocab5_1);
+            case vegetables_1:
                 return context.getString(R.string.vocab6);
-            case cloth:
+            case vegetables_2:
+                return context.getString(R.string.vocab6_1);
+            case cloth_1:
                 return context.getString(R.string.vocab8);
-            case feeling:
+            case cloth_2:
+                return context.getString(R.string.vocab8_1);
+            case feeling_1:
                 return context.getString(R.string.vocab9);
-            case insect:
+            case feeling_2:
+                return context.getString(R.string.vocab9_1);
+            case insect_1:
                 return context.getString(R.string.vocab10);
-            case kitchen:
+            case insect_2:
+                return context.getString(R.string.vocab10_1);
+            case kitchen_1:
                 return context.getString(R.string.vocab11);
+            case kitchen_2:
+                return context.getString(R.string.vocab11_1);
             case living_room:
                 return context.getString(R.string.vocab12);
             case school:
@@ -267,26 +326,46 @@ public final class UtilityFunctions {
 
     public static String vocabularyCategoriesToString(VocabularyCategories vocabularyCategories) {
         switch (vocabularyCategories) {
-            case bathroom:
-                return "Bathroom";
-            case body_parts:
-                return "Body Parts";
-            case colors:
-                return "Colors";
-            case animals:
-                return "Animals";
-            case fruits:
-                return "Fruits";
-            case vegetables:
-                return "Vegetables";
-            case cloth:
-                return "Clothes";
-            case feeling:
-                return "Feelings";
-            case insect:
-                return "Insects";
-            case kitchen:
-                return "Kitchen";
+            case bathroom_1:
+                return "Bathroom 1";
+            case bathroom_2:
+                return "Bathroom 2";
+            case body_parts_1:
+                return "Body Parts 1";
+            case body_parts_2:
+                return "Body Parts 2";
+            case colors_1:
+                return "Colors 1";
+            case colors_2:
+                return "Colors 2";
+            case animals_1:
+                return "Animals 1";
+            case animals_2:
+                return "Animals 2";
+            case fruits_1:
+                return "Fruits 1";
+            case fruits_2:
+                return "Fruits 2";
+            case vegetables_1:
+                return "Vegetables 1";
+            case vegetables_2:
+                return "Vegetables 2";
+            case cloth_1:
+                return "Cloth 1";
+            case cloth_2:
+                return "Cloth 2";
+            case feeling_1:
+                return "Feeling 1";
+            case feeling_2:
+                return "Feeling 2";
+            case insect_1:
+                return "Insect 1";
+            case insect_2:
+                return "Insect 2";
+            case kitchen_1:
+                return "Kitchen 1";
+            case kitchen_2:
+                return "Kitchen 2";
             case living_room:
                 return "Living Room";
             case summer:
@@ -317,24 +396,46 @@ public final class UtilityFunctions {
 
     public static VocabularyCategories getVocabularyFromString(String category) {
         switch (category) {
-            case "bathroom":
-                return VocabularyCategories.bathroom;
-            case "body_parts":
-                return VocabularyCategories.body_parts;
-            case "colors":
-                return VocabularyCategories.colors;
-            case "fruits":
-                return VocabularyCategories.fruits;
-            case "vegetables":
-                return VocabularyCategories.vegetables;
-            case "cloth":
-                return VocabularyCategories.cloth;
-            case "feeling":
-                return VocabularyCategories.feeling;
-            case "insect":
-                return VocabularyCategories.insect;
-            case "kitchen":
-                return VocabularyCategories.kitchen;
+            case "bathroom_1":
+                return VocabularyCategories.bathroom_1;
+            case "bathroom_2":
+                return VocabularyCategories.bathroom_2;
+            case "body_parts_1":
+                return VocabularyCategories.body_parts_1;
+            case "body_parts_2":
+                return VocabularyCategories.body_parts_2;
+            case "colors_1":
+                return VocabularyCategories.colors_1;
+            case "colors_2":
+                return VocabularyCategories.colors_2;
+            case "fruits_1":
+                return VocabularyCategories.fruits_1;
+            case "fruits_2":
+                return VocabularyCategories.fruits_2;
+            case "vegetables_1":
+                return VocabularyCategories.vegetables_1;
+            case "vegetables_2":
+                return VocabularyCategories.vegetables_2;
+            case "animals_1":
+                return VocabularyCategories.animals_1;
+            case "animals_2":
+                return VocabularyCategories.animals_2;
+            case "cloth_1":
+                return VocabularyCategories.cloth_1;
+            case "cloth_2":
+                return VocabularyCategories.cloth_2;
+            case "feeling_1":
+                return VocabularyCategories.feeling_1;
+            case "feeling_2":
+                return VocabularyCategories.feeling_2;
+            case "insect_1":
+                return VocabularyCategories.insect_1;
+            case "insect_2":
+                return VocabularyCategories.insect_2;
+            case "kitchen_1":
+                return VocabularyCategories.kitchen_1;
+            case "kitchen_2":
+                return VocabularyCategories.kitchen_2;
             case "living_room":
                 return VocabularyCategories.living_room;
             case "summer":
@@ -348,32 +449,52 @@ public final class UtilityFunctions {
             case "school":
                 return VocabularyCategories.school;
             default:
-                return VocabularyCategories.animals;
+                return VocabularyCategories.animals_1;
         }
     }
 
     public static VocabularyCategories getVocabularyCategoryFromAdapter(String category) {
         switch (category) {
-            case "bathroom":
-                return VocabularyCategories.bathroom;
-            case "bodyparts":
-                return VocabularyCategories.body_parts;
-            case "colors":
-                return VocabularyCategories.colors;
-            case "fruits":
-                return VocabularyCategories.fruits;
-            case "vegetables":
-                return VocabularyCategories.vegetables;
-            case "clothes":
-                return VocabularyCategories.cloth;
-            case "feelings":
-                return VocabularyCategories.feeling;
-            case "insects":
-                return VocabularyCategories.insect;
-            case "kitchen":
-                return VocabularyCategories.kitchen;
+            case "bathroom_1":
+                return VocabularyCategories.bathroom_1;
+            case "bathroom_2":
+                return VocabularyCategories.bathroom_2;
+            case "bodyparts_1":
+                return VocabularyCategories.body_parts_1;
+            case "bodyparts_2":
+                return VocabularyCategories.body_parts_2;
+            case "colors_1":
+                return VocabularyCategories.colors_1;
+            case "colors_2":
+                return VocabularyCategories.colors_2;
+            case "fruits_1":
+                return VocabularyCategories.fruits_1;
+            case "fruits_2":
+                return VocabularyCategories.fruits_2;
+            case "vegetables_1":
+                return VocabularyCategories.vegetables_1;
+            case "vegetables_2":
+                return VocabularyCategories.vegetables_2;
+            case "clothes_1":
+                return VocabularyCategories.cloth_1;
+            case "clothes_2":
+                return VocabularyCategories.cloth_2;
+            case "feelings_1":
+                return VocabularyCategories.feeling_1;
+            case "feelings_2":
+                return VocabularyCategories.feeling_2;
+            case "insects_1":
+                return VocabularyCategories.insect_1;
+            case "insects_2":
+                return VocabularyCategories.insect_2;
+            case "kitchen_1":
+                return VocabularyCategories.kitchen_1;
+            case "kitchen_2":
+                return VocabularyCategories.kitchen_2;
             case "livingroom":
                 return VocabularyCategories.living_room;
+            case "animal_2":
+                return VocabularyCategories.animals_2;
             case "school":
                 return VocabularyCategories.school;
             case "summer":
@@ -385,7 +506,7 @@ public final class UtilityFunctions {
             case "weather":
                 return VocabularyCategories.weather;
             default:
-                return VocabularyCategories.animals;
+                return VocabularyCategories.animals_1;
         }
     }
 
@@ -787,7 +908,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed){
+    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
 
         List<ProgressM> list = db.progressDao().isAvailable(chapter);
 
@@ -813,7 +934,6 @@ public final class UtilityFunctions {
 
 
     }
-
 
 
     public static void addProgressData(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend) {

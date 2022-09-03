@@ -869,18 +869,31 @@
     <string name="english">English</string>
     <string name="vocabulary">Vocabulary</string>
 
-    <string name="vocab1">Vocabulary Bathroom</string>
-    <string name="vocab2">Vocabulary Bodyparts</string>
-    <string name="vocab3">Vocabulary Colors</string>
-    <string name="vocab4">Vocabulary Animals</string>
-    <string name="vocab5">Vocabulary Fruits</string>
-    <string name="vocab6">Vocabulary Vegetables</string>
+    <string name="vocab1">Vocabulary Bathroom_1</string>
+    <string name="vocab1_1">Vocabulary Bathroom_2</string>
+    <string name="vocab2">Vocabulary Bodyparts_1</string>
+    <string name="vocab2_1">Vocabulary Bodyparts_2</string>
+
+    <string name="vocab3">Vocabulary Colors_1</string>
+    <string name="vocab3_1">Vocabulary Colors_2</string>
+
+
+    <string name="vocab4">Vocabulary Animals_1</string>
+    <string name="vocab4_1">Vocabulary Animals_2</string>
+    <string name="vocab5">Vocabulary Fruits_1</string>
+    <string name="vocab5_1">Vocabulary Fruits_2</string>
+    <string name="vocab6">Vocabulary Vegetables_1</string>
+    <string name="vocab6_1">Vocabulary Vegetables_2</string>
     <!--    <string name="vocab7">Vocabulary Opposites</string>-->
 
-    <string name="vocab8">Vocabulary Clothes</string>
-    <string name="vocab9">Vocabulary Feelings</string>
-    <string name="vocab10">Vocabulary Insects</string>
-    <string name="vocab11">Vocabulary Kitchen</string>
+    <string name="vocab8">Vocabulary Clothes_1</string>
+    <string name="vocab8_1">Vocabulary Clothes_2</string>
+    <string name="vocab9">Vocabulary Feelings_1</string>
+    <string name="vocab9_1">Vocabulary Feelings_2</string>
+    <string name="vocab10">Vocabulary Insects_1</string>
+    <string name="vocab10_1">Vocabulary Insects_2</string>
+    <string name="vocab11">Vocabulary Kitchen_1</string>
+    <string name="vocab11_1">Vocabulary Kitchen_2</string>
     <string name="vocab12">Vocabulary LivingRoom</string>
     <!--    <string name="vocab13">Vocabulary Days</string>-->
 

@@ -26,6 +26,7 @@ import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +62,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 
         var finalString = "";
         if (val.contains("Vocabulary")) {
-            finalString = val.replace("Vocabulary", "");
+            finalString = val.replace("Vocabulary", "").replace("_", " ");
         } else if (val.contains("Spelling")) {
             finalString = val.replace("Spelling", "");
         } else {
@@ -75,10 +76,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             @Override
             public void onClick(View view) {
                 if (subject_model.isIs_locked()) {
-                    //needs to be intent values
+//                    needs to be intent values
                     if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                         Intent intent = new Intent(context, EnglishActivity.class);
-                        Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                        Log.d("EnglishActivity", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                         intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                         context.startActivity(intent);
                         // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();

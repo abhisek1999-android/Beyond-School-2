@@ -60,11 +60,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
-            android:text="Addition"
-            android:layout_weight="1"
             android:paddingVertical="@dimen/grid_10"
+            android:text="Addition"
             android:textSize="@dimen/default_font_size" />
 
 
