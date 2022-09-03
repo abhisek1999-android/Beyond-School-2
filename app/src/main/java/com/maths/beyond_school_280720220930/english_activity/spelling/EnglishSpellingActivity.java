@@ -319,7 +319,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 //        Stop when reach ot last item
         if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
             isSpeaking = false;
-            //  displayCompleteDialog();
+     //       displayCompleteDialog();
         }
     }
 
@@ -558,9 +558,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     binding.playPause.setChecked(false);
-//                                    if (binding.viewPager.getCurrentItem() == spellingDetails.size()) {
-                                    displayCompleteDialog();
-//                                    }
+                                    if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
+                                        displayCompleteDialog();
+                                    }
                                     playPauseAnimation(false);
                                 }
                             }, DELAY_TIME);

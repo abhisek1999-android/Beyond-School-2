@@ -62,7 +62,8 @@ import java.util.Objects;
 public class Select_Sub_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Subject_Adapter.MultiplicationOption {
     ArrayList<SpinnerModel> drinkModels;
     ActivitySelectSubBinding binding;
-    int count = 33, name = R.string.math, subject = R.string.math;/*subsub = R.string.add;*/
+    int count = 33,subject = R.string.math;/*subsub = R.string.add;*/
+           String name="";
     MutableLiveData<String> grade;
     MutableLiveData<String> subSub;
     List<Subject_Model> list;
@@ -81,8 +82,9 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private FirebaseUser mCurrentUser;
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     private FirebaseAnalytics mFirebaseAnalytics;
-    private String intentSubject="";
+    private String intentSubSubject="",intentSubject="";
 
+    private boolean init=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,9 +93,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
         checkAudioPermission();
         try {
-            intentSubject=getIntent().getStringExtra("subSubject");
+            intentSubSubject=getIntent().getStringExtra("subSubject");
+            intentSubject=getIntent().getStringExtra("subject");
+            binding.subject.setText(intentSubject);
+            name=intentSubject;
+
         }catch (Exception e){
-            intentSubject="";
+            intentSubSubject="";
         }
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -113,10 +119,10 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         UtilityFunctions.runOnUiThread(() -> {
             grade.setValue(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)));
             try{
-                if (intentSubject.equals(""))
+                if (intentSubSubject.equals(""))
                     subSub.setValue(getResources().getString(R.string.mul));
                 else
-                    subSub.setValue(intentSubject);
+                    subSub.setValue(intentSubSubject);
 
             }catch (Exception e){
 
@@ -293,14 +299,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                     v = vi.inflate(R.layout.row2, null);
                 }
 
-                binding.subject.setText(name);
 
 
                 TextView tvName = v.findViewById(R.id.tvName);
                 for (int i = position; i >= 0; i--) {
                     SpinnerModel model = drinkModels.get(i);
                     if (model.isHeader()) {
-                        name = model.getName();
+                        name = getResources().getString(model.getName());
                         tvName.setTextColor(R.color.primary);
                         break;
                     }
@@ -308,22 +313,29 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
                 SpinnerModel model = drinkModels.get(position);
                 tvName.setText("Change Subjects");
 
+                if (intentSubject.equals("English"))
+                    name = "English";
 
 
                 try{
 
-                if (!intentSubject.equals(""))
+                if (!intentSubSubject.equals(""))
                 subSub.setValue(
                         getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
-                                intentSubject.toLowerCase(): getResources().getString(model.getName())
-                );}catch (Exception e){
+                                intentSubSubject.toLowerCase(): getResources().getString(model.getName()));
+
+                   // binding.subject.setText(intentSubject);
+                }catch (Exception e){
+                    Toast.makeText(Select_Sub_Activity.this, "ecp", Toast.LENGTH_SHORT).show();
                     subSub.setValue(
                             getResources().getString(model.getName()).toLowerCase(Locale.ROOT).equals("mathematics") ?
                                     getResources().getString(R.string.add)   : getResources().getString(model.getName())
                     );
+
+
                 }
 
-                binding.subject.setText(name);
+                    binding.subject.setText(name);
 
 //                if (subsub==R.string.mul){
 //                    multiplicationList();

@@ -42,12 +42,14 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
     long timeSpend = 0;
     private String subSub="",chapter="";
     private AlertDialog alertDialog;
+    private String section;
 
 
-    public ProgressRecyclerAdapter(List<SubSubject> list, Context context, AlertDialog alertDialog) {
+    public ProgressRecyclerAdapter(List<SubSubject> list, Context context, AlertDialog alertDialog, String sectionName) {
         this.list = list;
         this.context = context;
         this.alertDialog=alertDialog;
+        this.section=sectionName;
 
         progressDataBase = ProgressDataBase.getDbInstance(context);
 
@@ -72,9 +74,14 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
         holder.learningProgress.setProgress(list.get(position).getCompleted());
         holder.image.setImageResource(list.get(position).getResource());
 
+
         holder.mView.setOnClickListener(v->{
+
+
+          //  Toast.makeText(context, section, Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(context, Select_Sub_Activity.class);
             intent.putExtra("subSubject",list.get(position).getSubSubject());
+            intent.putExtra("subject",section);
             context.startActivity(intent );
 
         });

@@ -89,6 +89,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:padding="5dp"
 
+                    android:visibility="gone"
                     android:text="@string/math"
                     android:textColor="@color/tp_white"
                     android:textSize="@dimen/default_font_size" />
@@ -101,6 +102,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:padding="5dp"
                     android:text=">"
+                    android:visibility="gone"
                     android:textColor="@color/tp_white"
                     android:textSize="@dimen/default_font_size" />
 

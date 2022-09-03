@@ -786,6 +786,15 @@
     </string-array>
 
 
+<!--    01569adcd943ff3c459f1e77f7070acd-->
+
+<!--Facebook-->
+    <string name="facebook_app_id">418361456952717</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">a7ad733b04fdd77cf846668c66d594ce</string>
+
+
+
     <string name="math_extra">Mathematics Extra</string>
     <string name="english_extra">English Extra</string>
 
