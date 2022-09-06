@@ -30,6 +30,8 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.Vocabula
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
@@ -42,11 +44,17 @@ import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 public class EnglishActivity extends AppCompatActivity implements VocabularyFragment.OnRootClick {
 
@@ -75,6 +83,11 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     private UtilityFunctions.VocabularyCategories category;
     private MediaPlayer mediaPlayer = null;
 
+    private long timeSpend = 0;
+    public static final int TIMER_VALUE = 15;
+    private List<ProgressM> progressData;
+    private ProgressDataBase progressDataBase;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +99,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
+        progressDataBase = ProgressDataBase.getDbInstance(this);
+        progressData = new ArrayList<>();
         setToolbar();
         setViewPager();
         buttonClick();
@@ -184,6 +199,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     private void buttonClick() {
         binding.playPause.setOnClickListener(view -> {
+            timer();
             isSpeaking = binding.playPause.isChecked();
             startEngine();
         });
@@ -297,9 +313,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
-                        try{
-                        mediaPlayer.start();}
-                        catch (Exception e){}
+                        mediaPlayer.start();
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
@@ -374,6 +388,9 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     protected void onPause() {
         super.onPause();
         checkLogIsEnable();
+        checkProgressData();
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", UtilityFunctions.vocabularyCategoriesToString(category), new Date(),
+                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void checkLogIsEnable() {
@@ -412,8 +429,9 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                     UtilityFunctions.runOnUiThread(() -> {
                         try {
                             mediaPlayer.pause();
-                        }catch (Exception e){}
-
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                         isSayWordFinish = true;
                         if (isSpeaking) {
@@ -484,11 +502,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
-        try{
-            if (mediaPlayer != null)
-                mediaPlayer.release();
-        }catch (Exception e){}
-
+        if (mediaPlayer != null)
+            mediaPlayer.release();
         VocabularyFragment current = null;
         try {
             current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
@@ -541,5 +556,40 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             e.printStackTrace();
         }
         binding.playPause.setChecked(true);
+    }
+
+    private void timer() {
+        boolean isTimerRunning = false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
+
+                        binding.timerProgress.setMax(15);
+                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.timeText.setText((x + 1) + "");
+                        Log.i("task", x + "");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK", "task")
+                ).subscribe();
+    }
+
+    private void checkProgressData() {
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", UtilityFunctions.vocabularyCategoriesToString(category),
+                new Date(), 0, true);
+
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
+            }
+        } catch (Exception e) {
+            timeSpend = 0;
+        }
+
     }
 }
