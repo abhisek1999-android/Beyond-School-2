@@ -41,23 +41,67 @@
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/subSub"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/grid_6"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/primary">
+
+        <ProgressBar
+            android:id="@+id/timerProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/roundbar"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeText"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="-6dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Min"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/subSub"
-        android:fillViewport="true"
-        android:padding="@dimen/grid_1">
+        android:layout_below="@id/relativeLayout"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/grid_1">
+            android:layout_height="match_parent">
+
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/playPause"
+                android:layout_height="350dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -67,6 +111,7 @@
                 android:layout_height="60dp"
                 android:layout_above="@id/image_view_teacher"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/round_rect_button_bg"
                 android:backgroundTint="@color/primary"
                 android:drawableTop="@drawable/play_button"
@@ -77,8 +122,9 @@
                 android:textOn=""
                 app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_teacher"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/image_view_teacher"
+                app:layout_constraintStart_toStartOf="@+id/giveTestButton"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="UnusedAttribute" />
 
 
@@ -89,7 +135,9 @@
                 android:layout_above="@id/giveTestButton"
                 android:layout_alignParentEnd="true"
                 app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/giveTestButton"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                app:layout_constraintVertical_bias="1.0"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/talking_avatar" />
 
@@ -100,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="@dimen/grid_1"
                 android:background="@drawable/tv_shape"
                 android:backgroundTint="@color/primary"
                 android:orientation="horizontal"

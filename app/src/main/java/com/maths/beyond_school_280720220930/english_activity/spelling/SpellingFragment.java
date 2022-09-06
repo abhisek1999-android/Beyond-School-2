@@ -65,8 +65,8 @@ public class SpellingFragment extends Fragment {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             activity.restartEngine();
         });
-//        binding.otpViewWord.
 
+        binding.otpViewWord.setText(spellingDetail.getWord().replaceAll("[A-Za-z]", " _ "));
 
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,

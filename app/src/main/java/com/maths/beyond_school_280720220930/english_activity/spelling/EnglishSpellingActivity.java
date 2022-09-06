@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930.english_activity.spelling;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,7 +15,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.color.MaterialColors;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -45,13 +46,9 @@ import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -155,6 +152,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             }
         } else {
             destroyedEngines();
+            isSayWordFinish = true;
         }
     }
 
@@ -271,10 +269,8 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     if (isSayWordFinish) {
                         isSayWordFinish = false;
-                        var textView = (TextView) findViewById(R.id.text_view_word);
-                        textView.setTextColor(getResources().getColor(R.color.black));
+                        removeHighlight();
                         tts.setTextViewAndSentence(null);
-
                         tts.initialize(getSpellLetter(),
                                 EnglishSpellingActivity.this);
                     } else {
@@ -308,6 +304,21 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         });
     }
 
+    private void removeHighlight() {
+        var textView = (TextView) findViewById(R.id.text_view_word);
+        Spannable textWithHighlights = new SpannableString(textView.getText().toString());
+        textWithHighlights.setSpan(new ForegroundColorSpan(
+                        ContextCompat.
+                                getColor(
+                                        EnglishSpellingActivity.this,
+                                        android.R.color.primary_text_light
+                                )),
+                0,
+                textView.getText().toString().length(),
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        textView.setText(textWithHighlights);
+    }
+
     private void startSpeaking() throws ExecutionException, InterruptedException {
         isSpeaking = true;
         UtilityFunctions.runOnUiThread(() -> playPauseAnimation(true));
@@ -319,7 +330,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 //        Stop when reach ot last item
         if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
             isSpeaking = false;
-     //       displayCompleteDialog();
+            //       displayCompleteDialog();
         }
     }
 
@@ -396,11 +407,18 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                     currentWordBuilder.append(split[0]);
                     currentWordPosition++;
 
-                    ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView()
-                            .setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                    var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
+                    var string = textView.getText().toString();
+                    textView.setText(string.replaceFirst("_", String.valueOf(split[0])));
                     try {
                         if (currentWordPosition < currentWord.length())
                             helperTTS("", false, 2 * 45);
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        helperTTS("", false, 2 * 45);
                     } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -425,8 +443,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                             Log.d(TAG, "checkResult: " + currentWordBuilder);
                         }
                     }
-                    var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                    currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                    var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
+                    var string = textView.getText().toString();
+                    for (int i = 0; i < currentWordBuilder.length(); i++) {
+                        string = string.replaceFirst("_", String.valueOf(currentWordBuilder.charAt(i)));
+                    }
+                    textView.setText(string);
                     Log.d(TAG, "onSuccess: called " + currentWordBuilder.toString());
                     if (currentWordPosition < currentWord.length())
                         helperTTS("", false, 2 * 45);
@@ -439,11 +461,15 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                     if (currentWordBuilder.toString().equals(currentWord)) {
                         try {
                             mediaPlayer.start();
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                         playPauseAnimation(true);
-                        var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
-                        currentFragment.getTextView().setText(UtilityFunctions.addSpaceAnswer(currentWordBuilder.toString()));
+                        var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
+                        var string = textView.getText().toString();
+                        for (int i = 0; i < currentWordBuilder.length(); i++) {
+                            string = string.replaceFirst("_", String.valueOf(currentWordBuilder.charAt(i)));
+                        }
+                        textView.setText(string);
                         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         currentWordBuilder = new StringBuilder();
@@ -496,7 +522,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                     @Override
                     public void onCompletion() {
                         if (request == 3 * 46) {
-                            ttsHelper.setTextRangeListener(null);
                             try {
                                 helperTTS("Example : ", false, REQUEST_FOR_DES);
                             } catch (ExecutionException | InterruptedException e) {
@@ -507,9 +532,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
                         if (request == 3 * 45) {
                             try {
-                                ttsHelper.setTextRangeListener(null);
-                                var textView = (TextView) findViewById(R.id.text_view_des);
-                                textView.setTextColor(ContextCompat.getColor(EnglishSpellingActivity.this, R.color.primary));
                                 helperTTS(UtilityFunctions.addComma(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord())
                                         , false, 3 * 46);
 

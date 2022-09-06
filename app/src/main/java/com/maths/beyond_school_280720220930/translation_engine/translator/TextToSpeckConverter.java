@@ -14,7 +14,7 @@ import java.util.Locale;
 public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverter> {
 
 
-    private ConversionCallback conversionCallaBack;
+    private ConversionCallback conversionCallaBack = null;
     private String sentence = null;
     private TextRangeListener textRangeListener = null;
 
@@ -51,13 +51,14 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
                     @Override
                     public void onDone(String s) {
-                        conversionCallaBack.onCompletion();
+                        if (conversionCallaBack != null)
+                            conversionCallaBack.onCompletion();
                     }
 
                     @Override
                     public void onError(String s) {
 
-                        Log.i("TTS_ERROR",s);
+                        Log.i("TTS_ERROR", s);
 
                     }
 
@@ -135,7 +136,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         }
     }
 
-    public void shutdown(){
+    public void shutdown() {
         textToSpeech.shutdown();
     }
 

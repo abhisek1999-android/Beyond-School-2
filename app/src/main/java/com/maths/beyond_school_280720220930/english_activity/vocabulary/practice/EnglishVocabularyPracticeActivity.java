@@ -131,9 +131,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         ));
         var data = UtilityFunctions.
                 getVocabularyDetailsFromType(
-                        dao.getEnglishModel(UtilityFunctions.getGrade(PrefConfig.readIdInPref(
-                                this,
-                                getResources().getString(R.string.kids_grade)))
+                        dao.getEnglishModel(1
                         ).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
         if (data == null) {
