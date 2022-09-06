@@ -297,7 +297,9 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                     if (UtilityFunctions.checkString(result.toLowerCase(Locale.ROOT), vocabularyList.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT))) {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
-                        mediaPlayer.start();
+                        try{
+                        mediaPlayer.start();}
+                        catch (Exception e){}
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
@@ -408,7 +410,10 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
                 if (canNavigate) {
                     UtilityFunctions.runOnUiThread(() -> {
-                        mediaPlayer.pause();
+                        try {
+                            mediaPlayer.pause();
+                        }catch (Exception e){}
+
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                         isSayWordFinish = true;
                         if (isSpeaking) {
@@ -479,8 +484,11 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             stt.destroy();
         if (ttsHelper != null)
             ttsHelper.destroy();
-        if (mediaPlayer != null)
-            mediaPlayer.release();
+        try{
+            if (mediaPlayer != null)
+                mediaPlayer.release();
+        }catch (Exception e){}
+
         VocabularyFragment current = null;
         try {
             current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());

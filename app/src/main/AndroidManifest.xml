@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.maths.beyond_school_280720220930">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
@@ -44,6 +44,15 @@
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
+
+        <meta-data
+            tools:replace="android:value"
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <meta-data
+            tools:replace="android:value"
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
         <activity
             android:name=".english_activity.spelling.spelling_test.SpellingTest"
             android:exported="false" />

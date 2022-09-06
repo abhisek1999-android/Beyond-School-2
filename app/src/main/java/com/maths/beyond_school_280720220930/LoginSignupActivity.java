@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
@@ -25,24 +27,52 @@ public class LoginSignupActivity extends AppCompatActivity {
     String[] desc1 = {""};
     List<String> list1, list2, list4;
     List<String> en1, en2, en4;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        insertData();
+        mAuth=FirebaseAuth.getInstance();
+        mUser=mAuth.getCurrentUser();
 
         binding.googleSignIn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
 
         binding.phoneNumberSignIn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PhoneNumberLogin.class));
+            Intent intent=new Intent(getApplicationContext(),PhoneNumberLogin.class);
+            startActivity(intent);
+            finish();
         });
 
-        insertData();
+        if (mUser!=null){
+            checkUserAlreadyAvailable();
+        }
 
 
+
+
+    }
+
+    private void checkUserAlreadyAvailable() {
+
+        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)).equals("")) {
+            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+            intent.putExtra("type", "next");
+            startActivity(intent);
+            finish();
+
+        } else {
+            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
+//            startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
+            finish();
+        }
+
+        finish();
     }
 
     private void insertData() {

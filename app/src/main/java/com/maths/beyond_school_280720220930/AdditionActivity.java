@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class AdditionActivity extends AppCompatActivity {
     private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
     private ProgressDataBase progressDataBase;
-
+    private MediaPlayer mediaPlayer = null;
     private List<ProgressM> progressData;
     private long timeSpend = 0;
     public static final int TIMER_VALUE = 15;
@@ -139,6 +140,8 @@ public class AdditionActivity extends AppCompatActivity {
         setButtonClick();
         setBasicUiElement();
         checkProgressData();
+        initMediaPlayer();
+
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -283,6 +286,10 @@ public class AdditionActivity extends AppCompatActivity {
 
     }
 
+
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
+    }
     /**
      * Initialize TTS engine
      * Answer will be check here
@@ -413,6 +420,7 @@ public class AdditionActivity extends AppCompatActivity {
             tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivity.this);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
 
+            try{  mediaPlayer.start();}catch (Exception e){}
 
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
@@ -497,6 +505,9 @@ public class AdditionActivity extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
+        try {
+            mediaPlayer.pause();
+        }catch (Exception e){}
         numberList.clear();
         binding.animWoman.cancelAnimation();
         //  binding.textView26.setVisibility(View.VISIBLE);
@@ -570,11 +581,17 @@ public class AdditionActivity extends AppCompatActivity {
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         isCallSTT = false;
         isCallTTS = false;
+
+        try{mediaPlayer.pause();}catch (Exception e){}
+
         if (!isAnswered)
             isNewQuestionGenerated = false;
     }
 
     private void setQuestion() throws InterruptedException {
+
+        try{
+        mediaPlayer.pause();}catch (Exception e){}
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         isAnswered = false;

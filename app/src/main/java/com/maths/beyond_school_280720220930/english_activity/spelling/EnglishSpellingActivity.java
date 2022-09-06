@@ -699,6 +699,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+        isSpeaking=true;
         binding.playPause.setChecked(true);
     }
 

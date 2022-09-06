@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -96,6 +98,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
+
         startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));
 
         customProgressDialogue=new CustomProgressDialogue(HomeScreen.this);
@@ -126,10 +129,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         uiChnages();
     //    getUiData(true);
 
+        logSent();
     }
 
 
-
+    public void logSent () {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        logger.logEvent("AppOpened");
+    }
     private void checkAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -243,7 +250,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
             mCurrentUser = null;
-            startActivity(new Intent(getApplicationContext(), SplashScreen.class));
+            PrefConfig.writeIdInPref(getApplicationContext(),"",getResources().getString(R.string.kids_id));
+           Intent intent= new Intent(getApplicationContext(), SplashScreen.class);
+            startActivity(intent);
+            finish();
         });
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, null, R.string.start, R.string.close);
@@ -463,20 +473,26 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             {
 
                 if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
-                    if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
-                        Log.i("Data_chap",chapterListMath+"");
-                        Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
-                        subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
+                    try{
+                        if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
+                            Log.i("Data_chap",chapterListMath+"");
+                            Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
+                            subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
 
-                    }
+                        }
+
+                    }catch (Exception e){}
+
                 }
                 else{
 
-                    int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                    if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
-                    subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
-                    else
-                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));
+                    try{
+                        int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+                        if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
+                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
+                        else
+                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));}
+                    catch (Exception e){}
                 }
                 l_index++;
 
@@ -487,9 +503,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             l_index=0;
             for (int i=0;i<2;i++)
             {
-                if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true)!=null){
-                    subEngData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true).get(0));
-                }
+                try{
+                    if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true)!=null){
+                        subEngData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListEng.get(l_index),true).get(0));
+                    }
+                }catch (Exception e){}
+
             l_index++;
             }
 

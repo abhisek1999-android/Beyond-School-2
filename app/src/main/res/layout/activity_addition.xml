@@ -126,10 +126,12 @@
 
 
             <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:minHeight="65dp"
+                android:minWidth="65dp"
                 android:background="@drawable/tv_shape"
                 android:backgroundTint="@color/primary">
 
@@ -157,9 +159,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/timeText"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="-6dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/grid_10"
                     android:fontFamily="@font/reemkufi_medium"
+                    android:textSize="@dimen/default_font_size_small"
                     android:text="Min"
                     android:textColor="@color/white" />
 
