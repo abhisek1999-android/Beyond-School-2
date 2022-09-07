@@ -43,9 +43,12 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -79,6 +82,39 @@ public final class UtilityFunctions {
                     }
                 })
                 .into(imageView);
+    }
+
+
+    public  static Map<String, List<String>> phonetics(){
+
+        Map<String,List<String>> words=new HashMap<>();
+        words.put("a", Arrays.asList(new String[]{"a","ya","yay"}));
+        words.put("b", Arrays.asList(new String[]{"b","be","bee"}));
+        words.put("c", Arrays.asList(new String[]{"c","see","sea"}));
+        words.put("d", Arrays.asList(new String[]{"d","de","dee","thee"}));
+        words.put("e", Arrays.asList(new String[]{"e","ee","eh"}));
+        words.put("f", Arrays.asList(new String[]{"f","eff"}));
+        words.put("g", Arrays.asList(new String[]{"g","gee","jee"}));
+        words.put("h", Arrays.asList(new String[]{"h","aitch","itch","hedge","hatch","edge"}));
+        words.put("i", Arrays.asList(new String[]{"i","eye","aye"}));
+        words.put("j",Arrays.asList(new String[]{"j","jay", "je","joy"}));
+        words.put("k",Arrays.asList(new String[]{"k","kay", "ke"}));
+        words.put("l",Arrays.asList(new String[]{"l","ell", "yell","hell","el"}));
+        words.put("m", Arrays.asList(new String[]{"m","am","yam","em"}));
+        words.put("n", Arrays.asList(new String[]{"n","yen"}));
+        words.put("o",Arrays.asList(new String[]{"o","oh", "vow", "waw"}));
+        words.put("p",Arrays.asList(new String[]{"p","pee", "pay", "pie"}));
+        words.put("q",Arrays.asList(new String[]{"q","cue", "queue"}));
+        words.put("r",Arrays.asList(new String[]{"r","are", "err","year"}));
+        words.put("s",Arrays.asList(new String[]{"s","ess","es","ass", "yes","as"}));
+        words.put("t",Arrays.asList(new String[]{"t","tee", "tea","it","ti"}));
+        words.put("u",Arrays.asList(new String[]{"u","you"}));
+        words.put("v",Arrays.asList(new String[]{"v","vee", "wee"}));
+        words.put("w",Arrays.asList(new String[]{"w","double you"}));
+        words.put("x",Arrays.asList(new String[]{"x","ex", "aex"}));
+        words.put("y",Arrays.asList(new String[]{"y","why"}));
+        words.put("z",Arrays.asList(new String[]{"z","zed", "zee", "jed"}));
+        return words;
     }
 
     public static int getPendingIntentFlag() {

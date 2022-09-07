@@ -15,6 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,12 +44,15 @@ import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuild
 import com.maths.beyond_school_280720220930.translation_engine.translator.SpeechToTextConverterSpelling;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
+import com.maths.beyond_school_280720220930.utils.Soundex;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -67,6 +71,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private final int REQUEST_FOR_QUESTION = 345 * 35;
 
 
+    private int replaceChar=0;
     private Boolean isSpeaking = false;
     private Boolean isSayWordFinish = true;
     private int currentTryCount = 0;
@@ -89,6 +94,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     public static final int TIMER_VALUE = 15;
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
+    private Map<String,List<String>> words;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         progressDataBase = ProgressDataBase.getDbInstance(this);
         progressData = new ArrayList<>();
+        words=UtilityFunctions.phonetics();
         setToolbar();
         setData();
     }
@@ -338,6 +345,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     //    TODO : STT is here
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
+
         stt = task.execute(new ConversionCallback() {
 
             @Override
@@ -351,7 +359,20 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG, "onSuccess: " + result);
-                checkResult(result);
+             //   checkResult(result);
+            }
+
+            @Override
+            public void getArrayResult(List<String[]> list) {
+                ConversionCallback.super.getArrayResult(list);
+
+                try {
+                    verifyResult(list);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -377,6 +398,158 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                 logs += title + "\n";
             }
         }).get();
+
+    }
+
+
+
+
+    public  int algoMatch(String[] item, List<String[]> st,int index){
+
+
+
+        var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
+        var currentWordArray = currentWord.toCharArray();
+
+        var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
+        var string = textView.getText().toString();
+        Log.i("CurrentWordP",index+"");
+        boolean flag=false;
+        //item.size
+        for (int k=0;k<st.get(0).length;k++){
+
+            flag=false;
+            //k
+
+            try{
+                List<String> s_list=words.get(item[index]);
+                for (String s : s_list){
+                    for(int i=0;i<st.size();i++){
+                        for(int j=0;j<st.get(i).length;j++) {
+                            if (matchingSoundX(s, st.get(i)[j])) {
+                                flag = true;
+                                Log.i("Matching_Words",s+","+st.get(i)[j]);
+                                //k
+                                string = string.replaceFirst("_", String.valueOf(currentWordArray[item.length-replaceChar]));
+                                replaceChar--;
+                                textView.setText(string);
+                                currentWordPosition++;
+                                break;
+                            }
+                        }
+                        if (flag)
+                            break;
+                    }
+                    if (flag)
+                        break;
+                }
+
+
+            }catch (Exception e){}
+
+
+//
+//
+//
+//
+//
+//            for (int j=0;j<s_list.size();j++){
+//                for(int i=0;i<st.get(j).length;i++){
+//
+//                    Log.i("Lists_crush",s_list+","+st.get(j));
+//                        if(matchingSoundX(s_list.get(j),st.get(j)[i]))//
+//                        {
+//                            flag=true;
+//                            Log.i("algoMatching",s_list.get(j)+", "+st.get(j)[i]);
+//                            string = string.replaceFirst("_", String.valueOf(currentWordArray[k]));
+//                            textView.setText(string);
+//                            currentWordPosition++;
+//                            break;
+//
+//                        }
+//                }
+//                if (flag)
+//                    break;
+//            }
+        }
+
+        Log.i("CurrentWordPos",currentWordPosition+"");
+        return currentWordPosition;
+    }
+
+    private static boolean matchingSoundX(String st1,String st2){
+        if(Soundex.getCode(st1).equals(Soundex.getCode(st2))){
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    private void verifyResult(List<String[]> list) throws ExecutionException, InterruptedException {
+
+        if (currentTryCount > MAX_TRY) {
+            try {
+                helperTTS("No Problem. Let's go to next word ", true, 0);
+                currentTryCount = 0;
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+
+        endTime = new Date().getTime();
+        long diff = endTime - startTime;
+        var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
+        String[] currentWordArray = currentWord.split("");
+
+        var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
+        var string = textView.getText().toString();
+
+//        boolean flag=false;
+//
+//        for (int i=0;i<list.size();i++){
+//
+//            for (int j=0;j<currentWordArray.length;j++){
+//
+//                try{
+//                if (!String.valueOf(currentWordArray[j]).equals(list.get(i)[j].toLowerCase(Locale.ROOT))){
+//                    Log.i("Matching_N",(currentWordArray[j])+", "+(list.get(i)[j]));
+//                    flag=false;
+//                    break;
+//                }else{
+//                    flag=true;
+//                    Log.i("Matching",(currentWordArray[j])+", "+(list.get(i)[j].toLowerCase(Locale.ROOT)));
+//                    string = string.replaceFirst("_", String.valueOf(currentWordArray[j]));
+//                    textView.setText(string);
+//                }
+//
+//            if (flag==true)
+//                break;
+//        }catch (Exception e){
+//                }
+//            }
+//            }
+
+
+        if (replaceChar==0)
+            replaceChar=currentWordArray.length;
+
+        int result=algoMatch(currentWordArray,list,currentWordPosition);
+
+        Log.i("ViewString",string);
+        if (replaceChar==0){
+        helperTTS(UtilityFunctions.getCompliment(true), true, 0);
+        currentWordPosition=0;
+        replaceChar=0;
+        }
+        else if (result < currentWordArray.length )
+            stt.initialize("",EnglishSpellingActivity.this);
+        else{
+        Log.i("algoMatching_",currentWordPosition+","+result);
+        helperTTS(UtilityFunctions.getCompliment(false), false, 0);
+        }
 
     }
 
