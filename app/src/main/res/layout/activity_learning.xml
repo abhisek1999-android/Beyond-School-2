@@ -121,6 +121,7 @@
             android:minHeight="@dimen/grid_0_5"
             android:layout_centerVertical="true"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:padding="5dp">
 
             <ImageView
@@ -144,15 +145,25 @@
         </LinearLayout>
 
 
-
-
             <RelativeLayout
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/tv_shape"
-                android:backgroundTint="@color/accent">
+
+                android:backgroundTint="@color/light_gray">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time Spent"
+                    android:textSize="@dimen/default_font_size"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:id="@+id/timerText"
+                    android:paddingHorizontal="@dimen/grid_10"
+                    android:layout_centerVertical="true"
+                    />
 
                 <ProgressBar
                     android:id="@+id/timerProgress"
@@ -163,26 +174,41 @@
                     android:progressDrawable="@drawable/roundbar"
                     android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/timeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/default_font_size"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/tv_shape"
+                    android:backgroundTint="@color/accent"
+                    android:layout_toEndOf="@id/timerText"
+                    >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/timeText"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="-6dp"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="Min"
-                    android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/default_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/timeText"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="-6dp"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="Min"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
 
 
             </RelativeLayout>
@@ -388,11 +414,12 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_gravity="center"
-                            android:layout_marginRight="30dp"
+
+                            android:layout_marginLeft="40dp"
                             android:background="@drawable/round_rect_button_bg"
                             android:backgroundTint="@color/white"
                             android:fontFamily="@font/reemkufi_medium"
-                            android:minWidth="60dp"
+                            android:minWidth="55dp"
                             android:padding="@dimen/grid_10"
                             android:paddingLeft="10dp"
                             android:paddingTop="@dimen/grid_0_5"
@@ -401,8 +428,8 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="30sp"
-                            android:textStyle="bold"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:layout_width="40dp"
@@ -422,11 +449,9 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
                             android:layout_marginLeft="35dp"
-                            >
+                            android:orientation="vertical"
+                            android:paddingRight="10dp">
 
                             <EditText
                                 android:id="@+id/ansTextView"
@@ -439,18 +464,17 @@
                                 android:backgroundTint="@color/green"
                                 android:fontFamily="@font/reemkufi_medium"
                                 android:gravity="center"
-                                android:minWidth="55dp"
+                                android:imeOptions="actionDone"
 
+                                android:inputType="number"
+                                android:minWidth="55dp"
                                 android:text="\?"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
-                                android:inputType="number"
-                                android:imeOptions="actionDone"
                                 android:textStyle="bold" />
 
                             <View
-                                android:visibility="invisible"
                                 android:id="@+id/indicator"
                                 android:layout_width="20dp"
                                 android:layout_height="5dp"
@@ -458,12 +482,10 @@
                                 android:layout_marginLeft="50dp"
                                 android:layout_marginTop="1dp"
                                 android:layout_marginRight="50dp"
-                                android:background="@color/light_deep_grey" />
+                                android:background="@color/light_deep_grey"
+                                android:visibility="invisible" />
 
                         </LinearLayout>
-
-
-
 
 
                     </LinearLayout>

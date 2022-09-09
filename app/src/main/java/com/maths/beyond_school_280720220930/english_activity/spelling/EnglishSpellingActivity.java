@@ -406,23 +406,19 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     public  int algoMatch(String[] item, List<String[]> st,int index){
 
-
-
         var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
         var currentWordArray = currentWord.toCharArray();
-
         var textView = ((SpellingFragment) fragments.get(binding.viewPager.getCurrentItem())).getTextView();
         var string = textView.getText().toString();
         Log.i("CurrentWordP",index+"");
         boolean flag=false;
         //item.size
         for (int k=0;k<st.get(0).length;k++){
-
             flag=false;
             //k
-
             try{
                 List<String> s_list=words.get(item[index]);
+                index++;
                 for (String s : s_list){
                     for(int i=0;i<st.size();i++){
                         for(int j=0;j<st.get(i).length;j++) {
@@ -436,6 +432,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                 currentWordPosition++;
                                 break;
                             }
+                            else{
+                                Log.i("Matching_WordsNon",s+","+st.get(i)[j]);
+                            }
                         }
                         if (flag)
                             break;
@@ -444,33 +443,8 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                         break;
                 }
 
-
             }catch (Exception e){}
 
-
-//
-//
-//
-//
-//
-//            for (int j=0;j<s_list.size();j++){
-//                for(int i=0;i<st.get(j).length;i++){
-//
-//                    Log.i("Lists_crush",s_list+","+st.get(j));
-//                        if(matchingSoundX(s_list.get(j),st.get(j)[i]))//
-//                        {
-//                            flag=true;
-//                            Log.i("algoMatching",s_list.get(j)+", "+st.get(j)[i]);
-//                            string = string.replaceFirst("_", String.valueOf(currentWordArray[k]));
-//                            textView.setText(string);
-//                            currentWordPosition++;
-//                            break;
-//
-//                        }
-//                }
-//                if (flag)
-//                    break;
-//            }
         }
 
         Log.i("CurrentWordPos",currentWordPosition+"");
@@ -497,7 +471,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             }
             return;
         }
-
 
         endTime = new Date().getTime();
         long diff = endTime - startTime;
@@ -532,7 +505,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 //            }
 //            }
 
-
         if (replaceChar==0)
             replaceChar=currentWordArray.length;
 
@@ -541,11 +513,15 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         Log.i("ViewString",string);
         if (replaceChar==0){
         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
+//        textView.setText("");
         currentWordPosition=0;
         replaceChar=0;
         }
-        else if (result < currentWordArray.length )
+        else if (result < currentWordArray.length ){
             stt.initialize("",EnglishSpellingActivity.this);
+            var current = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+            current.getAnimationView().setVisibility(View.VISIBLE);
+        }
         else{
         Log.i("algoMatching_",currentWordPosition+","+result);
         helperTTS(UtilityFunctions.getCompliment(false), false, 0);
@@ -743,6 +719,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                 } catch (IllegalStateException e) {
                                     e.printStackTrace();
                                 }
+
+                                var currentFrag=(SpellingFragment)fragments.get(binding.viewPager.getCurrentItem());
+                                currentFrag.getTextView().setText(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().replaceAll("[A-Za-z]", " _ "));
                                 binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                                 isSayWordFinish = true;
                                 if (isSpeaking) {
@@ -840,6 +819,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private void saveLog() {
         Log.d(TAG, "saveLog: Called " + logs);
         UtilityFunctions.saveLog(logDatabase, logs);
+        logs="";
     }
 
 

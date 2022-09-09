@@ -134,10 +134,13 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         dao.getEnglishModel(1
                         ).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
-        if (data == null) {
-            UtilityFunctions.simpleToast(this, "No data found");
-            return;
-        }
+        try{
+            if (data == null) {
+                UtilityFunctions.simpleToast(this, "No data found");
+                return;
+            }
+        }catch (Exception e){}
+
         List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
                 fragments,

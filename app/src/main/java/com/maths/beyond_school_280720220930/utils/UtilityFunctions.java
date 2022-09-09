@@ -633,7 +633,7 @@ public final class UtilityFunctions {
 
     public static MediaPlayer playClapSound(Activity activity) {
         var m = MediaPlayer.create(activity, R.raw.clap_sound);
-        m.setVolume(0.2f, 0.2f);
+        m.setVolume(0.3f, 0.3f);
         // set playback time to 1 sec
         m.setLooping(false);
 

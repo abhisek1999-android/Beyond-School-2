@@ -50,16 +50,27 @@
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/grid_6"
                 android:layout_marginBottom="@dimen/grid_1"
                 android:background="@drawable/tv_shape"
-                android:backgroundTint="@color/primary"
+                android:backgroundTint="@color/light_gray"
                 app:layout_constraintBottom_toTopOf="@+id/view_pager"
                 app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time Spent"
+                    android:textSize="@dimen/default_font_size"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:id="@+id/timerText"
+                    android:paddingHorizontal="@dimen/grid_10"
+                    android:layout_centerVertical="true"
+                    />
 
                 <ProgressBar
                     android:id="@+id/timerProgress"
@@ -70,27 +81,41 @@
                     android:progressDrawable="@drawable/roundbar"
                     android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/timeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/default_font_size"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/tv_shape"
+                    android:backgroundTint="@color/accent"
+                    android:layout_toEndOf="@id/timerText"
+                    >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/timeText"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="-6dp"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:text="Min"
-                    android:textColor="@color/white" />
 
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/default_font_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/timeText"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="-6dp"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="Min"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -147,6 +172,7 @@
                 android:backgroundTint="@color/primary"
                 android:orientation="horizontal"
                 android:padding="@dimen/grid_10"
+                android:layout_marginBottom="@dimen/grid_20"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">

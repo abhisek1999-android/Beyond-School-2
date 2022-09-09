@@ -122,6 +122,13 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         engSub=Arrays.asList(eng);
 
 
+        binding.yourTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
+            }
+        });
+
         binding.yourProgressLayout.setOnClickListener(v->{
             setSubSubjectProgress();
         });
@@ -402,7 +409,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
 //            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
 //            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
-            
+
             UtilityFunctions.runOnUiThread(()->{
 
                 startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));

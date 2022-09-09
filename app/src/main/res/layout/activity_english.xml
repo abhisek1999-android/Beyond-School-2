@@ -43,13 +43,24 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_below="@id/subSub"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/grid_6"
         android:background="@drawable/tv_shape"
-        android:backgroundTint="@color/primary">
+        android:backgroundTint="@color/light_gray">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time Spent"
+            android:textSize="@dimen/default_font_size"
+            android:fontFamily="@font/reemkufi_medium"
+            android:id="@+id/timerText"
+            android:paddingHorizontal="@dimen/grid_10"
+            android:layout_centerVertical="true"
+            />
 
         <ProgressBar
             android:id="@+id/timerProgress"
@@ -60,26 +71,41 @@
             android:progressDrawable="@drawable/roundbar"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/timeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/reemkufi_medium"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="@dimen/default_font_size"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/accent"
+            android:layout_toEndOf="@id/timerText"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/timeText"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="-6dp"
-            android:fontFamily="@font/reemkufi_medium"
-            android:text="Min"
-            android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeText"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Min"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

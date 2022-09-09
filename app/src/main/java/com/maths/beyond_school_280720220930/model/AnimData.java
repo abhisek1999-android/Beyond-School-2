@@ -3,13 +3,23 @@ package com.maths.beyond_school_280720220930.model;
 public class AnimData {
     String description;
     String answer;
+    String operation;
     public AnimData(){
 
     }
 
-    public AnimData(String description, String answer) {
+    public AnimData(String description, String answer,String operation) {
         this.description = description;
         this.answer = answer;
+        this.operation=operation;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public String getDescription() {

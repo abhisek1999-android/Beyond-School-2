@@ -130,8 +130,9 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         if (textToSpeech != null) {
             Log.d("TAG", "destroy: destroying TTS");
             conversionCallaBack = null;
+            try{
             textToSpeech.shutdown();
-            textToSpeech.stop();
+            textToSpeech.stop();}catch (Exception e){}
 
         }
     }

@@ -156,6 +156,7 @@ public class AdditionActivity extends AppCompatActivity {
         try {
             if (progressData != null) {
                 timeSpend = progressData.get(0).time_spend;
+                binding.timeText.setText(timeSpend+"");
             }
         } catch (Exception e) {
             timeSpend = 0;
@@ -174,7 +175,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                         binding.timerProgress.setMax(15);
                         binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.timeText.setText((x + 1) + "");
+                        binding.timeText.setText((timeSpend+x + 1) + "");
                         Log.i("task", x + "");
                     }
                 })
@@ -694,7 +695,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         checkLogIsEnable();
         UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(),
-                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+                Integer.parseInt(binding.timeText.getText().toString()), false);
 
     }
 

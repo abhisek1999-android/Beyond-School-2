@@ -16,16 +16,42 @@ public class AnimationUtil {
 
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<AnimData> getAnimList(int num1, int num2,int digit, String type){
+
+        switch (type){
+            case "addition":
+                if (digit==1)
+                    return oneDigitAddition(num1,num2);
+                else
+                    return type_three_addition(num1,num2);
+            case "subtraction":
+                if (digit==1)
+                    return oneDigitSubtraction(num1,num2);
+                else
+                    return performSubtraction(num1,num2);
+            case "division":
+                if (digit==1)
+                    return oneDigitDivision(num1,num2);
+                else
+                     return performDivision(num1,num2);
+            case "multiplication":
+                     return performMultiplication(num1,num2);
+            default:
+                return null;
+        }
+    }
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<AnimData> type_three_addition(int num1, int num2){
 
         List<String> desc=new ArrayList<>();
         desc.add("First, add tens of both numbers ");
-        desc.add("Then, add once of both numbers ");
+        desc.add("Then, add ones of both numbers ");
         desc.add("Lastly add");
-
-
-
 
         List<AnimData> list=new ArrayList<>();
         List<Integer> last_num=new ArrayList<>();
@@ -39,7 +65,7 @@ public class AnimationUtil {
             int firstDigit= Integer.parseInt(num1_arr[i])*smallest(num1_arr.length-i);
             int secondDigit=Integer.parseInt(num2_arr[i])*smallest(num1_arr.length-i);
             last_num.add(firstDigit+secondDigit);
-            list.add(new AnimData(desc.get(i),firstDigit+"_"+secondDigit+"_"+(firstDigit+secondDigit)));
+            list.add(new AnimData(desc.get(i),firstDigit+"_"+secondDigit+"_"+(firstDigit+secondDigit),"addition"));
             num1=num1-firstDigit;
             num2=num2-secondDigit;
         }
@@ -50,9 +76,165 @@ public class AnimationUtil {
         }
 
         last_exp+= last_num.stream().mapToInt(Integer::intValue).sum();
-        list.add(new AnimData("At the end add, "+last_exp.split("_")[0]+"and"+last_exp.split("_")[1]+". Woahla!! "+last_exp.split("_")[2]+" is your answer.",last_exp));
+        list.add(new AnimData("At the end add, "+last_exp.split("_")[0]+" and "+last_exp.split("_")[1]+". Voila!!  "+last_exp.split("_")[2]+"  is your answer.",last_exp,"addition"));
 
         return list;
+
+    }
+
+
+  @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<AnimData> oneDigitAddition(int num1, int num2){
+
+        List<String> desc=new ArrayList<>();
+        desc.add("You can add the two numbers on your fingers. Count ,"+num2+" more from "+num1+". That's it, "+(num1+num2)+"  is your answer");
+
+        List<AnimData> list=new ArrayList<>();
+        list.add(new AnimData(desc.get(0),num1+"_"+num2+"_"+(num1+num2),"addition"));
+
+        return list;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<AnimData> oneDigitDivision(int num1, int num2){
+
+        List<String> desc=new ArrayList<>();
+        desc.add("Try reading table of "+num2+" until you get "+num1+". That's it, "+(num1/num2)+" is your answer");
+
+        List<AnimData> list=new ArrayList<>();
+        list.add(new AnimData(desc.get(0),num1+"_"+num2+"_"+(num1/num2),"division"));
+
+        return list;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<AnimData> performMultiplication(int num1, int num2){
+
+        List<String> desc=new ArrayList<>();
+        desc.add("Start with table of"+num2+". When you reach "+num1+"×"+num2+" you will get your answer. And your answer is "+(num1*num2));
+
+        List<AnimData> list=new ArrayList<>();
+        list.add(new AnimData(desc.get(0),num1+"_"+num2+"_"+(num1*num2),"multiplication"));
+
+        return list;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<AnimData> oneDigitSubtraction(int num1, int num2){
+
+        List<String> desc=new ArrayList<>();
+        desc.add("You can subtract two 1 digit numbers on your fingers. Take away, "+num2+" from "+num1+" to get your answer. That's it, "+(num1-num2)+"  is your answer");
+
+        List<AnimData> list=new ArrayList<>();
+        list.add(new AnimData(desc.get(0),num1+"_"+num2+"_"+(num1-num2),"subtraction"));
+
+        return list;
+
+    }
+
+
+
+
+
+    public static   List<AnimData> performSubtraction(int num1, int num2){
+
+        List<AnimData> list=new ArrayList<>();
+        List<Integer> last_num=new ArrayList<>();
+        String last_exp="";
+        String[] num1_arr=String.valueOf(num1).split("");
+        String[] num2_arr=String.valueOf(num2).split("");
+
+        if (Integer.parseInt(num1_arr[num1_arr.length-1])<Integer.parseInt(num2_arr[num2_arr.length-1])){
+
+            List<String> desc=new ArrayList<>();
+            desc.add("First, Subtract tens place of both number");
+            desc.add("Then,  Subtract the ones place of both numbers.Reverse the oder if second one is grater then first one");
+            desc.add("At the end subtract the differences. ");
+
+            for (int i=0;i<num1_arr.length;i++){
+
+                int firstDigit= Integer.parseInt(num1_arr[i])*smallest(num1_arr.length-i);
+                int secondDigit=Integer.parseInt(num2_arr[i])*smallest(num1_arr.length-i);
+                last_num.add(Math.abs(firstDigit-secondDigit));
+                if (firstDigit<secondDigit)
+                list.add(new AnimData(desc.get(i), secondDigit+"_"+firstDigit+"_"+(Math.abs(firstDigit-secondDigit)),"subtraction"));
+                else
+                list.add(new AnimData(desc.get(i), firstDigit+"_"+secondDigit+"_"+(Math.abs(firstDigit-secondDigit)),"subtraction"));
+                num1=num1-firstDigit;
+                num2=num2-secondDigit;
+            }
+
+            for (int i=0;i<last_num.size();i++) {
+                last_exp+=last_num.get(i)+"_";
+            }
+
+            last_exp+= last_num.get(0)-last_num.get(1);
+            list.add(new AnimData(desc.get(desc.size()-1)+" Voila, "+(last_num.get(0)-last_num.get(1))+" is your answer", last_exp,"subtraction"));
+            return list;}
+        else{
+
+
+
+            List<String> desc=new ArrayList<>();
+            desc.add("First, We can write second digit like this.");
+            desc.add("Then,  Subtract this with the first digit. Still we have remaining"+Integer.parseInt(num2_arr[num2_arr.length-1]));
+            desc.add("At the end subtract the differences. ");
+            int res=num1;
+
+            int firstDigit=num2;
+            int secondDigit=Integer.parseInt(num2_arr[num2_arr.length-1]);
+            list.add(new AnimData(desc.get(0),firstDigit+"_"+secondDigit+"_"+(firstDigit-secondDigit),"subtraction"));
+            last_num.add(firstDigit-secondDigit);
+            last_num.add(secondDigit);
+
+            for (int i=0;i<last_num.size();i++){
+
+                if (i==last_num.size()-1)
+                list.add(new AnimData(desc.get(i+1)+" Voila, "+(res-last_num.get(i))+" is your answer.",res+"_"+last_num.get(i)+"_"+(res-last_num.get(i)),"subtraction"));
+                else
+                list.add(new AnimData(desc.get(i+1),res+"_"+last_num.get(i)+"_"+(res-last_num.get(i)),"subtraction"));
+                res=num1-last_num.get(i);
+            }
+
+            return list;
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static   List<AnimData> performDivision(int num1, int num2){
+
+        List<AnimData> list=new ArrayList<>();
+        List<Integer> last_num=new ArrayList<>();
+        String last_exp="";
+        String[] num1_arr=String.valueOf(num1).split("");
+        String[] num2_arr=String.valueOf(num2).split("");
+
+        List<String> desc=new ArrayList<>();
+        desc.add("First, Divide tens of the first number with the second number");
+        desc.add("Then,  Divide ones of the first number with the second number");
+        desc.add("At the end add the results. ");
+
+            for (int i=0;i<num1_arr.length;i++){
+
+                int firstDigit= Integer.parseInt(num1_arr[i])*smallest(num1_arr.length-i);
+                last_num.add(firstDigit/num2);
+                list.add(new AnimData(desc.get(i), firstDigit+"_"+num2+"_"+(Math.abs(firstDigit/num2)),"division"));
+                num1=num1-firstDigit;
+
+            }
+
+            for (int i=0;i<last_num.size();i++) {
+                last_exp+=last_num.get(i)+"_";
+            }
+
+            last_exp+= last_num.stream().mapToInt(Integer::intValue).sum();;
+            list.add(new AnimData(desc.get(desc.size()-1)+" Voila, "+last_exp.split("_")[2]+" is your answer", last_exp,"addition"));
+            return list;
+
 
     }
 
