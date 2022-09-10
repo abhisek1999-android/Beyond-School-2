@@ -218,7 +218,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private String getSpellLetter() {
-        return "IT's your turn to spell the word " + (spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().equals("The")
+        return "It's your turn, 'spell', " + (spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().equals("The")
                 ? "'di'" :
                 "'" + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()) + "' .";
     }
@@ -323,19 +323,16 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         isSpeaking = true;
         UtilityFunctions.runOnUiThread(() -> playPauseAnimation(true));
         helperTTS(getQuestion(), false, 3 * 45);
-//        ttsHelper.setTextViewAndSentence(UtilityFunctions.addComma(spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()));
 //        Question
         logs += "Question : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord() + " : " + spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription() + ". \n";
 
 //        Stop when reach ot last item
-        if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1)) {
+        if (binding.viewPager.getCurrentItem() == (spellingDetails.size() - 1))
             isSpeaking = false;
-            //       displayCompleteDialog();
-        }
+
     }
 
 
-    //    TODO : STT is here
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
@@ -343,8 +340,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             @Override
             public void onPartialResult(String result) {
                 ConversionCallback.super.onPartialResult(result);
-//                checkResult(result);
-//                UtilityFunctions.simpleToast(EnglishSpellingActivity.this, result);
+                logs += "Partial Result : " + result + "\n";
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -362,7 +358,6 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
             @Override
             public void onErrorOccurred(String errorMessage) {
-                Log.d(TAG, "onErrorOccurred: " + errorMessage);
                 if (errorMessage.equals("No match")) {
                     Log.d(TAG, "onErrorOccurred: " + errorMessage);
                     UtilityFunctions.runOnUiThread(() -> {
@@ -394,13 +389,12 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
         endTime = new Date().getTime();
         long diff = endTime - startTime;
-        var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT);
-        var currentWordArray = currentWord.toCharArray();
+        var currentWord = spellingDetails.get(binding.viewPager.getCurrentItem()).getWord().toLowerCase(Locale.ROOT); // AND
+        var currentWordArray = currentWord.toCharArray(); // [A,N, D]
 
 
-        var split = result.replace(" ", "").toCharArray();
-        Log.d(TAG, "");
-        if (split.length != 0) {
+        var split = result.replace(" ", "").toCharArray(); // [A] and Word AND  correntWord = 1
+         if (split.length != 0) {
             if (split.length == 1) {
                 if (currentWordArray[currentWordPosition] == (split[0])) {
                     logs += "Single Word :" + UtilityFunctions.formatTime(diff) + ", Correct" + split[0] + "\n";
