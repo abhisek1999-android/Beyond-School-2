@@ -8,17 +8,19 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class SpellingCategoryModelConverter {
+public class SpellingTypeConverter {
     @TypeConverter
-    public static List<SpellingCategoryModel> fromString(String value) {
-        Type listType = new TypeToken<List<SpellingCategoryModel>>() {
+    public static List<SpellingType> fromString(String value) {
+        Type listType = new TypeToken<List<SpellingType>>() {
         }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromList(List<SpellingCategoryModel> list) {
+    public static String fromList(List<SpellingType> list) {
         Gson gson = new Gson();
-        return gson.toJson(list);
+        String json = gson.toJson(list);
+        return json;
     }
+
 }

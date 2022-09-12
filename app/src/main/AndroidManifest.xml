@@ -46,25 +46,27 @@
         android:theme="@style/Theme.BEYOND_SCHOOL">
 
         <meta-data
-            tools:replace="android:value"
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
         <meta-data
-            tools:replace="android:value"
             android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token"/>
+            android:value="@string/facebook_client_token"
+            tools:replace="android:value" />
+
+
         <activity
-            android:name=".english_activity.spelling.spelling_test.SpellingTest"
+            android:name=".english_activity.spelling.SpellingActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".HomeScreen"
             android:exported="false" />
         <activity
             android:name=".MathsTutorialActivity"
             android:exported="false" />
-        <activity
-            android:name=".english_activity.spelling.EnglishSpellingActivity"
-            android:exported="false" />
+
         <activity
             android:name=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity"
             android:exported="false" />
@@ -141,7 +143,6 @@
             android:name=".english_activity.vocabulary.EnglishActivity"
             android:exported="true"
             android:showOnLockScreen="true" />
-
 
         <service
             android:name=".ClearService"

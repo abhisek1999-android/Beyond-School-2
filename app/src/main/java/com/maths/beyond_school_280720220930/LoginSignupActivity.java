@@ -36,24 +36,22 @@ public class LoginSignupActivity extends AppCompatActivity {
         binding = ActivityLoginSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         insertData();
-        mAuth=FirebaseAuth.getInstance();
-        mUser=mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
         binding.googleSignIn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
 
         binding.phoneNumberSignIn.setOnClickListener(v -> {
-            Intent intent=new Intent(getApplicationContext(),PhoneNumberLogin.class);
+            Intent intent = new Intent(getApplicationContext(), PhoneNumberLogin.class);
             startActivity(intent);
             finish();
         });
 
-        if (mUser!=null){
+        if (mUser != null) {
             checkUserAlreadyAvailable();
         }
-
-
 
 
     }
@@ -88,7 +86,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
             var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
             englishGradeDatabase.englishDao().getEnglishModel(1);
-            englishGradeDatabase.spellingDao().getSpellingModel(1);
+            englishGradeDatabase.spellingDao();
 
             list1 = new ArrayList<>();
             list1.add("GRADE 1");
@@ -169,17 +167,34 @@ public class LoginSignupActivity extends AppCompatActivity {
 //            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab19, new ArrayList<>(list2), ""));
 
 //            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling), true, true, true, true, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1), true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling1_1), true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling2), true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling3), true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling4), true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling5), true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling6), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_1), true, true, true, true, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_2), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_3), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_4), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_5), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_6), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_7), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_8), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_9), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_10), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_11), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_12), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_13), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_14), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_15), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_16), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_17), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_18), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_19), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_20), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_21), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_22), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_23), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_24), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_25), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_26), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_27), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_28), true, true, true, false, false, ""));
 
 
 

@@ -3,5 +3,4 @@
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
-    <attr name="textColor" format="color" />
 </resources>

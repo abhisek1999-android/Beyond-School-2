@@ -1,37 +1,30 @@
 package com.maths.beyond_school_280720220930.database.english.spelling.model;
 
 import androidx.annotation.Keep;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import java.util.List;
 
 @Keep
-@Entity(tableName = "spelling_table")
 public class SpellingModel {
-    @PrimaryKey()
-    int grade;
-    List<SpellingCategoryModel> spelling;
+    String word;
+    String imageLink;
 
-    public SpellingModel(int grade, List<SpellingCategoryModel> spelling) {
-        this.grade = grade;
-        this.spelling = spelling;
+    public SpellingModel(String word, String imageLink) {
+        this.word = word;
+        this.imageLink = imageLink;
     }
 
-    public int getGrade() {
-        return grade;
+    public String getWord() {
+        return word;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setWord(String word) {
+        this.word = word;
     }
 
-    public List<SpellingCategoryModel> getSpelling() {
-        return spelling;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setSpelling(List<SpellingCategoryModel> spelling) {
-        this.spelling = spelling;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }
-
