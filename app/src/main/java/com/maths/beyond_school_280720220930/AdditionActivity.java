@@ -86,6 +86,7 @@ public class AdditionActivity extends AppCompatActivity {
     private List timeList;
     private String kidsGrade;
     private GradeDatabase databaseGrade;
+
     private String kidsId;
     private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
@@ -460,6 +461,8 @@ public class AdditionActivity extends AppCompatActivity {
             if (correctAnswer >= 9) {
                 CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+
+                progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,selectedSub);
                 if (!subject.equals("multiplication"))
                     UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
                 else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))

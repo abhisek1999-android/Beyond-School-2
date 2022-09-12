@@ -466,6 +466,9 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        if (Integer.parseInt(digit)>2 && !subject.equals("multiplication") )
+        binding.hintButton.setVisibility(View.INVISIBLE);
+        else
         binding.hintButton.setVisibility(View.VISIBLE);
     }
 

@@ -5,7 +5,10 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.model.ProgressDate;
 import com.maths.beyond_school_280720220930.model.ProgressTableWise;
 
@@ -31,6 +34,11 @@ public interface ProgressDao {
 
     @Query("UPDATE progressM SET time_spend=:time WHERE chapter = :chapter")
     void update(long time, String chapter);
+    @Query("UPDATE progressM SET correct=:correct , wrong=:wrong WHERE chapter = :chapter")
+    void updateScore(long correct,long wrong, String chapter);
+
+    @RawQuery(observedEntities = ProgressM.class)
+    long correctValues(SupportSQLiteQuery query);
 
     @Insert
     void insertNotes(ProgressM...progresses);

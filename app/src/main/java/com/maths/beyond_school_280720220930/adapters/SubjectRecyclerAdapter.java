@@ -66,6 +66,15 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         if (grades_data.is_completed) {
             holder.status.setText("Completed");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+            holder.scoreText.setVisibility(View.VISIBLE);
+            if (!grades_data.subject.equals("Multiplication Tables")){
+            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )");
+            holder.scoreText.setText("Score: "+correct+"/10");
+            }
+            else{
+                long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter);
+                holder.scoreText.setText("Score: "+correct+"/10");
+            }
 
         }
 
@@ -95,12 +104,12 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
 
             subSub = grades_data.chapter.split(" ")[2];
-            chapter = list.get(position).chapter;
+            chapter = grades_data.chapter;
 
             holder.subSub.setText(subSub);
             holder.chapters.setText(chapter);
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[2], list.get(position).chapter,
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[2], grades_data.chapter,
                         new Date(), 0, true).get(0).time_spend;
 
                 if (timeSpend >= 8) {
@@ -115,7 +124,6 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
             }
 
-
         }
 
         if (chapter.equals("English")) {
@@ -127,7 +135,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             holder.chapters.setText(chapter.replace("_", " "));
 
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], list.get(position).chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], grades_data.chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
                 holder.timeText.setText(timeSpend + "/15 m");
 
                 Toast.makeText(context, timeSpend + "", Toast.LENGTH_SHORT).show();
@@ -146,6 +154,10 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
 
         holder.mView.setOnClickListener(v -> {
+
+//            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,list.get(position).chapter);
+
+           // Toast.makeText(context, correct+"", Toast.LENGTH_SHORT).show();
 
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
@@ -200,7 +212,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
-        TextView subSub, chapters, status, timeText;
+        TextView subSub, chapters, status, timeText,scoreText;
 
         View mView;
 
@@ -212,6 +224,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             chapters = mView.findViewById(R.id.chapters);
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
+            scoreText=mView.findViewById(R.id.score);
 
 
         }

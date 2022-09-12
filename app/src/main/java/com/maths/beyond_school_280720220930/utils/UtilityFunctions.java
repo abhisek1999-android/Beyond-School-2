@@ -944,6 +944,24 @@ public final class UtilityFunctions {
     }
 
 
+    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter) {
+
+        long correct=0;
+
+        correct = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", correct + "");
+        try {
+            return correct;
+        } catch (Exception e) {
+
+            return 0;
+        }
+
+    }
+
+
     public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
 
         List<ProgressM> list = db.progressDao().isAvailable(chapter);

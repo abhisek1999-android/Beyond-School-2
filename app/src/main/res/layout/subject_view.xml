@@ -79,6 +79,23 @@
 
             <TextView
 
+                android:id="@+id/score"
+               android:gravity="center"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chapters"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/accent"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingHorizontal="@dimen/grid_10"
+                android:text="Score :"
+                android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/default_font_size_small" />  <TextView
+
                 android:id="@+id/status"
                android:gravity="center"
                 android:layout_gravity="center"
