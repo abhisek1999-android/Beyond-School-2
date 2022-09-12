@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.database.english;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -12,18 +13,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingList;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingCategoryModelConverter;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingsDetailsConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModelConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingType;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingTypeConverter;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyList;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetailsConverter;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class, SpellingModel.class}, version = 1)
+@Database(entities = {VocabularyModel.class, SpellingType.class}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
-        SpellingsDetailsConverter.class, SpellingCategoryModelConverter.class
+        SpellingTypeConverter.class, SpellingModelConverter.class
 })
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
@@ -39,28 +40,33 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), EnglishGradeDatabase.class, "english_db")
                     .fallbackToDestructiveMigration()
-                    .addCallback(roomCallback)
+                    .addCallback(roomCallback(context))
                     .allowMainThreadQueries().build();
         }
         return INSTANCE;
     }
 
-    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            new PopulateDbAsyncTask(INSTANCE).execute();
-        }
-    };
+    private static RoomDatabase.Callback roomCallback(Context context) {
+        return new RoomDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+                new PopulateDbAsyncTask(INSTANCE, context).execute();
+            }
+        };
+    }
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private final VocabularyDao vocabularyDao;
         private final SpellingDao spellingDao;
+        @SuppressLint("StaticFieldLeak")
+        private final Context context;
 
-        public PopulateDbAsyncTask(EnglishGradeDatabase db) {
+        public PopulateDbAsyncTask(EnglishGradeDatabase db, Context context) {
             this.vocabularyDao = db.englishDao();
             this.spellingDao = db.spellingDao();
+            this.context = context;
         }
 
         @Override
@@ -68,7 +74,7 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
 
 //            Adding Spellings
-            spellingDao.insert(SpellingList.SpellingGradeOne.getSpellingList());
+            spellingDao.insertAll(SpellingList.getSpellingList(context));
             return null;
         }
     }

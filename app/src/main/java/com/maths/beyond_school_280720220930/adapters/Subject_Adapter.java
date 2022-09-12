@@ -20,13 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,12 +79,12 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                         Intent intent = new Intent(context, EnglishActivity.class);
                         Log.d("EnglishActivityXXX", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
-                        intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary","").trim().toLowerCase(Locale.ROOT)).name());
+                        intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary", "").trim().toLowerCase(Locale.ROOT)).name());
                         context.startActivity(intent);
                         // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
                     } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
-                        Log.d("XXX", "onClick :subject adapter :-  " + UtilityFunctions.getSpellingsFromString(val).name() + " " + val);
-                        var intent = new Intent(context, EnglishSpellingActivity.class);
+
+                        var intent = new Intent(context, SpellingActivity.class);
                         intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                         context.startActivity(intent);
                     } else {

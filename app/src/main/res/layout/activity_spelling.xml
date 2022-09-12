@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".english_activity.spelling.SpellingActivity">
+
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+
+    <TextView
+        android:id="@+id/subSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="Learn"
+        android:textAllCaps="true"
+        android:textColor="@color/primary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_below="@id/subSub"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/grid_6"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/light_gray">
+
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/reemkufi_medium"
+            android:paddingHorizontal="@dimen/grid_10"
+            android:text="Time Spent"
+            android:textSize="@dimen/default_font_size" />
+
+        <ProgressBar
+            android:id="@+id/timerProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/roundbar"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/timerText"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/accent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeText"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Min"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relativeLayout"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:orientation="horizontal"
+                android:padding="@dimen/grid_1"
+                android:visibility="gone"
+                android:weightSum="4"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                tools:visibility="visible">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/key_1"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_weight="1"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    tools:text="A" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/key_2"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_weight="1"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    tools:text="A" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/key_3"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_weight="1"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    tools:text="A" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/key_4"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_weight="1"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    tools:text="A" />
+
+            </LinearLayout>
+
+            <ToggleButton
+                android:id="@+id/playPause"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_above="@id/image_view_teacher"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_rect_button_bg"
+                android:backgroundTint="@color/primary"
+                android:drawableTop="@drawable/play_button"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
+                app:layout_constraintEnd_toEndOf="@+id/image_view_teacher"
+                app:layout_constraintStart_toStartOf="@+id/giveTestButton"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:ignore="UnusedAttribute" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/image_view_teacher"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
+                android:layout_above="@id/giveTestButton"
+                android:layout_alignParentEnd="true"
+                app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
+                app:layout_constraintEnd_toEndOf="@+id/giveTestButton"
+                app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                app:layout_constraintVertical_bias="1.0"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/talking_avatar" />
+
+
+            <LinearLayout
+                android:id="@+id/giveTestButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/primary"
+                android:orientation="horizontal"
+                android:padding="@dimen/grid_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:gravity="center"
+
+
+                    android:text="Take Test"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_big" />
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

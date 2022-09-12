@@ -11,7 +11,6 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
-        <item name="textColor">@android:color/primary_text_light</item>
 
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
@@ -92,5 +91,9 @@
     <style name="ThemeOverlay.BEYOND_SCHOOL.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 </resources>
