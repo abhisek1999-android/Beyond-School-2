@@ -172,7 +172,7 @@ public class AnimationUtil {
             }
 
             last_exp+= last_num.get(0)-last_num.get(1);
-            list.add(new AnimData(desc.get(desc.size()-1)+" Voila, "+(last_num.get(0)-last_num.get(1))+" is your answer", last_exp,"subtraction"));
+            list.add(new AnimData(desc.get(desc.size()-1)+" Voila!! "+(last_num.get(0)-last_num.get(1))+" is your answer", last_exp,"subtraction"));
             return list;}
         else{
 
@@ -193,7 +193,7 @@ public class AnimationUtil {
             for (int i=0;i<last_num.size();i++){
 
                 if (i==last_num.size()-1)
-                list.add(new AnimData(desc.get(i+1)+" Voila, "+(res-last_num.get(i))+" is your answer.",res+"_"+last_num.get(i)+"_"+(res-last_num.get(i)),"subtraction"));
+                list.add(new AnimData(desc.get(i+1)+" Voila!! "+(res-last_num.get(i))+" is your answer.",res+"_"+last_num.get(i)+"_"+(res-last_num.get(i)),"subtraction"));
                 else
                 list.add(new AnimData(desc.get(i+1),res+"_"+last_num.get(i)+"_"+(res-last_num.get(i)),"subtraction"));
                 res=num1-last_num.get(i);
@@ -232,7 +232,7 @@ public class AnimationUtil {
             }
 
             last_exp+= last_num.stream().mapToInt(Integer::intValue).sum();;
-            list.add(new AnimData(desc.get(desc.size()-1)+" Voila, "+last_exp.split("_")[2]+" is your answer", last_exp,"addition"));
+            list.add(new AnimData(desc.get(desc.size()-1)+" Voila!!  "+last_exp.split("_")[2]+" is your answer", last_exp,"addition"));
             return list;
 
 

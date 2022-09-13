@@ -89,6 +89,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
             englishGradeDatabase.englishDao().getEnglishModel(1);
             englishGradeDatabase.spellingDao().getSpellingModel(1);
+            englishGradeDatabase.expressionDao().getEnglishModel(1);
 
             list1 = new ArrayList<>();
             list1.add("GRADE 1");

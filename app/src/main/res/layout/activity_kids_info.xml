@@ -38,6 +38,7 @@
         android:padding="10dp"
         android:layout_below="@id/toolBar"
         android:text=""
+        android:visibility="invisible"
         android:textColor="@color/red"
         app:tint="@color/white" />
 
@@ -121,11 +122,11 @@
 
 
             <LinearLayout
+                android:id="@+id/infoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/nextButton"
 
-                android:id="@+id/infoLayout"
+                android:layout_above="@id/nextButton"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
