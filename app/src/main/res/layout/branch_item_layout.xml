@@ -13,10 +13,5 @@
         android:layout_marginVertical="5dp"
         android:fontFamily="@font/reemkufi_medium"
         android:id="@+id/head"/>
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/math1"
-        android:scaleType="fitXY"/>
+ 
 </LinearLayout>

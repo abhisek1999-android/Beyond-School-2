@@ -44,6 +44,9 @@
         android:roundIcon="@drawable/logo_final"
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
+        <activity
+            android:name=".english_activity.spelling.SpellingActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -54,19 +57,15 @@
             android:value="@string/facebook_client_token"
             tools:replace="android:value" />
 
-
         <activity
-            android:name=".english_activity.spelling.SpellingActivity"
+            android:name=".english_activity.spelling.spelling_text.SpellingTestActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".HomeScreen"
             android:exported="false" />
         <activity
             android:name=".MathsTutorialActivity"
             android:exported="false" />
-
         <activity
             android:name=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity"
             android:exported="false" />

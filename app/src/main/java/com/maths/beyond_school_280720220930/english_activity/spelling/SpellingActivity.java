@@ -1,11 +1,14 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_LIST;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text.SpellingTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -42,7 +46,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class SpellingActivity extends AppCompatActivity {
@@ -55,6 +64,7 @@ public class SpellingActivity extends AppCompatActivity {
     private List<Fragment> fragments;
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
+    private MediaPlayer mediaPlayer = null;
     private boolean isSpeaking = false;
     private ButtonClick buttonClickListener;                               // Listener for all buttons for words input
     private String inputWord = "";                                         //  Word input by user
@@ -65,6 +75,7 @@ public class SpellingActivity extends AppCompatActivity {
     private final int REQUEST_INTRO = 2 * 44;                              // request code for intro speech
     private final int REQUEST_WORD = 2 * 44 + 1;                           // request code for word speech
     private static final int DELAY_BETWEEN_RESET_VIEW = 1000;              // delay between reset view when user input is wrong
+    public static final int TIMER_VALUE = 15;
 
     private LogDatabase logDatabase;
     private String logs = "";
@@ -82,11 +93,18 @@ public class SpellingActivity extends AppCompatActivity {
         setToolbar();
         setData();
         binding.giveTestButton.setOnClickListener(v -> {
-            UtilityFunctions.simpleToast(this, "TODO : give test");
+            navigateToTest();
         });
         progressDataBase = ProgressDataBase.getDbInstance(this);
         progressData = new ArrayList<>();
         logDatabase = LogDatabase.getDbInstance(this);
+    }
+
+    private void navigateToTest() {
+        Intent intent = new Intent(context, SpellingTestActivity.class);
+        intent.putExtra(EXTRA_SPELLING_CATEGORY, category);
+        intent.putExtra(EXTRA_SPELLING_LIST, (ArrayList<SpellingModel>) spellingModels);
+        startActivity(intent);
     }
 
     private void setData() {
@@ -113,12 +131,15 @@ public class SpellingActivity extends AppCompatActivity {
     }
 
     private void speakIntro() {
+        isSpeaking = true;
         initTTS();
+        timer();
+        initMediaPlayer();
         playPauseAnimation(true);
         binding.playPause.setChecked(true);
         try {
             helperTTS("Hi, Kids. We will learn the spelling of some," +
-                            category.replace("Spelling", "").replaceAll("\\d", "") +" !!",
+                            category.replace("Spelling", "").replaceAll("\\d", "") + " !!",
                     false, REQUEST_INTRO);
         } catch (ExecutionException | InterruptedException e) {
             logs += e.getMessage() + "\n";
@@ -147,6 +168,7 @@ public class SpellingActivity extends AppCompatActivity {
             isSpeaking = binding.playPause.isChecked();
             if (isSpeaking) {
                 startSpeaking();
+                timer();
             } else {
                 destroyEngine();
             }
@@ -158,7 +180,12 @@ public class SpellingActivity extends AppCompatActivity {
 
     private void startSpeaking() {
         initTTS();
+        initMediaPlayer();
         speakWord();
+    }
+
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
     }
 
     private void speakWord() {
@@ -251,6 +278,7 @@ public class SpellingActivity extends AppCompatActivity {
                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                 textView.setTextColor(Color.GREEN);
                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
+                mediaPlayer.start();
                 inputWord = "";
                 textView.setText(currentWord);
             } else {
@@ -316,7 +344,7 @@ public class SpellingActivity extends AppCompatActivity {
         ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
             @Override
             public void onCompletion() {
-                if(request == REQUEST_INTRO && !canNavigate){
+                if (request == REQUEST_INTRO && !canNavigate) {
                     speakWord();
                     return;
                 }
@@ -327,18 +355,22 @@ public class SpellingActivity extends AppCompatActivity {
                     });
                     return;
                 }
-                if (canNavigate) {                                                                            // navigate to next word
+                if (canNavigate) {                                                                  // navigate to next word
                     if (isSpeaking) {
+                        if (binding.viewPager.getCurrentItem() == spellingModels.size() - 1) {
+                            UtilityFunctions.runOnUiThread(() -> {
+                                playPauseAnimation(false);
+                                binding.playPause.setChecked(false);
+                                displayCompleteDialog();
+                            });
+                            return;
+                        }
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-                        UtilityFunctions.runOnUiThread(() -> setButtonText());                                // Set button for net word
-                        speakWord();
-                    }
-                    if (binding.viewPager.getCurrentItem() == spellingModels.size() - 1) {
                         UtilityFunctions.runOnUiThread(() -> {
-                            playPauseAnimation(false);
-                            binding.playPause.setChecked(false);
-                            displayCompleteDialog();
-                        });
+                            mediaPlayer.pause();
+                            setButtonText();
+                        });                                                                         // Set button for net word
+                        speakWord();
                     }
                     return;
                 }
@@ -383,6 +415,9 @@ public class SpellingActivity extends AppCompatActivity {
         if (tts != null) {
             tts.destroy();
         }
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
         if (ttsHelper != null) {
             ttsHelper.destroy();
         }
@@ -395,7 +430,7 @@ public class SpellingActivity extends AppCompatActivity {
     }
 
     private void setTextColor(@ColorRes int res) {
-        var currentPosition = binding.viewPager.getCurrentItem();                                               // get current position of view pager
+        var currentPosition = binding.viewPager.getCurrentItem();                                              // get current position of view pager
         var currentFragment = (SpellingFragment) fragments.get(currentPosition);                                   // get current fragment
         var textView = currentFragment.getTextView();                                                     // get text view of current fragment
         textView.setTextColor(ContextCompat.getColor(context, res));
@@ -448,7 +483,7 @@ public class SpellingActivity extends AppCompatActivity {
                     hintDialog.dismiss();
                     break;
                 case R.id.buttonAction:
-                    UtilityFunctions.simpleToast(context, "TODO: Start test");
+                    navigateToTest();
                     break;
             }
         });
@@ -475,6 +510,7 @@ public class SpellingActivity extends AppCompatActivity {
         super.onPause();
         checkLogIsEnable();
         checkProgressData();
+        destroyEngine();
         UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(),
                 timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
@@ -491,6 +527,27 @@ public class SpellingActivity extends AppCompatActivity {
             timeSpend = 0;
         }
 
+    }
+
+    private void timer() {
+        boolean isTimerRunning = false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
+
+                        binding.timerProgress.setMax(15);
+                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.timeText.setText((x + 1) + "");
+                        Log.i("task", x + "");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK", "task")
+                ).subscribe();
     }
 
     interface ButtonClick {

@@ -2,8 +2,10 @@ package com.maths.beyond_school_280720220930.database.english.spelling.model;
 
 import androidx.annotation.Keep;
 
+import java.io.Serializable;
+
 @Keep
-public class SpellingModel {
+public class SpellingModel implements Serializable {
     String word;
     String imageLink;
 

@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/drawable/background_border.xml" value="0.362" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/drawable/ic_arrow.xml" value="0.347" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/drawable/keys_button_background.xml" value="0.26" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/drawable/play_button.xml" value="0.362" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout-v23/activity_spelling_test.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_addition.xml" value="0.5" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_speeling_test.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_spelling.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_spelling_test.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_spelling_text.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_splash_screen.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_table_questions.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_test.xml" value="0.3625" />
