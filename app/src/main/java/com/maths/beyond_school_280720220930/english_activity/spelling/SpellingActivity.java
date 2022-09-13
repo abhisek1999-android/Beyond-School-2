@@ -276,13 +276,13 @@ public class SpellingActivity extends AppCompatActivity {
         try {
             if (inputWord.equals(currentWord)) {
                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
-                textView.setTextColor(Color.GREEN);
+                textView.setTextColor(ContextCompat.getColor(context,R.color.green));
                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                 mediaPlayer.start();
                 inputWord = "";
                 textView.setText(currentWord);
             } else {
-                textView.setTextColor(Color.RED);
+                textView.setTextColor(ContextCompat.getColor(context,R.color.sweet_red));
                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                 UtilityFunctions.runOnUiThread(() -> {
                     try {

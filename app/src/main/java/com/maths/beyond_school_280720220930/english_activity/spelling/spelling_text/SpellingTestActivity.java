@@ -320,7 +320,7 @@ public class SpellingTestActivity extends AppCompatActivity {
             }
         } else {
             wrongAnswer++;
-            textView.setTextColor(getResources().getColor(R.color.red));
+            textView.setTextColor(getResources().getColor(R.color.sweet_red));
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
             sendDataToAnalytics(currentWord, diff, false);
             inputWord = "";
