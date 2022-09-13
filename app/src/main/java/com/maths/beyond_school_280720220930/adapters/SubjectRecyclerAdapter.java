@@ -63,20 +63,23 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         String chapter = grades_data.subject;
         String[] res = val.split(" ");
 
+        try{
         if (grades_data.is_completed) {
             holder.status.setText("Completed");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
             holder.scoreText.setVisibility(View.VISIBLE);
-            if (!grades_data.subject.equals("Multiplication Tables")){
-            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )");
-            holder.scoreText.setText("Score: "+correct+"/10");
+            if (grades_data.subject.equals("Multiplication Tables")){
+            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )",true);
+            long wrong=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )",false);
+            holder.scoreText.setText("Score: "+correct+"/"+(correct+wrong));
             }
             else{
-                long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter);
-                holder.scoreText.setText("Score: "+correct+"/10");
+                long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter,true);
+                long wrong=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter,false);
+                holder.scoreText.setText("Score: "+correct+"/"+(correct+wrong));
             }
 
-        }
+        }}catch (Exception e){}
 
         if (grades_data.subject.equals("Multiplication Tables")) {
             holder.subSub.setText(grades_data.subject);

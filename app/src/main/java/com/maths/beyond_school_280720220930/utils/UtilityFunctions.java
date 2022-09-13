@@ -301,6 +301,10 @@ public final class UtilityFunctions {
         }
     }
 
+    public static int getNinetyPercentage(int total){
+        return (int)Math.floor(total*0.9);
+    }
+
     public static String getDbName(VocabularyCategories categories, Context context) {
         switch (categories) {
             case bathroom_1:
@@ -912,16 +916,19 @@ public final class UtilityFunctions {
     }
 
 
-    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter) {
+    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter,Boolean resultType) {
 
-        long correct=0;
+        long value=0;
 
-        correct = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+        if (resultType)
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+        else
+            value=progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT wrong FROM progressM where chapter LIKE '%"+chapter+ "%'"));
 
         Log.i("CHAPTER", chapter);
-        Log.i("DB_DATA", correct + "");
+        Log.i("DB_DATA", value + "");
         try {
-            return correct;
+            return value;
         } catch (Exception e) {
 
             return 0;

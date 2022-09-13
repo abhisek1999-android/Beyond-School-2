@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityScoreBinding;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 public class ScoreActivity extends AppCompatActivity {
 
@@ -43,11 +44,9 @@ public class ScoreActivity extends AppCompatActivity {
 
         binding.toolBar.titleText.setText("Score Board");
 
-        if (correctAns>=9){
+        if (correctAns>= UtilityFunctions.getNinetyPercentage(wrongAns+correctAns)){
             binding.certify.setText("Congratulation!! You have mastered "+chapter);
         }else{
-
-
             binding.nextbtn.setVisibility(View.INVISIBLE);
         }
 

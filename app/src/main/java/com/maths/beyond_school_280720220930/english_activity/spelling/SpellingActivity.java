@@ -84,7 +84,7 @@ public class SpellingActivity extends AppCompatActivity {
     private long timeSpend = 0;
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
-
+    private boolean isTimerRunning = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +106,8 @@ public class SpellingActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SPELLING_LIST, (ArrayList<SpellingModel>) spellingModels);
         startActivity(intent);
     }
+
+
 
     private void setData() {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {

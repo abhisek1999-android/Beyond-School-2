@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -27,6 +28,7 @@ import com.maths.beyond_school_280720220930.ScoreActivity;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingTestBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
@@ -81,7 +83,7 @@ public class SpellingTestActivity extends AppCompatActivity {
     private int kidAge;
     private String kidName;
     private final JSONArray kidsActivityJsonArray = new JSONArray();
-
+    private ProgressDataBase progressDataBase;
 
     private final static int REQUEST_QUESTION = 2 * 44;                                             // request code for asking question
     private final static int REQUEST_CORRECT_OR_WRONG_ANSWER = 2 * 45;                              // request code for correct answer
@@ -97,6 +99,7 @@ public class SpellingTestActivity extends AppCompatActivity {
 
         logDatabase = LogDatabase.getDbInstance(context);
         databaseGrade = GradeDatabase.getDbInstance(context);
+        progressDataBase = ProgressDataBase.getDbInstance(SpellingTestActivity.this);
 
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
@@ -131,6 +134,7 @@ public class SpellingTestActivity extends AppCompatActivity {
                 , getLifecycle());
         binding.viewPagerTest.setAdapter(adapter);
         binding.viewPagerTest.setOffscreenPageLimit(1);
+        binding.viewPagerTest.setUserInputEnabled(false);
         handlePlayPause();
         setButtonText();
     }
@@ -228,7 +232,7 @@ public class SpellingTestActivity extends AppCompatActivity {
     private void uploadData() {
         var dbName = getIntent().getStringExtra(EXTRA_SPELLING_CATEGORY);
         try {
-            if (correctAnswer >= spellingList.size() - 1) {
+            if (correctAnswer >= UtilityFunctions.getNinetyPercentage(spellingList.size())) {
                 UtilityFunctions.updateDbUnlock(
                         databaseGrade,
                         kidsGrade,
@@ -238,6 +242,8 @@ public class SpellingTestActivity extends AppCompatActivity {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
                         kidsActivityJsonArray, "pass", auth, kidsId, dbName,
                         "spelling", correctAnswer, wrongAnswer, spellingList.size(), "english");
+
+                progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,category);
 
             } else {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
