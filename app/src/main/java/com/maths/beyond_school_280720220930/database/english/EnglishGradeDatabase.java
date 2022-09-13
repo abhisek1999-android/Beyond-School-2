@@ -11,6 +11,11 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.maths.beyond_school_280720220930.database.english.expression.ExpressionDao;
+import com.maths.beyond_school_280720220930.database.english.expression.ExpressionList;
+import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionDetailsConverter;
+import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionModel;
+import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionModelConverter;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingList;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModelConverter;
@@ -22,15 +27,18 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class, SpellingType.class}, version = 1)
+@Database(entities = {VocabularyModel.class, SpellingType.class, ExpressionModel.class}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
-        SpellingTypeConverter.class, SpellingModelConverter.class
+        SpellingTypeConverter.class, SpellingModelConverter.class,
+        ExpressionDetailsConverter.class, ExpressionModelConverter.class
 })
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     public abstract VocabularyDao englishDao();
 
     public abstract SpellingDao spellingDao();
+
+    public abstract ExpressionDao expressionDao();
 
     private static EnglishGradeDatabase INSTANCE;
 
@@ -60,6 +68,7 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
         private final VocabularyDao vocabularyDao;
         private final SpellingDao spellingDao;
+        private final ExpressionDao expressionDao;
         @SuppressLint("StaticFieldLeak")
         private final Context context;
 
@@ -67,10 +76,15 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
             this.vocabularyDao = db.englishDao();
             this.spellingDao = db.spellingDao();
             this.context = context;
+            this.expressionDao=db.expressionDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+
+            expressionDao.insert(ExpressionList.GradeOneExpression.englishListGrade1());
+
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
 
 //            Adding Spellings

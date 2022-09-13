@@ -332,7 +332,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private void displayCompleteDialog() {
 
         HintDialog hintDialog = new HintDialog(LearningActivity.this);
-        hintDialog.setCancelable(false);
+        hintDialog.setCancelable(true);
         hintDialog.setAlertTitle("Woohoo!!");
         hintDialog.setAlertDesciption("Hey, you completed practice successfully !!\nNow you can proceed to take test.");
 

@@ -23,6 +23,8 @@ import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.google.android.gms.auth.api.credentials.CredentialsOptions;
 import com.google.android.gms.auth.api.credentials.HintRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -44,7 +46,9 @@ import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -294,6 +298,53 @@ public class PhoneNumberLogin extends AppCompatActivity {
         signInWithCredential(credential);
     }
 
+    private void saveKidsData(String imageUrl) {
+        if (mAuth != null) {
+
+            String uuid = kidsDb.collection("users").document(mAuth.getCurrentUser().getUid()).collection("kids").document().getId();
+            Map<String, Object> kidsData = new HashMap<>();
+            kidsData.put("name", "Kids Name");
+            kidsData.put("kids_id", uuid);
+            kidsData.put("profile_url", imageUrl);
+            kidsData.put("parent_id", mAuth.getCurrentUser().getUid());
+            kidsData.put("age", "01/08/2017");
+            kidsData.put("status","active");
+            kidsData.put("grade", "GRADE 1");
+            // Add a new document with a generated ID
+            kidsDb.collection("users").document(mAuth.getCurrentUser().getUid()).collection("kids").document(uuid)
+                    .set(kidsData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Log.d(TAG, "DocumentSnapshot successfully written!");
+
+
+                            UtilityFunctions.saveDataLocally(getApplicationContext(), "GRADE 1", "Kids Name",
+                                   "01/08/2017", imageUrl, uuid);
+
+                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+                            intent.putExtra("name", "Kids Name");
+                            intent.putExtra("image", imageUrl);
+                            intent.putExtra("age", "01/08/2017");
+                            intent.putExtra("grade", "GRADE 1");
+                            startActivity(intent);
+                            finish();
+                            customProgressDialogue.dismiss();
+                            //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //  Log.w(TAG, "Error writing document", e);
+                            Toast.makeText(PhoneNumberLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            customProgressDialogue.dismiss();
+                        }
+                    });
+        }
+
+    }
+
     private void checkUserAlreadyAvailable(FirebaseUser user) {
 
 
@@ -306,10 +357,11 @@ public class PhoneNumberLogin extends AppCompatActivity {
                         if (queryDocumentSnapshots.isEmpty()) {
 
                             Log.i("No_data", "No_data");
-                            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
-                            intent.putExtra("type", "next");
-                            startActivity(intent);
-                            finish();
+//                            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+//                            intent.putExtra("type", "next");
+//                            startActivity(intent);
+                            saveKidsData("default");
+
                         } else {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
