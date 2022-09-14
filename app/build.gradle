@@ -11,8 +11,8 @@ android {
         applicationId "com.maths.beyond_school_280720220930"
         minSdk 21
         targetSdk 31
-        versionCode 10
-        versionName "1.10"
+        versionCode 12
+        versionName "1.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -89,5 +89,7 @@ dependencies {
 
     //implementation 'com.github.joielechong:countrycodepicker:2.4.2'
 
+
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 
 }

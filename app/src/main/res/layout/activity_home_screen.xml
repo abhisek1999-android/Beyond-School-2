@@ -78,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:id="@+id/yourTask"
                 android:layout_below="@id/yourProgressLayout"
                 android:text="Your today's task"
                 android:fontFamily="@font/reemkufi_medium"

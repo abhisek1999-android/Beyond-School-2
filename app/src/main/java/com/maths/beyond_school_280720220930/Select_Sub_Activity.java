@@ -438,17 +438,15 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void setRecyclerView(String grade, String subSub) {
 
 
-
-
-
-
         notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + this.grade.getValue().replaceAll(" ", "").toLowerCase() + " =1"/*grade.replaceAll(" ","").toLowerCase()*/));
+       //Log.i("NotesData",notes+"");
         list = new ArrayList<>();
         //data fetching
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < notes.size(); i++) {
             try {
                 Grades_data data = notes.get(i);
                 String val = data.getChapter();
+                Log.i("NodeData",val);
                 String[] res = val.split(" ");
                 if (!res[0].equals("Multiplication")) {
                     for (String str : res) {

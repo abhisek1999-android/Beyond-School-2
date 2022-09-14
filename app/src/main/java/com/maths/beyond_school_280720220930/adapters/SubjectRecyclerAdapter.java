@@ -21,7 +21,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
-import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
@@ -63,11 +63,23 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         String chapter = grades_data.subject;
         String[] res = val.split(" ");
 
+        try{
         if (grades_data.is_completed) {
             holder.status.setText("Completed");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+            holder.scoreText.setVisibility(View.VISIBLE);
+            if (grades_data.subject.equals("Multiplication Tables")){
+            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )",true);
+            long wrong=UtilityFunctions.gettingCorrectValues(progressDataBase,"Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )",false);
+            holder.scoreText.setText("Score: "+correct+"/"+(correct+wrong));
+            }
+            else{
+                long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter,true);
+                long wrong=UtilityFunctions.gettingCorrectValues(progressDataBase,grades_data.chapter,false);
+                holder.scoreText.setText("Score: "+correct+"/"+(correct+wrong));
+            }
 
-        }
+        }}catch (Exception e){}
 
         if (grades_data.subject.equals("Multiplication Tables")) {
             holder.subSub.setText(grades_data.subject);
@@ -95,12 +107,12 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
 
             subSub = grades_data.chapter.split(" ")[2];
-            chapter = list.get(position).chapter;
+            chapter = grades_data.chapter;
 
             holder.subSub.setText(subSub);
             holder.chapters.setText(chapter);
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[2], list.get(position).chapter,
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[2], grades_data.chapter,
                         new Date(), 0, true).get(0).time_spend;
 
                 if (timeSpend >= 8) {
@@ -115,7 +127,6 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
             }
 
-
         }
 
         if (chapter.equals("English")) {
@@ -127,7 +138,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             holder.chapters.setText(chapter.replace("_", " "));
 
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], list.get(position).chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], grades_data.chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
                 holder.timeText.setText(timeSpend + "/15 m");
 
                 Toast.makeText(context, timeSpend + "", Toast.LENGTH_SHORT).show();
@@ -147,6 +158,10 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
         holder.mView.setOnClickListener(v -> {
 
+//            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,list.get(position).chapter);
+
+           // Toast.makeText(context, correct+"", Toast.LENGTH_SHORT).show();
+
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
                 Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
@@ -154,9 +169,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 context.startActivity(intent);
                 // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
             } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
-
-                Log.d("XXX", "onBindViewHolder: " + val + " U " + UtilityFunctions.getSpellingsFromString(val).name());
-                var intent = new Intent(context, EnglishSpellingActivity.class);
+                var intent = new Intent(context, SpellingActivity.class);
                 intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                 context.startActivity(intent);
             } else {
@@ -200,7 +213,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
-        TextView subSub, chapters, status, timeText;
+        TextView subSub, chapters, status, timeText,scoreText;
 
         View mView;
 
@@ -212,6 +225,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             chapters = mView.findViewById(R.id.chapters);
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
+            scoreText=mView.findViewById(R.id.score);
 
 
         }

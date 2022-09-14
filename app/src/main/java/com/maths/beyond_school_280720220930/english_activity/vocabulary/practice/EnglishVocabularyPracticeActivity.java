@@ -25,7 +25,10 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
+import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text.SpellingTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -41,11 +44,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
@@ -74,11 +83,15 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private long startTime = 0, endTime = 0;
     private JSONArray kidsActivityJsonArray = new JSONArray();
 
-
+    private ProgressDataBase progressDataBase;
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
     private int kidAge;
     private String kidName;
+    private List<ProgressM> progressData;
+    private long timeSpend = 0;
+    public static final int TIMER_VALUE = 15;
+    private boolean isTimerRunning = true;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -87,6 +100,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         binding = ActivityEnglishVocabularyPracticeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dao = EnglishGradeDatabase.getDbInstance(this).englishDao();
+        progressDataBase = ProgressDataBase.getDbInstance(EnglishVocabularyPracticeActivity.this);
         databaseGrade = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         logDatabase = LogDatabase.getDbInstance(this);
@@ -98,6 +112,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
 
+        progressData=new ArrayList<>();
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -107,6 +122,44 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         } else {
             throw new IllegalArgumentException("No category provided");
         }
+        checkProgressData();
+    }
+
+    private void timer() {
+        isTimerRunning = false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
+
+                        binding.timerProgress.setMax(15);
+                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.timeText.setText((timeSpend+x + 1) + "");
+                        Log.i("task", x + "");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK", "task")
+                ).subscribe();
+
+
+    }
+
+    private void checkProgressData() {
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category,
+                new Date(), 0, true);
+
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
+            }
+        } catch (Exception e) {
+            timeSpend = 0;
+        }
+
     }
 
     private void setPracticeClick() {
@@ -134,10 +187,13 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         dao.getEnglishModel(1
                         ).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
-        if (data == null) {
-            UtilityFunctions.simpleToast(this, "No data found");
-            return;
-        }
+        try{
+            if (data == null) {
+                UtilityFunctions.simpleToast(this, "No data found");
+                return;
+            }
+        }catch (Exception e){}
+
         List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
                 fragments,
@@ -163,6 +219,9 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
 
     private void buttonClick() {
+        if (isTimerRunning)
+            timer();
+
         binding.playPause.setOnClickListener(v -> {
             isSpeaking = binding.playPause.isChecked();
             if (binding.playPause.isChecked()) {
@@ -208,7 +267,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private void checkResult() {
         var auth = FirebaseAuth.getInstance();
         Log.d("XXXX", "checkResult: " + UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this));
-        if (correctAnswers >= vocabularyList.size() - 2) {
+        if (correctAnswers >= UtilityFunctions.getNinetyPercentage(vocabularyList.size())) {
             binding.textViewGuessQuestion.setText("You have completed all the questions");
             UtilityFunctions.updateDbUnlock(
                     databaseGrade,
@@ -221,6 +280,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
                                 getDbName(UtilityFunctions.getVocabularyFromString(category), this),
                         "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
+                progressDataBase.progressDao().updateScore(correctAnswers,wrongAnswers,category);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -432,6 +492,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         super.onPause();
         destroyedEngines();
         checkLogIsEnable();
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category, new Date(),
+                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void destroyedEngines() {

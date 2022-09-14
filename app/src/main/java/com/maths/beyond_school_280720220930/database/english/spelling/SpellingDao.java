@@ -1,21 +1,28 @@
 package com.maths.beyond_school_280720220930.database.english.spelling;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingType;
+
+import java.util.List;
 
 @Dao
 public interface SpellingDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(SpellingModel spellingModel);
+    void insert(SpellingType spellingType);
 
-    @Update
-    void update(SpellingModel spellingModel);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<SpellingType> spellingTypes);
 
-    @Query("SELECT * FROM spelling_table WHERE grade = :grade")
-    SpellingModel getSpellingModel(int grade);
+    @Delete
+    void delete(SpellingType spellingType);
+
+
+    @Query("SELECT * FROM spelling_table")
+    List<SpellingType> getAllSpelling();
 }

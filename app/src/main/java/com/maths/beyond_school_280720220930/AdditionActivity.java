@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,11 +86,12 @@ public class AdditionActivity extends AppCompatActivity {
     private List timeList;
     private String kidsGrade;
     private GradeDatabase databaseGrade;
+
     private String kidsId;
     private List<Integer> numberList;
     private JSONArray kidsActivityJsonArray = new JSONArray();
     private ProgressDataBase progressDataBase;
-
+    private MediaPlayer mediaPlayer = null;
     private List<ProgressM> progressData;
     private long timeSpend = 0;
     public static final int TIMER_VALUE = 15;
@@ -139,6 +141,8 @@ public class AdditionActivity extends AppCompatActivity {
         setButtonClick();
         setBasicUiElement();
         checkProgressData();
+        initMediaPlayer();
+
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -153,6 +157,7 @@ public class AdditionActivity extends AppCompatActivity {
         try {
             if (progressData != null) {
                 timeSpend = progressData.get(0).time_spend;
+                binding.timeText.setText(timeSpend+"");
             }
         } catch (Exception e) {
             timeSpend = 0;
@@ -171,7 +176,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                         binding.timerProgress.setMax(15);
                         binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.timeText.setText((x + 1) + "");
+                        binding.timeText.setText((timeSpend+x + 1) + "");
                         Log.i("task", x + "");
                     }
                 })
@@ -213,6 +218,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         tts.initialize("Tap the play button to start the test , you can speak and write answer in the answer box", AdditionActivity.this);
 
+     //   binding.animWoman.playAnimation();
         // play();
 
     }
@@ -283,6 +289,10 @@ public class AdditionActivity extends AppCompatActivity {
 
     }
 
+
+    private void initMediaPlayer() {
+        mediaPlayer = UtilityFunctions.playClapSound(this);
+    }
     /**
      * Initialize TTS engine
      * Answer will be check here
@@ -291,6 +301,7 @@ public class AdditionActivity extends AppCompatActivity {
         tts = TextToSpeechBuilder.builder(new ConversionCallback() {
             @Override
             public void onCompletion() {
+
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
@@ -303,6 +314,7 @@ public class AdditionActivity extends AppCompatActivity {
                         binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
+               // binding.animWoman.pauseAnimation();
             }
 
             @Override
@@ -413,6 +425,7 @@ public class AdditionActivity extends AppCompatActivity {
             tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivity.this);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
 
+            try{  mediaPlayer.start();}catch (Exception e){}
 
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
@@ -451,6 +464,8 @@ public class AdditionActivity extends AppCompatActivity {
             if (correctAnswer >= 9) {
                 CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+
+                progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,selectedSub);
                 if (!subject.equals("multiplication"))
                     UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
                 else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))
@@ -497,6 +512,9 @@ public class AdditionActivity extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
+        try {
+            mediaPlayer.pause();
+        }catch (Exception e){}
         numberList.clear();
         binding.animWoman.cancelAnimation();
         //  binding.textView26.setVisibility(View.VISIBLE);
@@ -570,11 +588,17 @@ public class AdditionActivity extends AppCompatActivity {
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         isCallSTT = false;
         isCallTTS = false;
+
+        try{mediaPlayer.pause();}catch (Exception e){}
+
         if (!isAnswered)
             isNewQuestionGenerated = false;
     }
 
     private void setQuestion() throws InterruptedException {
+
+        try{
+        mediaPlayer.pause();}catch (Exception e){}
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         isAnswered = false;
@@ -677,7 +701,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         checkLogIsEnable();
         UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(),
-                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+                Integer.parseInt(binding.timeText.getText().toString()), false);
 
     }
 

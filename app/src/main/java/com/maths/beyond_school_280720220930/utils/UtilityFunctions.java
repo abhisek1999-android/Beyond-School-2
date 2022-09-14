@@ -43,9 +43,12 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -79,6 +82,39 @@ public final class UtilityFunctions {
                     }
                 })
                 .into(imageView);
+    }
+
+
+    public static Map<String, List<String>> phonetics() {
+
+        Map<String, List<String>> words = new HashMap<>();
+        words.put("a", Arrays.asList(new String[]{"a", "ya", "yay"}));
+        words.put("b", Arrays.asList(new String[]{"b", "be", "bee"}));
+        words.put("c", Arrays.asList(new String[]{"c", "see", "sea"}));
+        words.put("d", Arrays.asList(new String[]{"d", "de", "dee", "thee"}));
+        words.put("e", Arrays.asList(new String[]{"e", "ee", "eh"}));
+        words.put("f", Arrays.asList(new String[]{"f", "eff"}));
+        words.put("g", Arrays.asList(new String[]{"g", "gee", "jee"}));
+        words.put("h", Arrays.asList(new String[]{"h", "aitch", "itch", "hedge", "hatch", "edge"}));
+        words.put("i", Arrays.asList(new String[]{"i", "eye", "aye"}));
+        words.put("j", Arrays.asList(new String[]{"j", "jay", "je", "joy"}));
+        words.put("k", Arrays.asList(new String[]{"k", "kay", "ke"}));
+        words.put("l", Arrays.asList(new String[]{"l", "ell", "yell", "hell", "el"}));
+        words.put("m", Arrays.asList(new String[]{"m", "am", "yam", "em"}));
+        words.put("n", Arrays.asList(new String[]{"n", "yen"}));
+        words.put("o", Arrays.asList(new String[]{"o", "oh", "vow", "waw"}));
+        words.put("p", Arrays.asList(new String[]{"p", "pee", "pay", "pie"}));
+        words.put("q", Arrays.asList(new String[]{"q", "cue", "queue"}));
+        words.put("r", Arrays.asList(new String[]{"r", "are", "err", "year"}));
+        words.put("s", Arrays.asList(new String[]{"s", "ess", "es", "ass", "yes", "as"}));
+        words.put("t", Arrays.asList(new String[]{"t", "tee", "tea", "it", "ti"}));
+        words.put("u", Arrays.asList(new String[]{"u", "you"}));
+        words.put("v", Arrays.asList(new String[]{"v", "vee", "wee"}));
+        words.put("w", Arrays.asList(new String[]{"w", "double you"}));
+        words.put("x", Arrays.asList(new String[]{"x", "ex", "aex"}));
+        words.put("y", Arrays.asList(new String[]{"y", "why"}));
+        words.put("z", Arrays.asList(new String[]{"z", "zed", "zee", "jed"}));
+        return words;
     }
 
     public static int getPendingIntentFlag() {
@@ -265,6 +301,10 @@ public final class UtilityFunctions {
         }
     }
 
+    public static int getNinetyPercentage(int total){
+        return (int)Math.floor(total*0.9);
+    }
+
     public static String getDbName(VocabularyCategories categories, Context context) {
         switch (categories) {
             case bathroom_1:
@@ -416,8 +456,6 @@ public final class UtilityFunctions {
                 return VocabularyCategories.vegetables_1;
             case "vegetables_2":
                 return VocabularyCategories.vegetables_2;
-            case "animals_1":
-                return VocabularyCategories.animals_1;
             case "animals_2":
                 return VocabularyCategories.animals_2;
             case "cloth_1":
@@ -510,54 +548,24 @@ public final class UtilityFunctions {
         }
     }
 
-    public enum Spellings {
-        Most_Common_Words_1,
-        Most_Common_Words_2,
-        Words_with_short_a_sounds,
-        Words_with_L_blends,
-        Words_with_double_consonants,
-        Words_with_Long_o_sound,
-        Words_with_sh
+
+    // function to Shuffle array and return
+    public static ArrayList shuffleArray(ArrayList ar) {
+        Random rnd = new Random();
+        for (int i = ar.size() - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Object a = ar.get(index);
+            ar.set(index, ar.get(i));
+            ar.set(i, a);
+        }
+        return ar;
     }
 
-    public static Spellings getSpellingsFromString(String spelling) {
-        switch (spelling) {
-            case "Spelling Words with short ‘a’ sounds":
-                return Spellings.Words_with_short_a_sounds;
-            case "Spelling Words with ‘L’ blends":
-                return Spellings.Words_with_L_blends;
-            case "Spelling Words with double consonants":
-                return Spellings.Words_with_double_consonants;
-            case "Spelling Words with Long ‘o’ sound":
-                return Spellings.Words_with_Long_o_sound;
-            case "Spelling Words with ‘sh’":
-                return Spellings.Words_with_sh;
-            case "Spelling Most Common Words 2":
-                return Spellings.Most_Common_Words_2;
-            default:
-                return Spellings.Most_Common_Words_1;
-        }
-    }
 
-    public static String getDBNameSpelling(Spellings spellings, Context context) {
-        switch (spellings) {
-            case Most_Common_Words_1:
-                return context.getString(R.string.spelling1);
-            case Most_Common_Words_2:
-                return context.getString(R.string.spelling1_1);
-            case Words_with_short_a_sounds:
-                return context.getString(R.string.spelling2);
-            case Words_with_L_blends:
-                return context.getString(R.string.spelling3);
-            case Words_with_double_consonants:
-                return context.getString(R.string.spelling4);
-            case Words_with_Long_o_sound:
-                return context.getString(R.string.spelling5);
-            case Words_with_sh:
-                return context.getString(R.string.spelling6);
-            default:
-                return "";
-        }
+    public static char getRandomAlphabet() {
+        Random r = new Random();
+        return (char) (r.nextInt(26) + 'a');
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -597,7 +605,7 @@ public final class UtilityFunctions {
 
     public static MediaPlayer playClapSound(Activity activity) {
         var m = MediaPlayer.create(activity, R.raw.clap_sound);
-        m.setVolume(0.2f, 0.2f);
+        m.setVolume(0.3f, 0.3f);
         // set playback time to 1 sec
         m.setLooping(false);
 
@@ -903,6 +911,27 @@ public final class UtilityFunctions {
         } catch (Exception e) {
 
             return null;
+        }
+
+    }
+
+
+    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter,Boolean resultType) {
+
+        long value=0;
+
+        if (resultType)
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+        else
+            value=progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT wrong FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", value + "");
+        try {
+            return value;
+        } catch (Exception e) {
+
+            return 0;
         }
 
     }

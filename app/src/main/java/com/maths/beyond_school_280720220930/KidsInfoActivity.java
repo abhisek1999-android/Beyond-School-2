@@ -81,6 +81,7 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         binding.toolBar.titleText.setText("Kid's Info");
 
+        customProgressDialogue.show();
 
         if (Build.VERSION.SDK_INT >= 24) {
             try {
@@ -142,7 +143,6 @@ public class KidsInfoActivity extends AppCompatActivity {
         });
         binding.updateButton.setOnClickListener(v -> {
             uploadImage();
-            customProgressDialogue.show();
         });
 
         binding.deleteProfile.setOnClickListener(v->{
@@ -168,6 +168,7 @@ public class KidsInfoActivity extends AppCompatActivity {
         if (type.equals("update")) {
 
             binding.deleteProfile.setVisibility(View.VISIBLE);
+            customProgressDialogue.dismiss();
             String grade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)).split(" ")[1].trim();
             //    binding.textInputLayoutGrade.getEditText().setText(array[1]);
             binding.kidsNameTextView.setText(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
@@ -180,8 +181,24 @@ public class KidsInfoActivity extends AppCompatActivity {
             binding.nextButton.setVisibility(View.GONE);
             binding.updateButton.setVisibility(View.VISIBLE);
         }
+
+        else if (type.equals("update_new")) {
+            customProgressDialogue.dismiss();
+            binding.toolBar.titleText.setText("Kid's Profile");
+            binding.nextButton.setVisibility(View.GONE);
+            binding.updateButton.setVisibility(View.VISIBLE);
+            binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(0).toString(), false);
+        }
         else{
+            customProgressDialogue.show();
             binding.toolBar.imageViewBack.setVisibility(View.GONE);
+            binding.kidsNameTextView.setText("Kids Name");
+            binding.kidsAgeTextView.setText("01/08/2017");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(0).toString(), false);
+            }
+
+            uploadImage();
         }
 
 
@@ -328,13 +345,17 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                     if (type.equals("next"))
                         saveKidsData("default");
-                    else
-                        updateKidsData(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
+                    else{
+                        String profileUrl=PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url));
+                        updateKidsData(profileUrl.equals("")?"default":profileUrl);
+                    }
+
                 }
 
             }
         } else {
-            Toast.makeText(this, "Name and Age is required!", Toast.LENGTH_LONG).show();
+            customProgressDialogue.dismiss();
+            Toast.makeText(this, "Name and DOB is required!", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -395,13 +416,14 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                             UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
                                     binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
-                            customProgressDialogue.dismiss();
+
                             Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
                             intent.putExtra("age", binding.kidsAgeTextView.getText().toString());
                             intent.putExtra("grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString());
                             startActivity(intent);
+                            customProgressDialogue.dismiss();
                             //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
                     })

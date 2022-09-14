@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.maths.beyond_school_280720220930.databinding.ActivityMathsTutorialBinding;
+import com.maths.beyond_school_280720220930.databinding.AnimSingleLayoutBinding;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
@@ -24,6 +27,7 @@ public class MathsTutorialActivity extends AppCompatActivity {
     private Animation slideLeftAnim,slideRightAnim,fadeIn;
     private TextToSpeckConverter tts;
     private int DELAY_ON_STARTING_STT=500;
+    int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,22 +42,33 @@ public class MathsTutorialActivity extends AppCompatActivity {
         fadeIn= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
 
 
-        binding.digitTwo.setText("9");
+
+
 
         binding.pressHere.setOnClickListener(v->{
-            tts.initialize("Lets start learning math",MathsTutorialActivity.this);
+//            tts.initialize("Lets start learning math",MathsTutorialActivity.this);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View view = inflater.inflate(R.layout.anim_single_layout, null);
+            AnimSingleLayoutBinding binding=AnimSingleLayoutBinding.bind(view);
+            binding.ansTextView.setText("15");
+            view.startAnimation(slideRightAnim);
+            ViewGroup main = (ViewGroup) findViewById(R.id.insert_point);
+            main.addView(view, i);
+            i++;
+
 
         });
     }
-
-    public void startAnimation(){
-        binding.digitOne.startAnimation(slideLeftAnim);
-        binding.secondDigitLayout.setAnimation(slideRightAnim);
-        binding.operator.setAnimation(fadeIn);
-
-
-
-    }
+//
+//    public void startAnimation(){
+//        binding.digitOne.startAnimation(slideLeftAnim);
+//        binding.secondDigitLayout.setAnimation(slideRightAnim);
+//        binding.operator.setAnimation(fadeIn);
+//
+//
+//
+//    }
 
 
     /**
@@ -65,14 +80,14 @@ public class MathsTutorialActivity extends AppCompatActivity {
             @Override
             public void onCompletion() {
 
-                    Log.i("inSideTTS","InitSST");
-                    UtilityFunctions.runOnUiThread(() -> {
-
-                        binding.boardLayout.setVisibility(View.VISIBLE);
-                        startAnimation();
-
-
-                    }, DELAY_ON_STARTING_STT);
+//                    Log.i("inSideTTS","InitSST");
+//                    UtilityFunctions.runOnUiThread(() -> {
+//
+//                        binding.boardLayout.setVisibility(View.VISIBLE);
+//                        startAnimation();
+//
+//
+//                    }, DELAY_ON_STARTING_STT);
 
             }
 
