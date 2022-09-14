@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -137,6 +136,23 @@ public class SpellingTestActivity extends AppCompatActivity {
         binding.viewPagerTest.setUserInputEnabled(false);
         handlePlayPause();
         setButtonText();
+        handleDeleteWord();
+    }
+
+    private void handleDeleteWord() {
+        binding.key5.setOnClickListener(v -> {
+            if (inputWord.length() > 0) {
+                var currentFragment = (FragmentSpellingTest) spellingFragments.get(binding.viewPagerTest.getCurrentItem());
+                var textView = currentFragment.getTextView();
+                var text = textView.getText().toString();
+                var newText = UtilityFunctions.replace(text, currentWordLetterPosition - 1, '_');
+                textView.setText(newText);
+                currentWordLetterPosition--;
+                setButtonText();
+                inputWord = inputWord.substring(0, inputWord.length() - 1);
+                Log.d(TAG, "handleDeleteWord: " + inputWord + " Current word letter position: " + currentWordLetterPosition);
+            }
+        });
     }
 
     public void setButtonText() {                                                                   // set shuffled alphabet to button with one
@@ -243,7 +259,7 @@ public class SpellingTestActivity extends AppCompatActivity {
                         kidsActivityJsonArray, "pass", auth, kidsId, dbName,
                         "spelling", correctAnswer, wrongAnswer, spellingList.size(), "english");
 
-                progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,category);
+                progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, category);
 
             } else {
                 CallFirebaseForInfo.checkActivityData(kidsDb,

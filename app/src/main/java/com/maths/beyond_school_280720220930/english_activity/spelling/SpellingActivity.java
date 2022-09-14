@@ -135,6 +135,23 @@ public class SpellingActivity extends AppCompatActivity {
         setButtonText();
         binding.viewPager.setUserInputEnabled(false);
         speakIntro();
+        handleDeleteWord();
+    }
+
+    private void handleDeleteWord() {
+        binding.key5.setOnClickListener(v -> {
+            if (inputWord.length() > 0) {
+                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                var textView = currentFragment.getAnswerTextView();
+                var text = textView.getText().toString();
+                var newText = UtilityFunctions.replace(text, currentWordLetterPosition - 1, '_');
+                textView.setText(newText);
+                currentWordLetterPosition--;
+                setButtonText();
+                inputWord = inputWord.substring(0, inputWord.length() - 1);
+                Log.d(TAG, "handleDeleteWord: " + inputWord + " Current word letter position: " + currentWordLetterPosition);
+            }
+        });
     }
 
     private void speakIntro() {
@@ -472,7 +489,7 @@ public class SpellingActivity extends AppCompatActivity {
     private void resetTextViews(String currentWord, SpellingFragment currentFragment) {
         var textView = currentFragment.getAnswerTextView();                                                     // get text view of current fragment
         textView.setText(currentWord
-                .replaceAll("[a-zA-Z]", "_ "));
+                .replaceAll("[a-zA-Z]", "_"));
     }
 
     private void setTextColor(@ColorRes int res) {

@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -210,6 +211,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     @NonNull
     private List<Fragment> getFragments(VocabularyCategoryModel data) {
         vocabularyList = data.getVocabularyDetails();
+        Collections.shuffle(vocabularyList);
         fragmentList = CollectionUtils.
                 mapWithIndex(vocabularyList.stream(),
                         (index, item) -> new VocabularyTestFragment(item, index + 1))
