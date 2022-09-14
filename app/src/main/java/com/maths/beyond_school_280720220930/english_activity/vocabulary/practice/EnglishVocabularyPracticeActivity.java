@@ -492,8 +492,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         super.onPause();
         destroyedEngines();
         checkLogIsEnable();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category, new Date(),
-                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+//        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary",UtilityFunctions.vocabularyCategoriesToString(category), new Date(),
+//                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void destroyedEngines() {
