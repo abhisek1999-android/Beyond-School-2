@@ -112,7 +112,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="330dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +125,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/grid_1"
                 android:visibility="gone"
-                android:weightSum="4"
+                android:weightSum="5"
                 app:layout_constraintTop_toBottomOf="@+id/view_pager"
                 tools:visibility="visible">
 
@@ -198,6 +198,24 @@
                     app:iconSize="24dp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
                     tools:text="A" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/key_5"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_weight="1"
+                    android:background="@drawable/keys_button_background"
+                    android:backgroundTint="@color/primary"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:gravity="center"
+                    android:text="@string/bkSpace"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    app:iconSize="24dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded" />
+
 
             </LinearLayout>
 

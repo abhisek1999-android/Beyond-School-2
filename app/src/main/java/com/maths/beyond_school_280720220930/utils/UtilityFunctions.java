@@ -172,6 +172,23 @@ public final class UtilityFunctions {
         return sb.toString();
     }
 
+    public static String replace(String str, int index, char ch) {
+        char[] chars = str.toCharArray();
+        chars[index] = ch;
+        return new String(chars);
+    }
+
+    // Add space to each character of String accept end
+    public static String addSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length() - 1; i++) {
+            sb.append(s.charAt(i)).append(" ");
+        }
+        sb.append(s.charAt(s.length() - 1));
+        return sb.toString();
+    }
+
+
     public enum VocabularyCategories {
         bathroom_1,
         bathroom_2,
@@ -301,8 +318,8 @@ public final class UtilityFunctions {
         }
     }
 
-    public static int getNinetyPercentage(int total){
-        return (int)Math.floor(total*0.9);
+    public static int getNinetyPercentage(int total) {
+        return (int) Math.floor(total * 0.9);
     }
 
     public static String getDbName(VocabularyCategories categories, Context context) {
@@ -916,14 +933,14 @@ public final class UtilityFunctions {
     }
 
 
-    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter,Boolean resultType) {
+    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter, Boolean resultType) {
 
-        long value=0;
+        long value = 0;
 
         if (resultType)
-            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%" + chapter + "%'"));
         else
-            value=progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT wrong FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT wrong FROM progressM where chapter LIKE '%" + chapter + "%'"));
 
         Log.i("CHAPTER", chapter);
         Log.i("DB_DATA", value + "");

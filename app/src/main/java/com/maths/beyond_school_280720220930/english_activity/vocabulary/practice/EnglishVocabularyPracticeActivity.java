@@ -28,7 +28,6 @@ import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
-import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text.SpellingTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -45,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -210,6 +210,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     @NonNull
     private List<Fragment> getFragments(VocabularyCategoryModel data) {
         vocabularyList = data.getVocabularyDetails();
+        Collections.shuffle(vocabularyList);
         fragmentList = CollectionUtils.
                 mapWithIndex(vocabularyList.stream(),
                         (index, item) -> new VocabularyTestFragment(item, index + 1))
@@ -492,8 +493,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         super.onPause();
         destroyedEngines();
         checkLogIsEnable();
-//        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary",UtilityFunctions.vocabularyCategoriesToString(category), new Date(),
-//                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category, new Date(),
+                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void destroyedEngines() {

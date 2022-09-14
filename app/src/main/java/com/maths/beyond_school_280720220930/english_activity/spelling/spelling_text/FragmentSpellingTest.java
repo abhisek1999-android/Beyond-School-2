@@ -37,9 +37,9 @@ public class FragmentSpellingTest extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentSpellingTestBinding.bind(view);
-        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling);
+        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling, binding.loadingAnimation);
         binding.otpViewWord.setText(spellingModel.getWord().
-                replaceAll("[A-Za-z]", "_ "));
+                replaceAll("[A-Za-z]", "_"));
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.viewPager_test);
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,

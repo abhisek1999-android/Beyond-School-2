@@ -34,8 +34,12 @@ public class SpellingFragment extends Fragment {
     private FragmentSpellingBinding binding;
 
 
-    public TextView getTextView() {
+    public TextView getAnswerTextView() {
         return binding.otpViewWord;
+    }
+
+    private TextView getWordTextView() {
+        return binding.textViewWord;
     }
 
 
@@ -43,8 +47,9 @@ public class SpellingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentSpellingBinding.bind(view);
-        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling);
-        binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_ "));
+        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling, binding.loadingAnimation);
+        binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
+        binding.textViewWord.setText(UtilityFunctions.addSpaceAnswer(spellingModel.getWord()));
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
@@ -53,14 +58,14 @@ public class SpellingFragment extends Fragment {
 
         binding.imageButtonNext.setOnClickListener(v -> {
             binding.otpViewWord.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color));
-            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_ "));
+            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             activity.restartEngine();
             activity.setButtonText();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             binding.otpViewWord.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color));
-            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_ "));
+            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             activity.restartEngine();
             activity.setButtonText();

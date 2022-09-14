@@ -52,6 +52,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loading_animation"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/image_view_spelling"
+                app:layout_constraintEnd_toEndOf="@+id/image_view_spelling"
+                app:layout_constraintStart_toStartOf="@+id/image_view_spelling"
+                app:layout_constraintTop_toTopOf="@+id/image_view_spelling"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_english_image"
+                tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -61,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/grid_1"
         android:clickable="false"
+        android:letterSpacing=".3"
         android:gravity="center"
         android:minWidth="@dimen/grid_7"
         android:padding="@dimen/grid_1"
@@ -73,5 +88,5 @@
         app:layout_constraintEnd_toEndOf="@+id/ShowTable"
         app:layout_constraintStart_toStartOf="@+id/ShowTable"
         app:layout_constraintTop_toBottomOf="@+id/ShowTable"
-        tools:text="_" />
+        tools:text="_____" />
 </androidx.constraintlayout.widget.ConstraintLayout>
