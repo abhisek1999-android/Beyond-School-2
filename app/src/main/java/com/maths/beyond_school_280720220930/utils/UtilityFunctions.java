@@ -172,6 +172,17 @@ public final class UtilityFunctions {
         return sb.toString();
     }
 
+    // Add space to each character of String accept end
+    public static String addSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length() - 1; i++) {
+            sb.append(s.charAt(i)).append(" ");
+        }
+        sb.append(s.charAt(s.length() - 1));
+        return sb.toString();
+    }
+
+
     public enum VocabularyCategories {
         bathroom_1,
         bathroom_2,

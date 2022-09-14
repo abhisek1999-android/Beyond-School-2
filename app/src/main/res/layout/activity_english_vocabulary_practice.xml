@@ -44,17 +44,18 @@
             android:gravity="center"
             android:textSize="18sp"
             tools:text="@string/guess_the_word" />
+
         <RelativeLayout
             android:id="@+id/time_spend"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:visibility="invisible"
+            android:layout_below="@id/text_view_guess_question"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/grid_1"
             android:background="@drawable/tv_shape"
             android:backgroundTint="@color/light_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/timerText"
@@ -119,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/playPause"
-            android:layout_below="@id/text_view_guess_question" />
+            android:layout_below="@id/time_spend" />
 
 
         <ToggleButton
@@ -130,8 +131,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_rect_button_bg"
             android:backgroundTint="@color/primary"
@@ -158,8 +157,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/image_view_teacher"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/grid_0_25"
-            android:layout_marginBottom="@dimen/grid_0_25"
             android:background="@drawable/round_rect_button_bg"
             android:backgroundTint="@color/green"
             android:orientation="horizontal">

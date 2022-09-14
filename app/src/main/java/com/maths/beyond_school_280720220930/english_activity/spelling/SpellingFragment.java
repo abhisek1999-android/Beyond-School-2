@@ -34,8 +34,12 @@ public class SpellingFragment extends Fragment {
     private FragmentSpellingBinding binding;
 
 
-    public TextView getTextView() {
+    public TextView getAnswerTextView() {
         return binding.otpViewWord;
+    }
+
+    private TextView getWordTextView() {
+        return binding.textViewWord;
     }
 
 
@@ -45,6 +49,7 @@ public class SpellingFragment extends Fragment {
         binding = FragmentSpellingBinding.bind(view);
         UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling);
         binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_ "));
+        binding.textViewWord.setText(UtilityFunctions.addSpaceAnswer(spellingModel.getWord()));
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);

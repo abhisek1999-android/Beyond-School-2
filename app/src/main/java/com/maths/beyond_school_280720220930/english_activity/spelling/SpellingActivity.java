@@ -7,13 +7,17 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLIN
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -74,6 +78,7 @@ public class SpellingActivity extends AppCompatActivity {
 
     private final int REQUEST_INTRO = 2 * 44;                              // request code for intro speech
     private final int REQUEST_WORD = 2 * 44 + 1;                           // request code for word speech
+    private static final int REQUEST_QUESTION = 2 * 44 + 2;                // request code for question speech
     private static final int DELAY_BETWEEN_RESET_VIEW = 1000;              // delay between reset view when user input is wrong
     public static final int TIMER_VALUE = 15;
 
@@ -85,6 +90,7 @@ public class SpellingActivity extends AppCompatActivity {
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
     private boolean isTimerRunning = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +112,6 @@ public class SpellingActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SPELLING_LIST, (ArrayList<SpellingModel>) spellingModels);
         startActivity(intent);
     }
-
 
 
     private void setData() {
@@ -196,7 +201,7 @@ public class SpellingActivity extends AppCompatActivity {
         var currentWord = spellingModels.get(currentPosition).getWord();                                  // get current word
         var contentForSpeaking = "The " + UtilityFunctions.convertCardinalNumberToOrdinalNumber(currentPosition + 1)
                 + " word is "
-                + currentWord + "!!, We spell it as " + UtilityFunctions.addComma(currentWord);                 // add comma in between word
+                + currentWord + "!!, We spell it as ";                                                           // add comma in between word
         UtilityFunctions.runOnUiThread(() -> {
             playPauseAnimation(true);
             binding.linearLayout.setVisibility(View.GONE);
@@ -219,7 +224,21 @@ public class SpellingActivity extends AppCompatActivity {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onCompletion() {
-                    setInputForCurrentWord();
+                    try {
+                        UtilityFunctions.runOnUiThread(() -> {
+                            var textView = (TextView) context.findViewById(R.id.text_view_word);
+                            if (textView != null) {
+                                textView.setTextColor(ContextCompat.getColor(context, R.color.primary));
+                            }
+                        });
+                        helperTTS("Now, it's your turn to type the spelling of the word",
+                                false,
+                                REQUEST_QUESTION
+                        );
+
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -233,6 +252,22 @@ public class SpellingActivity extends AppCompatActivity {
                     logs += title + "\n";
                 }
             }).get();
+
+            tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
+                UtilityFunctions.runOnUiThread(() -> {
+                    var textView = (TextView) this.findViewById(R.id.text_view_word);
+                    if (textView != null) {
+                        Spannable textWithHighlights = new SpannableString(sentence);
+                        textWithHighlights.setSpan(new ForegroundColorSpan(
+                                        ContextCompat.
+                                                getColor(this, R.color.primary)),
+                                start,
+                                end,
+                                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        textView.setText(textWithHighlights);
+                    }
+                });
+            });
         } catch (ExecutionException | InterruptedException e) {
             logs += e + "\n";
         }
@@ -249,7 +284,7 @@ public class SpellingActivity extends AppCompatActivity {
         var currentPosition = binding.viewPager.getCurrentItem();                                               // get current position of view pager
         var currentWord = spellingModels.get(currentPosition).getWord();                                     // get current word
         var currentFragment = (SpellingFragment) fragments.get(currentPosition);                                   // get current fragment
-        var textView = currentFragment.getTextView();                                                     // get text view of current fragment
+        var textView = currentFragment.getAnswerTextView();                                                     // get text view of current fragment
 
         buttonClickListener = s -> {
             inputWord += s;
@@ -271,20 +306,20 @@ public class SpellingActivity extends AppCompatActivity {
         var currentPosition = binding.viewPager.getCurrentItem();                                               // get current position of view pager
         var currentWord = spellingModels.get(currentPosition).getWord();                                     // get current word
         var currentFragment = (SpellingFragment) fragments.get(currentPosition);                                   // get current fragment
-        var textView = currentFragment.getTextView();                                                     // get text view of current fragment
+        var textView = currentFragment.getAnswerTextView();                                                     // get text view of current fragment
         currentWordLetterPosition = 0;
         playPauseAnimation(true);
         var diff = endTime - startTime;
         try {
             if (inputWord.equals(currentWord)) {
                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
-                textView.setTextColor(ContextCompat.getColor(context,R.color.green));
+                textView.setTextColor(ContextCompat.getColor(context, R.color.green));
                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                 mediaPlayer.start();
                 inputWord = "";
                 textView.setText(currentWord);
             } else {
-                textView.setTextColor(ContextCompat.getColor(context,R.color.sweet_red));
+                textView.setTextColor(ContextCompat.getColor(context, R.color.sweet_red));
                 logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                 UtilityFunctions.runOnUiThread(() -> {
                     try {
@@ -344,6 +379,7 @@ public class SpellingActivity extends AppCompatActivity {
     private void helperTTS(String message, boolean canNavigate, int request) throws
             ExecutionException, InterruptedException {
         ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onCompletion() {
                 if (request == REQUEST_INTRO && !canNavigate) {
@@ -353,8 +389,16 @@ public class SpellingActivity extends AppCompatActivity {
                 if (request == REQUEST_WORD && !canNavigate) {
                     UtilityFunctions.runOnUiThread(() -> {
                         playPauseAnimation(true);
-                        tts.initialize("Now, it's your turn to type the spelling of the word", context);
+                        var currentWord = spellingModels.get(binding.viewPager.getCurrentItem()).getWord();
+                        var currentWordWithComma = UtilityFunctions.addSpace(currentWord);
+                        tts.setTextViewAndSentence(currentWordWithComma);
+                        tts.setPitchAndSpeed(.3f, .3f);
+                        tts.initialize(currentWordWithComma, context);
                     });
+                    return;
+                }
+                if (request == REQUEST_QUESTION && !canNavigate) {
+                    setInputForCurrentWord();
                     return;
                 }
                 if (canNavigate) {                                                                  // navigate to next word
@@ -426,7 +470,7 @@ public class SpellingActivity extends AppCompatActivity {
     }
 
     private void resetTextViews(String currentWord, SpellingFragment currentFragment) {
-        var textView = currentFragment.getTextView();                                                     // get text view of current fragment
+        var textView = currentFragment.getAnswerTextView();                                                     // get text view of current fragment
         textView.setText(currentWord
                 .replaceAll("[a-zA-Z]", "_ "));
     }
@@ -434,7 +478,7 @@ public class SpellingActivity extends AppCompatActivity {
     private void setTextColor(@ColorRes int res) {
         var currentPosition = binding.viewPager.getCurrentItem();                                              // get current position of view pager
         var currentFragment = (SpellingFragment) fragments.get(currentPosition);                                   // get current fragment
-        var textView = currentFragment.getTextView();                                                     // get text view of current fragment
+        var textView = currentFragment.getAnswerTextView();                                                     // get text view of current fragment
         textView.setTextColor(ContextCompat.getColor(context, res));
     }
 
