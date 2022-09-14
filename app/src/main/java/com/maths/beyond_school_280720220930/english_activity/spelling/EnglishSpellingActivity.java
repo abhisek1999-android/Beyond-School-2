@@ -113,6 +113,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private void setData() {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {
             spellings = UtilityFunctions.getSpellingsFromString(getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
+            Log.i("Spellings",spellings+"");
             dao = EnglishGradeDatabase.getDbInstance(this).spellingDao();
             setViews();
             buttonClick();

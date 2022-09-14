@@ -45,7 +45,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
-            android:name=".ExpressionActivity"
+            android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
 
         <meta-data

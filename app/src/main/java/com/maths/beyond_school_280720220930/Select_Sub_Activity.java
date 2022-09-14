@@ -168,6 +168,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         drinkModels.add(new SpinnerModel(true, R.string.english));
         drinkModels.add(new SpinnerModel(false, R.string.vocabulary));
         drinkModels.add(new SpinnerModel(false, R.string.spelling));
+        drinkModels.add(new SpinnerModel(false, R.string.expression));
 
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals("")) {

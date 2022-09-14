@@ -931,6 +931,12 @@
     <!--    <string name="vocab19">Vocabulary Professions</string>-->
     <!--    <string name="vocab19">Vocabulary Professions</string>-->
 
+
+    <string name="expression">Expression</string>
+    <string name="expression1">Expression Introducing Yourself</string>
+
+
+
     <string name="digit">Digit</string>
     <string name="table">Table</string>
 

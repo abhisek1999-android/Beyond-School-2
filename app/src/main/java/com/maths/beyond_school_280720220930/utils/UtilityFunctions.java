@@ -575,6 +575,21 @@ public final class UtilityFunctions {
         }
     }
 
+
+    public enum Expression {
+        Introducing_Yourself,
+        Words_with_sh
+    }
+
+    public static Expression getExpressionFromString(String expression) {
+        switch (expression) {
+            case "Expression Introducing Yourself":
+                return Expression.Introducing_Yourself;
+            default:
+                return Expression.Words_with_sh;
+        }
+    }
+
     public static String getDBNameSpelling(Spellings spellings, Context context) {
         switch (spellings) {
             case Most_Common_Words_1:
@@ -591,6 +606,16 @@ public final class UtilityFunctions {
                 return context.getString(R.string.spelling5);
             case Words_with_sh:
                 return context.getString(R.string.spelling6);
+            default:
+                return "";
+        }
+    }
+
+
+    public static String getDBNameExpression(Expression expression, Context context) {
+        switch (expression) {
+            case Introducing_Yourself:
+                return context.getString(R.string.expression1);
             default:
                 return "";
         }

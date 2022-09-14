@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_EXPRESSION_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 
 import android.content.Context;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.english_activity.expression.ExpressionActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
@@ -88,7 +90,16 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                         var intent = new Intent(context, EnglishSpellingActivity.class);
                         intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                         context.startActivity(intent);
-                    } else {
+                    }
+
+                    else if (res[0].toLowerCase(Locale.ROOT).equals("expression")) {
+
+                        Log.d("XXX", "onBindViewHolder: " + val + " U " + UtilityFunctions.getExpressionFromString(val).name());
+                        var intent = new Intent(context, ExpressionActivity.class);
+                        intent.putExtra(EXTRA_EXPRESSION_DETAIL, val);
+                        context.startActivity(intent);
+                    }
+                    else {
 
 
                         if (!res[0].equals("Multiplication")) {

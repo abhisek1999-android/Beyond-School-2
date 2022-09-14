@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_EXPRESSION_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.english_activity.expression.ExpressionActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.utils.Constants;
@@ -156,7 +158,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
 //            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,list.get(position).chapter);
 
-           // Toast.makeText(context, correct+"", Toast.LENGTH_SHORT).show();
+          Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
 
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
@@ -169,6 +171,13 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 Log.d("XXX", "onBindViewHolder: " + val + " U " + UtilityFunctions.getSpellingsFromString(val).name());
                 var intent = new Intent(context, EnglishSpellingActivity.class);
                 intent.putExtra(EXTRA_SPELLING_DETAIL, val);
+                context.startActivity(intent);
+            }
+            else if (res[0].toLowerCase(Locale.ROOT).equals("expression")) {
+
+                Log.d("XXX", "onBindViewHolder: " + val + " U " + UtilityFunctions.getExpressionFromString(val).name());
+                var intent = new Intent(context, ExpressionActivity.class);
+                intent.putExtra(EXTRA_EXPRESSION_DETAIL, val);
                 context.startActivity(intent);
             } else {
 
