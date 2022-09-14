@@ -89,7 +89,6 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 if (timeSpend >= 8) {
                     holder.status.setText("Complete");
                     holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
-
                 }
 
                 holder.timeText.setText(timeSpend + "/15 m");
