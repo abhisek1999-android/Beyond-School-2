@@ -12,9 +12,7 @@ public class VocabularyDetailsConverter {
 
     @TypeConverter
     public static List<VocabularyDetails> fromString(String value) {
-        Type listType = new TypeToken<List<VocabularyDetails>>() {
-        }.getType();
-        return new Gson().fromJson(value, listType);
+        return new Gson().fromJson(value, TypeToken.getParameterized(List.class, VocabularyDetails.class).getType());
     }
 
     @TypeConverter

@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.database.english.vocabulary.model;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

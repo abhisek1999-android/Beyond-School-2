@@ -1,8 +1,10 @@
 package com.maths.beyond_school_280720220930.model;
 
+import androidx.annotation.Keep;
+
 import java.util.Date;
 import java.util.List;
-
+@Keep
 public class SectionSubSubject {
 
     private String sectionName;

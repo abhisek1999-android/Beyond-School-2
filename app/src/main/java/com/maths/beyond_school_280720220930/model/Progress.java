@@ -1,5 +1,8 @@
 package com.maths.beyond_school_280720220930.model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Progress {
 
     String date,table,time_to_complete,correct,wrong,is_completed,progress_id;

@@ -5,15 +5,12 @@ import androidx.room.TypeConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class SpellingTypeConverter {
     @TypeConverter
     public static List<SpellingType> fromString(String value) {
-        Type listType = new TypeToken<List<SpellingType>>() {
-        }.getType();
-        return new Gson().fromJson(value, listType);
+        return new Gson().fromJson(value, TypeToken.getParameterized(List.class, SpellingType.class).getType());
     }
 
     @TypeConverter

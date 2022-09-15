@@ -11,9 +11,7 @@ import java.util.List;
 public class VocabularyModelConverter {
     @TypeConverter
     public static List<VocabularyCategoryModel> fromString(String value) {
-        Type listType = new TypeToken<List<VocabularyCategoryModel>>() {
-        }.getType();
-        return new Gson().fromJson(value, listType);
+        return new Gson().fromJson(value, TypeToken.getParameterized(List.class, VocabularyCategoryModel.class).getType());
     }
 
     @TypeConverter

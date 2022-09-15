@@ -87,7 +87,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
             englishGradeDatabase.englishDao().getEnglishModel(1);
             englishGradeDatabase.spellingDao();
-            englishGradeDatabase.expressionDao().getEnglishModel(1);
+//            englishGradeDatabase.expressionDao().getEnglishModel(1);
 
             list1 = new ArrayList<>();
             list1.add("GRADE 1");
@@ -202,6 +202,8 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_26), false,false, true, false, false, ""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_27), false,false, true, false, false, ""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_28), false,false, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_29), false,false, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_30), false,false, true, false, false, ""));
 
 
 
