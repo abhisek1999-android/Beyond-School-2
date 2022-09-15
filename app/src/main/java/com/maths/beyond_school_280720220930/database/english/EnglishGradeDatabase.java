@@ -27,10 +27,10 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class, SpellingType.class, ExpressionModel.class}, version = 1)
+@Database(entities = {VocabularyModel.class, SpellingType.class, /*ExpressionModel.class*/}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
         SpellingTypeConverter.class, SpellingModelConverter.class,
-        ExpressionDetailsConverter.class, ExpressionModelConverter.class
+        /*ExpressionDetailsConverter.class, ExpressionModelConverter.class*/
 })
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
@@ -38,7 +38,7 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     public abstract SpellingDao spellingDao();
 
-    public abstract ExpressionDao expressionDao();
+//    public abstract ExpressionDao expressionDao();
 
     private static EnglishGradeDatabase INSTANCE;
 
@@ -68,22 +68,23 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
         private final VocabularyDao vocabularyDao;
         private final SpellingDao spellingDao;
-        private final ExpressionDao expressionDao;
+//        private final ExpressionDao expressionDao;
         @SuppressLint("StaticFieldLeak")
         private final Context context;
+
 
         public PopulateDbAsyncTask(EnglishGradeDatabase db, Context context) {
             this.vocabularyDao = db.englishDao();
             this.spellingDao = db.spellingDao();
             this.context = context;
-            this.expressionDao=db.expressionDao();
+//            this.expressionDao=db.expressionDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
 
-            expressionDao.insert(ExpressionList.GradeOneExpression.englishListGrade1());
+//            expressionDao.insert(ExpressionList.GradeOneExpression.englishListGrade1());
 
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
 

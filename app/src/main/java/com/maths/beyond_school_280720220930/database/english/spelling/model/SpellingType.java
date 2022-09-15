@@ -15,16 +15,17 @@ public class SpellingType {
     String type;
     List<SpellingModel> spellingModels;
 
-    public SpellingType(String type, List<SpellingModel> spellingModels) {
+    public SpellingType(@NonNull String type, List<SpellingModel> spellingModels) {
         this.type = type;
         this.spellingModels = spellingModels;
     }
 
+    @NonNull
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@NonNull String type) {
         this.type = type;
     }
 

@@ -1,12 +1,15 @@
 package com.maths.beyond_school_280720220930.model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Tables {
 
     String digit;
     String Decs;
     boolean is_locked;
 
-    public Tables(){
+    public Tables() {
 
     }
 
@@ -37,6 +40,6 @@ public class Tables {
     public Tables(String digit, String decs, boolean is_locked) {
         this.digit = digit;
         Decs = decs;
-        this.is_locked=is_locked;
+        this.is_locked = is_locked;
     }
 }
