@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId "com.maths.beyond_school_280720220930"
         minSdk 21
-        targetSdk 31
-        versionCode 12
-        versionName "1.12"
+        targetSdk 33
+        versionCode 14
+        versionName "1.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
