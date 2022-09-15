@@ -236,7 +236,7 @@ public class ExpressionActivity extends AppCompatActivity {
                                 }
 
                                 var currentFrag=(ExpressionFragment)fragments.get(binding.viewPager.getCurrentItem());
-                                currentFrag.getTextView().setText(expressionDetails.get(binding.viewPager.getCurrentItem()).getQuestion().replaceAll("[A-Za-z]", " _ "));
+                               // currentFrag.getTextView().setText(expressionDetails.get(binding.viewPager.getCurrentItem()).getQuestion().replaceAll("[A-Za-z]", " _ "));
                                 binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                                 isSayWordFinish = true;
                                 if (isSpeaking) {
@@ -444,8 +444,10 @@ public class ExpressionActivity extends AppCompatActivity {
 
     private void checkResult(String result) throws ExecutionException, InterruptedException {
 
-        Toast.makeText(this, result+","+expressionDetails.get(binding.viewPager.getCurrentItem()).getAnswers().get(0), Toast.LENGTH_SHORT).show();
-        if (expressionDetails.get(binding.viewPager.getCurrentItem()).getAnswers().get(0).toLowerCase(Locale.ROOT).contains(result.toLowerCase(Locale.ROOT))){
+
+
+        Log.i("Matches",result+", "+expressionDetails.get(binding.viewPager.getCurrentItem()).getAnswers().get(0).toLowerCase(Locale.ROOT));
+        if (result.toLowerCase(Locale.ROOT).contains(expressionDetails.get(binding.viewPager.getCurrentItem()).getAnswers().get(0).toLowerCase(Locale.ROOT))){
             helperTTS(UtilityFunctions.getCompliment(true), true, 0);
         }
         else {

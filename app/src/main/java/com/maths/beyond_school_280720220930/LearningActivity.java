@@ -974,7 +974,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         if (lcsResult) {
             tts.initialize(UtilityFunctions.getCompliment(true), LearningActivity.this);
             mediaPlayer.start();
-            //TODO: PLACE CORRECT KIDS DATA
+            //TODO: PLACE CORRECT KIDS DATA-->>>>>
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
                     "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, true, (int) (endTime - startTime),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
