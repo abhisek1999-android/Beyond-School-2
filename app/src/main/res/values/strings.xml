@@ -831,6 +831,8 @@
         <item>GRADE 1</item>
         <item>GRADE 2</item>
         <item>GRADE 3</item>
+<!--        <item>GRADE 4</item> -->
+<!--        <item>GRADE 5</item>-->
         <!--        <item>4th Grade</item>-->
         <!--        <item>5th Grade</item>-->
         <!--        <item>6th Grade</item>-->
@@ -840,6 +842,23 @@
         <!--        <item>10th Grade</item>-->
         <!--        <item>11th Grade</item>-->
         <!--        <item>12th Grade</item>-->
+    </string-array>
+
+    <string-array name="time_slots">
+        <item>14:30 - 15:00</item>
+        <item>15:00 - 15:30</item>
+        <item>15:30 - 16:00</item>
+        <item>16:00 - 16:30</item>
+        <item>16:30 - 17:00</item>
+        <item>17:00 - 17:30</item>
+        <item>17:30 - 18:00</item>
+        <item>18:00 - 18:30</item>
+        <item>18:30 - 19:00</item>
+        <item>19:00 - 19:30</item>
+        <item>19:30 - 20:00</item>
+        <item>20:00 - 20:30</item>
+        <item>20:30 - 21:00</item>
+
     </string-array>
     <string name="title_activity_welcome_screen">WelcomeScreen</string>
     <string name="dummy_button">Dummy Button</string>
@@ -1000,6 +1019,7 @@
     <string name="kids_id">KIDS_ID</string>
     <string name="kids_profile_url">KIDS_PROFILE_URL</string>
     <string name="learn">Learn</string>
+    <string name="timer_time">TIMER_TIME</string>
 
     <string name="spelling_text">%s  %s %s</string>
     <string name="spelling">Spelling</string>
