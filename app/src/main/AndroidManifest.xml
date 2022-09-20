@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.maths.beyond_school_280720220930">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -46,7 +45,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
-            android:name=".ExpressionActivity"
+            android:name=".english_activity.grammar.GrammarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
             android:name=".english_activity.spelling.SpellingActivity"

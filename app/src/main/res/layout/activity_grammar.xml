@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".english_activity.grammar.GrammarActivity">
+
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/text_view_category"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:fontFamily="@font/reemkufi_medium"
+        tools:text="Category : Personal" />
+
+    <TextView
+        android:id="@+id/subSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_category"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="Learn"
+        android:textAllCaps="true"
+        android:textColor="@color/primary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <include
+        android:id="@+id/layout_ext_timer"
+        layout="@layout/layout_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subSub"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/grid_6" />
+
+
+    <FrameLayout
+        android:id="@+id/frame_layout_grammar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/giveTestButton"
+        android:layout_below="@id/layout_ext_timer" />
+
+    <LinearLayout
+        android:id="@+id/giveTestButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/primary"
+        android:orientation="horizontal"
+        android:padding="@dimen/grid_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:text="Take Test"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size_big" />
+    </LinearLayout>
+</RelativeLayout>

@@ -13,6 +13,8 @@
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_english.xml" value="0.29347826086956524" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_english_spelling.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_english_vocabulary_practice.xml" value="0.33" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_grammar.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_home_screen.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_kids_info.xml" value="0.25" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_learning.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_login_signup.xml" value="0.3625" />
@@ -27,12 +29,18 @@
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/activity_test.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/content_kids_info.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/drawer_header.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_identifying_nouns.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_indentifying_nouns_row.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_spelling.xml" value="0.33" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_spelling_test.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_vocabulary.xml" value="0.29347826086956524" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/fragment_vocabulary_test.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/layout_timer.xml" value="0.3614583333333333" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/list_item.xml" value="0.3614583333333333" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/nav_drawer2.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/progress_report_dialog.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/row.xml" value="0.3625" />
+        <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/row2.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/sub_layout.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/subject_view.xml" value="0.3625" />
         <entry key="..\:/Android Project/InternWork/Kaholas/beyongschool_android/app/src/main/res/layout/tool_bar_layout.xml" value="0.3625" />

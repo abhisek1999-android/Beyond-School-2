@@ -67,6 +67,7 @@ public final class UtilityFunctions {
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .timeout(10000)
                 .error(R.drawable.cartoon_image_1)
                 .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
                     @Override
