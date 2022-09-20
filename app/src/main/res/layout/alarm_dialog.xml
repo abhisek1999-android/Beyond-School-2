@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="@dimen/grid_10"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       >
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="5dp"
+           >
+           <ImageButton
+               android:id="@+id/closeButton"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_baseline_close_24"
+               android:layout_alignParentRight="true"
+               android:background="@drawable/background_round"
+               android:padding="@dimen/grid_0_5"
+               android:backgroundTint="@color/sweet_red"
+               app:tint="@color/white" />
+
+           <TextView
+               android:id="@+id/title"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerInParent="true"
+               android:layout_marginLeft="@dimen/grid_0_5"
+               android:fontFamily="@font/reemkufi_medium"
+               android:text="Schedule Reminder"
+               android:textSize="20sp" />
+
+       </RelativeLayout>
+
+       <TextView
+           android:id="@+id/headerText"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:layout_marginBottom="30dp"
+           android:layout_marginHorizontal="@dimen/grid_20"
+           android:layout_above="@id/extraInclude"
+           android:fontFamily="@font/reemkufi_medium"
+           android:layout_gravity="center"
+           android:layout_marginTop="@dimen/grid_20"
+           android:text="Select your child's 30-min study slot"
+           android:textSize="@dimen/grid_20"/>
+
+       <include
+           android:id="@+id/extraInclude"
+           layout="@layout/alarm_dialog_sample_layout"
+           android:layout_centerInParent="true"
+           android:layout_marginTop="@dimen/grid_10"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
+
+
+   </LinearLayout>
+</androidx.cardview.widget.CardView>

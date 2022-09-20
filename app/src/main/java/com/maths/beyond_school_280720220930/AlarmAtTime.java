@@ -7,6 +7,7 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -36,10 +37,12 @@ import androidx.core.content.ContextCompat;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -56,7 +59,7 @@ public class AlarmAtTime extends AppCompatActivity {
     private ArrayAdapter adapter;
 
 
-    private ActivityAlarmAtTimeBinding binding;
+    public ActivityAlarmAtTimeBinding binding;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -77,8 +80,34 @@ public class AlarmAtTime extends AppCompatActivity {
         setUpTextLayoutGrade();
 
         time=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.timer_time));
-        if (!time.equals(""))
-            binding.textInputLayoutTimer.getEditText().setText(time);
+
+
+
+        if (!time.equals("")){
+            if (UtilityFunctions.isEventInCal(AlarmAtTime.this,PrefConfig.readIntInPref(AlarmAtTime.this,getResources().getString(R.string.calender_event_id))+""))
+            { binding.extraInclude.selecttimebtn.setText("UPDATE");
+            binding.extraInclude.selecttimebtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.accent));}
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                binding.extraInclude.kidsGrade.setText(binding.extraInclude.kidsGrade.getAdapter().getItem(Arrays.asList(array).indexOf(time)).toString(), false);
+            }
+        }
+
+        binding.extraInclude.selecttimebtn.setOnClickListener(v->{
+            try {
+                time=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.timer_time));
+                if (!time.equals("")){
+                   updateEvent();
+                    //setEvent();
+                }else{
+                    setEvent();
+                }
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+
 
 
     }
@@ -87,12 +116,12 @@ public class AlarmAtTime extends AppCompatActivity {
     private void setUpTextLayoutGrade() {
         array = getResources().getStringArray(R.array.time_slots);
         adapter = new ArrayAdapter(this, R.layout.list_item, array);
-        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.textInputLayoutTimer.getEditText());
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.extraInclude.textInputLayoutTimer.getEditText());
         editText.setAdapter(adapter);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(0).toString(), false);
+            binding.extraInclude.kidsGrade.setText(binding.extraInclude.kidsGrade.getAdapter().getItem(0).toString(), false);
         }
     }
 
@@ -129,70 +158,63 @@ public class AlarmAtTime extends AppCompatActivity {
 
     }
 
-    @SuppressLint("Range")
-    public void buttonClick(View view) throws ParseException {
-        Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
-        try
-        {
 
-            PrefConfig.writeIdInPref(AlarmAtTime.this,binding.textInputLayoutTimer.getEditText().getText().toString(),getResources().getString(R.string.timer_time));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-            Date currDate=new Date();
-            String datetime= dateFormatter.format(currDate)+" "+binding.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[0];
-           String endTime= "2023/12/31 "+binding.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[1];
-          //  String endTime="2023/08/12 06:30";
+    public void updateEvent() throws ParseException {
 
-            Calendar startCal = Calendar.getInstance();
-            startCal.setTime(formatter.parse(datetime));
-            
-            Calendar endCal = Calendar.getInstance();
-            endCal.setTime(formatter.parse(endTime));
-            var eventdate = startCal.get(Calendar.YEAR)+"/"+startCal.get(Calendar.MONTH)+"/"+startCal.get(Calendar.DAY_OF_MONTH)+" "+startCal.get(Calendar.HOUR_OF_DAY)+":"+startCal.get(Calendar.MINUTE);
-            Log.e("event date",eventdate);
-            // provide CalendarContract.Calendars.CONTENT_URI to
-            // ContentResolver to query calendars
-
-            if (cur.moveToFirst())
-            {
-               long calendarID=cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID));
-                ContentValues eventValues = new ContentValues();
-                eventValues.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
-                eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
-                //eventValues.put(CalendarContract.Events.DURATION,  "+P10000H");
-                eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-                eventValues.put (CalendarContract.Events.CALENDAR_ID, calendarID);
-                eventValues.put(CalendarContract.Events.TITLE, "Beyond School Reminder");
-              //  eventValues.put(CalendarContract.Events.RRULE,"FREQ=DAILY;COUNT=1;BYDAY=MO,TU");
-                eventValues.put(CalendarContract.Events.DESCRIPTION,"Its time to read!!");
-                eventValues.put(CalendarContract.Events.ALL_DAY,false);
-                eventValues.put(CalendarContract.Events.HAS_ALARM,true);
-
-                Uri eventUri = this.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, eventValues);
-                var eventID = ContentUris.parseId(eventUri);
+        int eventId=PrefConfig.readIntInPref(AlarmAtTime.this,getResources().getString(R.string.calender_event_id));
+        if (UtilityFunctions.isEventInCal(AlarmAtTime.this,eventId+"")){
+            try{
 
 
-                ContentValues reminder = new ContentValues();
-                reminder.put(CalendarContract.Reminders.EVENT_ID, eventID);
-                reminder.put(CalendarContract.Reminders.MINUTES, 5);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+                Date currDate=new Date();
+                String datetime= dateFormatter.format(currDate)+" "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[0];
+                String endTime= "2023/12/31 "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[1];
+                //  String endTime="2023/08/12 06:30";
 
-                reminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-                getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, reminder);
-                Toast.makeText(this, "Event Added", Toast.LENGTH_SHORT).show();
+                Calendar startCal = Calendar.getInstance();
+                startCal.setTime(formatter.parse(datetime));
+
+                Calendar endCal = Calendar.getInstance();
+                endCal.setTime(formatter.parse(endTime));
+                ContentResolver cr = getApplicationContext().getContentResolver();
+                Uri eventUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+                ContentValues event = new ContentValues();
+                event.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
+                //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
+                event.put(CalendarContract.Events.DURATION,  "+P30M");
+                event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
+                event.put(CalendarContract.Events.TITLE, "Beyond School Reminder");
+                event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
+                cr.update(eventUri, event, null, null);
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                PrefConfig.writeIdInPref(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString(),getResources().getString(R.string.timer_time));
             }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            Log.i("Error_Events",e.getMessage());
-        }
-        finally
-        {
-            if (cur != null)
-            {
-                cur.close();
+
+
+            catch (Exception e){
+
+
+                Log.i("Exception",e.getMessage());
             }
+
+
+        }else{
+
+            setEvent();
         }
+
+
+
+
 
     }
+
+    @SuppressLint("Range")
+    public void setEvent() throws ParseException {
+        Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
+        UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer);
+    }
+
 }

@@ -48,7 +48,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
-            android:name=".ExpressionActivity"
+            android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
             android:name=".english_activity.spelling.SpellingActivity"
@@ -113,7 +113,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

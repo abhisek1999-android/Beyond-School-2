@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.view.WindowManager;
@@ -47,7 +48,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-
+        String myCustomUri = getIntent().getStringExtra(CalendarContract.EXTRA_CUSTOM_APP_URI);
         try{startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
 
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");

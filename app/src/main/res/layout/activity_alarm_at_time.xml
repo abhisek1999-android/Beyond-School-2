@@ -12,142 +12,30 @@
         android:layout_height="wrap_content" />
 
 
+
+
+
+
+      <include
+          android:id="@+id/extraInclude"
+          layout="@layout/alarm_dialog_sample_layout"
+          android:layout_centerInParent="true"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
        <TextView
            android:id="@+id/headerText"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_below="@id/toolBar"
+          android:layout_centerHorizontal="true"
+           android:layout_marginBottom="30dp"
            android:layout_marginHorizontal="@dimen/grid_20"
-           android:layout_marginTop="@dimen/grid_20"
+           android:layout_above="@id/extraInclude"
            android:fontFamily="@font/reemkufi_medium"
-           android:text="Set a daily timer"
-           android:textStyle="bold"
-           android:textSize="@dimen/grid_20" />
+           android:text="Select your child's 30-min study slot"
+           android:textSize="@dimen/grid_20"
 
-        <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="This timer will notify you about your study time"
-           android:layout_below="@id/headerText"
-           android:fontFamily="@font/reemkufi_medium"
-           android:textSize="@dimen/default_font_size_small"
-           android:layout_marginHorizontal="@dimen/grid_20"
-           />
-
-
-
-           <com.google.android.material.card.MaterialCardView
-               android:layout_centerInParent="true"
-               android:id="@+id/mainCardView"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginHorizontal="@dimen/grid_20"
-               android:background="@color/transparent"
-               app:cardCornerRadius="10dp"
-              app:cardElevation="0dp"
-               >
-
-
-
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   >
-
-                   <androidx.cardview.widget.CardView
-                       android:id="@+id/iconLayout"
-                       android:layout_width="60dp"
-                       android:layout_height="60dp"
-                       android:layout_marginLeft="30dp"
-                       android:elevation="@dimen/grid_20"
-                       app:cardCornerRadius="@dimen/grid_10"
-                       app:cardBackgroundColor="@color/primary"
-                       app:cardElevation="5dp">
-
-                       <ImageView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_gravity="center"
-                           android:src="@drawable/ic_alarm_clock"
-                           app:tint="@color/white" />
-
-                   </androidx.cardview.widget.CardView>
-
-                   <androidx.cardview.widget.CardView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_below="@id/iconLayout"
-                       app:cardCornerRadius="@dimen/grid_10"
-                       android:layout_marginTop="-20dp"
-                       android:elevation="@dimen/grid_10"
-                      android:layout_marginBottom="20dp"
-                       android:layout_marginLeft="5dp"
-                       android:layout_marginRight="5dp"
-                       >
-
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="vertical"
-                           android:layout_below="@id/icon"
-                           android:paddingVertical="60dp">
-
-                           <TextView
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Select a time slot"
-                               android:layout_marginLeft="@dimen/grid_20"
-                               android:fontFamily="@font/reemkufi_medium"
-                               android:textStyle="bold"
-                               android:textSize="@dimen/default_font_size"
-                               />
-
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/textInputLayoutTimer"
-                               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:layout_marginLeft="20dp"
-                               android:layout_marginTop="8dp"
-                               android:layout_marginRight="20dp"
-                               android:background="@drawable/background_border"
-                               android:textAlignment="center"
-                               android:fontFamily="@font/poppins"
-                               android:padding="2dp"
-                               app:boxStrokeColor="@color/teal_700"
-                               app:boxStrokeWidth="0dp"
-                               app:boxStrokeWidthFocused="0dp"
-                               app:startIconDrawable="@drawable/ic_alarm_clock"
-                               app:hintEnabled="false"
-                               app:hintTextColor="@android:color/transparent">
-
-                               <AutoCompleteTextView
-                                   android:id="@+id/kidsGrade"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:background="@drawable/background_border"
-                                   android:fontFamily="@font/reemkufi_medium"
-                                   android:hint="Select a time slot"
-                                   android:inputType="none"
-                                   android:padding="12dp"
-                                   android:textAlignment="center"
-                                   android:textSize="@dimen/default_font_size" />
-                           </com.google.android.material.textfield.TextInputLayout>
-
-
-                       </LinearLayout>
-
-
-                   </androidx.cardview.widget.CardView>
-
-
-
-
-               </RelativeLayout>
-
-           </com.google.android.material.card.MaterialCardView>
-
-
+           android:textStyle="bold" />
            <androidx.appcompat.widget.SwitchCompat
                android:id="@+id/setAlarm"
                android:layout_width="match_parent"
@@ -161,25 +49,9 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                android:visibility="invisible"
-               app:layout_constraintTop_toBottomOf="@+id/mainCardView" />
+         />
 
-       <Button
-           android:id="@+id/selecttimebtn"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_below="@id/mainCardView"
-           android:layout_alignParentRight="true"
-           android:layout_marginHorizontal="20dp"
-           android:layout_marginTop="@dimen/grid_10"
-           android:layout_marginBottom="@dimen/grid_10"
-           android:backgroundTint="@color/primary"
-           android:fontFamily="@font/reemkufi_medium"
-           android:onClick="buttonClick"
-           android:padding="@dimen/grid_10"
-           android:src="@drawable/ic_right"
-           android:text="SET"
-           android:textSize="@dimen/default_font_size"
-           app:tint="@color/white" />
+
 
 
 
