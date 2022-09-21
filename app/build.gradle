@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.maths.beyond_school_280720220930"
-        minSdk 21
-        targetSdk 31
+        minSdk 26
+        targetSdk 33
         versionCode 12
         versionName "1.12"
 

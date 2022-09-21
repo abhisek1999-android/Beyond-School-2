@@ -244,6 +244,24 @@ public final class UtilityFunctions {
         }
     }
 
+    public static String getIntroForGrammar(Context context, String category) {
+        var intro = "";
+        if (context.getString(R.string.grammar_1).equals(category))
+            intro = "Let’s learn how to identify nouns in a sentence." +
+                    "Go through each word and see," +
+                    "if it's a person, place, thing, or an emotion or idea.";
+        else if (context.getString(R.string.grammar_2).equals(category))
+            intro = "Some nouns have irregular plural forms. " +
+                    "They turn into different words. Let us memorize them.";
+        else if (context.getString(R.string.grammar_3).equals(category))
+            intro = "Lets practice to identify some common and proper nouns";
+        else if (context.getString(R.string.grammar_4).equals(category))
+            intro = "Let us learn how to identify verbs in a sentence. ";
+        else intro = "Let us learn how to identify Present tense in verbs verbs in a sentence. ";
+
+        return intro;
+    }
+
 
     public static String getQuestionTitleVocabulary(VocabularyCategories categories) {
         switch (categories) {

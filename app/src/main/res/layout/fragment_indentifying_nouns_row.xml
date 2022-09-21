@@ -87,49 +87,21 @@
                 app:lottie_rawRes="@raw/loading_english_image"
                 tools:visibility="visible" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_view_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/reemkufi_medium"
                 android:orientation="horizontal"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_spelling"
                 app:layout_constraintStart_toStartOf="@+id/image_view_spelling"
-                app:layout_constraintTop_toBottomOf="@+id/image_view_spelling">
+                app:layout_constraintTop_toBottomOf="@+id/image_view_spelling"
+                tools:text="This is Ayaan" />
 
-                <TextView
-                    android:id="@+id/text_view_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/grid_0_25"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:gravity="center"
-                    android:textIsSelectable="false"
-                    android:textSize="18sp"
-                    tools:text="This is a tall" />
 
-                <TextView
-                    android:id="@+id/text_view_noun_word"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/grid_0_25"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:gravity="center"
-                    android:textColor="@color/text_color"
-                    android:textIsSelectable="false"
-                    android:textSize="18sp"
-                    tools:text="Tree" />
-
-                <TextView
-                    android:id="@+id/text_view_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:gravity="center"
-                    android:textIsSelectable="false"
-                    android:textSize="18sp"
-                    android:layout_gravity="end"
-                    tools:text="." />
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
