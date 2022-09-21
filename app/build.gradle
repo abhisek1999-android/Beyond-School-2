@@ -11,8 +11,8 @@ android {
         applicationId "com.maths.beyond_school_280720220930"
         minSdk 26
         targetSdk 33
-        versionCode 12
-        versionName "1.12"
+        versionCode 14
+        versionName "1.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

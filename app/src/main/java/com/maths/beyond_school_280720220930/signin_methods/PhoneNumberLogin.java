@@ -1,15 +1,21 @@
 package com.maths.beyond_school_280720220930.signin_methods;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.telecom.TelecomManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,20 +42,23 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.HomeScreen;
-import com.maths.beyond_school_280720220930.KidsInfoActivity;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.Select_Sub_Activity;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
+import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.utils.AnimationUtil;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneNumberLogin extends AppCompatActivity {
@@ -57,6 +66,8 @@ public class PhoneNumberLogin extends AppCompatActivity {
     private ActivityPhoneNumberLoginBinding binding;
 
     private String[] array;
+    private String[] arrayGrades;
+    private ArrayAdapter adapterGrades;
     // variable for FirebaseAuth class
     private FirebaseAuth mAuth;
     // string for storing our verification ID
@@ -67,6 +78,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
     private TelecomManager telecomManager;
     private int CREDENTIAL_PICKER_REQUEST = 1;
+    private AlarmDialogBinding alarmDialogBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +141,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                     // if OTP field is not empty calling
                     // method to verify the OTP.
                     verifyCode(binding.idEdtOtp.getText().toString());
+                    closeKeyboard();
                 }
             }
         });
@@ -137,6 +150,24 @@ public class PhoneNumberLogin extends AppCompatActivity {
         phoneSelection();
     }
 
+    private void closeKeyboard()
+    {
+        // this will give us the view
+        // which is currently focus
+        // in this layout
+        View view = this.getCurrentFocus();
+
+        // if nothing is currently
+        // focus then this will protect
+        // the app from crash
+        if (view != null) {
+
+            // now assign the system
+            // service to InputMethodManager
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     private void phoneSelection() {
         // To retrieve the Phone Number hints, first, configure
@@ -371,18 +402,21 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
-                                        var i = new Intent(getApplicationContext(), HomeScreen.class);
-                                        startActivity(i);
-                                        finish();
+
+
+                                        displaySetEventDialog();
+
                                         break;
                                     }
                                 }catch (Exception e){
                                     CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
-                                    var i = new Intent(getApplicationContext(), HomeScreen.class);
-                                    startActivity(i);
-                                    finish();
+                                    try {
+                                        displaySetEventDialog();
+                                    } catch (ParseException ex) {
+                                        ex.printStackTrace();
+                                    }
                                     break;
                                 }
 
@@ -395,6 +429,55 @@ public class PhoneNumberLogin extends AppCompatActivity {
         }
 
 
+    }
+
+    private void displaySetEventDialog() throws ParseException {
+
+
+            final AlertDialog.Builder alert = new AlertDialog.Builder(PhoneNumberLogin.this);
+            View mView = getLayoutInflater().inflate(R.layout.alarm_dialog, null);
+             alarmDialogBinding =AlarmDialogBinding.bind(mView);
+
+            alert.setView(mView);
+            final AlertDialog alertDialog = alert.create();
+            alertDialog.setCancelable(true);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+
+        arrayGrades = getResources().getStringArray(R.array.time_slots);
+        adapterGrades = new ArrayAdapter(this, R.layout.list_item, arrayGrades);
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) alarmDialogBinding.extraInclude.textInputLayoutTimer.getEditText());
+        editText.setAdapter(adapterGrades);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+           alarmDialogBinding.extraInclude.kidsGrade.setText(alarmDialogBinding.extraInclude.kidsGrade.getAdapter().getItem(0).toString(), false);
+        }
+
+        alarmDialogBinding.extraInclude.selecttimebtn.setOnClickListener(v->{
+            try {
+                UtilityFunctions.setEvent(PhoneNumberLogin.this,alarmDialogBinding.extraInclude.textInputLayoutTimer);
+                var i = new Intent(getApplicationContext(), HomeScreen.class);
+                startActivity(i);
+                finish();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+            try {
+                alertDialog.show();
+            } catch (Exception e) {
+
+            }
+
+            alarmDialogBinding.closeButton.setOnClickListener(v -> {alertDialog.dismiss();
+                var i = new Intent(getApplicationContext(), HomeScreen.class);
+                startActivity(i);
+                finish();
+            });
     }
 
 

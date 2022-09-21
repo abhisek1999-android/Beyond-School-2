@@ -112,13 +112,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private int kidsAge=0;
     Observable observable;
     private LinearLayout addAnimLayout,finalView;
-
+    private TextView descTextView, finalText;
 
     private int num=0;
     private List<ProgressM> progressData;
     private long timeSpend=0;
     private ProgressDataBase progressDataBase;
-    private TextView descTextView, finalText;
+
     public static final int TIMER_VALUE = 15;
     EditText ans;
     private View separator;
@@ -975,8 +975,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             tts.initialize(UtilityFunctions.getCompliment(true), LearningActivity.this);
             mediaPlayer.start();
             //TODO: PLACE CORRECT KIDS DATA
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, true, (int) (endTime - startTime),
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+                    "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, true, (int) (endTime - startTime),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
             DELAY_ON_STARTING_STT = 500;
@@ -1000,8 +1000,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             } else {
                 //TODO: PLACE CORRECT KIDS DATA
                 tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
-                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                        "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, false, (int) (endTime - startTime),
+                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+                        "Mathematics-Practice-" + subject,kidsAge, currentAnswer + "", result, false, (int) (endTime - startTime),
                         currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
                 logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
                 DELAY_ON_STARTING_STT = 1800;
@@ -1124,16 +1124,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         descTextView.setText(initText);
         ttsHelperAnim.initialize(initText,LearningActivity.this);
-
-
-
-
-
 //        ttsHelperAnim.initialize(animMath.get(0).getDescription(),LearningActivity.this);
 //        animHandel(animMath.get(0).getAnswer());
-
-
-
 
         try {
             alertDialog.show();
@@ -1177,8 +1169,6 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             finalView.startAnimation(slideRightAnim);
             finalText.setText(answer.split("_")[2]);
         }
-
-
     }
 
 

@@ -1,5 +1,7 @@
 package com.maths.beyond_school_280720220930.utils;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AnimationUtil {
@@ -136,9 +139,30 @@ public class AnimationUtil {
     }
 
 
+    public static List<AnimData> animGrammar(String grammarType){
+
+        List<AnimData> list=new ArrayList<>();
+
+        int len=grammarType.split(" ").length;
+        if (grammarType.split(" ")[len-1].toLowerCase(Locale.ROOT).equals("noun")){
+            list.add(new AnimData("Nouns are words for people,places, or things. eg. girl, doctor, office, town, bag, shirt.","none","none"));
+            list.add(new AnimData("An idea or feeling can also be a noun. They are called Abstract nouns as we cannot see or touch them. example - Happiness, sad, friendship, respect.","",""));
+            list.add(new AnimData("Plural nouns describe more than one person, place, or thing. eg. car → cars, pen → pens, man → men, orange → oranges.","none","none"));
+        }
+        else if(grammarType.split(" ")[len-1].toLowerCase(Locale.ROOT).equals("verb")){
+
+            list.add(new AnimData("A verb is a word that shows action. Example → eat, run, dance, sing, play, read, write, is, am, are, was, were etc. Let’s see how they are used in a sentence. eg. David swims in water. ‘swim’ is the verb here." +
+                    " Now, Speak and tell what is the verb here? OR It’s your turn to find the verb, Speak to answer.","",""));
+
+        }
+        return list;
+    }
 
 
 
+
+
+    @SuppressLint("SuspiciousIndentation")
     public static   List<AnimData> performSubtraction(int num1, int num2){
 
         List<AnimData> list=new ArrayList<>();

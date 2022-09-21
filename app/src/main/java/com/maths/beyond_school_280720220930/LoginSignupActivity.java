@@ -1,9 +1,15 @@
 package com.maths.beyond_school_280720220930;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +35,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     List<String> en1, en2, en4;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
+    private int REQUEST_CALENDER_ACCESS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +56,36 @@ public class LoginSignupActivity extends AppCompatActivity {
             finish();
         });
 
+        checkCalenderPermission();
+
         if (mUser != null) {
             checkUserAlreadyAvailable();
         }
 
+
+    }
+
+    private void checkCalenderPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
+            if (ContextCompat.checkSelfPermission(this, String.valueOf(new String[]{Manifest.permission.WRITE_CALENDAR,Manifest.permission.READ_CALENDAR})) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR,Manifest.permission.READ_CALENDAR}, REQUEST_CALENDER_ACCESS);
+            }
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        if (requestCode == REQUEST_CALENDER_ACCESS) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                checkCalenderPermission();
+            }
+        }
 
     }
 
