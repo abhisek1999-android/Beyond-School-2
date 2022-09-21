@@ -34,6 +34,10 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         this.textRangeListener = textRangeListener;
     }
 
+    public boolean getTextRanceListener() {
+        return sentence != null;
+    }
+
     public TextToSpeckConverter(ConversionCallback callback) {
         this.conversionCallaBack = callback;
     }
