@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
     app:layout_collapseMode="pin"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
     <ImageView
@@ -27,8 +27,8 @@
         android:fontFamily="@font/reemkufi_medium"
         android:minHeight="0dp"
         android:padding="0dp"
-        android:textSize="22sp"
-        android:text="Beyond School" />
+        android:text="Beyond School"
+        android:textSize="22sp" />
 
 
     <ImageView
