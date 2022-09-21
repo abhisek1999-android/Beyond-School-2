@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.grammar.fragments.IndentificationNoun.sub_fragment;
+package com.maths.beyond_school_280720220930.english_activity.grammar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -28,13 +28,6 @@ public class RowItemFragment extends Fragment {
         this.grammarModel = grammarModel;
     }
 
-    private SentenceButtonClick listener = null;
-
-
-    public void setSentenceButtonClick(SentenceButtonClick listener) {
-        this.listener = listener;
-    }
-
     private FragmentIndentifyingNounsRowBinding binding;
 
     @Override
@@ -56,20 +49,19 @@ public class RowItemFragment extends Fragment {
 
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//            Objects.requireNonNull(identifyingNounsFragment).restartEngine();
+            if (activity != null) {
+                activity.restartEngine();
+            }
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//            Objects.requireNonNull(identifyingNounsFragment).restartEngine();
+            if (activity != null) {
+                activity.restartEngine();
+            }
         });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(pos),
                         String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
-    }
-
-
-    public interface SentenceButtonClick {
-        void onSentenceButtonClick(int pos);
     }
 }

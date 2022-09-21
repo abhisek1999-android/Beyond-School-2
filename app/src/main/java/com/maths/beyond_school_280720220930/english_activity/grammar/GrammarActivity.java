@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,6 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarBinding;
-import com.maths.beyond_school_280720220930.english_activity.grammar.fragments.IndentificationNoun.sub_fragment.RowItemFragment;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -27,6 +27,7 @@ import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,7 @@ public class GrammarActivity extends AppCompatActivity {
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
     private MediaPlayer mediaPlayer = null;
+    private ButtonClick listener = null;
 
     private final int REQUEST_INTRO = 44 * 2;
 
@@ -79,17 +81,38 @@ public class GrammarActivity extends AppCompatActivity {
         var pagerAdapter = new EnglishViewPager(fragmentList, getSupportFragmentManager(), getLifecycle());
         binding.viewPagerIdentifyingNouns.setAdapter(pagerAdapter);
         setIntro();
-        setButtons();
-        setVisibilityOfLinearLayout(true);
+        setButton();
+        setOptionButtonClick();
+    }
+
+    private void setButton() {
+        binding.playPause.setOnClickListener(v -> {
+            if (binding.playPause.isChecked()) {
+                initTTS();
+                startSpeaking();
+            } else
+                destroyEngine();
+        });
     }
 
 
     private void setIntro() {
+        initTTS();
         playPauseAnimation(true);
         setToggleButtonChecked(true);
         helperTTS(UtilityFunctions.getIntroForGrammar(context, category)
                 , false
                 , REQUEST_INTRO
+        );
+    }
+
+    private void startSpeaking() {
+        var currentModel = grammarModelList.
+                get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+        tts.initialize(UtilityFunctions.getQuestionForGrammar(context
+                        , currentModel,
+                        category)
+                , this
         );
     }
 
@@ -100,8 +123,11 @@ public class GrammarActivity extends AppCompatActivity {
             tts = task.execute(new ConversionCallback() {
                 @Override
                 public void onCompletion() {
-
-
+                    setOptionButton();
+                    setVisibilityOfLinearLayout(true);
+                    playPauseAnimation(false);
+                    checkAnswer();
+                    Log.d("XXX", "onCompletion: Called ");
                 }
 
                 @Override
@@ -120,13 +146,44 @@ public class GrammarActivity extends AppCompatActivity {
         }
     }
 
+    private void checkAnswer() {
+        var currentModel = grammarModelList.
+                get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+        var currentAnswer = currentModel.getWord()
+                .toLowerCase(Locale.ROOT).trim();
+        listener = text -> {
+            Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
+            if (text.equals(currentAnswer)) {
+                playPauseAnimation(true);
+                helperTTS(
+                        UtilityFunctions.getCompliment(true)
+                        , true
+                        , 0
+                );
+            } else {
+                playPauseAnimation(true);
+                tts.initialize(UtilityFunctions.getCompliment(false)
+                        , this);
+            }
+        };
+    }
+
     private void helperTTS(String message, boolean canNavigate, int request) {
         try {
             ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
                         @Override
                         public void onCompletion() {
-
-
+                            if (!canNavigate && request == REQUEST_INTRO) {
+                                startSpeaking();
+                                return;
+                            }
+                            if (canNavigate) {
+                                binding.viewPagerIdentifyingNouns
+                                        .setCurrentItem(binding
+                                                .viewPagerIdentifyingNouns.getCurrentItem() + 1);
+                                setVisibilityOfLinearLayout(false);
+                                startSpeaking();
+                            }
                         }
 
                         @Override
@@ -163,29 +220,49 @@ public class GrammarActivity extends AppCompatActivity {
         });
     }
 
-    private void setButtons() {
-        var currentModel = grammarModelList.
-                get(binding.viewPagerIdentifyingNouns
-                        .getCurrentItem());
-        var extra = currentModel.getExtra();
-        var split = extra.split(",");
-        if (split.length <= 1) {
-            UtilityFunctions.simpleToast(context, "No data found");
-            return;
-        }
-        if (split.length == 2) {
-            binding.key1.setText(split[0]);
-            binding.key2.setText(split[1]);
-            binding.key3.setVisibility(View.GONE);
-            binding.linearLayout.setWeightSum(2);
-        }
-        if (split.length == 3) {
-            binding.key1.setText(split[0]);
-            binding.key2.setText(split[1]);
-            binding.key3.setText(split[2]);
-            binding.linearLayout.setWeightSum(3);
-            binding.key3.setVisibility(View.VISIBLE);
-        }
+    private void setOptionButton() {
+        UtilityFunctions.runOnUiThread(() -> {
+            var currentModel = grammarModelList.
+                    get(binding.viewPagerIdentifyingNouns
+                            .getCurrentItem());
+            var extra = currentModel.getExtra();
+            var split = extra.split(",");
+            if (split.length <= 1) {
+                UtilityFunctions.simpleToast(context, "No data found");
+                return;
+            }
+            if (split.length == 2) {
+                binding.key1.setText(split[0]);
+                binding.key2.setText(split[1]);
+                binding.key3.setVisibility(View.GONE);
+                binding.linearLayout.setWeightSum(2);
+            }
+            if (split.length == 3) {
+                binding.key1.setText(split[0]);
+                binding.key2.setText(split[1]);
+                binding.key3.setText(split[2]);
+                binding.linearLayout.setWeightSum(3);
+                binding.key3.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void setOptionButtonClick() {
+        binding.key1.setOnClickListener(v -> {
+            if (listener != null)
+                listener.onClick(binding.key1.getText().toString()
+                        .toLowerCase(Locale.ROOT).trim());
+        });
+        binding.key2.setOnClickListener(v -> {
+            if (listener != null)
+                listener.onClick(binding.key2.getText().toString()
+                        .toLowerCase(Locale.ROOT).trim());
+        });
+        binding.key3.setOnClickListener(v -> {
+            if (listener != null)
+                listener.onClick(binding.key3.getText().toString()
+                        .toLowerCase(Locale.ROOT).trim());
+        });
     }
 
 
@@ -252,8 +329,18 @@ public class GrammarActivity extends AppCompatActivity {
         destroyEngine();
     }
 
+    public void restartEngine() {
+        destroyEngine();
+        initTTS();
+        startSpeaking();
+        setToggleButtonChecked(true);
+        playPauseAnimation(true);
+        setVisibilityOfLinearLayout(false);
+    }
+
     public void destroyEngine() {
         playPauseAnimation(false);
+        setToggleButtonChecked(false);
         if (tts != null) {
             tts.destroy();
         }
@@ -263,5 +350,9 @@ public class GrammarActivity extends AppCompatActivity {
         if (ttsHelper != null) {
             ttsHelper.destroy();
         }
+    }
+
+    interface ButtonClick {
+        void onClick(String text);
     }
 }

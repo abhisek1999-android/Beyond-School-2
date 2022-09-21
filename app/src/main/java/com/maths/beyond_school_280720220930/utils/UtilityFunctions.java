@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +27,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
@@ -257,9 +257,35 @@ public final class UtilityFunctions {
             intro = "Lets practice to identify some common and proper nouns";
         else if (context.getString(R.string.grammar_4).equals(category))
             intro = "Let us learn how to identify verbs in a sentence. ";
-        else intro = "Let us learn how to identify Present tense in verbs verbs in a sentence. ";
+        else intro = "Let us learn how to identify Present tense in verbs in a sentence. ";
 
         return intro;
+    }
+
+    public static String getQuestionForGrammar(Context context, GrammarModel grammarModel, String category) {
+        var question = "";
+        if (context.getString(R.string.grammar_1).equals(category))
+            question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is noun here."
+                    + "Now It's your turn to Click on the noun to identify it";
+        else if (context.getString(R.string.grammar_2).equals(category))
+            question = grammarModel.getDescription().replace("→", ",")
+                    + "..." + "'" + "Now It's your turn to Click on " +
+                    "the plural form to identify it";
+        else if (context.getString(R.string.grammar_3).equals(category)) {
+            var list = new String[]{"Tell me which noun is this?",
+                    "Please answer which noun is this ?"};
+            question = "'" + grammarModel.getWord() + "' ."
+                    + grammarModel.getDescription() + "..." +
+                    UtilityFunctions.getRandomItem(list);
+        } else if (context.getString(R.string.grammar_4).equals(category))
+            question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is verb here."
+                    + "Now It's your turn to Click on the verb to identify it";
+        else question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is Present tense verb here."
+                    + "Now It's your turn to Click on the Present tense verb to identify it";
+        return question;
     }
 
 
@@ -604,7 +630,6 @@ public final class UtilityFunctions {
         return (char) (r.nextInt(26) + 'a');
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
         if (filterList.size() > 0) {
@@ -715,7 +740,6 @@ public final class UtilityFunctions {
 
 
     // Format milisec to h: m: s
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String formatTime(long diff) {
 
 
@@ -729,7 +753,6 @@ public final class UtilityFunctions {
 
 
     // Calculates the age of kids
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int calculateAge(String inputDate) {
 
         LocalDate curDate = LocalDate.now();
@@ -785,19 +808,13 @@ public final class UtilityFunctions {
     }
 
     public void setStatusBarTransparent(Context mContext) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = ((Activity) mContext).getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        Window window = ((Activity) mContext).getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-            View decorView = window.getDecorView();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            }
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        View decorView = window.getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        window.setStatusBarColor(Color.TRANSPARENT);
     }
 
 

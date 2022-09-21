@@ -92,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/reemkufi_medium"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:textColor="@color/text_color"
                 android:textSize="18sp"
