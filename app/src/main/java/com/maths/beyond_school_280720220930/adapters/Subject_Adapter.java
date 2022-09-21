@@ -1,6 +1,5 @@
 package com.maths.beyond_school_280720220930.adapters;
 
-import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_EXPRESSION_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 
 import android.content.Context;
@@ -21,14 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.english_activity.expression.ExpressionActivity;
-import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,6 +65,8 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             finalString = val.replace("Vocabulary", "").replace("_", " ");
         } else if (val.contains("Spelling")) {
             finalString = val.replace("Spelling", "");
+        } else if (val.contains("Grammar")) {
+            finalString = val.replace("Grammar", "");
         } else {
             finalString = val;
         }
@@ -77,65 +77,52 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                if (subject_model.isIs_locked()) {
+//                if (subject_model.isIs_locked()) {
 //                    needs to be intent values
-                    if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
-                        Intent intent = new Intent(context, EnglishActivity.class);
-                        Log.d("EnglishActivityXXX", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
-                        intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary","").trim().toLowerCase(Locale.ROOT)).name());
-                        context.startActivity(intent);
-                        // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
-                    } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
-                        Log.d("XXX", "onClick :subject adapter :-  " + UtilityFunctions.getSpellingsFromString(val).name() + " " + val);
-                        var intent = new Intent(context, EnglishSpellingActivity.class);
-                        intent.putExtra(EXTRA_SPELLING_DETAIL, val);
-                        context.startActivity(intent);
-                    }
+                if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
+                    Intent intent = new Intent(context, EnglishActivity.class);
+                    Log.d("EnglishActivityXXX", "onClick: " + val.replace("Vocabulary", "").trim().toLowerCase() + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
+                    intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary", "").trim().toLowerCase(Locale.ROOT)).name());
+                    context.startActivity(intent);
+                    // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
+                } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
 
-                    else if (res[0].toLowerCase(Locale.ROOT).equals("expression")) {
-
-                        Log.d("XXX", "onBindViewHolder: " + val + " U " + UtilityFunctions.getExpressionFromString(val).name());
-                        var intent = new Intent(context, ExpressionActivity.class);
-                        intent.putExtra(EXTRA_EXPRESSION_DETAIL, val);
-                        context.startActivity(intent);
-                    }
-                    else {
-
-
-                        if (!res[0].equals("Multiplication")) {
-                            multiplicationOption.multiplicationSelected();
-                            Intent intent = new Intent(context, LearningActivity.class);
-                            intent.putExtra("selected_sub", val);
-                            intent.putExtra("subject", res[res.length - 1].toLowerCase());
-                            intent.putExtra("max_digit", res[0]);
-                            intent.putExtra("video_url", subject_model.getUrl());
-                            context.startActivity(intent);
-                        } else {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            intent.putExtra("selected_sub", val);
-                            intent.putExtra("subject", res[0].toLowerCase());
-                            intent.putExtra("max_digit", res[3]);
-                            intent.putExtra("video_url", subject_model.getUrl());
-                            context.startActivity(intent);
-
-                        }
-
-
-                    }
+                    var intent = new Intent(context, SpellingActivity.class);
+                    intent.putExtra(EXTRA_SPELLING_DETAIL, val);
+                    context.startActivity(intent);
+                } else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
+                    Intent intent = new Intent(context, GrammarActivity.class);
+                    intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, val);
+                    context.startActivity(intent);
                 } else {
 
-                    UtilityFunctions.displayCustomDialog(context, "Chapter Locked", "Hey, Please complete previous level to unlock.");
+
+                    if (!res[0].equals("Multiplication")) {
+                        multiplicationOption.multiplicationSelected();
+                        Intent intent = new Intent(context, LearningActivity.class);
+                        intent.putExtra("selected_sub", val);
+                        intent.putExtra("subject", res[res.length - 1].toLowerCase());
+                        intent.putExtra("max_digit", res[0]);
+                        intent.putExtra("video_url", subject_model.getUrl());
+                        context.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("selected_sub", val);
+                        intent.putExtra("subject", res[0].toLowerCase());
+                        intent.putExtra("max_digit", res[3]);
+                        intent.putExtra("video_url", subject_model.getUrl());
+                        context.startActivity(intent);
+
+                    }
 
 
                 }
+//                } else {
 //
-//                Toast.makeText(context, res[0], Toast.LENGTH_SHORT).show();
+//                    UtilityFunctions.displayCustomDialog(context, "Chapter Locked", "Hey, Please complete previous level to unlock.");
 //
 //
-//                Toast.makeText(context, res[res.length - 1], Toast.LENGTH_SHORT).show();
-//                //this is url
-//                Toast.makeText(context, subject_model.getUrl(), Toast.LENGTH_SHORT).show();
-
+//                }
             }
         });
 

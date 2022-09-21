@@ -17,9 +17,25 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
     private ConversionCallback conversionCallaBack = null;
     private String sentence = null;
     private TextRangeListener textRangeListener = null;
+    private float defaultPitch = 0.8f;
+    private float defaultSpeed = 0.8f;
+
+    public void setPitchAndSpeed(float pitch, float speed) {
+        defaultPitch = pitch;
+        defaultSpeed = speed;
+    }
+
+    public void resetPitchAndSpeed() {
+        defaultPitch = 0.8f;
+        defaultSpeed = 0.8f;
+    }
 
     public void setTextRangeListener(TextRangeListener textRangeListener) {
         this.textRangeListener = textRangeListener;
+    }
+
+    public boolean getTextRanceListener() {
+        return sentence != null;
     }
 
     public TextToSpeckConverter(ConversionCallback callback) {
@@ -39,8 +55,8 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         textToSpeech = new TextToSpeech(appContext, status -> {
             if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(new Locale("en", PrefConfig.readIdInPref(appContext, "Country_code")));
-                textToSpeech.setPitch(0.8f);
-                textToSpeech.setSpeechRate(0.8f);
+                textToSpeech.setPitch(defaultPitch);
+                textToSpeech.setSpeechRate(defaultSpeed);
 
 
                 textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -130,9 +146,11 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
         if (textToSpeech != null) {
             Log.d("TAG", "destroy: destroying TTS");
             conversionCallaBack = null;
-            try{
-            textToSpeech.shutdown();
-            textToSpeech.stop();}catch (Exception e){}
+            try {
+                textToSpeech.shutdown();
+                textToSpeech.stop();
+            } catch (Exception e) {
+            }
 
         }
     }

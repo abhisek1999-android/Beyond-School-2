@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.database.english.vocabulary;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
@@ -8,6 +9,7 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 
 import java.util.ArrayList;
 
+@Keep
 public abstract class VocabularyList {
 
 

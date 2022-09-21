@@ -218,6 +218,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         tts.initialize("Tap the play button to start the test , you can speak and write answer in the answer box", AdditionActivity.this);
 
+     //   binding.animWoman.playAnimation();
         // play();
 
     }
@@ -300,6 +301,7 @@ public class AdditionActivity extends AppCompatActivity {
         tts = TextToSpeechBuilder.builder(new ConversionCallback() {
             @Override
             public void onCompletion() {
+
                 if (isCallSTT && isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
@@ -312,6 +314,7 @@ public class AdditionActivity extends AppCompatActivity {
                         binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
+               // binding.animWoman.pauseAnimation();
             }
 
             @Override
@@ -395,6 +398,7 @@ public class AdditionActivity extends AppCompatActivity {
     private void successResultCalling(String result) throws JSONException {
 
         endTime = new Date().getTime();
+        isAnswered=true;
 
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
@@ -676,6 +680,7 @@ public class AdditionActivity extends AppCompatActivity {
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
             binding.animWoman.playAnimation();
+            isNewQuestionGenerated = true;
         }
 
 
@@ -706,8 +711,11 @@ public class AdditionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         isCallTTS = true;
+        isNewQuestionGenerated = true;
+        isAnswered = false;
         initSTT();
         initTTS();
+
     }
 
     private void checkLogIsEnable() {

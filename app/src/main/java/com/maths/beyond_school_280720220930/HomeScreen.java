@@ -18,12 +18,22 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.navigation.NavigationView;
@@ -59,13 +69,13 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<Grades_data> subMathsData;
     private List<Grades_data> subEngData;
     private SubjectRecyclerAdapter subjectRecyclerAdapter;
-    String[] math = {"Addition", "Subtraction","Multiplication Tables","Division"};
-    String[] eng ={"Vocabulary", "Spelling"};
+    String[] math = {"Addition", "Subtraction", "Multiplication Tables", "Division"};
+    String[] eng = {"Vocabulary", "Spelling", "Grammar"};
     private List<SubSubject> subMathList;
     private List<SubSubject> subEngList;
     private List<SectionSubSubject> sectionList;
-    private int[] resMath={R.drawable.ic_addition,R.drawable.ic_sub,R.drawable.ic_mul,R.drawable.ic_division};
-    private int[] resEng={R.drawable.ic_vocab,R.drawable.ic_spell,};
+    private int[] resMath = {R.drawable.ic_addition, R.drawable.ic_sub, R.drawable.ic_mul, R.drawable.ic_division};
+    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.ic_spell};
 
     private String[] tableList;
     private SectionSubSubjectRecyclerAdapter sectionSubSubjectRecyclerAdapter;
@@ -78,6 +88,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<String> chapterListEng;
     private List<String> chapterListMath;
     private CustomProgressDialogue customProgressDialogue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +147,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         AppEventsLogger logger = AppEventsLogger.newLogger(this);
         logger.logEvent("AppOpened");
     }
+
     private void checkAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -168,61 +180,56 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         subEngList.clear();
         sectionList.clear();
 
-        for (int i=0;i<math.length;i++){
-            int total=UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i].split(" ")[0],true).size();
-            int completed=UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i],false).size();
-            if (!math[i].equals("Multiplication Tables")){
-            subMathList.add(new SubSubject(math[i],total,completed,resMath[i]));
-            }
-            else{
-                Log.i("Mul_Data",total+","+UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i].split(" ")[0],false));
-                int mulUpto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                total=Integer.parseInt(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,math[i].split(" ")[0],true).get(total-1).chapter.split(" ")[3]);
-                if (mulUpto==1)
-                     subMathList.add(new SubSubject(math[i],total,0,resMath[i]));
+        for (int i = 0; i < math.length; i++) {
+            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
+            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
+            if (!math[i].equals("Multiplication Tables")) {
+                subMathList.add(new SubSubject(math[i], total, completed, resMath[i]));
+            } else {
+                Log.i("Mul_Data", total + "," + UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], false));
+                int mulUpto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
+                total = Integer.parseInt(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).get(total - 1).chapter.split(" ")[3]);
+                if (mulUpto == 1)
+                    subMathList.add(new SubSubject(math[i], total, 0, resMath[i]));
                 else
-                    subMathList.add(new SubSubject(math[i],total,mulUpto,resMath[i]));
+                    subMathList.add(new SubSubject(math[i], total, mulUpto, resMath[i]));
             }
         }
 
-        sectionList.add(new SectionSubSubject("Mathematics",subMathList));
+        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
 
-
-        for (int i=0;i<eng.length;i++){
-
-            int total=UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,eng[i],true).size();
-            int completed=UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,eng[i],false).size();
-            subEngList.add(new SubSubject(eng[i],total,completed,resEng[i]));
+        for (int i = 0; i < eng.length; i++) {
+            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], true).size();
+            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
+            subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
         }
 
-        sectionList.add(new SectionSubSubject("English",subEngList));
+        sectionList.add(new SectionSubSubject("English", subEngList));
 
 
-        final AlertDialog.Builder alert=new AlertDialog.Builder(HomeScreen.this);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeScreen.this);
         View mView = getLayoutInflater().inflate(R.layout.progress_report_dialog, null);
 
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        RecyclerView progressView=mView.findViewById(R.id.progressRecyclerView);
-        ImageView closeButton=  mView.findViewById(R.id.closeButton);
+        RecyclerView progressView = mView.findViewById(R.id.progressRecyclerView);
+        ImageView closeButton = mView.findViewById(R.id.closeButton);
 
 
-        progressView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-        sectionSubSubjectRecyclerAdapter=new SectionSubSubjectRecyclerAdapter(sectionList,HomeScreen.this,alertDialog);
+        progressView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, HomeScreen.this, alertDialog);
         progressView.setAdapter(sectionSubSubjectRecyclerAdapter);
 
 
-
-
-        try{
+        try {
             alertDialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
-        closeButton.setOnClickListener(v->alertDialog.dismiss());
+        closeButton.setOnClickListener(v -> alertDialog.dismiss());
 
     }
 
@@ -249,8 +256,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
             mCurrentUser = null;
-            PrefConfig.writeIdInPref(getApplicationContext(),"",getResources().getString(R.string.kids_id));
-           Intent intent= new Intent(getApplicationContext(), SplashScreen.class);
+            PrefConfig.writeIdInPref(getApplicationContext(), "", getResources().getString(R.string.kids_id));
+            Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
             startActivity(intent);
             finish();
         });
@@ -507,32 +514,39 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             int l_index=0;
 
-            for (int i=startIndex;i<startIndex+2;i++)
-            {
+            for (int i = startIndex; i < startIndex + 2; i++) {
+               //TODO:try catch needed
 
-                if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
-                    try{
-                        if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
-                            Log.i("Data_chap",chapterListMath+"");
-                            Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
-                            subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
+                try{
+
+                    if (!chapterListMath.get(l_index).contains("Multiplication Tables")) {
+                        try {
+                            if (UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true) != null) {
+                                Log.i("Data_chap", chapterListMath + "");
+                                Log.i("DATA", UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true) + "");
+                                subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true).get(0));
 
                         }
 
-                    }catch (Exception e){}
+                        }catch (Exception e){
+                    }
 
-                }
-                else{
+                    } else {
 
-                    try{
-                        int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                        if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
-                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
-                        else
-                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));}
-                    catch (Exception e){}
-                }
+                        try{
+                            int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+                            if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
+                            else
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));
+                        } catch (Exception e) {
+                    }
+                    }
                 l_index++;
+
+
+                }catch (Exception e){}
+
 
             }
 

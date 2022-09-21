@@ -45,13 +45,82 @@
             android:textSize="18sp"
             tools:text="@string/guess_the_word" />
 
+        <RelativeLayout
+            android:id="@+id/time_spend"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/text_view_guess_question"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/light_gray"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/timerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingHorizontal="@dimen/grid_10"
+                android:text="Time Spent"
+                android:textSize="@dimen/default_font_size" />
+
+            <ProgressBar
+                android:id="@+id/timerProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/roundbar"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/timerText"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/accent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timeText"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="-6dp"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Min"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager_test"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/playPause"
-            android:layout_below="@id/text_view_guess_question" />
+            android:layout_below="@id/time_spend" />
 
 
         <ToggleButton
@@ -62,8 +131,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_rect_button_bg"
             android:backgroundTint="@color/primary"
@@ -90,8 +157,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/image_view_teacher"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/grid_0_25"
-            android:layout_marginBottom="@dimen/grid_0_25"
             android:background="@drawable/round_rect_button_bg"
             android:backgroundTint="@color/green"
             android:orientation="horizontal">

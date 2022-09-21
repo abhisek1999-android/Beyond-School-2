@@ -1,16 +1,22 @@
 package com.maths.beyond_school_280720220930.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,12 +26,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.viewbinding.ViewBinding;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.AlarmAtTime;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
@@ -35,9 +44,11 @@ import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
+import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -50,6 +61,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
@@ -67,6 +79,7 @@ public final class UtilityFunctions {
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .timeout(10000)
                 .error(R.drawable.cartoon_image_1)
                 .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
                     @Override
@@ -85,35 +98,35 @@ public final class UtilityFunctions {
     }
 
 
-    public  static Map<String, List<String>> phonetics(){
+    public static Map<String, List<String>> phonetics() {
 
-        Map<String,List<String>> words=new HashMap<>();
-        words.put("a", Arrays.asList(new String[]{"a","ya","yay"}));
-        words.put("b", Arrays.asList(new String[]{"b","be","bee"}));
-        words.put("c", Arrays.asList(new String[]{"c","see","sea"}));
-        words.put("d", Arrays.asList(new String[]{"d","de","dee","thee"}));
-        words.put("e", Arrays.asList(new String[]{"e","ee","eh"}));
-        words.put("f", Arrays.asList(new String[]{"f","eff"}));
-        words.put("g", Arrays.asList(new String[]{"g","gee","jee"}));
-        words.put("h", Arrays.asList(new String[]{"h","aitch","itch","hedge","hatch","edge"}));
-        words.put("i", Arrays.asList(new String[]{"i","eye","aye"}));
-        words.put("j",Arrays.asList(new String[]{"j","jay", "je","joy"}));
-        words.put("k",Arrays.asList(new String[]{"k","kay", "ke"}));
-        words.put("l",Arrays.asList(new String[]{"l","ell", "yell","hell","el"}));
-        words.put("m", Arrays.asList(new String[]{"m","am","yam","em"}));
-        words.put("n", Arrays.asList(new String[]{"n","yen"}));
-        words.put("o",Arrays.asList(new String[]{"o","oh", "vow", "waw"}));
-        words.put("p",Arrays.asList(new String[]{"p","pee", "pay", "pie"}));
-        words.put("q",Arrays.asList(new String[]{"q","cue", "queue"}));
-        words.put("r",Arrays.asList(new String[]{"r","are", "err","year"}));
-        words.put("s",Arrays.asList(new String[]{"s","ess","es","ass", "yes","as"}));
-        words.put("t",Arrays.asList(new String[]{"t","tee", "tea","it","ti"}));
-        words.put("u",Arrays.asList(new String[]{"u","you"}));
-        words.put("v",Arrays.asList(new String[]{"v","vee", "wee"}));
-        words.put("w",Arrays.asList(new String[]{"w","double you"}));
-        words.put("x",Arrays.asList(new String[]{"x","ex", "aex"}));
-        words.put("y",Arrays.asList(new String[]{"y","why"}));
-        words.put("z",Arrays.asList(new String[]{"z","zed", "zee", "jed"}));
+        Map<String, List<String>> words = new HashMap<>();
+        words.put("a", Arrays.asList(new String[]{"a", "ya", "yay"}));
+        words.put("b", Arrays.asList(new String[]{"b", "be", "bee"}));
+        words.put("c", Arrays.asList(new String[]{"c", "see", "sea"}));
+        words.put("d", Arrays.asList(new String[]{"d", "de", "dee", "thee"}));
+        words.put("e", Arrays.asList(new String[]{"e", "ee", "eh"}));
+        words.put("f", Arrays.asList(new String[]{"f", "eff"}));
+        words.put("g", Arrays.asList(new String[]{"g", "gee", "jee"}));
+        words.put("h", Arrays.asList(new String[]{"h", "aitch", "itch", "hedge", "hatch", "edge"}));
+        words.put("i", Arrays.asList(new String[]{"i", "eye", "aye"}));
+        words.put("j", Arrays.asList(new String[]{"j", "jay", "je", "joy"}));
+        words.put("k", Arrays.asList(new String[]{"k", "kay", "ke"}));
+        words.put("l", Arrays.asList(new String[]{"l", "ell", "yell", "hell", "el"}));
+        words.put("m", Arrays.asList(new String[]{"m", "am", "yam", "em"}));
+        words.put("n", Arrays.asList(new String[]{"n", "yen"}));
+        words.put("o", Arrays.asList(new String[]{"o", "oh", "vow", "waw"}));
+        words.put("p", Arrays.asList(new String[]{"p", "pee", "pay", "pie"}));
+        words.put("q", Arrays.asList(new String[]{"q", "cue", "queue"}));
+        words.put("r", Arrays.asList(new String[]{"r", "are", "err", "year"}));
+        words.put("s", Arrays.asList(new String[]{"s", "ess", "es", "ass", "yes", "as"}));
+        words.put("t", Arrays.asList(new String[]{"t", "tee", "tea", "it", "ti"}));
+        words.put("u", Arrays.asList(new String[]{"u", "you"}));
+        words.put("v", Arrays.asList(new String[]{"v", "vee", "wee"}));
+        words.put("w", Arrays.asList(new String[]{"w", "double you"}));
+        words.put("x", Arrays.asList(new String[]{"x", "ex", "aex"}));
+        words.put("y", Arrays.asList(new String[]{"y", "why"}));
+        words.put("z", Arrays.asList(new String[]{"z", "zed", "zee", "jed"}));
         return words;
     }
 
@@ -171,6 +184,23 @@ public final class UtilityFunctions {
         }
         return sb.toString();
     }
+
+    public static String replace(String str, int index, char ch) {
+        char[] chars = str.toCharArray();
+        chars[index] = ch;
+        return new String(chars);
+    }
+
+    // Add space to each character of String accept end
+    public static String addSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length() - 1; i++) {
+            sb.append(s.charAt(i)).append(" ");
+        }
+        sb.append(s.charAt(s.length() - 1));
+        return sb.toString();
+    }
+
 
     public enum VocabularyCategories {
         bathroom_1,
@@ -299,6 +329,10 @@ public final class UtilityFunctions {
             default:
                 return getRandomItem(new String[]{"Name this object", "Can you identify this object?"});
         }
+    }
+
+    public static int getNinetyPercentage(int total) {
+        return (int) Math.floor(total * 0.9);
     }
 
     public static String getDbName(VocabularyCategories categories, Context context) {
@@ -452,8 +486,6 @@ public final class UtilityFunctions {
                 return VocabularyCategories.vegetables_1;
             case "vegetables_2":
                 return VocabularyCategories.vegetables_2;
-            case "animals_1":
-                return VocabularyCategories.animals_1;
             case "animals_2":
                 return VocabularyCategories.animals_2;
             case "cloth_1":
@@ -546,79 +578,24 @@ public final class UtilityFunctions {
         }
     }
 
-    public enum Spellings {
-        Most_Common_Words_1,
-        Most_Common_Words_2,
-        Words_with_short_a_sounds,
-        Words_with_L_blends,
-        Words_with_double_consonants,
-        Words_with_Long_o_sound,
-        Words_with_sh
-    }
 
-    public static Spellings getSpellingsFromString(String spelling) {
-        switch (spelling) {
-            case "Spelling Words with short ‘a’ sounds":
-                return Spellings.Words_with_short_a_sounds;
-            case "Spelling Words with ‘L’ blends":
-                return Spellings.Words_with_L_blends;
-            case "Spelling Words with double consonants":
-                return Spellings.Words_with_double_consonants;
-            case "Spelling Words with Long ‘o’ sound":
-                return Spellings.Words_with_Long_o_sound;
-            case "Spelling Words with ‘sh’":
-                return Spellings.Words_with_sh;
-            case "Spelling Most Common Words 2":
-                return Spellings.Most_Common_Words_2;
-            default:
-                return Spellings.Most_Common_Words_1;
+    // function to Shuffle array and return
+    public static ArrayList shuffleArray(ArrayList ar) {
+        Random rnd = new Random();
+        for (int i = ar.size() - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Object a = ar.get(index);
+            ar.set(index, ar.get(i));
+            ar.set(i, a);
         }
+        return ar;
     }
 
 
-    public enum Expression {
-        Introducing_Yourself,
-        Words_with_sh
-    }
-
-    public static Expression getExpressionFromString(String expression) {
-        switch (expression) {
-            case "Expression Introducing Yourself":
-                return Expression.Introducing_Yourself;
-            default:
-                return Expression.Words_with_sh;
-        }
-    }
-
-    public static String getDBNameSpelling(Spellings spellings, Context context) {
-        switch (spellings) {
-            case Most_Common_Words_1:
-                return context.getString(R.string.spelling1);
-            case Most_Common_Words_2:
-                return context.getString(R.string.spelling1_1);
-            case Words_with_short_a_sounds:
-                return context.getString(R.string.spelling2);
-            case Words_with_L_blends:
-                return context.getString(R.string.spelling3);
-            case Words_with_double_consonants:
-                return context.getString(R.string.spelling4);
-            case Words_with_Long_o_sound:
-                return context.getString(R.string.spelling5);
-            case Words_with_sh:
-                return context.getString(R.string.spelling6);
-            default:
-                return "";
-        }
-    }
-
-
-    public static String getDBNameExpression(Expression expression, Context context) {
-        switch (expression) {
-            case Introducing_Yourself:
-                return context.getString(R.string.expression1);
-            default:
-                return "";
-        }
+    public static char getRandomAlphabet() {
+        Random r = new Random();
+        return (char) (r.nextInt(26) + 'a');
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -969,16 +946,19 @@ public final class UtilityFunctions {
     }
 
 
-    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter) {
+    public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter, Boolean resultType) {
 
-        long correct=0;
+        long value = 0;
 
-        correct = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%"+chapter+ "%'"));
+        if (resultType)
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT correct FROM progressM where chapter LIKE '%" + chapter + "%'"));
+        else
+            value = progressDataBase.progressDao().correctValues(new SimpleSQLiteQuery("SELECT wrong FROM progressM where chapter LIKE '%" + chapter + "%'"));
 
         Log.i("CHAPTER", chapter);
-        Log.i("DB_DATA", correct + "");
+        Log.i("DB_DATA", value + "");
         try {
-            return correct;
+            return value;
         } catch (Exception e) {
 
             return 0;
@@ -1062,6 +1042,100 @@ public final class UtilityFunctions {
 
         hintDialog.show();
 
+    }
+
+
+    @SuppressLint("Range")
+    public static void setEvent(Context context, TextInputLayout textInputLayout) throws ParseException {
+
+
+        Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
+        try
+        {
+
+
+
+
+            PrefConfig.writeIdInPref(context,textInputLayout.getEditText().getText().toString(),context.getResources().getString(R.string.timer_time));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+            Date currDate=new Date();
+            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[0];
+            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[1];
+            //  String endTime="2023/08/12 06:30";
+            var eventID=0;
+            Calendar startCal = Calendar.getInstance();
+            startCal.setTime(formatter.parse(datetime));
+
+            Calendar endCal = Calendar.getInstance();
+            endCal.setTime(formatter.parse(endTime));
+            var eventdate = startCal.get(Calendar.YEAR)+"/"+startCal.get(Calendar.MONTH)+"/"+startCal.get(Calendar.DAY_OF_MONTH)+" "+startCal.get(Calendar.HOUR_OF_DAY)+":"+startCal.get(Calendar.MINUTE);
+            Log.e("event date",eventdate);
+            // provide CalendarContract.Calendars.CONTENT_URI to
+            // ContentResolver to query calendars
+
+            if (cur.moveToFirst())
+            {
+
+                if (isEventInCal(context,eventID+"")){
+                    return;
+                }
+                long calendarID=cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID));
+                ContentValues eventValues = new ContentValues();
+                eventValues.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
+                //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
+                eventValues.put(CalendarContract.Events.DURATION,  "+P30M");
+                eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
+                eventValues.put (CalendarContract.Events.CALENDAR_ID, calendarID);
+                eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
+                eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
+                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you.");
+                eventValues.put(CalendarContract.Events.ALL_DAY,false);
+                eventValues.put(CalendarContract.Events.HAS_ALARM,true);
+                eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
+                eventValues.put(CalendarContract.Events.CUSTOM_APP_URI, "myAppointment://1");
+
+                Uri eventUri = context.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, eventValues);
+                eventID = (int) ContentUris.parseId(eventUri);
+
+
+                ContentValues reminder = new ContentValues();
+                reminder.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                reminder.put(CalendarContract.Reminders.MINUTES, 5);
+
+                reminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                context.getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, reminder);
+
+                Toast.makeText(context, "Event Added", Toast.LENGTH_SHORT).show();
+                PrefConfig.writeIntInPref(context,(int)eventID,context.getResources().getString(R.string.calender_event_id));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.i("Error_Events",e.getMessage());
+        }
+        finally
+        {
+            if (cur != null)
+            {
+                cur.close();
+            }
+        }
+
+    }
+
+    public static boolean isEventInCal(Context context, String cal_meeting_id) {
+
+        Cursor cursor = context.getContentResolver().query(
+                Uri.parse("content://com.android.calendar/events"),
+                new String[] { "_id" }, " _id = ? ",
+                new String[] { cal_meeting_id }, null);
+
+        if (cursor.moveToFirst()) {
+            return true;
+        }
+        return false;
     }
 
 }
