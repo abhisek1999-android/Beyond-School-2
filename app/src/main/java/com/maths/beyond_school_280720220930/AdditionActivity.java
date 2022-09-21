@@ -398,6 +398,7 @@ public class AdditionActivity extends AppCompatActivity {
     private void successResultCalling(String result) throws JSONException {
 
         endTime = new Date().getTime();
+        isAnswered=true;
 
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
@@ -679,6 +680,7 @@ public class AdditionActivity extends AppCompatActivity {
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
             binding.animWoman.playAnimation();
+            isNewQuestionGenerated = true;
         }
 
 
@@ -709,8 +711,11 @@ public class AdditionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         isCallTTS = true;
+        isNewQuestionGenerated = true;
+        isAnswered = false;
         initSTT();
         initTTS();
+
     }
 
     private void checkLogIsEnable() {
