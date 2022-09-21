@@ -15,8 +15,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
 
@@ -50,7 +50,6 @@
             android:name=".english_activity.grammar.GrammarActivity"
             android:exported="false" />
         <activity
-            android:name=".english_activity.expression.ExpressionActivity"
             android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
