@@ -51,6 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".english_activity.expression.ExpressionActivity"
+            android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
             android:name=".english_activity.spelling.SpellingActivity"
