@@ -7,21 +7,22 @@ public class GrammarModel {
     private String word;
     private String description;
     private String image;
-    private String plural;
+    private String extra;
 
     public GrammarModel(String word, String description, String image) {
         this.word = word;
         this.description = description;
         this.image = image;
-        plural = "";
+        extra = "";
     }
 
-    public GrammarModel(String word, String plural, String description, String image) {
+    public GrammarModel(String word, String extra, String description, String image) {
         this.word = word;
         this.description = description;
         this.image = image;
-        this.plural = plural;
+        this.extra = extra;
     }
+
 
     public String getWord() {
         return word;
@@ -47,11 +48,11 @@ public class GrammarModel {
         this.image = image;
     }
 
-    public String getPlural() {
-        return plural;
+    public String getExtra() {
+        return extra;
     }
 
-    public void setPlural(String plural) {
-        this.plural = plural;
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 }

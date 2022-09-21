@@ -206,6 +206,8 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_1), true, true, true, true, false, ""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_2), true, true, true, false, false, ""));
             database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_3), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_4), true, true, true, false, false, ""));
+            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_5), true, true, true, false, false, ""));
 
 
 
