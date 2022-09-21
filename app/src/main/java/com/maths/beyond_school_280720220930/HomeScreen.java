@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -509,30 +510,37 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             for (int i=startIndex;i<startIndex+2;i++)
             {
+               //TODO:try catch needed
 
-                if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
-                    try{
-                        if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
-                            Log.i("Data_chap",chapterListMath+"");
-                            Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
-                            subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
+                try{
 
-                        }
+                    if (!chapterListMath.get(l_index).contains("Multiplication Tables"))   {
+                        try{
+                            if (UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)!=null){
+                                Log.i("Data_chap",chapterListMath+"");
+                                Log.i("DATA",UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true)+"");
+                                subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase,kidsGrade,chapterListMath.get(l_index),true).get(0));
 
-                    }catch (Exception e){}
+                            }
 
-                }
-                else{
+                        }catch (Exception e){}
 
-                    try{
-                        int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                        if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
-                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
-                        else
-                            subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));}
-                    catch (Exception e){}
-                }
-                l_index++;
+                    }
+                    else{
+
+                        try{
+                            int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
+                            if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
+                            else
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));}
+                        catch (Exception e){}
+                    }
+                    l_index++;
+
+
+                }catch (Exception e){}
+
 
             }
 

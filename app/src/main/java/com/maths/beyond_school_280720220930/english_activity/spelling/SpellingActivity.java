@@ -409,7 +409,7 @@ public class SpellingActivity extends AppCompatActivity {
                         var currentWord = spellingModels.get(binding.viewPager.getCurrentItem()).getWord();
                         var currentWordWithComma = UtilityFunctions.addSpace(currentWord);
                         tts.setTextViewAndSentence(currentWordWithComma);
-                        tts.setPitchAndSpeed(.3f, .3f);
+                        tts.setPitchAndSpeed(.8f, .6f);
                         tts.initialize(currentWordWithComma, context);
                     });
                     return;

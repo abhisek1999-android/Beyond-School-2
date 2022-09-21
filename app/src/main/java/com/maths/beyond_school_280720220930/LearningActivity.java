@@ -975,8 +975,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             tts.initialize(UtilityFunctions.getCompliment(true), LearningActivity.this);
             mediaPlayer.start();
             //TODO: PLACE CORRECT KIDS DATA
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                    "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, true, (int) (endTime - startTime),
+            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+                    "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, true, (int) (endTime - startTime),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
             DELAY_ON_STARTING_STT = 500;
@@ -1000,8 +1000,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             } else {
                 //TODO: PLACE CORRECT KIDS DATA
                 tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
-                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), "kidsid_default", "Name_default",
-                        "Mathematics-Practice-" + subject, 22, currentAnswer + "", result, false, (int) (endTime - startTime),
+                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+                        "Mathematics-Practice-" + subject,kidsAge, currentAnswer + "", result, false, (int) (endTime - startTime),
                         currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
                 logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
                 DELAY_ON_STARTING_STT = 1800;
