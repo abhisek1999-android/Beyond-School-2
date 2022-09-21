@@ -31,6 +31,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.maths.beyond_school_280720220930'
 }
 
 dependencies {

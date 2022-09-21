@@ -11,11 +11,11 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.maths.beyond_school_280720220930.database.english.expression.ExpressionDao;
-import com.maths.beyond_school_280720220930.database.english.expression.ExpressionList;
-import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionDetailsConverter;
-import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionModel;
-import com.maths.beyond_school_280720220930.database.english.expression.model.ExpressionModelConverter;
+import com.maths.beyond_school_280720220930.database.english.grammer.GrammarDao;
+import com.maths.beyond_school_280720220930.database.english.grammer.GrammarList;
+import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModelTypeConverter;
+import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
+import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarTypeTypeConverter;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
 import com.maths.beyond_school_280720220930.database.english.spelling.SpellingList;
 import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModelConverter;
@@ -27,9 +27,10 @@ import com.maths.beyond_school_280720220930.database.english.vocabulary.model.Vo
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class, SpellingType.class, /*ExpressionModel.class*/}, version = 1)
+@Database(entities = {VocabularyModel.class, SpellingType.class, GrammarType.class, /*ExpressionModel.class*/}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
         SpellingTypeConverter.class, SpellingModelConverter.class,
+        GrammarModelTypeConverter.class, GrammarTypeTypeConverter.class
         /*ExpressionDetailsConverter.class, ExpressionModelConverter.class*/
 })
 abstract public class EnglishGradeDatabase extends RoomDatabase {
@@ -37,6 +38,8 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
     public abstract VocabularyDao englishDao();
 
     public abstract SpellingDao spellingDao();
+
+    public abstract GrammarDao grammarDao();
 
 //    public abstract ExpressionDao expressionDao();
 
@@ -68,7 +71,8 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
         private final VocabularyDao vocabularyDao;
         private final SpellingDao spellingDao;
-//        private final ExpressionDao expressionDao;
+        private final GrammarDao grammarDao;
+        //        private final ExpressionDao expressionDao;
         @SuppressLint("StaticFieldLeak")
         private final Context context;
 
@@ -76,6 +80,7 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
         public PopulateDbAsyncTask(EnglishGradeDatabase db, Context context) {
             this.vocabularyDao = db.englishDao();
             this.spellingDao = db.spellingDao();
+            this.grammarDao = db.grammarDao();
             this.context = context;
 //            this.expressionDao=db.expressionDao();
         }
@@ -87,9 +92,10 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 //            expressionDao.insert(ExpressionList.GradeOneExpression.englishListGrade1());
 
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
-
-//            Adding Spellings
             spellingDao.insertAll(SpellingList.getSpellingList(context));
+            grammarDao.insertAll(GrammarList.Noun.getGrammarList(context));
+            grammarDao.insertAll(GrammarList.Verb.getGrammarList(context));
+
             return null;
         }
     }

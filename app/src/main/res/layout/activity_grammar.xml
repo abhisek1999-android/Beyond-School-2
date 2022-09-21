@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".english_activity.grammar.GrammarActivity">
+
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_view_category"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/reemkufi_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar"
+        tools:text="Category : Personal" />
+
+    <ImageView
+        android:id="@+id/hintButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/round_rect_button_bg"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/reemkufi_medium"
+        android:minWidth="55dp"
+        android:padding="@dimen/grid_10"
+        android:paddingLeft="10dp"
+        android:paddingTop="@dimen/grid_0_5"
+        android:paddingRight="10dp"
+        android:src="@drawable/light_bulb"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_ext_timer"
+        app:layout_constraintEnd_toStartOf="@+id/layout_ext_timer"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout_ext_timer"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/subSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_category"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="Learn"
+        android:textAllCaps="true"
+        android:textColor="@color/primary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/text_view_category"
+        app:layout_constraintStart_toStartOf="@+id/text_view_category"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_category"
+        tools:ignore="HardcodedText" />
+
+    <include
+        android:id="@+id/layout_ext_timer"
+        layout="@layout/layout_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subSub"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subSub" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_identifying_nouns"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_ext_timer" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_2"
+        android:orientation="horizontal"
+        android:padding="@dimen/grid_1"
+        android:visibility="gone"
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager_identifying_nouns"
+        tools:visibility="visible">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_1"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_1"
+            android:layout_weight="1"
+            android:background="@drawable/keys_button_background"
+            android:backgroundTint="@color/primary"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            app:elevation="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+            tools:text="Common Noun" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/key_2"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_1"
+            android:layout_weight="1"
+            android:background="@drawable/keys_button_background"
+            android:backgroundTint="@color/primary"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            app:elevation="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+            tools:text="Proper Noun" />
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/playPause"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_rect_button_bg"
+        android:backgroundTint="@color/primary"
+        android:drawableTop="@drawable/play_button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingTop="10dp"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="UnusedAttribute" />
+
+    <LinearLayout
+        android:id="@+id/giveTestButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/primary"
+        android:orientation="horizontal"
+        android:padding="@dimen/grid_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:text="Take Test"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size_big" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
