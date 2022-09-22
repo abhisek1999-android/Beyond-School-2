@@ -451,7 +451,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
         editText.setAdapter(adapterGrades);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-           alarmDialogBinding.extraInclude.kidsGrade.setText(alarmDialogBinding.extraInclude.kidsGrade.getAdapter().getItem(0).toString(), false);
+           alarmDialogBinding.extraInclude.kidsGrade.setText(alarmDialogBinding.extraInclude.kidsGrade.getAdapter().getItem(9).toString(), false);
         }
 
         alarmDialogBinding.extraInclude.selecttimebtn.setOnClickListener(v->{

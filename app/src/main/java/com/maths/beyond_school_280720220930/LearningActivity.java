@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -112,13 +113,13 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private int kidsAge=0;
     Observable observable;
     private LinearLayout addAnimLayout,finalView;
-
+    private TextView descTextView, finalText;
 
     private int num=0;
     private List<ProgressM> progressData;
     private long timeSpend=0;
     private ProgressDataBase progressDataBase;
-    private TextView descTextView, finalText;
+
     public static final int TIMER_VALUE = 15;
     EditText ans;
     private View separator;
@@ -453,6 +454,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void play() {
 
         if (isTimerRunning)
@@ -1124,16 +1126,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
         descTextView.setText(initText);
         ttsHelperAnim.initialize(initText,LearningActivity.this);
-
-
-
-
-
 //        ttsHelperAnim.initialize(animMath.get(0).getDescription(),LearningActivity.this);
 //        animHandel(animMath.get(0).getAnswer());
-
-
-
 
         try {
             alertDialog.show();
@@ -1177,8 +1171,6 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             finalView.startAnimation(slideRightAnim);
             finalText.setText(answer.split("_")[2]);
         }
-
-
     }
 
 

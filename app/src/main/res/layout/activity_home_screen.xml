@@ -129,6 +129,18 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/permissionDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <include
+                android:id="@+id/extLayout"
+                layout="@layout/permission_bottom_sheet" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -146,4 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.navigation.NavigationView>
+
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

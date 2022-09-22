@@ -37,6 +37,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.AlarmAtTime;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
@@ -254,6 +255,50 @@ public final class UtilityFunctions {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static String getIntroForGrammar(Context context, String category) {
+        var intro = "";
+        if (context.getString(R.string.grammar_1).equals(category))
+            intro = "Let’s learn how to identify nouns in a sentence." +
+                    "Go through each word and see," +
+                    "if it's a person, place, thing, or an emotion or idea.";
+        else if (context.getString(R.string.grammar_2).equals(category))
+            intro = "Some nouns have irregular plural forms. " +
+                    "They turn into different words. Let us memorize them.";
+        else if (context.getString(R.string.grammar_3).equals(category))
+            intro = "Lets practice to identify some common and proper nouns";
+        else if (context.getString(R.string.grammar_4).equals(category))
+            intro = "Let us learn how to identify verbs in a sentence. ";
+        else intro = "Let us learn how to identify Present tense in verbs in a sentence. ";
+
+        return intro;
+    }
+
+    public static String getQuestionForGrammar(Context context, GrammarModel grammarModel, String category) {
+        var question = "";
+        if (context.getString(R.string.grammar_1).equals(category))
+            question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is noun here."
+                    + "Now It's your turn to Click on the noun to identify it";
+        else if (context.getString(R.string.grammar_2).equals(category))
+            question = grammarModel.getDescription().replace("→", ",")
+                    + "..." + "'" + "Now It's your turn to Click on " +
+                    "the plural form to identify it";
+        else if (context.getString(R.string.grammar_3).equals(category)) {
+            var list = new String[]{"Tell me which noun is this?",
+                    "Please answer which noun is this ?"};
+            question = "'" + grammarModel.getWord() + "' ."
+                    + grammarModel.getDescription() + "..." +
+                    UtilityFunctions.getRandomItem(list);
+        } else if (context.getString(R.string.grammar_4).equals(category))
+            question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is verb here."
+                    + "Now It's your turn to Click on the verb to identify it";
+        else question = grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is Present tense verb here."
+                    + "Now It's your turn to Click on the Present tense verb to identify it";
+        return question;
     }
 
 
@@ -779,19 +824,13 @@ public final class UtilityFunctions {
     }
 
     public void setStatusBarTransparent(Context mContext) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = ((Activity) mContext).getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        Window window = ((Activity) mContext).getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-            View decorView = window.getDecorView();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            }
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        View decorView = window.getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        window.setStatusBarColor(Color.TRANSPARENT);
     }
 
 
@@ -1045,6 +1084,20 @@ public final class UtilityFunctions {
     }
 
 
+    public static boolean checkGrade(String grade){
+
+
+        List<String> grades=new ArrayList();
+        grades.add("GRADE 1");grades.add("GRADE 2");grades.add("GRADE 3");
+
+        if (grades.contains(grade))
+            return true;
+
+        return false;
+
+    }
+
+
     @SuppressLint("Range")
     public static void setEvent(Context context, TextInputLayout textInputLayout) throws ParseException {
 
@@ -1057,15 +1110,18 @@ public final class UtilityFunctions {
 
 
             PrefConfig.writeIdInPref(context,textInputLayout.getEditText().getText().toString(),context.getResources().getString(R.string.timer_time));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
             Date currDate=new Date();
-            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[0];
-            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[1];
+            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().trim().split("-")[0];
+            Log.i("StartDate",datetime);
+            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().trim().split("-")[1];
             //  String endTime="2023/08/12 06:30";
             var eventID=0;
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(formatter.parse(datetime));
+
+            Log.i("Ca_data",startCal.toString());
 
             Calendar endCal = Calendar.getInstance();
             endCal.setTime(formatter.parse(endTime));
@@ -1089,7 +1145,7 @@ public final class UtilityFunctions {
                 eventValues.put (CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
-                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you.");
+                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY,false);
                 eventValues.put(CalendarContract.Events.HAS_ALARM,true);
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());

@@ -15,8 +15,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
 
@@ -48,9 +48,10 @@
         android:theme="@style/Theme.BEYOND_SCHOOL">
         <activity
             android:name=".english_activity.grammar.GrammarActivity"
-            android:exported="false" />
+            android:exported="false">
+
+        </activity>
         <activity
-            android:name=".english_activity.expression.ExpressionActivity"
             android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
@@ -71,7 +72,21 @@
             android:exported="false" />
         <activity
             android:name=".HomeScreen"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.beyondschool.live"
+                    android:pathPrefix="/app" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".MathsTutorialActivity"
             android:exported="false" />
