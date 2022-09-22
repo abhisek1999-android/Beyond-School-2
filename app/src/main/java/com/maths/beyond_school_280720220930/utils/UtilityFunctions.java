@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bumptech.glide.Glide;
@@ -677,7 +676,11 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
+            , String parentsContactId
+    )
+
+    {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -689,6 +692,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
         resultBundle.putString("type", type);
+        resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
     }
 
@@ -1104,11 +1108,13 @@ public final class UtilityFunctions {
     }
 
 
-    public static boolean checkGrade(String grade){
+    public static boolean checkGrade(String grade) {
 
 
-        List<String> grades=new ArrayList();
-        grades.add("GRADE 1");grades.add("GRADE 2");grades.add("GRADE 3");
+        List<String> grades = new ArrayList();
+        grades.add("GRADE 1");
+        grades.add("GRADE 2");
+        grades.add("GRADE 3");
 
         if (grades.contains(grade))
             return true;

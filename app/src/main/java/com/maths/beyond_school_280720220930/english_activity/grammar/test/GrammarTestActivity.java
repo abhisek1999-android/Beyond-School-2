@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -83,6 +84,7 @@ public class GrammarTestActivity extends AppCompatActivity {
     private final JSONArray kidsActivityJsonArray = new JSONArray();
     private ProgressDataBase progressDataBase;
     public static final int TIMER_VALUE = 15;
+    private String parentsContactId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        parentsContactId = PrefConfig.readIdInPref(context, getResources().getString(R.string.parent_contact_details));
         getDataFromIntent();
         setToolbar();
         learnButtonClick();
@@ -296,7 +299,9 @@ public class GrammarTestActivity extends AppCompatActivity {
                 Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName,
                 "English-Test-" + "grammar", kidAge, currentWord
                 , result, b, (int) (diff),
-                UtilityFunctions.getQuestionForGrammarTest(context, category), "English");
+                UtilityFunctions.getQuestionForGrammarTest(context, category), "English",
+                parentsContactId
+                );
     }
 
     private void helperTTS(String message, boolean canNavigate, int request) {
