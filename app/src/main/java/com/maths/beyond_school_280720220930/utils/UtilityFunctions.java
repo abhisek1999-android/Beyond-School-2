@@ -26,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.sqlite.db.SimpleSQLiteQuery;
-import androidx.viewbinding.ViewBinding;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -34,7 +33,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.maths.beyond_school_280720220930.AlarmAtTime;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
@@ -45,7 +43,6 @@ import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
-import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 
 import java.text.DateFormat;
@@ -655,7 +652,7 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject, String parentsContactId) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -667,6 +664,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
         resultBundle.putString("type", type);
+        resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
     }
 
@@ -705,6 +703,7 @@ public final class UtilityFunctions {
         PrefConfig.writeIdInPref(context, dob, context.getResources().getString(R.string.kids_dob));
         PrefConfig.writeIdInPref(context, imageUrl, context.getResources().getString(R.string.kids_profile_url));
         PrefConfig.writeIdInPref(context, uuid, context.getResources().getString(R.string.kids_id));
+
     }
 
     public static Boolean isDivisible(int num1, int num2) {

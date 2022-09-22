@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -87,6 +88,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     public static final int TIMER_VALUE = 15;
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
+    private String parentsContactId="";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -105,6 +107,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         setViewPager();
         buttonClick();
         practiceButton();
+
+        parentsContactId=PrefConfig.readIdInPref(EnglishActivity.this,getResources().getString(R.string.parent_contact_details));
     }
 
     private void practiceButton() {
@@ -316,7 +320,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                         mediaPlayer.start();
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english");
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english", parentsContactId);
                         playPauseAnimation(true);
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
@@ -324,8 +328,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getUid().toString(), "kidsid", "Ayaan",
                                 "english Vocabulary", 22,
                                 vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english"
-                        );
+                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english",
+                                parentsContactId);
                         playPauseAnimation(true);
                     }
 

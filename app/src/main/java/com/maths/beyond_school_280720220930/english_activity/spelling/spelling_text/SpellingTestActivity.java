@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -86,6 +87,7 @@ public class SpellingTestActivity extends AppCompatActivity {
 
     private final static int REQUEST_QUESTION = 2 * 44;                                             // request code for asking question
     private final static int REQUEST_CORRECT_OR_WRONG_ANSWER = 2 * 45;                              // request code for correct answer
+    private String parentsContactId="";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -108,7 +110,7 @@ public class SpellingTestActivity extends AppCompatActivity {
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
-
+        parentsContactId=PrefConfig.readIdInPref(SpellingTestActivity.this,getResources().getString(R.string.parent_contact_details));
 
         if (getIntent().hasExtra(EXTRA_SPELLING_LIST)) {
             var tempList = (ArrayList<SpellingModel>) getIntent().
@@ -367,7 +369,7 @@ public class SpellingTestActivity extends AppCompatActivity {
                 Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName,
                 "English-Test-" + "spelling", kidAge, currentWord
                 , inputWord, b, (int) (diff),
-                "Type the spelling of the word" + currentWord, "English");
+                "Type the spelling of the word" + currentWord, "English", parentsContactId);
     }
 
     private void handleButtonClick() {

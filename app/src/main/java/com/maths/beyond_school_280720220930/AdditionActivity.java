@@ -98,6 +98,7 @@ public class AdditionActivity extends AppCompatActivity {
     private boolean isTimerRunning = true;
     private String kidName;
     private int kidAge;
+    private String parentsContactId="";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -127,7 +128,7 @@ public class AdditionActivity extends AppCompatActivity {
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
-
+        parentsContactId=PrefConfig.readIdInPref(AdditionActivity.this,getResources().getString(R.string.parent_contact_details));
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
@@ -430,7 +431,7 @@ public class AdditionActivity extends AppCompatActivity {
 
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
-                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, true);
 
             DELAY_ON_STARTING_STT = 500;
@@ -443,7 +444,7 @@ public class AdditionActivity extends AppCompatActivity {
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, false);
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, false, (int) (diff),
-                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             DELAY_ON_STARTING_STT = 500;
             DELAY_ON_SETTING_QUESTION = 2000;
             wrongAnswer++;

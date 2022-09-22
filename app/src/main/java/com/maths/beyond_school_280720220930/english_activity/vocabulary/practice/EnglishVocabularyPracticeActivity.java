@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.ScoreActivity;
@@ -92,6 +93,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private long timeSpend = 0;
     public static final int TIMER_VALUE = 15;
     private boolean isTimerRunning = true;
+    private String parentsContactId="";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -111,6 +113,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        parentsContactId=PrefConfig.readIdInPref(EnglishVocabularyPracticeActivity.this,getResources().getString(R.string.parent_contact_details));
 
         progressData=new ArrayList<>();
         setToolbar();
@@ -333,7 +336,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                                 "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                 , result, true, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
-                                        + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english");
+                                        + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english", parentsContactId);
                     } else {
                         if (tryAgainCount == 2) {
                             wrongAnswers++;
@@ -350,7 +353,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                                     "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                     , result, false, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
-                                            + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english");
+                                            + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english", parentsContactId);
                             return;
                         }
                         helperTTS(UtilityFunctions.getCompliment(false), false, false);

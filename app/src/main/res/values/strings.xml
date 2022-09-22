@@ -1024,6 +1024,7 @@
     <string name="kids_name">KIDS_NAME</string>
     <string name="kids_dob">KIDS_DOB</string>
     <string name="kids_id">KIDS_ID</string>
+    <string name="parent_contact_details">PARENT_CONTACT_DETAILS</string>
     <string name="kids_profile_url">KIDS_PROFILE_URL</string>
     <string name="learn">Learn</string>
     <string name="timer_time">TIMER_TIME</string>

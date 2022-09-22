@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,15 +41,14 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_280720220930.HomeScreen;
-import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
-import com.maths.beyond_school_280720220930.utils.AnimationUtil;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.text.ParseException;
@@ -58,7 +56,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneNumberLogin extends AppCompatActivity {
@@ -121,7 +118,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                 } else {
                     // if the text field is not empty we are calling our
                     // send OTP method for getting OTP from Firebase.
-                    String phone = "+91" + binding.idEdtPhoneNumber.getText().toString();
+                    String phone =  binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
                     sendVerificationCode(phone);
                 }
             }
@@ -353,6 +350,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                             UtilityFunctions.saveDataLocally(getApplicationContext(), "GRADE 1", "Kids Name",
                                    "01/08/2017", imageUrl, uuid);
 
+                            PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
                             Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                             intent.putExtra("name", "Kids Name");
                             intent.putExtra("image", imageUrl);
@@ -399,6 +397,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
                                 try{
                                     if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
+                                        PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
@@ -409,6 +408,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
                                         break;
                                     }
                                 }catch (Exception e){
+                                    PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
                                     CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
