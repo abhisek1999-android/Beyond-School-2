@@ -984,6 +984,10 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             DELAY_ON_STARTING_STT = 500;
 
             DELAY_ON_SETTING_QUESTION = 2000;
+
+
+
+
             correctAnswer++;
             attempt = 3;
 
