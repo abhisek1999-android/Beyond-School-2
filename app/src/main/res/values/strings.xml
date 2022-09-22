@@ -831,8 +831,8 @@
         <item>GRADE 1</item>
         <item>GRADE 2</item>
         <item>GRADE 3</item>
-<!--        <item>GRADE 4</item> -->
-<!--        <item>GRADE 5</item>-->
+        <!--        <item>GRADE 4</item> -->
+        <!--        <item>GRADE 5</item>-->
         <!--        <item>4th Grade</item>-->
         <!--        <item>5th Grade</item>-->
         <!--        <item>6th Grade</item>-->
@@ -1025,7 +1025,7 @@
     <string name="spelling_text">%s  %s %s</string>
     <string name="spelling">Spelling</string>
     <string name="spelling_test">Spelling Test</string>
-    <string name="bkSpace">←</string>
+    <string name="bkSpace">&#10510;</string>
     <string name="grammar">Grammar</string>
     <string name="grammar_1">Grammar Identifying Noun</string>
     <string name="grammar_2">Grammar Irregular Plural Noun</string>
