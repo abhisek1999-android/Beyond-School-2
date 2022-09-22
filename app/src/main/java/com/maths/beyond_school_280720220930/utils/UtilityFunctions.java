@@ -272,29 +272,55 @@ public final class UtilityFunctions {
         return intro;
     }
 
-    public static String getQuestionForGrammar(Context context, GrammarModel grammarModel, String category) {
-        var question = "";
+    public static String[] getQuestionForGrammar(Context context, GrammarModel grammarModel, String category) {
+        var question = new String[]{};
         if (context.getString(R.string.grammar_1).equals(category))
-            question = grammarModel.getDescription() + "..." + "'"
-                    + grammarModel.getWord() + "'!" + "is noun here."
-                    + "Now It's your turn to Click on the noun to identify it";
+            question = new String[]{grammarModel.getDescription() + "..." + "'"
+                    + grammarModel.getWord() + "'!" + "is noun here.",
+                    "Now It's your turn to Click on the noun to identify it"};
         else if (context.getString(R.string.grammar_2).equals(category))
-            question = grammarModel.getDescription().replace("→", ",")
-                    + "..." + "'" + "Now It's your turn to Click on " +
-                    "the plural form to identify it";
+            question = new String[]{
+                    grammarModel.getDescription().replace("→", ",")
+                            + "..." + "'", "Now It's your turn to Click on " +
+                    "the plural form to identify it"
+            };
         else if (context.getString(R.string.grammar_3).equals(category)) {
             var list = new String[]{"Tell me which noun is this?",
                     "Please answer which noun is this ?"};
-            question = "'" + grammarModel.getWord() + "' ."
-                    + grammarModel.getDescription() + "..." +
-                    UtilityFunctions.getRandomItem(list);
+            question = new String[]{
+                    "'" + grammarModel.getWord() + "' ."
+                            + grammarModel.getDescription() + "..."
+                    , UtilityFunctions.getRandomItem(list)
+            };
         } else if (context.getString(R.string.grammar_4).equals(category))
-            question = grammarModel.getDescription() + "..." + "'"
-                    + grammarModel.getWord() + "'!" + "is verb here."
-                    + "Now It's your turn to Click on the verb to identify it";
-        else question = grammarModel.getDescription() + "..." + "'"
-                    + grammarModel.getWord() + "'!" + "is Present tense verb here."
-                    + "Now It's your turn to Click on the Present tense verb to identify it";
+            question = new String[]{
+                    grammarModel.getDescription() + "..." + "'"
+                            + grammarModel.getWord() + "'!" + "is verb here."
+                    , "Now It's your turn to Click on the verb to identify it"
+            };
+        else question = new String[]{
+                    grammarModel.getDescription() + "..." + "'"
+                            + grammarModel.getWord() + "'!" + "is Present tense verb here."
+                    , "Now It's your turn to Click on the Present tense verb to identify it"
+            };
+        return question;
+    }
+
+    public static String getQuestionForGrammarTest(Context context, String category) {
+        var question = "";
+        if (context.getString(R.string.grammar_1).equals(category))
+            question = getRandomItem(new String[]{
+                    "Can you identify the noun?",
+                    "Try to identify the noun ?",
+                    "Tell what is the noun here ?",
+                    "Guess the noun here?"});
+        else if (context.getString(R.string.grammar_2).equals(category))
+            question = "Try to tell the plural form of this noun";
+        else if (context.getString(R.string.grammar_3).equals(category)) {
+            question = "Tell me which noun is this?";
+        } else if (context.getString(R.string.grammar_4).equals(category))
+            question = "Can you identify the verb?";
+        else question = "Can you identify the Present tense verb?";
         return question;
     }
 
@@ -640,7 +666,6 @@ public final class UtilityFunctions {
         return (char) (r.nextInt(26) + 'a');
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
         if (filterList.size() > 0) {
@@ -652,7 +677,7 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject, String parentsContactId) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -664,7 +689,6 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
         resultBundle.putString("type", type);
-        resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
     }
 
@@ -703,7 +727,6 @@ public final class UtilityFunctions {
         PrefConfig.writeIdInPref(context, dob, context.getResources().getString(R.string.kids_dob));
         PrefConfig.writeIdInPref(context, imageUrl, context.getResources().getString(R.string.kids_profile_url));
         PrefConfig.writeIdInPref(context, uuid, context.getResources().getString(R.string.kids_id));
-
     }
 
     public static Boolean isDivisible(int num1, int num2) {
@@ -753,7 +776,6 @@ public final class UtilityFunctions {
 
 
     // Format milisec to h: m: s
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String formatTime(long diff) {
 
 
@@ -767,7 +789,6 @@ public final class UtilityFunctions {
 
 
     // Calculates the age of kids
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int calculateAge(String inputDate) {
 
         LocalDate curDate = LocalDate.now();
@@ -1101,52 +1122,45 @@ public final class UtilityFunctions {
     public static void setEvent(Context context, TextInputLayout textInputLayout) throws ParseException {
 
 
-        Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
-        try
-        {
+        Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
+        try {
 
 
-
-
-            PrefConfig.writeIdInPref(context,textInputLayout.getEditText().getText().toString(),context.getResources().getString(R.string.timer_time));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
+            PrefConfig.writeIdInPref(context, textInputLayout.getEditText().getText().toString(), context.getResources().getString(R.string.timer_time));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-            Date currDate=new Date();
-            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().trim().split("-")[0];
-            Log.i("StartDate",datetime);
-            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().trim().split("-")[1];
+            Date currDate = new Date();
+            String datetime = dateFormatter.format(currDate) + " " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[0];
+            String endTime = "2023/12/31 " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[1];
             //  String endTime="2023/08/12 06:30";
-            var eventID=0;
+            var eventID = 0;
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(formatter.parse(datetime));
 
-            Log.i("Ca_data",startCal.toString());
-
             Calendar endCal = Calendar.getInstance();
             endCal.setTime(formatter.parse(endTime));
-            var eventdate = startCal.get(Calendar.YEAR)+"/"+startCal.get(Calendar.MONTH)+"/"+startCal.get(Calendar.DAY_OF_MONTH)+" "+startCal.get(Calendar.HOUR_OF_DAY)+":"+startCal.get(Calendar.MINUTE);
-            Log.e("event date",eventdate);
+            var eventdate = startCal.get(Calendar.YEAR) + "/" + startCal.get(Calendar.MONTH) + "/" + startCal.get(Calendar.DAY_OF_MONTH) + " " + startCal.get(Calendar.HOUR_OF_DAY) + ":" + startCal.get(Calendar.MINUTE);
+            Log.e("event date", eventdate);
             // provide CalendarContract.Calendars.CONTENT_URI to
             // ContentResolver to query calendars
 
-            if (cur.moveToFirst())
-            {
+            if (cur.moveToFirst()) {
 
-                if (isEventInCal(context,eventID+"")){
+                if (isEventInCal(context, eventID + "")) {
                     return;
                 }
-                long calendarID=cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID));
+                long calendarID = cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID));
                 ContentValues eventValues = new ContentValues();
                 eventValues.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
                 //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
-                eventValues.put(CalendarContract.Events.DURATION,  "+P30M");
+                eventValues.put(CalendarContract.Events.DURATION, "+P30M");
                 eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-                eventValues.put (CalendarContract.Events.CALENDAR_ID, calendarID);
+                eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
-                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
-                eventValues.put(CalendarContract.Events.ALL_DAY,false);
-                eventValues.put(CalendarContract.Events.HAS_ALARM,true);
+                eventValues.put(CalendarContract.Events.DESCRIPTION, "Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
+                eventValues.put(CalendarContract.Events.ALL_DAY, false);
+                eventValues.put(CalendarContract.Events.HAS_ALARM, true);
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_URI, "myAppointment://1");
 
@@ -1162,18 +1176,13 @@ public final class UtilityFunctions {
                 context.getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, reminder);
 
                 Toast.makeText(context, "Event Added", Toast.LENGTH_SHORT).show();
-                PrefConfig.writeIntInPref(context,(int)eventID,context.getResources().getString(R.string.calender_event_id));
+                PrefConfig.writeIntInPref(context, (int) eventID, context.getResources().getString(R.string.calender_event_id));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.i("Error_Events",e.getMessage());
-        }
-        finally
-        {
-            if (cur != null)
-            {
+            Log.i("Error_Events", e.getMessage());
+        } finally {
+            if (cur != null) {
                 cur.close();
             }
         }
@@ -1184,8 +1193,8 @@ public final class UtilityFunctions {
 
         Cursor cursor = context.getContentResolver().query(
                 Uri.parse("content://com.android.calendar/events"),
-                new String[] { "_id" }, " _id = ? ",
-                new String[] { cal_meeting_id }, null);
+                new String[]{"_id"}, " _id = ? ",
+                new String[]{cal_meeting_id}, null);
 
         if (cursor.moveToFirst()) {
             return true;

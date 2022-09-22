@@ -26,12 +26,16 @@ import androidx.fragment.app.Fragment;
 
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
+import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarBinding;
 import com.maths.beyond_school_280720220930.databinding.AnimSingleLayoutBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.model.AnimData;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
@@ -41,10 +45,17 @@ import com.maths.beyond_school_280720220930.utils.AnimationUtil;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 public class GrammarActivity extends AppCompatActivity {
 
@@ -62,6 +73,9 @@ public class GrammarActivity extends AppCompatActivity {
     private ButtonClick listener = null;
 
     private final int REQUEST_INTRO = 44 * 2;
+    public static final int TIMER_VALUE = 15;
+    private AlertDialog.Builder alert = null;
+    private AlertDialog alertDialog = null;
 
 
     private TextToSpeckConverter ttsHelperAnim;
@@ -72,6 +86,10 @@ public class GrammarActivity extends AppCompatActivity {
     private TextView descTextView, finalText;
     private Animation slideLeftAnim, slideRightAnim, fadeIn;
 
+    private long timeSpend = 0;
+    private List<ProgressM> progressData;
+    private ProgressDataBase progressDataBase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +97,39 @@ public class GrammarActivity extends AppCompatActivity {
         binding = ActivityGrammarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         englishGradeDatabase = EnglishGradeDatabase.getDbInstance(context);
+        progressDataBase = ProgressDataBase.getDbInstance(this);
+        progressData = new ArrayList<>();
 
         setToolbar();
         getDataFromIntent();
+    }
+
+    private void firstOpen() {
+        var isOpen = !PrefConfig.readBooleanInPref(context, category);
+        if (isOpen)
+            displayTutorialDialog();
+        else
+            setIntro();
+    }
+
+    private void displayDialog() {
         binding.hintButton.setOnClickListener(v -> {
-            try {
-                displayTutorialAnimation();
-                destroyEngine();
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            displayTutorialDialog();
         });
+    }
+
+    private void displayTutorialDialog() {
+        try {
+            destroyEngine();
+            displayTutorialAnimation();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleTestButtonClick() {
         binding.giveTestButton.setOnClickListener(v -> {
-            UtilityFunctions.simpleToast(context, "Test is not available & will be available soon");
+            navigateToTest();
         });
     }
 
@@ -107,6 +145,9 @@ public class GrammarActivity extends AppCompatActivity {
         category = getIntent().getStringExtra(EXTRA_GRAMMAR_CATEGORY);
         binding.textViewCategory.setText(category.replace("Grammar", ""));
         setViewPager();
+        firstOpen();
+        displayDialog();
+        handleTestButtonClick();
     }
 
     private void setViewPager() {
@@ -120,7 +161,7 @@ public class GrammarActivity extends AppCompatActivity {
         var pagerAdapter = new EnglishViewPager(fragmentList, getSupportFragmentManager(), getLifecycle());
         binding.viewPagerIdentifyingNouns.setAdapter(pagerAdapter);
         binding.viewPagerIdentifyingNouns.setUserInputEnabled(false);
-        setIntro();
+
         setButton();
         setOptionButtonClick();
     }
@@ -129,6 +170,7 @@ public class GrammarActivity extends AppCompatActivity {
         binding.playPause.setOnClickListener(v -> {
             if (binding.playPause.isChecked()) {
                 initTTS();
+                timer();
                 initMediaPlayer();
                 startSpeaking();
             } else
@@ -151,9 +193,13 @@ public class GrammarActivity extends AppCompatActivity {
     private void startSpeaking() {
         var currentModel = grammarModelList.
                 get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        tts.initialize(UtilityFunctions.getQuestionForGrammar(context
-                        , currentModel,
-                        category)
+        var question = UtilityFunctions.getQuestionForGrammar(context
+                , currentModel,
+                category)[0];
+        if (binding.viewPagerIdentifyingNouns.getCurrentItem() < 2)
+            tts.setTextViewAndSentence(question);
+        tts.initialize(
+                question
                 , this
         );
     }
@@ -165,11 +211,33 @@ public class GrammarActivity extends AppCompatActivity {
             tts = task.execute(new ConversionCallback() {
                 @Override
                 public void onCompletion() {
-                    setOptionButton();
-                    setVisibilityOfLinearLayout(true);
-                    playPauseAnimation(false);
-                    checkAnswer();
-                    Log.d("XXX", "onCompletion: Called ");
+                    if (!tts.getTextRanceListener()) {
+                        UtilityFunctions.runOnUiThread(() -> {
+                            var currentModel = grammarModelList.
+                                    get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+                            var currentFragment = (RowItemFragment) fragmentList.
+                                    get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+                            currentFragment.getTextView()
+                                    .setText(currentModel.getDescription());
+
+                        });
+                        setOptionButton();
+                        setVisibilityOfLinearLayout(true);
+                        playPauseAnimation(false);
+                        checkAnswer();
+                        Log.d("XXX", "onCompletion: Called ");
+                        return;
+                    }
+                    var currentModel = grammarModelList.
+                            get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+                    var question = UtilityFunctions.getQuestionForGrammar(context
+                            , currentModel,
+                            category)[1];
+                    tts.setTextViewAndSentence(null);
+                    tts.initialize(
+                            question
+                            , GrammarActivity.this
+                    );
                 }
 
                 @Override
@@ -193,8 +261,26 @@ public class GrammarActivity extends AppCompatActivity {
                 get(binding.viewPagerIdentifyingNouns.getCurrentItem());
         var currentAnswer = currentModel.getWord()
                 .toLowerCase(Locale.ROOT).trim();
+        var currentDes = currentModel.getDescription()
+                .toLowerCase(Locale.ROOT).trim();
         listener = text -> {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
+            if (category.equals(getResources().getString(R.string.grammar_3))) {
+                if (currentDes.contains(text)) {
+                    playPauseAnimation(true);
+                    mediaPlayer.start();
+                    helperTTS(
+                            UtilityFunctions.getCompliment(true)
+                            , true
+                            , 0
+                    );
+                } else {
+                    playPauseAnimation(true);
+                    tts.initialize(UtilityFunctions.getCompliment(false)
+                            , this);
+                }
+                return;
+            }
             if (text.equals(currentAnswer)) {
                 playPauseAnimation(true);
                 mediaPlayer.start();
@@ -334,6 +420,11 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void setVisibilityOfLinearLayout(boolean isVisible) {
         UtilityFunctions.runOnUiThread(() -> {
+            var grammarModel = grammarModelList.
+                    get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+            var currentFragment = (RowItemFragment) fragmentList.
+                    get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+
             binding.linearLayout.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
         });
     }
@@ -379,6 +470,29 @@ public class GrammarActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        destroyEngine();
+        checkProgressData();
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Grammar", category, new Date(),
+                timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
+    }
+
+    private void checkProgressData() {
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category,
+                new Date(), 0, true);
+
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
+            }
+        } catch (Exception e) {
+            timeSpend = 0;
+        }
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         destroyEngine();
@@ -397,12 +511,12 @@ public class GrammarActivity extends AppCompatActivity {
         startSpeaking();
         setToggleButtonChecked(true);
         playPauseAnimation(true);
-        setVisibilityOfLinearLayout(false);
     }
 
     public void destroyEngine() {
         playPauseAnimation(false);
         setToggleButtonChecked(false);
+        setVisibilityOfLinearLayout(false);
         if (tts != null) {
             tts.destroy();
         }
@@ -411,6 +525,9 @@ public class GrammarActivity extends AppCompatActivity {
         }
         if (ttsHelper != null) {
             ttsHelper.destroy();
+        }
+        if (ttsHelperAnim != null) {
+            ttsHelperAnim.destroy();
         }
     }
 
@@ -423,19 +540,21 @@ public class GrammarActivity extends AppCompatActivity {
                 if (num < animEng.size()) {
 
                     UtilityFunctions.runOnUiThread(() -> {
-
                         ttsHelperAnim.initialize(animEng.get(num).getDescription(), GrammarActivity.this);
                         animHandel(animEng.get(num).getAnswer(), animEng.get(num).getDescription(), animEng.get(num).getOperation());
                         num++;
                     }, 500);
                 } else {
                     num = 0;
+                    PrefConfig.writeBooleanInPref(context, true, category);
+                    if (alertDialog != null && alertDialog.isShowing()) {
+                        alertDialog.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onErrorOccurred(String errorMessage) {
-
                 ttsHelperAnim.destroy();
             }
         }}).get();
@@ -444,10 +563,9 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void displayTutorialAnimation() throws ExecutionException, InterruptedException {
 
+        animEng = AnimationUtil.animGrammar(category, context);
 
-        animEng = AnimationUtil.animGrammar(category);
-
-        final AlertDialog.Builder alert = new AlertDialog.Builder(GrammarActivity.this);
+        alert = new AlertDialog.Builder(GrammarActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.tutorial_anim, null);
 
         num = 0;
@@ -460,22 +578,30 @@ public class GrammarActivity extends AppCompatActivity {
         initTTSHelperAnim();
 
         alert.setView(mView);
-        final AlertDialog alertDialog = alert.create();
+        alertDialog = alert.create();
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        String initText = "Hi kids, Let us learn about " + category;
+        var getTitle = (category.equals(getResources().getString(R.string.grammar_1))) ?
+                "Noun" : category;
+        String initText = "Hi kids, Let us learn about " + getTitle;
 
         descTextView.setText(initText);
         ttsHelperAnim.initialize(initText, GrammarActivity.this);
         try {
             alertDialog.show();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
         closeButton.setOnClickListener(v -> {
             alertDialog.dismiss();
             ttsHelperAnim.stop();
+        });
+
+        alertDialog.setOnDismissListener(dialog -> {
+            setIntro();
+            ttsHelperAnim.stop();
+            ttsHelperAnim.destroy();
         });
 
     }
@@ -497,7 +623,7 @@ public class GrammarActivity extends AppCompatActivity {
                     hintDialog.dismiss();
                     break;
                 case R.id.buttonAction:
-                    UtilityFunctions.simpleToast(context, "Test is not available & will be available soon");
+                    navigateToTest();
                     break;
             }
         });
@@ -525,15 +651,33 @@ public class GrammarActivity extends AppCompatActivity {
         ViewGroup main = (ViewGroup) addAnimLayout;
         main.addView(view, num);
 
+    }
 
-//        if (num==animEng.size()-1){
-//
-//            finalView.setVisibility(View.VISIBLE);
-//            finalView.startAnimation(slideRightAnim);
-//            finalText.setText(answer.split("_")[2]);
-//        }
+    private void navigateToTest() {
+        Intent intent = new Intent(this, GrammarTestActivity.class);
+        intent.putExtra(EXTRA_GRAMMAR_CATEGORY, category);
+        startActivity(intent);
+    }
 
+    private void timer() {
+        boolean isTimerRunning = false;
+        Observable.interval(60, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Long>() {
+                    public void accept(Long x) throws Exception {
+                        // update your view here
 
+                        binding.layoutExtTimer.timerProgress.setMax(15);
+                        binding.layoutExtTimer.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                        binding.layoutExtTimer.timeText.setText((x + 1) + "");
+                        Log.i("task", x + "");
+                    }
+                })
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnComplete(() ->
+                        // do whatever you need on complete
+                        Log.i("TSK", "task")
+                ).subscribe();
     }
 
 

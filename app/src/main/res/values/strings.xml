@@ -1033,7 +1033,7 @@
     <string name="spelling_text">%s  %s %s</string>
     <string name="spelling">Spelling</string>
     <string name="spelling_test">Spelling Test</string>
-    <string name="bkSpace">←</string>
+    <string name="bkSpace">&#10510;</string>
     <string name="grammar">Grammar</string>
     <string name="grammar_1">Grammar Identifying Noun</string>
     <string name="grammar_2">Grammar Irregular Plural Noun</string>
