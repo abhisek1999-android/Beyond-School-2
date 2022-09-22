@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 import androidx.viewbinding.ViewBinding;
 
@@ -642,6 +643,7 @@ public final class UtilityFunctions {
         return (char) (r.nextInt(26) + 'a');
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
         if (filterList.size() > 0) {
@@ -752,6 +754,7 @@ public final class UtilityFunctions {
 
 
     // Format milisec to h: m: s
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String formatTime(long diff) {
 
 
@@ -765,6 +768,7 @@ public final class UtilityFunctions {
 
 
     // Calculates the age of kids
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int calculateAge(String inputDate) {
 
         LocalDate curDate = LocalDate.now();
@@ -1080,6 +1084,20 @@ public final class UtilityFunctions {
     }
 
 
+    public static boolean checkGrade(String grade){
+
+
+        List<String> grades=new ArrayList();
+        grades.add("GRADE 1");grades.add("GRADE 2");grades.add("GRADE 3");
+
+        if (grades.contains(grade))
+            return true;
+
+        return false;
+
+    }
+
+
     @SuppressLint("Range")
     public static void setEvent(Context context, TextInputLayout textInputLayout) throws ParseException {
 
@@ -1092,15 +1110,18 @@ public final class UtilityFunctions {
 
 
             PrefConfig.writeIdInPref(context,textInputLayout.getEditText().getText().toString(),context.getResources().getString(R.string.timer_time));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
             Date currDate=new Date();
-            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[0];
-            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().replace(" ","").split("-")[1];
+            String datetime= dateFormatter.format(currDate)+" "+textInputLayout.getEditText().getText().toString().trim().split("-")[0];
+            Log.i("StartDate",datetime);
+            String endTime= "2023/12/31 "+textInputLayout.getEditText().getText().toString().trim().split("-")[1];
             //  String endTime="2023/08/12 06:30";
             var eventID=0;
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(formatter.parse(datetime));
+
+            Log.i("Ca_data",startCal.toString());
 
             Calendar endCal = Calendar.getInstance();
             endCal.setTime(formatter.parse(endTime));
@@ -1124,7 +1145,7 @@ public final class UtilityFunctions {
                 eventValues.put (CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
-                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you.");
+                eventValues.put(CalendarContract.Events.DESCRIPTION,"Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY,false);
                 eventValues.put(CalendarContract.Events.HAS_ALARM,true);
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());

@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -453,6 +454,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void play() {
 
         if (isTimerRunning)

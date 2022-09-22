@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -36,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -88,58 +90,73 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<String> chapterListEng;
     private List<String> chapterListMath;
     private CustomProgressDialogue customProgressDialogue;
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityHomeScreenBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        checkAudioPermission();
+
+
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
 
-        startIndex=PrefConfig.readIntDInPref(HomeScreen.this,getResources().getString(R.string.alter_maths_value));
+        startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
 
-        customProgressDialogue=new CustomProgressDialogue(HomeScreen.this);
-        mathSub=new ArrayList<>();
-        engSub=new ArrayList<>();
 
-        subMathsData=new ArrayList<>();
-        subEngData=new ArrayList<>();
+        customProgressDialogue = new CustomProgressDialogue(HomeScreen.this);
+        mathSub = new ArrayList<>();
+        engSub = new ArrayList<>();
 
-        subMathList=new ArrayList<>();
-        subEngList=new ArrayList<>();
-        sectionList=new ArrayList<>();
+        subMathsData = new ArrayList<>();
+        subEngData = new ArrayList<>();
+
+        subMathList = new ArrayList<>();
+        subEngList = new ArrayList<>();
+        sectionList = new ArrayList<>();
 
         tableList = getResources().getStringArray(R.array.table_name);
-        subjectRecyclerAdapter=new SubjectRecyclerAdapter(subMathsData,HomeScreen.this);
-
-        kidsGrade=PrefConfig.readIdInPref(HomeScreen.this,getResources().getString(R.string.kids_grade));
-        kidsName=PrefConfig.readIdInPref(HomeScreen.this,getResources().getString(R.string.kids_name));
-        gradeDatabase=GradeDatabase.getDbInstance(HomeScreen.this);
-
-        mathSub= Arrays.asList(math);
-        engSub=Arrays.asList(eng);
+        subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
 
 
+        kidsGrade = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_grade));
+
+        kidsName = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_name));
+        gradeDatabase = GradeDatabase.getDbInstance(HomeScreen.this);
+
+        mathSub = Arrays.asList(math);
+        engSub = Arrays.asList(eng);
+
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(binding.extLayout.permissionCard);
+
+        checkAudioPermission();
         binding.yourTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MathsTutorialActivity.class));
+                startActivity(new Intent(getApplicationContext(), MathsTutorialActivity.class));
             }
         });
 
-        binding.yourProgressLayout.setOnClickListener(v->{
+        binding.yourProgressLayout.setOnClickListener(v -> {
             setSubSubjectProgress();
         });
 
         uiChnages();
-    //    getUiData(true);
+        //    getUiData(true);
 
         logSent();
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
 
 
@@ -151,7 +168,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private void checkAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
+                permissionPadController();
+
             }
         }
     }
@@ -347,6 +365,44 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         });
     }
 
+
+
+    private void permissionPadController() {
+
+
+            if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            } else {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+
+            binding.extLayout.acceptPermission.setOnClickListener(v->{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            });
+            binding.extLayout.rejectPermission.setOnClickListener(v->{
+                completeClose();
+            });
+            // doing some stuffs when bottom sheet is opening or closing like roatting button icon............................
+            mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+
+                }
+            });
+        }
+
+
+
+
     private void displayAddProfileAlertDialog() {
 
         HintDialog hintDialog = new HintDialog(HomeScreen.this);
@@ -466,7 +522,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     else{
 
                         int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
-                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+1+"",false,false,false,false,false,""));
+                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul),mul_upto+1+"",false,false,false,false,false,false,false,""));
                         chapterListMath.add("Multiplication Tables "+(mul_upto+1));
                     }
 
@@ -536,9 +592,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                         try{
                             int mul_upto=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.multiplication_upto));
                             if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2])==mul_upto)
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,true,""));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,false,true,""));
                             else
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,""));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul),chapterListMath.get(l_index).split(" ")[2]+"",false,false,false,false,false,false,false,""));
                         } catch (Exception e) {
                     }
                     }
@@ -590,13 +646,17 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+
+    private void completeClose(){
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        completeClose();
     }
 
     @Override

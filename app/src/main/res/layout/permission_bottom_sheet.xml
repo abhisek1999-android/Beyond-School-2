@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/permissionCard"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_insetEdge="bottom"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/logTextView"
+                    android:text="Permission Required"
+                    android:textSize="@dimen/default_font_size_big"
+                    android:gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:layout_margin="5dp"
+                    />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationVoice"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/separator"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/voice_ip"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/permissionReason"
+            android:layout_marginHorizontal="@dimen/grid_10"
+            android:text="Hey, buddy we need permission for you microphone to understand your voice commands"
+            android:textAlignment="center"
+            android:fontFamily="@font/futurapt_font"
+            android:textSize="@dimen/default_font_size"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/grid_20"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/acceptPermission"
+                android:background="@drawable/round_rect_button_bg"
+                android:text="Accept"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/reemkufi_medium"
+                app:backgroundTint="@color/primary"
+
+                />
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rejectPermission"
+                android:fontFamily="@font/reemkufi_medium"
+                android:background="@drawable/round_rect_button_bg"
+                app:backgroundTint="@color/sweet_red"
+                android:text="Reject"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
