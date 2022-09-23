@@ -66,6 +66,8 @@ public class GrammarTestActivity extends AppCompatActivity {
     private ButtonClick listener = null;
     private int correctAnswerCount = 0, wrongAnswerCount = 0;
     private long statTime = 0;
+    private static final int MAX_TRY_AGAIN_COUNT = 2;
+    private int tryAgainCount = 1;
 
 
     private GradeDatabase databaseGrade;
@@ -225,6 +227,7 @@ public class GrammarTestActivity extends AppCompatActivity {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
             if (category.equals(getResources().getString(R.string.grammar_3))) {
                 if (currentDes.contains(text)) {
+                    tryAgainCount = 1;
                     playPauseAnimation(true);
                     mediaPlayer.start();
                     putJsonData("Question : " +
@@ -243,23 +246,36 @@ public class GrammarTestActivity extends AppCompatActivity {
                     correctAnswerCount++;
                 } else {
                     playPauseAnimation(true);
-                    wrongAnswerCount++;
-                    putJsonData("Question : " +
-                                    UtilityFunctions.getQuestionForGrammarTest(
-                                            context,
-                                            category),
-                            currentDes,
-                            diff, false);
-                    sendDataToAnalytics(currentDes, text, diff, false);
-                    helperTTS(
-                            UtilityFunctions.getCompliment(true)
-                            , true
-                            , 0
+                    if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
+                        wrongAnswerCount++;
+                        putJsonData("Question : " +
+                                        UtilityFunctions.getQuestionForGrammarTest(
+                                                context,
+                                                category),
+                                currentDes,
+                                diff, false);
+                        sendDataToAnalytics(currentDes, text, diff, false);
+                        helperTTS(
+                                UtilityFunctions.getCompliment(false)
+                                , true
+                                , 0
+                        );
+                        tryAgainCount = 1;
+                        return;
+                    }
+                    tryAgainCount++;
+                    playPauseAnimation(true);
+                    tts.initialize(
+                            UtilityFunctions.getCompliment(false),
+                            this
                     );
+
                 }
                 return;
             }
+
             if (text.equals(currentAnswer)) {
+                tryAgainCount = 1;
                 playPauseAnimation(true);
                 correctAnswerCount++;
                 mediaPlayer.start();
@@ -276,20 +292,31 @@ public class GrammarTestActivity extends AppCompatActivity {
                         , 0
                 );
             } else {
+                if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
+                    playPauseAnimation(true);
+                    wrongAnswerCount++;
+                    sendDataToAnalytics(currentAnswer, text, diff, false);
+                    putJsonData("Question : " +
+                                    UtilityFunctions.getQuestionForGrammarTest(
+                                            context,
+                                            category),
+                            text,
+                            diff, false);
+                    helperTTS(
+                            UtilityFunctions.getCompliment(false)
+                            , true
+                            , 0);
+                    tryAgainCount = 1;
+                    return;
+                }
+                tryAgainCount++;
                 playPauseAnimation(true);
-                wrongAnswerCount++;
-                sendDataToAnalytics(currentAnswer, text, diff, false);
-                putJsonData("Question : " +
-                                UtilityFunctions.getQuestionForGrammarTest(
-                                        context,
-                                        category),
-                        text,
-                        diff, false);
-                helperTTS(
-                        UtilityFunctions.getCompliment(false)
-                        , true
-                        , 0);
+                tts.initialize(
+                        UtilityFunctions.getCompliment(false),
+                        this
+                );
             }
+
         };
     }
 

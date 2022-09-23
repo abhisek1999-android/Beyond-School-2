@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -219,8 +220,16 @@ public class GrammarActivity extends AppCompatActivity {
                                     get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                             var currentFragment = (RowItemFragment) fragmentList.
                                     get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-                            currentFragment.getTextView()
-                                    .setText(currentModel.getDescription());
+                            if (category.equals(getResources().getString(R.string.grammar_3)))
+                                currentFragment.getTextView()
+                                        .setText(Html.fromHtml(
+                                                "<font color='#64c1c7'>" +
+                                                        currentModel.getWord() + "</font>\n",
+                                                Html.FROM_HTML_MODE_COMPACT
+                                        ));
+                            else
+                                currentFragment.getTextView()
+                                        .setText(currentModel.getDescription());
 
                         });
                         setOptionButton();
@@ -464,7 +473,7 @@ public class GrammarActivity extends AppCompatActivity {
 
     private List<Fragment> mapToFragment(List<GrammarModel> grammarModels) {
         return CollectionUtils.mapWithIndex(grammarModels.stream(), (index, item) ->
-                new RowItemFragment(item, index + 1)).collect(Collectors.toList());
+                new RowItemFragment(item, index + 1, category)).collect(Collectors.toList());
     }
 
     private List<GrammarModel> getFilterGrammar(List<GrammarType> list) {
