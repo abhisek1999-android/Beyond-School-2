@@ -77,7 +77,7 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                if (subject_model.isIs_locked()) {
+//                if (subject_model.isIs_locked()) {
 //                    needs to be intent values
                     if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                         Intent intent = new Intent(context, EnglishActivity.class);
@@ -117,9 +117,9 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 
 
                     }
-                } else {
-                    UtilityFunctions.displayCustomDialog(context, "Chapter Locked", "Hey, Please complete previous level to unlock.");
-                }
+//                } else {
+//                    UtilityFunctions.displayCustomDialog(context, "Chapter Locked", "Hey, Please complete previous level to unlock.");
+//                }
             }
         });
 

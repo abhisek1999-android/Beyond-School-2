@@ -63,7 +63,7 @@ public class RowItemFragment extends Fragment {
             }
             binding.textViewDes.setText(Html.fromHtml(
                     grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
-                            "<font color='#64c1c7'>" + grammarModel.getWord() + "</font>")
+                                    "<font color='#64c1c7'>" + grammarModel.getWord() + "</font>")
                     , Html.FROM_HTML_MODE_COMPACT
             ));
 

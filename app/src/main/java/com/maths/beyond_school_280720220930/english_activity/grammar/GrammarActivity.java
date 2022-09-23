@@ -99,6 +99,7 @@ public class GrammarActivity extends AppCompatActivity {
         progressDataBase = ProgressDataBase.getDbInstance(this);
         progressData = new ArrayList<>();
 
+        initMediaPlayer();
         setToolbar();
         getDataFromIntent();
     }
@@ -133,6 +134,8 @@ public class GrammarActivity extends AppCompatActivity {
     }
 
     private void initMediaPlayer() {
+        if (mediaPlayer == null)
+            mediaPlayer = UtilityFunctions.playClapSound(this);
         mediaPlayer = UtilityFunctions.playClapSound(this);
     }
 
@@ -160,7 +163,6 @@ public class GrammarActivity extends AppCompatActivity {
         var pagerAdapter = new EnglishViewPager(fragmentList, getSupportFragmentManager(), getLifecycle());
         binding.viewPagerIdentifyingNouns.setAdapter(pagerAdapter);
         binding.viewPagerIdentifyingNouns.setUserInputEnabled(false);
-
         setButton();
         setOptionButtonClick();
     }
@@ -170,7 +172,7 @@ public class GrammarActivity extends AppCompatActivity {
             if (binding.playPause.isChecked()) {
                 initTTS();
                 timer();
-                initMediaPlayer();
+
                 startSpeaking();
             } else
                 destroyEngine();
@@ -180,7 +182,6 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void setIntro() {
         initTTS();
-        initMediaPlayer();
         playPauseAnimation(true);
         setToggleButtonChecked(true);
         helperTTS(UtilityFunctions.getIntroForGrammar(context, category)
@@ -267,6 +268,7 @@ public class GrammarActivity extends AppCompatActivity {
             if (category.equals(getResources().getString(R.string.grammar_3))) {
                 if (currentDes.contains(text)) {
                     playPauseAnimation(true);
+
                     mediaPlayer.start();
                     helperTTS(
                             UtilityFunctions.getCompliment(true)
@@ -282,7 +284,11 @@ public class GrammarActivity extends AppCompatActivity {
             }
             if (text.equals(currentAnswer)) {
                 playPauseAnimation(true);
-                mediaPlayer.start();
+                try {
+                    mediaPlayer.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                }
                 helperTTS(
                         UtilityFunctions.getCompliment(true)
                         , true
@@ -473,6 +479,7 @@ public class GrammarActivity extends AppCompatActivity {
         super.onPause();
         destroyEngine();
         checkProgressData();
+        destroyMediaPlayer();
         UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Grammar", category, new Date(),
                 timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
     }
@@ -495,6 +502,7 @@ public class GrammarActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         destroyEngine();
+        destroyMediaPlayer();
     }
 
 
@@ -519,14 +527,19 @@ public class GrammarActivity extends AppCompatActivity {
         if (tts != null) {
             tts.destroy();
         }
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-        }
         if (ttsHelper != null) {
             ttsHelper.destroy();
         }
         if (ttsHelperAnim != null) {
             ttsHelperAnim.destroy();
+        }
+    }
+
+    private void destroyMediaPlayer() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 
