@@ -1,12 +1,16 @@
 package com.maths.beyond_school_280720220930;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -99,6 +103,7 @@ public class AdditionActivity extends AppCompatActivity {
     private String kidName;
     private int kidAge;
     private String parentsContactId="";
+    private boolean isAnsByTyping=false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -131,8 +136,10 @@ public class AdditionActivity extends AppCompatActivity {
         parentsContactId=PrefConfig.readIdInPref(AdditionActivity.this,getResources().getString(R.string.parent_contact_details));
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
+
         auth = FirebaseAuth.getInstance();
 
+        analytics.setUserId(auth.getCurrentUser().getUid());
 
         kidsDb = FirebaseFirestore.getInstance();
 
@@ -242,6 +249,50 @@ public class AdditionActivity extends AppCompatActivity {
                     UtilityFunctions.runOnUiThread(() -> {
                         binding.ansTextView.setText("");
                     }, 100);
+
+
+
+                    isAnsByTyping=true;
+                    binding.ansTextView.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            Log.i("ExecutedMethod",editable+","+currentAnswer);
+
+                            if (isAnsByTyping){
+
+                                try{
+                                    if (Integer.parseInt(editable+"")==currentAnswer){
+                                        isAnsByTyping=false;
+                                        UtilityFunctions.runOnUiThread(()->{
+
+                                            Log.i("Executed",editable+","+currentAnswer);
+                                            isCallTTS = true;
+                                            initSTT();
+                                            isNewQuestionGenerated = true;
+                                            try {
+                                                successResultCalling(binding.ansTextView.getText().toString());
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            binding.ansTextView.clearFocus();
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                        },100);
+
+                                    }
+                                }catch (Exception e){}
+
+                            }}
+                    });
                 } else {
                     //lost focus
                 }

@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -119,6 +121,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private long timeSpend=0;
     private ProgressDataBase progressDataBase;
 
+    private boolean isTyped=false;
     public static final int TIMER_VALUE = 15;
     EditText ans;
     private View separator;
@@ -134,11 +137,15 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
+
+        analytics.setUserId(auth.getCurrentUser().getUid());
+
         subject = getIntent().getStringExtra("subject");
         digit = getIntent().getStringExtra("max_digit");
         videoUrl = getIntent().getStringExtra("video_url");
         selectedSub = getIntent().getStringExtra("selected_sub");
         api_key = getResources().getString(R.string.youtube_api);
+
 
 
           animMath = AnimationUtil.getAnimList(72,45,Integer.parseInt(digit),subject);
@@ -521,47 +528,57 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
                     UtilityFunctions.runOnUiThread(()->{binding.ansTextView.setText("");},100);
 
+
                     binding.indicator.setVisibility(View.INVISIBLE);
                     binding.indicator.clearAnimation();
                     pause();
                     stt.destroy();
+                    isAnsByTyping=true;
+                    binding.ansTextView.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            Log.i("ExecutedMethod",editable+","+currentAnswer);
+
+
+                            if (isAnsByTyping){
+
+                            try{
+                                if (Integer.parseInt(editable+"")==currentAnswer){
+                                    isAnsByTyping=false;
+                                    UtilityFunctions.runOnUiThread(()->{
+
+                                        Log.i("Executed",editable+","+currentAnswer);
+                                        isCallTTS = true;
+                                        initSTT();
+                                        isNewQuestionGenerated = true;
+                                        justifyAns(binding.ansTextView.getText().toString());
+                                        binding.ansTextView.clearFocus();
+                                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                    },100);
+
+                                }
+                            }catch (Exception e){}
+
+                        }}
+                    });
+
                 } else {
                     //lost focus
                 }
             }
         });
 
-        binding.ansTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-//                if (binding.ansTextView.getText().toString().equals(currentAnswer+"")){
-//
-//                    UtilityFunctions.runOnUiThread(()->{
-//                        isCallTTS = true;
-//                        initSTT();
-//                        isNewQuestionGenerated = true;
-//                        justifyAns(binding.ansTextView.getText().toString());
-//                        binding.ansTextView.clearFocus();
-//                        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-//                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//                    },100);
-//
-//                }
-            }
-        });
 
 
         if (subject.equals("addition")) {
@@ -868,6 +885,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                     if (!binding.playPause.isChecked())
                         binding.playPause.setChecked(true);
                     isNewQuestionGenerated = true;
+
                     justifyAns(binding.ansTextView.getText().toString());
                     binding.ansTextView.clearFocus();
                 }
@@ -957,6 +975,8 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private void justifyAns(String result) {
         binding.indicator.setVisibility(View.INVISIBLE);
         binding.indicator.clearAnimation();
+
+        Log.i("Focous",binding.ansTextView.getFocusable()+"");
 
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(LearningActivity.this, R.color.green));
         isAnswered = true;

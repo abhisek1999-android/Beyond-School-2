@@ -185,7 +185,6 @@ public class AlarmAtTime extends AppCompatActivity {
                 //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
                 event.put(CalendarContract.Events.DURATION,  "+P30M");
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-                event.put(CalendarContract.Events.TITLE, "Beyond School Reminder");
                 event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 cr.update(eventUri, event, null, null);
                 Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();

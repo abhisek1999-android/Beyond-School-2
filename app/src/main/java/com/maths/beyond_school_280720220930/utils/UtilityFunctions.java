@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
@@ -666,6 +667,34 @@ public final class UtilityFunctions {
         resultBundle.putString("type", type);
         resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
+
+
+        var kidsData = new Bundle();
+        kidsData.putString("id",kidsId);
+
+        mFirebaseAnalytics.logEvent("kids_id",kidsData);
+
+        Bundle itemJeggings = new Bundle();
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_NAME, kidsName);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, question);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_VARIANT, detected);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_BRAND, result);
+        itemJeggings.putDouble(FirebaseAnalytics.Param.PRICE, age);
+
+
+        Bundle activityInfoWithIndex = new Bundle(itemJeggings);
+        activityInfoWithIndex.putLong(FirebaseAnalytics.Param.INDEX, 1);
+
+
+        Bundle viewItemListParams = new Bundle();
+        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_ID, tag+"");
+        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_NAME, type);
+        viewItemListParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
+                new Parcelable[]{activityInfoWithIndex});
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM_LIST, viewItemListParams);
+
+
     }
 
 
