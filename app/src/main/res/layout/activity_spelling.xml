@@ -212,7 +212,9 @@
                     android:gravity="center"
                     android:text="@string/bkSpace"
                     android:textColor="@color/primary"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+
                     app:iconSize="24dp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded" />
 
