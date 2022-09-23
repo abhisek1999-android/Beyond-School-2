@@ -52,36 +52,63 @@ public class SpeechToTextConverterSpelling implements ConverterEngine<SpeechToTe
         words.put("hedge", "h");
         words.put("hatch", "h");
         words.put("edge", "h");
-        words.put("eye", "i"); words.put("aye", "i");
-        words.put("jay", "j");words.put("je", "j");words.put("joy", "j");
-        words.put("kay", "k");words.put("ke", "k");
-        words.put("ell", "l");words.put("yell", "l");words.put("hell", "l");words.put("el", "l");
-        words.put("em", "m"); words.put("am", "m");words.put("yam", "m");words.put("em", "m");
-        words.put("en", "n");words.put("yen", "n");
-        words.put("oh", "o");words.put("vow", "o");words.put("waw", "o");
-        words.put("pee", "p");words.put("pay", "p");words.put("pie", "p");
-        words.put("cue", "q");words.put("queue", "q");
-        words.put("are", "r");words.put("err", "r");words.put("year", "r");
-        words.put("ess", "s");words.put("es", "s");words.put("ass", "s");words.put("yes", "s");
-        words.put("tee", "t");words.put("tea", "t");
+        words.put("eye", "i");
+        words.put("aye", "i");
+        words.put("jay", "j");
+        words.put("je", "j");
+        words.put("joy", "j");
+        words.put("kay", "k");
+        words.put("ke", "k");
+        words.put("ell", "l");
+        words.put("yell", "l");
+        words.put("hell", "l");
+        words.put("el", "l");
+        words.put("em", "m");
+        words.put("am", "m");
+        words.put("yam", "m");
+        words.put("em", "m");
+        words.put("en", "n");
+        words.put("yen", "n");
+        words.put("oh", "o");
+        words.put("vow", "o");
+        words.put("waw", "o");
+        words.put("pee", "p");
+        words.put("pay", "p");
+        words.put("pie", "p");
+        words.put("cue", "q");
+        words.put("queue", "q");
+        words.put("are", "r");
+        words.put("err", "r");
+        words.put("year", "r");
+        words.put("ess", "s");
+        words.put("es", "s");
+        words.put("ass", "s");
+        words.put("yes", "s");
+        words.put("tee", "t");
+        words.put("tea", "t");
         words.put("you", "u");
-        words.put("vee", "v");    words.put("wee", "v");    words.put("wee", "v");
+        words.put("vee", "v");
+        words.put("wee", "v");
+        words.put("wee", "v");
         words.put("double you", "w");
-        words.put("ex", "x");words.put("aex", "x");
+        words.put("ex", "x");
+        words.put("aex", "x");
         words.put("why", "y");
-        words.put("zed", "z");words.put("zee", "z");words.put("jed", "z");
+        words.put("zed", "z");
+        words.put("zee", "z");
+        words.put("jed", "z");
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-       intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-       intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-     //  intent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
+        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        //  intent.putExtra(RecognizerIntent.ACTION_RECOGNIZE_SPEECH, RecognizerIntent.EXTRA_PREFER_OFFLINE);
 
 //       intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
 //       intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
 //       intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
-       intent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES,true);
-       intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-       intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+        intent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, true);
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 
         var listener = new CustomRecognitionListener();
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(appContext);
@@ -186,17 +213,19 @@ public class SpeechToTextConverterSpelling implements ConverterEngine<SpeechToTe
         @Override
         public void onResults(Bundle results) {
 
-            List<String[]> finalResults=new ArrayList<>();
+            List<String[]> finalResults = new ArrayList<>();
 
             var translateResults = "";
             var data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
 
-            Log.i("OnResultData",data+"");
+            Log.i("OnResultData", data + "");
+            Log.i("OnResultData", data.get(0) + "");
 
-try{
-            conversionCallaBack.getLogResult("onResult : " + data.get(0));}
-catch (Exception e){}
+            try {
+                conversionCallaBack.getLogResult("onResult : " + data.get(0));
+            } catch (Exception e) {
+            }
             translateResults = data.get(0);
             var s = words.get(translateResults.trim().toLowerCase(Locale.ROOT));
             if (s != null)
@@ -210,16 +239,15 @@ catch (Exception e){}
                 }
             }
 
-            for (String res:data){
+            for (String res : data) {
                 finalResults.add(res.split(" "));
             }
 
 
-
             conversionCallaBack.getArrayResult(finalResults);
 
-            for (String  st:finalResults.get(0))
-                Log.i("OneData",finalResults.size()+"");
+            for (String st : finalResults.get(0))
+                Log.i("OneData", finalResults.size() + "");
 
         }
 
@@ -227,12 +255,13 @@ catch (Exception e){}
         public void onPartialResults(Bundle partialResults) {
             var d = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             Log.d("XXX", "onPartialResults : " + d.toString());
-            try{
-            if (conversionCallaBack != null && d.get(0).length() > 0) {
-                conversionCallaBack.getLogResult("onPartialResult : " + d.get(0));
-                conversionCallaBack.onPartialResult(d.get(0).toLowerCase(Locale.ROOT));
-            }}catch (Exception e){
-                Log.i("Error",e.getMessage());
+            try {
+                if (conversionCallaBack != null && d.get(0).length() > 0) {
+                    conversionCallaBack.getLogResult("onPartialResult : " + d.get(0));
+                    conversionCallaBack.onPartialResult(d.get(0).toLowerCase(Locale.ROOT));
+                }
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
             }
 
 

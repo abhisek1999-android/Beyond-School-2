@@ -676,7 +676,11 @@ public final class UtilityFunctions {
 
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
-                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject) {
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
+            , String parentsContactId
+    )
+
+    {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -688,6 +692,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
         resultBundle.putString("type", type);
+        resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
     }
 
@@ -1103,6 +1108,22 @@ public final class UtilityFunctions {
     }
 
 
+    public static boolean checkGrade(String grade) {
+
+
+        List<String> grades = new ArrayList();
+        grades.add("GRADE 1");
+        grades.add("GRADE 2");
+        grades.add("GRADE 3");
+
+        if (grades.contains(grade))
+            return true;
+
+        return false;
+
+    }
+
+
     @SuppressLint("Range")
     public static void setEvent(Context context, TextInputLayout textInputLayout) throws ParseException {
 
@@ -1143,7 +1164,7 @@ public final class UtilityFunctions {
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
-                eventValues.put(CalendarContract.Events.DESCRIPTION, "Beyondschool is waiting for you, only 5 mins left to see you.");
+                eventValues.put(CalendarContract.Events.DESCRIPTION, "Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY, false);
                 eventValues.put(CalendarContract.Events.HAS_ALARM, true);
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());

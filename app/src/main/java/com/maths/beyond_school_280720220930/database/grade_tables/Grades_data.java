@@ -19,13 +19,31 @@ public class Grades_data {
         this.is_completed = is_completed;
     }
 
-    public Grades_data(String subject, String chapter, boolean grade1, boolean grade2, boolean grade3, boolean unlock, boolean is_completed, String url) {
+    public boolean isGrade4() {
+        return grade4;
+    }
+
+    public void setGrade4(boolean grade4) {
+        this.grade4 = grade4;
+    }
+
+    public boolean isGrade5() {
+        return grade5;
+    }
+
+    public void setGrade5(boolean grade5) {
+        this.grade5 = grade5;
+    }
+
+    public Grades_data(String subject, String chapter, boolean grade1, boolean grade2, boolean grade3, boolean grade4, boolean grade5, boolean unlock, boolean is_completed, String url) {
         this.subject = subject;
         //this.subsubject = subsubject;
         this.chapter = chapter;
         this.grade1 = grade1;
         this.grade2 = grade2;
         this.grade3 = grade3;
+        this.grade4 = grade4;
+        this.grade5 = grade5;
         this.url=url;
         this.unlock=unlock;
         this.is_completed=is_completed;
@@ -53,6 +71,12 @@ public class Grades_data {
 
     @ColumnInfo(name = "grade3")
     public boolean grade3;
+
+    @ColumnInfo(name = "grade4")
+    public boolean grade4;
+
+    @ColumnInfo(name = "grade5")
+    public boolean grade5;
 
     @ColumnInfo(name="url")
     public String  url;

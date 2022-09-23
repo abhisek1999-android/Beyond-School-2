@@ -782,7 +782,6 @@
         <item>Table of Nineteen</item>
         <item>Table of Twenty</item>
 
-
     </string-array>
 
 
@@ -831,33 +830,35 @@
         <item>GRADE 1</item>
         <item>GRADE 2</item>
         <item>GRADE 3</item>
-        <!--        <item>GRADE 4</item> -->
-        <!--        <item>GRADE 5</item>-->
-        <!--        <item>4th Grade</item>-->
-        <!--        <item>5th Grade</item>-->
-        <!--        <item>6th Grade</item>-->
-        <!--        <item>7th Grade</item>-->
-        <!--        <item>8th Grade</item>-->
-        <!--        <item>9th Grade</item>-->
-        <!--        <item>10th Grade</item>-->
-        <!--        <item>11th Grade</item>-->
-        <!--        <item>12th Grade</item>-->
+        <item>GRADE 4</item>
+        <item>GRADE 5</item>
+        <!--<item>4th Grade</item>-->
+        <!--<item>5th Grade</item>-->
+        <!--<item>6th Grade</item>-->
+        <!--<item>7th Grade</item>-->
+        <!--<item>8th Grade</item>-->
+        <!--<item>9th Grade</item>-->
+        <!--<item>10th Grade</item>-->
+        <!--<item>11th Grade</item>-->
+        <!--<item>12th Grade</item>-->
     </string-array>
 
     <string-array name="time_slots">
-        <item>14:30 - 15:00</item>
-        <item>15:00 - 15:30</item>
-        <item>15:30 - 16:00</item>
-        <item>16:00 - 16:30</item>
-        <item>16:30 - 17:00</item>
-        <item>17:00 - 17:30</item>
-        <item>17:30 - 18:00</item>
-        <item>18:00 - 18:30</item>
-        <item>18:30 - 19:00</item>
-        <item>19:00 - 19:30</item>
-        <item>19:30 - 20:00</item>
-        <item>20:00 - 20:30</item>
-        <item>20:30 - 21:00</item>
+        <item>2:30 PM - 3:00 PM</item>
+        <item>3:00 PM - 3:30 PM</item>
+        <item>3:30 PM - 4:00 PM</item>
+        <item>4:00 PM - 4:30 PM</item>
+        <item>4:30 PM - 5:00 PM</item>
+        <item>5:00 PM - 5:30 PM</item>
+        <item>5:30 PM - 6:00 PM</item>
+        <item>6:00 PM - 6:30 PM</item>
+        <item>6:30 PM - 7:00 PM</item>
+        <item>7:00 PM - 7:30 PM</item>
+        <item>7:30 PM - 8:00 PM</item>
+        <item>8:00 PM - 8:30 PM</item>
+        <item>8:30 PM - 9:00 PM</item>
+        <item>9:00 PM - 9:30 PM</item>
+        <item>9:30 PM - 10:00 PM</item>
 
     </string-array>
     <string name="title_activity_welcome_screen">WelcomeScreen</string>
@@ -963,6 +964,12 @@
     <string name="spelling_30">Spelling Clothes</string>
 
 
+
+    <string name="expression">Expression</string>
+    <string name="expression1">Expression Introducing Yourself</string>
+
+
+
     <string name="digit">Digit</string>
     <string name="table">Table</string>
 
@@ -1017,6 +1024,7 @@
     <string name="kids_name">KIDS_NAME</string>
     <string name="kids_dob">KIDS_DOB</string>
     <string name="kids_id">KIDS_ID</string>
+    <string name="parent_contact_details">PARENT_CONTACT_DETAILS</string>
     <string name="kids_profile_url">KIDS_PROFILE_URL</string>
     <string name="learn">Learn</string>
     <string name="timer_time">TIMER_TIME</string>

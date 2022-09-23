@@ -16,11 +16,19 @@ public class ExpressionDetails {
         this.answers = answer;
     }
 
-    public String getWord() {
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public String getQuestion() {
         return question;
     }
 
-    public void setWord(String question) {
+    public void setQuestion(String question) {
         this.question = question;
     }
 
@@ -32,11 +40,4 @@ public class ExpressionDetails {
         this.definition = definition;
     }
 
-    public List<String> getImageLink() {
-        return answers;
-    }
-
-    public void setImageLink(List<String> answers) {
-        this.answers = answers;
-    }
 }

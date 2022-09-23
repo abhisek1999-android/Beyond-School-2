@@ -55,7 +55,9 @@
         </activity>
         <activity
             android:name=".english_activity.grammar.GrammarActivity"
-            android:exported="false" />
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
@@ -77,7 +79,21 @@
             android:exported="false" />
         <activity
             android:name=".HomeScreen"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.beyondschool.live"
+                    android:pathPrefix="/app" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".MathsTutorialActivity"
             android:exported="false" />

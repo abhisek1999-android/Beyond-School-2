@@ -96,7 +96,7 @@ public class AlarmAtTime extends AppCompatActivity {
             try {
                 time=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.timer_time));
                 if (!time.equals("")){
-                   updateEvent();
+                  updateEvent();
                     //setEvent();
                 }else{
                     setEvent();
@@ -166,11 +166,11 @@ public class AlarmAtTime extends AppCompatActivity {
             try{
 
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
                 Date currDate=new Date();
-                String datetime= dateFormatter.format(currDate)+" "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[0];
-                String endTime= "2023/12/31 "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().replace(" ","").split("-")[1];
+                String datetime= dateFormatter.format(currDate)+" "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[0];
+                String endTime= "2023/12/31 "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[1];
                 //  String endTime="2023/08/12 06:30";
 
                 Calendar startCal = Calendar.getInstance();

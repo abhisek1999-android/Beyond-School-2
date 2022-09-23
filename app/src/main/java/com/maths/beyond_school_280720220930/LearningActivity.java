@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,7 +9,6 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -94,6 +93,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
     private String selectedSub = "";
     private String digit = "";
     private String videoUrl = "";
+    private String parentsContactId = "";
     private String api_key = "";
     private LogDatabase logDatabase;
     private FirebaseAnalytics analytics;
@@ -149,6 +149,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
         kidsName=PrefConfig.readIdInPref(LearningActivity.this,getResources().getString(R.string.kids_name));
         kidsId=PrefConfig.readIdInPref(LearningActivity.this,getResources().getString(R.string.kids_id));
         kidsAge=UtilityFunctions.calculateAge(PrefConfig.readIdInPref(LearningActivity.this,getResources().getString(R.string.kids_dob)));
+        parentsContactId=PrefConfig.readIdInPref(LearningActivity.this,getResources().getString(R.string.parent_contact_details));
 
 
 
@@ -453,6 +454,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void play() {
 
         if (isTimerRunning)
@@ -977,11 +979,15 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
             //TODO: PLACE CORRECT KIDS DATA
             UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
                     "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, true, (int) (endTime - startTime),
-                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths",parentsContactId);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
             DELAY_ON_STARTING_STT = 500;
 
             DELAY_ON_SETTING_QUESTION = 2000;
+
+
+
+
             correctAnswer++;
             attempt = 3;
 
@@ -1002,7 +1008,7 @@ public class LearningActivity extends YouTubeBaseActivity implements YouTubePlay
                 tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
                 UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
                         "Mathematics-Practice-" + subject,kidsAge, currentAnswer + "", result, false, (int) (endTime - startTime),
-                        currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths");
+                        currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
                 logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
                 DELAY_ON_STARTING_STT = 1800;
                 DELAY_ON_SETTING_QUESTION = 3000;

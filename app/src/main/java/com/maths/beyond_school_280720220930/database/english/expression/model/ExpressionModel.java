@@ -11,11 +11,11 @@ import java.util.List;
 public class ExpressionModel {
     @PrimaryKey(autoGenerate = false)
     private int grade;
-    private List<ExpressionCategoryModel> vocabulary;
+    private List<ExpressionCategoryModel> expression;
 
-    public ExpressionModel(int grade, List<ExpressionCategoryModel> vocabulary) {
+    public ExpressionModel(int grade, List<ExpressionCategoryModel> expression) {
         this.grade = grade;
-        this.vocabulary = vocabulary;
+        this.expression = expression;
     }
 
     public int getGrade() {
@@ -26,12 +26,12 @@ public class ExpressionModel {
         this.grade = grade;
     }
 
-    public List<ExpressionCategoryModel> getVocabulary() {
-        return vocabulary;
+    public List<ExpressionCategoryModel> getExpression() {
+        return expression;
     }
 
-    public void setVocabulary(List<ExpressionCategoryModel> vocabulary) {
-        this.vocabulary = vocabulary;
+    public void setVocabulary(List<ExpressionCategoryModel> expression) {
+        this.expression = expression;
     }
 }
 
