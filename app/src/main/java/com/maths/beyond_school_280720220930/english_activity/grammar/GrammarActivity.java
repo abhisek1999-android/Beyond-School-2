@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -107,7 +106,9 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void firstOpen() {
         var isOpen = !PrefConfig.readBooleanInPref(context, category);
-        if (isOpen)
+        var isVisible = !category.equals(getResources().getString(R.string.grammar_2));
+        binding.hintButton.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        if (isOpen && isVisible)
             displayTutorialDialog();
         else
             setIntro();
@@ -595,7 +596,7 @@ public class GrammarActivity extends AppCompatActivity {
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         var getTitle = (category.equals(getResources().getString(R.string.grammar_1))) ?
-                "Noun" : category;
+                "Noun" : category.replace("Grammar", "");
         String initText = "Hi kids, Let us learn about " + getTitle;
 
         descTextView.setText(initText);

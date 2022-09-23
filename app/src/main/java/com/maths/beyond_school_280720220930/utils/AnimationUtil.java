@@ -141,43 +141,45 @@ public class AnimationUtil {
         int len = grammarType.split(" ").length;
         if (grammarType.split(" ")[len - 1].toLowerCase(Locale.ROOT).equals("noun")) {
             if (grammarType.equals(context.getResources().getString(R.string.grammar_1))) {
-                list.add(new AnimData("Nouns are words for people,places, or things. Example  girl, doctor, office, town, bag, shirt. ", "none", "none"));
-                list.add(new AnimData("An idea or feeling can also be a noun. They are called Abstract nouns as we cannot see or touch them. example - Happiness, sad, friendship, respect.", "", ""));
-                list.add(new AnimData("Plural nouns describe more than one person, place, or thing. Example car - cars , pen - pens, man - men, orange - oranges.", "none", "none"));
+                list.add(new AnimData("Nouns are words for people,places, or things.\nExample -  girl, doctor, office, town, bag, shirt. ", "none", "none"));
+                list.add(new AnimData("An idea or feeling can also be a noun. They are called Abstract nouns as we cannot see or touch them.\nExample - Happiness, sad, friendship, respect.", "", ""));
+                list.add(new AnimData("Plural nouns describe more than one person, place, or thing.\nExample - car - cars , pen - pens, man - men, orange - oranges.", "none", "none"));
             } else if (grammarType.equals(context.getResources().getString(R.string.grammar_3))) {
                 list.add(new AnimData("Common nouns name general objects, not specific " +
-                        "objects. For example, car is a common" +
+                        "objects.\nFor example - car is a common" +
                         " noun.", "none", "none"));
                 list.add(new AnimData("A name for a specific object is a proper noun." +
-                        " Always capitalize proper nouns. Example My favorite color is Pink." +
+                        " Always capitalize proper nouns.\nExample - My favorite color is Pink." +
                         " ", "none", "none"));
                 list.add(new AnimData("The days of the week are proper nouns. " +
-                        "Always capitalize first letter of them. Example - Monday, Tuesday.",
+                        "Always capitalize first letter of them.\nExample - Monday, Tuesday.",
                         "none", "none"));
                 list.add(new AnimData("The months of the year " +
-                        "are proper nouns. Capitalize them." +
-                        "Example March, June.", "none", "none"));
+                        "are proper nouns,Capitalize them." +
+                        "\nExample - March, June.", "none", "none"));
                 list.add(new AnimData("Don't capitalize the seasons" +
                         ", like summer, fall, and winter!",
                         "none", "none"));
 
             }
         } else if (grammarType.split(" ")[len - 1].toLowerCase(Locale.ROOT).equals("verb")) {
-            if (grammarType.equals(context.getResources().getString(R.string.grammar_4)))
-                list.add(new AnimData("A verb is a word that shows action. Example - eat, run, dance, sing," +
-                        "play, read, write, is, am, are, was, were . Let’s see how " +
-                        "they are used in a sentence. Example David swims in water. ‘swim’ is the verb here."
+            if (grammarType.equals(context.getResources().getString(R.string.grammar_4))) {
+                list.add(new AnimData("A verb is a word that shows action.\nExample - eat, run, dance, sing," +
+                        "play, read, write, is, am, are, was, were . "
                         , "", ""));
-            else {
+                list.add(new AnimData("Let’s see how they are used in a sentence." +
+                        "\nExample - David swims in water. ‘swim’ is the verb here.",
+                        "none", "none"));
+            } else {
                 list.add(new AnimData("Hi, Kids. Let us learn about Present Tense verbs.", "none", "none"));
                 list.add(new AnimData("When you change a verb to talk about the past" +
-                        ",present, or future, you change its tense." +
+                        ",present, or future, you change it's tense." +
                         " The tense of a verb tells when an action happens." +
                         " Verbs can be past, present," +
                         " or future tense.",
                         "none", "none"));
                 list.add(new AnimData("Present tense verbs are actions that are happening now. " +
-                        "To write most verbs in the present tense, add -s. Example write + s =" +
+                        "To write most verbs in the present tense, add -s.\nExample - write + s =" +
                         " writes - Sally writes a letter. ",
                         "none", "none"));
             }

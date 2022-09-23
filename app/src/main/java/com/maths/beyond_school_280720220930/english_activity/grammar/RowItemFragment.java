@@ -44,11 +44,7 @@ public class RowItemFragment extends Fragment {
 
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);
-        binding.textViewDes.setText(Html.fromHtml(
-                grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
-                        "<font color='#64c1c7'>" + grammarModel.getWord() + "</font>")
-                , Html.FROM_HTML_MODE_COMPACT
-        ));
+        setTextView();
 
 
         binding.imageButtonPrev.setVisibility((pos == 1) ? View.INVISIBLE : View.VISIBLE);
@@ -61,11 +57,7 @@ public class RowItemFragment extends Fragment {
             if (activity != null) {
                 activity.restartEngine();
             }
-            binding.textViewDes.setText(Html.fromHtml(
-                    grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
-                                    "<font color='#64c1c7'>" + grammarModel.getWord() + "</font>")
-                    , Html.FROM_HTML_MODE_COMPACT
-            ));
+            setTextView();
 
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
@@ -73,15 +65,19 @@ public class RowItemFragment extends Fragment {
             if (activity != null) {
                 activity.restartEngine();
             }
-            binding.textViewDes.setText(Html.fromHtml(
-                    grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
-                            "<font color='#64c1c7'>" + grammarModel.getWord() + "</font>")
-                    , Html.FROM_HTML_MODE_COMPACT
-            ));
+            setTextView();
         });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
                         String.valueOf(pos),
                         String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
+    }
+
+    private void setTextView() {
+        binding.textViewDes.setText(Html.fromHtml(
+                grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
+                        "<font color='#64c1c7'>" + grammarModel.getWord().toLowerCase(Locale.ROOT) + "</font>")
+                , Html.FROM_HTML_MODE_COMPACT
+        ));
     }
 }

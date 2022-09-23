@@ -85,7 +85,7 @@ public abstract class GrammarList {
             var lists = new ArrayList<GrammarModel>();
 
             lists.add(
-                    new GrammarModel("Swim", "David, water, swims", "David swims in the water.", "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7d51b7ba-9633-4cd8-a8aa-270a3d0eeb73%2FUntitled.png?table=block&id=808b6556-232e-412d-af11-51cca74ac5bd&spaceId=e3f3ef07-5851-41bd-9712-14462db96413&width=380&userId=e39db595-1844-42cc-aff8-1816b7db057d&cache=v2")
+                    new GrammarModel("Swims", "David, water, swims", "David swims in the water.", "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7d51b7ba-9633-4cd8-a8aa-270a3d0eeb73%2FUntitled.png?table=block&id=808b6556-232e-412d-af11-51cca74ac5bd&spaceId=e3f3ef07-5851-41bd-9712-14462db96413&width=380&userId=e39db595-1844-42cc-aff8-1816b7db057d&cache=v2")
             );
             lists.add(
                     new GrammarModel("Clean", "they, the, clean", "They clean the room daily.", "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F30aa631d-9bd9-441f-baf8-448fe65ec3a5%2FUntitled.png?table=block&id=09e8270e-492a-43a6-b14e-dca2a50110d5&spaceId=e3f3ef07-5851-41bd-9712-14462db96413&width=290&userId=e39db595-1844-42cc-aff8-1816b7db057d&cache=v2")

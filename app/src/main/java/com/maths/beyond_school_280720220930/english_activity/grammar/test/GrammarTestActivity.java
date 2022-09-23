@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.AdditionActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -301,7 +300,7 @@ public class GrammarTestActivity extends AppCompatActivity {
                 , result, b, (int) (diff),
                 UtilityFunctions.getQuestionForGrammarTest(context, category), "English",
                 parentsContactId
-                );
+        );
     }
 
     private void helperTTS(String message, boolean canNavigate, int request) {
@@ -541,7 +540,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
         intent.putExtra("wrongAns", wrongAnswerCount);
         intent.putExtra("correctAns", correctAnswerCount);
-        intent.putExtra("chapter", category);
+        intent.putExtra("chapter", category.replace("Grammar", ""));
         startActivity(intent);
         finish();
     }
