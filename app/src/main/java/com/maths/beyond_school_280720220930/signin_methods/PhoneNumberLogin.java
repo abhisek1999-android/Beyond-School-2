@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -21,12 +22,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.android.gms.auth.api.credentials.CredentialsApi;
 import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.google.android.gms.auth.api.credentials.CredentialsOptions;
 import com.google.android.gms.auth.api.credentials.HintRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +62,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class PhoneNumberLogin extends AppCompatActivity {
+public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private ActivityPhoneNumberLoginBinding binding;
 
@@ -76,6 +80,7 @@ public class PhoneNumberLogin extends AppCompatActivity {
     private TelecomManager telecomManager;
     private int CREDENTIAL_PICKER_REQUEST = 1;
     private AlarmDialogBinding alarmDialogBinding;
+    private final static int RESOLVE_HINT = 1011;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,25 +172,19 @@ public class PhoneNumberLogin extends AppCompatActivity {
     }
 
     private void phoneSelection() {
-        // To retrieve the Phone Number hints, first, configure
-        // the hint selector dialog by creating a HintRequest object.
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.CREDENTIALS_API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        googleApiClient.connect();
         HintRequest hintRequest = new HintRequest.Builder()
                 .setPhoneNumberIdentifierSupported(true)
                 .build();
-
-        CredentialsOptions options = new CredentialsOptions.Builder()
-                .forceEnableSaveDialog()
-                .build();
-
-        // Then, pass the HintRequest object to
-        // credentialsClient.getHintPickerIntent()
-        // to get an intent to prompt the user to
-        // choose a phone number.
-        CredentialsClient credentialsClient = Credentials.getClient(getApplicationContext(), options);
-        PendingIntent intent = credentialsClient.getHintPickerIntent(hintRequest);
+        PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(googleApiClient, hintRequest);
         try {
-            startIntentSenderForResult(intent.getIntentSender(), CREDENTIAL_PICKER_REQUEST, null, 0, 0, UtilityFunctions.getPendingIntentFlag(), new Bundle());
-        } catch (Exception e) {
+            startIntentSenderForResult(intent.getIntentSender(), RESOLVE_HINT, null, 0, 0, 0, null);
+        } catch (IntentSender.SendIntentException e) {
             e.printStackTrace();
         }
     }
@@ -195,20 +194,20 @@ public class PhoneNumberLogin extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CREDENTIAL_PICKER_REQUEST && resultCode == RESULT_OK)
-        {
-            // Obtain the phone number from the result
-            Credential credentials = data.getParcelableExtra(Credential.EXTRA_KEY);
-            binding.idEdtPhoneNumber.setText(credentials.getId().substring(3)); //get the selected phone number
-//Do what ever you want to do with your selected phone number here
+        if (requestCode == RESOLVE_HINT) {
+            if (resultCode == RESULT_OK) {
+                Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
+                if (credential != null) {
+                    String number=credential.getId().replace(binding.countryCode.getText().toString(),"");
+                    binding.idEdtPhoneNumber.setText(number);
 
 
+                } else {
+                    Toast.makeText(getApplicationContext(), "No phone numbers found", Toast.LENGTH_LONG).show();
+                }
+            }
         }
-        else if (requestCode == CREDENTIAL_PICKER_REQUEST && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE)
-        {
-            // *** No phone numbers available ***
-            Toast.makeText(getApplicationContext(), "No phone numbers found", Toast.LENGTH_LONG).show();
-        }
+
     }
 
     private void setUpTextLayoutGrade() {
@@ -481,4 +480,18 @@ public class PhoneNumberLogin extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

@@ -91,21 +91,22 @@
             app:autoSizeStepGranularity="2sp"
             android:textSize="@dimen/default_font_size" />
     </com.google.android.material.textfield.TextInputLayout>
-        <EditText
-            android:layout_weight="0.3"
-            android:layout_below="@id/numberTextView"
-            android:id="@+id/idEdtPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="@dimen/grid_20"
-            android:layout_marginLeft="@dimen/grid_0_5"
-            android:hint="Enter your phone"
-            android:background="@drawable/background_border"
-            android:padding="@dimen/grid_1_5"
-            android:fontFamily="@font/reemkufi_medium"
-            android:importantForAutofill="no"
-            android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/idEdtPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/numberTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/grid_0_5"
+        android:layout_marginRight="@dimen/grid_20"
+        android:layout_weight="0.3"
+        android:background="@drawable/background_border"
+        android:fontFamily="@font/reemkufi_medium"
+        android:hint="Enter your phone"
+        android:importantForAutofill="no"
+        android:inputType="phone"
+        android:padding="@dimen/grid_1_5" />
 </LinearLayout>
         <!--Button for getting OTP-->
         <com.google.android.material.button.MaterialButton
