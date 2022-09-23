@@ -10,6 +10,7 @@
     app:layout_insetEdge="bottom"
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp"
+    android:layout_marginTop="20dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
