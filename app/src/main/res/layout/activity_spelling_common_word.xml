@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".english_activity.spelling_objects.SpellingActivity">
+    tools:context=".english_activity.spelling.EnglishSpellingActivity">
 
 
     <include
@@ -16,106 +16,55 @@
         android:layout_alignParentTop="true" />
 
 
-    <TextView
-        android:id="@+id/subSub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolBar"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/reemkufi_medium"
-        android:text="Learn"
-        android:textAllCaps="true"
-        android:textColor="@color/primary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText" />
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_below="@id/subSub"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/grid_6"
-        android:background="@drawable/tv_shape"
-        android:backgroundTint="@color/light_gray">
-
-        <TextView
-            android:id="@+id/timerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/reemkufi_medium"
-            android:paddingHorizontal="@dimen/grid_10"
-            android:text="Time Spent"
-            android:textSize="@dimen/default_font_size" />
-
-        <ProgressBar
-            android:id="@+id/timerProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/roundbar"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/timerText"
-            android:background="@drawable/tv_shape"
-            android:backgroundTint="@color/accent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/default_font_size"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/timeText"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="-6dp"
-                android:fontFamily="@font/reemkufi_medium"
-                android:text="Min"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/relativeLayout"
-        android:fillViewport="true">
+        android:layout_below="@id/toolBar"
+        android:fillViewport="true"
+        android:padding="@dimen/grid_1">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/grid_1">
+
+            <include
+                android:id="@+id/progress"
+                layout="@layout/layout_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subSub" />
+
+            <TextView
+                android:id="@+id/subSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/reemkufi_medium"
+                android:gravity="center"
+                android:text="Learn"
+                android:textAllCaps="true"
+                android:textColor="@color/primary"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="330dp"
+                android:layout_height="250dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.51"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/progress" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -124,8 +73,11 @@
                 android:layout_marginHorizontal="@dimen/grid_2"
                 android:orientation="horizontal"
                 android:padding="@dimen/grid_1"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:weightSum="5"
+                app:layout_constraintBottom_toTopOf="@+id/image_view_teacher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_pager"
                 tools:visibility="visible">
 
@@ -241,7 +193,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                 tools:ignore="UnusedAttribute" />
 
-
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/image_view_teacher"
                 android:layout_width="110dp"
@@ -250,8 +201,6 @@
                 android:layout_alignParentEnd="true"
                 app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
                 app:layout_constraintEnd_toEndOf="@+id/giveTestButton"
-                app:layout_constraintTop_toBottomOf="@+id/view_pager"
-                app:layout_constraintVertical_bias="1.0"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/talking_avatar" />
 
@@ -262,7 +211,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginBottom="@dimen/grid_1"
                 android:background="@drawable/tv_shape"
                 android:backgroundTint="@color/primary"
                 android:orientation="horizontal"

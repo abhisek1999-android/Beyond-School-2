@@ -1,6 +1,5 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,11 +7,6 @@ import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
-import com.maths.beyond_school_280720220930.database.process.ProgressM;
-import com.maths.beyond_school_280720220930.model.ProgressDate;
-import com.maths.beyond_school_280720220930.model.ProgressTableWise;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -43,8 +37,14 @@ public interface GradesDao {
     @Query("UPDATE grades SET is_complete=:is_lock WHERE chapter = :chapter")
     void updateIsComplete(boolean is_lock, String chapter);
 
+
+    @Query("SELECT * FROM grades WHERE chapter LIKE '%'||:chapter||'%'")
+    List<Grades_data> getChapter(String chapter);
+
+
+
     @Insert
-    void insertNotes(Grades_data...progresses);
+    void insertNotes(Grades_data... progresses);
 
     @Delete
     void delete(Grades_data progress);

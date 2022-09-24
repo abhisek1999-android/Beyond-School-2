@@ -1,78 +1,73 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
-import com.maths.beyond_school_280720220930.databinding.FragmentSpellingBinding;
-import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingDetail;
+import com.maths.beyond_school_280720220930.databinding.FragmentSpellingCommonWordBinding;
 
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class SpellingFragment extends Fragment {
 
-    private final SpellingModel spellingModel;
-    private final int currentPage;
 
-    public SpellingFragment(SpellingModel spellingModel, int currentPage) {
-        super(R.layout.fragment_spelling);
-        this.spellingModel = spellingModel;
-        this.currentPage = currentPage;
+    private final SpellingDetail spellingDetail;
+    private final int pos;
+    private FragmentSpellingCommonWordBinding binding;
+
+
+    public SpellingFragment(SpellingDetail spellingDetail, int pos) {
+        super(R.layout.fragment_spelling_common_word);
+        this.spellingDetail = spellingDetail;
+        this.pos = pos;
     }
 
-    private FragmentSpellingBinding binding;
-
-
-    public TextView getAnswerTextView() {
-        return binding.otpViewWord;
-    }
-
-    private TextView getWordTextView() {
+    public TextView getWordTextView() {
         return binding.textViewWord;
     }
 
+    public TextView getTextView() {
+        return binding.otpViewWord;
+    }
+
+    public LottieAnimationView getAnimationView() {
+        return binding.animationVoice;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = FragmentSpellingBinding.bind(view);
-        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling, binding.loadingAnimation);
-        binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
-        binding.textViewWord.setText(UtilityFunctions.addSpaceAnswer(spellingModel.getWord()));
+        binding = FragmentSpellingCommonWordBinding.bind(view);
+        binding.textViewDes.setText(spellingDetail.getDescription());
+        binding.textViewWord.setText(spellingDetail.getWord());
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
-        binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
-        binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
-        var activity = (SpellingActivity) requireActivity();
+        binding.imageButtonPrev.setVisibility((pos == 1) ? View.INVISIBLE : View.VISIBLE);
+        binding.imageButtonNext.setVisibility((pos == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
+        var activity = (EnglishSpellingActivity) requireActivity();
 
         binding.imageButtonNext.setOnClickListener(v -> {
-            binding.otpViewWord.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color));
-            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             activity.restartEngine();
-            activity.setButtonText();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
-            binding.otpViewWord.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color));
-            binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             activity.restartEngine();
-            activity.setButtonText();
         });
+
+        binding.otpViewWord.setText(spellingDetail.getWord().replaceAll("[A-Za-z]", "_"));
+
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
-                        String.valueOf(currentPage),
+                        String.valueOf(pos),
                         String.valueOf(Objects.requireNonNull(viewPager.getAdapter()).getItemCount())));
     }
 }

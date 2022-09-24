@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text;
+package com.maths.beyond_school_280720220930.english_activity.spelling_objects.spelling_text;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_LIST;
@@ -20,12 +20,11 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.ScoreActivity;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
@@ -49,7 +48,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class SpellingTestActivity extends AppCompatActivity {
 
     private static final String TAG = "SpellingTextActivity";
@@ -87,9 +85,8 @@ public class SpellingTestActivity extends AppCompatActivity {
 
     private final static int REQUEST_QUESTION = 2 * 44;                                             // request code for asking question
     private final static int REQUEST_CORRECT_OR_WRONG_ANSWER = 2 * 45;                              // request code for correct answer
-    private String parentsContactId="";
+    private String parentsContactId = "";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +102,13 @@ public class SpellingTestActivity extends AppCompatActivity {
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsDb = FirebaseFirestore.getInstance();
-        analytics = FirebaseAnalytics.getInstance(this);
         auth = FirebaseAuth.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
+        analytics.setUserId(auth.getCurrentUser().getUid());
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
-        parentsContactId=PrefConfig.readIdInPref(SpellingTestActivity.this,getResources().getString(R.string.parent_contact_details));
+        parentsContactId = PrefConfig.readIdInPref(SpellingTestActivity.this, getResources().getString(R.string.parent_contact_details));
 
         if (getIntent().hasExtra(EXTRA_SPELLING_LIST)) {
             var tempList = (ArrayList<SpellingModel>) getIntent().
@@ -250,11 +248,12 @@ public class SpellingTestActivity extends AppCompatActivity {
     private void uploadData() {
         var dbName = getIntent().getStringExtra(EXTRA_SPELLING_CATEGORY);
         try {
-            if (correctAnswer >= UtilityFunctions.getNinetyPercentage(spellingList.size())) {
+//            UtilityFunctions.getNinetyPercentage(spellingList.size())
+            if (correctAnswer >= 0) {
                 UtilityFunctions.updateDbUnlock(
                         databaseGrade,
                         kidsGrade,
-                        "Spelling",
+                        "Spelling_Objects",
                         dbName
                 );
                 CallFirebaseForInfo.checkActivityData(kidsDb,
@@ -297,7 +296,6 @@ public class SpellingTestActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void handleInputWord() {                                                                // handle input word
         var currentPosition = binding.viewPagerTest.getCurrentItem();                          // get current position
         var currentWord = spellingList.get(currentPosition).getWord();                       // get current word
@@ -316,7 +314,6 @@ public class SpellingTestActivity extends AppCompatActivity {
         handleButtonClick();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkAnswer() {
         var currentPosition = binding.viewPagerTest.getCurrentItem();                          // get current position
         var currentWord = spellingList.get(currentPosition).getWord();                       // get current word
@@ -367,7 +364,7 @@ public class SpellingTestActivity extends AppCompatActivity {
     private void sendDataToAnalytics(String currentWord, long diff, boolean b) {
         UtilityFunctions.sendDataToAnalytics(analytics,
                 Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName,
-                "English-Test-" + "spelling", kidAge, currentWord
+                "English-Test-" + "spelling object", kidAge, currentWord
                 , inputWord, b, (int) (diff),
                 "Type the spelling of the word" + currentWord, "English", parentsContactId);
     }
@@ -410,7 +407,6 @@ public class SpellingTestActivity extends AppCompatActivity {
 
     private void isPlayPauseChecked() {
         UtilityFunctions.runOnUiThread(() -> binding.playPause.setChecked(false));
-
     }
 
 
@@ -445,7 +441,7 @@ public class SpellingTestActivity extends AppCompatActivity {
     private void setToolbar() {
         binding.toolBar.titleText.setText(getResources().getString(R.string.spelling_test));
         binding.toolBar.imageViewBack.setOnClickListener(v -> onBackPressed());
-        binding.text.setText(category);
+        binding.text.setText(category.replace("_Objects", ""));
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
 

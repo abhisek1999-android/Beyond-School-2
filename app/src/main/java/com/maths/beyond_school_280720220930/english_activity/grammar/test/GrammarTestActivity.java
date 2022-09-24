@@ -102,8 +102,9 @@ public class GrammarTestActivity extends AppCompatActivity {
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsDb = FirebaseFirestore.getInstance();
-        analytics = FirebaseAnalytics.getInstance(this);
         auth = FirebaseAuth.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
+        analytics.setUserId(auth.getCurrentUser().getUid());
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));

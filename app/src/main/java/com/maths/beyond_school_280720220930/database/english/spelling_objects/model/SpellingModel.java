@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.database.english.spelling.model;
+package com.maths.beyond_school_280720220930.database.english.spelling_objects.model;
 
 import androidx.annotation.Keep;
 

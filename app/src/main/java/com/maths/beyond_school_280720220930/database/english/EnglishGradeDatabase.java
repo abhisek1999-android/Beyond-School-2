@@ -16,32 +16,41 @@ import com.maths.beyond_school_280720220930.database.english.grammer.GrammarList
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModelTypeConverter;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarTypeTypeConverter;
-import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
-import com.maths.beyond_school_280720220930.database.english.spelling.SpellingList;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModelConverter;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingType;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingTypeConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.SpellingCommonWordDao;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.SpellingCommonWordList;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingCategoryModelConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingsDetailsConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.SpellingList;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.SpellingObjectsDao;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModelConverter;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingType;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingTypeConverter;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyList;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetailsConverter;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyModelConverter;
 
-@Database(entities = {VocabularyModel.class, SpellingType.class, GrammarType.class, /*ExpressionModel.class*/}, version = 1)
+@Database(entities = {VocabularyModel.class,
+        SpellingType.class, GrammarType.class,
+        SpellingModel.class
+}, version = 1)
 @TypeConverters({VocabularyDetailsConverter.class, VocabularyModelConverter.class,
         SpellingTypeConverter.class, SpellingModelConverter.class,
-        GrammarModelTypeConverter.class, GrammarTypeTypeConverter.class
-        /*ExpressionDetailsConverter.class, ExpressionModelConverter.class*/
+        GrammarModelTypeConverter.class, GrammarTypeTypeConverter.class,
+        SpellingCategoryModelConverter.class, SpellingsDetailsConverter.class
 })
 abstract public class EnglishGradeDatabase extends RoomDatabase {
 
     public abstract VocabularyDao englishDao();
 
-    public abstract SpellingDao spellingDao();
+    public abstract SpellingObjectsDao spellingDao();
 
     public abstract GrammarDao grammarDao();
 
-//    public abstract ExpressionDao expressionDao();
+    public abstract SpellingCommonWordDao spellingCommonWordDao();
+
 
     private static EnglishGradeDatabase INSTANCE;
 
@@ -70,8 +79,9 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private final VocabularyDao vocabularyDao;
-        private final SpellingDao spellingDao;
+        private final SpellingObjectsDao spellingObjectsDao;
         private final GrammarDao grammarDao;
+        private final SpellingCommonWordDao spellingCommonWordDao;
         //        private final ExpressionDao expressionDao;
         @SuppressLint("StaticFieldLeak")
         private final Context context;
@@ -79,8 +89,9 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 
         public PopulateDbAsyncTask(EnglishGradeDatabase db, Context context) {
             this.vocabularyDao = db.englishDao();
-            this.spellingDao = db.spellingDao();
+            this.spellingObjectsDao = db.spellingDao();
             this.grammarDao = db.grammarDao();
+            spellingCommonWordDao = db.spellingCommonWordDao();
             this.context = context;
 //            this.expressionDao=db.expressionDao();
         }
@@ -92,9 +103,10 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
 //            expressionDao.insert(ExpressionList.GradeOneExpression.englishListGrade1());
 
             vocabularyDao.insert(VocabularyList.GradeOneVocabulary.englishListGrade1());
-            spellingDao.insertAll(SpellingList.getSpellingList(context));
+            spellingObjectsDao.insertAll(SpellingList.getSpellingList(context));
             grammarDao.insertAll(GrammarList.Noun.getGrammarList(context));
             grammarDao.insertAll(GrammarList.Verb.getGrammarList(context));
+            spellingCommonWordDao.insert(SpellingCommonWordList.SpellingGradeOne.getSpellingList(context));
 
             return null;
         }

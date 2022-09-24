@@ -4,7 +4,6 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLIN
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +19,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
-import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling_objects.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
@@ -39,7 +37,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     String subSub = "", chapter = "";
 
 
-    public SubjectRecyclerAdapter(List<Grades_data> list, Context context/* ,MultiplicationOption multiplicationOption*/) {
+    public SubjectRecyclerAdapter(List<Grades_data> list, Context context) {
         this.list = list;
         this.context = context;
 
@@ -55,7 +53,6 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         return new SubjectRecyclerAdapter.SubjectViewHolder(itemView);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Grades_data grades_data = list.get(position);
@@ -63,24 +60,25 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         String chapter = grades_data.subject;
         String[] res = val.split(" ");
 
-        try{
-        if (grades_data.is_completed) {
-            holder.status.setText("Completed");
-            holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
-            holder.scoreText.setVisibility(View.VISIBLE);
-            long correct;
-            long wrong;
-            if (grades_data.subject.equals("Multiplication Tables")){
-                correct = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", true);
-                wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", false);
-            }
-            else{
-                correct = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, true);
-                wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, false);
-            }
-            holder.scoreText.setText("Score: "+correct+"/"+(correct+wrong));
+        try {
+            if (grades_data.is_completed) {
+                holder.status.setText("Completed");
+                holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+                holder.scoreText.setVisibility(View.VISIBLE);
+                long correct;
+                long wrong;
+                if (grades_data.subject.equals("Multiplication Tables")) {
+                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", true);
+                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", false);
+                } else {
+                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, true);
+                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, false);
+                }
+                holder.scoreText.setText("Score: " + correct + "/" + (correct + wrong));
 
-        }}catch (Exception e){}
+            }
+        } catch (Exception e) {
+        }
 
         if (grades_data.subject.equals("Multiplication Tables")) {
             holder.subSub.setText(grades_data.subject);
@@ -135,7 +133,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             subSub = grades_data.chapter.split(" ")[0];
             chapter = grades_data.chapter.replace(grades_data.chapter.split(" ")[0], "");
 
-            holder.subSub.setText(subSub);
+            holder.subSub.setText(subSub.replace("_", ""));
             holder.chapters.setText(chapter.replace("_", " "));
 
             try {
@@ -159,23 +157,17 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
         holder.mView.setOnClickListener(v -> {
 
-//            long correct=UtilityFunctions.gettingCorrectValues(progressDataBase,list.get(position).chapter);
-
-           // Toast.makeText(context, correct+"", Toast.LENGTH_SHORT).show();
-
             if (res[0].toLowerCase(Locale.ROOT).equals("vocabulary")) {
                 Intent intent = new Intent(context, EnglishActivity.class);
                 Log.d("EnglishActivity", "onClick: " + res[1].toLowerCase(Locale.ROOT) + " Intent : " + UtilityFunctions.getVocabularyCategoryFromAdapter(res[1].toLowerCase(Locale.ROOT)).name());
                 intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary", "").trim().toLowerCase(Locale.ROOT)).name());
                 context.startActivity(intent);
                 // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
-            } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
+            } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling_objects")) {
                 var intent = new Intent(context, SpellingActivity.class);
                 intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                 context.startActivity(intent);
             } else {
-
-
                 if (grades_data.subject.equals("Multiplication Tables")) {
 
                     Intent intent = new Intent(context, LearningActivity.class);
@@ -214,7 +206,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
-        TextView subSub, chapters, status, timeText,scoreText;
+        TextView subSub, chapters, status, timeText, scoreText;
 
         View mView;
 
@@ -226,7 +218,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
             chapters = mView.findViewById(R.id.chapters);
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
-            scoreText=mView.findViewById(R.id.score);
+            scoreText = mView.findViewById(R.id.score);
 
 
         }

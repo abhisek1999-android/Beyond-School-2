@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text;
+package com.maths.beyond_school_280720220930.english_activity.spelling_objects.spelling_text;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModel;
 import com.maths.beyond_school_280720220930.databinding.FragmentSpellingTestBinding;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
