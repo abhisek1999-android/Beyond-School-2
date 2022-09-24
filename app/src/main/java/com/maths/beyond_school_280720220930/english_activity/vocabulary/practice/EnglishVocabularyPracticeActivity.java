@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.ScoreActivity;
@@ -93,7 +92,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     private long timeSpend = 0;
     public static final int TIMER_VALUE = 15;
     private boolean isTimerRunning = true;
-    private String parentsContactId="";
+    private String parentsContactId = "";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -108,14 +107,15 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidsDb = FirebaseFirestore.getInstance();
-        analytics = FirebaseAnalytics.getInstance(this);
         auth = FirebaseAuth.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
+        analytics.setUserId(auth.getCurrentUser().getUid());
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
-        parentsContactId=PrefConfig.readIdInPref(EnglishVocabularyPracticeActivity.this,getResources().getString(R.string.parent_contact_details));
+        parentsContactId = PrefConfig.readIdInPref(EnglishVocabularyPracticeActivity.this, getResources().getString(R.string.parent_contact_details));
 
-        progressData=new ArrayList<>();
+        progressData = new ArrayList<>();
         setToolbar();
         setPracticeClick();
         if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
@@ -138,7 +138,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
 
                         binding.timerProgress.setMax(15);
                         binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.timeText.setText((timeSpend+x + 1) + "");
+                        binding.timeText.setText((timeSpend + x + 1) + "");
                         Log.i("task", x + "");
                     }
                 })
@@ -190,12 +190,13 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         dao.getEnglishModel(1
                         ).getVocabulary(),
                         UtilityFunctions.VocabularyCategories.valueOf(category));
-        try{
+        try {
             if (data == null) {
                 UtilityFunctions.simpleToast(this, "No data found");
                 return;
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         List<Fragment> fragments = getFragments(data);
         var pagerAdapter = new EnglishViewPager(
@@ -284,7 +285,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
                                 getDbName(UtilityFunctions.getVocabularyFromString(category), this),
                         "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
-                progressDataBase.progressDao().updateScore(correctAnswers,wrongAnswers,category);
+                progressDataBase.progressDao().updateScore(correctAnswers, wrongAnswers, category);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

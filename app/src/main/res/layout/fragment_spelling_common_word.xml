@@ -129,6 +129,7 @@
         android:cursorVisible="false"
         android:padding="@dimen/grid_1"
         android:textAllCaps="true"
+        android:letterSpacing=".3"
         android:textColor="@color/black"
         android:textIsSelectable="false"
         android:textSize="24sp"

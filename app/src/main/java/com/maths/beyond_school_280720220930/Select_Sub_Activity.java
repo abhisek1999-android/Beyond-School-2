@@ -313,7 +313,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
                 TextView tvName = v.findViewById(R.id.tvName);
                 SpinnerModel model = drinkModels.get(position);
-                tvName.setText(model.getName());
+                tvName.setText(getResources().getString(model.getName()).replace("_"," "));
                 if (model.isHeader()) {
                     tvName.setTextColor(R.color.primary);
                     tvName.setPadding(10, 20, 10, 20);

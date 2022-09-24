@@ -32,6 +32,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingCommonWordBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -111,9 +112,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void navigateToTest() {
-//        var intent = new Intent(this, SpellingTest.class);
-//        intent.putExtra(EXTRA_SPELLING_DETAIL, getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim());
-//        startActivity(intent);
+        var intent = new Intent(this, SpellingTest.class);
+        intent.putExtra(EXTRA_SPELLING_DETAIL, spellings);
+        startActivity(intent);
     }
 
     private void buttonClick() {
@@ -177,6 +178,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             updatePagerHeightForChild(page, binding.viewPager);
         });
         binding.viewPager.setUserInputEnabled(false);
+        handleDeleteWord();
         try {
             binding.playPause.setChecked(true);
             isSpeaking = binding.playPause.isChecked();
@@ -356,7 +358,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private void resetTextViews(String currentWord, SpellingFragment currentFragment) {
         var textView = currentFragment.getTextView();                                                     // get text view of current fragment
         textView.setText(currentWord
-                .replaceAll("[a-zA-Z]", "_ "));
+                .replaceAll("[a-zA-Z]", "_"));
     }
 
     private void setTextColor(@ColorRes int res) {
@@ -477,6 +479,22 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         protected TextToSpeckConverter doInBackground(ConversionCallback... conversionCallbacks) {
             return TextToSpeechBuilder.builder(conversionCallbacks[0]);
         }
+    }
+
+    private void handleDeleteWord() {
+        binding.key5.setOnClickListener(v -> {
+            if (inputWord.length() > 0) {
+                var currentFragment = (SpellingFragment) fragments.get(binding.viewPager.getCurrentItem());
+                var textView = currentFragment.getTextView();
+                var text = textView.getText().toString();
+                var newText = UtilityFunctions.replace(text, currentWordLetterPosition - 1, '_');
+                textView.setText(newText);
+                currentWordLetterPosition--;
+                setButtonText();
+                inputWord = inputWord.substring(0, inputWord.length() - 1);
+                Log.d(TAG, "handleDeleteWord: " + inputWord + " Current word letter position: " + currentWordLetterPosition);
+            }
+        });
     }
 
     private void handleButtonClick() {
