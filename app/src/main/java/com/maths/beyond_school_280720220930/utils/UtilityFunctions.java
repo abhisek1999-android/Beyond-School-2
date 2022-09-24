@@ -679,9 +679,7 @@ public final class UtilityFunctions {
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId
-    )
-
-    {
+    ) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -698,9 +696,9 @@ public final class UtilityFunctions {
 
 
         var kidsData = new Bundle();
-        kidsData.putString("id",kidsId);
+        kidsData.putString("id", kidsId);
 
-        mFirebaseAnalytics.logEvent("kids_id",kidsData);
+        mFirebaseAnalytics.logEvent("kids_id", kidsData);
 
         Bundle itemJeggings = new Bundle();
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
@@ -717,7 +715,7 @@ public final class UtilityFunctions {
 
 
         Bundle viewItemListParams = new Bundle();
-        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_ID, tag+"");
+        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_ID, tag + "");
         viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_NAME, type);
         viewItemListParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
                 new Parcelable[]{activityInfoWithIndex});
@@ -980,19 +978,19 @@ public final class UtilityFunctions {
 
         List<Grades_data> dbData = new ArrayList<>();
         dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
-        Log.i("CHAPTER", chapter);
-        Log.i("DB_DATA", dbData + "");
+        Log.d("XXX", chapter);
+        Log.d("XXX", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
+            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).chapter.equals(subSub) + subSub);
             if (dbData.get(i).chapter.equals(subSub)) {
-
+                Log.d("XXX", "updateDbUnlock: if");
                 try {
                     database.gradesDao().updateIsComplete(true, dbData.get(i).chapter);
                     database.gradesDao().update(true, dbData.get(i + 1).chapter);
-                    Log.i("DB_DATA", dbData.get(i + 1).chapter);
+                    Log.d("XXX", dbData.get(i + 1).chapter);
                     break;
                 } catch (Exception e) {
-
-                    Log.i("DB_DATA_EXP", e.getMessage());
+                    Log.e("XXX", e.getMessage());
                     break;
                 }
 

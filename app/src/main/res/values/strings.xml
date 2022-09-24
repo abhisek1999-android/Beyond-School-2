@@ -932,42 +932,51 @@
     <string name="vocab17">Vocabulary Transport</string>
     <string name="vocab18">Vocabulary Weather</string>
 
-    <string name="spelling_1">Spelling Birds 1</string>
-    <string name="spelling_2">Spelling Birds 2</string>
-    <string name="spelling_3">Spelling Domestic Animals 1</string>
-    <string name="spelling_4">Spelling Domestic Animals 2</string>
-    <string name="spelling_5">Spelling Flowers 1</string>
-    <string name="spelling_6">Spelling Flowers 2</string>
-    <string name="spelling_7">Spelling Wild Animals 1</string>
-    <string name="spelling_8">Spelling Wild Animals 2</string>
-    <string name="spelling_9">Spelling Fruits 1</string>
-    <string name="spelling_10">Spelling Fruits 2</string>
-    <string name="spelling_11">Spelling Number 1</string>
-    <string name="spelling_12">Spelling Number 2</string>
-    <string name="spelling_13">Spelling Shapes 1</string>
-    <string name="spelling_14">Spelling Shapes 2</string>
-    <string name="spelling_15">Spelling Vegetables 1</string>
-    <string name="spelling_16">Spelling Vegetables 2</string>
-    <string name="spelling_17">Spelling Vegetables 3</string>
-    <string name="spelling_18">Spelling Three Word Letters 1</string>
-    <string name="spelling_19">Spelling Three Word Letters 2</string>
-    <string name="spelling_20">Spelling Three Word Letters 3</string>
-    <string name="spelling_21">Spelling Three Word Letters 4</string>
-    <string name="spelling_22">Spelling Three Word Letters 5</string>
-    <string name="spelling_23">Spelling Four Word Letters 1</string>
-    <string name="spelling_24">Spelling Four Word Letters 2</string>
-    <string name="spelling_25">Spelling Four Word Letters 3</string>
-    <string name="spelling_26">Spelling Five Word letters 1</string>
-    <string name="spelling_27">Spelling Five Word letters 2</string>
-    <string name="spelling_28">Spelling Five Word letters 3</string>
-    <string name="spelling_29">Spelling 6 LETTER WORDS</string>
-    <string name="spelling_30">Spelling Clothes</string>
+    <string name="spelling_objects">Spelling_Objects</string>
+    <string name="spelling_1">Spelling_Objects Birds 1</string>
+    <string name="spelling_2">Spelling_Objects Birds 2</string>
+    <string name="spelling_3">Spelling_Objects Domestic Animals 1</string>
+    <string name="spelling_4">Spelling_Objects Domestic Animals 2</string>
+    <string name="spelling_5">Spelling_Objects Flowers 1</string>
+    <string name="spelling_6">Spelling_Objects Flowers 2</string>
+    <string name="spelling_7">Spelling_Objects Wild Animals 1</string>
+    <string name="spelling_8">Spelling_Objects Wild Animals 2</string>
+    <string name="spelling_9">Spelling_Objects Fruits 1</string>
+    <string name="spelling_10">Spelling_Objects Fruits 2</string>
+    <string name="spelling_11">Spelling_Objects Number 1</string>
+    <string name="spelling_12">Spelling_Objects Number 2</string>
+    <string name="spelling_13">Spelling_Objects Shapes 1</string>
+    <string name="spelling_14">Spelling_Objects Shapes 2</string>
+    <string name="spelling_15">Spelling_Objects Vegetables 1</string>
+    <string name="spelling_16">Spelling_Objects Vegetables 2</string>
+    <string name="spelling_17">Spelling_Objects Vegetables 3</string>
+    <string name="spelling_18">Spelling_Objects Three Word Letters 1</string>
+    <string name="spelling_19">Spelling_Objects Three Word Letters 2</string>
+    <string name="spelling_20">Spelling_Objects Three Word Letters 3</string>
+    <string name="spelling_21">Spelling_Objects Three Word Letters 4</string>
+    <string name="spelling_22">Spelling_Objects Three Word Letters 5</string>
+    <string name="spelling_23">Spelling_Objects Four Word Letters 1</string>
+    <string name="spelling_24">Spelling_Objects Four Word Letters 2</string>
+    <string name="spelling_25">Spelling_Objects Four Word Letters 3</string>
+    <string name="spelling_26">Spelling_Objects Five Word letters 1</string>
+    <string name="spelling_27">Spelling_Objects Five Word letters 2</string>
+    <string name="spelling_28">Spelling_Objects Five Word letters 3</string>
+    <string name="spelling_29">Spelling_Objects 6 LETTER WORDS</string>
+    <string name="spelling_30">Spelling_Objects Clothes</string>
 
+
+    <string name="spelling_common_words">Spelling_CommonWords</string>
+    <string name="spelling_common_words_1">Spelling_CommonWords Most Common Words 1</string>
+    <string name="spelling_common_words_2">Spelling_CommonWords Most Common Words 2</string>
+    <string name="spelling_common_words_3">Spelling_CommonWords Words with short ‘a’ sounds</string>
+    <string name="spelling_common_words_4">Spelling_CommonWords Words with ‘L’ blends</string>
+    <string name="spelling_common_words_5">Spelling_CommonWords Words with double consonants</string>
+    <string name="spelling_common_words_6">Spelling_CommonWords Words with Long ‘o’ sound</string>
+    <string name="spelling_common_words_7">Spelling_CommonWords Words with ‘sh’</string>
 
 
     <string name="expression">Expression</string>
     <string name="expression1">Expression Introducing Yourself</string>
-
 
 
     <string name="digit">Digit</string>
@@ -1031,7 +1040,6 @@
     <string name="calender_event_id">CALENDER_EVENT_ID</string>
 
     <string name="spelling_text">%s  %s %s</string>
-    <string name="spelling">Spelling</string>
     <string name="spelling_test">Spelling Test</string>
     <string name="bkSpace">&#10510;</string>
     <string name="grammar">Grammar</string>
