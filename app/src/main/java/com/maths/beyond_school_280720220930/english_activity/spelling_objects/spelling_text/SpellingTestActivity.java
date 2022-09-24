@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text;
+package com.maths.beyond_school_280720220930.english_activity.spelling_objects.spelling_text;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_LIST;
@@ -20,12 +20,11 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.ScoreActivity;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModel;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;

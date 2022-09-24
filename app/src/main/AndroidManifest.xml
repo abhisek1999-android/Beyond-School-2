@@ -62,7 +62,7 @@
             android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity
-            android:name=".english_activity.spelling.SpellingActivity"
+            android:name=".english_activity.spelling_objects.SpellingActivity"
             android:exported="false" />
 
         <meta-data
@@ -75,7 +75,7 @@
             tools:replace="android:value" />
 
         <activity
-            android:name=".english_activity.spelling.spelling_text.SpellingTestActivity"
+            android:name=".english_activity.spelling_objects.spelling_text.SpellingTestActivity"
             android:exported="false" />
         <activity
             android:name=".HomeScreen"

@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.database.english.spelling.model;
+package com.maths.beyond_school_280720220930.database.english.spelling_objects.model;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 @Keep
-@Entity(tableName = "spelling_table")
+@Entity(tableName = "spelling_object_table")
 public class SpellingType {
     @PrimaryKey(autoGenerate = false)
     @NonNull

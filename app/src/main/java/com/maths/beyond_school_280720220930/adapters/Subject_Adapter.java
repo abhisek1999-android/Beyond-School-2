@@ -19,7 +19,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
-import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling_objects.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
 import com.maths.beyond_school_280720220930.utils.Constants;
@@ -61,8 +61,10 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
         var finalString = "";
         if (val.contains("Vocabulary")) {
             finalString = val.replace("Vocabulary", "").replace("_", " ");
-        } else if (val.contains("Spelling")) {
-            finalString = val.replace("Spelling", "");
+        } else if (val.contains("Spelling_Objects")) {
+            finalString = val.replace("Spelling_Objects", " ");
+        } else if (val.contains("Spelling_CommonWords")) {
+            finalString = val.replace("Spelling_CommonWords", " ");
         } else if (val.contains("Grammar")) {
             finalString = val.replace("Grammar", "");
         } else {
@@ -80,17 +82,18 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     intent.putExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY, UtilityFunctions.getVocabularyCategoryFromAdapter(val.replace("Vocabulary", "").trim().toLowerCase(Locale.ROOT)).name());
                     context.startActivity(intent);
                     // Toast.makeText(context, res[1], Toast.LENGTH_SHORT).show();
-                } else if (res[0].toLowerCase(Locale.ROOT).equals("spelling")) {
-
+                } else if (val.toLowerCase(Locale.ROOT).contains("spelling_objects")) {
                     var intent = new Intent(context, SpellingActivity.class);
                     intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                     context.startActivity(intent);
-                } else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
+                }else if (val.toLowerCase(Locale.ROOT).contains("spelling_commonwords")){
+                    UtilityFunctions.simpleToast(context, "Coming Soon");
+                }
+                else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
                     Intent intent = new Intent(context, GrammarActivity.class);
                     intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, val);
                     context.startActivity(intent);
                 } else {
-
 
                     if (!res[0].equals("Multiplication")) {
                         multiplicationOption.multiplicationSelected();

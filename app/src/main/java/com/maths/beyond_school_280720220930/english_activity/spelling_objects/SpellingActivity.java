@@ -1,4 +1,4 @@
-package com.maths.beyond_school_280720220930.english_activity.spelling;
+package com.maths.beyond_school_280720220930.english_activity.spelling_objects;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
@@ -30,15 +30,15 @@ import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
-import com.maths.beyond_school_280720220930.database.english.spelling.SpellingDao;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingType;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.SpellingObjectsDao;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingType;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivitySpellingBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
-import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_text.SpellingTestActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling_objects.spelling_text.SpellingTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -57,7 +57,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class SpellingActivity extends AppCompatActivity {
 
     private static final String TAG = "SpellingActivity";
@@ -118,8 +117,8 @@ public class SpellingActivity extends AppCompatActivity {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {
             category = getIntent().getStringExtra(EXTRA_SPELLING_DETAIL);
             var englishDatabase = EnglishGradeDatabase.getDbInstance(this);
-            SpellingDao spellingDao = englishDatabase.spellingDao();
-            spellingModels = getSpellingData(category, spellingDao.getAllSpelling());
+            SpellingObjectsDao spellingObjectsDao = englishDatabase.spellingDao();
+            spellingModels = getSpellingData(category, spellingObjectsDao.getAllSpelling());
             setPager(spellingModels);
             buttonClick();
         } else {
@@ -506,7 +505,7 @@ public class SpellingActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        binding.toolBar.titleText.setText(getResources().getString(R.string.spelling));
+        binding.toolBar.titleText.setText(getResources().getString(R.string.spelling_objects).replace("_", " "));
         binding.toolBar.imageViewBack.setOnClickListener(v -> onBackPressed());
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {

@@ -1,12 +1,12 @@
-package com.maths.beyond_school_280720220930.database.english.spelling;
+package com.maths.beyond_school_280720220930.database.english.spelling_objects;
 
 import android.content.Context;
 
 import androidx.annotation.Keep;
 
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingModel;
-import com.maths.beyond_school_280720220930.database.english.spelling.model.SpellingType;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingModel;
+import com.maths.beyond_school_280720220930.database.english.spelling_objects.model.SpellingType;
 
 import java.util.ArrayList;
 import java.util.List;
