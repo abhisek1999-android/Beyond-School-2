@@ -532,12 +532,23 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                 PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
 
-                for (int i=0;i<2;i++)
-                {
-                    if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
-                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
-                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
-                    }}
+
+
+                try{
+                    for (int i=startIndex;i<startIndex+2;i++)
+                    {
+                        if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
+                            subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
+                            chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
+                        }}
+                }catch (Exception e){
+
+                    int engList=UtilityFunctions.getRandomIntegerUpto(2,0);
+                    subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)));
+                    chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)).chapter);
+
+                }
+
 
                 PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
 

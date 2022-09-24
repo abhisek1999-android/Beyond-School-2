@@ -708,6 +708,7 @@ public final class UtilityFunctions {
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, question);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_VARIANT, detected);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_BRAND, result);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2,parentsContactId);
         itemJeggings.putDouble(FirebaseAnalytics.Param.PRICE, age);
 
 

@@ -21,6 +21,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.utils.Constants;
@@ -173,7 +174,13 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 var intent = new Intent(context, SpellingActivity.class);
                 intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                 context.startActivity(intent);
-            } else {
+            }else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
+                Intent intent = new Intent(context, GrammarActivity.class);
+                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, val);
+                context.startActivity(intent);
+            }
+
+            else {
 
 
                 if (grades_data.subject.equals("Multiplication Tables")) {
