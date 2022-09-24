@@ -185,6 +185,7 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void setIntro() {
         initTTS();
+        timer();
         playPauseAnimation(true);
         setToggleButtonChecked(true);
         helperTTS(UtilityFunctions.getIntroForGrammar(context, category)

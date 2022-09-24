@@ -204,7 +204,7 @@ public class SpellingTest extends AppCompatActivity {
                 getSupportFragmentManager(),
                 getLifecycle()
         );
-        binding.viewPagerTest.setUserInputEnabled(false);
+       binding.viewPagerTest.setUserInputEnabled(false);
         binding.viewPagerTest.setAdapter(pagerAdapter);
         isSpeaking = binding.playPause.isChecked();
         handleDeleteWord();
@@ -421,7 +421,7 @@ public class SpellingTest extends AppCompatActivity {
         var textView = currentFragment.getTextView();                                      // get text view of current fragment
         long endTime = new Date().getTime();
         var diff = endTime - startTime;
-        if (inputWord.equals(currentWord)) {
+        if (inputWord.toLowerCase(Locale.ROOT).equals(currentWord.toLowerCase(Locale.ROOT))) {
             correctAnswer++;
             textView.setTextColor(getResources().getColor(R.color.green));
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";

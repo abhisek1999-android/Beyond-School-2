@@ -43,6 +43,7 @@ import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -333,7 +334,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         playPauseAnimation(false);
         var diff = endTime - startTime;
 
-        if (inputWord.equals(currentWord)) {
+        if (inputWord.toLowerCase(Locale.ROOT).equals(currentWord.toLowerCase(Locale.ROOT))) {
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
             textView.setTextColor(ContextCompat.getColor(this, R.color.green));
             playPauseAnimation(true);
