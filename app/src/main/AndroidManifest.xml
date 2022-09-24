@@ -59,6 +59,9 @@
 
         </activity>
         <activity
+            android:name=".english_activity.spelling.EnglishSpellingActivity"
+            android:exported="false"/>
+        <activity
             android:name=".english_activity.expression.ExpressionActivity"
             android:exported="false" />
         <activity

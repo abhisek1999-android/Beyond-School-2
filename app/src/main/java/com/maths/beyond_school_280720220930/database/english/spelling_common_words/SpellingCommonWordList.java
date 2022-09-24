@@ -1,5 +1,8 @@
 package com.maths.beyond_school_280720220930.database.english.spelling_common_words;
 
+import android.content.Context;
+
+import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingDetail;
 import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingModel;
@@ -10,7 +13,7 @@ import java.util.List;
 public abstract class SpellingCommonWordList {
     public abstract static class SpellingGradeOne {
 
-        public static SpellingModel getSpellingList() {
+        public static SpellingModel getSpellingList(Context context) {
             var mostCommonWord = getSpellingDetailMostCommonWords();
             var mostCommonWord1 = getSpellingDetailMostCommonWords1();
             var wordsWithShortASound = getSpellingDetailWordsWithShortASound();
@@ -20,13 +23,13 @@ public abstract class SpellingCommonWordList {
             var wordsWithSh = getSpellingDetailWordsWithSh();
 
             var spellingCategoryModelsList = new ArrayList<SpellingCategoryModel>();
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words 1", mostCommonWord));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Most Common Words 2", mostCommonWord1));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with short ‘a’ sounds", wordsWithShortASound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘L’ blends", wordsWithShortLSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with double consonants", wordsWithDoubleConsonant));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with Long ‘o’ sound", wordsWithLongOSound));
-            spellingCategoryModelsList.add(new SpellingCategoryModel("Words with ‘sh’", wordsWithSh));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_1), mostCommonWord));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_2), mostCommonWord1));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_3), wordsWithShortASound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_4), wordsWithShortLSound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_5), wordsWithDoubleConsonant));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_6), wordsWithLongOSound));
+            spellingCategoryModelsList.add(new SpellingCategoryModel(context.getString(R.string.spelling_common_words_7), wordsWithSh));
 
             return new SpellingModel(1, spellingCategoryModelsList);
         }

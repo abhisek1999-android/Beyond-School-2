@@ -162,7 +162,7 @@ public class SpellingActivity extends AppCompatActivity {
         binding.playPause.setChecked(true);
         try {
             helperTTS("Hi, Kids. We will learn the spelling of some," +
-                            category.replace("Spelling", "").replaceAll("\\d", "") + " !!",
+                            category.replace("Spelling_Objects", "").replaceAll("\\d", "") + " !!",
                     false, REQUEST_INTRO);
         } catch (ExecutionException | InterruptedException e) {
             logs += e.getMessage() + "\n";

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start">
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/ShowTable"
+        android:background="@drawable/half_round_rect"
+        android:fontFamily="@font/reemkufi_medium"
+        android:padding="@dimen/grid_1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/ShowTable"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1/10" />
+
+    <ImageButton
+        android:id="@+id/image_button_prev"
+        android:layout_width="@dimen/grid_6"
+        android:layout_height="@dimen/grid_6"
+        android:background="@drawable/ic_baseline_arrow_drop"
+        android:backgroundTint="@color/primary"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="@+id/ShowTable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ShowTable" />
+
+    <ImageButton
+        android:id="@+id/image_button_next"
+        android:layout_width="@dimen/grid_6"
+        android:layout_height="@dimen/grid_6"
+        android:background="@drawable/ic_baseline_arrow_drop"
+        android:backgroundTint="@color/primary"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="@+id/ShowTable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ShowTable" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ShowTable"
+        style="@style/card_background"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/image_button_next"
+        app:layout_constraintStart_toEndOf="@+id/image_button_prev"
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_gravity="fill"
+        app:layout_rowWeight="1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/one_third_round_rect"
+            android:orientation="vertical"
+            android:padding="@dimen/grid_2">
+
+
+            <TextView
+                android:id="@+id/text_view_word"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/reemkufi_medium"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/primary"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="This" />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/text_view_word"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:background="@color/light_deep_grey"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_word"
+                tools:layout_editor_absoluteX="16dp" />
+
+
+            <TextView
+                android:id="@+id/text_view_des"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/separator"
+                android:layout_marginHorizontal="@dimen/grid_1"
+                android:fontFamily="@font/reemkufi_medium"
+                android:gravity="center"
+                android:textColor="@color/text_color"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_word"
+                tools:text="Mirror" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationVoice"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/green_blinking_dott"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/otp_view_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_2"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:padding="@dimen/grid_1"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/image_button_next"
+        app:layout_constraintStart_toEndOf="@+id/image_button_prev"
+        app:layout_constraintTop_toBottomOf="@+id/ShowTable"
+        tools:text="Ayaan" />
+</androidx.constraintlayout.widget.ConstraintLayout>

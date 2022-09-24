@@ -19,6 +19,7 @@ import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.MainActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling_objects.SpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.model.Subject_Model;
@@ -86,10 +87,11 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
                     var intent = new Intent(context, SpellingActivity.class);
                     intent.putExtra(EXTRA_SPELLING_DETAIL, val);
                     context.startActivity(intent);
-                }else if (val.toLowerCase(Locale.ROOT).contains("spelling_commonwords")){
-                    UtilityFunctions.simpleToast(context, "Coming Soon");
-                }
-                else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
+                } else if (val.toLowerCase(Locale.ROOT).contains("spelling_commonwords")) {
+                    var intent = new Intent(context, EnglishSpellingActivity.class);
+                    intent.putExtra(EXTRA_SPELLING_DETAIL, val);
+                    context.startActivity(intent);
+                } else if (res[0].toLowerCase(Locale.ROOT).equals("grammar")) {
                     Intent intent = new Intent(context, GrammarActivity.class);
                     intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, val);
                     context.startActivity(intent);

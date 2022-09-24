@@ -106,7 +106,7 @@ abstract public class EnglishGradeDatabase extends RoomDatabase {
             spellingObjectsDao.insertAll(SpellingList.getSpellingList(context));
             grammarDao.insertAll(GrammarList.Noun.getGrammarList(context));
             grammarDao.insertAll(GrammarList.Verb.getGrammarList(context));
-            spellingCommonWordDao.insert(SpellingCommonWordList.SpellingGradeOne.getSpellingList());
+            spellingCommonWordDao.insert(SpellingCommonWordList.SpellingGradeOne.getSpellingList(context));
 
             return null;
         }
