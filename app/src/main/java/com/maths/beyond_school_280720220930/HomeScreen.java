@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
@@ -151,6 +152,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
 
     public void logSent() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger logger = AppEventsLogger.newLogger(this);
         logger.logEvent("AppOpened");
     }
@@ -487,59 +489,69 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             UtilityFunctions.runOnUiThread(() -> {
 
-                startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
-                customProgressDialogue.dismiss();
+                try{
+                    startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
+                    customProgressDialogue.dismiss();
 
-                for (int i = startIndex; i < startIndex + 2; i++) {
-                    if (!math[i].equals("Multiplication Tables")) {
-                        if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) != null) {
-                            subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)));
-                            chapterListMath.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)).chapter);
+                    for (int i = startIndex; i < startIndex + 2; i++) {
+                        try{
+                            if (!math[i].equals("Multiplication Tables")) {
+                                if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) != null) {
+                                    subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)));
+                                    chapterListMath.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)).chapter);
 
-                            Log.i("DATA", UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) + "");
-                        }
-                    } else {
+                                    Log.i("DATA", UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) + "");
+                                }
+                            } else {
 
-                        int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
-                        subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, ""));
-                        chapterListMath.add("Multiplication Tables " + (mul_upto + 1));
+                                int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, ""));
+                                chapterListMath.add("Multiplication Tables " + (mul_upto + 1));
+                            }
+                        }catch (Exception e){}
+
+
                     }
 
+                    Log.i("LIST_DATA", subMathsData + "");
+
+                    PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListMath, getResources().getString(R.string.saved_maths_value));
+
+
+
+                    try{
+                        for (int i=startIndex; i < startIndex+2; i++) {
+
+                            if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
+                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
+                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
+                            }}
+                    }catch (Exception e){
+
+                        int engList=UtilityFunctions.getRandomIntegerUpto(2,0);
+                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)));
+                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)).chapter);
+
+                    }
+
+                    PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
+
+                    Log.i("LIST_DATA", subEngData + "");
+
+
+                    binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
+                    binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
+
+                    binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
+                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);}
+
+                catch (Exception e){
+
+
                 }
 
-                Log.i("LIST_DATA", subMathsData + "");
-
-                PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListMath, getResources().getString(R.string.saved_maths_value));
-
-
-
-                try{
-                    for (int i=startIndex; i < startIndex+2; i++) {
-
-                        if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
-                            subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
-                            chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
-                        }}
-                }catch (Exception e){
-
-                    int engList=UtilityFunctions.getRandomIntegerUpto(2,0);
-                    subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)));
-                    chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)).chapter);
-
-                }
-
-                PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
-
-                Log.i("LIST_DATA", subEngData + "");
-
-
-                binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-                subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
-                binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
-
-                binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-                subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
-                binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
 
             }, 1000);
 

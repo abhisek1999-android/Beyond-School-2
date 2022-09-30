@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +37,8 @@ public class SplashScreen extends AppCompatActivity {
     private int REQUEST_RECORD_AUDIO = 1;
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
-    FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
+
+    FirebaseFirestore kidsDb;
 
     GradeDatabase database;
 
@@ -47,7 +49,8 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
+        FirebaseApp.initializeApp(this);
+        kidsDb = FirebaseFirestore.getInstance();
         String myCustomUri = getIntent().getStringExtra(CalendarContract.EXTRA_CUSTOM_APP_URI);
         try{startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
 
