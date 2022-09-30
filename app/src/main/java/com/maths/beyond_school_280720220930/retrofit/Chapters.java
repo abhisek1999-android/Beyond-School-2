@@ -1,28 +1,45 @@
 package com.maths.beyond_school_280720220930.retrofit;
 
 public class Chapters {
-
+    String subject;
     String chapter_name;
     int isCompleted;
-    int grades;
+    int grade1;
     int grade2;
     int grade3;
     int grade4;
     int grade5;
 
-    private Chapters(){
+    public Chapters() {
+        subject = "";
+        chapter_name = "";
+        isCompleted = 0;
+        grade1 = 0;
+        grade2 = 0;
+        grade3 = 0;
+        grade4 = 0;
+        grade5 = 0;
 
     }
 
-    public Chapters(String chapter_name, int isCompleted, int grades, int grade2, int grade3, int grade4, int grade5, String path) {
+    public Chapters(String subject, String chapter_name, int isCompleted, int grade1, int grade2, int grade3, int grade4, int grade5, String path) {
+        this.subject = subject;
         this.chapter_name = chapter_name;
         this.isCompleted = isCompleted;
-        this.grades = grades;
+        this.grade1 = grade1;
         this.grade2 = grade2;
         this.grade3 = grade3;
         this.grade4 = grade4;
         this.grade5 = grade5;
         this.path = path;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     String path;
@@ -43,12 +60,12 @@ public class Chapters {
         this.isCompleted = isCompleted;
     }
 
-    public int getGrades() {
-        return grades;
+    public int getGrade1() {
+        return grade1;
     }
 
-    public void setGrades(int grades) {
-        this.grades = grades;
+    public void setGrade1(int grade1) {
+        this.grade1 = grade1;
     }
 
     public int getGrade2() {
