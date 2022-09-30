@@ -47,6 +47,16 @@
         android:supportsRtl="true"
         tools:node="merge"
         android:theme="@style/Theme.BEYOND_SCHOOL">
+
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+            android:exported="true"
+            tools:node="merge" />
+
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+            android:exported="true"
+            tools:node="merge" />
         <activity
             android:name=".english_activity.grammar.test.GrammarTestActivity"
             android:exported="false">
