@@ -59,6 +59,17 @@ public class TestActivity extends AppCompatActivity {
                     var chapters = chapter.getChapters();
                     var converter = new GradeConverter();
                     var listOfGradeData = converter.mapToList(chapters); // Grade List similar to GradeDatabase
+                    // print all value from listOfGradeData
+                    listOfGradeData.forEach(gradeData -> {
+                        Log.d(TAG, "Subject: " + gradeData.subject);
+                        Log.d(TAG, "Chapter: " + gradeData.chapter);
+                        Log.d(TAG, "grade 1: " + gradeData.grade1);
+                        Log.d(TAG, "grade 2: " + gradeData.grade2);
+                        Log.d(TAG, "grade 3: " + gradeData.grade3);
+                        Log.d(TAG, "grade 4: " + gradeData.grade4);
+                        Log.d(TAG, "grade 5: " + gradeData.grade5);
+                        Log.d(TAG, "isCompleted: " + gradeData.is_completed);
+                    });
                 }
         );
     }
