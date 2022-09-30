@@ -676,6 +676,15 @@ public final class UtilityFunctions {
     }
 
 
+    public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber){
+
+
+        var kidsData = new Bundle();
+        kidsData.putString("phoneNumber", phoneNumber);
+        mFirebaseAnalytics.logEvent("phone_number_login_attempt", kidsData);
+    }
+
+
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId
@@ -695,10 +704,6 @@ public final class UtilityFunctions {
         mFirebaseAnalytics.logEvent(subject, resultBundle);
 
 
-        var kidsData = new Bundle();
-        kidsData.putString("id", kidsId);
-
-        mFirebaseAnalytics.logEvent("kids_id", kidsData);
 
         Bundle itemJeggings = new Bundle();
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
