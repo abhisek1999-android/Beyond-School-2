@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "https://aiyu-ayaan.github.io/Data-Share/";
+    private static final String BASE_URL = "https://aiyu-ayaan.github.io/Data-Share/data/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

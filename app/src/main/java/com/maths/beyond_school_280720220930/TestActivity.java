@@ -1,11 +1,18 @@
 package com.maths.beyond_school_280720220930;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
@@ -21,16 +28,59 @@ import retrofit2.Retrofit;
 
 public class TestActivity extends AppCompatActivity {
 
-    private static final String TAG = "TestActivity";
-
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private String TAG="TestActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.maths.beyond_school_280720220930.databinding.ActivityTestBinding binding = ActivityTestBinding.inflate(getLayoutInflater());
+        ActivityTestBinding binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getData();
+        setUpRemoteConfig();
+
     }
+    private void setUpRemoteConfig() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(60)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+
+        var value = PrefConfig.readIntInPref(this,
+                getResources().getString(R.string.KEY_VALUE_SAVE)
+                ,0);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        if (task.isSuccessful()) {
+                            boolean updated = task.getResult();
+
+                            int val=(int)mFirebaseRemoteConfig.getLong("data_updated_value");
+                            if(value != val){
+                                PrefConfig.writeIntInPref(
+                                        TestActivity.this,
+                                        val,
+                                        getResources().getString(R.string.KEY_VALUE_SAVE)
+                                );
+                                getData();
+                            }
+
+                            Log.d(TAG, "Config params updated: " + updated+", val:"+ val);
+                            return;
+                        }
+                        Toast.makeText(TestActivity.this, "Fetch failed",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+    }
+
 
     private void getData() {
         Retrofit retrofit = ApiClient.getClient();
@@ -43,6 +93,8 @@ public class TestActivity extends AppCompatActivity {
                 if (res != null) {
                     var english = res.getEnglish();
                     convertData(english);
+                }else {
+                    Log.d(TAG, "onResponse: "+response.code());
                 }
             }
 
@@ -59,7 +111,6 @@ public class TestActivity extends AppCompatActivity {
                     var chapters = chapter.getChapters();
                     var converter = new GradeConverter();
                     var listOfGradeData = converter.mapToList(chapters); // Grade List similar to GradeDatabase
-                    // print all value from listOfGradeData
                     listOfGradeData.forEach(gradeData -> {
                         Log.d(TAG, "Subject: " + gradeData.subject);
                         Log.d(TAG, "Chapter: " + gradeData.chapter);
@@ -69,8 +120,16 @@ public class TestActivity extends AppCompatActivity {
                         Log.d(TAG, "grade 4: " + gradeData.grade4);
                         Log.d(TAG, "grade 5: " + gradeData.grade5);
                         Log.d(TAG, "isCompleted: " + gradeData.is_completed);
+                        System.out.println();
                     });
                 }
         );
     }
+
+
+    public void buttonClick(View view) {
+          finish();
+
+    }
+
 }

@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,6 +82,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private int CREDENTIAL_PICKER_REQUEST = 1;
     private AlarmDialogBinding alarmDialogBinding;
     private final static int RESOLVE_HINT = 1011;
+    private FirebaseAnalytics analytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         binding = ActivityPhoneNumberLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        analytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
         customProgressDialogue=new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
@@ -124,6 +127,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                     // if the text field is not empty we are calling our
                     // send OTP method for getting OTP from Firebase.
                     String phone =  binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
+                    UtilityFunctions.attemptPhoneNumberLogin(analytics,phone);
                     sendVerificationCode(phone);
                 }
             }

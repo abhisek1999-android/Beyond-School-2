@@ -43,6 +43,12 @@ public class PrefConfig {
         int values = pref.getInt(LIST_KEY, 1);
         return values;
     }
+    public static int readIntInPref(Context context, String LIST_KEY,int def) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        int values = pref.getInt(LIST_KEY, def);
+        return values;
+    }
 
     public static void writeIntDInPref(Context context, int value, String LIST_KEY) {
 
