@@ -134,7 +134,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         mBottomSheetBehavior = BottomSheetBehavior.from(binding.extLayout.permissionCard);
 
         checkAudioPermission();
-        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MathsTutorialActivity.class)));
+        //TODO: must be removed
+        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TestActivity.class)));
 
         binding.yourProgressLayout.setOnClickListener(v -> {
             setSubSubjectProgress();
