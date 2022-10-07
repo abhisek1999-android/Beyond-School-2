@@ -68,7 +68,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<SubSubject> subEngList;
     private List<SectionSubSubject> sectionList;
     private int[] resMath = {R.drawable.ic_addition, R.drawable.ic_sub, R.drawable.ic_mul, R.drawable.ic_division};
-    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.ic_spell, R.drawable.ic_spell};
+    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.ic_spell, R.drawable.grammar};
 
     private String[] tableList;
     private SectionSubSubjectRecyclerAdapter sectionSubSubjectRecyclerAdapter;

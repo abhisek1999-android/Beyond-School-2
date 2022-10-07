@@ -429,7 +429,10 @@ public class SpellingActivity extends AppCompatActivity {
                         }
                         binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
                         UtilityFunctions.runOnUiThread(() -> {
-                            mediaPlayer.pause();
+                            try{
+                            mediaPlayer.pause();}catch (Exception e){
+                                Log.e("XXX", "onCompletion: "+e.getMessage() );
+                            }
                             setButtonText();
                         });                                                                         // Set button for net word
                         speakWord();
