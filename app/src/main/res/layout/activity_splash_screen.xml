@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen"
+    android:background="@drawable/home_bg"
+    android:fitsSystemWindows="true"
+    android:forceDarkAllowed="false"
+    >
+
+
+    <TextView
+        android:id="@+id/headerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="@string/app_name_style"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerText"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/reemkufi_medium"
+        android:text="@string/slogan2"
+        android:textSize="@dimen/default_font_size_small"
+        android:textStyle="bold" />
+
+
+<!--    <ToggleButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/toggleButton1"-->
+<!--        />-->
+
+<!--    <ProgressBar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        style="?android:attr/progressBarStyleHorizontal"-->
+<!--        android:id="@+id/progressBar1"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/textView1"-->
+<!--        />-->
+
+
+</RelativeLayout>

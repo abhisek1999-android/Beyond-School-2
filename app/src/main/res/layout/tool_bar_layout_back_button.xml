@@ -1,0 +1,48 @@
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    app:layout_collapseMode="pin"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+
+    <ImageView
+        android:id="@+id/imageViewBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/background_round"
+        android:backgroundTint="@color/white"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+        app:tint="@color/primary" />
+
+    <TextView
+        android:id="@+id/titleText"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:fontFamily="@font/reemkufi_medium"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:text="Beyond School"
+        android:textSize="22sp" />
+
+
+    <ImageView
+        android:id="@+id/logInfo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:background="@drawable/background_round"
+        android:backgroundTint="@color/green"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_info_24"
+        android:visibility="gone"
+        app:tint="@color/primary" />
+
+
+</androidx.appcompat.widget.Toolbar>

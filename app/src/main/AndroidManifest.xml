@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.maths.beyond_school_new_071020221400"
+    >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <uses-permission-sdk-23 android:name="android.permission.WAKE_LOCK" />
+
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
+    <queries>
+        <package android:name="com.google.android.googlequicksearchbox" />
+    </queries>
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_logo_v2"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/app_logo_v2"
+        android:supportsRtl="true"
+        tools:node="merge"
+        android:theme="@style/Theme.BEYOND_SCHOOL">
+
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+            android:exported="true"
+            tools:node="merge" />
+
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+            android:exported="true"
+            tools:node="merge" />
+        <activity
+            android:name=".english_activity.grammar.test.GrammarTestActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".english_activity.grammar.GrammarActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".english_activity.spelling.spelling_test.SpellingTest"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.spelling.EnglishSpellingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.expression.ExpressionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.spelling_objects.SpellingActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"
+            tools:replace="android:value" />
+
+        <activity
+            android:name=".english_activity.spelling_objects.spelling_text.SpellingTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeScreen"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+                <data
+                    android:host="www.beyondschool.live"
+                    android:pathPrefix="/app"
+                    android:scheme="https" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".MathsTutorialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signin_methods.PhoneNumberLogin"
+            android:exported="false" />
+        <activity
+            android:name=".Select_Sub_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyPolicy"
+            android:exported="false" />
+        <activity
+            android:name=".AdditionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".KidsInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LearningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlarmAtTime"
+            android:exported="false" />
+        <activity
+            android:name=".LoginSignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Random_questions"
+            android:exported="true" />
+        <activity
+            android:name=".DashBoardActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ScoreActivity"
+            android:exported="true" />
+        <activity
+            android:name=".GradeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".table_questions"
+            android:exported="true"
+            android:showOnLockScreen="true" />
+        <activity
+            android:name=".signin_methods.GoogleSignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
+        <activity
+            android:name=".english_activity.vocabulary.EnglishActivity"
+            android:exported="true"
+            android:showOnLockScreen="true" />
+
+
+        <activity android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+            android:exported="true"
+            tools:node="merge"/>
+
+        <activity android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+            android:exported="true"
+            tools:node="merge"/>
+
+        <service
+            android:name=".ClearService"
+            android:stopWithTask="false" />
+
+        <receiver
+            android:name=".model.AlarmReceiver"
+            android:exported="false"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

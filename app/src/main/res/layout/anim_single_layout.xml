@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/background_round"
+            android:textSize="@dimen/default_font_size"
+            android:text=""
+            android:id="@+id/slNumView"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="abcd"
+            android:textAlignment="viewStart"
+            android:textSize="@dimen/default_font_size"
+            android:layout_gravity="center"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mathLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/grid_10"
+        android:padding="@dimen/grid_20"
+        android:background="@drawable/tv_shape"
+        android:backgroundTint="@color/light_gray"
+        >
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_weight="1"
+       android:layout_gravity="center"
+       android:gravity="center"
+       >
+       <TextView
+           android:id="@+id/digit_one"
+           android:layout_width="wrap_content"
+           android:layout_height="55dp"
+           android:background="@drawable/round_rect_button_bg"
+           android:backgroundTint="@color/primary"
+           android:fontFamily="@font/reemkufi_medium"
+           android:gravity="center"
+           android:minWidth="55dp"
+           android:paddingLeft="10dp"
+           android:paddingRight="10dp"
+           android:text="\?"
+           android:textAlignment="center"
+           android:textColor="@color/white"
+           android:textSize="18sp"
+           android:textStyle="bold"
+           />
+   </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/operator"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/background_round"
+                android:elevation="0dp"
+                android:maxWidth="0dp"
+                android:maxHeight="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:shadowRadius="0"
+                android:text="+"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size_big"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+        <TextView
+            android:id="@+id/digit_two"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:minWidth="55dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="\?"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/transparent"
+            android:elevation="0dp"
+            android:maxWidth="0dp"
+            android:maxHeight="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:shadowRadius="0"
+            android:text="="
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="@dimen/grid_20"
+            android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+        <TextView
+            android:id="@+id/ansTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:background="@drawable/round_rect_button_bg"
+            android:backgroundTint="@color/green"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:minWidth="55dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="\?"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
