@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "149314119144-elj7aaosv2gqa056op0d0gk1i4il9lct.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maths.beyond_school_new_071020221400",
+            "certificate_hash": "2ea643277037ce398e2c6ae47beb32adfd81e6ae"
+          }
+        },
+        {
           "client_id": "149314119144-5ae9k4ru2mcd7p7alejmfcim6t3q46fk.apps.googleusercontent.com",
           "client_type": 3
         }
