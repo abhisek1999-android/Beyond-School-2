@@ -350,14 +350,19 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                    "01/08/2017", imageUrl, uuid);
 
                             PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
-                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
-                            intent.putExtra("name", "Kids Name");
-                            intent.putExtra("image", imageUrl);
-                            intent.putExtra("age", "01/08/2017");
-                            intent.putExtra("grade", "GRADE 1");
-                            startActivity(intent);
-                            finish();
+//                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+//                            intent.putExtra("name", "Kids Name");
+//                            intent.putExtra("image", imageUrl);
+//                            intent.putExtra("age", "01/08/2017");
+//                            intent.putExtra("grade", "GRADE 1");
+//                            startActivity(intent);
+//                            finish();
                             customProgressDialogue.dismiss();
+                            try {
+                                displaySetEventDialog();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                             //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -461,6 +466,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                 finish();
             } catch (ParseException e) {
                 e.printStackTrace();
+                Log.i("XXX",e.getMessage());
             }
         });
 
@@ -469,6 +475,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             try {
                 alertDialog.show();
             } catch (Exception e) {
+                Log.i("XXX",e.getMessage());
 
             }
 
