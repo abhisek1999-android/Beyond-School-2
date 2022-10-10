@@ -41,10 +41,15 @@ public interface GradesDao {
     @Query("SELECT * FROM grades WHERE chapter LIKE '%'||:chapter||'%'")
     List<Grades_data> getChapter(String chapter);
 
+    @Query("SELECT * FROM grades")
+    List<Grades_data> getAllChapters();
 
 
     @Insert
     void insertNotes(Grades_data... progresses);
+
+    @Insert
+    void insetAll(List<Grades_data> progresses);
 
     @Delete
     void delete(Grades_data progress);

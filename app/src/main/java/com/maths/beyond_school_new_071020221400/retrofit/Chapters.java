@@ -1,45 +1,47 @@
 package com.maths.beyond_school_new_071020221400.retrofit;
 
 public class Chapters {
-    String subject;
+    String chapter;
     String chapter_name;
-    int isCompleted;
+    int unlock;
     int grade1;
     int grade2;
     int grade3;
     int grade4;
     int grade5;
+    int isFetchRequired;
 
     public Chapters() {
-        subject = "";
+        chapter = "";
         chapter_name = "";
-        isCompleted = 0;
+        unlock = 0;
         grade1 = 0;
         grade2 = 0;
         grade3 = 0;
         grade4 = 0;
         grade5 = 0;
-
+        isFetchRequired = 0;
     }
 
-    public Chapters(String subject, String chapter_name, int isCompleted, int grade1, int grade2, int grade3, int grade4, int grade5, String path) {
-        this.subject = subject;
+    public Chapters(String chapter, String chapter_name, int unlock, int grade1, int grade2, int grade3, int grade4, int grade5, String path, int isFetchRequired) {
+        this.chapter = chapter;
         this.chapter_name = chapter_name;
-        this.isCompleted = isCompleted;
+        this.unlock = unlock;
         this.grade1 = grade1;
         this.grade2 = grade2;
         this.grade3 = grade3;
         this.grade4 = grade4;
         this.grade5 = grade5;
         this.path = path;
+        this.isFetchRequired = isFetchRequired;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getChapter() {
+        return chapter;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setChapter(String chapter) {
+        this.chapter = chapter;
     }
 
     String path;
@@ -52,12 +54,12 @@ public class Chapters {
         this.chapter_name = chapter_name;
     }
 
-    public int getIsCompleted() {
-        return isCompleted;
+    public int getUnlock() {
+        return unlock;
     }
 
-    public void setIsCompleted(int isCompleted) {
-        this.isCompleted = isCompleted;
+    public void setUnlock(int unlock) {
+        this.unlock = unlock;
     }
 
     public int getGrade1() {
@@ -108,4 +110,11 @@ public class Chapters {
         this.path = path;
     }
 
+    public int getIsFetchRequired() {
+        return isFetchRequired;
+    }
+
+    public void setIsFetchRequired(int isFetchRequired) {
+        this.isFetchRequired = isFetchRequired;
+    }
 }

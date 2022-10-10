@@ -1,5 +1,6 @@
 package com.maths.beyond_school_new_071020221400.utils;
 
+import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.Grades_data;
 import com.maths.beyond_school_new_071020221400.retrofit.Chapters;
 
@@ -11,16 +12,17 @@ public class GradeConverter implements TypeConverter<Grades_data, Chapters> {
     @Override
     public Grades_data mapTo(Chapters chapters) {
         return new Grades_data(
-                chapters.getSubject(),
+                chapters.getChapter(),
                 chapters.getChapter_name(),
                 contentToBoolean(chapters.getGrade1()),
                 contentToBoolean(chapters.getGrade2()),
                 contentToBoolean(chapters.getGrade3()),
                 contentToBoolean(chapters.getGrade4()),
                 contentToBoolean(chapters.getGrade5()),
-                true,
-                contentToBoolean(chapters.getIsCompleted()),
-                null
+                contentToBoolean(chapters.getUnlock()),
+                false,
+                "",
+                contentToBoolean(chapters.getIsFetchRequired())
         );
     }
 

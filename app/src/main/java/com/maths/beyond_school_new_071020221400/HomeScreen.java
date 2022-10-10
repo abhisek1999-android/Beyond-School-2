@@ -1,14 +1,5 @@
 package com.maths.beyond_school_new_071020221400;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -25,6 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -116,7 +116,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         kidsName = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_name));
         gradeDatabase = GradeDatabase.getDbInstance(HomeScreen.this);
-
+        gradeDatabase.gradesDao().getAllChapters();
         mathSub = Arrays.asList(math);
         engSub = Arrays.asList(eng);
 
@@ -346,7 +346,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     }
 
 
-
     private void permissionPadController() {
 
 
@@ -480,12 +479,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             UtilityFunctions.runOnUiThread(() -> {
 
-                try{
+                try {
                     startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
                     customProgressDialogue.dismiss();
 
                     for (int i = startIndex; i < startIndex + 2; i++) {
-                        try{
+                        try {
                             if (!math[i].equals("Multiplication Tables")) {
                                 if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) != null) {
                                     subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)));
@@ -496,10 +495,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                             } else {
 
                                 int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, ""));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, "", false));
                                 chapterListMath.add("Multiplication Tables " + (mul_upto + 1));
                             }
-                        }catch (Exception e){}
+                        } catch (Exception e) {
+                        }
 
 
                     }
@@ -509,19 +509,19 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListMath, getResources().getString(R.string.saved_maths_value));
 
 
+                    try {
+                        for (int i = startIndex; i < startIndex + 2; i++) {
 
-                    try{
-                        for (int i=startIndex; i < startIndex+2; i++) {
+                            if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)) != null) {
+                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)));
+                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)).chapter);
+                            }
+                        }
+                    } catch (Exception e) {
 
-                            if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
-                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
-                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
-                            }}
-                    }catch (Exception e){
-
-                        int engList=UtilityFunctions.getRandomIntegerUpto(2,0);
-                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)));
-                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)).chapter);
+                        int engList = UtilityFunctions.getRandomIntegerUpto(2, 0);
+                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)));
+                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)).chapter);
 
                     }
 
@@ -536,9 +536,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                     binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
                     subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
-                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);}
-
-                catch (Exception e){
+                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
+                } catch (Exception e) {
 
 
                 }
@@ -582,9 +581,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                         try {
                             int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
                             if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2]) == mul_upto)
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, true, ""));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, true, "", false));
                             else
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, false, ""));
+                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, false, "", false));
                         } catch (Exception e) {
                         }
                     }

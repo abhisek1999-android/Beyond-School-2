@@ -33,7 +33,10 @@ public class Grades_data {
         this.grade5 = grade5;
     }
 
-    public Grades_data(String subject, String chapter, boolean grade1, boolean grade2, boolean grade3, boolean grade4, boolean grade5, boolean unlock, boolean is_completed, String url) {
+
+    public Grades_data(String subject, String chapter, boolean grade1, boolean grade2, boolean grade3,
+                       boolean grade4, boolean grade5, boolean unlock, boolean is_completed, String url
+            , boolean isFetchRequired) {
         this.subject = subject;
         //this.subsubject = subsubject;
         this.chapter = chapter;
@@ -42,20 +45,20 @@ public class Grades_data {
         this.grade3 = grade3;
         this.grade4 = grade4;
         this.grade5 = grade5;
-        this.url=url;
-        this.unlock=unlock;
-        this.is_completed=is_completed;
+        this.url = url;
+        this.unlock = unlock;
+        this.is_completed = is_completed;
+        this.isFetchRequired = isFetchRequired;
     }
 
 
-
-    @ColumnInfo(name="subject")
+    @ColumnInfo(name = "subject")
     public String subject;
 
     /*@ColumnInfo(name="sub_sub")
     public int  subsubject;*/
 
-    @ColumnInfo(name="chapter")
+    @ColumnInfo(name = "chapter")
     public String chapter;
 
    /* @ColumnInfo(name="grade")
@@ -76,8 +79,8 @@ public class Grades_data {
     @ColumnInfo(name = "grade5")
     public boolean grade5;
 
-    @ColumnInfo(name="url")
-    public String  url;
+    @ColumnInfo(name = "url")
+    public String url;
 
     @ColumnInfo(name = "unlock")
     public boolean unlock;
@@ -86,7 +89,17 @@ public class Grades_data {
     public boolean is_completed;
 
     @PrimaryKey(autoGenerate = true)
-    public int  progress_id;
+    public int progress_id;
+
+    public boolean isFetchRequired;
+
+    public boolean isFetchRequired() {
+        return isFetchRequired;
+    }
+
+    public void setFetchRequired(boolean fetchRequired) {
+        isFetchRequired = fetchRequired;
+    }
 
     public String getSubject() {
         return subject;
@@ -99,6 +112,7 @@ public class Grades_data {
     public boolean isUnlock() {
         return unlock;
     }
+
 
     public void setUnlock(boolean unlock) {
         this.unlock = unlock;
