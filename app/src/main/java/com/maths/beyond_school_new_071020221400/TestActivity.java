@@ -22,12 +22,15 @@ import com.maths.beyond_school_new_071020221400.databinding.ActivityTestBinding;
 import com.maths.beyond_school_new_071020221400.retrofit.ApiClient;
 import com.maths.beyond_school_new_071020221400.retrofit.ApiInterface;
 import com.maths.beyond_school_new_071020221400.retrofit.Chapter;
+import com.maths.beyond_school_new_071020221400.retrofit.ResponseClass;
 import com.maths.beyond_school_new_071020221400.retrofit.model.ResponseSubjects;
+import com.maths.beyond_school_new_071020221400.retrofit.noun.SubjectContent;
 import com.maths.beyond_school_new_071020221400.utils.GradeConverter;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -50,34 +53,66 @@ public class TestActivity extends AppCompatActivity {
         Retrofit retrofit = ApiClient.getClient();
         api = retrofit.create(ApiInterface.class);
         getData();
-        getGrammarData();
+//        getGrammarData();
+        getIrregularPluralNoun();
     }
 
-    private void getGrammarData() {
-        api.getIndefiniteNoun().enqueue(new retrofit2.Callback<>() {
+    private void getIrregularPluralNoun() {
+        api.getIrregularPluralNoun().enqueue(new Callback<ResponseClass<SubjectContent>>() {
             @Override
-            public void onResponse(Call<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> call, Response<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                var nounResponse = response.body().getSubjectContent();
-                var content = nounResponse.getContent();
-                var converter = new GrammarNounConvert();
-                var chapter_name = nounResponse.getChapter_name();
-                var metaData = nounResponse.getMeta().toString();
-                Log.d(TAG, "onResponse: " + chapter_name);
-                Log.d(TAG, "onResponse: " + metaData);
-                Log.d(TAG, "----------------------------------------");
-                Log.d(TAG, "----------------------------------------");
-                var nounList = converter.mapToList(content);
-                for (var noun : nounList) {
-                    Log.d(TAG, "onResponse: " + noun.toString());
-                }
-                var englishDatabase = EnglishGradeDatabase.getDbInstance(TestActivity.this);
-                englishDatabase.grammarDao().insert(new GrammarType(chapter_name, nounList));
+            public void onResponse(Call<ResponseClass<SubjectContent>> call, Response<ResponseClass<SubjectContent>> response) {
+
+                var nounResponse = response.body();
+                var chapter = nounResponse.getSubjectContent();
+                if (chapter != null) {
+                    var converter = new GrammarNounConvert();
+                    var metaData = chapter.getMeta().toString();
+                    Log.d(TAG, "onResponse: " + chapter.getChapter_name());
+                    Log.d(TAG, "onResponse: " + metaData);
+                    Log.d(TAG, "----------------------------------------");
+                    Log.d(TAG, "----------------------------------------");
+                    var nounList = converter.mapToList(chapter.getContent());
+                    for (var noun : nounList) {
+                        Log.d(TAG, "onResponse: " + noun.toString());
+                    }
+                    var englishDatabase = EnglishGradeDatabase.getDbInstance(TestActivity.this);
+                    englishDatabase.grammarDao().insert(new GrammarType(chapter.getChapter_name(), nounList));
+                } else Log.d(TAG, "onResponse: null " + response.code());
             }
 
             @Override
-            public void onFailure(Call<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            public void onFailure(Call<ResponseClass<SubjectContent>> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void getGrammarData() {
+        api.getIndefiniteNoun().enqueue(new Callback<ResponseClass<SubjectContent>>() {
+            @Override
+            public void onResponse(Call<ResponseClass<SubjectContent>> call, Response<ResponseClass<SubjectContent>> response) {
+
+                var nounResponse = response.body();
+                var chapter = nounResponse.getSubjectContent();
+                if (chapter != null) {
+                    var converter = new GrammarNounConvert();
+                    var metaData = chapter.getMeta().toString();
+                    Log.d(TAG, "onResponse: " + chapter.getChapter_name());
+                    Log.d(TAG, "onResponse: " + metaData);
+                    Log.d(TAG, "----------------------------------------");
+                    Log.d(TAG, "----------------------------------------");
+                    var nounList = converter.mapToList(chapter.getContent());
+                    for (var noun : nounList) {
+                        Log.d(TAG, "onResponse: " + noun.toString());
+                    }
+                    var englishDatabase = EnglishGradeDatabase.getDbInstance(TestActivity.this);
+                    englishDatabase.grammarDao().insert(new GrammarType(chapter.getChapter_name(), nounList));
+                } else Log.d(TAG, "onResponse: null " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseClass<SubjectContent>> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
