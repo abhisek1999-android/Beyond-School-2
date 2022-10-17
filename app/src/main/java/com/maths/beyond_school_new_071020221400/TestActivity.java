@@ -13,6 +13,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_new_071020221400.SP.PrefConfig;
+import com.maths.beyond_school_new_071020221400.database.english.EnglishGradeDatabase;
+import com.maths.beyond_school_new_071020221400.database.english.converters.GrammarNounConvert;
+import com.maths.beyond_school_new_071020221400.database.english.grammer.model.GrammarType;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.GradesDao;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityTestBinding;
@@ -34,6 +37,7 @@ public class TestActivity extends AppCompatActivity {
     private String TAG = "TestActivity";
 
     private GradesDao dao;
+    private ApiInterface api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,39 @@ public class TestActivity extends AppCompatActivity {
         setUpRemoteConfig();
         var gradeDatabase = GradeDatabase.getDbInstance(this);
         dao = gradeDatabase.gradesDao();
+        Retrofit retrofit = ApiClient.getClient();
+        api = retrofit.create(ApiInterface.class);
         getData();
+        getGrammarData();
+    }
+
+    private void getGrammarData() {
+        api.getIndefiniteNoun().enqueue(new retrofit2.Callback<>() {
+            @Override
+            public void onResponse(Call<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> call, Response<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+                var nounResponse = response.body().getSubjectContent();
+                var content = nounResponse.getContent();
+                var converter = new GrammarNounConvert();
+                var chapter_name = nounResponse.getChapter_name();
+                var metaData = nounResponse.getMeta().toString();
+                Log.d(TAG, "onResponse: " + chapter_name);
+                Log.d(TAG, "onResponse: " + metaData);
+                Log.d(TAG, "----------------------------------------");
+                Log.d(TAG, "----------------------------------------");
+                var nounList = converter.mapToList(content);
+                for (var noun : nounList) {
+                    Log.d(TAG, "onResponse: " + noun.toString());
+                }
+                var englishDatabase = EnglishGradeDatabase.getDbInstance(TestActivity.this);
+                englishDatabase.grammarDao().insert(new GrammarType(chapter_name, nounList));
+            }
+
+            @Override
+            public void onFailure(Call<com.maths.beyond_school_new_071020221400.retrofit.noun.NounResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
     }
 
     private void setUpRemoteConfig() {
@@ -90,8 +126,7 @@ public class TestActivity extends AppCompatActivity {
 
 
     private void getData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
+
         api.getTodos().enqueue(new retrofit2.Callback<>() {
             @Override
             public void onResponse(@NonNull Call<ResponseSubjects> call,

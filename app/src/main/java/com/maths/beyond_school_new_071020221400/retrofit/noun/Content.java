@@ -1,28 +1,20 @@
-package com.maths.beyond_school_new_071020221400.database.english.grammer.model;
+package com.maths.beyond_school_new_071020221400.retrofit.noun;
 
 import androidx.annotation.Keep;
 
 @Keep
-public class GrammarModel {
+public class Content {
     private String word;
     private String description;
     private String image;
     private String extra;
 
-    public GrammarModel(String word, String description, String image) {
-        this.word = word;
-        this.description = description;
-        this.image = image;
-        extra = "";
-    }
-
-    public GrammarModel(String word, String extra, String description, String image) {
+    public Content(String word, String description, String image, String extra) {
         this.word = word;
         this.description = description;
         this.image = image;
         this.extra = extra;
     }
-
 
     public String getWord() {
         return word;
@@ -54,15 +46,5 @@ public class GrammarModel {
 
     public void setExtra(String extra) {
         this.extra = extra;
-    }
-
-    @Override
-    public String toString() {
-        return "GrammarModel{" +
-                "word='" + word + '\'' +
-                ", description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                ", extra='" + extra + '\'' +
-                '}';
     }
 }
