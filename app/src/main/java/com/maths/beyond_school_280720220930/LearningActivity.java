@@ -70,7 +70,8 @@ import io.reactivex.functions.Consumer;
 // selectSub= 1- Digit addition
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class
+LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final String TAG = LearningActivity.class.getSimpleName();
     private ActivityLearningBinding binding;

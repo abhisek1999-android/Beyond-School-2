@@ -24,6 +24,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -49,17 +51,21 @@ import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
+import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
+import com.maths.beyond_school_280720220930.signin_methods.PhoneNumberLogin;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -92,7 +98,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<String> chapterListMath;
     private CustomProgressDialogue customProgressDialogue;
     private BottomSheetBehavior mBottomSheetBehavior;
-
+    private AlarmDialogBinding alarmDialogBinding;
+    private String[] arrayGrades;
+    private ArrayAdapter adapterGrades;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -636,6 +644,57 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+
+
+    private void displaySetEventDialog() throws ParseException {
+
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeScreen.this);
+        View mView = getLayoutInflater().inflate(R.layout.alarm_dialog, null);
+        alarmDialogBinding = AlarmDialogBinding.bind(mView);
+
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+
+        arrayGrades = getResources().getStringArray(R.array.time_slots);
+        adapterGrades = new ArrayAdapter(this, R.layout.list_item, arrayGrades);
+        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) alarmDialogBinding.extraInclude.textInputLayoutTimer.getEditText());
+        editText.setAdapter(adapterGrades);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            alarmDialogBinding.extraInclude.kidsGrade.setText(alarmDialogBinding.extraInclude.kidsGrade.getAdapter().getItem(9).toString(), false);
+        }
+
+        alarmDialogBinding.extraInclude.selecttimebtn.setOnClickListener(v->{
+            try {
+                UtilityFunctions.setEvent(HomeScreen.this,alarmDialogBinding.extraInclude.textInputLayoutTimer);
+                var i = new Intent(getApplicationContext(), HomeScreen.class);
+                startActivity(i);
+                finish();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+        try {
+            alertDialog.show();
+        } catch (Exception e) {
+
+        }
+
+        alarmDialogBinding.closeButton.setOnClickListener(v -> {alertDialog.dismiss();
+            var i = new Intent(getApplicationContext(), HomeScreen.class);
+            startActivity(i);
+            finish();
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -659,6 +718,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         super.onBackPressed();
         completeClose();
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

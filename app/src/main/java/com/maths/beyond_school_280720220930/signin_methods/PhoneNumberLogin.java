@@ -45,6 +45,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.maths.beyond_school_280720220930.GradeActivity;
 import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -389,10 +390,9 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                         if (queryDocumentSnapshots.isEmpty()) {
 
                             Log.i("No_data", "No_data");
-//                            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
-//                            intent.putExtra("type", "next");
-//                            startActivity(intent);
-                            saveKidsData("default");
+                            var intent = new Intent(getApplicationContext(), GradeActivity.class);
+                            startActivity(intent);
+                            //saveKidsData("default");
 
                         } else {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
@@ -404,9 +404,9 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                         UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                         CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
-
-
-                                        displaySetEventDialog();
+                                        var i = new Intent(getApplicationContext(), HomeScreen.class);
+                                        startActivity(i);
+                                        finish();
 
                                         break;
                                     }
@@ -415,11 +415,10 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                     CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
-                                    try {
-                                        displaySetEventDialog();
-                                    } catch (ParseException ex) {
-                                        ex.printStackTrace();
-                                    }
+                                    var i = new Intent(getApplicationContext(), HomeScreen.class);
+                                    startActivity(i);
+                                    finish();
+
                                     break;
                                 }
 
@@ -434,54 +433,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    private void displaySetEventDialog() throws ParseException {
 
-
-            final AlertDialog.Builder alert = new AlertDialog.Builder(PhoneNumberLogin.this);
-            View mView = getLayoutInflater().inflate(R.layout.alarm_dialog, null);
-             alarmDialogBinding =AlarmDialogBinding.bind(mView);
-
-            alert.setView(mView);
-            final AlertDialog alertDialog = alert.create();
-            alertDialog.setCancelable(true);
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
-
-        arrayGrades = getResources().getStringArray(R.array.time_slots);
-        adapterGrades = new ArrayAdapter(this, R.layout.list_item, arrayGrades);
-        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) alarmDialogBinding.extraInclude.textInputLayoutTimer.getEditText());
-        editText.setAdapter(adapterGrades);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-           alarmDialogBinding.extraInclude.kidsGrade.setText(alarmDialogBinding.extraInclude.kidsGrade.getAdapter().getItem(9).toString(), false);
-        }
-
-        alarmDialogBinding.extraInclude.selecttimebtn.setOnClickListener(v->{
-            try {
-                UtilityFunctions.setEvent(PhoneNumberLogin.this,alarmDialogBinding.extraInclude.textInputLayoutTimer);
-                var i = new Intent(getApplicationContext(), HomeScreen.class);
-                startActivity(i);
-                finish();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        });
-
-
-
-            try {
-                alertDialog.show();
-            } catch (Exception e) {
-
-            }
-
-            alarmDialogBinding.closeButton.setOnClickListener(v -> {alertDialog.dismiss();
-                var i = new Intent(getApplicationContext(), HomeScreen.class);
-                startActivity(i);
-                finish();
-            });
-    }
 
 
     @Override

@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/permissionReason"
             android:layout_marginHorizontal="@dimen/grid_10"
-            android:text="Hey, buddy we need permission for you microphone to understand your voice commands"
+            android:text="Please allow microphone access to practice some lessons by speaking"
             android:textAlignment="center"
             android:fontFamily="@font/futurapt_font"
             android:textSize="@dimen/default_font_size"
@@ -79,6 +79,18 @@
             android:layout_marginTop="@dimen/grid_20"
             >
 
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rejectPermission"
+                android:fontFamily="@font/reemkufi_medium"
+                android:background="@drawable/round_rect_button_bg"
+                app:backgroundTint="@color/sweet_red"
+                android:text="Reject"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,17 +102,6 @@
                 android:fontFamily="@font/reemkufi_medium"
                 app:backgroundTint="@color/primary"
 
-                />
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/rejectPermission"
-                android:fontFamily="@font/reemkufi_medium"
-                android:background="@drawable/round_rect_button_bg"
-                app:backgroundTint="@color/sweet_red"
-                android:text="Reject"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
                 />
         </LinearLayout>
 

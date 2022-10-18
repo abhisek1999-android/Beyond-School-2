@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NameAgeActivity">
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="230dp"
+        android:layout_height="220dp"
+        android:layout_below="@id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:padding="8dp">
+
+
+        <ImageButton
+            android:id="@+id/getImages"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/background_round"
+            android:backgroundTint="@color/primary"
+            android:elevation="6dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:tint="@color/white" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageCardView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="125dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/kidsProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_perm_identity_24" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Add Kid's Photo"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/grid_10">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/grid_20"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/grid_20"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Kid's Name"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/default_font_size" />
+
+            <EditText
+                android:id="@+id/kidsNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background_border"
+                android:fontFamily="@font/reemkufi_medium"
+                android:foregroundTint="@color/teal_700"
+                android:hint="Eg. (Avinash Gupta)"
+                android:inputType="textCapSentences|textPersonName"
+                android:padding="15dp"
+                android:textSize="@dimen/default_font_size"
+
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/reemkufi_medium"
+                android:text="Kid's Date of Birth"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/default_font_size" />
+
+            <TextView
+                android:id="@+id/kidsAgeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kidsNameTextView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background_border"
+                android:fontFamily="@font/reemkufi_medium"
+                android:foregroundTint="@color/teal_700"
+                android:hint="Eg. 20/10/2015"
+                android:inputType="none"
+                android:padding="15dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/default_font_size" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/next"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_below="@+id/card"
+
+                android:layout_gravity="right"
+                android:layout_marginTop="@dimen/grid_10"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/grid_10"
+                android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+                android:fontFamily="@font/reemkufi_medium"
+                android:shadowColor="@color/light_gray"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textSize="@dimen/grid_20"
+                android:textStyle="bold"
+                app:backgroundTint="@color/primary" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/skip"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/grid_10"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="@dimen/grid_10"
+        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+        android:drawableTint="@color/primary"
+        android:fontFamily="@font/reemkufi_medium"
+        android:shadowColor="@color/light_gray"
+        android:text="Skip"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/grid_20"
+        android:textStyle="bold"
+        app:backgroundTint="@color/white" />
+</RelativeLayout>
