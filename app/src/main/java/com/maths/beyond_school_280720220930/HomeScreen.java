@@ -143,7 +143,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         checkAudioPermission();
         //TODO: must be removed
-        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TestActivity.class)));
+        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeScreenTabbed.class)));
+
 
         binding.yourProgressLayout.setOnClickListener(v -> {
             setSubSubjectProgress();
