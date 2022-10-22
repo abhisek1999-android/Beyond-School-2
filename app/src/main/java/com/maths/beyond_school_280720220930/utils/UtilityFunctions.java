@@ -74,6 +74,11 @@ public final class UtilityFunctions {
                 .into(imageView);
     }
 
+
+    public static boolean intToBoolean(int i) {
+        return i != 0;
+    }
+
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
         Glide.with(imageView.getContext())
                 .load(url)
@@ -676,7 +681,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber){
+    public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber) {
 
 
         var kidsData = new Bundle();
@@ -704,14 +709,13 @@ public final class UtilityFunctions {
         mFirebaseAnalytics.logEvent(subject, resultBundle);
 
 
-
         Bundle itemJeggings = new Bundle();
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_NAME, kidsName);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, question);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_VARIANT, detected);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_BRAND, result);
-        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2,parentsContactId);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2, parentsContactId);
         itemJeggings.putDouble(FirebaseAnalytics.Param.PRICE, age);
 
 

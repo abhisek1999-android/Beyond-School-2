@@ -1,10 +1,13 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 @Entity(tableName = "grade")
 public class GradeData {
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     private String id;
     private String chapter_name;
     private String subject;
@@ -67,5 +70,17 @@ public class GradeData {
 
     public void setFetchRequired(boolean fetchRequired) {
         isFetchRequired = fetchRequired;
+    }
+
+    @Override
+    public String toString() {
+        return "GradeData{" +
+                "id='" + id + '\'' +
+                ", chapter_name='" + chapter_name + '\'' +
+                ", subject='" + subject + '\'' +
+                ", request='" + request + '\'' +
+                ", unlock=" + unlock +
+                ", isFetchRequired=" + isFetchRequired +
+                '}';
     }
 }

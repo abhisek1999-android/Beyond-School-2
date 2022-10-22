@@ -21,7 +21,7 @@ public class GradeModel {
 
     public static class EnglishModel {
         private String subject;
-        private String request;
+
         private List<Chapter> chapters;
 
         public String getSubject() {
@@ -32,13 +32,6 @@ public class GradeModel {
             this.subject = subject;
         }
 
-        public String getRequest() {
-            return request;
-        }
-
-        public void setRequest(String request) {
-            this.request = request;
-        }
 
         public List<Chapter> getChapters() {
             return chapters;
@@ -52,29 +45,41 @@ public class GradeModel {
         public String toString() {
             return "EnglishModel{" +
                     "subject='" + subject + '\'' +
-                    ", request='" + request + '\'' +
                     ", chapters=" + chapters +
                     '}';
         }
 
-        private static class Chapter{
-            private int id;
+        public static class Chapter {
+            private String id;
             private String chapter_name;
             private int unlock;
             private int isFetchRequired;
 
-            public Chapter(int id, String chapter_name, int unlock, int isFetchRequired) {
+            private String request;
+
+            public Chapter() {
+            }
+
+            public Chapter(String id, String chapter_name, int unlock, int isFetchRequired) {
                 this.id = id;
                 this.chapter_name = chapter_name;
                 this.unlock = unlock;
                 this.isFetchRequired = isFetchRequired;
             }
 
-            public int getId() {
+            public String getRequest() {
+                return request;
+            }
+
+            public void setRequest(String request) {
+                this.request = request;
+            }
+
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 

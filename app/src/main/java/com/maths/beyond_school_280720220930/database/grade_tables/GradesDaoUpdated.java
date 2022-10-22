@@ -4,8 +4,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.RawQuery;
-import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ public interface GradesDaoUpdated {
     List<GradeData> getChapter();
 
     @Insert
-    void insertNotes(GradeData... progresses);
+    void insertNotes(List<GradeData> gradeData);
 
     @Delete
     void delete(GradeData progress);

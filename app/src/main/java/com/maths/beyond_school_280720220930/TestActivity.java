@@ -13,10 +13,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -27,14 +32,54 @@ public class TestActivity extends AppCompatActivity {
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private String TAG = "TestActivity";
 
+    private GradeDatabase gradeDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityTestBinding binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        gradeDatabase = GradeDatabase.getDbInstance(this);
         setUpRemoteConfig();
-//        getNewData();
-        getSubjectData();
+        getNewData();
+//        getSubjectData();
+    }
+
+
+    private void getNewData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
+            private Call<GradeModel> call;
+            private Response<GradeModel> response;
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, @NonNull retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
+                this.call = call;
+                this.response = response;
+                if (response.body() != null) {
+                    Log.d(TAG, "onResponse: " + response.code());
+                    Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+                } else {
+                    Toast.makeText(TestActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
     }
 
     private void getSubjectData() {
@@ -54,23 +99,6 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-    private void getNewData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
-    }
-
     private void setUpRemoteConfig() {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
@@ -85,29 +113,26 @@ public class TestActivity extends AppCompatActivity {
                 , 0);
 
         mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Boolean> task) {
-                        if (task.isSuccessful()) {
-                            boolean updated = task.getResult();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
 
-                            int val = (int) mFirebaseRemoteConfig.getLong("data_updated_value");
-                            if (value != val) {
-                                PrefConfig.writeIntInPref(
-                                        TestActivity.this,
-                                        val,
-                                        getResources().getString(R.string.KEY_VALUE_SAVE)
-                                );
+                        int val = (int) mFirebaseRemoteConfig.getLong("data_updated_value");
+                        if (value != val) {
+                            PrefConfig.writeIntInPref(
+                                    TestActivity.this,
+                                    val,
+                                    getResources().getString(R.string.KEY_VALUE_SAVE)
+                            );
 //                                getData();
-                            }
-
-                            Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
-                            return;
                         }
-                        Toast.makeText(TestActivity.this, "Fetch failed",
-                                Toast.LENGTH_SHORT).show();
 
+                        Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
+                        return;
                     }
+                    Toast.makeText(TestActivity.this, "Fetch failed",
+                            Toast.LENGTH_SHORT).show();
+
                 });
 
 
