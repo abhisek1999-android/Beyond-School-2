@@ -7,12 +7,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
@@ -33,16 +36,29 @@ public class TestActivity extends AppCompatActivity {
     private String TAG = "TestActivity";
 
     private GradeDatabase gradeDatabase;
+    private ActivityTestBinding binding;
+    private ChaptersRecyclerAdapter chaptersRecyclerAdapter;
+    private List<GradeData> chapterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityTestBinding binding = ActivityTestBinding.inflate(getLayoutInflater());
+         binding= ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
         setUpRemoteConfig();
         getNewData();
+        setRecyclerViewData();
 //        getSubjectData();
+    }
+
+    private void setRecyclerViewData() {
+
+        chapterList=gradeDatabase.gradesDaoUpdated().getChapter();
+
+        binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+        chaptersRecyclerAdapter=new ChaptersRecyclerAdapter(chapterList,TestActivity.this);
+        binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
     }
 
 
@@ -61,7 +77,7 @@ public class TestActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: " + response.code());
                     Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
                     var list = response.body().getEnglish();
-                    mapToGradeModel(list);
+                 //   mapToGradeModel(list);
                 } else {
                     Toast.makeText(TestActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                 }
