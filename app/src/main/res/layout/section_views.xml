@@ -20,6 +20,7 @@
         android:id="@+id/sectionRecyclerView"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
+
         />
 
 </LinearLayout>

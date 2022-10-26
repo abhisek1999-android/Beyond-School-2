@@ -24,12 +24,12 @@ public class SectionSubSubjectRecyclerAdapter extends RecyclerView.Adapter<Secti
 
     List<SectionSubSubject> sectionList;
     Context mContext;
-    AlertDialog alertDialog;
 
-    public SectionSubSubjectRecyclerAdapter(List<SectionSubSubject> sectionList, Context mContext, AlertDialog alertDialog) {
+
+    public SectionSubSubjectRecyclerAdapter(List<SectionSubSubject> sectionList, Context mContext) {
         this.sectionList = sectionList;
         this.mContext=mContext;
-        this.alertDialog=alertDialog;
+
     }
 
     @NonNull
@@ -50,10 +50,10 @@ public class SectionSubSubjectRecyclerAdapter extends RecyclerView.Adapter<Secti
         holder.sectionNameTextView.setText(sectionName);
 
 
-        ProgressRecyclerAdapter childRecyclerAdapter = new ProgressRecyclerAdapter(items,mContext,alertDialog,sectionName);
+        ProgressRecyclerAdapter childRecyclerAdapter = new ProgressRecyclerAdapter(items,mContext,sectionName);
         holder.childRecyclerView.setAdapter(childRecyclerAdapter);
         holder.mView.setOnClickListener(v->{
-            alertDialog.dismiss();
+
         });
 
     }
