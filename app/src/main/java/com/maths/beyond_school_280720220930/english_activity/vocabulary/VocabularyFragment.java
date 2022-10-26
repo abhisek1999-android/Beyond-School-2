@@ -8,15 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.ahmadrosid.svgloader.SvgLoader;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyBinding;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Objects;
 
-import coil.ImageLoader;
+
 
 public class VocabularyFragment extends Fragment {
 
@@ -45,7 +46,7 @@ public class VocabularyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
-//        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
+        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
 //        var imageLoader = ImageLoader.Builder(requireContext())
 //                .crossfade(true)
 //                .on
