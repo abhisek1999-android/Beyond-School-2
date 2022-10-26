@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -18,10 +17,11 @@ import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
-import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.List;
@@ -43,21 +43,23 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         binding= ActivityTestBinding.inflate(getLayoutInflater());
+        binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
-        setUpRemoteConfig();
+//        setUpRemoteConfig();
         getNewData();
         setRecyclerViewData();
-//        getSubjectData();
     }
 
     private void setRecyclerViewData() {
 
-        chapterList=gradeDatabase.gradesDaoUpdated().getChapter();
-
-        binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-        chaptersRecyclerAdapter=new ChaptersRecyclerAdapter(chapterList,TestActivity.this);
+        chapterList = gradeDatabase.gradesDaoUpdated().getChapter();
+        binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(chapterList, TestActivity.this, gradeData -> {
+            var intent = new Intent(TestActivity.this, VocabularyActivity.class);
+            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+            startActivity(intent);
+        });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
     }
 
@@ -77,7 +79,7 @@ public class TestActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: " + response.code());
                     Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
                     var list = response.body().getEnglish();
-                 //   mapToGradeModel(list);
+                    mapToGradeModel(list);
                 } else {
                     Toast.makeText(TestActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                 }
@@ -98,22 +100,7 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-    private void getSubjectData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject("Number words").enqueue(new retrofit2.Callback<ContentModel>() {
-            @Override
-            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                Log.d(TAG, "onResponse: " + response.body().getContent().toString());
-            }
 
-            @Override
-            public void onFailure(Call<ContentModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
-    }
 
     private void setUpRemoteConfig() {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();

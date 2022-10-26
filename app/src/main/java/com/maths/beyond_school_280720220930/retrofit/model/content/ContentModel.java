@@ -84,7 +84,11 @@ public class ContentModel {
         }
     }
 
-    private final class Content {
+    public static final class Content {
+
+        public Content() {
+        }
+
         private String word;
         private String description;
         private String image;

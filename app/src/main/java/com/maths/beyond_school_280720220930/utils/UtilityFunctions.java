@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,13 +23,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.target.Target;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
@@ -68,10 +62,10 @@ public final class UtilityFunctions {
 
     // Extension Function To load image in imageview Using Glide Library
     public static void loadImage(String url, android.widget.ImageView imageView) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .error(R.drawable.cartoon_image_1)
-                .into(imageView);
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .error(R.drawable.cartoon_image_1)
+//                .into(imageView);
     }
 
 
@@ -80,24 +74,28 @@ public final class UtilityFunctions {
     }
 
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .timeout(10000)
-                .error(R.drawable.cartoon_image_1)
-                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        progress.setVisibility(View.GONE);
-                        return false;
-                    }
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .timeout(10000)
+//                .error(R.drawable.cartoon_image_1)
+//                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        progress.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                        progress.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//                })
+//                .into(imageView);
+    }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        progress.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .into(imageView);
+    public static void loadImageSvg(String url, android.widget.ImageView imageView, View progress) {
+
     }
 
 

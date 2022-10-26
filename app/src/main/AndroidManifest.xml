@@ -73,6 +73,9 @@
             android:name=".english_activity.spelling.spelling_test.SpellingTest"
             android:exported="false" />
         <activity
+            android:name=".english_activity.vocabulary2.VocabularyActivity"
+            android:exported="false" />
+        <activity
             android:name=".english_activity.spelling.EnglishSpellingActivity"
             android:exported="false" />
         <activity
