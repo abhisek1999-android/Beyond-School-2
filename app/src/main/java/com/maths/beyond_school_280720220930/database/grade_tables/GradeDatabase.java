@@ -9,11 +9,13 @@ import androidx.room.TypeConverters;
 
 import com.maths.beyond_school_280720220930.database.converter.Converters;
 
-@Database(entities = {Grades_data.class}, version = 1)
+@Database(entities = {GradeData.class,Grades_data.class}, version = 1)
 @TypeConverters(Converters.class)
 public abstract class GradeDatabase extends RoomDatabase {
 
     public abstract GradesDao gradesDao();
+    public abstract GradesDaoUpdated gradesDaoUpdated();
+
 
     private static GradeDatabase INSTANCE;
 

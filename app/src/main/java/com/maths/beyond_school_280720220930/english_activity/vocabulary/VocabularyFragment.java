@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
@@ -15,6 +16,8 @@ import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyBindin
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Objects;
+
+
 
 public class VocabularyFragment extends Fragment {
 
@@ -44,21 +47,25 @@ public class VocabularyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
         UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
+//        var imageLoader = ImageLoader.Builder(requireContext())
+//                .crossfade(true)
+//                .on
+
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);
         binding.textViewDescription.setText(vocabulary.getDefinition());
         binding.textViewItem.setText(vocabulary.getWord());
         binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
         binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
 
-        var activity = (EnglishActivity) requireActivity();
+//        var activity = (EnglishActivity) requireActivity();
 
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-            activity.restartEngine();
+//            activity.restartEngine();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-            activity.restartEngine();
+//            activity.restartEngine();
         });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
@@ -73,7 +80,7 @@ public class VocabularyFragment extends Fragment {
 
     }
 
-    interface OnRootClick {
+    public interface OnRootClick {
         void onRootClick();
     }
 

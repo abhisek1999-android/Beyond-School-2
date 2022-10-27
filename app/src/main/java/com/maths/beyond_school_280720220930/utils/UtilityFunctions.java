@@ -31,6 +31,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.target.Target;
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.maths.beyond_school_280720220930.R;
@@ -68,31 +70,60 @@ public final class UtilityFunctions {
 
     // Extension Function To load image in imageview Using Glide Library
     public static void loadImage(String url, android.widget.ImageView imageView) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .error(R.drawable.cartoon_image_1)
-                .into(imageView);
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .error(R.drawable.cartoon_image_1)
+//                .into(imageView);
+    }
+
+
+    public static boolean intToBoolean(int i) {
+        return i != 0;
     }
 
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .timeout(10000)
-                .error(R.drawable.cartoon_image_1)
-                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+
+
+        GlideToVectorYou
+                .init()
+                .with(imageView.getContext())
+                .withListener(new GlideToVectorYouListener() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public void onLoadFailed() {
                         progress.setVisibility(View.GONE);
-                        return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public void onResourceReady() {
                         progress.setVisibility(View.GONE);
-                        return false;
                     }
                 })
-                .into(imageView);
+                .load(Uri.parse(url), imageView);
+
+
+
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .timeout(10000)
+//                .error(R.drawable.cartoon_image_1)
+//                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        progress.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                        progress.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//                })
+//                .into(imageView);
+    }
+
+    public static void loadImageSvg(String url, android.widget.ImageView imageView, View progress) {
+
     }
 
 
@@ -676,7 +707,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber){
+    public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber) {
 
 
         var kidsData = new Bundle();
@@ -704,14 +735,13 @@ public final class UtilityFunctions {
         mFirebaseAnalytics.logEvent(subject, resultBundle);
 
 
-
         Bundle itemJeggings = new Bundle();
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_NAME, kidsName);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, question);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_VARIANT, detected);
         itemJeggings.putString(FirebaseAnalytics.Param.ITEM_BRAND, result);
-        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2,parentsContactId);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2, parentsContactId);
         itemJeggings.putDouble(FirebaseAnalytics.Param.PRICE, age);
 
 

@@ -62,6 +62,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             checkUserAlreadyAvailable();
         }
 
+        startActivity(new Intent(this, TestActivity.class));
 
     }
 

@@ -48,14 +48,7 @@
         android:theme="@style/Theme.BEYOND_SCHOOL"
         tools:node="merge">
         <activity
-            android:name=".HomeScreenTabbed"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".NameAgeActivity"
+            android:name=".ViewCurriculum"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -78,9 +71,12 @@
         </activity>
         <activity
             android:name=".english_activity.grammar.GrammarActivity"
-            android:exported="false" />
+            android:exported="false"></activity>
         <activity
             android:name=".english_activity.spelling.spelling_test.SpellingTest"
+            android:exported="false" />
+        <activity
+            android:name=".english_activity.vocabulary2.VocabularyActivity"
             android:exported="false" />
         <activity
             android:name=".english_activity.spelling.EnglishSpellingActivity"

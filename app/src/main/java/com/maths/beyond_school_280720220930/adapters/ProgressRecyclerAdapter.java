@@ -30,14 +30,14 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
     ProgressDataBase progressDataBase;
     long timeSpend = 0;
     private String subSub = "", chapter = "";
-    private AlertDialog alertDialog;
+
     private String section;
 
 
-    public ProgressRecyclerAdapter(List<SubSubject> list, Context context, AlertDialog alertDialog, String sectionName) {
+    public ProgressRecyclerAdapter(List<SubSubject> list, Context context, String sectionName) {
         this.list = list;
         this.context = context;
-        this.alertDialog = alertDialog;
+
         this.section = sectionName;
 
         progressDataBase = ProgressDataBase.getDbInstance(context);
