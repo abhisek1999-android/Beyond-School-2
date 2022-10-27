@@ -1,6 +1,9 @@
 package com.maths.beyond_school_280720220930.english_activity.grammar.test;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_QUESTION_FOR_TEST;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,8 +30,12 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarTestBinding;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarTypeConverter;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
@@ -51,6 +58,9 @@ import java.util.stream.Collectors;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class GrammarTestActivity extends AppCompatActivity {
 
@@ -87,6 +97,10 @@ public class GrammarTestActivity extends AppCompatActivity {
     public static final int TIMER_VALUE = 15;
     private String parentsContactId = "";
 
+    private Boolean isOnline = false;
+
+    private ContentModel.Meta meta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,13 +118,17 @@ public class GrammarTestActivity extends AppCompatActivity {
         kidsDb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         analytics = FirebaseAnalytics.getInstance(this);
-        analytics.setUserId(auth.getCurrentUser().getUid());
+        var id = "";
+        if (auth.getCurrentUser() != null) {
+            id = auth.getCurrentUser().getUid();
+        }
+        analytics.setUserId(id);
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
         kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
         parentsContactId = PrefConfig.readIdInPref(context, getResources().getString(R.string.parent_contact_details));
-        getDataFromIntent();
         setToolbar();
+        getDataFromIntent();
         learnButtonClick();
     }
 
@@ -126,23 +144,58 @@ public class GrammarTestActivity extends AppCompatActivity {
             return;
         }
         category = getIntent().getStringExtra(EXTRA_GRAMMAR_CATEGORY);
-        setViewPager();
+        isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
+        if (isOnline) {
+            getSubjectData();
+        } else setViewPager();
     }
 
 
     private void setViewPager() {
-        var list = englishGradeDatabase.grammarDao().getAllGrammar();
-        grammarModelList = getFilterGrammar(list);
-        if (grammarModelList == null) {
-            UtilityFunctions.simpleToast(context, "No data found");
-            return;
-        }
+        if (!isOnline) if (offlineData()) return;
         List<Fragment> fragmentList = mapToFragment(grammarModelList);
         var pagerAdapter = new EnglishViewPager(fragmentList, getSupportFragmentManager(), getLifecycle());
         binding.viewPagerIdentifyingNouns.setAdapter(pagerAdapter);
         binding.viewPagerIdentifyingNouns.setUserInputEnabled(false);
         setButton();
         setOptionButtonClick();
+    }
+
+    private void getSubjectData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getVocabularySubject(category).enqueue(new retrofit2.Callback<>() {
+            @Override
+            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+                if (response.body() != null) {
+                    Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+                    setData(response.body().getContent());
+                    meta = response.body().getMeta();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void setData(List<ContentModel.Content> content) {
+        var typeConverter = new GrammarTypeConverter();
+        grammarModelList = typeConverter.mapToList(content);
+        setViewPager();
+    }
+
+    private boolean offlineData() {
+        var list = englishGradeDatabase.grammarDao().getAllGrammar();
+        grammarModelList = getFilterGrammar(list);
+        if (grammarModelList == null) {
+            UtilityFunctions.simpleToast(context, "No data found");
+            return true;
+        }
+        return false;
     }
 
     private void initMediaPlayer() {
@@ -157,23 +210,16 @@ public class GrammarTestActivity extends AppCompatActivity {
                 initMediaPlayer();
                 startSpeaking();
                 timer();
-            } else
-                destroyEngine();
+            } else destroyEngine();
         });
     }
 
     private void startSpeaking() {
         startTime = new Date().getTime();
         playPauseAnimation(true);
-
-        var question = (binding.viewPagerIdentifyingNouns.getCurrentItem() < 2) ?
-                UtilityFunctions.getQuestionForGrammarTest(context,
-                        category) :
-                "";
-        tts.initialize(
-                question
-                , this
-        );
+        var questionContent = !isOnline ? UtilityFunctions.getQuestionForGrammarTest(context, category) : meta.getQuestion();
+        var question = (binding.viewPagerIdentifyingNouns.getCurrentItem() < 2) ? questionContent : "";
+        tts.initialize(question, this);
     }
 
     private void initTTS() {
@@ -208,68 +254,42 @@ public class GrammarTestActivity extends AppCompatActivity {
     private void checkAnswer() {
         var endTime = new Date().getTime();
         var diff = endTime - startTime;
-        var currentModel = grammarModelList.
-                get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        var currentAnswer = currentModel.getWord()
-                .toLowerCase(Locale.ROOT).trim();
-        var currentDes = currentModel.getDescription()
-                .toLowerCase(Locale.ROOT).trim();
+        var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim();
+        var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         if (category.equals(getResources().getString(R.string.grammar_3)))
-            logs += "Question : " +
-                    UtilityFunctions.getQuestionForGrammarTest(
-                            context,
-                            category) + "Answer" + currentDes + "time taken" + diff + "\n";
+            logs += "Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category) + "Answer" + currentDes + "time taken" + diff + "\n";
         else
-            logs += "Question : " +
-                    UtilityFunctions.getQuestionForGrammarTest(
-                            context,
-                            category) + "Answer" + currentAnswer + "time taken" + diff + "\n";
+            logs += "Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category) + "Answer" + currentAnswer + "time taken" + diff + "\n";
         listener = text -> {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
             if (category.equals(getResources().getString(R.string.grammar_3))) {
                 if (currentDes.contains(text)) {
                     tryAgainCount = 1;
                     playPauseAnimation(true);
-                    mediaPlayer.start();
-                    putJsonData("Question : " +
-                                    UtilityFunctions.getQuestionForGrammarTest(
-                                            context,
-                                            category),
-                            currentDes,
-                            diff, true);
-                    sendDataToAnalytics(currentDes, text, diff, true);
+                    try {
+                        mediaPlayer.start();
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    }
+//                    putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, true);
+//                    sendDataToAnalytics(currentDes, text, diff, true);
 
-                    helperTTS(
-                            UtilityFunctions.getCompliment(true)
-                            , true
-                            , 0
-                    );
+                    helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                     correctAnswerCount++;
                 } else {
                     playPauseAnimation(true);
                     if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
                         wrongAnswerCount++;
-                        putJsonData("Question : " +
-                                        UtilityFunctions.getQuestionForGrammarTest(
-                                                context,
-                                                category),
-                                currentDes,
-                                diff, false);
-                        sendDataToAnalytics(currentDes, text, diff, false);
-                        helperTTS(
-                                UtilityFunctions.getCompliment(false)
-                                , true
-                                , 0
-                        );
+//                        putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, false);
+//                        sendDataToAnalytics(currentDes, text, diff, false);
+                        helperTTS(UtilityFunctions.getCompliment(false), true, 0);
                         tryAgainCount = 1;
                         return;
                     }
                     tryAgainCount++;
                     playPauseAnimation(true);
-                    tts.initialize(
-                            UtilityFunctions.getCompliment(false),
-                            this
-                    );
+                    tts.initialize(UtilityFunctions.getCompliment(false), this);
 
                 }
                 return;
@@ -280,88 +300,61 @@ public class GrammarTestActivity extends AppCompatActivity {
                 playPauseAnimation(true);
                 correctAnswerCount++;
                 mediaPlayer.start();
-                putJsonData("Question : " +
-                                UtilityFunctions.getQuestionForGrammarTest(
-                                        context,
-                                        category),
-                        text,
-                        diff, true);
-                sendDataToAnalytics(currentAnswer, text, diff, true);
-                helperTTS(
-                        UtilityFunctions.getCompliment(true)
-                        , true
-                        , 0
-                );
+//                putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, true);
+//                sendDataToAnalytics(currentAnswer, text, diff, true);
+                helperTTS(UtilityFunctions.getCompliment(true), true, 0);
             } else {
                 if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
                     playPauseAnimation(true);
                     wrongAnswerCount++;
-                    sendDataToAnalytics(currentAnswer, text, diff, false);
-                    putJsonData("Question : " +
-                                    UtilityFunctions.getQuestionForGrammarTest(
-                                            context,
-                                            category),
-                            text,
-                            diff, false);
-                    helperTTS(
-                            UtilityFunctions.getCompliment(false)
-                            , true
-                            , 0);
+//                    sendDataToAnalytics(currentAnswer, text, diff, false);
+//                    putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, false);
+                    helperTTS(UtilityFunctions.getCompliment(false), true, 0);
                     tryAgainCount = 1;
                     return;
                 }
                 tryAgainCount++;
                 playPauseAnimation(true);
-                tts.initialize(
-                        UtilityFunctions.getCompliment(false),
-                        this
-                );
+                tts.initialize(UtilityFunctions.getCompliment(false), this);
             }
 
         };
     }
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics,
-                Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName,
-                "English-Test-" + "grammar", kidAge, currentWord
-                , result, b, (int) (diff),
-                UtilityFunctions.getQuestionForGrammarTest(context, category), "English",
-                parentsContactId
-        );
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Test-" + "grammar", kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void helperTTS(String message, boolean canNavigate, int request) {
         try {
             ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
-                        @Override
-                        public void onCompletion() {
-                            if (canNavigate) {
-                                setVisibilityOfLinearLayout(false);
-                                mediaPlayer.pause();
-                                if (binding.viewPagerIdentifyingNouns.getCurrentItem()
-                                        == grammarModelList.size() - 1) {
-                                    playPauseAnimation(false);
-                                    setToggleButtonChecked(false);
-                                    uploadData();
-                                    return;
-                                }
-
-                                binding.viewPagerIdentifyingNouns.setCurrentItem(
-                                        binding.viewPagerIdentifyingNouns.getCurrentItem() + 1
-                                );
-                                updateMarksViews();
-                                startSpeaking();
-                            }
+                @Override
+                public void onCompletion() {
+                    if (canNavigate) {
+                        setVisibilityOfLinearLayout(false);
+                        try {
+                            mediaPlayer.pause();
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                        if (binding.viewPagerIdentifyingNouns.getCurrentItem() == grammarModelList.size() - 1) {
+                            playPauseAnimation(false);
+                            setToggleButtonChecked(false);
+                            uploadData();
+                            return;
                         }
 
-                        @Override
-                        public void onErrorOccurred(String errorMessage) {
-                            logs += errorMessage + "\n";
-                        }
-                    }).
-                    get().
-                    initialize(message, this);
+                        UtilityFunctions.runOnUiThread(() -> binding.viewPagerIdentifyingNouns.setCurrentItem(binding.viewPagerIdentifyingNouns.getCurrentItem() + 1));
+                        updateMarksViews();
+                        startSpeaking();
+                    }
+                }
+
+                @Override
+                public void onErrorOccurred(String errorMessage) {
+                    logs += errorMessage + "\n";
+                }
+            }).get().initialize(message, this);
         } catch (ExecutionException | InterruptedException e) {
             logs += e.getMessage() + "\n";
         }
@@ -376,9 +369,7 @@ public class GrammarTestActivity extends AppCompatActivity {
 
     private void setOptionButton() {
         UtilityFunctions.runOnUiThread(() -> {
-            var currentModel = grammarModelList.
-                    get(binding.viewPagerIdentifyingNouns
-                            .getCurrentItem());
+            var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
             var extra = currentModel.getExtra();
             var split = extra.split(",");
             if (split.length <= 1) {
@@ -404,18 +395,15 @@ public class GrammarTestActivity extends AppCompatActivity {
     private void setOptionButtonClick() {
         binding.key1.setOnClickListener(v -> {
             if (listener != null)
-                listener.onClick(binding.key1.getText().toString()
-                        .toLowerCase(Locale.ROOT).trim());
+                listener.onClick(binding.key1.getText().toString().toLowerCase(Locale.ROOT).trim());
         });
         binding.key2.setOnClickListener(v -> {
             if (listener != null)
-                listener.onClick(binding.key2.getText().toString()
-                        .toLowerCase(Locale.ROOT).trim());
+                listener.onClick(binding.key2.getText().toString().toLowerCase(Locale.ROOT).trim());
         });
         binding.key3.setOnClickListener(v -> {
             if (listener != null)
-                listener.onClick(binding.key3.getText().toString()
-                        .toLowerCase(Locale.ROOT).trim());
+                listener.onClick(binding.key3.getText().toString().toLowerCase(Locale.ROOT).trim());
         });
     }
 
@@ -426,10 +414,8 @@ public class GrammarTestActivity extends AppCompatActivity {
 
     private void playPauseAnimation(Boolean play) {
         UtilityFunctions.runOnUiThread(() -> {
-            if (play)
-                binding.imageViewTeacher.playAnimation();
-            else
-                binding.imageViewTeacher.pauseAnimation();
+            if (play) binding.imageViewTeacher.playAnimation();
+            else binding.imageViewTeacher.pauseAnimation();
         });
     }
 
@@ -458,8 +444,7 @@ public class GrammarTestActivity extends AppCompatActivity {
 
 
     private List<Fragment> mapToFragment(List<GrammarModel> grammarModels) {
-        return CollectionUtils.mapWithIndex(grammarModels.stream(), (index, item) ->
-                new RowItemTestFragment(item, index + 1, category)).collect(Collectors.toList());
+        return CollectionUtils.mapWithIndex(grammarModels.stream(), (index, item) -> new RowItemTestFragment(item, index + 1, category)).collect(Collectors.toList());
     }
 
     private List<GrammarModel> getFilterGrammar(List<GrammarType> list) {
@@ -468,8 +453,7 @@ public class GrammarTestActivity extends AppCompatActivity {
             c = getResources().getString(R.string.grammar_4_1);
         else if (category.equals(getResources().getString(R.string.grammar_5)))
             c = getResources().getString(R.string.grammar_5_1);
-        else
-            c = category;
+        else c = category;
         for (var grammarType : list) {
             if (grammarType.getType().equals(c)) {
                 // list to array list
@@ -483,10 +467,8 @@ public class GrammarTestActivity extends AppCompatActivity {
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
         });
-        binding.toolBar.titleText.setText(getResources().getString(R.string.grammar));
-        binding.textViewCategory.setText(UtilityFunctions.
-                getQuestionForGrammarTest(context
-                        , category));
+        binding.toolBar.titleText.setText((getIntent().hasExtra(EXTRA_TITLE)) ? getIntent().getStringExtra(EXTRA_TITLE) : getResources().getString(R.string.grammar));
+        binding.textViewCategory.setText((getIntent().hasExtra(EXTRA_QUESTION_FOR_TEST) ? getIntent().getStringExtra(EXTRA_QUESTION_FOR_TEST) : getResources().getString(R.string.grammar)));
 
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
@@ -526,26 +508,18 @@ public class GrammarTestActivity extends AppCompatActivity {
     private void uploadData() {
         try {
             if (correctAnswerCount >= UtilityFunctions.getNinetyPercentage(grammarModelList.size())) {
-                UtilityFunctions.updateDbUnlock(
-                        databaseGrade,
-                        kidsGrade,
-                        "Grammar",
-                        category
-                );
-                CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "pass", auth, kidsId, category,
-                        "grammar", correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+                UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, "Grammar", category);
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, category, "grammar", correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
 
                 progressDataBase.progressDao().updateScore(correctAnswerCount, wrongAnswerCount, category);
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "fail", auth, kidsId, category,
-                        "grammar", correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, category, "grammar", correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
             }
-            gotoScoreCard();
         } catch (JSONException e) {
             e.printStackTrace();
+        } finally {
+            gotoScoreCard();
         }
     }
 
@@ -580,29 +554,23 @@ public class GrammarTestActivity extends AppCompatActivity {
 
     private void saveLog() {
         Log.d(TAG, "saveLog: Called " + logs);
-        if (!logs.isEmpty())
-            UtilityFunctions.saveLog(logDatabase, logs);
+        if (!logs.isEmpty()) UtilityFunctions.saveLog(logDatabase, logs);
     }
 
     private void timer() {
         boolean isTimerRunning = false;
-        Observable.interval(60, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<Long>() {
-                    public void accept(Long x) throws Exception {
-                        // update your view here
+        Observable.interval(60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Consumer<Long>() {
+            public void accept(Long x) throws Exception {
+                // update your view here
 
-                        binding.layoutExtTimer.timerProgress.setMax(15);
-                        binding.layoutExtTimer.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.layoutExtTimer.timeText.setText((x + 1) + "");
-                        Log.i("task", x + "");
-                    }
-                })
-                .takeUntil(aLong -> aLong == TIMER_VALUE)
-                .doOnComplete(() ->
-                        // do whatever you need on complete
-                        Log.i("TSK", "task")
-                ).subscribe();
+                binding.layoutExtTimer.timerProgress.setMax(15);
+                binding.layoutExtTimer.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                binding.layoutExtTimer.timeText.setText((x + 1) + "");
+                Log.i("task", x + "");
+            }
+        }).takeUntil(aLong -> aLong == TIMER_VALUE).doOnComplete(() ->
+                // do whatever you need on complete
+                Log.i("TSK", "task")).subscribe();
     }
 
     interface ButtonClick {

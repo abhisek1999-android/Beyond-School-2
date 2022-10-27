@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,13 +23,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.target.Target;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -84,22 +78,25 @@ public final class UtilityFunctions {
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
 
 
-        GlideToVectorYou
-                .init()
-                .with(imageView.getContext())
-                .withListener(new GlideToVectorYouListener() {
-                    @Override
-                    public void onLoadFailed() {
-                        progress.setVisibility(View.GONE);
-                    }
+        try {
+            GlideToVectorYou
+                    .init()
+                    .with(imageView.getContext())
+                    .withListener(new GlideToVectorYouListener() {
+                        @Override
+                        public void onLoadFailed() {
+                            progress.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onResourceReady() {
-                        progress.setVisibility(View.GONE);
-                    }
-                })
-                .load(Uri.parse(url), imageView);
-
+                        @Override
+                        public void onResourceReady() {
+                            progress.setVisibility(View.GONE);
+                        }
+                    })
+                    .load(Uri.parse(url), imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 //        Glide.with(imageView.getContext())

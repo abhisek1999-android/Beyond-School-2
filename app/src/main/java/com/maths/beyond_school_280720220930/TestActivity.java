@@ -1,5 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActi
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.List;
@@ -56,7 +59,9 @@ public class TestActivity extends AppCompatActivity {
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(chapterList, TestActivity.this, gradeData -> {
             var intent = new Intent(TestActivity.this, GrammarActivity.class);
-//            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);

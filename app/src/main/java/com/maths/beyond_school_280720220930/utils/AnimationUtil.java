@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.model.AnimData;
+import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +188,16 @@ public class AnimationUtil {
         return list;
     }
 
+    public static List<AnimData> animGrammar(ContentModel.Meta meta) {
+
+        List<AnimData> list = new ArrayList<>();
+        // split the string by <br> tag
+        String[] split = meta.getHint().split("<br>");
+        for (String s : split) {
+            list.add(new AnimData(s, "none", "none"));
+        }
+        return list;
+    }
 
     @SuppressLint("SuspiciousIndentation")
     public static List<AnimData> performSubtraction(int num1, int num2) {

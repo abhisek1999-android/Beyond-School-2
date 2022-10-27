@@ -28,6 +28,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarTypeConverter;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.VocabularyFragment;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
@@ -118,8 +119,8 @@ public class VocabularyActivity extends AppCompatActivity implements VocabularyF
                 var contentModel = response.body();
                 meta = contentModel.getMeta();
                 var list = contentModel.getContent();
-                var converter = new VocabularyTypeConverter();
-                vocabularyList = converter.mapToList(list);
+                var converter = new GrammarTypeConverter();
+//                vocabularyList = converter.mapToList(list);
                 setViewPager();
             }
 
