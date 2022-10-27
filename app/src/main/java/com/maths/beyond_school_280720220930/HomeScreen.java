@@ -135,11 +135,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         checkAudioPermission();
         //TODO: must be removed
-        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TestActivity.class)));
+        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ViewCurriculum.class)));
 
-        binding.yourProgressLayout.setOnClickListener(v -> {
-            setSubSubjectProgress();
-        });
 
         uiChnages();
         //    getUiData(true);
@@ -149,6 +146,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
+        setSubSubjectProgress();
     }
 
 
@@ -218,29 +217,30 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         sectionList.add(new SectionSubSubject("English", subEngList));
 
 
-        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeScreen.this);
-        View mView = getLayoutInflater().inflate(R.layout.progress_report_dialog, null);
+        binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, HomeScreen.this);
+        binding.progressRecyclerView.setAdapter(sectionSubSubjectRecyclerAdapter);
 
-        alert.setView(mView);
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        RecyclerView progressView = mView.findViewById(R.id.progressRecyclerView);
-        ImageView closeButton = mView.findViewById(R.id.closeButton);
-
-
-        progressView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, HomeScreen.this, alertDialog);
-        progressView.setAdapter(sectionSubSubjectRecyclerAdapter);
-
-
-        try {
-            alertDialog.show();
-        } catch (Exception e) {
-
-        }
-
-        closeButton.setOnClickListener(v -> alertDialog.dismiss());
+//        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeScreen.this);
+//        View mView = getLayoutInflater().inflate(R.layout.progress_report_dialog, null);
+//
+//        alert.setView(mView);
+//        final AlertDialog alertDialog = alert.create();
+//        alertDialog.setCancelable(true);
+//        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        RecyclerView progressView = mView.findViewById(R.id.progressRecyclerView);
+//        ImageView closeButton = mView.findViewById(R.id.closeButton);
+//
+//
+//
+//
+//        try {
+//            alertDialog.show();
+//        } catch (Exception e) {
+//
+//        }
+//
+//        closeButton.setOnClickListener(v -> alertDialog.dismiss());
 
     }
 

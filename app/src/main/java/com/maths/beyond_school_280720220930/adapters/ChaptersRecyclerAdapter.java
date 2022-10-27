@@ -1,9 +1,13 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +27,7 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
     ProgressDataBase progressDataBase;
     long timeSpend = 0;
     String subSub = "", chapter = "";
+    private int lastAnimatedPosition = -1;
 
 
     public ChaptersRecyclerAdapter(List<GradeData> list, Context context,OnItemClickListener mListener) {
@@ -42,7 +47,15 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubjectViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position;
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+            animation.setInterpolator(new AccelerateDecelerateInterpolator());
+            holder.mView.setAnimation(animation);
+            animation.start();
+        }
+
         GradeData gradeData = list.get(position);
         holder.subSub.setText(gradeData.getChapter_name());
         holder.mView.setOnClickListener(v -> {
