@@ -121,7 +121,7 @@ public class AlarmAtTime extends AppCompatActivity {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            binding.extraInclude.kidsGrade.setText(binding.extraInclude.kidsGrade.getAdapter().getItem(0).toString(), false);
+            binding.extraInclude.kidsGrade.setText(binding.extraInclude.kidsGrade.getAdapter().getItem(9).toString(), false);
         }
     }
 

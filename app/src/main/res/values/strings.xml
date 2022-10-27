@@ -1051,4 +1051,6 @@
     <string name="grammar_5">Grammar Present Tenses Verbs</string>
     <string name="grammar_5_1">Grammar Present Tenses Verbs Test</string>
     <string name="KEY_VALUE_SAVE">KEY_VALUE_SAVE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

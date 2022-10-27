@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,11 +21,19 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityLoginSignupBinding;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.signin_methods.GoogleSignInActivity;
 import com.maths.beyond_school_280720220930.signin_methods.PhoneNumberLogin;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginSignupActivity extends AppCompatActivity {
 
@@ -36,6 +47,8 @@ public class LoginSignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private int REQUEST_CALENDER_ACCESS = 100;
+    private String TAG="LoginSignUp";
+    private GradeDatabase gradeDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +58,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         insertData();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-
+        gradeDatabase = GradeDatabase.getDbInstance(this);
         binding.googleSignIn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
@@ -61,8 +74,9 @@ public class LoginSignupActivity extends AppCompatActivity {
         if (mUser != null) {
             checkUserAlreadyAvailable();
         }
+        getNewData();
 
-        startActivity(new Intent(this, TestActivity.class));
+       // startActivity(new Intent(this, TestActivity.class));
 
     }
 
@@ -302,6 +316,44 @@ public class LoginSignupActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
     }
+
+
+    private void getNewData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
+            private Call<GradeModel> call;
+            private Response<GradeModel> response;
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, @NonNull retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
+                this.call = call;
+                this.response = response;
+                if (response.body() != null) {
+                    Log.d(TAG, "onResponse: " + response.code());
+                    Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+                } else {
+                    Toast.makeText(LoginSignupActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
+    }
+
 
 
     @Override

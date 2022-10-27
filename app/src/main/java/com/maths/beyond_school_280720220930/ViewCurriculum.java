@@ -58,6 +58,10 @@ public class ViewCurriculum extends AppCompatActivity {
             }
         });
 
+        binding.buttonLayout.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(),HomeScreen.class));
+        });
+
         setRecyclerViewData("Vocabulary");
 
     }

@@ -73,7 +73,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<Grades_data> subEngData;
     private SubjectRecyclerAdapter subjectRecyclerAdapter;
     String[] math = {"Addition", "Subtraction", "Multiplication Tables", "Division"};
-    String[] eng = {"Vocabulary", "Spelling_Objects", "Spelling_CommonWords", "Grammar"};
+    String[] eng = {"Vocabulary"};
     private List<SubSubject> subMathList;
     private List<SubSubject> subEngList;
     private List<SectionSubSubject> sectionList;
@@ -135,7 +135,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         checkAudioPermission();
         //TODO: must be removed
-        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ViewCurriculum.class)));
+        binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TabbedHomePage.class)));
 
 
         uiChnages();
@@ -185,32 +185,31 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     private void setSubSubjectProgress() {
 
-
         subMathList.clear();
         subEngList.clear();
         sectionList.clear();
-
-        for (int i = 0; i < math.length; i++) {
-            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
-            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
-            if (!math[i].equals("Multiplication Tables")) {
-                subMathList.add(new SubSubject(math[i], total, completed, resMath[i]));
-            } else {
-                Log.i("Mul_Data", total + "," + UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], false));
-                int mulUpto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
-                total = Integer.parseInt(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).get(total - 1).chapter.split(" ")[3]);
-                if (mulUpto == 1)
-                    subMathList.add(new SubSubject(math[i], total, 0, resMath[i]));
-                else
-                    subMathList.add(new SubSubject(math[i], total, mulUpto, resMath[i]));
-            }
-        }
-
-        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
+//        for (int i = 0; i < math.length; i++) {
+//            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
+//            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
+//            if (!math[i].equals("Multiplication Tables")) {
+//                subMathList.add(new SubSubject(math[i], total, completed, resMath[i]));
+//            } else {
+//                Log.i("Mul_Data", total + "," + UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], false));
+//                int mulUpto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
+//                total = Integer.parseInt(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).get(total - 1).chapter.split(" ")[3]);
+//                if (mulUpto == 1)
+//                    subMathList.add(new SubSubject(math[i], total, 0, resMath[i]));
+//                else
+//                    subMathList.add(new SubSubject(math[i], total, mulUpto, resMath[i]));
+//            }
+//        }
+//
+//        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
 
         for (int i = 0; i < eng.length; i++) {
-            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], true).size();
-            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
+            int total = gradeDatabase.gradesDaoUpdated().getSubjectData(eng[i]).size();
+            int completed=0;
+            //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
             subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
         }
 
@@ -540,11 +539,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     Log.i("LIST_DATA", subEngData + "");
 
 
-                    binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
                     subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
                     binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
-                    binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
                     subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
                     binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);}
 
@@ -628,7 +627,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
             binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
-            binding.englishRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+            binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
             subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
             binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
         }
