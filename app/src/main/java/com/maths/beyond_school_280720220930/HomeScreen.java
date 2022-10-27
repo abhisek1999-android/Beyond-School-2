@@ -46,13 +46,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.SectionSubSubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
+import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapterUpdated;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.text.SimpleDateFormat;
@@ -92,6 +96,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<String> chapterListMath;
     private CustomProgressDialogue customProgressDialogue;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private List<GradeData> subjectDataNew;
+    private SubjectRecyclerAdapterUpdated subjectRecyclerAdapterUpdated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +214,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         for (int i = 0; i < eng.length; i++) {
             int total = gradeDatabase.gradesDaoUpdated().getSubjectData(eng[i]).size();
-            int completed=0;
+            int completed = 0;
             //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
             subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
         }
@@ -355,7 +361,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     }
 
 
-
     private void permissionPadController() {
 
 
@@ -489,12 +494,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             UtilityFunctions.runOnUiThread(() -> {
 
-                try{
+                try {
                     startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
                     customProgressDialogue.dismiss();
 
                     for (int i = startIndex; i < startIndex + 2; i++) {
-                        try{
+                        try {
                             if (!math[i].equals("Multiplication Tables")) {
                                 if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) != null) {
                                     subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)));
@@ -508,7 +513,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                                 subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, ""));
                                 chapterListMath.add("Multiplication Tables " + (mul_upto + 1));
                             }
-                        }catch (Exception e){}
+                        } catch (Exception e) {
+                        }
 
 
                     }
@@ -518,19 +524,19 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListMath, getResources().getString(R.string.saved_maths_value));
 
 
+                    try {
+                        for (int i = startIndex; i < startIndex + 2; i++) {
 
-                    try{
-                        for (int i=startIndex; i < startIndex+2; i++) {
+                            if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)) != null) {
+                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)));
+                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)).chapter);
+                            }
+                        }
+                    } catch (Exception e) {
 
-                            if (UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i))!=null){
-                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)));
-                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(i)).chapter);
-                            }}
-                    }catch (Exception e){
-
-                        int engList=UtilityFunctions.getRandomIntegerUpto(2,0);
-                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)));
-                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase,kidsGrade,engSub.get(engList)).chapter);
+                        int engList = UtilityFunctions.getRandomIntegerUpto(2, 0);
+                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)));
+                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)).chapter);
 
                     }
 
@@ -538,16 +544,20 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                     Log.i("LIST_DATA", subEngData + "");
 
+                    subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
 
-                    binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+                    binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
                     binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
-                    binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-                    subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
-                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);}
-
-                catch (Exception e){
+                    binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                    subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(subjectDataNew, HomeScreen.this, gradeData -> {
+                        var intent = new Intent(HomeScreen.this, VocabularyActivity.class);
+                        intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+                        startActivity(intent);
+                    });
+                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
+                } catch (Exception e) {
 
 
                 }
@@ -620,16 +630,22 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 l_index++;
             }
 
-            Log.i("LIST_DATA", subEngData + "");
 
 
+            subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
+
+            Log.i("LIST_DATA", subjectDataNew + "");
             binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
             subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
             binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
-            binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-            subjectRecyclerAdapter = new SubjectRecyclerAdapter(subEngData, HomeScreen.this);
-            binding.englishRecyclerView.setAdapter(subjectRecyclerAdapter);
+            binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(subjectDataNew, HomeScreen.this, gradeData -> {
+                var intent = new Intent(HomeScreen.this, VocabularyActivity.class);
+                intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+                startActivity(intent);
+            });
+            binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         }
 
 

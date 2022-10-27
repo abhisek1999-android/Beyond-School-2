@@ -101,6 +101,7 @@ public class VocabularyActivity extends AppCompatActivity implements VocabularyF
 
         chapterName = getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_CATEGORY);
         logDatabase = LogDatabase.getDbInstance(this);
+        fragmentList=new ArrayList<>();
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
         auth = FirebaseAuth.getInstance();
         progressDataBase = ProgressDataBase.getDbInstance(this);

@@ -17,6 +17,9 @@ public interface GradesDaoUpdated {
     @Query("SELECT * FROM grade WHERE subject=:subject")
     List<GradeData> getSubjectData(String subject);
 
+    @Query("SELECT * FROM grade WHERE subject=:subject LIMIT 2" )
+    List<GradeData> getSubjectDataLimited(String subject);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNotes(List<GradeData> gradeData);
 
