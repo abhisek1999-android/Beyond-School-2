@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.EnglishFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/buttonLayout"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:src="@drawable/header" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:src="@drawable/part_two" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="@dimen/grid_20"
+                        android:layout_marginBottom="@dimen/grid_20"
+                        android:fontFamily="@font/reemkufi_medium"
+                        android:text="Proceed  to evaluation test"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/primary" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:src="@drawable/part_three" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/part_four" />
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:elevation="@dimen/grid_10"
+
+            android:paddingBottom="@dimen/grid_10"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="@dimen/grid_1_5"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/primary"
+                android:layout_marginHorizontal="@dimen/grid_20"
+                android:layout_marginVertical="@dimen/grid_10"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Curriculum"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:paddingVertical="@dimen/grid_1_5"
+
+                    android:fontFamily="@font/jellee_roman"
+                    android:textSize="@dimen/default_font_size_big"
+                    android:textColor="@color/white"
+                    />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

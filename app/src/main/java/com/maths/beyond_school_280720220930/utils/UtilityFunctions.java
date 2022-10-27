@@ -1071,6 +1071,25 @@ public final class UtilityFunctions {
 
     }
 
+    public static List<Grades_data> gettingSubSubjectDataNew(GradeDatabase database, String grade, String chapter, boolean is_all_needed) {
+
+        List<Grades_data> dbData = new ArrayList<>();
+        if (is_all_needed)
+            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
+        else
+            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
+
+        Log.i("CHAPTER", chapter);
+        Log.i("DB_DATA", dbData + "");
+        try {
+            return dbData;
+        } catch (Exception e) {
+
+            return null;
+        }
+
+    }
+
 
     public static long gettingCorrectValues(ProgressDataBase progressDataBase, String chapter, Boolean resultType) {
 

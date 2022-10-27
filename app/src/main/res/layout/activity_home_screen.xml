@@ -89,12 +89,14 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Mathematics"
                     android:textSize="@dimen/default_font_size_big"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mathsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_margin="@dimen/grid_10" />
 
 

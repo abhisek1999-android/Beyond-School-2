@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -146,6 +147,7 @@ public class NameAgeActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @SuppressLint("SuspiciousIndentation")
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     final String downloadUrl = task.getResult().toString();
@@ -249,7 +251,7 @@ public class NameAgeActivity extends AppCompatActivity {
                             UtilityFunctions.saveDataLocally(getApplicationContext(), gradeIntent, binding.kidsNameTextView.getText().toString(),
                                     binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
 
-                            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+                            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
                             intent.putExtra("age", binding.kidsAgeTextView.getText().toString());

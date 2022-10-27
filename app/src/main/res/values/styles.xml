@@ -10,6 +10,6 @@
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:fontFamily">@font/reemkufi_medium</item>
+        <item name="android:fontFamily">@font/jellee_roman</item>
     </style>
 </resources>

@@ -96,7 +96,7 @@ public class SplashScreen extends AppCompatActivity {
     private void checkUserAlreadyAvailable() {
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)).equals("")) {
-            var intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
+            var intent = new Intent(getApplicationContext(), GradeActivity.class);
             intent.putExtra("type", "next");
             startActivity(intent);
             finish();

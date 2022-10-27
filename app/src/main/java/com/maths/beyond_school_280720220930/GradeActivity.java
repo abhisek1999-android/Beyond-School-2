@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,13 +54,17 @@ public class GradeActivity extends AppCompatActivity {
 
         setUpTextLayoutGrade();
 
-        next.setOnClickListener(new View.OnClickListener() {
+        binding.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (binding.textInputLayoutGrade.getEditText().getText().toString().equals(" "))
+                    return;
+                else{
                 Intent intent = new Intent(GradeActivity.this, NameAgeActivity.class);
                 intent.putExtra("grade", binding.textInputLayoutGrade.getEditText().getText().toString());
                 startActivity(intent);
-                finish();
+                finish();}
             }
         });
 
@@ -69,6 +74,11 @@ public class GradeActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this, R.layout.list_item, array);
         AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.textInputLayoutGrade.getEditText());
         editText.setAdapter(adapter);
+
+//TODO Must be added
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            binding.textInputLayoutGrade.getEditText().setText(binding.textInputLayoutGrade.getAdapter().getItem(9).toString(), false);
+//        }
 
     }
 
