@@ -17,11 +17,10 @@ import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
-import com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
-import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.List;
@@ -56,8 +55,8 @@ public class TestActivity extends AppCompatActivity {
         chapterList = gradeDatabase.gradesDaoUpdated().getChapter();
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(chapterList, TestActivity.this, gradeData -> {
-            var intent = new Intent(TestActivity.this, VocabularyActivity.class);
-            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+            var intent = new Intent(TestActivity.this, GrammarActivity.class);
+//            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
             startActivity(intent);
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
@@ -99,7 +98,6 @@ public class TestActivity extends AppCompatActivity {
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
     }
-
 
 
     private void setUpRemoteConfig() {

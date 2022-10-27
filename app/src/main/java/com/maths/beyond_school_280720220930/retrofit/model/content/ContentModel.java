@@ -39,7 +39,7 @@ public class ContentModel {
         this.content = content;
     }
 
-    private static class Meta {
+    public static class Meta {
         private String hint;
         private String question;
         private String screen_type;
