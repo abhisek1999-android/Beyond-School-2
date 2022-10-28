@@ -260,7 +260,10 @@ public class GrammarActivity extends AppCompatActivity {
                             var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                             var currentFragment = (RowItemFragment) fragmentList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                             if (category.equals(getResources().getString(R.string.grammar_3)))
-                                currentFragment.getTextView().setText(Html.fromHtml("<font color='#64c1c7'>" + currentModel.getWord() + "</font>\n", Html.FROM_HTML_MODE_COMPACT));
+                                currentFragment.getTextView().setText(
+                                        Html.fromHtml("<font color='#64c1c7'>" +
+                                                        currentModel.getWord() + "</font>\n",
+                                                Html.FROM_HTML_MODE_COMPACT));
                             else
                                 currentFragment.getTextView().setText(currentModel.getDescription());
 
@@ -346,7 +349,9 @@ public class GrammarActivity extends AppCompatActivity {
                             });
                             return;
                         }
-                        binding.viewPagerIdentifyingNouns.setCurrentItem(binding.viewPagerIdentifyingNouns.getCurrentItem() + 1);
+                        UtilityFunctions.runOnUiThread(() -> {
+                            binding.viewPagerIdentifyingNouns.setCurrentItem(binding.viewPagerIdentifyingNouns.getCurrentItem() + 1);
+                        });
                         setVisibilityOfLinearLayout(false);
                         startSpeaking();
                     }
@@ -387,22 +392,36 @@ public class GrammarActivity extends AppCompatActivity {
             var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
             var extra = currentModel.getExtra();
             var split = extra.split(",");
+            for (String s : split) {
+                Log.d("XXX", "setOptionButton: " + s);
+            }
             if (split.length <= 1) {
                 UtilityFunctions.simpleToast(context, "No data found");
                 return;
             }
             if (split.length == 2) {
-                binding.key1.setText(split[0]);
-                binding.key2.setText(split[1]);
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
                 binding.key3.setVisibility(View.GONE);
+                binding.key4.setVisibility(View.GONE);
                 binding.linearLayout.setWeightSum(2);
             }
             if (split.length == 3) {
-                binding.key1.setText(split[0]);
-                binding.key2.setText(split[1]);
-                binding.key3.setText(split[2]);
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
+                binding.key3.setText(split[2].trim());
                 binding.linearLayout.setWeightSum(3);
                 binding.key3.setVisibility(View.VISIBLE);
+                binding.key4.setVisibility(View.GONE);
+            }
+            if (split.length == 4) {
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
+                binding.key3.setText(split[2].trim());
+                binding.key4.setText(split[3].trim());
+                binding.linearLayout.setWeightSum(4);
+                binding.key3.setVisibility(View.VISIBLE);
+                binding.key4.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -419,6 +438,10 @@ public class GrammarActivity extends AppCompatActivity {
         binding.key3.setOnClickListener(v -> {
             if (listener != null)
                 listener.onClick(binding.key3.getText().toString().toLowerCase(Locale.ROOT).trim());
+        });
+        binding.key4.setOnClickListener(v -> {
+            if (listener != null)
+                listener.onClick(binding.key4.getText().toString().toLowerCase(Locale.ROOT).trim());
         });
     }
 
@@ -578,6 +601,11 @@ public class GrammarActivity extends AppCompatActivity {
 
     private void displayTutorialAnimation() throws ExecutionException, InterruptedException {
 
+        if (isOnline && meta.getHint() == null) {
+            binding.hintButton.setVisibility(View.GONE);
+            setIntro();
+            return;
+        }
         animEng = !isOnline ? AnimationUtil.animGrammar(category, context) : AnimationUtil.animGrammar(meta);
 
         alert = new AlertDialog.Builder(GrammarActivity.this);

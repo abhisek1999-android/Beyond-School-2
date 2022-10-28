@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.english_activity.grammar.test;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -37,13 +38,13 @@ public class RowItemTestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentIndentifyingNounsRowBinding.bind(view);
         UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
-
+        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ? View.GONE : View.VISIBLE);
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);
         if (request.equals(getResources().getString(R.string.grammar_3)))
             binding.textViewDes.setText(grammarModel.getWord());
         else
-            binding.textViewDes.setText(grammarModel.getDescription());
+            binding.textViewDes.setText(Html.fromHtml(grammarModel.getDescription(), Html.FROM_HTML_MODE_COMPACT));
 
         //set margin to parent view
         var param = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,

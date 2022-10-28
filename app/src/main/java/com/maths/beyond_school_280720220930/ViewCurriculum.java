@@ -1,35 +1,27 @@
 package com.maths.beyond_school_280720220930;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
-import com.maths.beyond_school_280720220930.databinding.AcitivityVocabularyBinding;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
-import com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity;
-import com.maths.beyond_school_280720220930.retrofit.ApiClient;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ViewCurriculum extends AppCompatActivity {
 
@@ -58,8 +50,8 @@ public class ViewCurriculum extends AppCompatActivity {
             }
         });
 
-        binding.buttonLayout.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),HomeScreen.class));
+        binding.buttonLayout.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
         });
 
         setRecyclerViewData("Vocabulary");
@@ -102,15 +94,17 @@ public class ViewCurriculum extends AppCompatActivity {
 
         chapterList = gradeDatabase.gradesDaoUpdated().getSubjectData(subject);
 
-        if (chapterList.size()==0)
+        if (chapterList.size() == 0)
             binding.noDataLayout.setVisibility(View.VISIBLE);
         else
             binding.noDataLayout.setVisibility(View.GONE);
 
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(chapterList, ViewCurriculum.this, gradeData -> {
-            var intent = new Intent(ViewCurriculum.this, VocabularyActivity.class);
-            intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+            var intent = new Intent(this, GrammarActivity.class);
+            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);

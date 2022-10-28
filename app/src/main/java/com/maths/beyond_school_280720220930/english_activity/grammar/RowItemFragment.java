@@ -43,6 +43,7 @@ public class RowItemFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentIndentifyingNounsRowBinding.bind(view);
         UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ? View.GONE : View.VISIBLE);
 
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);

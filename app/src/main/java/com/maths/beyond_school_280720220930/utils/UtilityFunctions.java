@@ -76,8 +76,6 @@ public final class UtilityFunctions {
     }
 
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
-
-
         try {
             GlideToVectorYou
                     .init()
@@ -95,28 +93,26 @@ public final class UtilityFunctions {
                     })
                     .load(Uri.parse(url), imageView);
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-//        Glide.with(imageView.getContext())
-//                .load(url)
-//                .timeout(10000)
-//                .error(R.drawable.cartoon_image_1)
-//                .listener(new com.bumptech.glide.request.RequestListener<Drawable>() {
-//                    @Override
-//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        progress.setVisibility(View.GONE);
-//                        return false;
-//                    }
+//            Glide.with(imageView.getContext())
+//                    .load(url)
+//                    .timeout(10000)
+//                    .error(R.drawable.cartoon_image_1)
+//                    .listener(new com.bumptech.glide.request.RequestListener<>() {
+//                        @Override
+//                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            progress.setVisibility(View.GONE);
+//                            return false;
+//                        }
 //
-//                    @Override
-//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                        progress.setVisibility(View.GONE);
-//                        return false;
-//                    }
-//                })
-//                .into(imageView);
+//                        @Override
+//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                            progress.setVisibility(View.GONE);
+//                            return false;
+//                        }
+//                    })
+//                    .into(imageView);
+            Log.d("XXX", "loadImage: " + e.getMessage());
+        }
     }
 
     public static void loadImageSvg(String url, android.widget.ImageView imageView, View progress) {

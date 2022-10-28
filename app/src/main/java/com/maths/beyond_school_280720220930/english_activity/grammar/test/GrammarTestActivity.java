@@ -377,17 +377,28 @@ public class GrammarTestActivity extends AppCompatActivity {
                 return;
             }
             if (split.length == 2) {
-                binding.key1.setText(split[0]);
-                binding.key2.setText(split[1]);
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
                 binding.key3.setVisibility(View.GONE);
+                binding.key4.setVisibility(View.GONE);
                 binding.linearLayout.setWeightSum(2);
             }
             if (split.length == 3) {
-                binding.key1.setText(split[0]);
-                binding.key2.setText(split[1]);
-                binding.key3.setText(split[2]);
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
+                binding.key3.setText(split[2].trim());
                 binding.linearLayout.setWeightSum(3);
                 binding.key3.setVisibility(View.VISIBLE);
+                binding.key4.setVisibility(View.GONE);
+            }
+            if (split.length == 4) {
+                binding.key1.setText(split[0].trim());
+                binding.key2.setText(split[1].trim());
+                binding.key3.setText(split[2].trim());
+                binding.key4.setText(split[3].trim());
+                binding.linearLayout.setWeightSum(4);
+                binding.key3.setVisibility(View.VISIBLE);
+                binding.key4.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -404,6 +415,10 @@ public class GrammarTestActivity extends AppCompatActivity {
         binding.key3.setOnClickListener(v -> {
             if (listener != null)
                 listener.onClick(binding.key3.getText().toString().toLowerCase(Locale.ROOT).trim());
+        });
+        binding.key4.setOnClickListener(v -> {
+            if (listener != null)
+                listener.onClick(binding.key4.getText().toString().toLowerCase(Locale.ROOT).trim());
         });
     }
 
