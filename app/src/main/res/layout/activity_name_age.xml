@@ -82,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        app:cardCornerRadius="@dimen/grid_10"
         android:layout_margin="@dimen/grid_10">
 
 
@@ -151,44 +152,42 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/next"
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/card"
 
                 android:layout_gravity="right"
-                android:layout_marginTop="@dimen/grid_10"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="@dimen/grid_10"
+                android:layout_marginTop="@dimen/grid_20"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="20dp"
                 android:drawableRight="@drawable/ic_baseline_navigate_next_24"
-                android:fontFamily="@font/reemkufi_medium"
+                android:fontFamily="@font/jellee_roman"
                 android:shadowColor="@color/light_gray"
                 android:text="Next"
                 android:textAllCaps="false"
                 android:textSize="@dimen/grid_20"
-                android:textStyle="bold"
+                app:cornerRadius="@dimen/grid_10"
                 app:backgroundTint="@color/primary" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 
-    <com.google.android.material.button.MaterialButton
+    <TextView
         android:id="@+id/skip"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="right"
-        android:layout_marginTop="@dimen/grid_10"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="@dimen/grid_10"
-        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
-        android:drawableTint="@color/primary"
-        android:fontFamily="@font/reemkufi_medium"
-        android:shadowColor="@color/light_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="@dimen/grid_20"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/jellee_roman"
         android:text="Skip"
         android:textAllCaps="false"
         android:textColor="@color/primary"
         android:textSize="@dimen/grid_20"
-        android:textStyle="bold"
-        app:backgroundTint="@color/white" />
+        android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+        android:drawableTint="@color/primary"
+        android:drawablePadding="@dimen/grid_10"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>

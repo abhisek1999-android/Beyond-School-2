@@ -68,7 +68,7 @@ public class NameAgeActivity extends AppCompatActivity {
 
         customProgressDialogue=new CustomProgressDialogue(NameAgeActivity.this);
 
-        binding.toolBar.titleText.setText("Kid's Info");
+        binding.toolBar.titleText.setText("Add Kid's Info");
 
 
         if (Build.VERSION.SDK_INT >= 24) {
@@ -138,7 +138,13 @@ public class NameAgeActivity extends AppCompatActivity {
 
         customProgressDialogue.show();
         String uuid = UUID.randomUUID().toString();
+
         if (!binding.kidsNameTextView.getText().toString().equals("") && !binding.kidsAgeTextView.getText().toString().equals("")) {
+
+
+            if(imageURI!=null){
+
+
                 StorageReference storageReference = mStorageReference.child("kids_profile_image/" + mCurrentUser.getUid() + "/pic_" + String.valueOf(System.currentTimeMillis()) + uuid + ".jpg");
 
                 try {
@@ -159,7 +165,7 @@ public class NameAgeActivity extends AppCompatActivity {
                                         }
 
                                         else
-                                        Log.i("Image Uploaded", downloadUrl);
+                                            Log.i("Image Uploaded", downloadUrl);
 
                                     } else {
                                         //show exception
@@ -172,11 +178,19 @@ public class NameAgeActivity extends AppCompatActivity {
                         }
                     });
 
-
                 } catch (Exception e) {
 
 
                 }
+
+
+            }else{
+                saveKidsData("default");
+
+            }
+
+
+
 
         } else {
             customProgressDialogue.dismiss();
