@@ -50,6 +50,7 @@
                         android:fontFamily="@font/reemkufi_medium"
                         android:text="Proceed  to evaluation test"
                         android:textAllCaps="false"
+                        android:visibility="invisible"
                         app:backgroundTint="@color/primary" />
                 </RelativeLayout>
 
