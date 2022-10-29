@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="600dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/part_four" />
+                    android:src="@drawable/part_4" />
 
 
             </LinearLayout>

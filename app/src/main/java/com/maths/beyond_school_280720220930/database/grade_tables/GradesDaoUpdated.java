@@ -25,6 +25,12 @@ public interface GradesDaoUpdated {
     @Query("SELECT * FROM grade WHERE subject=:subject LIMIT 2")
     LiveData<List<GradeData>> getSubjectDataLimited(String subject);
 
+    @Query("SELECT * FROM grade WHERE subject=:subject AND unlock=1 LIMIT 1 ")
+    List<GradeData> getSubjectDataUnlockFirst(String subject);
+
+    @Query("SELECT DISTINCT(subject) FROM grade")
+    String[] getChapterNames();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNotes(List<GradeData> gradeData);
 

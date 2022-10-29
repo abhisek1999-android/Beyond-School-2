@@ -99,11 +99,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        startActivity(new Intent(this, ViewCurriculum.class));
+        //startActivity(new Intent(this, ViewCurriculum.class));
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-
+        subjectDataNew=new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
 
 
@@ -137,6 +137,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         //TODO: must be removed
         binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TabbedHomePage.class)));
 
+       ;
 
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
             var intent = new Intent(HomeScreen.this, GrammarActivity.class);
@@ -145,7 +146,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
         });
-        uiChnages();
+        getNewData();
+       // uiChnages();
         //    getUiData(true);
 
         logSent();
@@ -154,8 +156,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-        setSubSubjectProgress();
-        getNewData();
+
+
+
+        Log.d(TAG, "onCreate: engData"+eng);
+
     }
 
 
@@ -186,6 +191,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 if (response.body() != null) {
                     var list = response.body().getEnglish();
                     mapToGradeModel(list);
+
+                    setSubSubjectProgress();
+
                 } else {
                     Toast.makeText(HomeScreen.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                 }
@@ -229,6 +237,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         subMathList.clear();
         subEngList.clear();
         sectionList.clear();
+
+
+        eng=gradeDatabase.gradesDaoUpdated().getChapterNames();
 //        for (int i = 0; i < math.length; i++) {
 //            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
 //            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
@@ -260,6 +271,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, HomeScreen.this);
         binding.progressRecyclerView.setAdapter(sectionSubSubjectRecyclerAdapter);
+
+        uiChnages();
 
 //        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeScreen.this);
 //        View mView = getLayoutInflater().inflate(R.layout.progress_report_dialog, null);
@@ -551,8 +564,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                             }
                         } catch (Exception e) {
                         }
-
-
                     }
 
                     Log.i("LIST_DATA", subMathsData + "");
@@ -684,17 +695,26 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     }
 
     private void getDataFromDatabase() {
-        gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]).observe(this, grades_data -> {
-            Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
-            subjectRecyclerAdapterUpdated.submitList(grades_data);
-        });
+
+
+        subjectDataNew.clear();
+        for (String st:eng){
+
+            subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataUnlockFirst(st).get(0));
+            Log.d(TAG, "getDataFromDatabase: "+subjectDataNew);
+//            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
+//                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
+//                subjectRecyclerAdapterUpdated.submitList(grades_data);
+//            });
+        }
+        subjectRecyclerAdapterUpdated.submitList(subjectDataNew);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //getUiData(false);
-
+        getNewData();
         kidsGrade = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_grade));
         kidsName = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_name));
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.Select_Sub_Activity;
+import com.maths.beyond_school_280720220930.ViewCurriculum;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.model.SubSubject;
 
@@ -66,9 +67,8 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
 
         holder.mView.setOnClickListener(v -> {
 
-
 //            Toast.makeText(context, list.get(position).getSubSubject(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context, Select_Sub_Activity.class);
+            Intent intent = new Intent(context, ViewCurriculum.class);
             intent.putExtra("subSubject", list.get(position).getSubSubject());
             intent.putExtra("subject", section);
             context.startActivity(intent);

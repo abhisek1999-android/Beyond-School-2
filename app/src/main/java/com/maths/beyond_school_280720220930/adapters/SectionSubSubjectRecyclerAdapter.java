@@ -49,7 +49,6 @@ public class SectionSubSubjectRecyclerAdapter extends RecyclerView.Adapter<Secti
 
         holder.sectionNameTextView.setText(sectionName);
 
-
         ProgressRecyclerAdapter childRecyclerAdapter = new ProgressRecyclerAdapter(items,mContext,sectionName);
         holder.childRecyclerView.setAdapter(childRecyclerAdapter);
         holder.mView.setOnClickListener(v->{

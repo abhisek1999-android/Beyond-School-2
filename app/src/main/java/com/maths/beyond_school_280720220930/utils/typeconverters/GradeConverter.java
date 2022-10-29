@@ -24,7 +24,8 @@ public class GradeConverter implements TypeConverter<GradeData, GradeModel.Engli
                 subject,
                 chapter.getRequest(),
                 UtilityFunctions.intToBoolean(chapter.getUnlock()),
-                UtilityFunctions.intToBoolean(chapter.getIsFetchRequired())
+                UtilityFunctions.intToBoolean(chapter.getIsFetchRequired()),
+                false
         );
     }
 
