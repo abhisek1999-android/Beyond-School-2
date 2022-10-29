@@ -167,7 +167,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         api.getVocabularySubject(
                 PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ",""),
                 "english",
-                getIntent().getStringExtra(EXTRA_TITLE),
+                getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(),
                 category).enqueue(new retrofit2.Callback<>() {
             @Override
             public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {

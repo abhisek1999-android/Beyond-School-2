@@ -89,7 +89,7 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/text_view_des"
+                android:id="@+id/text_view_des_grammar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/reemkufi_medium"

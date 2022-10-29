@@ -23,19 +23,21 @@ public class RowItemFragment extends Fragment {
     private final int pos;
     private final GrammarModel grammarModel;
     private final String category;
+    private final boolean isOnline;
 
 
-    public RowItemFragment(GrammarModel grammarModel, int pos, String category) {
+    public RowItemFragment(GrammarModel grammarModel, int pos, String category, boolean isOnline) {
         super(R.layout.fragment_indentifying_nouns_row);
         this.pos = pos;
         this.grammarModel = grammarModel;
         this.category = category;
+        this.isOnline = isOnline;
     }
 
     private FragmentIndentifyingNounsRowBinding binding;
 
     public TextView getTextView() {
-        return binding.textViewDes;
+        return binding.textViewDesGrammar;
     }
 
     @Override
@@ -77,14 +79,18 @@ public class RowItemFragment extends Fragment {
     }
 
     private void setTextView() {
+        if (isOnline) {
+            binding.textViewDesGrammar.setText(Html.fromHtml(grammarModel.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            return;
+        }
         if (category.equals(getResources().getString(R.string.grammar_3))) {
             var text = "<font color='#64c1c7'>" + grammarModel.getWord() + "</font><br>" + grammarModel.getDescription();
-            binding.textViewDes.setText(
+            binding.textViewDesGrammar.setText(
                     Html.fromHtml(text,
                             Html.FROM_HTML_MODE_COMPACT)
             );
         } else {
-            binding.textViewDes.setText(Html.fromHtml(
+            binding.textViewDesGrammar.setText(Html.fromHtml(
                     grammarModel.getDescription().replace(grammarModel.getWord().toLowerCase(Locale.ROOT),
                             "<font color='#64c1c7'>" + grammarModel.getWord().toLowerCase(Locale.ROOT) + "</font>")
                     , Html.FROM_HTML_MODE_COMPACT

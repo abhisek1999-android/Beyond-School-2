@@ -14,6 +14,10 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.maths.beyond_school_280720220930.LogActivity;
@@ -174,12 +179,7 @@ public class GrammarActivity extends AppCompatActivity {
     private void getSubjectData() {
         Retrofit retrofit = ApiClient.getClient();
         var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject(
-                PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
-                "english",
-                getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(),
-                category
-        ).enqueue(new retrofit2.Callback<>() {
+        api.getVocabularySubject(PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""), "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
             @Override
             public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
                 Log.d(TAG, "onResponse: " + response.code());
@@ -248,9 +248,24 @@ public class GrammarActivity extends AppCompatActivity {
     private void startSpeaking() {
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
         var question = !isOnline ? UtilityFunctions.getQuestionForGrammar(context, currentModel, category)[0] : meta.getQuestion();
-        if (binding.viewPagerIdentifyingNouns.getCurrentItem() < 2)
+        var des = currentModel.getDescription().trim();
+        if (binding.viewPagerIdentifyingNouns.getCurrentItem() < 0 && !isOnline)
             tts.setTextViewAndSentence(question);
-        tts.initialize(question, this);
+
+        if (isOnline) {
+            if (binding.viewPagerIdentifyingNouns.getCurrentItem() <= 0)
+                helperTTS(question, false, 44 * 4);
+            else
+                helperTTS("", false, 44 * 4);
+
+        } else {
+            if (binding.viewPagerIdentifyingNouns.getCurrentItem() <= 0)
+                tts.initialize(question, this);
+            else
+                tts.initialize("", this);
+        }
+
+
     }
 
 
@@ -260,27 +275,25 @@ public class GrammarActivity extends AppCompatActivity {
             tts = task.execute(new ConversionCallback() {
                 @Override
                 public void onCompletion() {
+                    Log.d(TAG, "tts: called");
                     if (!tts.getTextRanceListener()) {
                         UtilityFunctions.runOnUiThread(() -> {
                             var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                             var currentFragment = (RowItemFragment) fragmentList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                             if (category.equals(getResources().getString(R.string.grammar_3)))
-                                currentFragment.getTextView().setText(
-                                        Html.fromHtml("<font color='#64c1c7'>" +
-                                                        currentModel.getWord() + "</font>\n",
-                                                Html.FROM_HTML_MODE_COMPACT));
+                                currentFragment.getTextView().setText(Html.fromHtml("<font color='#64c1c7'>" + currentModel.getWord() + "</font>\n", Html.FROM_HTML_MODE_COMPACT));
                             else
-                                currentFragment.getTextView().setText(Html.fromHtml(currentModel.getDescription(),
-                                        Html.FROM_HTML_MODE_COMPACT));
+                                currentFragment.getTextView().setText(Html.fromHtml(currentModel.getDescription(), Html.FROM_HTML_MODE_COMPACT));
 
                         });
                         setOptionButton();
                         setVisibilityOfLinearLayout(true);
                         playPauseAnimation(false);
                         checkAnswer();
-                        Log.d("XXX", "onCompletion: Called ");
+                        Log.d(TAG, "onCompletion: Called ");
                         return;
                     }
+                    Log.d(TAG, "else: called");
                     var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                     var question = !isOnline ? UtilityFunctions.getQuestionForGrammar(context, currentModel, category)[1] : "Select the correct answer";
                     tts.setTextViewAndSentence(null);
@@ -289,14 +302,34 @@ public class GrammarActivity extends AppCompatActivity {
 
                 @Override
                 public void onErrorOccurred(String errorMessage) {
-
+                    Log.e(TAG, "onErrorOccurred: " + errorMessage);
                 }
 
                 @Override
                 public void getLogResult(String title) {
                     ConversionCallback.super.getLogResult(title);
+                    Log.d(TAG, "getLogResult: " + title);
                 }
             }).get();
+
+            tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
+                UtilityFunctions.runOnUiThread(() -> {
+                    var textView = (TextView) this.findViewById(R.id.text_view_des_grammar);
+                    if (textView != null) {
+                        Spannable textWithHighlights = new SpannableString(sentence);
+                        textWithHighlights.setSpan(new ForegroundColorSpan(
+                                        ContextCompat.
+                                                getColor(
+                                                        this,
+                                                        R.color.primary
+                                                )),
+                                start,
+                                end,
+                                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        textView.setText(textWithHighlights);
+                    }
+                });
+            });
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -341,6 +374,15 @@ public class GrammarActivity extends AppCompatActivity {
             ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
                 @Override
                 public void onCompletion() {
+                    if (!canNavigate && request == 44 * 4) {
+                        var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
+                        var des = currentModel.getDescription().trim().replace(
+                                "<br>", ""
+                        ).replace("<b>", "").replace("</b>", "");
+                        tts.setTextViewAndSentence(des);
+                        tts.initialize(des, GrammarActivity.this);
+                        return;
+                    }
                     if (!canNavigate && request == REQUEST_INTRO) {
                         startSpeaking();
                         return;
@@ -496,7 +538,7 @@ public class GrammarActivity extends AppCompatActivity {
 
 
     private List<Fragment> mapToFragment(List<GrammarModel> grammarModels) {
-        return CollectionUtils.mapWithIndex(grammarModels.stream(), (index, item) -> new RowItemFragment(item, index + 1, category)).collect(Collectors.toList());
+        return CollectionUtils.mapWithIndex(grammarModels.stream(), (index, item) -> new RowItemFragment(item, index + 1, category, isOnline)).collect(Collectors.toList());
     }
 
     private List<GrammarModel> getFilterGrammar(List<GrammarType> list) {

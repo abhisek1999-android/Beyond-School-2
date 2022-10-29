@@ -42,9 +42,9 @@ public class RowItemTestFragment extends Fragment {
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);
         if (request.equals(getResources().getString(R.string.grammar_3)))
-            binding.textViewDes.setText(grammarModel.getWord());
+            binding.textViewDesGrammar.setText(grammarModel.getWord());
         else
-            binding.textViewDes.setText(Html.fromHtml(grammarModel.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            binding.textViewDesGrammar.setText(Html.fromHtml(grammarModel.getDescription(), Html.FROM_HTML_MODE_COMPACT));
 
         //set margin to parent view
         var param = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
