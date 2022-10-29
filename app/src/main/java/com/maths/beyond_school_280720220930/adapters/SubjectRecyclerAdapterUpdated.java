@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.adapters;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishA
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,12 +42,18 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     String subSub = "", chapter = "";
     private OnItemClickListener mListener;
 
-    public SubjectRecyclerAdapterUpdated(List<GradeData> list, Context context,OnItemClickListener listener) {
-        this.list = list;
+    public SubjectRecyclerAdapterUpdated( Context context,OnItemClickListener listener) {
+        this.list = new ArrayList<>();
         this.context = context;
         this.mListener=listener;
         progressDataBase = ProgressDataBase.getDbInstance(context);
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void submitList(List<GradeData> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @NonNull

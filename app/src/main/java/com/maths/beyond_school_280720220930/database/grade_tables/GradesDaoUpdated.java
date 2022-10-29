@@ -23,7 +23,7 @@ public interface GradesDaoUpdated {
 
 
     @Query("SELECT * FROM grade WHERE subject=:subject LIMIT 2")
-    List<GradeData> getSubjectDataLimited(String subject);
+    LiveData<List<GradeData>> getSubjectDataLimited(String subject);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNotes(List<GradeData> gradeData);

@@ -27,8 +27,6 @@ import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ViewCurriculum extends AppCompatActivity {
@@ -71,13 +69,10 @@ public class ViewCurriculum extends AppCompatActivity {
                 PrefConfig.readIdInPref(this,
                                 getResources().getString(R.string.kids_grade))
                         .toLowerCase().replace(" ", "")).enqueue(new retrofit2.Callback<>() {
-            private Call<GradeModel> call;
-            private Response<GradeModel> response;
+
 
             @Override
             public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
-                this.call = call;
-                this.response = response;
                 if (response.body() != null) {
 
                     Log.d(TAG, "onResponse: " + response.code());

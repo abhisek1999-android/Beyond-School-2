@@ -1,11 +1,12 @@
 package com.maths.beyond_school_280720220930;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,12 +39,16 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
-import com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity;
+import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,8 +56,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Retrofit;
+
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "HomeScreen";
     private ActivityHomeScreenBinding binding;
     private List<String> mathSub;
     private List<String> engSub;
@@ -140,6 +148,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         Uri appLinkData = appLinkIntent.getData();
 
         setSubSubjectProgress();
+        getNewData();
     }
 
 
@@ -150,12 +159,45 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     }
 
     private void checkAudioPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                permissionPadController();
+        // M = 23
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            permissionPadController();
 
-            }
         }
+    }
+
+    private void getNewData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData(
+                PrefConfig.readIdInPref(this,
+                                getResources().getString(R.string.kids_grade))
+                        .toLowerCase().replace(" ", "")).enqueue(new retrofit2.Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+                if (response.body() != null) {
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+                } else {
+                    Toast.makeText(HomeScreen.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
+        getDataFromDatabase();
     }
 
 
@@ -530,16 +572,17 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                     Log.i("LIST_DATA", subEngData + "");
 
-                    subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
 
                     binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
                     binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
                     binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(subjectDataNew, HomeScreen.this, gradeData -> {
-                        var intent = new Intent(HomeScreen.this, VocabularyActivity.class);
-                        intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+                    subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
+                        var intent = new Intent(HomeScreen.this, GrammarActivity.class);
+                        intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                        intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                         startActivity(intent);
                     });
                     binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
@@ -617,7 +660,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             }
 
 
-            subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
+//            subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
 
             Log.i("LIST_DATA", subjectDataNew + "");
             binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
@@ -625,15 +668,23 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
             binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-            subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(subjectDataNew, HomeScreen.this, gradeData -> {
-                var intent = new Intent(HomeScreen.this, VocabularyActivity.class);
-                intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
+            subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
+                var intent = new Intent(HomeScreen.this, GrammarActivity.class);
+                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                 startActivity(intent);
             });
             binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         }
 
 
+    }
+
+    private void getDataFromDatabase() {
+        gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]).observe(this, grades_data -> {
+            subjectRecyclerAdapterUpdated.submitList(grades_data);
+        });
     }
 
     @Override
