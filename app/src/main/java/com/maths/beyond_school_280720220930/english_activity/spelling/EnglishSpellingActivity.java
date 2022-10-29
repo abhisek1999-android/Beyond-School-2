@@ -1,6 +1,8 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -34,10 +36,14 @@ import com.maths.beyond_school_280720220930.databinding.ActivitySpellingCommonWo
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
@@ -50,6 +56,9 @@ import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class EnglishSpellingActivity extends AppCompatActivity {
 
@@ -66,7 +75,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private int currentTryCount = 0;
 
     private ActivitySpellingCommonWordBinding binding;
-    private String spellings;
+    private String category;
     private TextToSpeckConverter tts = null;
     private TextToSpeckConverter ttsHelper = null;
     private MediaPlayer mediaPlayer = null;
@@ -85,6 +94,8 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
 
+    private boolean isOnline = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,21 +111,56 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     private void setData() {
         if (getIntent().hasExtra(EXTRA_SPELLING_DETAIL)) {
-            spellings = getIntent().getStringExtra(EXTRA_SPELLING_DETAIL);
+            category = getIntent().getStringExtra(EXTRA_SPELLING_DETAIL);
+            isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
             dao = EnglishGradeDatabase.getDbInstance(this).spellingCommonWordDao();
-            setViews();
-            buttonClick();
-            binding.giveTestButton.setOnClickListener((view) -> {
-                navigateToTest();
-            });
+            if (isOnline) {
+                getSubjectData();
+            } else {
+                setViews();
+            }
         } else {
             UtilityFunctions.simpleToast(this, "No data found");
         }
+        buttonClick();
+        binding.giveTestButton.setOnClickListener((view) -> {
+            navigateToTest();
+        });
     }
+
+    private void getSubjectData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getVocabularySubject(PrefConfig.readIdInPref(this, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
+                "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
+            @Override
+            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+                if (response.body() != null) {
+                    Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+                    mapData(response.body().getContent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapData(List<ContentModel.Content> content) {
+        var typeConverter = new SpellingTypeConverter();
+        spellingDetails = typeConverter.mapToList(content);
+        setViews();
+    }
+
 
     private void navigateToTest() {
         var intent = new Intent(this, SpellingTest.class);
-        intent.putExtra(EXTRA_SPELLING_DETAIL, spellings);
+        intent.putExtra(EXTRA_SPELLING_DETAIL, category);
+        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+        intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
         startActivity(intent);
     }
 
@@ -153,20 +199,23 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void setViews() {
-        binding.subSub.setText(spellings.replace("Spelling_CommonWords", ""));
+        binding.subSub.setText(category.replace("Spelling_CommonWords", ""));
         setPager();
     }
 
     private void setPager() {
 
-        var data = getSpellingFromType(dao.getSpellingModel(1).getSpelling(),
-                spellings);
+        if (!isOnline) {
+            var data = getSpellingFromType(dao.getSpellingModel(1).getSpelling(),
+                    category);
 
-        if (data == null) {
-            UtilityFunctions.simpleToast(this, "No data found");
-            return;
+            if (data == null) {
+                UtilityFunctions.simpleToast(this, "No data found List is empty");
+                return;
+            }
+            spellingDetails = data.getDetails();
         }
-        List<Fragment> fragments = getFragments(data);
+        List<Fragment> fragments = getFragments(spellingDetails);
 
         var pagerAdapter = new EnglishViewPager(
                 fragments,
@@ -187,7 +236,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             initMediaPlayer();
             playPauseAnimation(true);
             helperTTS("Hi kids !! Let us, learn spelling of some"
-                            + spellings.replace("Spelling_CommonWords", "")
+                            + category.replace("Spelling_CommonWords", "")
                     ,
                     false
                     , REQUEST_FOR_QUESTION);
@@ -220,8 +269,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                         "'" + spellingDetails.get(binding.viewPager.getCurrentItem()).getWord()) + "' .";
     }
 
-    private List<Fragment> getFragments(SpellingCategoryModel data) {
-        spellingDetails = data.getDetails();
+    private List<Fragment> getFragments(List<SpellingDetail> data) {
         fragments = CollectionUtils.
                 mapWithIndex(
                         spellingDetails.stream(), (index, item) ->
@@ -544,7 +592,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         checkLogIsEnable();
         destroyedEngines();
         checkProgressData();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", spellings, new Date(),
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(),
                 timeSpend + Integer.parseInt(binding.progress.timeText.getText().toString()), false);
     }
 
@@ -590,9 +638,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
         var array = new ArrayList<Character>();
         array.add(currentLetter);
-        array.add(UtilityFunctions.getRandomAlphabet());
-        array.add(UtilityFunctions.getRandomAlphabet());
-        array.add(UtilityFunctions.getRandomAlphabet());
+        array.add(UtilityFunctions.getRandomAlphabet(currentLetter));
+        array.add(UtilityFunctions.getRandomAlphabet(currentLetter));
+        array.add(UtilityFunctions.getRandomAlphabet(currentLetter));
         var shuffleArray = UtilityFunctions.shuffleArray(array);
         binding.key1.setText(shuffleArray.get(0).toString());
         binding.key2.setText(shuffleArray.get(1).toString());
@@ -659,7 +707,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     private void checkProgressData() {
         progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling",
-                spellings,
+                category,
                 new Date(), 0, true);
         try {
             if (progressData != null) {

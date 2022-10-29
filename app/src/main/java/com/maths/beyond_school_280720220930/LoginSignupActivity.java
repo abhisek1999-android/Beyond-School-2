@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,8 +18,6 @@ import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabas
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityLoginSignupBinding;
-import com.maths.beyond_school_280720220930.retrofit.ApiClient;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.signin_methods.GoogleSignInActivity;
 import com.maths.beyond_school_280720220930.signin_methods.PhoneNumberLogin;
@@ -30,10 +25,6 @@ import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginSignupActivity extends AppCompatActivity {
 
@@ -47,7 +38,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private int REQUEST_CALENDER_ACCESS = 100;
-    private String TAG="LoginSignUp";
+    private String TAG = "LoginSignUp";
     private GradeDatabase gradeDatabase;
 
     @Override
@@ -76,7 +67,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         }
 //        getNewData();
 
-       // startActivity(new Intent(this, TestActivity.class));
+//        startActivity(new Intent(this, ViewCurriculum.class));
 
     }
 
@@ -353,7 +344,6 @@ public class LoginSignupActivity extends AppCompatActivity {
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
     }
-
 
 
     @Override

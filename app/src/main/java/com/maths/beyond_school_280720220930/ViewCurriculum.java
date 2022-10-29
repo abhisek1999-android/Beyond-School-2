@@ -19,6 +19,7 @@ import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
@@ -95,14 +96,21 @@ public class ViewCurriculum extends AppCompatActivity {
 
     private void setRecyclerViewData(String subject) {
 
-
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
-            var intent = new Intent(this, GrammarActivity.class);
-            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-            startActivity(intent);
+            if (gradeData.getSubject().equals("Vocabulary")) {
+                var intent = new Intent(this, GrammarActivity.class);
+                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+                startActivity(intent);
+            } else {
+                var intent = new Intent(this, EnglishSpellingActivity.class);
+                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+                startActivity(intent);
+            }
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
         getLiveData(subject);

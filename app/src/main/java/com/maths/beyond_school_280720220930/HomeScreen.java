@@ -99,7 +99,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        startActivity(new Intent(this, ViewCurriculum.class));
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
@@ -138,6 +138,13 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TabbedHomePage.class)));
 
 
+        subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
+            var intent = new Intent(HomeScreen.this, GrammarActivity.class);
+            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+            startActivity(intent);
+        });
         uiChnages();
         //    getUiData(true);
 
@@ -197,7 +204,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             var chapterList = mapper.mapToList(subject.getChapters());
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
-        getDataFromDatabase();
+
     }
 
 
@@ -386,6 +393,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+        getDataFromDatabase();
     }
 
 
@@ -578,13 +586,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
                     binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
-                        var intent = new Intent(HomeScreen.this, GrammarActivity.class);
-                        intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-                        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                        intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-                        startActivity(intent);
-                    });
+
                     binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
                 } catch (Exception e) {
 
@@ -683,6 +685,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     private void getDataFromDatabase() {
         gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]).observe(this, grades_data -> {
+            Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
             subjectRecyclerAdapterUpdated.submitList(grades_data);
         });
     }

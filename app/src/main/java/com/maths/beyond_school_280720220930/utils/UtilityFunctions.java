@@ -690,6 +690,18 @@ public final class UtilityFunctions {
         return (char) (r.nextInt(26) + 'a');
     }
 
+    // function to get random alphabet accept the single character
+    public static char getRandomAlphabet(char c) {
+        Random r = new Random();
+        char randomChar = (char) (r.nextInt(26) + 'a');
+        if (randomChar == c) {
+            return getRandomAlphabet(c);
+        } else {
+            return randomChar;
+        }
+    }
+
+
     public static VocabularyCategoryModel getVocabularyDetailsFromType(List<VocabularyCategoryModel> models, VocabularyCategories type) {
         var filterList = models.stream().filter(model -> model.getCategory().equals(type.name())).collect(Collectors.toList());
         if (filterList.size() > 0) {
