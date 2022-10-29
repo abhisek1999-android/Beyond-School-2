@@ -57,7 +57,7 @@ public class TestActivity extends AppCompatActivity {
 
         chapterList = gradeDatabase.gradesDaoUpdated().getChapter();
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(chapterList, TestActivity.this, gradeData -> {
+        chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(TestActivity.this, gradeData -> {
             var intent = new Intent(TestActivity.this, GrammarActivity.class);
             intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);

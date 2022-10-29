@@ -17,7 +17,10 @@ import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.collections.ArrayDeque;
 
 public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecyclerAdapter.SubjectViewHolder> {
 
@@ -30,12 +33,17 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
     private int lastAnimatedPosition = -1;
 
 
-    public ChaptersRecyclerAdapter(List<GradeData> list, Context context,OnItemClickListener mListener) {
-        this.list = list;
+    public ChaptersRecyclerAdapter(Context context,OnItemClickListener mListener) {
         this.context = context;
         this.mListener=mListener;
         progressDataBase = ProgressDataBase.getDbInstance(context);
+        list = new ArrayList<>();
 
+    }
+
+    public void submitList(List<GradeData> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @NonNull

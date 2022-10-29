@@ -14,6 +14,11 @@ public interface ApiInterface {
     Call<GradeModel> getGradeData(@Path("grade") String grade);
 
 
-    @GET("subjects/grade1/english/vocabulary/{vocabSubject}.json")
-    Call<ContentModel> getVocabularySubject(@Path("vocabSubject") String vocabSubject);
+    @GET("subjects/{grade1}/{subject}/{topic}/{topic_detail}.json")
+    Call<ContentModel> getVocabularySubject(
+            @Path("grade1") String grade,
+            @Path("subject") String subject,
+            @Path("topic") String topic,
+            @Path("topic_detail") String vocabSubject
+    );
 }

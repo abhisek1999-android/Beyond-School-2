@@ -1,25 +1,12 @@
 package com.maths.beyond_school_280720220930;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -34,7 +21,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -213,7 +199,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
 
         for (int i = 0; i < eng.length; i++) {
-            int total = gradeDatabase.gradesDaoUpdated().getSubjectData(eng[i]).size();
+            int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
             int completed = 0;
             //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
             subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
@@ -629,7 +615,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
                 l_index++;
             }
-
 
 
             subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);

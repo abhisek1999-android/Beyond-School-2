@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,9 +16,13 @@ public interface GradesDaoUpdated {
     List<GradeData> getChapter();
 
     @Query("SELECT * FROM grade WHERE subject=:subject")
-    List<GradeData> getSubjectData(String subject);
+    LiveData<List<GradeData>> getSubjectData(String subject);
 
-    @Query("SELECT * FROM grade WHERE subject=:subject LIMIT 2" )
+    @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject")
+    int getSubjectCount(String subject);
+
+
+    @Query("SELECT * FROM grade WHERE subject=:subject LIMIT 2")
     List<GradeData> getSubjectDataLimited(String subject);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,5 +30,9 @@ public interface GradesDaoUpdated {
 
     @Delete
     void delete(GradeData progress);
+
+
+    @Query("DELETE FROM grade")
+    void deleteAll();
 
 }

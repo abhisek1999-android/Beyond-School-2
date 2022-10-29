@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
@@ -53,7 +54,7 @@ public class KidsInfoActivity extends AppCompatActivity {
     private String type = "next";
     String[] array;
     ArrayAdapter adapter;
-   private CustomProgressDialogue customProgressDialogue;
+    private CustomProgressDialogue customProgressDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,9 @@ public class KidsInfoActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        mStorageReference=FirebaseStorage.getInstance().getReference();
+        mStorageReference = FirebaseStorage.getInstance().getReference();
 
-        customProgressDialogue=new CustomProgressDialogue(KidsInfoActivity.this);
+        customProgressDialogue = new CustomProgressDialogue(KidsInfoActivity.this);
 
         binding.toolBar.titleText.setText("Kid's Info");
 
@@ -81,9 +82,6 @@ public class KidsInfoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-
 
 
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
@@ -128,20 +126,22 @@ public class KidsInfoActivity extends AppCompatActivity {
             selectImage();
         });
 
-        binding.kidsProfileImage.setOnClickListener(v->{
+        binding.kidsProfileImage.setOnClickListener(v -> {
             selectImage();
         });
         binding.updateButton.setOnClickListener(v -> {
             uploadImage();
         });
 
-        binding.deleteProfile.setOnClickListener(v->{
+        binding.deleteProfile.setOnClickListener(v -> {
 
             displayHintDialog();
         });
 
 
-        binding.toolBar.imageViewBack.setOnClickListener(v->{onBackPressed();});
+        binding.toolBar.imageViewBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
         setUpTextLayoutGrade();
 
@@ -152,9 +152,6 @@ public class KidsInfoActivity extends AppCompatActivity {
         }
 
 
-
-
-
         if (type.equals("update")) {
 
             binding.deleteProfile.setVisibility(View.VISIBLE);
@@ -163,23 +160,20 @@ public class KidsInfoActivity extends AppCompatActivity {
             //    binding.textInputLayoutGrade.getEditText().setText(array[1]);
             binding.kidsNameTextView.setText(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
             binding.kidsAgeTextView.setText(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
-            UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_profile_url)), binding.kidsProfileImage);
+            UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)), binding.kidsProfileImage);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(Integer.parseInt(grade) - 1).toString(), false);
             }
             binding.toolBar.titleText.setText("Kid's Profile");
             binding.nextButton.setVisibility(View.GONE);
             binding.updateButton.setVisibility(View.VISIBLE);
-        }
-
-        else if (type.equals("update_new")) {
+        } else if (type.equals("update_new")) {
             customProgressDialogue.dismiss();
             binding.toolBar.titleText.setText("Kid's Profile");
             binding.nextButton.setVisibility(View.GONE);
             binding.updateButton.setVisibility(View.VISIBLE);
             binding.kidsGrade.setText(binding.kidsGrade.getAdapter().getItem(0).toString(), false);
-        }
-        else{
+        } else {
             customProgressDialogue.show();
             binding.toolBar.imageViewBack.setVisibility(View.GONE);
             binding.kidsNameTextView.setText("Kids Name");
@@ -192,8 +186,6 @@ public class KidsInfoActivity extends AppCompatActivity {
         }
 
 
-
-
     }
 
     private void displayHintDialog() {
@@ -204,9 +196,9 @@ public class KidsInfoActivity extends AppCompatActivity {
         hintDialog.setAlertDesciption("Are you sure you want to delete this profile?");
 
         hintDialog.actionButton("DELETE");
-        hintDialog.setOnActionListener(viewId->{
+        hintDialog.setOnActionListener(viewId -> {
 
-            switch (viewId.getId()){
+            switch (viewId.getId()) {
 
                 case R.id.closeButton:
                     hintDialog.dismiss();
@@ -230,13 +222,13 @@ public class KidsInfoActivity extends AppCompatActivity {
 
         kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").
                 document(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)))
-                .update("status","deleted").addOnSuccessListener(unused -> {
+                .update("status", "deleted").addOnSuccessListener(unused -> {
 
-                    UtilityFunctions.saveDataLocally(getApplicationContext(),"","","","","");
-                    startActivity(new Intent(getApplicationContext(),SplashScreen.class));
+                    UtilityFunctions.saveDataLocally(getApplicationContext(), "", "", "", "", "");
+                    startActivity(new Intent(getApplicationContext(), SplashScreen.class));
                     finish();
                     customProgressDialogue.dismiss();
-                }).addOnFailureListener(e->{
+                }).addOnFailureListener(e -> {
 
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -277,7 +269,7 @@ public class KidsInfoActivity extends AppCompatActivity {
                 uploadImage();
             } catch (Exception e) {
 
-                Log.i("ImageException",e.getMessage());
+                Log.i("ImageException", e.getMessage());
             }
 
         }
@@ -304,13 +296,11 @@ public class KidsInfoActivity extends AppCompatActivity {
                                     final String downloadUrl = task.getResult().toString();
 
                                     if (task.isSuccessful()) {
-                                        if (type.equals("next")){
+                                        if (type.equals("next")) {
                                             saveKidsData(downloadUrl);
 
-                                            UtilityFunctions.loadImage(downloadUrl,binding.kidsProfileImage);
-                                        }
-
-                                        else
+                                            UtilityFunctions.loadImage(downloadUrl, binding.kidsProfileImage);
+                                        } else
                                             updateKidsData(downloadUrl);
                                         Log.i("Image Uploaded", downloadUrl);
 
@@ -335,9 +325,9 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                     if (type.equals("next"))
                         saveKidsData("default");
-                    else{
-                        String profileUrl=PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url));
-                        updateKidsData(profileUrl.equals("")?"default":profileUrl);
+                    else {
+                        String profileUrl = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url));
+                        updateKidsData(profileUrl.equals("") ? "default" : profileUrl);
                     }
 
                 }
@@ -359,8 +349,6 @@ public class KidsInfoActivity extends AppCompatActivity {
     private void updateKidsData(String imageUrl) {
 
         if (mAuth != null) {
-
-
             Log.i("data", binding.kidsNameTextView.getText().toString() + "," + binding.kidsAgeTextView.getText().toString() + "," +
                     Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString() + "," + imageUrl);
 
@@ -379,6 +367,8 @@ public class KidsInfoActivity extends AppCompatActivity {
                         customProgressDialogue.dismiss();
                         Toast.makeText(this, "Failed to update" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
+            var gradeDatabase = GradeDatabase.getDbInstance(this);
+            gradeDatabase.gradesDaoUpdated().deleteAll();
         }
 
     }
@@ -393,7 +383,7 @@ public class KidsInfoActivity extends AppCompatActivity {
             kidsData.put("profile_url", imageUrl);
             kidsData.put("parent_id", mCurrentUser.getUid());
             kidsData.put("age", binding.kidsAgeTextView.getText().toString());
-            kidsData.put("status","active");
+            kidsData.put("status", "active");
             kidsData.put("grade", Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString());
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mCurrentUser.getUid()).collection("kids").document(uuid)

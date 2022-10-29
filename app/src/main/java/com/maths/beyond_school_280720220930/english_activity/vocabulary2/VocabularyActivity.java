@@ -112,24 +112,24 @@ public class VocabularyActivity extends AppCompatActivity implements VocabularyF
     private void getSubjectData() {
         Retrofit retrofit = ApiClient.getClient();
         var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject(chapterName).enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                Log.d(TAG, "onResponse: " + response.body().getContent().toString());
-                var contentModel = response.body();
-                meta = contentModel.getMeta();
-                var list = contentModel.getContent();
-                var converter = new GrammarTypeConverter();
-//                vocabularyList = converter.mapToList(list);
-                setViewPager();
-            }
-
-            @Override
-            public void onFailure(Call<ContentModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
+//        api.getVocabularySubject(chapterName).enqueue(new retrofit2.Callback<>() {
+//            @Override
+//            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+//                Log.d(TAG, "onResponse: " + response.code());
+//                Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+//                var contentModel = response.body();
+//                meta = contentModel.getMeta();
+//                var list = contentModel.getContent();
+//                var converter = new GrammarTypeConverter();
+////                vocabularyList = converter.mapToList(list);
+//                setViewPager();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ContentModel> call, Throwable t) {
+//                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+//            }
+//        });
     }
 
     private void setViewPager() {

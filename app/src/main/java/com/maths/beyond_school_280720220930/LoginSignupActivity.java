@@ -74,7 +74,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         if (mUser != null) {
             checkUserAlreadyAvailable();
         }
-        getNewData();
+//        getNewData();
 
        // startActivity(new Intent(this, TestActivity.class));
 
@@ -318,33 +318,33 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
 
-    private void getNewData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
-            private Call<GradeModel> call;
-            private Response<GradeModel> response;
-
-            @Override
-            public void onResponse(@NonNull retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, @NonNull retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
-                this.call = call;
-                this.response = response;
-                if (response.body() != null) {
-                    Log.d(TAG, "onResponse: " + response.code());
-                    Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
-                    var list = response.body().getEnglish();
-                    mapToGradeModel(list);
-                } else {
-                    Toast.makeText(LoginSignupActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
-    }
+//    private void getNewData() {
+//        Retrofit retrofit = ApiClient.getClient();
+//        var api = retrofit.create(ApiInterface.class);
+//        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
+//            private Call<GradeModel> call;
+//            private Response<GradeModel> response;
+//
+//            @Override
+//            public void onResponse(@NonNull retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, @NonNull retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
+//                this.call = call;
+//                this.response = response;
+//                if (response.body() != null) {
+//                    Log.d(TAG, "onResponse: " + response.code());
+//                    Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
+//                    var list = response.body().getEnglish();
+//                    mapToGradeModel(list);
+//                } else {
+//                    Toast.makeText(LoginSignupActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+//                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+//            }
+//        });
+//    }
 
     private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
         list.forEach(subject -> {
