@@ -16,6 +16,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/background_round"
+        android:backgroundTint="@color/primary"
         android:padding="10dp"
         android:src="@drawable/ic_baseline_close_24"
         app:tint="@color/white" />
@@ -51,6 +52,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/reemkufi_medium"
+        android:textColor="@color/white"
         android:text="Hi, there"
         android:textSize="20sp" />
 
@@ -68,5 +70,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/light_deep_grey" />
+        android:background="@color/white" />
 </RelativeLayout>

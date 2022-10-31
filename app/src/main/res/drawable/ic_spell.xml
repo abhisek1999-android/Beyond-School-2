@@ -10,18 +10,18 @@
       android:pathData="M30,212.4 L55.07,152.23M150.33,212.4 L125.26,152.23m-70.19,0L90.17,68l35.1,84.23m-70.19,0L125.26,152.23"
       android:strokeWidth="11"
       android:fillColor="#00000000"
-      android:strokeColor="#64c1c7"
+      android:strokeColor="@color/primary"
       android:strokeLineCap="square"/>
   <path
       android:pathData="M174,164a48.5,48 0,1 0,97 0a48.5,48 0,1 0,-97 0z"
       android:strokeWidth="11"
       android:fillColor="#00000000"
-      android:strokeColor="#9cd6cd"
+      android:strokeColor="@color/primary_trans"
       android:strokeLineCap="square"/>
   <path
       android:pathData="M271,116L271,212"
       android:strokeWidth="11"
       android:fillColor="#00000000"
-      android:strokeColor="#64c1c7"
+      android:strokeColor="@color/primary"
       android:strokeLineCap="square"/>
 </vector>

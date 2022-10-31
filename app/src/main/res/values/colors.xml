@@ -19,7 +19,9 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-    <color name="primary">#64c1c7</color>
+    <color name="primary">#880E4F</color>
+    <color name="primary_trans">#57880E4F</color>
+
     <color name="accent">#ffb74d</color>
     <color name="yellow_">#90FF8F00</color>
     <color name="green">#5acd9f</color>
