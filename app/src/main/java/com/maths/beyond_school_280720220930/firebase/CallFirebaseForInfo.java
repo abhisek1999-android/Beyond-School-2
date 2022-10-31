@@ -60,7 +60,7 @@ public class CallFirebaseForInfo {
 
 
         DocumentReference kidsActivityRef= firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid())
-                .collection("kids").document(kidsId).collection("test").document(subject+"_"+subSub+"_"+chapters);
+                .collection("kids").document(kidsId).collection("grades").document("grade1").collection("test").document(subject+"_"+subSub+"_"+chapters);
         JSONObject kidsActivityJsonObj = new JSONObject();
         kidsActivityJsonObj.put("result", kidsJsonArray);
 
@@ -95,6 +95,46 @@ public class CallFirebaseForInfo {
 
         
         
+    }
+    public  static void  checkActivityData(FirebaseFirestore firebaseFirestore, JSONArray kidsJsonArray, String status, FirebaseAuth auth, String kidsId,String grade, String chapters, String subSub, int correctAnswer, int wrongAnswer, int noQuestion, String subject) throws JSONException {
+
+
+        DocumentReference kidsActivityRef= firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid())
+                .collection("kids").document(kidsId).collection("grades").document(grade).collection("test").document(subject+"_"+subSub+"_"+chapters);
+        JSONObject kidsActivityJsonObj = new JSONObject();
+        kidsActivityJsonObj.put("result", kidsJsonArray);
+
+        Map<String, Object> activityData = new HashMap<>();
+        activityData.put("time_stamp", new Date().getTime());
+        activityData.put("result", kidsActivityJsonObj.toString());
+        activityData.put("status", status);
+        activityData.put("correct",correctAnswer);
+        activityData.put("wrong",wrongAnswer);
+        activityData.put("total_count",noQuestion);
+
+
+        kidsActivityRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()){
+
+                KidsActivity kidsActivity=documentSnapshot.toObject(KidsActivity.class);
+                if (!kidsActivity.getStatus().equals("pass")){
+
+                    storeActivityData(kidsActivityRef,activityData);
+                }
+                else{
+
+                    updateKidsData(kidsActivityRef,kidsActivity.getCorrect()+correctAnswer,kidsActivity.getWrong()+wrongAnswer,kidsActivity.getTotal_count()+noQuestion);
+                }
+            }
+            else{
+                storeActivityData(kidsActivityRef,activityData);
+            }
+
+        });
+
+
+
+
     }
 
     private static void updateKidsData(DocumentReference kidsActivityRef, long correct, long wrong, long total) {
@@ -133,7 +173,7 @@ public class CallFirebaseForInfo {
 
     public static void upDateActivities(FirebaseFirestore kidsDb, FirebaseAuth mAuth, String kids_id, String grade, Context context, GradeDatabase database) {
         CollectionReference kidsActivityRef= kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
-                .collection("kids").document(kids_id).collection("test");
+                .collection("kids").document(kids_id).collection("grades").document("grade1").collection("test");
 
         kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
