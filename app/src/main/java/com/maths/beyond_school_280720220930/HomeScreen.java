@@ -548,6 +548,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    //getting data from local db
+
     private void getDataFromDatabase(boolean isNewCall) {
 
         subjectDataNew.clear();
