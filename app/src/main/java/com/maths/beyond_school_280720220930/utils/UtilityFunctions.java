@@ -793,6 +793,17 @@ public final class UtilityFunctions {
         return ((int) (Math.random() * (maximum - minimum))) + minimum;
     }
 
+    public static List<Integer> getRandomTwoIntegerUpto(int maximum, int minimum) {
+
+        List<Integer>ls=new ArrayList<>();
+        while (ls.size()<2) {
+            int digit=((int)(Math.random() * (maximum - minimum))) + minimum;
+            if (!ls.contains(digit))
+                ls.add(digit);
+        }
+        return ls ;
+    }
+
 
     public static void saveDataLocally(Context context, String grade, String name, String dob, String imageUrl, String uuid) {
         PrefConfig.writeIdInPref(context, grade, context.getResources().getString(R.string.kids_grade));

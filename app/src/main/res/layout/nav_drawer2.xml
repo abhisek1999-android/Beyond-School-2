@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/nav_drawer_design"
+
+
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/primary"
         android:orientation="vertical">
 
 
@@ -22,161 +25,175 @@
             android:id="@+id/toolBar"
             layout="@layout/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="270dp" />
+            android:layout_height="220dp" />
 
         <LinearLayout
-            android:id="@+id/dash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:clickable="true"
+            android:layout_marginHorizontal="@dimen/grid_10"
+            android:layout_marginTop="@dimen/grid_10"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="#17FFFFFF"
+            android:orientation="vertical"
 
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="10dp">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/background_round"
-                android:padding="10dp"
-                android:src="@drawable/ic_baseline_space_dashboard_24"
-                android:backgroundTint="@color/white"
-                app:tint="@color/primary" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingLeft="28dp"
-                android:textColor="@color/white"
-                android:text="Dashboard"
-                android:textSize="@dimen/default_font_size_big" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/remind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/background_round"
-                android:backgroundTint="@color/white"
-                android:padding="10dp"
-                android:src="@drawable/ic_bell"
-                app:tint="@color/primary" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingLeft="28dp"
-                android:textColor="@color/white"
-                android:text="Set Reminder"
-                android:textSize="@dimen/default_font_size_big" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/background_round"
-                android:padding="7dp"
-                android:src="@drawable/ic_settings"
-                android:backgroundTint="@color/white"
-                app:tint="@color/primary" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingLeft="28dp"
-                android:text="Settings"
-                android:textColor="@color/white"
-                android:textSize="@dimen/default_font_size_big" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="gone"
             >
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/background_round"
-                android:padding="7dp"
-                android:src="@drawable/ic_baseline_1x_mobiledata_24"
-                app:tint="@color/white" />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/dash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingLeft="28dp"
-                android:text="Change Table"
-                android:textSize="@dimen/default_font_size_big" />
-        </LinearLayout>
+                android:layout_margin="10dp"
+                android:clickable="true"
 
-        <LinearLayout
-            android:id="@+id/privacyPolicy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            >
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/background_round"
-                android:padding="7dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/ic_baseline_policy_24"
-                app:tint="@color/primary" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:backgroundTint="@color/primary"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_space_dashboard_24"
+                    app:tint="@color/white" />
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:text="Dashboard"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/remind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingLeft="28dp"
-                android:textColor="@color/white"
-                android:text="Privacy Policy"
-                android:textSize="@dimen/default_font_size_big" />
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:backgroundTint="@color/primary"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_bell"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:text="Set Reminder"
+                    android:textColor="@color/white"
+
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:backgroundTint="@color/primary"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:text="Settings"
+                    android:textColor="@color/white"
+
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp"
+
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_baseline_1x_mobiledata_24"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:textColor="@color/white"
+                    android:text="Change Table"
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/privacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:backgroundTint="@color/primary"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_baseline_policy_24"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:text="Privacy Policy"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
         </LinearLayout>
-
-
         <LinearLayout
             android:id="@+id/logoutLayout"
             android:layout_width="match_parent"
@@ -186,7 +203,7 @@
 
             android:orientation="vertical"
             android:padding="10dp"
-            android:visibility="gone"
+
 
             >
 
@@ -201,6 +218,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="#17FFFFFF"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -210,10 +229,10 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/background_round"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/sweet_red"
                     android:padding="7dp"
                     android:src="@drawable/ic_baseline_logout_24"
-                    app:tint="@color/sweet_red" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"

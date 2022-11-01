@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/background_round"
@@ -21,40 +21,64 @@
         android:src="@drawable/ic_baseline_close_24"
         app:tint="@color/white" />
 
-    <LinearLayout
-        android:id="@+id/lay"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imageCardView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
-            app:cardCornerRadius="60dp"
-            app:cardElevation="20dp">
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/kidsName"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lay"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/reemkufi_medium"
-        android:textColor="@color/white"
-        android:text="Hi, there"
-        android:textSize="20sp" />
+        android:layout_below="@id/closeButton"
+        android:id="@+id/gotoKidsInfo"
+        >
+
+        <LinearLayout
+            android:id="@+id/lay"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageCardView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/kidsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@id/lay"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Hi, there"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/kidsAge"
+            android:layout_below="@id/kidsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/lay"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Age : 06"
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size" />
+    </RelativeLayout>
+
+
 
     <!--<TextView
         android:layout_width="wrap_content"

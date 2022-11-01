@@ -40,6 +40,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     private int REQUEST_CALENDER_ACCESS = 100;
     private String TAG = "LoginSignUp";
     private GradeDatabase gradeDatabase;
+    private List chapterListEng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,9 @@ public class LoginSignupActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
 
+        chapterListEng=new ArrayList<>();
+
+        PrefConfig.writeNormalListInPref(LoginSignupActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
         binding.phoneNumberSignIn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PhoneNumberLogin.class);
             startActivity(intent);

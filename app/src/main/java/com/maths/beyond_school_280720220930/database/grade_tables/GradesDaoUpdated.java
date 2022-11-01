@@ -24,6 +24,9 @@ public interface GradesDaoUpdated {
     @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject")
     int getSubjectCount(String subject);
 
+    @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject and is_completed=1")
+    int getSubjectCompleteCount(String subject);
+
     @Query("UPDATE grade SET unlock=:is_lock WHERE chapter_name = :chapter")
     void update(boolean is_lock, String chapter);
 
@@ -34,7 +37,13 @@ public interface GradesDaoUpdated {
     LiveData<List<GradeData>> getSubjectDataLimited(String subject);
 
     @Query("SELECT * FROM grade WHERE subject=:subject AND unlock=1 AND is_completed=0 LIMIT 1 ")
-    List<GradeData> getSubjectDataUnlockFirst(String subject);
+    List<GradeData> getSubjectDataIncompleteFirst(String subject);
+
+
+
+
+    @Query("SELECT * FROM grade WHERE id=:id ")
+    List<GradeData> getSubjectDataViaID(String id);
 
     @Query("SELECT DISTINCT(subject) FROM grade")
     String[] getChapterNames();

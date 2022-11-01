@@ -138,6 +138,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@drawable/nav_drawer_design"
         app:itemTextAppearance="?android:attr/textAppearanceMedium"
         tools:ignore="MissingConstraints">
 

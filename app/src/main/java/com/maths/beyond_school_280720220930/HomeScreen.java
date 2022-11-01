@@ -20,7 +20,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.facebook.FacebookSdk;
@@ -103,7 +102,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        subjectDataNew=new ArrayList<>();
+        subjectDataNew = new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
 
 
@@ -137,7 +136,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         //TODO: must be removed
         binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TabbedHomePage.class)));
 
-       ;
+        ;
 
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
             var intent = new Intent(HomeScreen.this, GrammarActivity.class);
@@ -146,9 +145,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
         });
-       // getNewData();
+        // getNewData();
         setSubSubjectProgress();
-       // uiChnages();
+        // uiChnages();
         //    getUiData(true);
 
         logSent();
@@ -158,9 +157,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         Uri appLinkData = appLinkIntent.getData();
 
 
-
-
-        Log.d(TAG, "onCreate: engData"+eng);
+        Log.d(TAG, "onCreate: engData" + eng);
 
     }
 
@@ -239,7 +236,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         sectionList.clear();
 
 
-        eng=gradeDatabase.gradesDaoUpdated().getChapterNames();
+        eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
 //        for (int i = 0; i < math.length; i++) {
 //            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
 //            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
@@ -261,12 +258,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         for (int i = 0; i < eng.length; i++) {
             int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
             //TODO: MUST BE UPDATE
-            int completed = 0;
+            int completed = gradeDatabase.gradesDaoUpdated().getSubjectCompleteCount(eng[i]);
             //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
             subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
         }
 
-        sectionList.add(new SectionSubSubject("English", subEngList));
+        sectionList.add(new SectionSubSubject("", subEngList));
 
 
         binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -369,7 +366,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         });
 
 
-        binding.tool.toolBar.imageView6.setOnClickListener(v -> {
+        binding.tool.toolBar.gotoKidsInfo.setOnClickListener(v -> {
 
 
             if (!kidsName.equals("Kids Name")) {
@@ -407,7 +404,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-        getDataFromDatabase();
+
     }
 
 
@@ -481,6 +478,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     private void dateChecking() {
 
+        Log.d(TAG, "dateChecking: ");
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -501,12 +499,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 startIndex = 0;
             }
             getUiData(true);
-            customProgressDialogue.show();
+            //  customProgressDialogue.show();
         } else {
 
             Log.i("List_data sd", PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)) + "");
 
-            if (PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)) == null)
+            if (PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)).size()==0)
                 getUiData(true);
             else
                 getUiData(false);
@@ -531,180 +529,109 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         chapterListEng.clear();
 
         subjectRecyclerAdapter.notifyDataSetChanged();
+        Log.d(TAG, "getUiData: ");
 
         if (isNewCall) {
 
-
-//            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListMath,getResources().getString(R.string.saved_maths_value));
-//            PrefConfig.writeNormalListInPref(HomeScreen.this,chapterListEng,getResources().getString(R.string.saved_english_value));
-
-            UtilityFunctions.runOnUiThread(() -> {
-
-                try {
-                    startIndex = PrefConfig.readIntDInPref(HomeScreen.this, getResources().getString(R.string.alter_maths_value));
-                    customProgressDialogue.dismiss();
-
-                    for (int i = startIndex; i < startIndex + 2; i++) {
-                        try {
-                            if (!math[i].equals("Multiplication Tables")) {
-                                if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) != null) {
-                                    subMathsData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)));
-                                    chapterListMath.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)).chapter);
-
-                                    Log.i("DATA", UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, mathSub.get(i)) + "");
-                                }
-                            } else {
-
-                                int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), mul_upto + 1 + "", false, false, false, false, false, false, false, ""));
-                                chapterListMath.add("Multiplication Tables " + (mul_upto + 1));
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    Log.i("LIST_DATA", subMathsData + "");
-
-                    PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListMath, getResources().getString(R.string.saved_maths_value));
-
-
-                    try {
-                        for (int i = startIndex; i < startIndex + 2; i++) {
-
-                            if (UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)) != null) {
-                                subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)));
-                                chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(i)).chapter);
-                            }
-                        }
-                    } catch (Exception e) {
-
-                        int engList = UtilityFunctions.getRandomIntegerUpto(2, 0);
-                        subEngData.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)));
-                        chapterListEng.add(UtilityFunctions.getFirstFalseData(gradeDatabase, kidsGrade, engSub.get(engList)).chapter);
-
-                    }
-
-                    PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
-
-                    Log.i("LIST_DATA", subEngData + "");
-
-
-                    binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
-                    binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
-
-                    binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
-                } catch (Exception e) {
-
-
-                }
-
-
-            }, 1000);
-
+            getDataFromDatabase(isNewCall);
+            customProgressDialogue.dismiss();
+            Log.d(TAG, "getUiData: if");
 
         } else {
-
+            getDataFromDatabase(isNewCall);
             chapterListEng.clear();
             chapterListMath.clear();
+            Log.d(TAG, "getUiData: else");
 
-            chapterListEng = PrefConfig.readNormalListInPref(HomeScreen.this, getResources().getString(R.string.saved_english_value));
-
-            chapterListMath = PrefConfig.readNormalListInPref(HomeScreen.this, getResources().getString(R.string.saved_maths_value));
-
-            Log.i("MathList", chapterListMath + "");
-
-            int l_index = 0;
-
-            for (int i = startIndex; i < startIndex + 2; i++) {
-                //TODO:try catch needed
-
-                try {
-
-                    if (!chapterListMath.get(l_index).contains("Multiplication Tables")) {
-                        try {
-                            if (UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true) != null) {
-                                Log.i("Data_chap", chapterListMath + "");
-                                Log.i("DATA", UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true) + "");
-                                subMathsData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListMath.get(l_index), true).get(0));
-
-                            }
-
-                        } catch (Exception e) {
-                        }
-
-                    } else {
-
-                        try {
-                            int mul_upto = PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto));
-                            if (Integer.parseInt(chapterListMath.get(l_index).split(" ")[2]) == mul_upto)
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, true, ""));
-                            else
-                                subMathsData.add(new Grades_data(getResources().getString(R.string.mul), chapterListMath.get(l_index).split(" ")[2] + "", false, false, false, false, false, false, false, ""));
-                        } catch (Exception e) {
-                        }
-                    }
-                    l_index++;
-
-
-                } catch (Exception e) {
-                }
-
-
-            }
-
-            Log.i("LIST_DATA", subMathsData + "");
-
-            l_index = 0;
-            for (int i = 0; i < 2; i++) {
-                try {
-                    if (UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListEng.get(l_index), true) != null) {
-                        subEngData.add(UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, chapterListEng.get(l_index), true).get(0));
-                    }
-                } catch (Exception e) {
-                }
-
-                l_index++;
-            }
-
-
-//            subjectDataNew = gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(eng[0]);
-
-            Log.i("LIST_DATA", subjectDataNew + "");
-            binding.mathsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-            subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, HomeScreen.this);
-            binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
-
-            binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-            subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
-                var intent = new Intent(HomeScreen.this, GrammarActivity.class);
-                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-                startActivity(intent);
-            });
-            binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         }
 
 
     }
 
-    private void getDataFromDatabase() {
-
+    private void getDataFromDatabase(boolean isNewCall) {
 
         subjectDataNew.clear();
-        for (String st:eng){
 
-            subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataUnlockFirst(st).get(0));
-            Log.d(TAG, "getDataFromDatabase: "+subjectDataNew);
+        Log.d("TAG", "getDataFromDatabase:call ");
+
+        if (isNewCall) {
+
+            if (eng.length<=2){
+            for (String st : eng) {
+                subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
+                chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
+                Log.d("XXXXX", "getDataFromDatabase: IF SIZE " + subjectDataNew);
 //            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-        }
-        subjectRecyclerAdapterUpdated.submitList(subjectDataNew);
+            }}else{
+                List<Integer> ls=new ArrayList();
+                chapterListEng.clear();
 
+                ls=UtilityFunctions.getRandomTwoIntegerUpto(eng.length,0);
+                Log.d("LIST_SIZE", "getDataFromDatabase: "+ls.size());
+                for (int index:ls){
+                    subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
+                    chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
+                    Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);
+                }
+
+            }
+            PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
+        } else {
+            try{
+                chapterListEng = PrefConfig.readNormalListInPref(HomeScreen.this, getResources().getString(R.string.saved_english_value));
+                for (String st : chapterListEng) {
+                    subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataViaID(st).get(0));
+                    Log.d("XXXX", "getDataFromDatabase: OLD " + subjectDataNew);
+//            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
+//                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
+//                subjectRecyclerAdapterUpdated.submitList(grades_data);
+//            });
+                }
+
+            }catch (Exception e){
+
+                chapterListEng.clear();
+
+                if (eng.length<=2){
+                    for (String st : eng) {
+                        subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
+                        chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
+                        Log.d(TAG, "getDataFromDatabase:SIZE 2 " + subjectDataNew);
+//            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
+//                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
+//                subjectRecyclerAdapterUpdated.submitList(grades_data);
+//            });
+                    }}else{
+                    List<Integer> ls=new ArrayList();
+                    Log.d(TAG, "LIST_SIZE: "+ls.size());
+                    ls=UtilityFunctions.getRandomTwoIntegerUpto(eng.length,0);
+                    for (int index:ls){
+                        subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
+                        chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
+                        Log.d(TAG, "getDataFromDatabase:ELSE SIZE " + subjectDataNew);
+                    }
+
+                }
+                PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
+
+
+            }
+
+        }
+
+        binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
+            var intent = new Intent(HomeScreen.this, GrammarActivity.class);
+            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+            startActivity(intent);
+        });
+        binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
+        subjectRecyclerAdapterUpdated.submitList(subjectDataNew);
     }
 
     @Override
