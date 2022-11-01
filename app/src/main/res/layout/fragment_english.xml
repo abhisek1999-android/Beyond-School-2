@@ -27,17 +27,19 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:src="@drawable/header" />
+                    android:src="@drawable/part_one"
+                    />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="450dp"
+                    android:layout_height="530dp"
+                    android:layout_marginHorizontal="5dp"
 
                     >
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="match_parent"
                         android:src="@drawable/part_two" />
 
                     <com.google.android.material.button.MaterialButton
@@ -56,14 +58,16 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="600dp"
+                    android:layout_height="650dp"
+                    android:layout_marginTop="@dimen/grid_10"
+                    android:layout_marginHorizontal="5dp"
                     android:src="@drawable/part_three" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="600dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/part_4" />
+                    android:src="@drawable/part_four" />
 
 
             </LinearLayout>

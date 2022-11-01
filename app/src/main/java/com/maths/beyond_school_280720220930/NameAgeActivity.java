@@ -1,5 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,19 +29,27 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
 import com.maths.beyond_school_280720220930.databinding.ActivityNameAgeBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
+
+import retrofit2.Retrofit;
 
 public class NameAgeActivity extends AppCompatActivity {
     private ActivityNameAgeBinding binding;
@@ -54,6 +64,7 @@ public class NameAgeActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private CustomProgressDialogue customProgressDialogue;
     private String gradeIntent;
+    private GradeDatabase gradeDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +76,8 @@ public class NameAgeActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         mStorageReference= FirebaseStorage.getInstance().getReference();
-
+        gradeDatabase = GradeDatabase.getDbInstance(this);
+        getNewData();
         customProgressDialogue=new CustomProgressDialogue(NameAgeActivity.this);
 
         binding.toolBar.titleText.setText("Add Kid's Info");
@@ -103,6 +115,39 @@ public class NameAgeActivity extends AppCompatActivity {
 
     }
 
+    private void getNewData() {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData(gradeIntent.toLowerCase().replace(" ", "")).enqueue(new retrofit2.Callback<>() {
+
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+                if (response.body() != null) {
+
+                    Log.d("TAG", "onResponse: " + response.code());
+                    Log.d("TAG", "onResponse: " + response.body().getEnglish().toString());
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+                } else {
+                    Toast.makeText(NameAgeActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
+    }
 
     private void selectImage() {
 

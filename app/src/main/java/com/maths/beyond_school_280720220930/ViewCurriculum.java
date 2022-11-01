@@ -83,7 +83,6 @@ public class ViewCurriculum extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), HomeScreen.class));
         });
 
-
         //  getNewData();
     }
 

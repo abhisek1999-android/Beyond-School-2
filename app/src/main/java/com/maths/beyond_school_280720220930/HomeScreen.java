@@ -39,6 +39,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
@@ -303,7 +304,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             PrefConfig.writeIdInPref(getApplicationContext(), "true", getResources().getString(R.string.log_check));
         }
         dateChecking();
-
 
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
 
@@ -626,8 +626,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
-            var intent = new Intent(HomeScreen.this, GrammarActivity.class);
-            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            Intent intent;
+            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+                intent = new Intent(this, EnglishSpellingActivity.class);
+                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+            } else {
+                intent = new Intent(this, GrammarActivity.class);
+                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            }
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
