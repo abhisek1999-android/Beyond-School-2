@@ -4,14 +4,19 @@ package com.maths.beyond_school_280720220930;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -26,7 +31,10 @@ import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Retrofit;
 
@@ -36,6 +44,10 @@ public class ViewCurriculum extends AppCompatActivity {
     private GradeDatabase gradeDatabase;
     private ActivityViewCurriculumBinding binding;
     private ChaptersRecyclerAdapter chaptersRecyclerAdapter;
+    private String[] eng;
+    private List<String> engChapters;
+    private String defaultSubject="";
+    private String kidsGrade="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +56,23 @@ public class ViewCurriculum extends AppCompatActivity {
         binding = ActivityViewCurriculumBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
+        kidsGrade=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade)).toLowerCase(Locale.ROOT);
+
+        eng=gradeDatabase.gradesDaoUpdated().getChapterNames();
+        binding.gradeInfo.setText("For "+kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
+        engChapters= Arrays.asList(eng);
+        defaultSubject=eng[0];
 
 
+        try {
+            defaultSubject=getIntent().getStringExtra("subSubject");
+            Log.d(TAG, "onCreate: "+defaultSubject+","+Arrays.binarySearch(eng,defaultSubject)+","+eng[1]+","+eng[0]);
+        }catch (Exception e){
+            defaultSubject=eng[0];
+        }
+
+        addRadioButtons();
+        // TODO: Radio group should be dynamic
         binding.radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton checkedRadioButton = (RadioButton) group.findViewById(checkedId);
             boolean isChecked = checkedRadioButton.isChecked();
@@ -58,8 +85,38 @@ public class ViewCurriculum extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), HomeScreen.class));
         });
 
-        setRecyclerViewData("Vocabulary");
-        getNewData();
+
+      //  getNewData();
+    }
+
+
+    public void addRadioButtons() {
+        binding.radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+        //
+        for (String st:eng) {
+            RadioButton rdbtn = new RadioButton(this);
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 15, 10, 15);
+            rdbtn.setLayoutParams(params);
+            rdbtn.setPadding(15,20,15,20);
+            rdbtn.setTypeface(ResourcesCompat.getFont(this,R.font.jellee_roman));
+            rdbtn.setTextColor(getResources().getColor(R.color.primary));
+            rdbtn.setId(engChapters.indexOf(st));
+            rdbtn.setText(st);
+            rdbtn.setButtonDrawable(R.color.transparent);
+            rdbtn.setBackgroundResource(R.drawable.radio_selector);
+            binding.radioGroup.addView(rdbtn);
+            rdbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((RadioGroup) view.getParent()).check(view.getId());
+
+                }
+            });
+        }
+
+        setRecyclerViewData(defaultSubject);
+        ((RadioButton)binding.radioGroup.getChildAt(engChapters.indexOf(defaultSubject))).setChecked(true);
     }
 
 

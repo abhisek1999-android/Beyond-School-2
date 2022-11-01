@@ -527,9 +527,9 @@ public class GrammarTestActivity extends AppCompatActivity {
     private void uploadData() {
         try {
 
-            var chapter=!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase();
+            var chapter=!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE);
             if (correctAnswerCount >= UtilityFunctions.getNinetyPercentage(grammarModelList.size())) {
-                UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, "Grammar", category);
+                UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
                 CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,kidsGrade.toLowerCase().replace(" ","") ,category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
 
                 progressDataBase.progressDao().updateScore(correctAnswerCount, wrongAnswerCount, category);

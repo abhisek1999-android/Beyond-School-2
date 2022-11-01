@@ -31,16 +31,23 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
+
+import retrofit2.Retrofit;
 
 public class KidsInfoActivity extends AppCompatActivity {
 
@@ -55,6 +62,8 @@ public class KidsInfoActivity extends AppCompatActivity {
     String[] array;
     ArrayAdapter adapter;
     private CustomProgressDialogue customProgressDialogue;
+    private String TAG="KidsInfoActivity";
+    private GradeDatabase gradeDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,7 @@ public class KidsInfoActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         mStorageReference = FirebaseStorage.getInstance().getReference();
+        gradeDatabase = GradeDatabase.getDbInstance(KidsInfoActivity.this);
 
         customProgressDialogue = new CustomProgressDialogue(KidsInfoActivity.this);
 
@@ -360,16 +370,55 @@ public class KidsInfoActivity extends AppCompatActivity {
                             "profile_url", imageUrl
                     ).addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                        var gradeDatabase = GradeDatabase.getDbInstance(this);
+                        gradeDatabase.gradesDaoUpdated().deleteAll();
                         customProgressDialogue.dismiss();
+
+                        if (!binding.textInputLayoutGrade.getEditText().getText().toString().equals(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade))))
+                            getNewData(binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""));
+
                         UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
                                 binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
                     }).addOnFailureListener(e -> {
                         customProgressDialogue.dismiss();
                         Toast.makeText(this, "Failed to update" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
-            var gradeDatabase = GradeDatabase.getDbInstance(this);
-            gradeDatabase.gradesDaoUpdated().deleteAll();
+
         }
+
+    }
+
+
+    private void getNewData(String kidsGrade) {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+                if (response.body() != null) {
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+
+
+                } else {
+                    Toast.makeText(KidsInfoActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
 
     }
 

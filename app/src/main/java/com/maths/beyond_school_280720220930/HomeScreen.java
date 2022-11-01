@@ -146,7 +146,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
         });
-        getNewData();
+       // getNewData();
+        setSubSubjectProgress();
        // uiChnages();
         //    getUiData(true);
 
@@ -192,7 +193,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     var list = response.body().getEnglish();
                     mapToGradeModel(list);
 
-                    setSubSubjectProgress();
 
                 } else {
                     Toast.makeText(HomeScreen.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
@@ -260,6 +260,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         for (int i = 0; i < eng.length; i++) {
             int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
+            //TODO: MUST BE UPDATE
             int completed = 0;
             //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
             subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
@@ -524,16 +525,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         subMathsData.clear();
         subEngData.clear();
-
         chapterListEng = new ArrayList<>();
         chapterListMath = new ArrayList<>();
-
-
         chapterListMath.clear();
         chapterListEng.clear();
 
         subjectRecyclerAdapter.notifyDataSetChanged();
-
 
         if (isNewCall) {
 
@@ -597,7 +594,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                     binding.mathsRecyclerView.setAdapter(subjectRecyclerAdapter);
 
                     binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
                     binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
                 } catch (Exception e) {
 
@@ -714,7 +710,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     @Override
     protected void onResume() {
         super.onResume();
-        getNewData();
+        //getNewData();
+        setSubSubjectProgress();
         kidsGrade = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_grade));
         kidsName = PrefConfig.readIdInPref(HomeScreen.this, getResources().getString(R.string.kids_name));
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
