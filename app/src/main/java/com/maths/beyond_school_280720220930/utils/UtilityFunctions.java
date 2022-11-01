@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import com.bumptech.glide.Glide;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -65,10 +66,10 @@ public final class UtilityFunctions {
 
     // Extension Function To load image in imageview Using Glide Library
     public static void loadImage(String url, android.widget.ImageView imageView) {
-//        Glide.with(imageView.getContext())
-//                .load(url)
-//                .error(R.drawable.cartoon_image_1)
-//                .into(imageView);
+        Glide.with(imageView.getContext())
+                .load(url)
+                .error(R.drawable.cartoon_image_1)
+                .into(imageView);
     }
 
     // Function to check weather device publisher is Samsung or not
@@ -799,13 +800,13 @@ public final class UtilityFunctions {
 
     public static List<Integer> getRandomTwoIntegerUpto(int maximum, int minimum) {
 
-        List<Integer>ls=new ArrayList<>();
-        while (ls.size()<2) {
-            int digit=((int)(Math.random() * (maximum - minimum))) + minimum;
+        List<Integer> ls = new ArrayList<>();
+        while (ls.size() < 2) {
+            int digit = ((int) (Math.random() * (maximum - minimum))) + minimum;
             if (!ls.contains(digit))
                 ls.add(digit);
         }
-        return ls ;
+        return ls;
     }
 
 
@@ -1079,9 +1080,6 @@ public final class UtilityFunctions {
 
         }
     }
-
-
-
 
 
     // getting first false data

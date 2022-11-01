@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -76,7 +77,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<SubSubject> subEngList;
     private List<SectionSubSubject> sectionList;
     private int[] resMath = {R.drawable.ic_addition, R.drawable.ic_sub, R.drawable.ic_mul, R.drawable.ic_division};
-    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.ic_spell, R.drawable.ic_spell};
+    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.grammar, R.drawable.grammar};
 
     private String[] tableList;
     private SectionSubSubjectRecyclerAdapter sectionSubSubjectRecyclerAdapter;
@@ -159,7 +160,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
 
         Log.d(TAG, "onCreate: engData" + eng);
+        loadImage();
 
+
+    }
+
+    private void loadImage() {
+        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)),
+                binding.tool.toolBar.imageView6);
     }
 
 
@@ -306,8 +314,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         dateChecking();
 
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
-
-        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)), binding.tool.toolBar.imageView6);
+        binding.tool.toolBar.kidsAge.setText(UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob))) + " years old");
 
         Log.i("ImageUrl", PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
 
@@ -345,7 +352,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
 
         ImageView img = findViewById(R.id.imageView6);
-        img.setImageResource(R.drawable.cartoon_image_1);
         findViewById(R.id.dash).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

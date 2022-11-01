@@ -64,10 +64,10 @@ public class KidsInfoActivity extends AppCompatActivity {
     String[] array;
     ArrayAdapter adapter;
     private CustomProgressDialogue customProgressDialogue;
-    private String TAG="KidsInfoActivity";
+    private String TAG = "KidsInfoActivity";
     private GradeDatabase gradeDatabase;
     private List<String> chapterListEng;
-    private String kidsId="";
+    private String kidsId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +79,13 @@ public class KidsInfoActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        chapterListEng=new ArrayList<>();// this is for initializing empty array if the grade value is changed
+        chapterListEng = new ArrayList<>();// this is for initializing empty array if the grade value is changed
 
         mStorageReference = FirebaseStorage.getInstance().getReference();
         gradeDatabase = GradeDatabase.getDbInstance(KidsInfoActivity.this);
 
         customProgressDialogue = new CustomProgressDialogue(KidsInfoActivity.this);
-        kidsId=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
 
         binding.toolBar.titleText.setText("Kid's Info");
 
@@ -377,15 +377,13 @@ public class KidsInfoActivity extends AppCompatActivity {
                             "profile_url", imageUrl
                     ).addOnSuccessListener(unused -> {
 
-                        var gradeDatabase = GradeDatabase.getDbInstance(this);
-                        gradeDatabase.gradesDaoUpdated().deleteAll();
-
-
-                        if (!binding.textInputLayoutGrade.getEditText().getText().toString().equals(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade)))){
-
+                        if (!binding.textInputLayoutGrade.getEditText().getText().toString().equals(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)))) {
+                            var gradeDatabase = GradeDatabase.getDbInstance(this);
+                            gradeDatabase.gradesDaoUpdated().deleteAll();
                             getNewData(binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""));
                             PrefConfig.writeNormalListInPref(KidsInfoActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
-                            CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsId,binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""),KidsInfoActivity.this,gradeDatabase);
+                            CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsId, binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""), KidsInfoActivity.this, gradeDatabase);
+
                         }
 
                         UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
