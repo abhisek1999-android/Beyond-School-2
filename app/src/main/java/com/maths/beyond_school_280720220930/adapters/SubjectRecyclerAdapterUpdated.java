@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
@@ -55,6 +56,11 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
 
         holder.subSub.setText(gradeData.getSubject());
         holder.chapters.setText(gradeData.getChapter_name());
+        if (gradeData.is_completed()){
+            holder.status.setText("Complete");
+            holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
+        }
+
 
 
         holder.mView.setOnClickListener(v -> {

@@ -1,13 +1,9 @@
 package com.maths.beyond_school_280720220930.signin_methods;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.telecom.TelecomManager;
 import android.text.TextUtils;
@@ -24,10 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.credentials.Credential;
-import com.google.android.gms.auth.api.credentials.Credentials;
-import com.google.android.gms.auth.api.credentials.CredentialsApi;
-import com.google.android.gms.auth.api.credentials.CredentialsClient;
-import com.google.android.gms.auth.api.credentials.CredentialsOptions;
 import com.google.android.gms.auth.api.credentials.HintRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -55,17 +47,24 @@ import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
-import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+import retrofit2.Retrofit;
 
+public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final String TAG = "PhoneNumberLogin";
     private ActivityPhoneNumberLoginBinding binding;
 
     private String[] array;
@@ -84,6 +83,8 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private AlarmDialogBinding alarmDialogBinding;
     private final static int RESOLVE_HINT = 1011;
     private FirebaseAnalytics analytics;
+    private GradeDatabase gradeDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +94,8 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
-        customProgressDialogue=new CustomProgressDialogue(PhoneNumberLogin.this);
+        gradeDatabase = GradeDatabase.getDbInstance(PhoneNumberLogin.this);
+        customProgressDialogue = new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
         database = GradeDatabase.getDbInstance(this);
         setUpTextLayoutGrade();
@@ -127,8 +129,8 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                 } else {
                     // if the text field is not empty we are calling our
                     // send OTP method for getting OTP from Firebase.
-                    String phone =  binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
-                    UtilityFunctions.attemptPhoneNumberLogin(analytics,phone);
+                    String phone = binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
+                    UtilityFunctions.attemptPhoneNumberLogin(analytics, phone);
                     sendVerificationCode(phone);
                 }
             }
@@ -157,8 +159,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         phoneSelection();
     }
 
-    private void closeKeyboard()
-    {
+    private void closeKeyboard() {
         // this will give us the view
         // which is currently focus
         // in this layout
@@ -203,7 +204,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             if (resultCode == RESULT_OK) {
                 Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
                 if (credential != null) {
-                    String number=credential.getId().replace(binding.countryCode.getText().toString(),"");
+                    String number = credential.getId().replace(binding.countryCode.getText().toString(), "");
                     binding.idEdtPhoneNumber.setText(number);
 
 
@@ -340,7 +341,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             kidsData.put("profile_url", imageUrl);
             kidsData.put("parent_id", mAuth.getCurrentUser().getUid());
             kidsData.put("age", "01/08/2017");
-            kidsData.put("status","active");
+            kidsData.put("status", "active");
             kidsData.put("grade", "GRADE 1");
             // Add a new document with a generated ID
             kidsDb.collection("users").document(mAuth.getCurrentUser().getUid()).collection("kids").document(uuid)
@@ -352,9 +353,9 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
 
                             UtilityFunctions.saveDataLocally(getApplicationContext(), "GRADE 1", "Kids Name",
-                                   "01/08/2017", imageUrl, uuid);
+                                    "01/08/2017", imageUrl, uuid);
 
-                            PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
+                            PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
                             Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                             intent.putExtra("name", "Kids Name");
                             intent.putExtra("image", imageUrl);
@@ -398,11 +399,13 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
-                                try{
-                                    if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")){
-                                        PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
-                                        UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
-                                        CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
+                                try {
+                                    if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")) {
+                                        PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
+
+                                        getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
+                                        UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
+                                        // CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade().toLowerCase().replace(" ", ""),PhoneNumberLogin.this,database);
                                         Log.i("KidsData", kidsData.getName() + "");
                                         var i = new Intent(getApplicationContext(), HomeScreen.class);
                                         startActivity(i);
@@ -410,10 +413,11 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
                                         break;
                                     }
-                                }catch (Exception e){
-                                    PrefConfig.writeIdInPref(PhoneNumberLogin.this,binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(),getResources().getString(R.string.parent_contact_details));
-                                    CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
-                                    UtilityFunctions.saveDataLocally(getApplicationContext(),kidsData.getGrade(),kidsData.getName(),kidsData.getAge(),kidsData.getProfile_url(),kidsData.getKids_id());
+                                } catch (Exception e) {
+                                    PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
+                                    getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
+                                    //CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
+                                    UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
                                     Log.i("KidsData", kidsData.getName() + "");
                                     var i = new Intent(getApplicationContext(), HomeScreen.class);
                                     startActivity(i);
@@ -430,10 +434,44 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                     });
         }
 
-
     }
 
 
+    private void getNewData(String kidsGrade, KidsData kidsData) {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+                if (response.body() != null) {
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list, kidsData);
+
+
+                } else {
+                    Toast.makeText(PhoneNumberLogin.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list, KidsData kidsData) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
+
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database);
+
+    }
 
 
     @Override

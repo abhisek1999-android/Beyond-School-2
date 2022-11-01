@@ -32,16 +32,17 @@
                     android:id="@+id/header"
 
                     >
+
                     <TextView
+                        android:id="@+id/gradeInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="For Grade 1"
-                        android:textColor="@color/primary"
                         android:layout_gravity="center"
-                        android:textAlignment="center"
                         android:fontFamily="@font/jellee_roman"
-                        android:textSize="@dimen/default_font_size_small"
-                        />
+                        android:text="For Grade 1"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/default_font_size_small" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -72,43 +73,47 @@
                     android:paddingVertical="@dimen/grid_1_5"
                     android:elevation="@dimen/grid_10"
                     >
-                    <RadioGroup
-                        android:id="@+id/radio_group"
+
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_above="@+id/view_below"
-
-                        android:layout_marginHorizontal="@dimen/grid_10"
-                        android:checkedButton="@+id/rdb1"
-                        >
-
-                        <RadioButton
-                            android:id="@+id/rdb1"
-                            android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <RadioGroup
+                            android:id="@+id/radio_group"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/radio_selector"
-                            android:button="@android:color/transparent"
-                            android:fontFamily="@font/jellee_roman"
-                            android:paddingHorizontal="@dimen/grid_20"
-                            android:text="Vocabulary"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary" />
-                        <RadioButton
-                            android:id="@+id/rdb2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Spelling_CommonWords"
-                            android:textAlignment="center"
-                            android:paddingHorizontal="@dimen/grid_20"
-                            android:button="@android:color/transparent"
-                            android:background="@drawable/radio_selector"
-                            android:textColor="@color/primary"
-                            android:fontFamily="@font/jellee_roman"
-                            android:layout_margin="5dp" />
+                            android:orientation="horizontal"
+                            android:layout_above="@+id/view_below"
+                            android:layout_marginHorizontal="@dimen/grid_10"
+                            >
+
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/rdb1"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="5dp"-->
+<!--                            android:background="@drawable/radio_selector"-->
+<!--                            android:button="@android:color/transparent"-->
+<!--                            android:fontFamily="@font/jellee_roman"-->
+<!--                            android:paddingHorizontal="@dimen/grid_20"-->
+<!--                            android:text="Vocabulary"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/primary" />-->
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/rdb2"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Spelling_CommonWords"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:paddingHorizontal="@dimen/grid_20"-->
+<!--                            android:button="@android:color/transparent"-->
+<!--                            android:background="@drawable/radio_selector"-->
+<!--                            android:textColor="@color/primary"-->
+<!--                            android:fontFamily="@font/jellee_roman"-->
+<!--                            android:layout_margin="5dp" />-->
                     </RadioGroup>
-
+                    </HorizontalScrollView>
 
                 </androidx.cardview.widget.CardView>
 

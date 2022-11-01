@@ -33,6 +33,7 @@ import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
@@ -1038,6 +1039,34 @@ public final class UtilityFunctions {
 
         }
     }
+
+    public static void updateDbUnlock(GradeDatabase database, String chapter, String subSub) {
+
+        List<GradeData> dbData = new ArrayList<>();
+        dbData = database.gradesDaoUpdated().getSubjectDataNL(chapter);
+        Log.d("XXX", chapter);
+        Log.d("XXX", dbData + "");
+        for (int i = 0; i < dbData.size(); i++) {
+            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(subSub) + subSub);
+            if (dbData.get(i).getChapter_name().equals(subSub)) {
+                Log.d("XXX", "updateDbUnlock: if");
+                try {
+                    database.gradesDaoUpdated().updateIsComplete(true, dbData.get(i).getChapter_name());
+                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name());
+                    Log.d("XXX", dbData.get(i + 1).getChapter_name());
+                    break;
+                } catch (Exception e) {
+                    Log.e("XXX", e.getMessage());
+                    break;
+                }
+
+            }
+
+        }
+    }
+
+
+
 
 
     // getting first false data

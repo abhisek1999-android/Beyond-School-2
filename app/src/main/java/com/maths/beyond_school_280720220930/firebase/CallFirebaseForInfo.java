@@ -173,7 +173,7 @@ public class CallFirebaseForInfo {
 
     public static void upDateActivities(FirebaseFirestore kidsDb, FirebaseAuth mAuth, String kids_id, String grade, Context context, GradeDatabase database) {
         CollectionReference kidsActivityRef= kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
-                .collection("kids").document(kids_id).collection("grades").document("grade1").collection("test");
+                .collection("kids").document(kids_id).collection("grades").document(grade).collection("test");
 
         kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -187,8 +187,10 @@ public class CallFirebaseForInfo {
                         if (kidsActivity.getStatus().equals("pass")){
 
                             try{
-                                if (!document.getId().split("_")[1].equals("multiplication"))
-                                    UtilityFunctions.updateDbUnlock(database,grade,document.getId().replace(" ","").split("_")[1],document.getId().split("_")[2]);
+                                if (!document.getId().split("_")[1].equals("multiplication")){
+                                    Log.i("doc_id",document.getId().replace(" ","").split("_")[1]);
+                                    UtilityFunctions.updateDbUnlock(database,document.getId().replace(" ","").split("_")[1],document.getId().split("_")[2]);
+                                }
                                 else{
                                     Log.i("doc_id",document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
                                     int maxVal=Integer.parseInt(document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
