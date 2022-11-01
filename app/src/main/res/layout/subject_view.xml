@@ -22,6 +22,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/relative_layout_time"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
@@ -86,12 +87,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/grid_20"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/grid_20"
-
-                android:textStyle="bold"
+                android:layout_toStartOf="@+id/relative_layout_time"
                 android:fontFamily="@font/reemkufi_medium"
                 android:text="Subject"
-                android:textSize="@dimen/default_font_size_big" />
+                android:textSize="@dimen/default_font_size_big"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/chapters"
@@ -100,9 +102,11 @@
                 android:layout_below="@id/subSubject"
                 android:layout_marginLeft="@dimen/grid_20"
                 android:layout_marginTop="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/relative_layout_time"
                 android:fontFamily="@font/reemkufi_medium"
                 android:text="Subject"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textSize="@dimen/default_font_size" />
 
         </RelativeLayout>
