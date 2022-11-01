@@ -98,19 +98,17 @@ public class ViewCurriculum extends AppCompatActivity {
 
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
+            Intent intent;
             if (gradeData.getSubject().equals("Vocabulary")) {
-                var intent = new Intent(this, GrammarActivity.class);
+                intent = new Intent(this, GrammarActivity.class);
                 intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-                startActivity(intent);
             } else {
-                var intent = new Intent(this, EnglishSpellingActivity.class);
+                intent = new Intent(this, EnglishSpellingActivity.class);
                 intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
-                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-                startActivity(intent);
             }
+            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+            startActivity(intent);
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
         getLiveData(subject);

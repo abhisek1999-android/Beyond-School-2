@@ -40,6 +40,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
@@ -140,8 +141,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
        ;
 
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
-            var intent = new Intent(HomeScreen.this, GrammarActivity.class);
-            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            Intent intent;
+            if (gradeData.getSubject().equals("Vocabulary")) {
+                intent = new Intent(this, GrammarActivity.class);
+                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            } else {
+                intent = new Intent(this, EnglishSpellingActivity.class);
+                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+            }
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
@@ -682,8 +689,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
             subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
-                var intent = new Intent(HomeScreen.this, GrammarActivity.class);
-                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                Intent intent;
+                if (gradeData.getSubject().equals("Vocabulary")) {
+                    intent = new Intent(this, GrammarActivity.class);
+                    intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                } else {
+                    intent = new Intent(this, EnglishSpellingActivity.class);
+                    intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                }
                 intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
                 intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                 startActivity(intent);
