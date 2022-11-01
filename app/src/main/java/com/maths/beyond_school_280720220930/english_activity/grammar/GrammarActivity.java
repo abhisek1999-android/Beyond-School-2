@@ -316,7 +316,8 @@ public class GrammarActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     var textView = (TextView) this.findViewById(R.id.text_view_des_grammar);
                     if (textView != null) {
-                        Spannable textWithHighlights = new SpannableString(sentence);
+                        var newSentence = sentence.replace("blank", "_____");
+                        Spannable textWithHighlights = new SpannableString(newSentence);
                         textWithHighlights.setSpan(new ForegroundColorSpan(
                                         ContextCompat.
                                                 getColor(
@@ -378,7 +379,7 @@ public class GrammarActivity extends AppCompatActivity {
                         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
                         var des = currentModel.getDescription().trim().replace(
                                 "<br>", ""
-                        ).replace("<b>", "").replace("</b>", "");
+                        ).replace("<b>", "").replace("</b>", "").replace("_____", "blank");
                         tts.setTextViewAndSentence(des);
                         tts.initialize(des, GrammarActivity.this);
                         return;

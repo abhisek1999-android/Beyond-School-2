@@ -504,7 +504,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             Log.i("List_data sd", PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)) + "");
 
-            if (PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)).size()==0)
+            if (PrefConfig.readNormalListInPref(getApplicationContext(), getResources().getString(R.string.saved_english_value)).size() == 0)
                 getUiData(true);
             else
                 getUiData(false);
@@ -558,22 +558,23 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         if (isNewCall) {
 
-            if (eng.length<=2){
-            for (String st : eng) {
-                subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
-                chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
-                Log.d("XXXXX", "getDataFromDatabase: IF SIZE " + subjectDataNew);
+            if (eng.length <= 2) {
+                for (String st : eng) {
+                    subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
+                    chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
+                    Log.d("XXXXX", "getDataFromDatabase: IF SIZE " + subjectDataNew);
 //            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-            }}else{
-                List<Integer> ls=new ArrayList();
+                }
+            } else {
+                List<Integer> ls = new ArrayList();
                 chapterListEng.clear();
 
-                ls=UtilityFunctions.getRandomTwoIntegerUpto(eng.length,0);
-                Log.d("LIST_SIZE", "getDataFromDatabase: "+ls.size());
-                for (int index:ls){
+                ls = UtilityFunctions.getRandomTwoIntegerUpto(eng.length, 0);
+                Log.d("LIST_SIZE", "getDataFromDatabase: " + ls.size());
+                for (int index : ls) {
                     subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
                     chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
                     Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);
@@ -582,7 +583,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             }
             PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
         } else {
-            try{
+            try {
                 chapterListEng = PrefConfig.readNormalListInPref(HomeScreen.this, getResources().getString(R.string.saved_english_value));
                 for (String st : chapterListEng) {
                     subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataViaID(st).get(0));
@@ -593,11 +594,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //            });
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
                 chapterListEng.clear();
 
-                if (eng.length<=2){
+                if (eng.length <= 2) {
                     for (String st : eng) {
                         subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
                         chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
@@ -606,11 +607,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-                    }}else{
-                    List<Integer> ls=new ArrayList();
-                    Log.d(TAG, "LIST_SIZE: "+ls.size());
-                    ls=UtilityFunctions.getRandomTwoIntegerUpto(eng.length,0);
-                    for (int index:ls){
+                    }
+                } else {
+                    List<Integer> ls = new ArrayList();
+                    Log.d(TAG, "LIST_SIZE: " + ls.size());
+                    ls = UtilityFunctions.getRandomTwoIntegerUpto(eng.length, 0);
+                    for (int index : ls) {
                         subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
                         chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
                         Log.d(TAG, "getDataFromDatabase:ELSE SIZE " + subjectDataNew);

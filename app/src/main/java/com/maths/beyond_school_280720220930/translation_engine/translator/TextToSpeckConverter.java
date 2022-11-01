@@ -8,6 +8,7 @@ import android.util.Log;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.ConverterEngine;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Locale;
 
@@ -54,7 +55,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
     public TextToSpeckConverter initialize(String message, Activity appContext) {
         textToSpeech = new TextToSpeech(appContext, status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(new Locale("en", PrefConfig.readIdInPref(appContext, "Country_code")));
+                textToSpeech.setLanguage((UtilityFunctions.isSamsungDevice()) ? Locale.UK : new Locale("en", PrefConfig.readIdInPref(appContext, "Country_code")));
                 textToSpeech.setPitch(defaultPitch);
                 textToSpeech.setSpeechRate(defaultSpeed);
 
@@ -67,8 +68,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
 
                     @Override
                     public void onDone(String s) {
-                        if (conversionCallaBack != null)
-                            conversionCallaBack.onCompletion();
+                        if (conversionCallaBack != null) conversionCallaBack.onCompletion();
                     }
 
                     @Override
@@ -81,8 +81,7 @@ public class TextToSpeckConverter implements ConverterEngine<TextToSpeckConverte
                     @Override
                     public void onRangeStart(String utteranceId, int start, int end, int frame) {
                         super.onRangeStart(utteranceId, start, end, frame);
-                        if (sentence == null)
-                            return;
+                        if (sentence == null) return;
                         if (textRangeListener != null) {
                             textRangeListener.onRangeStart(utteranceId, sentence, start, end, frame);
                         }

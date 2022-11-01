@@ -71,6 +71,10 @@ public final class UtilityFunctions {
 //                .into(imageView);
     }
 
+    // Function to check weather device publisher is Samsung or not
+    public static boolean isSamsungDevice() {
+        return Build.MANUFACTURER.equalsIgnoreCase("samsung");
+    }
 
     public static boolean intToBoolean(int i) {
         return i != 0;
