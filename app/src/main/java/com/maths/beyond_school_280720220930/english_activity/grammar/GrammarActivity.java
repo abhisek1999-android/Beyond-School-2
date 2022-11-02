@@ -188,6 +188,7 @@ public class GrammarActivity extends AppCompatActivity {
                     setData(response.body().getContent());
                     meta = response.body().getMeta();
                     firstOpen();
+                    displayDialog();
                 }
             }
 
@@ -627,7 +628,10 @@ public class GrammarActivity extends AppCompatActivity {
                 if (num < animEng.size()) {
 
                     UtilityFunctions.runOnUiThread(() -> {
-                        ttsHelperAnim.initialize(animEng.get(num).getDescription(), GrammarActivity.this);
+                        ttsHelperAnim.initialize(animEng.get(num).getDescription()
+                                        .replace("<b>", "")
+                                        .replace("</b>", ""),
+                                GrammarActivity.this);
                         animHandel(animEng.get(num).getAnswer(), animEng.get(num).getDescription(), animEng.get(num).getOperation());
                         num++;
                     }, 500);
@@ -734,7 +738,7 @@ public class GrammarActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.anim_single_layout, null);
         AnimSingleLayoutBinding binding = AnimSingleLayoutBinding.bind(view);
 
-        binding.description.setText(description);
+        binding.description.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
         binding.slNumView.setText((num + 1) + ".");
 
         binding.mathLayout.setVisibility(View.GONE);
