@@ -89,15 +89,15 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:text="Mathematics"
                     android:textSize="@dimen/default_font_size_big"
-                    android:visibility="gone"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mathsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_margin="@dimen/grid_10" />
+                    android:layout_margin="@dimen/grid_10"
+                    android:visibility="gone" />
 
 
                 <TextView
@@ -138,7 +138,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@drawable/nav_drawer_design"
+
         app:itemTextAppearance="?android:attr/textAppearanceMedium"
         tools:ignore="MissingConstraints">
 

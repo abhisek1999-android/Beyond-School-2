@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@drawable/nav_drawer_design"
 
 
     >
@@ -25,7 +24,11 @@
             android:id="@+id/toolBar"
             layout="@layout/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="220dp" />
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
-
                 android:foreground="?android:attr/selectableItemBackground"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -66,7 +68,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Dashboard"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
 
@@ -96,7 +98,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Set Reminder"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
 
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
@@ -127,7 +129,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Settings"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
 
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
@@ -158,8 +160,8 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
-                    android:textColor="@color/white"
                     android:text="Change Table"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
 
@@ -189,35 +191,30 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Privacy Policy"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
 
         </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:id="@+id/logoutLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:clickable="true"
-
             android:orientation="vertical"
-            android:padding="10dp"
-
-
-            >
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/white" />
+            android:padding="@dimen/grid_10">
 
             <LinearLayout
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="@dimen/grid_1"
                 android:background="@drawable/tv_shape"
                 android:backgroundTint="#17FFFFFF"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -241,7 +238,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:paddingLeft="28dp"
                     android:text="Logout"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/default_font_size_big" />
             </LinearLayout>
 

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/grid_5">
 
     <ImageView
         android:id="@+id/closeButton"
@@ -12,9 +14,9 @@
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+
         android:background="@drawable/background_round"
         android:backgroundTint="@color/primary"
         android:padding="10dp"
@@ -23,25 +25,24 @@
 
 
     <RelativeLayout
+        android:id="@+id/gotoKidsInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/closeButton"
-        android:id="@+id/gotoKidsInfo"
-        >
+        android:layout_below="@id/closeButton">
 
         <LinearLayout
             android:id="@+id/lay"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/imageCardView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
-                app:cardCornerRadius="20dp"
+                android:layout_marginRight="10dp"
+                app:cardCornerRadius="100dp"
                 app:cardElevation="2dp">
 
                 <ImageView
@@ -55,29 +56,26 @@
             android:id="@+id/kidsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@id/lay"
+            android:layout_below="@id/lay"
+            android:layout_marginStart="@dimen/grid_3"
             android:fontFamily="@font/reemkufi_medium"
-            android:text="Hi, there"
-            android:textStyle="bold"
+            tools:text="Hi, there"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/kidsAge"
-            android:layout_below="@id/kidsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/kidsName"
+            android:layout_marginStart="@dimen/grid_3"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/lay"
             android:fontFamily="@font/reemkufi_medium"
             android:text="Age : 06"
             android:textColor="@color/white"
             android:textSize="@dimen/default_font_size" />
     </RelativeLayout>
-
 
 
     <!--<TextView
@@ -88,11 +86,5 @@
         android:fontFamily="@font/reemkufi_medium"
         android:text="Select  options"
         android:textSize="20sp" />-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/white" />
+
 </RelativeLayout>
