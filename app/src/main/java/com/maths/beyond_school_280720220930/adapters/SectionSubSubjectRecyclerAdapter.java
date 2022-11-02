@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -76,6 +77,7 @@ public class SectionSubSubjectRecyclerAdapter extends RecyclerView.Adapter<Secti
             mView=itemView;
             sectionNameTextView = itemView.findViewById(R.id.sectionHeaderTextView);
             childRecyclerView = itemView.findViewById(R.id.sectionRecyclerView);
+            childRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         }
     }
 }

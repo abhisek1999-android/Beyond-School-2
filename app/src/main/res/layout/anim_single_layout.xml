@@ -32,6 +32,9 @@
             android:layout_gravity="center"
             android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
+
+            android:justificationMode="inter_word"
+            android:layout_marginRight="5dp"
             android:text="abcd"
             android:textAlignment="viewStart"
             android:textSize="@dimen/default_font_size"

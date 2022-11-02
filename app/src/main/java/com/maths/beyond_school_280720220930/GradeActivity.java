@@ -58,7 +58,7 @@ public class GradeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (binding.textInputLayoutGrade.getEditText().getText().toString().equals(" "))
+                if (binding.textInputLayoutGrade.getEditText().getText().toString().equals(""))
                     return;
                 else{
                 Intent intent = new Intent(GradeActivity.this, NameAgeActivity.class);

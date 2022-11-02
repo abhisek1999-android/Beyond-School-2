@@ -30,57 +30,31 @@
                 android:orientation="vertical">
 
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/yourProgressLayout"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/toolBar"
-                    android:layout_margin="@dimen/grid_10"
-                    app:cardCornerRadius="@dimen/grid_20"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/jellee_roman"
-                            android:padding="5dp"
-                            android:text="Progress Report"
-                            android:textColor="@color/primary"
-                            android:textSize="@dimen/default_font_size_big" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/progressRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-
-                </androidx.cardview.widget.CardView>
-
-
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="@dimen/grid_10"
+                    >
                 <TextView
                     android:id="@+id/yourTask"
-                    android:layout_width="wrap_content"
-
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/yourProgressLayout"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/grid_1_5"
-                    android:fontFamily="@font/jellee_roman"
-                    android:text="Your today's task"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/default_font_size_big" />
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Your  Today's  Task"
+
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
+                </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,6 +89,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/grid_10" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/yourProgressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/toolBar"
+                    android:layout_margin="@dimen/grid_10"
+                    app:cardCornerRadius="@dimen/grid_20"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="left"
+                            android:fontFamily="@font/reemkufi_medium"
+                            android:padding="5dp"
+                            android:text="Progress   Report"
+                            android:textStyle="bold"
+
+                            android:textAllCaps="true"
+                            android:textColor="@color/accent"
+                            android:textSize="20sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/progressRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/grid_10"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,9 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
 
         holder.subSub.setText(gradeData.getSubject());
         holder.chapters.setText(gradeData.getChapter_name());
+
+
+
         if (gradeData.is_completed()){
             holder.status.setText("Complete");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
@@ -83,6 +87,7 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
         TextView subSub, chapters, status, timeText, scoreText;
 
+
         View mView;
 
         public SubjectViewHolder(@NonNull View itemView) {
@@ -94,6 +99,7 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
             scoreText = mView.findViewById(R.id.score);
+
 
 
         }

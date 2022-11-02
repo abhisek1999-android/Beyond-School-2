@@ -77,7 +77,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<SubSubject> subEngList;
     private List<SectionSubSubject> sectionList;
     private int[] resMath = {R.drawable.ic_addition, R.drawable.ic_sub, R.drawable.ic_mul, R.drawable.ic_division};
-    private int[] resEng = {R.drawable.ic_vocab, R.drawable.ic_spell, R.drawable.grammar, R.drawable.grammar};
+    private int[] resEng = {R.drawable.ic_vocab_p, R.drawable.ic_spell_p, R.drawable.ic_spell_p, R.drawable.ic_spell_p};
 
     private String[] tableList;
     private SectionSubSubjectRecyclerAdapter sectionSubSubjectRecyclerAdapter;
@@ -565,6 +565,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         if (isNewCall) {
 
             if (eng.length <= 2) {
+              try{
                 for (String st : eng) {
                     subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
                     chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
@@ -573,7 +574,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-                }
+                }}
+              catch (Exception e){
+                  Log.d(TAG, "getDataFromDatabase: Database not found");
+              }
             } else {
                 List<Integer> ls = new ArrayList();
                 chapterListEng.clear();
@@ -588,6 +592,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
             }
             PrefConfig.writeNormalListInPref(HomeScreen.this, chapterListEng, getResources().getString(R.string.saved_english_value));
+
         } else {
             try {
                 chapterListEng = PrefConfig.readNormalListInPref(HomeScreen.this, getResources().getString(R.string.saved_english_value));
@@ -634,6 +639,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
+
+
             Intent intent;
             Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
             if (gradeData.getSubject().equals("Spelling_CommonWords")) {
@@ -646,6 +653,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
+
         });
         binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         subjectRecyclerAdapterUpdated.submitList(subjectDataNew);

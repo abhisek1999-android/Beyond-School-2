@@ -10,11 +10,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class MyAdapter extends FragmentPagerAdapter {
     private Context myContext;
     int totalTabs;
+
     public MyAdapter(Context context, FragmentManager fm, int totalTabs) {
         super(fm);
         myContext = context;
         this.totalTabs = totalTabs;
     }
+
     // this is for fragment tabs
     @Override
     public Fragment getItem(int position) {
@@ -22,11 +24,15 @@ public class MyAdapter extends FragmentPagerAdapter {
             case 0:
                 EnglishFragment englishFragment = new EnglishFragment();
                 return englishFragment;
+            case 1:
+                MathsFragment mathsFragment = new MathsFragment();
+                return mathsFragment;
 
             default:
                 return null;
         }
     }
+
     // this counts total number of tabs
     @Override
     public int getCount() {

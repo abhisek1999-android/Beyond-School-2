@@ -5,38 +5,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
 
+    app:cardElevation="0dp"
     android:clickable="true"
+
+    app:cardBackgroundColor="#0F00BD8F"
     app:cardCornerRadius="@dimen/grid_10">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground">
+        >
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/round_rect_button_bg"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/tv_shape"
+            android:backgroundTint="@color/primary"
             android:padding="@dimen/grid_10"
-            android:src="@drawable/ic_addition" />
+
+            android:src="@drawable/ic_spell_p" />
 
 
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
-        android:layout_toEndOf="@id/image"
+        android:layout_below="@id/image"
         android:layout_marginLeft="5dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginTop="-5dp"
+
         >
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/learningProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/roundbar_progress" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/reemkufi_medium"
+                android:textSize="@dimen/default_font_size_small"
+                android:layout_marginRight="@dimen/grid_10"
+                android:text="10/10"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="5dp"
+
+                />
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,32 +79,15 @@
             android:layout_marginTop="@dimen/grid_10"
             android:fontFamily="@font/reemkufi_medium"
             android:textSize="@dimen/default_font_size"
-            android:layout_marginRight="@dimen/grid_10"
             android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="5dp"
+            android:textAlignment="center"
+            android:paddingBottom="@dimen/grid_20"
+            android:textColor="@color/accent"
             android:text="Sub Subject"
+            android:layout_below="@id/learningProgress"
             />
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/reemkufi_medium"
-            android:textSize="@dimen/default_font_size_small"
-            android:layout_marginRight="@dimen/grid_10"
-            android:text="You have mastered  10/10"
-            android:layout_marginBottom="5dp"
-
-            />
-
-        <ProgressBar
-            android:id="@+id/learningProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginRight="@dimen/grid_10"
-            android:layout_alignParentBottom="true"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/grid_10"
-            android:progressDrawable="@drawable/custom_progress_bg" />
 
     </LinearLayout>
 

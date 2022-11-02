@@ -28,6 +28,7 @@ import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.Arrays;
@@ -149,18 +150,25 @@ public class ViewCurriculum extends AppCompatActivity {
 
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
-            Intent intent;
-            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
-            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
-                intent = new Intent(this, EnglishSpellingActivity.class);
-                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+
+            if (gradeData.isUnlock()) {
+                Intent intent;
+                Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+                if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+                    intent = new Intent(this, EnglishSpellingActivity.class);
+                    intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                } else {
+                    intent = new Intent(this, GrammarActivity.class);
+                    intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                }
+                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+                startActivity(intent);
+
             } else {
-                intent = new Intent(this, GrammarActivity.class);
-                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+
+                UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
             }
-            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-            startActivity(intent);
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
         getLiveData(subject);

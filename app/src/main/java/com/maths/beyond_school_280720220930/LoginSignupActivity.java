@@ -64,7 +64,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             finish();
         });
 
-        checkCalenderPermission();
+      //  checkCalenderPermission();
 
         if (mUser != null) {
             checkUserAlreadyAvailable();
@@ -93,7 +93,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
                 // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
-                checkCalenderPermission();
+             //   checkCalenderPermission();
             }
         }
 

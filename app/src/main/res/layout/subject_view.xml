@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/grid_10"
-    app:cardElevation="5dp"
+
     android:layout_margin="5dp"
     android:minHeight="100dp"
     android:layout_height="wrap_content">
@@ -12,13 +13,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
 
             <RelativeLayout
@@ -40,8 +40,7 @@
                     android:fontFamily="@font/reemkufi_medium"
                     android:id="@+id/timerText"
                     android:paddingHorizontal="@dimen/grid_10"
-                    android:layout_centerVertical="true"
-                    />
+                    android:layout_centerVertical="true" />
 
                 <LinearLayout
                     android:layout_width="40dp"
@@ -109,7 +108,61 @@
                 android:textAlignment="textStart"
                 android:textSize="@dimen/default_font_size" />
 
-        </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:gravity="center"
+                    android:layout_below="@id/chapters"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:layout_marginLeft="20dp" />
+
+                <TextView
+
+                    android:id="@+id/status1"
+                    android:layout_toEndOf="@id/subSubject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/tv_shape"
+                    android:backgroundTint="@color/accent"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingHorizontal="@dimen/grid_10"
+                    android:text="Incomplete"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:visibility="invisible"
+                    tools:ignore="NotSibling,RtlCompat" />
+
+                <TextView
+
+                    android:id="@+id/status"
+                    android:layout_toEndOf="@id/chapters"
+                    android:layout_below="@id/chapters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/tv_shape"
+                    android:backgroundTint="@color/accent"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingHorizontal="@dimen/grid_10"
+                    android:text="Incomplete"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_small"
+                    tools:ignore="NotSibling,RtlCompat" />
+
+
+            </RelativeLayout>
+
+
+
+
+
 
 
         <LinearLayout
@@ -117,62 +170,32 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/grid_10"
-            >
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Status: "
-               android:gravity="center"
-               android:layout_gravity="center"
-               android:fontFamily="@font/reemkufi_medium"
-               android:layout_marginLeft="@dimen/grid_10"
-               />
-
-            <TextView
-
-                android:id="@+id/status"
-               android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/chapters"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/tv_shape"
-                android:backgroundTint="@color/accent"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingHorizontal="@dimen/grid_10"
-                android:text="Incomplete"
-
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/default_font_size_small" />
+            android:padding="@dimen/grid_10">
 
 
-            <TextView
-                android:id="@+id/score"
-                android:gravity="center"
-                android:visibility="invisible"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/chapters"
-                android:layout_centerHorizontal="true"
-                android:backgroundTint="@color/accent"
-                android:fontFamily="@font/reemkufi_medium"
-                android:paddingHorizontal="@dimen/grid_10"
-                android:text="Score :"
-                android:textAlignment="center"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/default_font_size_small" />
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/score"-->
+            <!--                android:gravity="center"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_below="@id/chapters"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:backgroundTint="@color/accent"-->
+            <!--                android:fontFamily="@font/reemkufi_medium"-->
+            <!--                android:paddingHorizontal="@dimen/grid_10"-->
+            <!--                android:text="Score :"-->
+            <!--                android:textAlignment="center"-->
+            <!--                android:textColor="@color/primary"-->
+            <!--                android:textSize="@dimen/default_font_size_small" />-->
 
         </LinearLayout>
 
 
     </LinearLayout>
-
-
 
 
 </androidx.cardview.widget.CardView>

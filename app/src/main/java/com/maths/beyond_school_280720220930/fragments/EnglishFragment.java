@@ -32,6 +32,14 @@ public class EnglishFragment extends Fragment {
             startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
 
+        binding.gotoViewCurriculumOne.setOnClickListener(v->{
+            startActivity(new Intent(getContext(), ViewCurriculum.class));
+        });
+
+        binding.gotoViewCurriculumTwo.setOnClickListener(v->{
+            startActivity(new Intent(getContext(), ViewCurriculum.class));
+        });
+
     }
 
     @Override

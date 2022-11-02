@@ -21,6 +21,7 @@ public class TabbedHomePage extends AppCompatActivity {
         tabLayout=(TabLayout)findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);
         tabLayout.addTab(tabLayout.newTab().setText("English"));
+        tabLayout.addTab(tabLayout.newTab().setText("Math"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);

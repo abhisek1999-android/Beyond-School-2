@@ -79,8 +79,6 @@
                     android:textAlignment="center"
                     android:paddingHorizontal="@dimen/grid_10"
                     android:textSize="@dimen/default_font_size"
-                    android:background="@drawable/tv_shape"
-                    android:backgroundTint="@color/light_gray"
                     android:paddingVertical="5dp"
                    />
 

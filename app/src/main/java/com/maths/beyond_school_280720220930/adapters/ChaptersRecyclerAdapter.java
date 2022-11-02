@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,6 +66,12 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
         }
 
         GradeData gradeData = list.get(position);
+
+        if (gradeData.isUnlock()){
+            holder.isLock.setVisibility(View.INVISIBLE);
+
+        }
+
         holder.subSub.setText(gradeData.getChapter_name());
         holder.mView.setOnClickListener(v -> {
             mListener.onItemClick(gradeData);
@@ -87,10 +94,12 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
         TextView subSub, chapters, status, timeText, scoreText;
         View mView;
 
+        ImageView isLock;
         public SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
             subSub = mView.findViewById(R.id.operation);
+            isLock=mView.findViewById(R.id.isLocked);
         }
     }
 

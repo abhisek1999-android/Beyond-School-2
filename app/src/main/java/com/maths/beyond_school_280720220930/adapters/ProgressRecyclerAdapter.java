@@ -59,7 +59,7 @@ public class ProgressRecyclerAdapter extends RecyclerView.Adapter<ProgressRecycl
 
 
         holder.subSub.setText(list.get(position).getSubSubject().replace("_", " "));
-        holder.status.setText("You have mastered :" + list.get(position).getCompleted() + "/" + list.get(position).getTotal());
+        holder.status.setText(list.get(position).getCompleted() + "/" + list.get(position).getTotal());
         holder.learningProgress.setMax(list.get(position).getTotal());
         holder.learningProgress.setProgress(list.get(position).getCompleted());
         holder.image.setImageResource(list.get(position).getResource());
