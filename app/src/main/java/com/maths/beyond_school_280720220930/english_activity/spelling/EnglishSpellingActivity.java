@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -50,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -96,6 +99,14 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
     private boolean isOnline = false;
 
+    private String kidsGrade;
+    private String kidsId;
+    private int kidAge;
+    private String kidName;
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private String parentsContactId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +115,13 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         logDatabase = LogDatabase.getDbInstance(this);
         progressDataBase = ProgressDataBase.getDbInstance(this);
         progressData = new ArrayList<>();
+
+        kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        parentsContactId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.parent_contact_details));
+        auth = FirebaseAuth.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
         setToolbar();
         setData();
     }
@@ -155,6 +173,10 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         setViews();
     }
 
+
+    private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" +(!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(this, category), "English", parentsContactId);
+    }
 
     private void navigateToTest() {
         var intent = new Intent(this, SpellingTest.class);
@@ -381,6 +403,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         currentWordLetterPosition = 0;
         playPauseAnimation(false);
         var diff = endTime - startTime;
+        var currentDes=spellingDetails.get(currentPosition).getDescription();
 
         if (inputWord.toLowerCase(Locale.ROOT).equals(currentWord.toLowerCase(Locale.ROOT))) {
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
@@ -390,9 +413,11 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             mediaPlayer.start();
             inputWord = "";
             textView.setText(currentWord);
+            sendDataToAnalytics(currentDes, currentWord, diff, true);
         } else {
             textView.setTextColor(ContextCompat.getColor(this, R.color.sweet_red));
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
+            sendDataToAnalytics(currentDes, currentWord, diff, false);
             UtilityFunctions.runOnUiThread(() -> {
                 playPauseAnimation(true);
                 helperTTS(UtilityFunctions.getCompliment(false), false, 0);

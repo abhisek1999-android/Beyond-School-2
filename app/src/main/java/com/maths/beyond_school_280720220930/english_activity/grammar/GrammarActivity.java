@@ -32,12 +32,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
+import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarBinding;
@@ -61,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -108,6 +113,15 @@ public class GrammarActivity extends AppCompatActivity {
     private boolean isOnline = false;
 
     private ContentModel.Meta meta = null;
+    private String kidsGrade;
+    private String kidsId;
+    private int kidAge;
+    private String kidName;
+    private String logs = "";
+    private long startTime = 0;
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private String parentsContactId;
 
 
     @Override
@@ -119,6 +133,13 @@ public class GrammarActivity extends AppCompatActivity {
         progressDataBase = ProgressDataBase.getDbInstance(this);
         progressData = new ArrayList<>();
 
+
+        kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
+        kidsId = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id));
+        kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
+        parentsContactId = PrefConfig.readIdInPref(context, getResources().getString(R.string.parent_contact_details));
+        auth = FirebaseAuth.getInstance();
+        analytics = FirebaseAnalytics.getInstance(this);
         initMediaPlayer();
         setToolbar();
         getDataFromIntent();
@@ -247,6 +268,8 @@ public class GrammarActivity extends AppCompatActivity {
     }
 
     private void startSpeaking() {
+
+        startTime = new Date().getTime();
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
         var question = !isOnline ? UtilityFunctions.getQuestionForGrammar(context, currentModel, category)[0] : meta.getQuestion();
         var des = currentModel.getDescription().trim();
@@ -339,18 +362,22 @@ public class GrammarActivity extends AppCompatActivity {
     }
 
     private void checkAnswer() {
+        var endTime = new Date().getTime();
+        var diff = endTime - startTime;
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
         var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim();
         var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         listener = text -> {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
             if (category.equals(getResources().getString(R.string.grammar_3))) {
+
                 if (currentDes.contains(text)) {
                     playPauseAnimation(true);
-
                     mediaPlayer.start();
+                    sendDataToAnalytics(currentDes, text, diff, true);
                     helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                 } else {
+                    sendDataToAnalytics(currentDes, text, diff, false);
                     playPauseAnimation(true);
                     tts.initialize(UtilityFunctions.getCompliment(false), this);
                 }
@@ -363,8 +390,10 @@ public class GrammarActivity extends AppCompatActivity {
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
+                sendDataToAnalytics(currentDes, text, diff, true);
                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
             } else {
+                sendDataToAnalytics(currentDes, text, diff, false);
                 playPauseAnimation(true);
                 tts.initialize(UtilityFunctions.getCompliment(false), this);
             }
@@ -757,6 +786,11 @@ public class GrammarActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_QUESTION_FOR_TEST, meta.getQuestion());
         }
         startActivity(intent);
+    }
+
+
+    private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" +(!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void timer() {
