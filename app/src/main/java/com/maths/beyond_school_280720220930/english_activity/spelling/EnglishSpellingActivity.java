@@ -731,9 +731,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling",
-                category,
-                new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(), 0, true);
         try {
             if (progressData != null) {
                 timeSpend = progressData.get(0).time_spend;

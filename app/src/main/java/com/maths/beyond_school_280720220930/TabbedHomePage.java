@@ -263,7 +263,11 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         startActivity(a);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        completeClose();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

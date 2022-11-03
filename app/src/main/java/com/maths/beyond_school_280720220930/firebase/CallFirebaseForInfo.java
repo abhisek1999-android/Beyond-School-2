@@ -179,6 +179,7 @@ public class CallFirebaseForInfo {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    Log.d("TAG", "onComplete:Firebase Update ");
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         KidsActivity kidsActivity=document.toObject(KidsActivity.class);

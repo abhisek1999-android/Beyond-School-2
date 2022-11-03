@@ -22,6 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.maths.beyond_school_280720220930.AlarmAtTime;
 import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -35,6 +36,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.databinding.FragmentEnglishBinding;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
@@ -84,20 +86,20 @@ public class EnglishFragment extends Fragment {
     private BottomSheetBehavior mBottomSheetBehavior;
     private List<GradeData> subjectDataNew;
     private SubjectRecyclerAdapterUpdated subjectRecyclerAdapterUpdated;
-    private String userType="";
+    private String userType = "";
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding=FragmentEnglishBinding.bind(view);
+        binding = FragmentEnglishBinding.bind(view);
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
         subjectDataNew = new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value));
-        userType=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.user_type));
+        userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         customProgressDialogue = new CustomProgressDialogue(getContext());
         mathSub = new ArrayList<>();
         engSub = new ArrayList<>();
@@ -120,42 +122,42 @@ public class EnglishFragment extends Fragment {
 
         mathSub = Arrays.asList(math);
         engSub = Arrays.asList(eng);
-        
-        
+
 
         setSubSubjectProgress();
-        
+
 
     }
 
 
     private void uiChnages() {
 
-        userType=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.user_type));
+        userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         binding.evaluationTestTile.setVisibility(View.GONE);
 
-        if (!userType.equals("old_user"))
-        {
+        if (!userType.equals("old_user")) {
             binding.completeProgressTile.setVisibility(View.GONE);
-        }else{
+        } else {
             binding.completeProgressTile.setVisibility(View.VISIBLE);
             binding.startExeButtonLayout.setVisibility(View.GONE);
         }
 
-        binding.startExeButtonLayout.setOnClickListener(v->{
-            PrefConfig.writeIdInPref(getContext(),"old_user",getResources().getString(R.string.user_type));
+        binding.startExeButtonLayout.setOnClickListener(v -> {
+            PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));
             binding.nestedScrollView.setSmoothScrollingEnabled(true);
-            binding.nestedScrollView.scrollTo(0,0);
+            binding.nestedScrollView.scrollTo(0, 0);
             binding.startExeButtonLayout.setVisibility(View.GONE);
             binding.completeProgressTile.setVisibility(View.VISIBLE);
             //startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
 
-        binding.gotoViewCurriculumOne.setOnClickListener(v->{
+        binding.gotoViewCurriculumOne.setOnClickListener(v -> {
+            PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));
             startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
 
-        binding.gotoViewCurriculumTwo.setOnClickListener(v->{
+        binding.gotoViewCurriculumTwo.setOnClickListener(v -> {
+            PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));
             startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
         dateChecking();
@@ -167,16 +169,46 @@ public class EnglishFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_english, container, false);
     }
 
 
+    private void displayAddProfileAlertDialog() {
+
+        HintDialog hintDialog = new HintDialog(getContext());
+        hintDialog.setCancelable(true);
+        hintDialog.setAlertTitle("Set Reminder");
+        hintDialog.setAlertDesciption("Hey, You can set a reminder which can notify about your study time");
+
+        hintDialog.actionButton("Set Reminder");
+        hintDialog.actionButtonBackgroundColor(R.color.primary);
+        hintDialog.setOnActionListener(viewId -> {
+
+            switch (viewId.getId()) {
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+                case R.id.buttonAction:
+                    startActivity(new Intent(getContext(), AlarmAtTime.class));
+                    hintDialog.dismiss();
+                    break;
+            }
+        });
+
+        hintDialog.show();
+
+    }
+
 
     private void dateChecking() {
 
         Log.d(TAG, "dateChecking: ");
+
+
+
+
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -184,10 +216,9 @@ public class EnglishFragment extends Fragment {
 
             // Added functionality when we got a new date
 
-//            if (kidsName.equals("Kids Name")) {
-//                displayAddProfileAlertDialog();
-//            }
-
+            if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
+                displayAddProfileAlertDialog();
+            }
             PrefConfig.writeIdInPref(getContext(), simpleDateFormat.format(new Date()), getResources().getString(R.string.alter_maths));
             if (PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value)) == 0) {
                 PrefConfig.writeIntDInPref(getContext(), 2, getResources().getString(R.string.alter_maths_value));
@@ -202,8 +233,12 @@ public class EnglishFragment extends Fragment {
 
             Log.i("List_data sd", PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)) + "");
 
-            if (PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)).size() == 0)
+            if (PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)).size() == 0){
                 getUiData(true);
+                if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
+                    displayAddProfileAlertDialog();
+                }
+            }
             else
                 getUiData(false);
             if (startIndex == 0) {
@@ -242,12 +277,7 @@ public class EnglishFragment extends Fragment {
             Log.d(TAG, "getUiData: else");
 
         }
-
-
     }
-
-
-
     //getting data from local db
 
     private void getDataFromDatabase(boolean isNewCall) {
@@ -255,11 +285,9 @@ public class EnglishFragment extends Fragment {
         subjectDataNew.clear();
 
         Log.d("TAG", "getDataFromDatabase:call ");
-
         if (isNewCall) {
-
             if (eng.length <= 2) {
-                try{
+                try {
                     for (String st : eng) {
                         subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
                         chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
@@ -268,8 +296,8 @@ public class EnglishFragment extends Fragment {
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-                    }}
-                catch (Exception e){
+                    }
+                } catch (Exception e) {
                     Log.d(TAG, "getDataFromDatabase: Database not found");
                 }
             } else {
@@ -351,7 +379,6 @@ public class EnglishFragment extends Fragment {
         binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         subjectRecyclerAdapterUpdated.submitList(subjectDataNew);
     }
-    
 
 
     private void setSubSubjectProgress() {
@@ -424,6 +451,6 @@ public class EnglishFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setSubSubjectProgress();
-        userType=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.user_type));
+        userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
     }
 }

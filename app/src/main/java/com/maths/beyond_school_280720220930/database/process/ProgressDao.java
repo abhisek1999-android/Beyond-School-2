@@ -37,6 +37,9 @@ public interface ProgressDao {
     @Query("UPDATE progressM SET correct=:correct , wrong=:wrong WHERE chapter = :chapter")
     void updateScore(long correct,long wrong, String chapter);
 
+    @Query("SELECT time_spend FROM progressM WHERE subject LIKE '%'||:subject|| '%' AND chapter=:chapter")
+    long getTimeSpend(String subject, String chapter);
+
     @RawQuery(observedEntities = ProgressM.class)
     long correctValues(SupportSQLiteQuery query);
 

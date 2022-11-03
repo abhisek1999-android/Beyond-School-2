@@ -57,6 +57,7 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
 
         holder.subSub.setText(gradeData.getSubject());
         holder.chapters.setText(gradeData.getChapter_name());
+        holder.timeText.setText(progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
 
 
 
