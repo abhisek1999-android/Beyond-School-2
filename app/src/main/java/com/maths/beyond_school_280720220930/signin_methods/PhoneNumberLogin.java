@@ -41,6 +41,7 @@ import com.maths.beyond_school_280720220930.GradeActivity;
 import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.TabbedHomePage;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
@@ -396,6 +397,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                             //saveKidsData("default");
 
                         } else {
+                            PrefConfig.writeIdInPref(getApplicationContext(),"old_user",getResources().getString(R.string.user_type));
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
@@ -406,11 +408,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                         getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
                                         UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
                                         // CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade().toLowerCase().replace(" ", ""),PhoneNumberLogin.this,database);
-                                        Log.i("KidsData", kidsData.getName() + "");
-                                        var i = new Intent(getApplicationContext(), HomeScreen.class);
-                                        startActivity(i);
-                                        finish();
-
                                         break;
                                     }
                                 } catch (Exception e) {
@@ -418,11 +415,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                     getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
                                     //CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
-                                    Log.i("KidsData", kidsData.getName() + "");
-                                    var i = new Intent(getApplicationContext(), HomeScreen.class);
-                                    startActivity(i);
-                                    finish();
-
                                     break;
                                 }
 
@@ -471,6 +463,10 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database);
 
+        Log.i("KidsData", kidsData.getName() + "");
+        var i = new Intent(getApplicationContext(), TabbedHomePage.class);
+        startActivity(i);
+        finish();
     }
 
 

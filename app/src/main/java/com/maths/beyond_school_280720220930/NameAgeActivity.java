@@ -307,8 +307,10 @@ public class NameAgeActivity extends AppCompatActivity {
                             // Log.d(TAG, "DocumentSnapshot successfully written!");
 
 
-                            UtilityFunctions.saveDataLocally(getApplicationContext(), gradeIntent, binding.kidsNameTextView.getText().toString(),
-                                    binding.kidsAgeTextView.getText().toString(), imageUrl, uuid);
+                            UtilityFunctions.saveDataLocally(getApplicationContext(), gradeIntent, !binding.kidsNameTextView.getText().toString().equals("")?binding.kidsNameTextView.getText().toString():"Kids Name",
+                                    !binding.kidsAgeTextView.getText().toString().equals("")?binding.kidsAgeTextView.getText().toString():"01/08/2017", imageUrl, uuid);
+
+                            PrefConfig.writeIdInPref(getApplicationContext(),"new_user",getResources().getString(R.string.user_type));
 
                             Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());

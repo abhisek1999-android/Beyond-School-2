@@ -1,17 +1,21 @@
 package com.maths.beyond_school_280720220930;
 
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CalendarContract;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,11 +23,21 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import retrofit2.Retrofit;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -37,10 +51,12 @@ public class SplashScreen extends AppCompatActivity {
     private int REQUEST_RECORD_AUDIO = 1;
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
-
+    private String TAG = "SplashScreen";
     FirebaseFirestore kidsDb;
-
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     GradeDatabase database;
+    private GradeDatabase gradeDatabase;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -52,12 +68,17 @@ public class SplashScreen extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         kidsDb = FirebaseFirestore.getInstance();
         String myCustomUri = getIntent().getStringExtra(CalendarContract.EXTRA_CUSTOM_APP_URI);
-        try{startService(new Intent(getBaseContext(), ClearService.class));}catch (Exception e){}
+        try {
+            startService(new Intent(getBaseContext(), ClearService.class));
+        } catch (Exception e) {
+        }
 
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+        gradeDatabase = GradeDatabase.getDbInstance(SplashScreen.this);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        if (PrefConfig.readIdInPref(SplashScreen.this,getResources().getString(R.string.alter_maths)).equals("")){
-            PrefConfig.writeIdInPref(SplashScreen.this,simpleDateFormat.format(new Date()),getResources().getString(R.string.alter_maths));}
+        if (PrefConfig.readIdInPref(SplashScreen.this, getResources().getString(R.string.alter_maths)).equals("")) {
+            PrefConfig.writeIdInPref(SplashScreen.this, simpleDateFormat.format(new Date()), getResources().getString(R.string.alter_maths));
+        }
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
@@ -90,7 +111,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
             }
         }, 1000);
-
+  //      setUpRemoteConfig();
     }
 
     private void checkUserAlreadyAvailable() {
@@ -102,12 +123,87 @@ public class SplashScreen extends AppCompatActivity {
             finish();
 
         } else {
-            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
-//            startActivity(new Intent(getApplicationContext(), EnglishActivity.class));
-            finish();
-        }
+            setUpRemoteConfig();
 
+        }
+        
+    }
+
+
+    private void setUpRemoteConfig() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(0)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+
+        var value = PrefConfig.readIntInPref(this, getResources().getString(R.string.KEY_VALUE_SAVE), 0);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
+
+                        int val = (int) mFirebaseRemoteConfig.getLong("key_update_main_json");
+                        if (value != val) {
+                            PrefConfig.writeIntInPref(SplashScreen.this, val, getResources().getString(R.string.KEY_VALUE_SAVE));
+                            getNewData(PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade).toLowerCase().replace(" ", "")));
+
+                        }else {
+                            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+                            finish();
+                        }
+
+                        Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
+                        return;
+                    }
+                    Toast.makeText(SplashScreen.this, "Fetch failed",
+                            Toast.LENGTH_SHORT).show();
+
+                });
+    }
+
+
+
+    private void getNewData(String kidsGrade) {
+        Retrofit retrofit = ApiClient.getClient();
+        var api = retrofit.create(ApiInterface.class);
+        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+                if (response.body() != null) {
+                    var list = response.body().getEnglish();
+                    mapToGradeModel(list);
+                    Log.d(TAG, "onResponse: StartedUpdating");
+
+                } else {
+                    Toast.makeText(SplashScreen.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+        list.forEach(subject -> {
+            var mapper = new GradeConverter(subject.getSubject());
+            var chapterList = mapper.mapToList(subject.getChapters());
+            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+        });
+
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)),
+                PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""), SplashScreen.this, gradeDatabase);
+
+        startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
         finish();
+
     }
 
     @Override

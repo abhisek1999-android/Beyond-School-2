@@ -134,7 +134,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         mBottomSheetBehavior = BottomSheetBehavior.from(binding.extLayout.permissionCard);
 
-        checkAudioPermission();
+        //checkAudioPermission();
         //TODO: must be removed
         binding.yourTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TabbedHomePage.class)));
 
@@ -351,7 +351,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         });
 
 
-        ImageView img = findViewById(R.id.imageView6);
+
         findViewById(R.id.dash).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
