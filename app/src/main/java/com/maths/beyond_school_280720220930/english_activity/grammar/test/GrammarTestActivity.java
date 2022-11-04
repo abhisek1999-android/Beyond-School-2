@@ -259,7 +259,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         var endTime = new Date().getTime();
         var diff = endTime - startTime;
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim();
+        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".","");
         var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         if (category.equals(getResources().getString(R.string.grammar_3)))
             logs += "Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category) + "Answer" + currentDes + "time taken" + diff + "\n";
@@ -299,7 +299,7 @@ public class GrammarTestActivity extends AppCompatActivity {
                 return;
             }
 
-            if (text.equals(currentAnswer)) {
+            if (text.trim().replace(".","").equals(currentAnswer)) {
                 tryAgainCount = 1;
                 playPauseAnimation(true);
                 correctAnswerCount++;
