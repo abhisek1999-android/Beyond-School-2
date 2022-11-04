@@ -2,7 +2,6 @@ package com.maths.beyond_school_280720220930.english_activity.grammar.test;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
-import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_QUESTION_FOR_TEST;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Context;
@@ -165,7 +164,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         Retrofit retrofit = ApiClient.getClient();
         var api = retrofit.create(ApiInterface.class);
         api.getVocabularySubject(
-                PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ",""),
+                PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
                 "english",
                 getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(),
                 category).enqueue(new retrofit2.Callback<>() {
@@ -259,7 +258,7 @@ public class GrammarTestActivity extends AppCompatActivity {
         var endTime = new Date().getTime();
         var diff = endTime - startTime;
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".","");
+        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".", "");
         var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         if (category.equals(getResources().getString(R.string.grammar_3)))
             logs += "Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category) + "Answer" + currentDes + "time taken" + diff + "\n";
@@ -276,8 +275,8 @@ public class GrammarTestActivity extends AppCompatActivity {
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
-                 putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, true);
-                 sendDataToAnalytics(currentDes, text, diff, true);
+                    putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, true);
+                    sendDataToAnalytics(currentDes, text, diff, true);
 
                     helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                     correctAnswerCount++;
@@ -285,8 +284,8 @@ public class GrammarTestActivity extends AppCompatActivity {
                     playPauseAnimation(true);
                     if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
                         wrongAnswerCount++;
-                       putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, false);
-                       sendDataToAnalytics(currentDes, text, diff, false);
+                        putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), currentDes, diff, false);
+                        sendDataToAnalytics(currentDes, text, diff, false);
                         helperTTS(UtilityFunctions.getCompliment(false), true, 0);
                         tryAgainCount = 1;
                         return;
@@ -299,20 +298,20 @@ public class GrammarTestActivity extends AppCompatActivity {
                 return;
             }
 
-            if (text.trim().replace(".","").equals(currentAnswer)) {
+            if (text.trim().replace(".", "").equals(currentAnswer)) {
                 tryAgainCount = 1;
                 playPauseAnimation(true);
                 correctAnswerCount++;
                 mediaPlayer.start();
-               putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, true);
-               sendDataToAnalytics(currentAnswer, text, diff, true);
+                putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, true);
+                sendDataToAnalytics(currentAnswer, text, diff, true);
                 helperTTS(UtilityFunctions.getCompliment(true), true, 0);
             } else {
                 if (tryAgainCount > MAX_TRY_AGAIN_COUNT) {
                     playPauseAnimation(true);
                     wrongAnswerCount++;
-                  sendDataToAnalytics(currentAnswer, text, diff, false);
-                  putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, false);
+                    sendDataToAnalytics(currentAnswer, text, diff, false);
+                    putJsonData("Question : " + UtilityFunctions.getQuestionForGrammarTest(context, category), text, diff, false);
                     helperTTS(UtilityFunctions.getCompliment(false), true, 0);
                     tryAgainCount = 1;
                     return;
@@ -326,7 +325,7 @@ public class GrammarTestActivity extends AppCompatActivity {
     }
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Test-" +(!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Test-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void helperTTS(String message, boolean canNavigate, int request) {
@@ -487,7 +486,7 @@ public class GrammarTestActivity extends AppCompatActivity {
             onBackPressed();
         });
         binding.toolBar.titleText.setText((getIntent().hasExtra(EXTRA_TITLE)) ? getIntent().getStringExtra(EXTRA_TITLE) : getResources().getString(R.string.grammar));
-        binding.textViewCategory.setText((getIntent().hasExtra(EXTRA_QUESTION_FOR_TEST) ? getIntent().getStringExtra(EXTRA_QUESTION_FOR_TEST) : getResources().getString(R.string.grammar)));
+        binding.textViewCategory.setText((getIntent().hasExtra(category) ? getIntent().getStringExtra(category) : getResources().getString(R.string.grammar)));
 
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
@@ -527,15 +526,15 @@ public class GrammarTestActivity extends AppCompatActivity {
     private void uploadData() {
         try {
 
-            var chapter=!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE);
+            var chapter = !isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE);
             if (correctAnswerCount >= UtilityFunctions.getNinetyPercentage(grammarModelList.size())) {
                 UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,kidsGrade.toLowerCase().replace(" ","") ,category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
 
                 progressDataBase.progressDao().updateScore(correctAnswerCount, wrongAnswerCount, category);
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,kidsGrade.toLowerCase().replace(" ","") ,category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
             }
         } catch (JSONException e) {
             e.printStackTrace();
