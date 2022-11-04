@@ -317,7 +317,7 @@ public class GrammarActivity extends AppCompatActivity {
                     }
                     Log.d(TAG, "else: called");
                     var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-                    var question = !isOnline ? UtilityFunctions.getQuestionForGrammar(context, currentModel, category)[1] : "Select the correct answer";
+                    var question = !isOnline ? UtilityFunctions.getQuestionForGrammar(context, currentModel, category)[1] :/* "Select the correct answer"*/ " ";
                     tts.setTextViewAndSentence(null);
                     tts.initialize(question, GrammarActivity.this);
                 }
@@ -357,7 +357,7 @@ public class GrammarActivity extends AppCompatActivity {
         var endTime = new Date().getTime();
         var diff = endTime - startTime;
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim();
+        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".","");
         var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         listener = text -> {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
@@ -375,7 +375,7 @@ public class GrammarActivity extends AppCompatActivity {
                 }
                 return;
             }
-            if (text.equals(currentAnswer)) {
+            if (text.trim().replace(".","").equals(currentAnswer)) {
                 playPauseAnimation(true);
                 try {
                     if (mediaPlayer != null) mediaPlayer.start();
