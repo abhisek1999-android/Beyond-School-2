@@ -34,14 +34,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.LogActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarType;
-import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarBinding;
@@ -122,6 +120,8 @@ public class GrammarActivity extends AppCompatActivity {
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;
     private String parentsContactId;
+
+    private boolean isTimerRunning = false;
 
 
     @Override
@@ -279,14 +279,12 @@ public class GrammarActivity extends AppCompatActivity {
         if (isOnline) {
             if (binding.viewPagerIdentifyingNouns.getCurrentItem() <= 0)
                 helperTTS(question, false, 44 * 4);
-            else
-                helperTTS("", false, 44 * 4);
+            else helperTTS("", false, 44 * 4);
 
         } else {
             if (binding.viewPagerIdentifyingNouns.getCurrentItem() <= 0)
                 tts.initialize(question, this);
-            else
-                tts.initialize("", this);
+            else tts.initialize("", this);
         }
 
 
@@ -340,17 +338,11 @@ public class GrammarActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     var textView = (TextView) this.findViewById(R.id.text_view_des_grammar);
                     if (textView != null) {
-                        var newSentence = sentence.replace("blank", "_____");
-                        Spannable textWithHighlights = new SpannableString(newSentence);
-                        textWithHighlights.setSpan(new ForegroundColorSpan(
-                                        ContextCompat.
-                                                getColor(
-                                                        this,
-                                                        R.color.primary
-                                                )),
-                                start,
-                                end,
-                                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        var s = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem()).getDescription()
+                                .replace("<b>", "").replace("</b>", "")
+                                .replace("blank", "_____").replace("<br>", "\n");
+                        Spannable textWithHighlights = new SpannableString(s);
+                        textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                         textView.setText(textWithHighlights);
                     }
                 });
@@ -407,9 +399,7 @@ public class GrammarActivity extends AppCompatActivity {
                 public void onCompletion() {
                     if (!canNavigate && request == 44 * 4) {
                         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-                        var des = currentModel.getDescription().trim().replace(
-                                "<br>", ""
-                        ).replace("<b>", "").replace("</b>", "").replace("_____", "blank");
+                        var des = currentModel.getDescription().trim().replace("<br>", "").replace("<b>", "").replace("</b>", "").replace("_____", "blank");
                         tts.setTextViewAndSentence(des);
                         tts.initialize(des, GrammarActivity.this);
                         return;
@@ -587,11 +577,11 @@ public class GrammarActivity extends AppCompatActivity {
         destroyEngine();
         checkProgressData();
         destroyMediaPlayer();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Grammar", category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + (isOnline ? getIntent().getStringExtra(EXTRA_TITLE) : "Grammar"), category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + (isOnline ? getIntent().getStringExtra(EXTRA_TITLE) : "Grammar"), category, new Date(), 0, true);
 
         try {
             if (progressData != null) {
@@ -657,10 +647,7 @@ public class GrammarActivity extends AppCompatActivity {
                 if (num < animEng.size()) {
 
                     UtilityFunctions.runOnUiThread(() -> {
-                        ttsHelperAnim.initialize(animEng.get(num).getDescription()
-                                        .replace("<b>", "")
-                                        .replace("</b>", ""),
-                                GrammarActivity.this);
+                        ttsHelperAnim.initialize(animEng.get(num).getDescription().replace("<b>", "").replace("</b>", ""), GrammarActivity.this);
                         animHandel(animEng.get(num).getAnswer(), animEng.get(num).getDescription(), animEng.get(num).getOperation());
                         num++;
                     }, 500);
@@ -790,11 +777,14 @@ public class GrammarActivity extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" +(!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void timer() {
-        boolean isTimerRunning = false;
+        if (isTimerRunning) {
+            return;
+        }
+
         Observable.interval(60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Consumer<Long>() {
             public void accept(Long x) throws Exception {
                 // update your view here
@@ -802,6 +792,7 @@ public class GrammarActivity extends AppCompatActivity {
                 binding.layoutExtTimer.timerProgress.setMax(15);
                 binding.layoutExtTimer.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
                 binding.layoutExtTimer.timeText.setText((x + 1) + "");
+                isTimerRunning = true;
                 Log.i("task", x + "");
             }
         }).takeUntil(aLong -> aLong == TIMER_VALUE).doOnComplete(() ->

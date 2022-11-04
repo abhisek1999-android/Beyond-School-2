@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,14 +52,15 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
         return new SubjectRecyclerAdapterUpdated.SubjectViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         GradeData gradeData = list.get(position);
 
         holder.subSub.setText(gradeData.getSubject());
         holder.chapters.setText(gradeData.getChapter_name());
+        Log.d("AAA", "onBindViewHolder: "+progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
         holder.timeText.setText(progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
-
 
 
         if (gradeData.is_completed()){
