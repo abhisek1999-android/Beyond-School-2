@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 
-@Database(entities = {ProgressM.class},version =1)
+@Database(entities = {ProgressM.class},version =2)
 public abstract class ProgressDataBase extends RoomDatabase {
 
     public abstract ProgressDao progressDao();

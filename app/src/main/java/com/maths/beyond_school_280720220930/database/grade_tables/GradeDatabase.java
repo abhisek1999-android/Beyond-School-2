@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.maths.beyond_school_280720220930.database.converter.Converters;
 
-@Database(entities = {GradeData.class,Grades_data.class}, version = 1)
+@Database(entities = {GradeData.class,Grades_data.class}, version = 2)
 @TypeConverters(Converters.class)
 public abstract class GradeDatabase extends RoomDatabase {
 
