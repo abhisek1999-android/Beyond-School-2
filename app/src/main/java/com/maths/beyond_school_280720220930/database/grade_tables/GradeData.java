@@ -1,10 +1,12 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "grade")
+@Keep
 public class GradeData {
     @PrimaryKey(autoGenerate = false)
     @NonNull

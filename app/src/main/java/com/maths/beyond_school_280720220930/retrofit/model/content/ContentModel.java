@@ -2,6 +2,8 @@ package com.maths.beyond_school_280720220930.retrofit.model.content;
 
 import androidx.annotation.Keep;
 
+import org.checkerframework.checker.units.qual.K;
+
 import java.util.List;
 
 @Keep
@@ -39,6 +41,7 @@ public class ContentModel {
         this.content = content;
     }
 
+    @Keep
     public static class Meta {
         private String hint;
         private String question;
@@ -84,6 +87,7 @@ public class ContentModel {
         }
     }
 
+    @Keep
     public static final class Content {
 
         public Content() {

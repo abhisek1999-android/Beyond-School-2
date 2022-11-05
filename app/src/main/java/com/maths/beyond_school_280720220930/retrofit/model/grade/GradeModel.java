@@ -19,6 +19,7 @@ public class GradeModel {
                 '}';
     }
 
+    @Keep
     public static class EnglishModel {
         private String subject;
 
@@ -48,7 +49,7 @@ public class GradeModel {
                     ", chapters=" + chapters +
                     '}';
         }
-
+        @Keep
         public static class Chapter {
             private String id;
             private String chapter_name;
