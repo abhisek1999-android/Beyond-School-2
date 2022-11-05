@@ -810,7 +810,7 @@
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
     <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
-    <string name="slogan2">AI-based Personalized kids <font color="#6CC8CD">Learning App</font></string>
+    <string name="slogan2">AI-based Personalized \n <font color="#6CC8CD">Kids Learning App</font></string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

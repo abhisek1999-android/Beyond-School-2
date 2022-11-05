@@ -27,10 +27,12 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.text.SimpleDateFormat;
@@ -71,6 +73,11 @@ public class SplashScreen extends AppCompatActivity {
         try {
             startService(new Intent(getBaseContext(), ClearService.class));
         } catch (Exception e) {
+        }
+
+
+        if(!UtilityFunctions.checkConnection(SplashScreen.this)){
+            displayNoInternetDialog();
         }
 
         gradeDatabase = GradeDatabase.getDbInstance(SplashScreen.this);
@@ -121,6 +128,44 @@ public class SplashScreen extends AppCompatActivity {
   //      setUpRemoteConfig();
     }
 
+
+
+
+    private void displayNoInternetDialog() {
+
+        HintDialog hintDialog = new HintDialog(SplashScreen.this);
+        hintDialog.setCancelable(false);
+        hintDialog.setAlertTitle("Alert");
+        hintDialog.setAlertDesciption("No internet connection!");
+
+        hintDialog.actionButton("Close");
+        hintDialog.actionButtonBackgroundColor(R.color.primary);
+        hintDialog.setOnActionListener(viewId -> {
+
+            switch (viewId.getId()) {
+
+                case R.id.closeButton:
+                    completeClose();
+                    hintDialog.dismiss();
+                    break;
+                case R.id.buttonAction:
+                    completeClose();
+                    hintDialog.dismiss();
+                    break;
+            }
+        });
+
+        hintDialog.show();
+
+    }
+
+    private void completeClose() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
+
     private void checkUserAlreadyAvailable() {
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)).equals("")) {
@@ -169,7 +214,8 @@ public class SplashScreen extends AppCompatActivity {
                         Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
                         return;
                     }
-                    Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Config params updated: " + "Fetch failed");
                 });
 
     }

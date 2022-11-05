@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    app:cardCornerRadius="@dimen/grid_10"
+    app:cardCornerRadius="5dp"
     android:layout_marginTop="@dimen/grid_0_5"
     android:layout_height="wrap_content">
 

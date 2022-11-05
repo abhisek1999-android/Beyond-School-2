@@ -36,8 +36,8 @@
 
     <ImageView
         android:id="@+id/hintButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:background="@drawable/round_rect_button_bg"

@@ -101,6 +101,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             app:elevation="0dp"
+            android:textAllCaps="true"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
             tools:text="Common Noun" />
 
@@ -120,6 +121,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             app:elevation="0dp"
+            android:textAllCaps="true"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
             tools:text="Proper Noun" />
 
@@ -136,6 +138,7 @@
             android:gravity="center"
             android:textColor="@color/primary"
             android:textSize="12sp"
+            android:textAllCaps="true"
             android:foreground="?attr/selectableItemBackground"
             android:textStyle="bold"
             app:elevation="0dp"
@@ -155,6 +158,7 @@
             android:gravity="center"
             android:textColor="@color/primary"
             android:textSize="12sp"
+            android:textAllCaps="true"
             android:foreground="?attr/selectableItemBackground"
             android:textStyle="bold"
             app:elevation="0dp"

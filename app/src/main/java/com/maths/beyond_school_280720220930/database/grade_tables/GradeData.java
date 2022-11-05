@@ -12,11 +12,14 @@ public class GradeData {
     private String chapter_name;
     private String subject;
     private String request;
+    private String super_subject;
     private boolean unlock;
     private boolean isFetchRequired;
     private boolean is_completed;
 
-    public GradeData(String id, String chapter_name, String subject, String request, boolean unlock, boolean isFetchRequired, boolean is_completed) {
+
+
+    public GradeData(String id, String chapter_name, String subject, String request, String super_subject, boolean unlock, boolean isFetchRequired, boolean is_completed) {
         this.id = id;
         this.chapter_name = chapter_name;
         this.subject = subject;
@@ -24,6 +27,15 @@ public class GradeData {
         this.unlock = unlock;
         this.isFetchRequired = isFetchRequired;
         this.is_completed=is_completed;
+        this.super_subject=super_subject;
+    }
+
+    public String getSuper_subject() {
+        return super_subject;
+    }
+
+    public void setSuper_subject(String super_subject) {
+        this.super_subject = super_subject;
     }
 
     public boolean is_completed() {
