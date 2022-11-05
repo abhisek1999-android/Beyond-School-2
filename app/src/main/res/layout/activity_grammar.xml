@@ -36,15 +36,15 @@
 
     <ImageView
         android:id="@+id/hintButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:background="@drawable/round_rect_button_bg"
         android:backgroundTint="@color/white"
         android:fontFamily="@font/reemkufi_medium"
         android:minWidth="55dp"
-        android:src="@drawable/ic_book"
+        android:src="@drawable/light_bulb"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
