@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
@@ -182,6 +183,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         var intent = new Intent(this, SpellingTest.class);
         intent.putExtra(EXTRA_SPELLING_DETAIL, category);
         intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+        intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));
         intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
         startActivity(intent);
     }
@@ -617,7 +619,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         checkLogIsEnable();
         destroyedEngines();
         checkProgressData();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(),
+        UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), category, new Date(),
                 timeSpend + Integer.parseInt(binding.progress.timeText.getText().toString()), false);
     }
 
@@ -731,7 +733,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), category, new Date(), 0, true);
         try {
             if (progressData != null) {
                 timeSpend = progressData.get(0).time_spend;

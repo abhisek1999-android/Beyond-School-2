@@ -246,48 +246,48 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
     }
 
 
-    private void loadTableScoreByDate(String date) {
-
-        ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
-        List<ProgressTableWise> notesList = db.progressDao().getSumOFTableDataByDate(date);
-        Date date_=new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        if (!formatter.format(date_).equals(date))
-            progressDate.setText("Progress on "+date);
-        else
-            progressDate.setText("Today's Progress");
-
-        tTotalC=0;
-        tTotalW=0;
-        tTotalQ=0;
-
-        for (int i=0;i<notesList.size();i++){
-        tTotalQ=tTotalQ+notesList.get(i).getTotal_correct()+notesList.get(i).getTotal_wrong();
-        tTotalW=tTotalW+notesList.get(i).getTotal_wrong();
-        tTotalC=tTotalC+notesList.get(i).getTotal_correct();
-        }
-
-        tTotalQuestion.setText(tTotalQ+"");
-        tTotalCorrect.setText(tTotalC+"");
-        tTotalWrong.setText(tTotalW+"");
-        tProgress.setMax((int)tTotalQ);
-        tProgress.setProgress((int)tTotalC);
-
-       if (notesList.size()==0){
-           noDataText.setVisibility(View.VISIBLE);
-           progressRecyclerView.setVisibility(View.GONE);
-       }
-
-        else{
-            noDataText.setVisibility(View.GONE);
-            progressRecyclerView.setVisibility(View.VISIBLE);
-        }
-
-        Log.i("ListSUMTABLE", notesList + "");
-        progressAdapter.setNotesList(notesList,date);
-
-    }
+//    private void loadTableScoreByDate(String date) {
+//
+//        ProgressDataBase db = ProgressDataBase.getDbInstance(this.getApplicationContext());
+//      //  List<ProgressTableWise> notesList = db.progressDao().getSumOFTableDataByDate(date);
+//        Date date_=new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        if (!formatter.format(date_).equals(date))
+//            progressDate.setText("Progress on "+date);
+//        else
+//            progressDate.setText("Today's Progress");
+//
+//        tTotalC=0;
+//        tTotalW=0;
+//        tTotalQ=0;
+//
+//        for (int i=0;i<notesList.size();i++){
+//        tTotalQ=tTotalQ+notesList.get(i).getTotal_correct()+notesList.get(i).getTotal_wrong();
+//        tTotalW=tTotalW+notesList.get(i).getTotal_wrong();
+//        tTotalC=tTotalC+notesList.get(i).getTotal_correct();
+//        }
+//
+//        tTotalQuestion.setText(tTotalQ+"");
+//        tTotalCorrect.setText(tTotalC+"");
+//        tTotalWrong.setText(tTotalW+"");
+//        tProgress.setMax((int)tTotalQ);
+//        tProgress.setProgress((int)tTotalC);
+//
+//       if (notesList.size()==0){
+//           noDataText.setVisibility(View.VISIBLE);
+//           progressRecyclerView.setVisibility(View.GONE);
+//       }
+//
+//        else{
+//            noDataText.setVisibility(View.GONE);
+//            progressRecyclerView.setVisibility(View.VISIBLE);
+//        }
+//
+//        Log.i("ListSUMTABLE", notesList + "");
+//        progressAdapter.setNotesList(notesList,date);
+//
+//    }
 
 
     private void loadNoteListByDate(String dt)  {
@@ -391,17 +391,22 @@ public class DashBoardActivity extends AppCompatActivity implements OnChartValue
     }
 
 
+//    @Override
+//    public void onValueSelected(Entry e, Highlight h) {
+//
+//
+//        try{
+//            loadTableScoreByDate(progressByDates.get((int)e.getX()-1).getDate());
+//        }catch (Exception e1){
+//            loadTableScoreByDate("..");
+//        }
+//
+//       // Toast.makeText(this, e.getY()+","+e.getX(), Toast.LENGTH_SHORT).show();
+//    }
+
     @Override
     public void onValueSelected(Entry e, Highlight h) {
 
-
-        try{
-            loadTableScoreByDate(progressByDates.get((int)e.getX()-1).getDate());
-        }catch (Exception e1){
-            loadTableScoreByDate("..");
-        }
-
-       // Toast.makeText(this, e.getY()+","+e.getX(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

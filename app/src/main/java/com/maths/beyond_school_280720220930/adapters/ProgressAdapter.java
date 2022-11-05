@@ -56,7 +56,7 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
     public void onBindViewHolder(@NonNull ProgressViewHolder holder, int position) {
 
         if (val.equals("wt")){
-            holder.tableNumber.setText(list.get(position).table);
+          //  holder.tableNumber.setText(list.get(position).table);
             holder.desc1.setText(list.get(position).date);
             holder.desc2.setText("Used at: "+list.get(position).time);
             holder.desc3.setText(new UtilityFunctions().formatTime(list.get(position).time_to_complete));

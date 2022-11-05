@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 import static com.maths.beyond_school_280720220930.utils.UtilityFunctions.capitalize;
@@ -524,7 +525,7 @@ public class SpellingTest extends AppCompatActivity {
         checkLogIsEnable();
         destroyedEngines();
         checkProgressData();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(), timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), category, new Date(), timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void checkLogIsEnable() {
@@ -607,7 +608,7 @@ public class SpellingTest extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Spelling", category, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), category, new Date(), 0, true);
 
         try {
             if (progressData != null) {

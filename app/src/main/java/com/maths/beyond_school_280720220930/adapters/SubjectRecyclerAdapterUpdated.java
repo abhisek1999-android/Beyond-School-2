@@ -57,10 +57,10 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         GradeData gradeData = list.get(position);
 
-        holder.subSub.setText(gradeData.getSubject());
+        holder.subSub.setText(gradeData.getSubject().replace("_"," "));
         holder.chapters.setText(gradeData.getChapter_name());
         Log.d("AAA", "onBindViewHolder: "+progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
-        holder.timeText.setText(progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
+        holder.timeText.setText(progressDataBase.progressDao().getTimeSpend(gradeData.getId(), gradeData.getChapter_name())+"");
 
 
         if (gradeData.is_completed()){

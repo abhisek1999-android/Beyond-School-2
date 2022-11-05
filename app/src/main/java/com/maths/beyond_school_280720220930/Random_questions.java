@@ -521,7 +521,7 @@ public class Random_questions extends AppCompatActivity implements RecognizeVoic
             progressM.wrong = wrans;
             progressM.time = timeFormatter.format(date) + "";
             progressM.is_completed = "Yes";
-            progressM.table = TableValue + "";
+         //   progressM.table = TableValue + "";
             progressM.date = formatter.format(date) + "";
             progressM.timestamp = date.getTime();
             db.progressDao().insertNotes(progressM);

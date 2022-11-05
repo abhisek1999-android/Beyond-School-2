@@ -312,7 +312,7 @@ public class NameAgeActivity extends AppCompatActivity {
 
                             PrefConfig.writeIdInPref(getApplicationContext(),"new_user",getResources().getString(R.string.user_type));
 
-                            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                            Intent intent = new Intent(getApplicationContext(), AlarmAtTime.class);
                             intent.putExtra("name", binding.kidsNameTextView.getText().toString());
                             intent.putExtra("image", imageUrl);
                             intent.putExtra("age", binding.kidsAgeTextView.getText().toString());

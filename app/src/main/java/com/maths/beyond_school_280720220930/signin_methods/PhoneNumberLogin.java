@@ -461,12 +461,14 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
 
-        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database);
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database,()->{
+            Log.i("KidsData", kidsData.getName() + "");
+            var i = new Intent(getApplicationContext(), TabbedHomePage.class);
+            startActivity(i);
+            finish();
+        });
 
-        Log.i("KidsData", kidsData.getName() + "");
-        var i = new Intent(getApplicationContext(), TabbedHomePage.class);
-        startActivity(i);
-        finish();
+
     }
 
 

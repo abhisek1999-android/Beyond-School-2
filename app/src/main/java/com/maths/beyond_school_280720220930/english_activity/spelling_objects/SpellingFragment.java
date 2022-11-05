@@ -47,7 +47,11 @@ public class SpellingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentSpellingBinding.bind(view);
+        if (spellingModel.getImageLink().contains(".svg"))
         UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling, binding.loadingAnimation);
+        else
+        UtilityFunctions.loadImage(spellingModel.getImageLink(), binding.imageViewSpelling);
+
         binding.otpViewWord.setText(spellingModel.getWord().replaceAll("[A-Za-z]", "_"));
         binding.textViewWord.setText(UtilityFunctions.addSpaceAnswer(spellingModel.getWord()));
 

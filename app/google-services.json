@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "363678629904",
-    "project_id": "beyondschool-dev-dccc6",
-    "storage_bucket": "beyondschool-dev-dccc6.appspot.com"
+    "project_number": "508647598899",
+    "project_id": "beyondschool-test",
+    "storage_bucket": "beyondschool-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:363678629904:android:04dafc6cf3a8a686b04a95",
+        "mobilesdk_app_id": "1:508647598899:android:02488e90f9ceedffe6ec46",
         "android_client_info": {
           "package_name": "com.maths.beyond_school_280720220930"
         }
       },
       "oauth_client": [
         {
-          "client_id": "363678629904-ncqcabun62vi4di46dj017outgbtcdtc.apps.googleusercontent.com",
+          "client_id": "508647598899-a1kr235ug5q7gt8u0ajd2qcsku0m3trk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBWf1Du2c_qOAnj8y_zRrXLohxjerzOooo"
+          "current_key": "AIzaSyDlKhasMdG8BLQrJZr16rRAT_XVZeT4JiY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "363678629904-ncqcabun62vi4di46dj017outgbtcdtc.apps.googleusercontent.com",
+              "client_id": "508647598899-a1kr235ug5q7gt8u0ajd2qcsku0m3trk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

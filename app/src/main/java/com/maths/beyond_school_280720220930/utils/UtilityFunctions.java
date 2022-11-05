@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -23,9 +24,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.target.Target;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -81,7 +86,7 @@ public final class UtilityFunctions {
         return i != 0;
     }
 
-    public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
+    public static void loadImageSvg(String url, android.widget.ImageView imageView, View progress) {
         try {
             GlideToVectorYou
                     .init()
@@ -99,30 +104,29 @@ public final class UtilityFunctions {
                     })
                     .load(Uri.parse(url), imageView);
         } catch (Exception e) {
-//            Glide.with(imageView.getContext())
-//                    .load(url)
-//                    .timeout(10000)
-//                    .error(R.drawable.cartoon_image_1)
-//                    .listener(new com.bumptech.glide.request.RequestListener<>() {
-//                        @Override
-//                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                            progress.setVisibility(View.GONE);
-//                            return false;
-//                        }
-//
-//                        @Override
-//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                            progress.setVisibility(View.GONE);
-//                            return false;
-//                        }
-//                    })
-//                    .into(imageView);
+
             Log.d("XXX", "loadImage: " + e.getMessage());
         }
     }
 
-    public static void loadImageSvg(String url, android.widget.ImageView imageView, View progress) {
-
+    public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .timeout(10000)
+                .error(R.drawable.cartoon_image_1)
+                .listener(new com.bumptech.glide.request.RequestListener<>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(imageView);
     }
 
 
@@ -1159,16 +1163,16 @@ public final class UtilityFunctions {
     }
 
 
-    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
+    public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String id, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
 
         List<ProgressM> list = db.progressDao().isAvailable(chapter);
 
         if (!is_data_needed) {
             if (list.size() > 0) {
-                updateProgressData(db, subject, chapter, time_spend);
+                updateProgressData(db, id, chapter, time_spend);
             } else {
 
-                addProgressData(db, subject, chapter, timeStamp, time_spend);
+                addProgressData(db, id, chapter, timeStamp, time_spend);
             }
         }
         return list;
@@ -1187,7 +1191,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static void addProgressData(ProgressDataBase db, String subject, String chapter, Date timeStamp, long time_spend) {
+    public static void addProgressData(ProgressDataBase db, String id, String chapter, Date timeStamp, long time_spend) {
 
         try {
             Date date = new Date();
@@ -1200,7 +1204,7 @@ public final class UtilityFunctions {
             progressM.wrong = 0;
             progressM.time = timeFormatter.format(date) + "";
             progressM.is_completed = "Yes";
-            progressM.subject = subject;
+            progressM.sub_id = id;
             progressM.chapter = chapter;
             progressM.time_spend = time_spend;
             progressM.date = formatter.format(date) + "";
@@ -1293,7 +1297,7 @@ public final class UtilityFunctions {
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
-                eventValues.put(CalendarContract.Events.DESCRIPTION, "Beyondschool is waiting for you, only 5 mins left to see you. Tap the link to open app \n https://www.beyondschool.live/app");
+                eventValues.put(CalendarContract.Events.DESCRIPTION, "BeyondSchool is waiting for your child to experience 20 mins Power-packed study session. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY, false);
                 eventValues.put(CalendarContract.Events.HAS_ALARM, true);
                 eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
@@ -1323,6 +1327,77 @@ public final class UtilityFunctions {
         }
 
     }
+  @SuppressLint("Range")
+    public static void setEvent(Context context, TextInputLayout textInputLayout,EventAdded eventAdded) throws ParseException {
+
+
+        Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
+        try {
+
+
+            PrefConfig.writeIdInPref(context, textInputLayout.getEditText().getText().toString(), context.getResources().getString(R.string.timer_time));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+            Date currDate = new Date();
+            String datetime = dateFormatter.format(currDate) + " " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[0];
+            String endTime = "2023/12/31 " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[1];
+            //  String endTime="2023/08/12 06:30";
+            var eventID = 0;
+            Calendar startCal = Calendar.getInstance();
+            startCal.setTime(formatter.parse(datetime));
+
+            Calendar endCal = Calendar.getInstance();
+            endCal.setTime(formatter.parse(endTime));
+            var eventdate = startCal.get(Calendar.YEAR) + "/" + startCal.get(Calendar.MONTH) + "/" + startCal.get(Calendar.DAY_OF_MONTH) + " " + startCal.get(Calendar.HOUR_OF_DAY) + ":" + startCal.get(Calendar.MINUTE);
+            Log.e("event date", eventdate);
+            // provide CalendarContract.Calendars.CONTENT_URI to
+            // ContentResolver to query calendars
+
+            if (cur.moveToFirst()) {
+
+                if (isEventInCal(context, eventID + "")) {
+                    return;
+                }
+                long calendarID = cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID));
+                ContentValues eventValues = new ContentValues();
+                eventValues.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
+                //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
+                eventValues.put(CalendarContract.Events.DURATION, "+P30M");
+                eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
+                eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
+                eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
+                eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
+                eventValues.put(CalendarContract.Events.DESCRIPTION, "BeyondSchool is waiting for your child to experience 20 mins Power-packed study session. Tap the link to open app \n https://www.beyondschool.live/app");
+                eventValues.put(CalendarContract.Events.ALL_DAY, false);
+                eventValues.put(CalendarContract.Events.HAS_ALARM, true);
+                eventValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, context.getPackageName());
+                eventValues.put(CalendarContract.Events.CUSTOM_APP_URI, "myAppointment://1");
+
+                Uri eventUri = context.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, eventValues);
+                eventID = (int) ContentUris.parseId(eventUri);
+
+
+                ContentValues reminder = new ContentValues();
+                reminder.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                reminder.put(CalendarContract.Reminders.MINUTES, 5);
+
+                reminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                context.getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, reminder);
+
+                Toast.makeText(context, "Event Added", Toast.LENGTH_SHORT).show();
+                eventAdded.eventAddedComplete();
+                PrefConfig.writeIntInPref(context, (int) eventID, context.getResources().getString(R.string.calender_event_id));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("Error_Events", e.getMessage());
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
+        }
+
+    }
 
     public static boolean isEventInCal(Context context, String cal_meeting_id) {
 
@@ -1335,6 +1410,13 @@ public final class UtilityFunctions {
             return true;
         }
         return false;
+    }
+
+
+    public interface EventAdded{
+
+        public void eventAddedComplete();
+
     }
 
 }

@@ -46,7 +46,12 @@ public class VocabularyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
-        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
+//        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
+
+        if (vocabulary.getImageLink().contains(".svg"))
+            UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
+        else
+            UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
 //        var imageLoader = ImageLoader.Builder(requireContext())
 //                .crossfade(true)
 //                .on

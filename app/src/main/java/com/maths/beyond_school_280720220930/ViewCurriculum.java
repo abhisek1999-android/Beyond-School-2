@@ -163,6 +163,7 @@ public class ViewCurriculum extends AppCompatActivity {
                     intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
                 }
                 intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
                 intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                 startActivity(intent);
 

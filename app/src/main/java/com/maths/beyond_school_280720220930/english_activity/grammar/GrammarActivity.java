@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.grammar;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_QUESTION_FOR_TEST;
@@ -577,11 +578,11 @@ public class GrammarActivity extends AppCompatActivity {
         destroyEngine();
         checkProgressData();
         destroyMediaPlayer();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + (isOnline ? getIntent().getStringExtra(EXTRA_TITLE) : "Grammar"), category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, (isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + (isOnline ? getIntent().getStringExtra(EXTRA_TITLE) : "Grammar"), category, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, (isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), category, new Date(), 0, true);
 
         try {
             if (progressData != null) {
@@ -770,6 +771,7 @@ public class GrammarActivity extends AppCompatActivity {
         if (isOnline) {
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
+            intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));
             intent.putExtra(EXTRA_QUESTION_FOR_TEST, meta.getQuestion());
         }
         startActivity(intent);

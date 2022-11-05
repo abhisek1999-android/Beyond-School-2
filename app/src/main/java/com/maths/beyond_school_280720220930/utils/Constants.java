@@ -7,6 +7,7 @@ public abstract class Constants {
     public static final String EXTRA_SPELLING_CATEGORY = "spelling_category";
     public static final String EXTRA_SPELLING_LIST = "spelling_list";
     public static final String EXTRA_GRAMMAR_CATEGORY = "grammar_category";
+    public static final String EXTRA_CATEGORY_ID = "subject_id";
 
     public static final String EXTRA_ONLINE_FLAG = "online_flag";
 

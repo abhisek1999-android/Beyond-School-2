@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.english_activity.grammar.test;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
@@ -28,6 +29,7 @@ import com.maths.beyond_school_280720220930.database.english.grammer.model.Gramm
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityGrammarTestBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarTypeConverter;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
@@ -97,8 +99,10 @@ public class GrammarTestActivity extends AppCompatActivity {
     private String parentsContactId = "";
 
     private Boolean isOnline = false;
-
+    private long timeSpend = 0;
     private ContentModel.Meta meta;
+    private List<ProgressM> progressData;
+    private boolean isTimerRunning=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -486,7 +490,8 @@ public class GrammarTestActivity extends AppCompatActivity {
             onBackPressed();
         });
         binding.toolBar.titleText.setText((getIntent().hasExtra(EXTRA_TITLE)) ? getIntent().getStringExtra(EXTRA_TITLE) : getResources().getString(R.string.grammar));
-        binding.textViewCategory.setText((getIntent().hasExtra(category) ? getIntent().getStringExtra(category) : getResources().getString(R.string.grammar)));
+        //changed here.......
+        binding.textViewCategory.setText(getIntent().getStringExtra(EXTRA_GRAMMAR_CATEGORY).replace("Grammar", ""));
 
         binding.toolBar.getRoot().inflateMenu(R.menu.log_menu);
         binding.toolBar.getRoot().setOnMenuItemClickListener(item -> {
@@ -505,6 +510,23 @@ public class GrammarTestActivity extends AppCompatActivity {
         super.onPause();
         checkLogIsEnable();
         destroyEngine();
+        checkProgressData();
+        UtilityFunctions.checkProgressAvailable(progressDataBase, (isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
+    }
+
+
+
+    private void checkProgressData() {
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, (isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), category, new Date(), 0, true);
+
+        try {
+            if (progressData != null) {
+                timeSpend = progressData.get(0).time_spend;
+            }
+        } catch (Exception e) {
+            timeSpend = 0;
+        }
+
     }
 
     public void destroyEngine() {
@@ -578,7 +600,10 @@ public class GrammarTestActivity extends AppCompatActivity {
     }
 
     private void timer() {
-        boolean isTimerRunning = false;
+        if (isTimerRunning) {
+            return;
+        }
+
         Observable.interval(60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Consumer<Long>() {
             public void accept(Long x) throws Exception {
                 // update your view here
@@ -586,6 +611,7 @@ public class GrammarTestActivity extends AppCompatActivity {
                 binding.layoutExtTimer.timerProgress.setMax(15);
                 binding.layoutExtTimer.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
                 binding.layoutExtTimer.timeText.setText((x + 1) + "");
+                isTimerRunning = true;
                 Log.i("task", x + "");
             }
         }).takeUntil(aLong -> aLong == TIMER_VALUE).doOnComplete(() ->

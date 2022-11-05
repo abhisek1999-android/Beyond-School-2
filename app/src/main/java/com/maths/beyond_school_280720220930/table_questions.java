@@ -590,7 +590,7 @@ public class table_questions extends AppCompatActivity implements RecognizeVoice
             progressM.wrong = wrans;
             progressM.time = timeFormatter.format(date) + "";
             progressM.is_completed = "Yes";
-            progressM.table = TableValue + "";
+            //progressM.table = TableValue + "";
             progressM.date = formatter.format(date) + "";
             progressM.timestamp = date.getTime();
             db.progressDao().insertNotes(progressM);

@@ -157,7 +157,7 @@
                     android:background="@drawable/background_border"
                     android:fontFamily="@font/reemkufi_medium"
                     android:foregroundTint="@color/teal_700"
-                    android:hint="Eg. (Avinash Gupta)"
+                    android:hint="Eg. (Elon Musk)"
                     android:inputType="textCapSentences|textPersonName"
                     android:padding="15dp"
                     android:textSize="@dimen/default_font_size"

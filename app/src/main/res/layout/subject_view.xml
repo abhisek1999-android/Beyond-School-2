@@ -116,26 +116,11 @@
                     android:gravity="center"
                     android:layout_below="@id/chapters"
                     android:layout_gravity="center"
+                    android:textSize="@dimen/default_font_size_big"
                     android:fontFamily="@font/reemkufi_medium"
                     android:layout_marginLeft="20dp" />
 
-                <TextView
 
-                    android:id="@+id/status1"
-                    android:layout_toEndOf="@id/subSubject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/tv_shape"
-                    android:backgroundTint="@color/accent"
-                    android:fontFamily="@font/reemkufi_medium"
-                    android:paddingHorizontal="@dimen/grid_10"
-                    android:text="Incomplete"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/default_font_size_small"
-                    android:visibility="invisible"
-                    tools:ignore="NotSibling,RtlCompat" />
 
                 <TextView
 
@@ -145,6 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/tv_shape"
                     android:backgroundTint="@color/accent"
                     android:fontFamily="@font/reemkufi_medium"

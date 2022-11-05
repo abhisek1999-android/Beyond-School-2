@@ -43,8 +43,19 @@ public class RowItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
         binding = FragmentIndentifyingNounsRowBinding.bind(view);
-        UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+//        UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+
+        try{
+        if (grammarModel.getImage().contains(".svg"))
+            UtilityFunctions.loadImageSvg(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+        else
+            UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);}
+        catch (Exception e){}
+
         binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ? View.GONE : View.VISIBLE);
 
 

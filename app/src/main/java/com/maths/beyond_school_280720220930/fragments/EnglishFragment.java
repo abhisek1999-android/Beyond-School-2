@@ -217,7 +217,7 @@ public class EnglishFragment extends Fragment {
             // Added functionality when we got a new date
 
             if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
-                displayAddProfileAlertDialog();
+                //displayAddProfileAlertDialog();
             }
             PrefConfig.writeIdInPref(getContext(), simpleDateFormat.format(new Date()), getResources().getString(R.string.alter_maths));
             if (PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value)) == 0) {
@@ -236,7 +236,7 @@ public class EnglishFragment extends Fragment {
             if (PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)).size() == 0){
                 getUiData(true);
                 if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
-                    displayAddProfileAlertDialog();
+                   // displayAddProfileAlertDialog();
                 }
             }
             else
@@ -372,6 +372,7 @@ public class EnglishFragment extends Fragment {
                 intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
             }
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+            intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
             intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
             startActivity(intent);
 

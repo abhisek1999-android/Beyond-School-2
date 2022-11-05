@@ -183,7 +183,7 @@ public class AlarmAtTime extends AppCompatActivity {
                 ContentValues event = new ContentValues();
                 event.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
                 //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
-                event.put(CalendarContract.Events.DURATION,  "+P30M");
+                event.put(CalendarContract.Events.DURATION,  "+P90M");
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
                 event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 cr.update(eventUri, event, null, null);
@@ -204,16 +204,15 @@ public class AlarmAtTime extends AppCompatActivity {
             setEvent();
         }
 
-
-
-
-
     }
 
     @SuppressLint("Range")
     public void setEvent() throws ParseException {
         Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
-        UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer);
+        UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer,()->{
+            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+            startActivity(intent);
+        });
     }
 
 }

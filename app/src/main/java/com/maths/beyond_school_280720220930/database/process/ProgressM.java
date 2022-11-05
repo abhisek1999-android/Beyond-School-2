@@ -12,8 +12,8 @@ public class ProgressM {
     @ColumnInfo(name="date")
     public String date;
 
-    @ColumnInfo(name="table")
-    public String  table;
+    @ColumnInfo(name="sub_id")
+    public String  sub_id;
 
     @ColumnInfo(name="time_to_complete")
     public long  time_to_complete;

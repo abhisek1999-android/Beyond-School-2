@@ -29,16 +29,16 @@ public interface ProgressDao {
     @Query("SELECT * FROM progressM WHERE chapter=:chapter")
     List<ProgressM> isAvailable(String chapter);
 
-    @Query("SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM progressM WHERE date=:date GROUP BY `table`")
-    List<ProgressTableWise> getSumOFTableDataByDate(String date);
+//    @Query("SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM progressM WHERE date=:date GROUP BY `table`")
+//    List<ProgressTableWise> getSumOFTableDataByDate(String date);
 
     @Query("UPDATE progressM SET time_spend=:time WHERE chapter = :chapter")
     void update(long time, String chapter);
     @Query("UPDATE progressM SET correct=:correct , wrong=:wrong WHERE chapter = :chapter")
     void updateScore(long correct,long wrong, String chapter);
 
-    @Query("SELECT time_spend FROM progressM WHERE subject LIKE '%'||:subject|| '%' AND chapter=:chapter")
-    long getTimeSpend(String subject, String chapter);
+    @Query("SELECT time_spend FROM progressM WHERE sub_id =:sub_id AND chapter=:chapter")
+    long getTimeSpend(String sub_id, String chapter);
 
     @RawQuery(observedEntities = ProgressM.class)
     long correctValues(SupportSQLiteQuery query);
