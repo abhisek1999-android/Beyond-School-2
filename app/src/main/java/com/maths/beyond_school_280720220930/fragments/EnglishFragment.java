@@ -27,6 +27,7 @@ import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.TabbedHomePage;
+import com.maths.beyond_school_280720220930.TestActivity;
 import com.maths.beyond_school_280720220930.ViewCurriculum;
 import com.maths.beyond_school_280720220930.adapters.SectionSubSubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
@@ -134,6 +135,8 @@ public class EnglishFragment extends Fragment {
 
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         binding.evaluationTestTile.setVisibility(View.GONE);
+
+        binding.introTile.setOnClickListener(v->{startActivity(new Intent(getContext(), TestActivity.class));});
 
         if (!userType.equals("old_user")) {
             binding.completeProgressTile.setVisibility(View.GONE);

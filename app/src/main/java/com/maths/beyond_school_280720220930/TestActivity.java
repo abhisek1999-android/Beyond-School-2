@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,11 @@ import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultWithDataListener;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -32,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity implements PaymentResultWithDataListener {
 
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private String TAG = "TestActivity";
@@ -48,151 +54,50 @@ public class TestActivity extends AppCompatActivity {
         binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
-//        setUpRemoteConfig();
-        getNewData();
-        setRecyclerViewData();
+
+        Checkout.preload(getApplicationContext());
     }
-
-    private void setRecyclerViewData() {
-
-        chapterList = gradeDatabase.gradesDaoUpdated().getChapter();
-        binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(TestActivity.this, gradeData -> {
-            var intent = new Intent(TestActivity.this, GrammarActivity.class);
-            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-            startActivity(intent);
-        });
-        binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
-    }
-
-
-    private void getNewData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData("grade1").enqueue(new retrofit2.Callback<>() {
-            private Call<GradeModel> call;
-            private Response<GradeModel> response;
-
-            @Override
-            public void onResponse(@NonNull retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, @NonNull retrofit2.Response<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> response) {
-                this.call = call;
-                this.response = response;
-                if (response.body() != null) {
-                    Log.d(TAG, "onResponse: " + response.code());
-                    Log.d(TAG, "onResponse: " + response.body().getEnglish().toString());
-                    var list = response.body().getEnglish();
-                    mapToGradeModel(list);
-                } else {
-                    Toast.makeText(TestActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
-    }
-
-    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
-        list.forEach(subject -> {
-            var mapper = new GradeConverter(subject.getSubject());
-            var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
-        });
-    }
-
-
-    private void setUpRemoteConfig() {
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(60)
-                .build();
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-
-
-        var value = PrefConfig.readIntInPref(this,
-                getResources().getString(R.string.KEY_VALUE_SAVE)
-                , 0);
-
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        boolean updated = task.getResult();
-
-                        int val = (int) mFirebaseRemoteConfig.getLong("data_updated_value");
-                        if (value != val) {
-                            PrefConfig.writeIntInPref(
-                                    TestActivity.this,
-                                    val,
-                                    getResources().getString(R.string.KEY_VALUE_SAVE)
-                            );
-//                                getData();
-                        }
-
-                        Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
-                        return;
-                    }
-                    Toast.makeText(TestActivity.this, "Fetch failed",
-                            Toast.LENGTH_SHORT).show();
-
-                });
-
-
-    }
-
-
-//    private void getData() {
-//        Retrofit retrofit = ApiClient.getClient();
-//        var api = retrofit.create(ApiInterface.class);
-//        api.getTodos().enqueue(new retrofit2.Callback<>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseEnglish> call,
-//                                   @NonNull Response<ResponseEnglish> response) {
-//                var res = response.body();
-//                if (res != null) {
-//                    var english = res.getEnglish();
-//                    convertData(english);
-//                }else {
-//                    Log.d(TAG, "onResponse: "+response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ResponseEnglish> call, @NonNull Throwable t) {
-//                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
-//            }
-//        });
-//    }
-//
-//    private void convertData(List<Chapter> english) {
-//        english.forEach(
-//                chapter -> {
-//                    var chapters = chapter.getChapters();
-//                    var converter = new GradeConverter();
-//                    var listOfGradeData = converter.mapToList(chapters); // Grade List similar to GradeDatabase
-//                    listOfGradeData.forEach(gradeData -> {
-//                        Log.d(TAG, "Subject: " + gradeData.subject);
-//                        Log.d(TAG, "Chapter: " + gradeData.chapter);
-//                        Log.d(TAG, "grade 1: " + gradeData.grade1);
-//                        Log.d(TAG, "grade 2: " + gradeData.grade2);
-//                        Log.d(TAG, "grade 3: " + gradeData.grade3);
-//                        Log.d(TAG, "grade 4: " + gradeData.grade4);
-//                        Log.d(TAG, "grade 5: " + gradeData.grade5);
-//                        Log.d(TAG, "isCompleted: " + gradeData.is_completed);
-//                        System.out.println();
-//                    });
-//                }
-//        );
-//    }
-
 
     public void buttonClick(View view) {
-        finish();
+
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_test_UG0wPL54QTV1fA");
+
+        checkout.setImage(R.drawable.logo);
+        final Activity activity = this;
+
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Beyond School");
+            options.put("description", "Reference No. #123456");
+            options.put("image", R.drawable.app_logo_v2);
+          //  options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+          //  options.put("theme.color", "");
+            options.put("currency", "INR");
+            options.put("amount", "19900");//pass amount in currency subunits
+            options.put("prefill.email", "abhiseal45@gmail.com");
+            options.put("prefill.contact","7908777407");
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
 
     }
 
+    @Override
+    public void onPaymentSuccess(String s, PaymentData paymentData) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
+
+    }
 }

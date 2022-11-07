@@ -14,9 +14,17 @@
         android:layout_height="wrap_content" />
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClick"
+        android:layout_gravity="center"
+        android:text="Pay"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/contentRecyclerView"
+        android:visibility="invisible"
         />
 </LinearLayout>

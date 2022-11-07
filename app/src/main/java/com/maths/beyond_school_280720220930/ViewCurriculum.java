@@ -92,6 +92,8 @@ public class ViewCurriculum extends AppCompatActivity {
     public void addRadioButtons() {
         binding.radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         //
+
+
         for (String st : eng) {
             RadioButton rdbtn = new RadioButton(this);
             RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -152,7 +154,7 @@ public class ViewCurriculum extends AppCompatActivity {
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
 
-//            if (gradeData.isUnlock()) {
+            if (gradeData.isUnlock()) {
                 Intent intent;
                 Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
                 if (gradeData.getSubject().equals("Spelling_CommonWords")) {
@@ -167,10 +169,10 @@ public class ViewCurriculum extends AppCompatActivity {
                 intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                 startActivity(intent);
 
-//            } else {
-//
-//                UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
-//            }
+            } else {
+
+                UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
+            }
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
         getLiveData(subject);

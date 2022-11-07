@@ -11,7 +11,7 @@ android {
         applicationId "com.maths.beyond_school_280720220930"
         minSdk 26
         targetSdk 33
-        versionCode 17
+        versionCode 18
         versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -104,4 +104,7 @@ dependencies {
   //  implementation "com.pixplicity.sharp:library:1.1.0"
 
     implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+
+    //razorpay
+    implementation 'com.razorpay:checkout:1.6.26'
 }

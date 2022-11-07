@@ -30,6 +30,7 @@ public class GradeConverter implements TypeConverter<GradeData, GradeModel.Engli
         );
     }
 
+
     @Override
     public GradeModel.EnglishModel.Chapter mapFrom(GradeData gradeData) {
         return new GradeModel.EnglishModel.Chapter();
