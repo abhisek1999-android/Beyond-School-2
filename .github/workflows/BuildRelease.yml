@@ -35,11 +35,6 @@ jobs :
           echo ${{ steps.decode_keystore.outputs.filePath }}
           ls -la ./app
           ls -la ./app/keystore
-      - name : See Keystore
-        run: |
-          ls -la ./app/keystore
-          ls -la ./app/keystore/keystore.jks
-          keytool -list -v -keystore ./app/keystore/keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -alias ${{ secrets.KEYSTORE_ALIAS }} -keypass ${{ secrets.KEYSTORE_PASSWORD }}
       - name: Signing Report
         run: |
           ./gradlew signingReport
