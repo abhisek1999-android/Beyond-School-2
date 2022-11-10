@@ -27,6 +27,12 @@ jobs :
       - name : Make gradlew executable
         run : chmod +x ./gradlew
 
+      - name: Copy Keystore to Project
+        run: |
+          mkdir -p ./bitapp/keystore
+          cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
+          echo ${{ steps.decode_keystore.outputs.filePath }}
+          ls -la ./app
       - name : Build Release APK
         run : ./gradlew :app:assembleRelease :app:bundleRelease
         env:
