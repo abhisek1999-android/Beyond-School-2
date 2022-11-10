@@ -32,7 +32,9 @@ jobs :
           mkdir -p ./app/keystore
           cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
           echo ${{ steps.decode_keystore.outputs.filePath }}
+          echo ${{ secrets.KEYSTORE_PRODUCTION }}
           ls -la ./app
+          ls -la ./app/keystore
       - name : Build Release APK
         run : ./gradlew :app:assembleRelease --stacktrace  :app:bundleRelease --stacktrace
         env:
