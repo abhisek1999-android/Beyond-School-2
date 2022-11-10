@@ -28,16 +28,16 @@ jobs :
       - name : Make gradlew executable
         run : chmod +x ./gradlew
 
-      - name: Copy Keystore to Project
-        run: |
-          mkdir -p ./app/keystore
-          cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
-          echo ${{ steps.decode_keystore.outputs.filePath }}
-          ls -la ./app
-          ls -la ./app/keystore
-      - name: Signing Report
-        run: |
-          ./gradlew signingReport
+#      - name: Copy Keystore to Project
+#        run: |
+#          mkdir -p ./app/keystore
+#          cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
+#          echo ${{ steps.decode_keystore.outputs.filePath }}
+#          ls -la ./app
+#          ls -la ./app/keystore
+#      - name: Signing Report
+#        run: |
+#          ./gradlew signingReport
       - name : Build Release APK
         run : ./gradlew :app:assembleRelease --stacktrace  :app:bundleRelease --stacktrace
 #        env:
