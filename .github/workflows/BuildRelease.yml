@@ -29,7 +29,7 @@ jobs :
 
       - name: Copy Keystore to Project
         run: |
-          mkdir -p ./bitapp/keystore
+          mkdir -p ./app/keystore
           cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
           echo ${{ steps.decode_keystore.outputs.filePath }}
           ls -la ./app
