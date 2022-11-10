@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.maths.beyond_school_280720220930"
+        applicationId "com.maths.beyond_school_new_071020221400"
         minSdk 26
         targetSdk 33
         versionCode 18
@@ -32,7 +32,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'com.maths.beyond_school_280720220930'
+    namespace 'com.maths.beyond_school_new_071020221400'
 }
 
 dependencies {
@@ -109,4 +109,7 @@ dependencies {
 
     //razorpay
     implementation 'com.razorpay:checkout:1.6.26'
+
+    //otpView
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2'
 }

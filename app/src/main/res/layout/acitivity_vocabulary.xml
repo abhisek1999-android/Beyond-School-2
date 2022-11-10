@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.maths.beyond_school_280720220930.english_activity.vocabulary2.VocabularyActivity">
+    tools:context="com.maths.beyond_school_new_071020221400.english_activity.vocabulary2.VocabularyActivity">
 
 
     <include

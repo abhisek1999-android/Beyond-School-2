@@ -77,6 +77,49 @@
       "api_key": [
         {
           "current_key": "AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw"
+        },
+        {
+          "current_key": "AIzaSyCNrEMF5weq_POsBXnJgwnBjbb2LPnxo6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556365060240:android:43d274d0d6367bc056e015",
+        "android_client_info": {
+          "package_name": "com.maths.beyond_school_new_071020221400"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556365060240-lper56ip6kisev5t86srjqpscu1gnf04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maths.beyond_school_new_071020221400",
+            "certificate_hash": "16ebaf1376a876f8180aeb91caba772621ca25f4"
+          }
+        },
+        {
+          "client_id": "556365060240-769j71tv8knvniubopdpsc5a5ci35unc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw"
+        },
+        {
+          "current_key": "AIzaSyCNrEMF5weq_POsBXnJgwnBjbb2LPnxo6I"
         }
       ],
       "services": {
