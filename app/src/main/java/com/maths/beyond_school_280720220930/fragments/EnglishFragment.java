@@ -115,7 +115,6 @@ public class EnglishFragment extends Fragment {
         tableList = getResources().getStringArray(R.array.table_name);
         subjectRecyclerAdapter = new SubjectRecyclerAdapter(subMathsData, getContext());
 
-
         kidsGrade = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.kids_grade));
 
         kidsName = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.kids_name));
@@ -136,7 +135,7 @@ public class EnglishFragment extends Fragment {
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         binding.evaluationTestTile.setVisibility(View.GONE);
 
-        binding.introTile.setOnClickListener(v->{startActivity(new Intent(getContext(), TestActivity.class));});
+       binding.introTile.setOnClickListener(v->{startActivity(new Intent(getContext(), TestActivity.class));});
 
         if (!userType.equals("old_user")) {
             binding.completeProgressTile.setVisibility(View.GONE);

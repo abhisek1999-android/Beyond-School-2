@@ -152,7 +152,8 @@ public class AlarmAtTime extends AppCompatActivity {
 
                // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
-                checkCalenderPermission();
+                Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                startActivity(intent);
             }
         }
 
@@ -183,9 +184,9 @@ public class AlarmAtTime extends AppCompatActivity {
                 ContentValues event = new ContentValues();
                 event.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
                 //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
-                event.put(CalendarContract.Events.DURATION,  "+P90M");
+                event.put(CalendarContract.Events.DURATION,  "+P30M");
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-                event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
+                event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=90;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 cr.update(eventUri, event, null, null);
                 Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
                 PrefConfig.writeIdInPref(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString(),getResources().getString(R.string.timer_time));
@@ -203,7 +204,6 @@ public class AlarmAtTime extends AppCompatActivity {
 
             setEvent();
         }
-
     }
 
     @SuppressLint("Range")

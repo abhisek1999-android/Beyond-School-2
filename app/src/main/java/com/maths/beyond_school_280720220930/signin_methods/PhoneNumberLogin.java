@@ -94,7 +94,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         setContentView(binding.getRoot());
 
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
-
         gradeDatabase = GradeDatabase.getDbInstance(PhoneNumberLogin.this);
         customProgressDialogue = new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
@@ -136,7 +135,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                 }
             }
         });
-
         // initializing on click listener
         // for verify otp button
         binding.idBtnVerify.setOnClickListener(new View.OnClickListener() {
@@ -151,13 +149,14 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                     // if OTP field is not empty calling
                     // method to verify the OTP.
                     verifyCode(binding.idEdtOtp.getText().toString());
+                    customProgressDialogue.show();
                     closeKeyboard();
                 }
             }
         });
 
-
         phoneSelection();
+
     }
 
     private void closeKeyboard() {
@@ -207,8 +206,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                 if (credential != null) {
                     String number = credential.getId().replace(binding.countryCode.getText().toString(), "");
                     binding.idEdtPhoneNumber.setText(number);
-
-
                 } else {
                     Toast.makeText(getApplicationContext(), "No phone numbers found", Toast.LENGTH_LONG).show();
                 }
@@ -236,6 +233,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                         if (task.isSuccessful()) {
                             // if the code is correct and the task is successful
                             // we are sending our user to new activity.
+                            customProgressDialogue.dismiss();
                             checkUserAlreadyAvailable(mAuth.getCurrentUser());
                         } else {
                             // if the code is not correct then we are
@@ -292,6 +290,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             // below line is used for getting OTP code
             // which is sent in phone auth credentials.
+
             final String code = phoneAuthCredential.getSmsCode();
 
             // checking if the code
@@ -300,6 +299,8 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                 // if the code is not null then
                 // we are setting that code to
                 // our OTP edittext field.
+                customProgressDialogue.show();
+                binding.idBtnVerify.setEnabled(false);
                 binding.idEdtOtp.setText(code);
 
                 // after setting this code
@@ -317,6 +318,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             binding.numberLayout.setVisibility(View.VISIBLE);
             customProgressDialogue.dismiss();
+            binding.idBtnVerify.setEnabled(true);
         }
     };
 
@@ -397,7 +399,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                             //saveKidsData("default");
 
                         } else {
-                            PrefConfig.writeIdInPref(getApplicationContext(),"old_user",getResources().getString(R.string.user_type));
+                            PrefConfig.writeIdInPref(getApplicationContext(), "old_user", getResources().getString(R.string.user_type));
                             for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                                 KidsData kidsData = queryDocumentSnapshot.toObject(KidsData.class);
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
@@ -461,7 +463,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
 
-        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database,()->{
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
             Log.i("KidsData", kidsData.getName() + "");
             var i = new Intent(getApplicationContext(), TabbedHomePage.class);
             startActivity(i);

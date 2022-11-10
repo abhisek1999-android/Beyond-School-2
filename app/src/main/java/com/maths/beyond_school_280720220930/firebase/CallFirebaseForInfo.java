@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.firebase;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -21,12 +22,14 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.model.KidsActivity;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.razorpay.PaymentData;
 
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -164,6 +167,39 @@ public class CallFirebaseForInfo  {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //  Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+    }
+
+
+    public static boolean checkPaymentStatus(){
+        return false;
+    }
+
+    public static void addPaymentInfo(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, Boolean isPaymentDone, PaymentData paymentData,Context mContext) {
+
+
+        Date date=new Date();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd MMM,yyyy");
+        Map paymentMap=new HashMap();
+        paymentMap.put("isPaymentDone",isPaymentDone);
+        paymentMap.put("date",date.toString());
+        paymentMap.put("payment_id",paymentData.getPaymentId());
+        paymentMap.put("payment_info",paymentData.getData().toString());
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("payments")
+                .document(simpleDateFormat.format(date).toString()).set(paymentMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("FirebasePaymentData", "onSuccess: ");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mContext, "Data not Saved", Toast.LENGTH_SHORT).show();
+                        Log.d("FirebasePaymentData", "onFailure: ");
                     }
                 });
 

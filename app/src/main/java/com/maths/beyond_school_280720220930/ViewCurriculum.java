@@ -59,8 +59,9 @@ public class ViewCurriculum extends AppCompatActivity {
 
         eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
         binding.gradeInfo.setText("For " + kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
+        try{
         engChapters = Arrays.asList(eng);
-        defaultSubject = eng[0];
+        defaultSubject = eng[0];}catch (Exception e){}
 
 
         try {

@@ -560,6 +560,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         subjectDataNew.clear();
 
+
+
         Log.d("TAG", "getDataFromDatabase:call ");
 
         if (isNewCall) {

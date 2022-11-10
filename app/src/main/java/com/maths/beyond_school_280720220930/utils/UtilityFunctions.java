@@ -1338,20 +1338,15 @@ public final class UtilityFunctions {
 
 
             PrefConfig.writeIdInPref(context, textInputLayout.getEditText().getText().toString(), context.getResources().getString(R.string.timer_time));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
             Date currDate = new Date();
-            String datetime = dateFormatter.format(currDate) + " " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[0];
-            String endTime = "2023/12/31 " + textInputLayout.getEditText().getText().toString().replace(" ", "").split("-")[1];
-            //  String endTime="2023/08/12 06:30";
+            String datetime = dateFormatter.format(currDate) + " " + textInputLayout.getEditText().getText().toString().split("-")[0];
+
             var eventID = 0;
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(formatter.parse(datetime));
 
-            Calendar endCal = Calendar.getInstance();
-            endCal.setTime(formatter.parse(endTime));
-            var eventdate = startCal.get(Calendar.YEAR) + "/" + startCal.get(Calendar.MONTH) + "/" + startCal.get(Calendar.DAY_OF_MONTH) + " " + startCal.get(Calendar.HOUR_OF_DAY) + ":" + startCal.get(Calendar.MINUTE);
-            Log.e("event date", eventdate);
             // provide CalendarContract.Calendars.CONTENT_URI to
             // ContentResolver to query calendars
 
@@ -1368,7 +1363,7 @@ public final class UtilityFunctions {
                 eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
                 eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
-                eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=20;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
+                eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=90;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 eventValues.put(CalendarContract.Events.DESCRIPTION, "BeyondSchool is waiting for your child to experience 20 mins Power-packed study session. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY, false);
                 eventValues.put(CalendarContract.Events.HAS_ALARM, true);
@@ -1401,6 +1396,17 @@ public final class UtilityFunctions {
 
     }
 
+
+
+    public static void checkUpdatePaymentStatus(Context context){
+
+        int val=PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),0);
+        val+=1;
+        PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),val);
+
+
+
+    }
 
 
         /** CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT */
