@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.telecom.TelecomManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -61,6 +62,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import in.aabhasjindal.otptextview.OTPListener;
 import retrofit2.Retrofit;
 
 public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -68,7 +70,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private static final String TAG = "PhoneNumberLogin";
     private ActivityPhoneNumberLoginBinding binding;
 
-    private String[] array;
+   
     private String[] arrayGrades;
     private ArrayAdapter adapterGrades;
     // variable for FirebaseAuth class
@@ -76,6 +78,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     // string for storing our verification ID
     private String verificationId;
     private ArrayAdapter adapter;
+    private String[] array;
     private GradeDatabase database;
     private CustomProgressDialogue customProgressDialogue;
     private FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
@@ -85,7 +88,9 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private final static int RESOLVE_HINT = 1011;
     private FirebaseAnalytics analytics;
     private GradeDatabase gradeDatabase;
-
+    private String phoneNumber="";
+    //Declare timer
+    CountDownTimer cTimer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,146 +103,106 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         customProgressDialogue = new CustomProgressDialogue(PhoneNumberLogin.this);
         mAuth = FirebaseAuth.getInstance();
         database = GradeDatabase.getDbInstance(this);
-        setUpTextLayoutGrade();
         telecomManager = (TelecomManager) getApplicationContext().getSystemService(Context.TELECOM_SERVICE);
-        binding.idBtnGetOtp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // below line is for checking weather the user
-                // has entered his mobile number or not.
-                if (TextUtils.isEmpty(binding.idEdtPhoneNumber.getText().toString())) {
-                    // when mobile number text field is empty
-                    // displaying a toast message.
-                    Toast.makeText(PhoneNumberLogin.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // if the text field is not empty we are calling our
-                    // send OTP method for getting OTP from Firebase.
-                    String phone = binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
-                    sendVerificationCode(phone);
-                    customProgressDialogue.show();
-                }
+        
+        phoneNumber=getIntent().getStringExtra("phoneNumber");
+
+        sendVerificationCode(phoneNumber);
+        customProgressDialogue.show();
+        startTimer();
+        
+        binding.resendOtp.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(phoneNumber)) {
+                Toast.makeText(PhoneNumberLogin.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
+            } else {
+                startTimer();
+                UtilityFunctions.attemptPhoneNumberLogin(analytics, phoneNumber);
+                sendVerificationCode(phoneNumber);
             }
         });
 
-        binding.resendOtp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TextUtils.isEmpty(binding.idEdtPhoneNumber.getText().toString())) {
-                    // when mobile number text field is empty
-                    // displaying a toast message.
-                    Toast.makeText(PhoneNumberLogin.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // if the text field is not empty we are calling our
-                    // send OTP method for getting OTP from Firebase.
-                    String phone = binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString();
-                    UtilityFunctions.attemptPhoneNumberLogin(analytics, phone);
-                    sendVerificationCode(phone);
-                }
-            }
-        });
-        // initializing on click listener
-        // for verify otp button
         binding.idBtnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // validating if the OTP text field is empty or not.
-                if (TextUtils.isEmpty(binding.idEdtOtp.getText().toString())) {
-                    // if the OTP text field is empty display
-                    // a message to user to enter OTP
+                if (TextUtils.isEmpty(binding.idEdtOtp.getOTP().toString())) {
                     Toast.makeText(PhoneNumberLogin.this, "Please enter OTP", Toast.LENGTH_SHORT).show();
                 } else {
-                    // if OTP field is not empty calling
-                    // method to verify the OTP.
-                    verifyCode(binding.idEdtOtp.getText().toString());
+
+                    verifyCode(binding.idEdtOtp.getOTP().toString());
                     customProgressDialogue.show();
                     closeKeyboard();
                 }
             }
         });
 
-        phoneSelection();
+
+        binding.idEdtOtp.setOtpListener(new OTPListener() {
+            @Override
+            public void onInteractionListener() {
+                // fired when user types something in the Otpbox
+            }
+            @Override
+            public void onOTPComplete(String otp) {
+                // fired when user has entered the OTP fully.
+              //  Toast.makeText(PhoneNumberLogin.this, "The OTP is " + otp,  Toast.LENGTH_LONG).show();
+             //   verifyCode(binding.idEdtOtp.getOTP().toString());
+               // customProgressDialogue.show();
+                closeKeyboard();
+            }
+        });
+
 
     }
 
+
+
+
+    //start timer function
+    void startTimer() {
+        binding.timer.setVisibility(View.VISIBLE);
+        binding.resendOtp.setVisibility(View.GONE);
+        cTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+                binding.timer.setText("Resend OTP in:"+ millisUntilFinished/1000);
+
+            }
+            public void onFinish() {
+                binding.timer.setVisibility(View.GONE);
+                binding.resendOtp.setVisibility(View.VISIBLE);
+            }
+        };
+        cTimer.start();
+    }
+
+
+    //cancel timer
+    void cancelTimer() {
+        if(cTimer!=null)
+            cTimer.cancel();
+    }
+
     private void closeKeyboard() {
-        // this will give us the view
-        // which is currently focus
-        // in this layout
+
         View view = this.getCurrentFocus();
 
-        // if nothing is currently
-        // focus then this will protect
-        // the app from crash
         if (view != null) {
-
-            // now assign the system
-            // service to InputMethodManager
             InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
-    private void phoneSelection() {
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.CREDENTIALS_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        googleApiClient.connect();
-        HintRequest hintRequest = new HintRequest.Builder()
-                .setPhoneNumberIdentifierSupported(true)
-                .build();
-        PendingIntent intent = Auth.CredentialsApi.getHintPickerIntent(googleApiClient, hintRequest);
-        try {
-            startIntentSenderForResult(intent.getIntentSender(), RESOLVE_HINT, null, 0, 0, 0, null);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESOLVE_HINT) {
-            if (resultCode == RESULT_OK) {
-                Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
-                if (credential != null) {
-                    String number = credential.getId().replace(binding.countryCode.getText().toString(), "");
-                    binding.idEdtPhoneNumber.setText(number);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No phone numbers found", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-    }
-
-    private void setUpTextLayoutGrade() {
-        array = getResources().getStringArray(R.array.country_code);
-        adapter = new ArrayAdapter(this, R.layout.list_item, array);
-        AutoCompleteTextView editText = Objects.requireNonNull((AutoCompleteTextView) binding.textInputLayoutCountryCode.getEditText());
-        editText.setAdapter(adapter);
-
-    }
 
 
     private void signInWithCredential(PhoneAuthCredential credential) {
-        // inside this method we are checking if
-        // the code entered is correct or not.
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // if the code is correct and the task is successful
-                            // we are sending our user to new activity.
-                            customProgressDialogue.dismiss();
                             checkUserAlreadyAvailable(mAuth.getCurrentUser());
                         } else {
-                            // if the code is not correct then we are
-                            // displaying an error message to the user.
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             customProgressDialogue.dismiss();
                         }
@@ -262,75 +227,48 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     }
 
 
-    // callback method is called on Phone auth provider.
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
-            // initializing our callbacks for on
-            // verification callback method.
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
-        // below method is used when
-        // OTP is sent from Firebase
+
         @Override
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
-            // when we receive the OTP it
-            // contains a unique id which
-            // we are storing in our string
-            // which we have already created.
             customProgressDialogue.dismiss();
             verificationId = s;
-            binding.numberLayout.setVisibility(View.GONE);
             binding.otpLayout.setVisibility(View.VISIBLE);
         }
 
-        // this method is called when user
-        // receive OTP from Firebase.
+
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-            // below line is used for getting OTP code
-            // which is sent in phone auth credentials.
 
             final String code = phoneAuthCredential.getSmsCode();
 
-            // checking if the code
-            // is null or not.
             if (code != null) {
-                // if the code is not null then
-                // we are setting that code to
-                // our OTP edittext field.
                 customProgressDialogue.show();
                 binding.idBtnVerify.setEnabled(false);
-                binding.idEdtOtp.setText(code);
-
-                // after setting this code
-                // to OTP edittext field we
-                // are calling our verifycode method.
+                binding.idEdtOtp.setOTP(code);
                 verifyCode(code);
             }
         }
 
-        // this method is called when firebase doesn't
-        // sends our OTP code due to any error or issue.
+
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            // displaying error message with firebase exception.
+
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            binding.numberLayout.setVisibility(View.VISIBLE);
             customProgressDialogue.dismiss();
             binding.idBtnVerify.setEnabled(true);
         }
     };
 
 
-    // below method is use to verify code from Firebase.
-    private void verifyCode(String code) {
-        // below line is used for getting
-        // credentials from our verification id and code.
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
 
-        // after getting credential we are
-        // calling sign in method.
+    private void verifyCode(String code) {
+
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithCredential(credential);
     }
 
@@ -358,7 +296,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                             UtilityFunctions.saveDataLocally(getApplicationContext(), "GRADE 1", "Kids Name",
                                     "01/08/2017", imageUrl, uuid);
 
-                            PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
+                            PrefConfig.writeIdInPref(PhoneNumberLogin.this, phoneNumber, getResources().getString(R.string.parent_contact_details));
                             Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                             intent.putExtra("name", "Kids Name");
                             intent.putExtra("image", imageUrl);
@@ -384,7 +322,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
     private void checkUserAlreadyAvailable(FirebaseUser user) {
 
-
         if (user != null) {
             FirebaseFirestore kidsDb = FirebaseFirestore.getInstance();
             kidsDb.collection("users").document(user.getUid()).collection("kids").get()
@@ -392,11 +329,14 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
 
                         if (queryDocumentSnapshots.isEmpty()) {
-
+                            customProgressDialogue.dismiss();
                             Log.i("No_data", "No_data");
                             var intent = new Intent(getApplicationContext(), GradeActivity.class);
                             startActivity(intent);
+                            cancelTimer();
+                            finish();
                             //saveKidsData("default");
+
 
                         } else {
                             PrefConfig.writeIdInPref(getApplicationContext(), "old_user", getResources().getString(R.string.user_type));
@@ -405,7 +345,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                 kidsData.setKids_id(queryDocumentSnapshot.getId());
                                 try {
                                     if (!kidsData.getStatus().toLowerCase(Locale.ROOT).equals("deleted")) {
-                                        PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
+                                        PrefConfig.writeIdInPref(PhoneNumberLogin.this, phoneNumber, getResources().getString(R.string.parent_contact_details));
 
                                         getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
                                         UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
@@ -413,7 +353,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
                                         break;
                                     }
                                 } catch (Exception e) {
-                                    PrefConfig.writeIdInPref(PhoneNumberLogin.this, binding.countryCode.getText().toString() + binding.idEdtPhoneNumber.getText().toString(), getResources().getString(R.string.parent_contact_details));
+                                    PrefConfig.writeIdInPref(PhoneNumberLogin.this, phoneNumber, getResources().getString(R.string.parent_contact_details));
                                     getNewData(kidsData.getGrade().toLowerCase().replace(" ", ""), kidsData);
                                     //CallFirebaseForInfo.upDateActivities(kidsDb,mAuth,kidsData.getKids_id(),kidsData.getGrade(),PhoneNumberLogin.this,database);
                                     UtilityFunctions.saveDataLocally(getApplicationContext(), kidsData.getGrade(), kidsData.getName(), kidsData.getAge(), kidsData.getProfile_url(), kidsData.getKids_id());
@@ -445,6 +385,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
                 } else {
                     Toast.makeText(PhoneNumberLogin.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                    customProgressDialogue.dismiss();
                 }
             }
 
@@ -452,6 +393,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
 
                 Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+                customProgressDialogue.dismiss();
             }
         });
     }
@@ -465,8 +407,10 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
             Log.i("KidsData", kidsData.getName() + "");
+            customProgressDialogue.dismiss();
             var i = new Intent(getApplicationContext(), TabbedHomePage.class);
             startActivity(i);
+            cancelTimer();
             finish();
         });
 

@@ -793,11 +793,8 @@
     <string name="facebook_client_token">a7ad733b04fdd77cf846668c66d594ce</string>
 
 
-
-
     <string name="razorpay_api_key">rzp_test_UG0wPL54QTV1fA</string>
     <string name="razorpay_api_secret">tY2pTw6MYvL4JnXOkRHBoI2R</string>
-
 
 
     <string name="math_extra">Mathematics Extra</string>
@@ -817,7 +814,7 @@
     <string name="child_name">Hi, <font color="#FF018786">Buddy</font></string>
     <string name="app_name_style">BEYOND  <font color="#6CC8CD">SCHOOL</font></string>
     <string name="slogan">Learn Multiplication Table with  <font color="#6CC8CD">Speech</font></string>
-    <string name="slogan2">AI-based Personalized \n <font color="#6CC8CD">Kids Learning App</font></string>
+    <string name="slogan2">AI-based Personalized\n<font color="#6CC8CD">Kids Learning App</font></string>
     <string name="title_activity_kids_info">KidsInfoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

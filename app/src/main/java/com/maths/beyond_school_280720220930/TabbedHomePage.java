@@ -235,7 +235,6 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         // M = 23
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             permissionPadController();
-
         }
     }
 

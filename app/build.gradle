@@ -109,4 +109,7 @@ dependencies {
 
     //razorpay
     implementation 'com.razorpay:checkout:1.6.26'
+
+    //otpView
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2'
 }

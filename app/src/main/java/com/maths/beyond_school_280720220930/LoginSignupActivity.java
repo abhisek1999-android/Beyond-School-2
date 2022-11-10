@@ -59,7 +59,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
         PrefConfig.writeNormalListInPref(LoginSignupActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
         binding.phoneNumberSignIn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), PhoneNumberLogin.class);
+            Intent intent = new Intent(getApplicationContext(), EnterPhoneNumberActivity.class);
             startActivity(intent);
             finish();
         });

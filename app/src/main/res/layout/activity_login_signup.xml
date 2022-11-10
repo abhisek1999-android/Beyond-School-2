@@ -85,7 +85,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="50dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/round_rect_button_bg"
+        android:background="@drawable/tv_shape"
         android:drawableLeft="@drawable/ic_baseline_local_phone_24"
         android:drawableTint="@color/white"
         android:fontFamily="@font/reemkufi_medium"
