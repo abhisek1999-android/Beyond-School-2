@@ -3,7 +3,7 @@ name : Build Release 🚀
 on :
   push :
     branches:
-      - ci_cd
+      - development
 
 jobs :
   build :
