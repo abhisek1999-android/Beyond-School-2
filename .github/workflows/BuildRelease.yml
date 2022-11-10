@@ -31,6 +31,9 @@ jobs :
         run: |
           mkdir -p ./app/keystore
           cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
+          echo ${{ secrets.SIGNING_KEY_ALIAS_PRODUCTION }}
+          echo ${{ secrets.SIGNING_KEY_PASSWORD_PRODUCTION }}
+          echo${{ secrets.SIGNING_STORE_PASSWORD_PRODUCTION }}
           echo ${{ steps.decode_keystore.outputs.filePath }}
           echo ${{ secrets.KEYSTORE_PRODUCTION }}
           ls -la ./app
