@@ -35,15 +35,16 @@ jobs :
           echo ${{ steps.decode_keystore.outputs.filePath }}
           ls -la ./app
           ls -la ./app/keystore
+          ls -la ./app/keystore/keystore.jks
       - name: Signing Report
         run: |
           ./gradlew signingReport
       - name : Build Release APK
         run : ./gradlew :app:assembleRelease --stacktrace  :app:bundleRelease --stacktrace
         env:
-          SIGNING_KEY_ALIAS_PRODUCTION: ${{ secrets.SIGNING_KEY_ALIAS_PRODUCTION }}
-          SIGNING_KEY_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_KEY_PASSWORD_PRODUCTION }}
-          SIGNING_STORE_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_STORE_PASSWORD_PRODUCTION }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name : Upload
         uses : actions/upload-artifact@v2
