@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/grid_1"
+    app:cardBackgroundColor="#ffffff"
+    android:animateLayoutChanges="true"
+    android:theme="@style/Widget.Material3.CardView.Outlined"
+    app:strokeColor="#c6c7c9"
+    android:layout_marginHorizontal="@dimen/grid_1">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/text_view_subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/image_view_state"
+            android:fontFamily="@font/jellee_roman"
+            android:padding="@dimen/grid_1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/image_view_state"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nouns" />
+
+        <ImageView
+            android:id="@+id/image_view_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/blanks"
+            android:padding="@dimen/grid_1"
+            android:src="@drawable/ic_drop_down"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_subject"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_subject"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/grid_1"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_subject"
+             />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_show_lesson"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_subject"
+            android:layout_marginHorizontal="@dimen/grid_1"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/divider_subject" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

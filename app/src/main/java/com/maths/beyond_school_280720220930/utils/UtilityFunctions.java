@@ -26,8 +26,10 @@ import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
@@ -115,6 +117,23 @@ public final class UtilityFunctions {
 
             Log.d("XXX", "loadImage: " + e.getMessage());
         }
+    }
+
+    public static <T> void addViewToLinearLayout(@LayoutRes int id, T t, LinearLayout linearLayout, SendView<T> sendView) {
+        var view = View.inflate(linearLayout.getContext(), id, null);
+        sendView.sendView(view, t);
+        linearLayout.addView(view);
+    }
+
+    public interface SendView<T> {
+        void sendView(View view, T t);
+    }
+
+    private static boolean isVisible(View view) {
+        return view.getVisibility() == View.VISIBLE;
+    }
+    public static void setVisibility(View view, boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
@@ -1279,7 +1298,7 @@ public final class UtilityFunctions {
     public static boolean checkGrade(String grade) {
 
 
-        List<String> grades = new ArrayList();
+        List<String> grades = new ArrayList<>();
         grades.add("GRADE 1");
         grades.add("GRADE 2");
         grades.add("GRADE 3");
@@ -1445,7 +1464,6 @@ public final class UtilityFunctions {
             PrefConfig.writeIdInPref(context,  "pending",context.getResources().getString(R.string.payment_status));
             return "pending";
         }
-
     }
 
 

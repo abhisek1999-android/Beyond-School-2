@@ -55,6 +55,9 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".test.ui.GradeDataFetch"
+            android:exported="false" />
+        <activity
             android:name=".EnterPhoneNumberActivity"
             android:exported="false">
             <meta-data

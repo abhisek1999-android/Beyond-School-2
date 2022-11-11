@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +19,11 @@ import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityLoginSignupBinding;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.signin_methods.GoogleSignInActivity;
-import com.maths.beyond_school_280720220930.signin_methods.PhoneNumberLogin;
+import com.maths.beyond_school_280720220930.test.ui.GradeDataFetch;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LoginSignupActivity extends AppCompatActivity {
@@ -55,7 +55,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
 
-        chapterListEng=new ArrayList<>();
+        chapterListEng = new ArrayList<>();
 
         PrefConfig.writeNormalListInPref(LoginSignupActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
         binding.phoneNumberSignIn.setOnClickListener(v -> {
@@ -64,22 +64,21 @@ public class LoginSignupActivity extends AppCompatActivity {
             finish();
         });
 
-      //  checkCalenderPermission();
+        //  checkCalenderPermission();
 
         if (mUser != null) {
             checkUserAlreadyAvailable();
         }
 //        getNewData();
 
-//        startActivity(new Intent(this, ViewCurriculum.class));
+//        startActivity(new Intent(this, GradeDataFetch.class));
 
     }
 
     private void checkCalenderPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
-            if (ContextCompat.checkSelfPermission(this, String.valueOf(new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR})) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR}, REQUEST_CALENDER_ACCESS);
-            }
+        // M = 23
+        if (ContextCompat.checkSelfPermission(this, Arrays.toString(new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR})) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR}, REQUEST_CALENDER_ACCESS);
         }
     }
 
@@ -93,7 +92,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
                 // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
-             //   checkCalenderPermission();
+                //   checkCalenderPermission();
             }
         }
 
