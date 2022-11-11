@@ -47,7 +47,9 @@ public class ViewCurriculum extends AppCompatActivity {
     private List<String> engChapters;
     private String defaultSubject = "";
     private String kidsGrade = "";
-
+    private int noOfDays = 0;
+    private String paymentStatus;
+    private int trialPeriodDay=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,9 @@ public class ViewCurriculum extends AppCompatActivity {
 
         eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
         binding.gradeInfo.setText("For " + kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
+
+        noOfDays = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.noOfdays), 0);
+        paymentStatus = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.payment_status));
         try{
         engChapters = Arrays.asList(eng);
         defaultSubject = eng[0];}catch (Exception e){}
@@ -155,28 +160,71 @@ public class ViewCurriculum extends AppCompatActivity {
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
 
-            if (gradeData.isUnlock()) {
-                Intent intent;
-                Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
-                if (gradeData.getSubject().equals("Spelling_CommonWords")) {
-                    intent = new Intent(this, EnglishSpellingActivity.class);
-                    intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+
+
+            if (paymentStatus.equals("active")){
+
+                if (gradeData.isUnlock()) {
+                    Intent intent;
+                    Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+                    if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+                        intent = new Intent(this, EnglishSpellingActivity.class);
+                        intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                    } else {
+                        intent = new Intent(this, GrammarActivity.class);
+                        intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                    }
+                    intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                    intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
+                    intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+                    startActivity(intent);
+
                 } else {
-                    intent = new Intent(this, GrammarActivity.class);
-                    intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+
+                    UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
                 }
-                intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
-                intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-                startActivity(intent);
-
-            } else {
-
-                UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
             }
+
+            else {
+
+                if (noOfDays<=trialPeriodDay){
+
+                    if (gradeData.isUnlock()) {
+                        Intent intent;
+                        Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+                        if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+                            intent = new Intent(this, EnglishSpellingActivity.class);
+                            intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                        } else {
+                            intent = new Intent(this, GrammarActivity.class);
+                            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                        }
+                        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+                        intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
+                        intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+                        startActivity(intent);
+
+                    } else {
+
+                        UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
+                    }
+                }
+                else{
+
+                   UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this,"Subscribe","Hey you don't have any subscription plan. Please subscribe to continue.","Subscribe @ Rs 299/ Month");
+                }
+            }
+
         });
         binding.contentRecyclerView.setAdapter(chaptersRecyclerAdapter);
         getLiveData(subject);
+    }
+
+    private void displaySubscriptionDialog() {
+
+
+
+
     }
 
     private void getLiveData(String subject) {

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,6 +39,7 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.maths.beyond_school_280720220930.PaymentActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
@@ -49,6 +52,8 @@ import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
+import com.razorpay.Subscription;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -65,6 +70,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public final class UtilityFunctions {
@@ -122,6 +128,7 @@ public final class UtilityFunctions {
                         progress.setVisibility(View.GONE);
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         progress.setVisibility(View.GONE);
@@ -1243,6 +1250,32 @@ public final class UtilityFunctions {
     }
 
 
+    public static void displayCustomDialogSubscribe(Context context, String title, String body, String priceText) {
+
+        HintDialog hintDialog = new HintDialog(context);
+        hintDialog.setCancelable(true);
+        hintDialog.setAlertTitle(title);
+        hintDialog.setAlertDesciption(body);
+        hintDialog.hideCloseButton();
+        hintDialog.displaySubscribeButton(priceText);
+        hintDialog.setOnActionListener(viewId -> {
+
+            switch (viewId.getId()) {
+
+                case R.id.closeButton:
+                    hintDialog.dismiss();
+                    break;
+                case R.id.gotoTextView:
+                    context.startActivity(new Intent(context, PaymentActivity.class));
+                    break;
+            }
+        });
+
+        hintDialog.show();
+
+    }
+
+
     public static boolean checkGrade(String grade) {
 
 
@@ -1329,8 +1362,9 @@ public final class UtilityFunctions {
         }
 
     }
-  @SuppressLint("Range")
-    public static void setEvent(Context context, TextInputLayout textInputLayout,EventAdded eventAdded) throws ParseException {
+
+    @SuppressLint("Range")
+    public static void setEvent(Context context, TextInputLayout textInputLayout, EventAdded eventAdded) throws ParseException {
 
 
         Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
@@ -1397,37 +1431,45 @@ public final class UtilityFunctions {
     }
 
 
+    public static String checkUpdatePaymentStatus(Context context, String subscriptionId) throws ExecutionException, InterruptedException {
 
-    public static void checkUpdatePaymentStatus(Context context){
-
-        int val=PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),0);
-        val+=1;
-        PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),val);
-
-
+        int val = PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), 0);
+        val += 1;
+        PrefConfig.writeIntDInPref(context, val, context.getResources().getString(R.string.noOfdays));
+        try {
+            Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId).execute().get();
+            Log.d("TAG", "checkUpdatePaymentStatus: " + subscription.get("status"));
+            PrefConfig.writeIdInPref(context, context.getResources().getString(R.string.payment_status), subscription.get("status"));
+            return subscription.get("status");
+        } catch (Exception e) {
+            PrefConfig.writeIdInPref(context,  "pending",context.getResources().getString(R.string.payment_status));
+            return "pending";
+        }
 
     }
 
 
-        /** CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT */
-        public static boolean checkConnection(Context context) {
-            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    /**
+     * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+     */
+    public static boolean checkConnection(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 
-            if (activeNetworkInfo != null) { // connected to the internet
-               // Toast.makeText(context, activeNetworkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
+        if (activeNetworkInfo != null) { // connected to the internet
+            // Toast.makeText(context, activeNetworkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
 
-                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                    // connected to wifi
-                    return true;
-                } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    // connected to the mobile provider's data plan
-                    return true;
-                }
+            if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true;
             }
-            return false;
         }
+        return false;
+    }
 
 
     public static boolean isEventInCal(Context context, String cal_meeting_id) {
@@ -1444,7 +1486,7 @@ public final class UtilityFunctions {
     }
 
 
-    public interface EventAdded{
+    public interface EventAdded {
 
         public void eventAddedComplete();
 

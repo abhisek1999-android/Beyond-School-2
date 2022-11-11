@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Initiating Payment..."
+        android:fontFamily="@font/reemkufi_medium"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/default_font_size_big"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/statusLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        >
+        <ImageView
+
+            android:id="@+id/statusImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_right"
+            android:layout_gravity="center"
+            app:tint="@color/primary" />
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Payment Done"
+            android:textAlignment="center"
+            android:textSize="@dimen/default_font_size_big"
+            android:fontFamily="@font/reemkufi_medium"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gotoHomeScreen"
+        android:text="Go to Home Screen"
+        android:textColor="@color/white"
+        android:fontFamily="@font/reemkufi_medium"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tv_shape"
+        android:textAlignment="center"
+        android:backgroundTint="@color/primary"
+        android:textSize="@dimen/default_font_size_big"
+        android:layout_marginHorizontal="@dimen/grid_20"
+        android:layout_marginVertical="@dimen/grid_20"
+        android:paddingHorizontal="@dimen/grid_20"
+        android:paddingVertical="10dp"
+        android:visibility="gone"
+        />
+</RelativeLayout>

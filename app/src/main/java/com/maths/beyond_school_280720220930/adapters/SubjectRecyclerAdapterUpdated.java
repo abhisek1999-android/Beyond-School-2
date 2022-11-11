@@ -14,8 +14,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,16 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     long timeSpend = 0;
     String subSub = "", chapter = "";
     private OnItemClickListener mListener;
+    private int noOfDays = 0;
+    private String paymentStatus;
 
     public SubjectRecyclerAdapterUpdated(Context context, OnItemClickListener listener) {
         list = new ArrayList<>();
         this.context = context;
         this.mListener = listener;
         progressDataBase = ProgressDataBase.getDbInstance(context);
+
+
 
     }
 
@@ -47,8 +53,7 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     @NonNull
     @Override
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.subject_view, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.subject_view, parent, false);
         return new SubjectRecyclerAdapterUpdated.SubjectViewHolder(itemView);
     }
 
@@ -57,21 +62,20 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         GradeData gradeData = list.get(position);
 
-        holder.subSub.setText(gradeData.getSubject().replace("_"," "));
+        holder.subSub.setText(gradeData.getSubject().replace("_", " "));
         holder.chapters.setText(gradeData.getChapter_name());
-        Log.d("AAA", "onBindViewHolder: "+progressDataBase.progressDao().getTimeSpend("English"+gradeData.getSubject(), gradeData.getChapter_name())+"");
-        holder.timeText.setText(progressDataBase.progressDao().getTimeSpend(gradeData.getId(), gradeData.getChapter_name())+"");
+        Log.d("AAA", "onBindViewHolder: " + progressDataBase.progressDao().getTimeSpend("English" + gradeData.getSubject(), gradeData.getChapter_name()) + "");
+        holder.timeText.setText(progressDataBase.progressDao().getTimeSpend(gradeData.getId(), gradeData.getChapter_name()) + "");
 
 
-        if (gradeData.is_completed()){
+        if (gradeData.is_completed()) {
             holder.status.setText("Complete");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
         }
 
 
-
         holder.mView.setOnClickListener(v -> {
-            mListener.onItemClick(gradeData);
+                mListener.onItemClick(gradeData);
         });
 
 
@@ -102,7 +106,6 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
             scoreText = mView.findViewById(R.id.score);
-
 
 
         }

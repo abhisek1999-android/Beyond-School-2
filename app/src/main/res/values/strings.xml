@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BEYOND SCHOOL</string>
-    <string name="youtube_api">AIzaSyAZQ4zHDUaCXhGrwd12E2qO0P1EP_NdmCU</string>
+    <string name="youtube_api">AI</string>
     <string-array name="numbers">
         <item>2000</item>
         <item>2300</item>
@@ -1059,4 +1059,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_type">USER_TYPE</string>
     <string name="noOfdays">NO_OF_DAYS</string>
+    <string name="payment_status">PAYMENT_STATUS</string>
+    <string name="subscription_id">SUBSCRIPTION_ID</string>
 </resources>

@@ -30,7 +30,6 @@
         android:textSize="@dimen/default_font_size_small"
         android:textStyle="bold" />
 
-
     <View
         android:id="@+id/separatorMid"
         android:layout_width="match_parent"

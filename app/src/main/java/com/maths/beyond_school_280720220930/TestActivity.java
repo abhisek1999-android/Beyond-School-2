@@ -18,6 +18,9 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.payments.CreateSubscription;
+import com.maths.beyond_school_280720220930.payments.FetchSubscriptionPlans;
+import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
@@ -54,6 +57,19 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
         mAuth = FirebaseAuth.getInstance();
 
         Checkout.preload(getApplicationContext());
+
+        CallFirebaseForInfo.getSubscriptionId(firebaseFirestore,mAuth);
+
+
+        try {
+            Log.d(TAG, "onCreate: Status "+new FetchSubscriptionStatus(getApplicationContext(),"sub_KdTfH6zI6M7mv4").execute().get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
 //        try {
 //            subscription = new CreateSubscription(TestActivity.this).execute().get();
 ////            Log.d(TAG, "onCreate: subscription"+subscription.get("id"));
@@ -66,7 +82,7 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
 //        try {
 //            plansList= new FetchSubscriptionPlans(TestActivity.this).execute().get();
 //            Log.d(TAG, "onCreate: List"+plansList.get(0).get("id"));
-//            binding.paymentInfo.setText(plansList.get(0).get("id")+"\n Amount:"+Integer.parseInt(plansList.get(0).get("amount"))/100);
+//           // binding.paymentInfo.setText(plansList.get(0).get("id")+"\n Amount:"+Integer.parseInt(plansList.get(0).get("amount"))/100);
 //        } catch (ExecutionException e) {
 //            Log.d(TAG, "onCreate:Err "+e.getMessage());
 //            e.printStackTrace();

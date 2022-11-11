@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,7 +21,8 @@ import com.maths.beyond_school_280720220930.R;
 
 public class HintDialog extends AlertDialog {
     private DialogActionListener dialogActionListener;
-    private TextView ansViewText,title;
+    private TextView ansViewText,title,gotoTextView;
+
     private ImageButton closeButton;
     private Button actionButton;
 
@@ -30,6 +32,7 @@ public class HintDialog extends AlertDialog {
         initDialog();
     }
 
+    @SuppressLint("MissingInflatedId")
     public void initDialog(){
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.hint_dialog,null);
@@ -38,9 +41,9 @@ public class HintDialog extends AlertDialog {
             closeButton=  view.findViewById(R.id.closeButton);
             actionButton= view.findViewById(R.id.buttonAction);
             animationView=view.findViewById(R.id.animationView);
-
+            gotoTextView=view.findViewById(R.id.gotoTextView);
             title=view.findViewById(R.id.title);
-            setClickListener(closeButton,actionButton);
+            setClickListener(closeButton,actionButton,gotoTextView);
             setView(view);
 
     }
@@ -58,9 +61,17 @@ public class HintDialog extends AlertDialog {
         }
     };
 
+    public void hideCloseButton(){
+        closeButton.setVisibility(View.INVISIBLE);
+        actionButton.setVisibility(View.GONE);
+    }
     public void displayAnim(){
         animationView.setVisibility(View.VISIBLE);
     }
+
+    public void displaySubscribeButton(String buttonText){
+        gotoTextView.setText(buttonText);
+        gotoTextView.setVisibility(View.VISIBLE);}
 
     public void actionButton(String buttonText){
 

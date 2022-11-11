@@ -40,6 +40,7 @@ public class CallFirebaseForInfo  {
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
     FirebaseUser mCurrentUser=mAuth.getCurrentUser();
     QuerySnapshot qD = null;
+    public static final String TAG="CallFirebaseInfo";
 
     public QuerySnapshot retrieveKidsInfo(){
 
@@ -178,6 +179,49 @@ public class CallFirebaseForInfo  {
         return false;
     }
 
+    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore,FirebaseAuth mAuth,String subscriptionId){
+
+        Map<String,String> subscriptionMap=new HashMap();
+        subscriptionMap.put("subscription_id",subscriptionId);
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().set(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+
+                Log.d(TAG, "onComplete: added");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+
+    }
+
+    public static void getSubscriptionId(FirebaseFirestore firebaseFirestore,FirebaseAuth mAuth){
+
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).
+                collection("subscription").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
+                                Log.d(TAG, "onComplete: "+documentSnapshot.getString("subscription_id"));
+                            }
+                        }
+
+                    }
+                });
+
+
+    }
+
     public static void addPaymentInfo(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, Boolean isPaymentDone, PaymentData paymentData,Context mContext) {
 
 
@@ -190,7 +234,7 @@ public class CallFirebaseForInfo  {
         paymentMap.put("payment_info",paymentData.getData().toString());
 
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("payments")
-                .document(simpleDateFormat.format(date).toString()).set(paymentMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                .document().set(paymentMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Log.d("FirebasePaymentData", "onSuccess: ");

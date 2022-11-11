@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class EnglishFragment extends Fragment {
@@ -125,6 +126,13 @@ public class EnglishFragment extends Fragment {
 
 
         setSubSubjectProgress();
+        try {
+            UtilityFunctions.checkUpdatePaymentStatus(getContext(),"abcd");
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -135,7 +143,9 @@ public class EnglishFragment extends Fragment {
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         binding.evaluationTestTile.setVisibility(View.GONE);
 
-       binding.introTile.setOnClickListener(v->{startActivity(new Intent(getContext(), TestActivity.class));});
+        binding.introTile.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), TestActivity.class));
+        });
 
         if (!userType.equals("old_user")) {
             binding.completeProgressTile.setVisibility(View.GONE);
@@ -209,9 +219,6 @@ public class EnglishFragment extends Fragment {
         Log.d(TAG, "dateChecking: ");
 
 
-
-
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()))) {
@@ -235,13 +242,12 @@ public class EnglishFragment extends Fragment {
 
             Log.i("List_data sd", PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)) + "");
 
-            if (PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)).size() == 0){
+            if (PrefConfig.readNormalListInPref(getContext(), getResources().getString(R.string.saved_english_value)).size() == 0) {
                 getUiData(true);
                 if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
-                   // displayAddProfileAlertDialog();
+                    // displayAddProfileAlertDialog();
                 }
-            }
-            else
+            } else
                 getUiData(false);
             if (startIndex == 0) {
                 PrefConfig.writeIntDInPref(getContext(), 0, getResources().getString(R.string.alter_maths_value));
