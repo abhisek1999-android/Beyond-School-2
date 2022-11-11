@@ -9,12 +9,12 @@ jobs :
   build :
     runs-on : ubuntu-latest
     steps:
-#      - name: Decode Keystore
-#        id: decode_keystore
-#        uses: timheuer/base64-to-file@v1
-#        with:
-#          fileName: 'keystore/keystore.jks'
-#          encodedString: ${{ secrets.KEYSTORE_PRODUCTION }}
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE_PRODUCTION }}
 
 
       - uses : actions/checkout@v2
@@ -28,36 +28,28 @@ jobs :
       - name : Make gradlew executable
         run : chmod +x ./gradlew
 
-#      - name: Copy Keystore to Project
-#        run: |
-#          mkdir -p ./app/keystore
-#          cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
-#          echo ${{ steps.decode_keystore.outputs.filePath }}
-#          ls -la ./app
-#          ls -la ./app/keystore
-#      - name: Signing Report
-#        run: |
-#          ./gradlew signingReport
+      - name: Copy Keystore to Project
+        run: |
+          mkdir -p ./app/keystore
+          cp ${{ steps.decode_keystore.outputs.filePath }} './app/keystore/keystore.jks'
+          echo ${{ steps.decode_keystore.outputs.filePath }}
+          ls -la ./app
+          ls -la ./app/keystore
+      - name: Signing Report
+        run: |
+          ./gradlew signingReport
       - name : Build Release APK
         run : ./gradlew :app:assembleRelease --stacktrace  :app:bundleRelease --stacktrace
-#        env:
-#          SIGNING_KEY_ALIAS_PRODUCTION: ${{ secrets.SIGNING_KEY_ALIAS_PRODUCTION }}
-#          SIGNING_KEY_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_KEY_PASSWORD_PRODUCTION }}
-#          SIGNING_STORE_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_STORE_PASSWORD_PRODUCTION }}
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-            releaseDirectory: app/build/outputs/apk/release
-            signingKeyBase64: ${{ secrets.KEYSTORE_PRODUCTION }}
-            alias: ${{ secrets.SIGNING_KEY_ALIAS_PRODUCTION }}
-            keyStorePassword: ${{ secrets.SIGNING_KEY_PASSWORD_PRODUCTION }}
-            keyPassword: ${{ secrets.SIGNING_STORE_PASSWORD_PRODUCTION }}
+        env:
+          SIGNING_KEY_ALIAS_PRODUCTION: ${{ secrets.SIGNING_KEY_ALIAS_PRODUCTION }}
+          SIGNING_KEY_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_KEY_PASSWORD_PRODUCTION }}
+          SIGNING_STORE_PASSWORD_PRODUCTION: ${{ secrets.SIGNING_STORE_PASSWORD_PRODUCTION }}
+
       - name : Upload
         uses : actions/upload-artifact@v2
         with :
           name : apk
-          path : app/build/outputs/apk/release/app-release.apk
+          path : app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name : Upload
         uses : actions/upload-artifact@v2

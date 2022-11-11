@@ -17,10 +17,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-
+    signingConfigs {
+        release {
+            storeFile file('keystore/keystore.jks')
+            storePassword System.getenv("SIGNING_KEY_ALIAS_PRODUCTION")
+            keyAlias System.getenv("SIGNING_STORE_PASSWORD_PRODUCTION")
+            keyPassword  System.getenv("SIGNING_KEY_PASSWORD_PRODUCTION")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
+            signingConfig signingConfigs.release
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
