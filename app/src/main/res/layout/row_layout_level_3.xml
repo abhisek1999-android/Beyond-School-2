@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/grid_1">
+
+    <TextView
+        android:id="@+id/text_view_lesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/image_view_lesson_lock"
+        android:fontFamily="@font/jellee_roman"
+        android:padding="@dimen/grid_1"
+        android:textAppearance="?attr/textAppearanceBody1"
+        tools:text="Learn and Practice" />
+
+    <TextView
+        android:id="@+id/text_view_enroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_lesson"
+        android:paddingStart="@dimen/grid_1"
+        android:text="@string/enroll_to_unlock"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:id="@+id/image_view_lesson_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/divider_lesson"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/blanks"
+        android:src="@drawable/outline_lock_24" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_lesson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_enroll"
+        android:layout_marginTop="@dimen/grid_1" />
+</RelativeLayout>

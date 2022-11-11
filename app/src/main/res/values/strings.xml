@@ -1059,4 +1059,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_type">USER_TYPE</string>
     <string name="noOfdays">NO_OF_DAYS</string>
+    <string name="enroll_to_unlock">Enroll to Unlock</string>
 </resources>

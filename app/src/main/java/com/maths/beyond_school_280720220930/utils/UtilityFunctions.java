@@ -24,8 +24,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
@@ -111,6 +113,23 @@ public final class UtilityFunctions {
         }
     }
 
+    public static <T> void addViewToLinearLayout(@LayoutRes int id, T t, LinearLayout linearLayout, SendView<T> sendView) {
+        var view = View.inflate(linearLayout.getContext(), id, null);
+        sendView.sendView(view, t);
+        linearLayout.addView(view);
+    }
+
+    public interface SendView<T> {
+        void sendView(View view, T t);
+    }
+
+    private static boolean isVisible(View view) {
+        return view.getVisibility() == View.VISIBLE;
+    }
+    public static void setVisibility(View view, boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public static void loadImage(String url, android.widget.ImageView imageView, View progress) {
         Glide.with(imageView.getContext())
                 .load(url)
@@ -122,6 +141,7 @@ public final class UtilityFunctions {
                         progress.setVisibility(View.GONE);
                         return false;
                     }
+
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         progress.setVisibility(View.GONE);
@@ -1246,7 +1266,7 @@ public final class UtilityFunctions {
     public static boolean checkGrade(String grade) {
 
 
-        List<String> grades = new ArrayList();
+        List<String> grades = new ArrayList<>();
         grades.add("GRADE 1");
         grades.add("GRADE 2");
         grades.add("GRADE 3");
@@ -1329,8 +1349,9 @@ public final class UtilityFunctions {
         }
 
     }
-  @SuppressLint("Range")
-    public static void setEvent(Context context, TextInputLayout textInputLayout,EventAdded eventAdded) throws ParseException {
+
+    @SuppressLint("Range")
+    public static void setEvent(Context context, TextInputLayout textInputLayout, EventAdded eventAdded) throws ParseException {
 
 
         Cursor cur = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
@@ -1397,37 +1418,37 @@ public final class UtilityFunctions {
     }
 
 
+    public static void checkUpdatePaymentStatus(Context context) {
 
-    public static void checkUpdatePaymentStatus(Context context){
-
-        int val=PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),0);
-        val+=1;
-        PrefConfig.readIntInPref(context,context.getResources().getString(R.string.noOfdays),val);
-
+        int val = PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), 0);
+        val += 1;
+        PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), val);
 
 
     }
 
 
-        /** CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT */
-        public static boolean checkConnection(Context context) {
-            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    /**
+     * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+     */
+    public static boolean checkConnection(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 
-            if (activeNetworkInfo != null) { // connected to the internet
-               // Toast.makeText(context, activeNetworkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
+        if (activeNetworkInfo != null) { // connected to the internet
+            // Toast.makeText(context, activeNetworkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
 
-                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                    // connected to wifi
-                    return true;
-                } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    // connected to the mobile provider's data plan
-                    return true;
-                }
+            if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true;
             }
-            return false;
         }
+        return false;
+    }
 
 
     public static boolean isEventInCal(Context context, String cal_meeting_id) {
@@ -1444,7 +1465,7 @@ public final class UtilityFunctions {
     }
 
 
-    public interface EventAdded{
+    public interface EventAdded {
 
         public void eventAddedComplete();
 
