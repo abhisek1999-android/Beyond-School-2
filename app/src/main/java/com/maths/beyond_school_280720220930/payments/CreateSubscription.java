@@ -17,15 +17,16 @@ import java.util.Date;
 public class CreateSubscription extends AsyncTask<Void, Void, Subscription> {
 
     Subscription subscription;
-    String plan,phoneNumber;
+    String plan,phoneNumber,customerId;
     Context mContext;
     CompleteListener completeListener;
 
-    public CreateSubscription(Context context, String plan,String phoneNumber,CompleteListener completeListener) {
+    public CreateSubscription(Context context, String plan,String phoneNumber,String customerId,CompleteListener completeListener) {
         this.mContext = context;
         this.plan = plan;
         this.phoneNumber=phoneNumber;
         this.completeListener=completeListener;
+        this.customerId=customerId;
     }
 
     @Override
@@ -44,15 +45,17 @@ public class CreateSubscription extends AsyncTask<Void, Void, Subscription> {
         JSONObject subscriptionRequest = new JSONObject();
         try {
 
-            subscriptionRequest.put("plan_id", "plan_Kd8HcrF9VvhYto");
+            subscriptionRequest.put("plan_id", plan);
             subscriptionRequest.put("total_count", 12);
             subscriptionRequest.put("quantity", 1);
+            subscriptionRequest.put("customer_id", customerId);
             subscriptionRequest.put("customer_notify", 1);
+
             subscriptionRequest.put("start_at", null);
             subscriptionRequest.put("expire_by", null);
             JSONObject notifyInfo = new JSONObject();
             notifyInfo.put("notify_phone", phoneNumber);
-            notifyInfo.put("notify_email", "");
+            notifyInfo.put("notify_email", "abcd@gmail.com");
             subscriptionRequest.put("notify_info", notifyInfo);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,11 +76,11 @@ public class CreateSubscription extends AsyncTask<Void, Void, Subscription> {
     @Override
     protected void onPostExecute(Subscription subscription) {
         super.onPostExecute(subscription);
-        completeListener.onCompleteSubscription(subscription);
+        completeListener.onCompleteSubscription(subscription,customerId);
     }
 
     public interface CompleteListener{
 
-        public void onCompleteSubscription(Subscription subscription);
+        public void onCompleteSubscription(Subscription subscription,String customerId);
     }
 }

@@ -16,9 +16,11 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityPaymentBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_280720220930.payments.CreateCustomer;
 import com.maths.beyond_school_280720220930.payments.CreateSubscription;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.razorpay.Checkout;
+import com.razorpay.Customer;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
 import com.razorpay.Subscription;
@@ -27,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class PaymentActivity extends AppCompatActivity implements CreateSubscription.CompleteListener, PaymentResultWithDataListener {
+public class PaymentActivity extends AppCompatActivity implements CreateSubscription.CompleteListener, PaymentResultWithDataListener, CreateCustomer.CompleteListener {
 
 
     // id abhisek---> py6zLsbEIHcai6JkCyLs2R1Xfj33
@@ -55,19 +57,19 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
         mAuth=FirebaseAuth.getInstance();
 
         parentsPhoneNumber= PrefConfig.readIdInPref(this,getResources().getString(R.string.parent_contact_details));
-        new CreateSubscription(PaymentActivity.this,planId,parentsPhoneNumber,this).execute();
 
-
-
+        new CreateCustomer(PaymentActivity.this,parentsPhoneNumber,this).execute();
 
         binding.gotoHomeScreen.setOnClickListener(v->{
             startActivity(new Intent(getApplicationContext(),TabbedHomePage.class));
             finish();
         });
+
+      // startPayment("sub_Kf2DXEuw4DBYhe","vv");
     }
 
 
-   private void startPayment(String subscriptionId) {
+   private void startPayment(String subscriptionId,String customerId) {
 
         Checkout checkout = new Checkout();
         checkout.setKeyID(getResources().getString(R.string.razorpay_api_key));
@@ -81,11 +83,14 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
             options.put("name", "Beyond School");
             options.put("description", "Reference No. #"+new Date().getTime());
             options.put("image", R.drawable.app_logo_v2);
+          //  options.put("customer_id","cust_Kf4xM9bZQEWdAd");
             options.put("subscription_id",subscriptionId);
+            options.put("recurring",true);
             options.put("currency", "INR");
+            options.put("contact", parentsPhoneNumber);
+
             //options.put("amount", "19900");//pass amount in currency subunits
-            options.put("prefill.email", "");
-            options.put("prefill.contact", parentsPhoneNumber);
+
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);
             retryObj.put("max_count", 4);
@@ -100,12 +105,12 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     }
 
     @Override
-    public void onCompleteSubscription(Subscription subscription) {
+    public void onCompleteSubscription(Subscription subscription,String customerId) {
         Log.d(TAG, "onCompleteSubscription: ");
         progressDialogue.dismiss();
-        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore,mAuth,subscription.get("id"));
+        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore,mAuth,subscription.get("id"), PrefConfig.readIdInPref(PaymentActivity.this,getResources().getString(R.string.customer_id)));
         PrefConfig.writeIdInPref(PaymentActivity.this,subscription.get("id"),getResources().getString(R.string.subscription_id));
-        startPayment(subscription.get("id"));
+        startPayment(subscription.get("id"),customerId);
     }
 
     @Override
@@ -115,6 +120,7 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
         PrefConfig.writeIdInPref(PaymentActivity.this,  "active",getResources().getString(R.string.payment_status));
         binding.statusText.setText("Payment Successful\nPayment Id: "+paymentData.getPaymentId());
 
+        progressDialogue.dismiss();
         Log.d(TAG, "onPaymentSuccess: "+paymentData.getPaymentId());
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
@@ -122,12 +128,21 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
+        progressDialogue.dismiss();
         CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, false, paymentData, this);
         PrefConfig.writeIdInPref(PaymentActivity.this,  "Inactive",getResources().getString(R.string.payment_status));
         binding.statusImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_wrong));
         binding.statusImage.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.sweet_red));
-        Log.d(TAG, "onPaymentErr: "+paymentData.toString());
+        binding.statusText.setText("Payment Failed");
+        Log.d(TAG, "onPaymentErr: "+i+", Payment data"+paymentData.getData()+"");
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCompleteCustomerCreation(Customer customer) {
+
+        new CreateSubscription(PaymentActivity.this,planId,parentsPhoneNumber,customer.get("id"),this).execute();
+        PrefConfig.writeIdInPref(PaymentActivity.this,customer.get("id"),getResources().getString(R.string.customer_id));
     }
 }
