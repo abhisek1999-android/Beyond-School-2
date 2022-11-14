@@ -23,11 +23,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityTabbedHomePageBinding;
 import com.maths.beyond_school_280720220930.databinding.RowBinding;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.fragments.MyAdapter;
+import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.razorpay.Subscription;
+
+import java.util.concurrent.ExecutionException;
 
 public class TabbedHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +45,12 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private FirebaseFirestore firebaseFirestore;
     private int REQUEST_RECORD_AUDIO = 1;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private final  static  String TAG="TabbedHomeScreen";
+    private Subscription subscription;
+    private String subscriptionId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +61,16 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore=FirebaseFirestore.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
+        subscriptionId=PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.subscription_id));
+
+        if (PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.plan_id)).equals(""))
+            setUpRemoteConfigPayment();
+
+        if (PrefConfig.readIntInPref(TabbedHomePage.this,getResources().getString(R.string.trial_period),0)==0)
+            setUpRemoteConfigTrial();
 
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("English"));
@@ -83,6 +104,64 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     private void loadImage() {
         UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)),
                 binding.tool.toolBar.imageView6);
+    }
+
+
+    private void setUpRemoteConfigPayment() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(0)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
+
+                        int val = (int) mFirebaseRemoteConfig.getLong("price_value");
+                        PrefConfig.writeIntInPref(TabbedHomePage.this,val,getResources().getString(R.string.plan_value));
+                        PrefConfig.writeIdInPref(TabbedHomePage.this,UtilityFunctions.getPlanIds(val),getResources().getString(R.string.plan_id));
+                        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.subscription_id)),
+                                UtilityFunctions.getPlanIds(val),
+                                PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.customer_id)));
+
+                        CallFirebaseForInfo.setPlanValue(firebaseFirestore, mAuth, val);
+
+                        Log.d(TAG, "Config params updated: payment" + updated + ", val:" + val);
+                        return;
+                    }
+                    // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Config params updated: " + "Fetch failed");
+                });
+
+    }
+
+
+    private void setUpRemoteConfigTrial() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(0)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
+
+                        int val = (int) mFirebaseRemoteConfig.getLong("trial_period");
+                        PrefConfig.writeIntInPref(TabbedHomePage.this,val,getResources().getString(R.string.trial_period));
+                        CallFirebaseForInfo.setTrialPeriod(firebaseFirestore,mAuth,val);
+                        Log.d(TAG, "Config params updated: trial " + updated + ", val:" + val);
+                        return;
+                    }
+                    // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Config params updated: " + "Fetch failed");
+                });
+
     }
 
     private void setUiElements() {
@@ -135,6 +214,10 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
         });
 
+        binding.tool.manageSubscription.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(),ManageSubscription.class));
+        });
+
 
         findViewById(R.id.dash).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +226,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
                 binding.drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+
         findViewById(R.id.closeButton).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawer(Gravity.LEFT);
         });

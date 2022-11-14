@@ -22,7 +22,6 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,6 +40,8 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.PaymentActivity;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -54,6 +55,7 @@ import com.maths.beyond_school_280720220930.database.log.LogEntity;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.razorpay.Subscription;
 
@@ -1253,6 +1255,7 @@ public final class UtilityFunctions {
         hintDialog.setAlertTitle(title);
         hintDialog.setAlertDesciption(body);
 
+        hintDialog.hideActionButton();
         hintDialog.displayAnim();
         hintDialog.setOnActionListener(viewId -> {
 
@@ -1265,6 +1268,16 @@ public final class UtilityFunctions {
         });
 
         hintDialog.show();
+
+    }
+
+
+    public static String getPlanIds(int value){
+
+        Map<Integer,String > planMap=new HashMap();
+        planMap.put(99,"plan_KfsUkGPPbAzpqD");
+        planMap.put(299,"plan_KfsUQF3evQfn2R");
+        return planMap.get(value);
 
     }
 
@@ -1450,15 +1463,16 @@ public final class UtilityFunctions {
     }
 
 
-    public static String checkUpdatePaymentStatus(Context context, String subscriptionId) throws ExecutionException, InterruptedException {
+    public static String checkUpdatePaymentStatus(Context context, String subscriptionId, FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth) throws ExecutionException, InterruptedException {
 
         int val = PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), 0);
         val += 1;
         PrefConfig.writeIntDInPref(context, val, context.getResources().getString(R.string.noOfdays));
+        CallFirebaseForInfo.setNoOfDays(firebaseFirestore,mAuth,val);
         try {
             Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId).execute().get();
             Log.d("TAG", "checkUpdatePaymentStatus: " + subscription.get("status"));
-            PrefConfig.writeIdInPref(context, context.getResources().getString(R.string.payment_status), subscription.get("status"));
+            PrefConfig.writeIdInPref(context,subscription.get("status"),context.getResources().getString(R.string.payment_status));
             return subscription.get("status");
         } catch (Exception e) {
             PrefConfig.writeIdInPref(context,  "pending",context.getResources().getString(R.string.payment_status));

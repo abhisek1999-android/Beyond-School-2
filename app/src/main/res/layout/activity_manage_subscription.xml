@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ManageSubscription">
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_layout_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_marginHorizontal="@dimen/grid_10"
+        android:layout_marginVertical="@dimen/grid_10"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/grid_10">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/subscriptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Title"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/subscriptionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:background="@drawable/tv_shape"
+                    android:backgroundTint="@color/accent"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingHorizontal="5dp"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/infoSubscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/subscriptionPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Date"
+                    android:textSize="@dimen/default_font_size_big" />
+
+                <TextView
+                    android:id="@+id/subscriptionRenewDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Date"
+                    android:textSize="@dimen/default_font_size" />
+
+                <TextView
+                    android:id="@+id/subscriptionId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="id"
+                    android:textSize="@dimen/default_font_size" />
+
+                <TextView
+                    android:id="@+id/cancelSubscription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Cancel Subscription"
+                    android:textColor="@color/sweet_red"
+                    android:visibility="gone"
+                    android:textSize="@dimen/default_font_size" />
+
+                <TextView
+                    android:id="@+id/completePayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:text="Complete Payment"
+                    android:textColor="@color/primary"
+                    android:visibility="visible"
+                    android:textSize="@dimen/default_font_size" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/gotoPaymentPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/grid_10"
+                android:background="@drawable/tv_shape"
+                android:backgroundTint="@color/primary"
+                android:fontFamily="@font/reemkufi_medium"
+                android:paddingVertical="@dimen/grid_10"
+                android:text="Subscribe @ Rs 199/ Month"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_font_size"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

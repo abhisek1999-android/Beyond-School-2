@@ -33,11 +33,13 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
 
 
     // id abhisek---> py6zLsbEIHcai6JkCyLs2R1Xfj33
-    private String parentsPhoneNumber="";
+    private String parentsPhoneNumber = "";
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
-    private static final String TAG="PaymentActivity";
-    private String planId="plan_KdRXbVQ5Db5BT4";
+    private static final String TAG = "PaymentActivity";
+    private String planId = "";
+    private String customerId = "";
+    private String subscriptionId = "";
     private ActivityPaymentBinding binding;
     private CustomProgressDialogue progressDialogue;
 
@@ -45,31 +47,42 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityPaymentBinding.inflate(getLayoutInflater());
+        binding = ActivityPaymentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        progressDialogue=new CustomProgressDialogue(PaymentActivity.this);
+        customerId = PrefConfig.readIdInPref(PaymentActivity.this, getResources().getString(R.string.customer_id));
+        subscriptionId = PrefConfig.readIdInPref(PaymentActivity.this, getResources().getString(R.string.subscription_id));
+        planId=PrefConfig.readIdInPref(PaymentActivity.this,getResources().getString(R.string.plan_id));
+        progressDialogue = new CustomProgressDialogue(PaymentActivity.this);
 
         progressDialogue.show();
 
-        firebaseFirestore=FirebaseFirestore.getInstance();
-        mAuth=FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        parentsPhoneNumber= PrefConfig.readIdInPref(this,getResources().getString(R.string.parent_contact_details));
+        parentsPhoneNumber = PrefConfig.readIdInPref(this, getResources().getString(R.string.parent_contact_details));
 
-        new CreateCustomer(PaymentActivity.this,parentsPhoneNumber,this).execute();
 
-        binding.gotoHomeScreen.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),TabbedHomePage.class));
+        if (!customerId.equals("") && !subscriptionId.equals(""))
+            startPayment(subscriptionId, customerId);
+        else {
+            if (customerId.equals(""))
+                new CreateCustomer(PaymentActivity.this, parentsPhoneNumber, this).execute();
+            else if (!customerId.equals(""))
+                new CreateSubscription(PaymentActivity.this, planId, parentsPhoneNumber, customerId, this).execute();
+            }
+
+        binding.gotoHomeScreen.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
             finish();
         });
 
-      // startPayment("sub_Kf2DXEuw4DBYhe","vv");
+
+//       startPayment("sub_Kfn4KkFy0ExhqZ","cust_Kfn4JIQH98LK2x");
     }
 
 
-   private void startPayment(String subscriptionId,String customerId) {
+    private void startPayment(String subscriptionId, String customerId) {
 
         Checkout checkout = new Checkout();
         checkout.setKeyID(getResources().getString(R.string.razorpay_api_key));
@@ -81,11 +94,11 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
             JSONObject options = new JSONObject();
 
             options.put("name", "Beyond School");
-            options.put("description", "Reference No. #"+new Date().getTime());
+            options.put("description", "Reference No. #" + new Date().getTime());
             options.put("image", R.drawable.app_logo_v2);
-          //  options.put("customer_id","cust_Kf4xM9bZQEWdAd");
-            options.put("subscription_id",subscriptionId);
-            options.put("recurring",true);
+            //options.put("customer_id",customerId);
+            options.put("subscription_id", subscriptionId);
+            options.put("recurring", true);
             options.put("currency", "INR");
             options.put("contact", parentsPhoneNumber);
 
@@ -105,23 +118,22 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     }
 
     @Override
-    public void onCompleteSubscription(Subscription subscription,String customerId) {
+    public void onCompleteSubscription(Subscription subscription, String customerId) {
         Log.d(TAG, "onCompleteSubscription: ");
         progressDialogue.dismiss();
-        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore,mAuth,subscription.get("id"), PrefConfig.readIdInPref(PaymentActivity.this,getResources().getString(R.string.customer_id)));
-        PrefConfig.writeIdInPref(PaymentActivity.this,subscription.get("id"),getResources().getString(R.string.subscription_id));
-        startPayment(subscription.get("id"),customerId);
+        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, subscription.get("id"),subscription.get("plan_id"), PrefConfig.readIdInPref(PaymentActivity.this, getResources().getString(R.string.customer_id)));
+        PrefConfig.writeIdInPref(PaymentActivity.this, subscription.get("id"), getResources().getString(R.string.subscription_id));
+        startPayment(subscription.get("id"), customerId);
     }
 
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, true, paymentData, this);
-        PrefConfig.writeIdInPref(PaymentActivity.this,  "active",getResources().getString(R.string.payment_status));
-        binding.statusText.setText("Payment Successful\nPayment Id: "+paymentData.getPaymentId());
-
+        PrefConfig.writeIdInPref(PaymentActivity.this, "active", getResources().getString(R.string.payment_status));
+        binding.statusText.setText("Payment Successful\nPayment Id: " + paymentData.getPaymentId());
         progressDialogue.dismiss();
-        Log.d(TAG, "onPaymentSuccess: "+paymentData.getPaymentId());
+        Log.d(TAG, "onPaymentSuccess: " + paymentData.getPaymentId());
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
     }
@@ -130,11 +142,11 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     public void onPaymentError(int i, String s, PaymentData paymentData) {
         progressDialogue.dismiss();
         CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, false, paymentData, this);
-        PrefConfig.writeIdInPref(PaymentActivity.this,  "Inactive",getResources().getString(R.string.payment_status));
+        PrefConfig.writeIdInPref(PaymentActivity.this, "Inactive", getResources().getString(R.string.payment_status));
         binding.statusImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_wrong));
         binding.statusImage.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.sweet_red));
         binding.statusText.setText("Payment Failed");
-        Log.d(TAG, "onPaymentErr: "+i+", Payment data"+paymentData.getData()+"");
+        Log.d(TAG, "onPaymentErr: " + i + ", Payment data" + paymentData.getData() + "");
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
     }
@@ -142,7 +154,7 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     @Override
     public void onCompleteCustomerCreation(Customer customer) {
 
-        new CreateSubscription(PaymentActivity.this,planId,parentsPhoneNumber,customer.get("id"),this).execute();
-        PrefConfig.writeIdInPref(PaymentActivity.this,customer.get("id"),getResources().getString(R.string.customer_id));
+        new CreateSubscription(PaymentActivity.this, planId, parentsPhoneNumber, customer.get("id"), this).execute();
+        PrefConfig.writeIdInPref(PaymentActivity.this, customer.get("id"), getResources().getString(R.string.customer_id));
     }
 }

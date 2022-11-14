@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
@@ -32,7 +35,7 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class TestActivity extends AppCompatActivity implements PaymentResultWithDataListener {
+public class TestActivity extends AppCompatActivity  {
 
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private String TAG = "TestActivity";
@@ -55,91 +58,63 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+     //   setUpRemoteConfigPayment();
+       // setUpRemoteConfigTrial();
 
-        Checkout.preload(getApplicationContext());
-
-        CallFirebaseForInfo.getSubscriptionId(firebaseFirestore,mAuth);
-
-
-        try {
-            Log.d(TAG, "onCreate: Status "+new FetchSubscriptionStatus(getApplicationContext(),"sub_KdTfH6zI6M7mv4").execute().get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-//        try {
-//            subscription = new CreateSubscription(TestActivity.this).execute().get();
-////            Log.d(TAG, "onCreate: subscription"+subscription.get("id"));
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-//        try {
-//            plansList= new FetchSubscriptionPlans(TestActivity.this).execute().get();
-//            Log.d(TAG, "onCreate: List"+plansList.get(0).get("id"));
-//           // binding.paymentInfo.setText(plansList.get(0).get("id")+"\n Amount:"+Integer.parseInt(plansList.get(0).get("amount"))/100);
-//        } catch (ExecutionException e) {
-//            Log.d(TAG, "onCreate:Err "+e.getMessage());
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
+//        CallFirebaseForInfo.getSubscriptionStatus(firebaseFirestore,mAuth,TestActivity.this,()->{
+//            Log.d(TAG, "onCreate: Saved");
+//        });
 
     }
 
-    public void buttonClick(View view) {
+    private void setUpRemoteConfigPayment() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(0)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
 
-        Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_UG0wPL54QTV1fA");
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
 
-        checkout.setImage(R.drawable.logo);
-        final Activity activity = this;
+                        int val = (int) mFirebaseRemoteConfig.getLong("price_value");
 
-        try {
-            JSONObject options = new JSONObject();
-
-            options.put("name", "Beyond School");
-            options.put("description", "Reference No. #123456");
-            options.put("image", R.drawable.app_logo_v2);
-            //  options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
-            //  options.put("theme.color", "");
-            // options.put("subscription_id",subscription.get("id"));
-            // options.put("subscription_id","sub_KdTfH6zI6M7mv4");
-            options.put("currency", "INR");
-            options.put("amount", "19900");//pass amount in currency subunits
-            options.put("prefill.email", "");
-            options.put("prefill.contact", "7908777407");
-            JSONObject retryObj = new JSONObject();
-            retryObj.put("enabled", true);
-            retryObj.put("max_count", 4);
-            options.put("retry", retryObj);
-
-            checkout.open(activity, options);
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error in starting Razorpay Checkout", e);
-        }
+                        Log.d(TAG, "Config params updated: payment" + updated + ", val:" + val);
+                        return;
+                    }
+                    // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Config params updated: " + "Fetch failed");
+                });
 
     }
 
-    @Override
-    public void onPaymentSuccess(String s, PaymentData paymentData) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-        CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, true, paymentData, this);
-        Log.d(TAG, "onPaymentSuccess: "+paymentData.getPaymentId());
+    private void setUpRemoteConfigTrial() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(0)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.data_updated_default_value);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        boolean updated = task.getResult();
+
+                        int val = (int) mFirebaseRemoteConfig.getLong("trial_period");
+
+                        Log.d(TAG, "Config params updated: trial " + updated + ", val:" + val);
+                        return;
+                    }
+                    // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Config params updated: " + "Fetch failed");
+                });
+
     }
 
-    @Override
-    public void onPaymentError(int i, String s, PaymentData paymentData) {
-        CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, false, paymentData, this);
-        Log.d(TAG, "onPaymentErr: "+paymentData.toString());
-    }
 
 
 }

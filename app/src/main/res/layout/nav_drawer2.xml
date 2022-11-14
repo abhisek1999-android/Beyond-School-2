@@ -135,6 +135,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/manageSubscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_round"
+                    android:backgroundTint="@color/primary"
+                    android:padding="7dp"
+                    android:src="@drawable/membership"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:paddingLeft="28dp"
+                    android:text="Manage Subscription"
+                    android:textColor="@color/text_color"
+
+                    android:textSize="@dimen/default_font_size_big" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

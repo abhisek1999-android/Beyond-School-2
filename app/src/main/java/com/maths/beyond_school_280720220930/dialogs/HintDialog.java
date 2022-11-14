@@ -65,6 +65,9 @@ public class HintDialog extends AlertDialog {
         closeButton.setVisibility(View.INVISIBLE);
         actionButton.setVisibility(View.GONE);
     }
+    public void hideActionButton(){
+        actionButton.setVisibility(View.GONE);
+    }
     public void displayAnim(){
         animationView.setVisibility(View.VISIBLE);
     }

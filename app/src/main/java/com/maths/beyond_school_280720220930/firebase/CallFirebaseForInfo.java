@@ -14,11 +14,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.TabbedHomePage;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.model.KidsActivity;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
@@ -179,12 +181,12 @@ public class CallFirebaseForInfo  {
         return false;
     }
 
-    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String customerId){
+    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id,String customerId){
 
         Map<String,String> subscriptionMap=new HashMap();
         subscriptionMap.put("subscription_id",subscriptionId);
         subscriptionMap.put("customer_id",customerId);
-
+        subscriptionMap.put("plan_id",plan_id);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).set(subscriptionMap);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().set(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -204,22 +206,82 @@ public class CallFirebaseForInfo  {
 
     }
 
-    public static void getSubscriptionId(FirebaseFirestore firebaseFirestore,FirebaseAuth mAuth){
+    public static void setTrialPeriod(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, int trialPeriod){
+
+        Map trialMap=new HashMap();
+        trialMap.put("trial_period",trialPeriod);
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).update(trialMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                Log.d(TAG, "onComplete: ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+    }
+
+    public static void setPlanValue(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, int planValue){
+
+        Map trialMap=new HashMap();
+        trialMap.put("plan_value",planValue);
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).update(trialMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                Log.d(TAG, "onComplete: ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+    }
+
+    public static void setNoOfDays(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, int setNoOfDays){
+
+        Map trialMap=new HashMap();
+        trialMap.put("no_of_days",setNoOfDays);
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).update(trialMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                Log.d(TAG, "onComplete: ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+    }
+
+    public static void getSubscriptionStatus(FirebaseFirestore firebaseFirestore,FirebaseAuth mAuth,Context context,Callback callback){
 
 
-        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).
-                collection("subscription").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-                                Log.d(TAG, "onComplete: "+documentSnapshot.getString("subscription_id"));
-                            }
-                        }
-
-                    }
-                });
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot= task.getResult();
+                try{
+                PrefConfig.writeIdInPref(context,snapshot.getString("customer_id"),context.getResources().getString(R.string.customer_id));
+                PrefConfig.writeIdInPref(context,snapshot.getString("subscription_id"),context.getResources().getString(R.string.subscription_id));
+                PrefConfig.writeIdInPref(context,snapshot.getString("plan_id"),context.getResources().getString(R.string.plan_id));
+                PrefConfig.writeIntDInPref(context, Math.toIntExact(snapshot.getLong("no_of_days")), context.getResources().getString(R.string.noOfdays));
+                PrefConfig.writeIntInPref(context,Math.toIntExact(snapshot.getLong("plan_value")),context.getResources().getString(R.string.plan_value));
+                PrefConfig.writeIntInPref(context,Math.toIntExact(snapshot.getLong("trial_period")),context.getResources().getString(R.string.trial_period));}
+                catch (Exception e){}
+                Log.d(TAG, "onComplete: "+snapshot.getString("customer_id"));
+                callback.dataUpdated();
+            }
+        });
 
 
     }

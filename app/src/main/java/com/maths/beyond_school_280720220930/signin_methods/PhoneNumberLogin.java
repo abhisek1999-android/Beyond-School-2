@@ -43,23 +43,27 @@ import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.TabbedHomePage;
+import com.maths.beyond_school_280720220930.TestActivity;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+import com.razorpay.Subscription;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import in.aabhasjindal.otptextview.OTPListener;
@@ -70,7 +74,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private static final String TAG = "PhoneNumberLogin";
     private ActivityPhoneNumberLoginBinding binding;
 
-   
+
     private String[] arrayGrades;
     private ArrayAdapter adapterGrades;
     // variable for FirebaseAuth class
@@ -88,9 +92,11 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private final static int RESOLVE_HINT = 1011;
     private FirebaseAnalytics analytics;
     private GradeDatabase gradeDatabase;
-    private String phoneNumber="";
+    private String phoneNumber = "";
     //Declare timer
     CountDownTimer cTimer = null;
+    private Subscription subscription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,13 +110,13 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         mAuth = FirebaseAuth.getInstance();
         database = GradeDatabase.getDbInstance(this);
         telecomManager = (TelecomManager) getApplicationContext().getSystemService(Context.TELECOM_SERVICE);
-        
-        phoneNumber=getIntent().getStringExtra("phoneNumber");
+
+        phoneNumber = getIntent().getStringExtra("phoneNumber");
 
         sendVerificationCode(phoneNumber);
         customProgressDialogue.show();
         startTimer();
-        
+
         binding.resendOtp.setOnClickListener(view -> {
             if (TextUtils.isEmpty(phoneNumber)) {
                 Toast.makeText(PhoneNumberLogin.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
@@ -142,20 +148,19 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             public void onInteractionListener() {
                 // fired when user types something in the Otpbox
             }
+
             @Override
             public void onOTPComplete(String otp) {
                 // fired when user has entered the OTP fully.
-              //  Toast.makeText(PhoneNumberLogin.this, "The OTP is " + otp,  Toast.LENGTH_LONG).show();
-             //   verifyCode(binding.idEdtOtp.getOTP().toString());
-               // customProgressDialogue.show();
+                //  Toast.makeText(PhoneNumberLogin.this, "The OTP is " + otp,  Toast.LENGTH_LONG).show();
+                //   verifyCode(binding.idEdtOtp.getOTP().toString());
+                // customProgressDialogue.show();
                 closeKeyboard();
             }
         });
 
 
     }
-
-
 
 
     //start timer function
@@ -165,9 +170,10 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         cTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
 
-                binding.timer.setText("Resend OTP in:"+ millisUntilFinished/1000);
+                binding.timer.setText("Resend OTP in:" + millisUntilFinished / 1000);
 
             }
+
             public void onFinish() {
                 binding.timer.setVisibility(View.GONE);
                 binding.resendOtp.setVisibility(View.VISIBLE);
@@ -179,7 +185,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
     //cancel timer
     void cancelTimer() {
-        if(cTimer!=null)
+        if (cTimer != null)
             cTimer.cancel();
     }
 
@@ -192,7 +198,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
 
 
     private void signInWithCredential(PhoneAuthCredential credential) {
@@ -265,7 +270,6 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     };
 
 
-
     private void verifyCode(String code) {
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -330,6 +334,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
                         if (queryDocumentSnapshots.isEmpty()) {
                             customProgressDialogue.dismiss();
+                            PrefConfig.writeIdInPref(PhoneNumberLogin.this, phoneNumber, getResources().getString(R.string.parent_contact_details));
                             Log.i("No_data", "No_data");
                             var intent = new Intent(getApplicationContext(), GradeActivity.class);
                             startActivity(intent);
@@ -406,12 +411,36 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         });
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
-            Log.i("KidsData", kidsData.getName() + "");
-            customProgressDialogue.dismiss();
-            var i = new Intent(getApplicationContext(), TabbedHomePage.class);
-            startActivity(i);
-            cancelTimer();
-            finish();
+
+            CallFirebaseForInfo.getSubscriptionStatus(kidsDb, mAuth, PhoneNumberLogin.this, () -> {
+
+
+                try {
+                    subscription=new FetchSubscriptionStatus(PhoneNumberLogin.this,
+                            PrefConfig.readIdInPref(PhoneNumberLogin.this,getResources().getString(R.string.subscription_id))).execute().get();
+
+                    try{
+                    if (subscription.get("status").equals("active"))
+                        PrefConfig.writeIdInPref(PhoneNumberLogin.this,"active",getResources().getString(R.string.payment_status));
+                    if (subscription.get("status").equals("cancelled"))
+                        PrefConfig.writeIdInPref(PhoneNumberLogin.this,"",getResources().getString(R.string.subscription_id));}
+                    catch (Exception e){
+                        PrefConfig.writeIdInPref(PhoneNumberLogin.this,"pending",getResources().getString(R.string.payment_status));
+                    }
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Log.i("KidsData", kidsData.getName() + "");
+                customProgressDialogue.dismiss();
+                var i = new Intent(getApplicationContext(), TabbedHomePage.class);
+                startActivity(i);
+                cancelTimer();
+                finish();
+            });
+
         });
 
 

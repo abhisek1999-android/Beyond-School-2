@@ -41,6 +41,7 @@ import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
 import com.maths.beyond_school_280720220930.utils.Constants;
@@ -84,6 +85,8 @@ public class EnglishFragment extends Fragment {
     private int REQUEST_RECORD_AUDIO = 1;
     private List<String> chapterListEng;
     private List<String> chapterListMath;
+    private FirebaseFirestore firebaseFirestore;
+    private String subscriptionId="";
     private CustomProgressDialogue customProgressDialogue;
     private BottomSheetBehavior mBottomSheetBehavior;
     private List<GradeData> subjectDataNew;
@@ -98,7 +101,9 @@ public class EnglishFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        firebaseFirestore=FirebaseFirestore.getInstance();
 
+        subscriptionId=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.subscription_id));
         subjectDataNew = new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value));
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
@@ -126,13 +131,7 @@ public class EnglishFragment extends Fragment {
 
 
         setSubSubjectProgress();
-        try {
-            UtilityFunctions.checkUpdatePaymentStatus(getContext(),"abcd");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
@@ -217,13 +216,17 @@ public class EnglishFragment extends Fragment {
     private void dateChecking() {
 
         Log.d(TAG, "dateChecking: ");
-
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
         if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()))) {
-
             // Added functionality when we got a new date
+            try {
+                UtilityFunctions.checkUpdatePaymentStatus(getContext(),subscriptionId,firebaseFirestore,mAuth);
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.timer_time)).equals("")) {
                 //displayAddProfileAlertDialog();

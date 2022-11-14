@@ -50,6 +50,7 @@ public class ViewCurriculum extends AppCompatActivity {
     private int noOfDays = 0;
     private String paymentStatus;
     private int trialPeriodDay=1;
+    private int paymentAmount=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,9 @@ public class ViewCurriculum extends AppCompatActivity {
         binding.gradeInfo.setText("For " + kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
 
         noOfDays = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.noOfdays), 0);
+        trialPeriodDay= PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.payment_status));
+        paymentAmount=PrefConfig.readIntDInPref(ViewCurriculum.this,getResources().getString(R.string.plan_value));
         try{
         engChapters = Arrays.asList(eng);
         defaultSubject = eng[0];}catch (Exception e){}
@@ -187,7 +190,7 @@ public class ViewCurriculum extends AppCompatActivity {
 
             else {
 
-                if (noOfDays<=trialPeriodDay){
+                if (noOfDays<trialPeriodDay){
 
                     if (gradeData.isUnlock()) {
                         Intent intent;
@@ -211,7 +214,7 @@ public class ViewCurriculum extends AppCompatActivity {
                 }
                 else{
 
-                   UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this,"Subscribe","Hey you don't have any subscription plan. Please subscribe to continue.","Subscribe @ Rs 299/ Month");
+                   UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this,"Subscribe","Hey you don't have any subscription plan. Please subscribe to continue.","Subscribe @ Rs "+paymentAmount+"/ Month");
                 }
             }
 
