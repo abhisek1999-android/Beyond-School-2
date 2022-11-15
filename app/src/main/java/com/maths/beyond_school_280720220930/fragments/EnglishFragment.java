@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,7 @@ public class EnglishFragment extends Fragment {
     private List<String> chapterListEng;
     private List<String> chapterListMath;
     private FirebaseFirestore firebaseFirestore;
-    private String subscriptionId="";
+    private String subscriptionId = "";
     private CustomProgressDialogue customProgressDialogue;
     private BottomSheetBehavior mBottomSheetBehavior;
     private List<GradeData> subjectDataNew;
@@ -101,9 +102,9 @@ public class EnglishFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
-        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
-        subscriptionId=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.subscription_id));
+        subscriptionId = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.subscription_id));
         subjectDataNew = new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value));
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
@@ -133,7 +134,6 @@ public class EnglishFragment extends Fragment {
         setSubSubjectProgress();
 
 
-
     }
 
 
@@ -159,17 +159,28 @@ public class EnglishFragment extends Fragment {
             binding.nestedScrollView.scrollTo(0, 0);
             binding.startExeButtonLayout.setVisibility(View.GONE);
             binding.completeProgressTile.setVisibility(View.VISIBLE);
+            displayTrialPeriodDialog(false);
             //startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
 
         binding.gotoViewCurriculumOne.setOnClickListener(v -> {
+
+            if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type)).equals("old_user"))
+                displayTrialPeriodDialog(true);
+            else
+                startActivity(new Intent(getContext(), ViewCurriculum.class));
+
             PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));
-            startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
 
         binding.gotoViewCurriculumTwo.setOnClickListener(v -> {
+            if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type)).equals("old_user"))
+                displayTrialPeriodDialog(true);
+            else
+                startActivity(new Intent(getContext(), ViewCurriculum.class));
+
+
             PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));
-            startActivity(new Intent(getContext(), ViewCurriculum.class));
         });
         dateChecking();
 
@@ -185,15 +196,16 @@ public class EnglishFragment extends Fragment {
     }
 
 
-    private void displayAddProfileAlertDialog() {
-
+    private void displayTrialPeriodDialog(boolean gotoViewCurriculum) {
+        int trialPeriod = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
         HintDialog hintDialog = new HintDialog(getContext());
         hintDialog.setCancelable(true);
-        hintDialog.setAlertTitle("Set Reminder");
-        hintDialog.setAlertDesciption("Hey, You can set a reminder which can notify about your study time");
-
-        hintDialog.actionButton("Set Reminder");
-        hintDialog.actionButtonBackgroundColor(R.color.primary);
+        hintDialog.setAlertTitle("Trial Period");
+        hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period is started from today and it will be for <font color='#64c1c7'>" + trialPeriod + " Days.</font>", Html.FROM_HTML_MODE_COMPACT)));
+        hintDialog.hideActionButton();
+        hintDialog.hideCloseButton();
+        if (gotoViewCurriculum)
+            hintDialog.displaySubscribeButton("View Curriculum");
         hintDialog.setOnActionListener(viewId -> {
 
             switch (viewId.getId()) {
@@ -201,8 +213,9 @@ public class EnglishFragment extends Fragment {
                 case R.id.closeButton:
                     hintDialog.dismiss();
                     break;
-                case R.id.buttonAction:
-                    startActivity(new Intent(getContext(), AlarmAtTime.class));
+                case R.id.gotoTextView:
+                    if (gotoViewCurriculum)
+                        startActivity(new Intent(getContext(), ViewCurriculum.class));
                     hintDialog.dismiss();
                     break;
             }
@@ -220,7 +233,7 @@ public class EnglishFragment extends Fragment {
         if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()))) {
             // Added functionality when we got a new date
             try {
-                UtilityFunctions.checkUpdatePaymentStatus(getContext(),subscriptionId,firebaseFirestore,mAuth);
+                UtilityFunctions.checkUpdatePaymentStatus(getContext(), subscriptionId, firebaseFirestore, mAuth);
 
             } catch (ExecutionException e) {
                 e.printStackTrace();

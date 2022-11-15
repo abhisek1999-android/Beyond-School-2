@@ -75,6 +75,18 @@
             android:text="Age : 06"
             android:textColor="@color/white"
             android:textSize="@dimen/default_font_size" />
+
+        <TextView
+            android:id="@+id/subscriptionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/kidsAge"
+            android:layout_marginStart="@dimen/grid_3"
+            android:layout_marginLeft="18dp"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/default_font_size" />
     </RelativeLayout>
 
 

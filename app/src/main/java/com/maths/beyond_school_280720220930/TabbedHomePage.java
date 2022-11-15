@@ -48,9 +48,9 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     private FirebaseFirestore firebaseFirestore;
     private int REQUEST_RECORD_AUDIO = 1;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
-    private final  static  String TAG="TabbedHomeScreen";
+    private final static String TAG = "TabbedHomeScreen";
     private Subscription subscription;
-    private String subscriptionId="";
+    private String subscriptionId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,13 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
-        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        subscriptionId=PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.subscription_id));
+        subscriptionId = PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.subscription_id));
 
-        if (PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.plan_id)).equals(""))
+        if (PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.plan_id)).equals(""))
             setUpRemoteConfigPayment();
-
-        if (PrefConfig.readIntInPref(TabbedHomePage.this,getResources().getString(R.string.trial_period),0)==0)
-            setUpRemoteConfigTrial();
 
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("English"));
@@ -121,13 +118,10 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
                         boolean updated = task.getResult();
 
                         int val = (int) mFirebaseRemoteConfig.getLong("price_value");
-                        PrefConfig.writeIntInPref(TabbedHomePage.this,val,getResources().getString(R.string.plan_value));
-                        PrefConfig.writeIdInPref(TabbedHomePage.this,UtilityFunctions.getPlanIds(val),getResources().getString(R.string.plan_id));
-                        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, PrefConfig.readIdInPref(TabbedHomePage.this,getResources().getString(R.string.subscription_id)),
-                                UtilityFunctions.getPlanIds(val),
-                                PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.customer_id)));
-
-                        CallFirebaseForInfo.setPlanValue(firebaseFirestore, mAuth, val);
+                        PrefConfig.writeIntInPref(TabbedHomePage.this, val, getResources().getString(R.string.plan_value));
+                        PrefConfig.writeIdInPref(TabbedHomePage.this, UtilityFunctions.getPlanIds(val), getResources().getString(R.string.plan_id));
+                        if (PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0) == 0)
+                            setUpRemoteConfigTrial(val);
 
                         Log.d(TAG, "Config params updated: payment" + updated + ", val:" + val);
                         return;
@@ -139,7 +133,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     }
 
 
-    private void setUpRemoteConfigTrial() {
+    private void setUpRemoteConfigTrial(int planVal) {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(0)
@@ -153,8 +147,12 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
                         boolean updated = task.getResult();
 
                         int val = (int) mFirebaseRemoteConfig.getLong("trial_period");
-                        PrefConfig.writeIntInPref(TabbedHomePage.this,val,getResources().getString(R.string.trial_period));
-                        CallFirebaseForInfo.setTrialPeriod(firebaseFirestore,mAuth,val);
+                        PrefConfig.writeIntInPref(TabbedHomePage.this, val, getResources().getString(R.string.trial_period));
+
+                        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.subscription_id)), UtilityFunctions.getPlanIds(planVal),
+                                PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.customer_id))
+                                , planVal, val);
+
                         Log.d(TAG, "Config params updated: trial " + updated + ", val:" + val);
                         return;
                     }
@@ -172,6 +170,18 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         Log.i("ImageUrl", PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
 
         binding.tool.logoutLayout.setVisibility(View.VISIBLE);
+
+        int trialPeriod = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0);
+        int noOfDays = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.noOfdays), 0);
+
+        if ((trialPeriod - noOfDays) == trialPeriod - 1)
+            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends today ");
+        else if (noOfDays < trialPeriod)
+            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - noOfDays)+" days");
+        else if (!PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
+            binding.tool.toolBar.subscriptionStatus.setText("You don't have any valid plans");
+        else
+            binding.tool.toolBar.subscriptionStatus.setVisibility(View.GONE);
 
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();
@@ -209,13 +219,13 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
             Intent intent = new Intent(getApplicationContext(), KidsInfoActivity.class);
             intent.putExtra("type", "update");
             startActivity(intent);
-           // binding.drawerLayout.closeDrawer(Gravity.LEFT);
+            // binding.drawerLayout.closeDrawer(Gravity.LEFT);
 
 
         });
 
-        binding.tool.manageSubscription.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),ManageSubscription.class));
+        binding.tool.manageSubscription.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ManageSubscription.class));
         });
 
 
