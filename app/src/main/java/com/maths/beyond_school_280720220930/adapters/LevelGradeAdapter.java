@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.databinding.RowExpandableViewBinding;
+import com.maths.beyond_school_280720220930.databinding.RowLayoutLevel3Binding;
 
 public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.LevelGradeViewHolder> {
 
@@ -21,7 +22,7 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
     @NonNull
     @Override
     public LevelGradeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new LevelGradeViewHolder(RowExpandableViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new LevelGradeViewHolder(RowLayoutLevel3Binding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -30,15 +31,15 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
     }
 
     public static class LevelGradeViewHolder extends RecyclerView.ViewHolder {
-        private final RowExpandableViewBinding binding;
+        private final RowLayoutLevel3Binding binding;
 
-        public LevelGradeViewHolder(RowExpandableViewBinding binding) {
+        public LevelGradeViewHolder(@NonNull RowLayoutLevel3Binding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(GradeData gradeData) {
-            binding.header.textViewSubject.setText(gradeData.getSub_subject());
+            binding.chapters.setText(gradeData.getChapter_name());
         }
     }
 

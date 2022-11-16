@@ -56,6 +56,9 @@ public interface GradesDaoUpdated {
     @Query("DELETE FROM grade")
     void deleteAll();
 
-    @Query("SELECT * FROM grade WHERE subject=:subject AND sub_subject NOT LIKE ''")
-    List<GradeData> getDataFromSubject(String subject);
+    @Query("SELECT DISTINCT(sub_subject) FROM grade WHERE subject=:subject AND sub_subject NOT LIKE ''")
+    List<String> getSubSubjects(String subject);
+
+    @Query("SELECT * FROM grade WHERE subject=:subject AND sub_subject=:subSubject")
+    List<GradeData> getDataFromSubject(String subject,String subSubject);
 }

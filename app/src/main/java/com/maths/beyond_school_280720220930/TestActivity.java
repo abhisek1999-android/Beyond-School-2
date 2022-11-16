@@ -14,6 +14,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.LevelGradeAdapter;
+import com.maths.beyond_school_280720220930.adapters.LevelTwoContentAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
@@ -46,7 +47,11 @@ public class TestActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
 
+    private List<String> subSubjects;
+
     private List<GradeData> gradeModelNewList;
+
+    private List<List<GradeData>> subSubjectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +60,31 @@ public class TestActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
 
+        gradeModelNewList=new ArrayList<>();
+        subSubjectList=new ArrayList<>();
+        subSubjects=new ArrayList();
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
-
         setRecyclerView();
         getNewData();
 
     }
 
     private void setRecyclerView() {
-        var adapter = new LevelGradeAdapter();
-        binding.showItem.setLayoutManager(new LinearLayoutManager(this));
-        binding.showItem.setAdapter(adapter);
+
         var db = gradeDatabase.gradesDaoUpdated();
-        adapter.submitList(db.getDataFromSubject("Grammar"));
+        subSubjects=db.getSubSubjects("Vocabulary");
+        for (String subSubject: subSubjects){
+            subSubjectList.add(db.getDataFromSubject("Vocabulary",subSubject));
+            Log.d(TAG, "setRecyclerView: "+gradeModelNewList+"");
+        }
+
+        var adapter = new LevelTwoContentAdapter(TestActivity.this,subSubjects,subSubjectList);
+        binding.showItem.setLayoutManager(new LinearLayoutManager(this));
+       // adapter.setNotesList(subSubjects,subSubjectList);
+        binding.showItem.setAdapter(adapter);
+
     }
 
 

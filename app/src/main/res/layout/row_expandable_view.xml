@@ -9,11 +9,26 @@
     android:padding="@dimen/grid_1"
     app:exp_animateExpand="true">
 
-    <include
+    <TextView
         android:id="@+id/header"
-        layout="@layout/row_level_grade" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/image_view_state"
+        android:fontFamily="@font/reemkufi_medium"
+        android:padding="@dimen/grid_1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_state"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
-    <include
+<!--    layout="@layout/row_layout_level_3-->
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content"
-        layout="@layout/row_layout_level_3" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </com.robertlevonyan.views.expandable.Expandable>

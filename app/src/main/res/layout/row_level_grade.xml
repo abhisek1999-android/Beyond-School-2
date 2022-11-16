@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_toStartOf="@+id/image_view_state"
-    android:fontFamily="@font/jellee_roman"
+    android:fontFamily="@font/reemkufi_medium"
     android:padding="@dimen/grid_1"
     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
     app:layout_constraintEnd_toStartOf="@+id/image_view_state"
