@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.robertlevonyan.views.expandable.Expandable xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/expandable"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginVertical="@dimen/grid_0_5"
+    android:padding="@dimen/grid_1"
+    app:exp_animateExpand="true">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/row_level_grade" />
+
+    <include
+        android:id="@+id/content"
+        layout="@layout/row_layout_level_3" />
+</com.robertlevonyan.views.expandable.Expandable>

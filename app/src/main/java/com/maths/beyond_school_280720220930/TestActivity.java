@@ -6,19 +6,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
+import com.maths.beyond_school_280720220930.adapters.LevelGradeAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
-import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Plan;
 import com.razorpay.Subscription;
@@ -56,16 +57,19 @@ public class TestActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        //   setUpRemoteConfigPayment();
-        // setUpRemoteConfigTrial();
-
-//        CallFirebaseForInfo.getSubscriptionStatus(firebaseFirestore,mAuth,TestActivity.this,()->{
-//            Log.d(TAG, "onCreate: Saved");
-//        });
 
 
+        setRecyclerView();
         getNewData();
 
+    }
+
+    private void setRecyclerView() {
+        var adapter = new LevelGradeAdapter();
+        binding.showItem.setLayoutManager(new LinearLayoutManager(this));
+        binding.showItem.setAdapter(adapter);
+        var db = gradeDatabase.gradesDaoUpdated();
+        adapter.submitList(db.getDataFromSubject("Grammar"));
     }
 
 
@@ -81,7 +85,7 @@ public class TestActivity extends AppCompatActivity {
                     var s = response.body().getEnglish();
                     for (var i : s) {
                         for (var j : i.getSub_subject()) {
-                            var converter = new LeveGradeConverter("English",i.getSubject());
+                            var converter = new LeveGradeConverter("English", i.getSubject());
                             var list = converter.mapToList(j.getBlocks());
                             gradeModelNewList.addAll(list);
                         }
@@ -105,7 +109,7 @@ public class TestActivity extends AppCompatActivity {
 
 
     private void mapToGradeModel(List<GradeData> list) {
-            gradeDatabase.gradesDaoUpdated().insertNotes(list);
+        gradeDatabase.gradesDaoUpdated().insertNotes(list);
     }
 
     private void setUpRemoteConfigPayment() {

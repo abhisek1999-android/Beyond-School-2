@@ -71,7 +71,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         }
 //        getNewData();
 
-//        startActivity(new Intent(this, GradeDataFetch.class));
+        startActivity(new Intent(this, GradeDataFetch.class));
 
     }
 

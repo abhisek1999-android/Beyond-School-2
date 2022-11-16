@@ -121,4 +121,6 @@ dependencies {
 
     //otpView
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
+
+    implementation 'com.robertlevonyan.view:MaterialExpansionPanel:2.1.6'
 }

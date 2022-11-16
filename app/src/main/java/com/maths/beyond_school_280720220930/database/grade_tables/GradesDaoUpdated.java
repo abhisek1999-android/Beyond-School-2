@@ -40,8 +40,6 @@ public interface GradesDaoUpdated {
     List<GradeData> getSubjectDataIncompleteFirst(String subject);
 
 
-
-
     @Query("SELECT * FROM grade WHERE id=:id ")
     List<GradeData> getSubjectDataViaID(String id);
 
@@ -58,4 +56,6 @@ public interface GradesDaoUpdated {
     @Query("DELETE FROM grade")
     void deleteAll();
 
+    @Query("SELECT * FROM grade WHERE subject=:subject AND sub_subject NOT LIKE ''")
+    List<GradeData> getDataFromSubject(String subject);
 }
