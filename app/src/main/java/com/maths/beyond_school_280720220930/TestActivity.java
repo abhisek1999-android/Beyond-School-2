@@ -18,6 +18,7 @@ import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
+import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Plan;
 import com.razorpay.Subscription;
@@ -80,7 +81,7 @@ public class TestActivity extends AppCompatActivity {
                     var s = response.body().getEnglish();
                     for (var i : s) {
                         for (var j : i.getSub_subject()) {
-                            var converter = new LeveGradeConverter("English");
+                            var converter = new LeveGradeConverter("English",i.getSubject());
                             var list = converter.mapToList(j.getBlocks());
                             gradeModelNewList.addAll(list);
                         }
@@ -88,6 +89,8 @@ public class TestActivity extends AppCompatActivity {
                     for (var i : gradeModelNewList) {
                         Log.d(TAG, "onResponse: " + i);
                     }
+
+                    mapToGradeModel(gradeModelNewList);
                 } else {
                     Toast.makeText(TestActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                 }
@@ -98,6 +101,11 @@ public class TestActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
             }
         });
+    }
+
+
+    private void mapToGradeModel(List<GradeData> list) {
+            gradeDatabase.gradesDaoUpdated().insertNotes(list);
     }
 
     private void setUpRemoteConfigPayment() {

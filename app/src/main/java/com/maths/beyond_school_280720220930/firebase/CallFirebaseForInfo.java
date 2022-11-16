@@ -176,12 +176,12 @@ public class CallFirebaseForInfo {
 
     public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id, String customerId) {
 
-        Map<String, String> subscriptionMap = new HashMap();
+        Map subscriptionMap = new HashMap();
         subscriptionMap.put("subscription_id", subscriptionId);
         subscriptionMap.put("customer_id", customerId);
         subscriptionMap.put("plan_id", plan_id);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).set(subscriptionMap);
-        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().set(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().update(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 

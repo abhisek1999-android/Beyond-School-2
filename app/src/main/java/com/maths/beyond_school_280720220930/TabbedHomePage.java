@@ -173,15 +173,15 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
         int trialPeriod = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0);
         int noOfDays = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.noOfdays), 0);
-
-        if ((trialPeriod - noOfDays) == trialPeriod - 1)
+        if(PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
+        binding.tool.toolBar.subscriptionStatus.setText("Your plan is activated");
+        else if ((trialPeriod - noOfDays) == trialPeriod - 1)
             binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends today ");
         else if (noOfDays < trialPeriod)
-            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - noOfDays)+" days");
+            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - noOfDays) + " days");
         else if (!PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
             binding.tool.toolBar.subscriptionStatus.setText("You don't have any valid plans");
-        else
-            binding.tool.toolBar.subscriptionStatus.setVisibility(View.GONE);
+
 
         binding.tool.logout.setOnClickListener(v -> {
             mAuth.signOut();

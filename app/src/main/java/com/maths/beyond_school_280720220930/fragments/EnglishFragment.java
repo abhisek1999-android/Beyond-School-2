@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -131,8 +132,10 @@ public class EnglishFragment extends Fragment {
         engSub = Arrays.asList(eng);
 
 
-        setSubSubjectProgress();
+        //TODO must take care
+      //  setSubSubjectProgress();
 
+        uiChnages();
 
     }
 
@@ -143,6 +146,7 @@ public class EnglishFragment extends Fragment {
         binding.evaluationTestTile.setVisibility(View.GONE);
 
         binding.introTile.setOnClickListener(v -> {
+
             startActivity(new Intent(getContext(), TestActivity.class));
         });
 
@@ -475,7 +479,7 @@ public class EnglishFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setSubSubjectProgress();
+      //  setSubSubjectProgress();
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
     }
 }

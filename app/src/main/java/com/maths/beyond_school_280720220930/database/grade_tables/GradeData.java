@@ -17,18 +17,13 @@ public class GradeData {
     private String subject;
     private String request;
     private String super_subject;
-
     @Nullable
     private String sub_subject;
-
     @Nullable
     private String sub_subject_id;
     private boolean isFetchRequired;
     private boolean unlock;
-
-
     private boolean unlock_ex;
-
     private boolean is_completed;
     private boolean is_completed_ex;
 
@@ -223,8 +218,15 @@ public class GradeData {
                 ", chapter_name='" + chapter_name + '\'' +
                 ", subject='" + subject + '\'' +
                 ", request='" + request + '\'' +
+                ", super_subject='" + super_subject + '\'' +
+                ", sub_subject='" + sub_subject + '\'' +
+                ", sub_subject_id='" + sub_subject_id + '\'' +
+                ", isFetchRequired=" + isFetchRequired +
                 ", unlock=" + unlock +
+                ", unlock_ex=" + unlock_ex +
                 ", is_completed=" + is_completed +
+                ", is_completed_ex=" + is_completed_ex +
+                ", meta=" + meta +
                 '}';
     }
 }

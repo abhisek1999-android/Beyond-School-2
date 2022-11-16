@@ -10,9 +10,12 @@ import java.util.stream.Collectors;
 public class LeveGradeConverter implements TypeConverter<GradeData, GradeModelNew.English.Sub_Subjects.Blocks> {
 
     private final String superSubject;
+    private  String subject;
 
-    public LeveGradeConverter(String superSubject) {
+
+    public LeveGradeConverter(String superSubject,String subject) {
         this.superSubject = superSubject;
+        this.subject=subject;
     }
 
     @Override
@@ -20,7 +23,7 @@ public class LeveGradeConverter implements TypeConverter<GradeData, GradeModelNe
         return new GradeData(
                 blocks.getBlockId(),
                 blocks.getName(),
-                blocks.getSub_subject(),
+                subject,
                 "",
                 superSubject,
                 blocks.getSub_subject(),
