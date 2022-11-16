@@ -225,9 +225,6 @@ public class ViewCurriculum extends AppCompatActivity {
 
     private void displaySubscriptionDialog() {
 
-
-
-
     }
 
     private void getLiveData(String subject) {
@@ -242,7 +239,7 @@ public class ViewCurriculum extends AppCompatActivity {
         list.forEach(subject -> {
             var mapper = new GradeConverter(subject.getSubject());
             var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+           // gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
     }
 
