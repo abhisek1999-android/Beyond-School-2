@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,10 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
-import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
-import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +36,6 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
         this.context = context;
         this.mListener = listener;
         progressDataBase = ProgressDataBase.getDbInstance(context);
-
 
 
     }
@@ -68,14 +64,14 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
         holder.timeText.setText(progressDataBase.progressDao().getTimeSpend(gradeData.getId(), gradeData.getChapter_name()) + "");
 
 
-        if (gradeData.is_completed()) {
+        if (gradeData.isIs_completed()) {
             holder.status.setText("Complete");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
         }
 
 
         holder.mView.setOnClickListener(v -> {
-                mListener.onItemClick(gradeData);
+            mListener.onItemClick(gradeData);
         });
 
 

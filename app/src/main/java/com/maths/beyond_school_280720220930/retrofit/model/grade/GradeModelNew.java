@@ -1,7 +1,11 @@
 package com.maths.beyond_school_280720220930.retrofit.model.grade;
 
+import androidx.annotation.Keep;
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
+@Keep
 public class GradeModelNew {
 
     List<English> english;
@@ -25,7 +29,8 @@ public class GradeModelNew {
         this.english = english;
     }
 
-    private class English {
+    @Keep
+    public static class English {
         String subject;
         List<Sub_Subjects> sub_subject;
 
@@ -58,8 +63,8 @@ public class GradeModelNew {
                     '}';
         }
 
-
-        private class Sub_Subjects {
+        @Keep
+        public static class Sub_Subjects {
 
             String sub_subject;
             List<Blocks> blocks;
@@ -93,12 +98,17 @@ public class GradeModelNew {
                 this.blocks = blocks;
             }
 
-            private class Blocks {
+            @Keep
+            public static class Blocks {
                 String blockId;
                 String status;
                 String name;
                 String sub_subject;
                 String sub_subject_id;
+
+                Meta meta;
+
+
 
                 @Override
                 public String toString() {
@@ -111,12 +121,21 @@ public class GradeModelNew {
                             '}';
                 }
 
-                public Blocks(String blockId, String status, String name, String sub_subject, String sub_subject_id) {
+                public Blocks(String blockId, String status, String name, String sub_subject, String sub_subject_id,Meta meta) {
                     this.blockId = blockId;
                     this.status = status;
                     this.name = name;
                     this.sub_subject = sub_subject;
                     this.sub_subject_id = sub_subject_id;
+                    this.meta = meta;
+                }
+
+                public Meta getMeta() {
+                    return meta;
+                }
+
+                public void setMeta(Meta meta) {
+                    this.meta = meta;
                 }
 
                 public String getBlockId() {
@@ -157,6 +176,60 @@ public class GradeModelNew {
 
                 public void setSub_subject_id(String sub_subject_id) {
                     this.sub_subject_id = sub_subject_id;
+                }
+
+
+                @Keep
+                public static class Meta {
+
+                    private String screen_type;
+                    private String hint;
+                    private String question;
+
+                    public Meta() {
+                        this.screen_type = "";
+                        this.hint = "";
+                        this.question = "";
+                    }
+
+                    public Meta( String screen_type,  String hint, String question) {
+                        this.screen_type = screen_type;
+                        this.hint = hint;
+                        this.question = question;
+                    }
+
+                    public String getScreen_type() {
+                        return screen_type;
+                    }
+
+                    public void setScreen_type(String screen_type) {
+                        this.screen_type = screen_type;
+                    }
+
+                    public String getHint() {
+                        return hint;
+                    }
+
+                    public void setHint(String hint) {
+                        this.hint = hint;
+                    }
+
+                    public String getQuestion() {
+                        return question;
+                    }
+
+                    public void setQuestion(String question) {
+                        this.question = question;
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "Meta{" +
+                                "screen_type='" + screen_type + '\'' +
+                                ", hint='" + hint + '\'' +
+                                ", question='" + question + '\'' +
+                                '}';
+                    }
                 }
             }
         }

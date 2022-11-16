@@ -11,8 +11,8 @@ import retrofit2.http.Path;
 
 public interface ApiInterfaceNew {
 
-    //@GET("getEnglishCourseData?grade=Grade 1")
-    @GET("Exprement/demo_grade1.json")
+    @GET("getEnglishCourseData?grade=Grade 1")
+//    @GET("Exprement/demo_grade1.json")
     Call<GradeModelNew> getGradeData();
 
 

@@ -24,7 +24,11 @@ public class GradeConverter implements TypeConverter<GradeData, GradeModel.Engli
                 subject,
                 chapter.getRequest(),
                 "english",
+                "",
+                "",
+                new GradeData.Meta(),
                 UtilityFunctions.intToBoolean(chapter.getUnlock()),
+                false,
                 UtilityFunctions.intToBoolean(chapter.getIsFetchRequired()),
                 false
         );
