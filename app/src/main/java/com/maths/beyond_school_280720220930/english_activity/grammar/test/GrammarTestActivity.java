@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.english_activity.grammar.test;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
@@ -37,10 +38,12 @@ import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import org.json.JSONArray;
@@ -102,7 +105,7 @@ public class GrammarTestActivity extends AppCompatActivity {
     private long timeSpend = 0;
     private ContentModel.Meta meta;
     private List<ProgressM> progressData;
-    private boolean isTimerRunning=false;
+    private boolean isTimerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +136,17 @@ public class GrammarTestActivity extends AppCompatActivity {
         setToolbar();
         getDataFromIntent();
         learnButtonClick();
+        setButtonVisibility();
+    }
+
+    private void setButtonVisibility() {
+        var isVisible = getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN, false);
+        var param = binding.giveTestButton.getLayoutParams();
+        if (!isVisible) {
+            param.height = 1;
+            binding.giveTestButton.setLayoutParams(param);
+            binding.giveTestButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void learnButtonClick() {
@@ -165,28 +179,38 @@ public class GrammarTestActivity extends AppCompatActivity {
     }
 
     private void getSubjectData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject(
-                PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
-                "english",
-                getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(),
-                category).enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                if (response.body() != null) {
-                    Log.d(TAG, "onResponse: " + response.body().getContent().toString());
-                    setData(response.body().getContent());
-                    meta = response.body().getMeta();
+        if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            meta = d.getMeta();
+            if (getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN, false)) {
+                setData(d.getLearning());
+            } else {
+                setData(d.getExercise());
+            }
+        } else {
+            Retrofit retrofit = ApiClient.getClient();
+            var api = retrofit.create(ApiInterface.class);
+            api.getVocabularySubject(
+                    PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
+                    "english",
+                    getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(),
+                    category).enqueue(new retrofit2.Callback<>() {
+                @Override
+                public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+                    Log.d(TAG, "onResponse: " + response.code());
+                    if (response.body() != null) {
+                        Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+                        setData(response.body().getContent());
+                        meta = response.body().getMeta();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ContentModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<ContentModel> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+                }
+            });
+        }
     }
 
     private void setData(List<ContentModel.Content> content) {
@@ -513,7 +537,6 @@ public class GrammarTestActivity extends AppCompatActivity {
         checkProgressData();
         UtilityFunctions.checkProgressAvailable(progressDataBase, (isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), category, new Date(), timeSpend + Integer.parseInt(binding.layoutExtTimer.timeText.getText().toString()), false);
     }
-
 
 
     private void checkProgressData() {

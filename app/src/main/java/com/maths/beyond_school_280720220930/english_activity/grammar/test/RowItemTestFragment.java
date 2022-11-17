@@ -38,7 +38,8 @@ public class RowItemTestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentIndentifyingNounsRowBinding.bind(view);
         UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
-        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ? View.GONE : View.VISIBLE);
+        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ||
+                grammarModel.getImage().equals("null") ? View.GONE : View.VISIBLE);
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);
         if (request.equals(getResources().getString(R.string.grammar_3)))

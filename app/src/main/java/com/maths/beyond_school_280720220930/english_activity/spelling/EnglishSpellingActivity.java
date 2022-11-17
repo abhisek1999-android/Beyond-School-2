@@ -1,7 +1,11 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_FLAG_HAVE_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
@@ -42,6 +46,7 @@ import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishV
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
@@ -148,24 +153,30 @@ public class EnglishSpellingActivity extends AppCompatActivity {
     }
 
     private void getSubjectData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject(PrefConfig.readIdInPref(this, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
-                "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                if (response.body() != null) {
-                    Log.d(TAG, "onResponse: " + response.body().getContent().toString());
-                    mapData(response.body().getContent());
-                }
-            }
+        if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            mapData(d.getLearning());
+        } else {
+            Retrofit retrofit = ApiClient.getClient();
 
-            @Override
-            public void onFailure(Call<ContentModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
+            var api = retrofit.create(ApiInterface.class);
+            api.getVocabularySubject(PrefConfig.readIdInPref(this, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""),
+                    "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
+                @Override
+                public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+                    Log.d(TAG, "onResponse: " + response.code());
+                    if (response.body() != null) {
+                        Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+                        mapData(response.body().getContent());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ContentModel> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+                }
+            });
+        }
     }
 
     private void mapData(List<ContentModel.Content> content) {
@@ -176,13 +187,20 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" +(!isOnline?"grammar":getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(this, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(this, category), "English", parentsContactId);
     }
 
     private void navigateToTest() {
         var intent = new Intent(this, SpellingTest.class);
         intent.putExtra(EXTRA_SPELLING_DETAIL, category);
         intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+        if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            intent.putExtra(EXTRA_DATA, d);
+            intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE);
+            intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
+            intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
+        }
         intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));
         intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
         startActivity(intent);
@@ -359,7 +377,9 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             UtilityFunctions.runOnUiThread(() -> {
                 var textView = (TextView) this.findViewById(R.id.text_view_des);
                 if (textView != null) {
-                    Spannable textWithHighlights = new SpannableString(sentence);
+                    var sen = sentence.replace("<b>", "").replace("</b>", "");
+                    Log.d("AAA", "initTTS: " + sen);
+                    Spannable textWithHighlights = new SpannableString(sen);
                     textWithHighlights.setSpan(new ForegroundColorSpan(
                                     ContextCompat.
                                             getColor(
@@ -405,7 +425,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
         currentWordLetterPosition = 0;
         playPauseAnimation(false);
         var diff = endTime - startTime;
-        var currentDes=spellingDetails.get(currentPosition).getDescription();
+        var currentDes = spellingDetails.get(currentPosition).getDescription();
 
         if (inputWord.toLowerCase(Locale.ROOT).equals(currentWord.toLowerCase(Locale.ROOT))) {
             logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
@@ -503,8 +523,10 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                                 return;
                             }
                             if (request == REQUEST_FOR_DES && !canNavigate) {
-                                tts.setTextViewAndSentence(spellingDetails.get(binding.viewPager.getCurrentItem()).getDescription());
-                                tts.initialize(getDescription(), EnglishSpellingActivity.this);
+                                tts.setTextViewAndSentence(spellingDetails.get(binding.viewPager.getCurrentItem())
+                                        .getDescription().replace("<b>", "").replace("</b>", ""));
+                                tts.initialize(getDescription().replace("<b>", "").replace("</b>", "")
+                                        , EnglishSpellingActivity.this);
                                 return;
                             }
                             if (canNavigate) {                                                                  // navigate to next word
