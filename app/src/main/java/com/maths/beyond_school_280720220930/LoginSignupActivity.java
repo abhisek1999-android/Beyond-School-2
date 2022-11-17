@@ -47,7 +47,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        insertData();
+       // insertData();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         gradeDatabase = GradeDatabase.getDbInstance(this);
@@ -71,7 +71,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         }
 //        getNewData();
 
-        startActivity(new Intent(this, GradeDataFetch.class));
+     //   startActivity(new Intent(this, GradeDataFetch.class));
 
     }
 

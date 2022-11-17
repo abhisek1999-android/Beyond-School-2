@@ -34,6 +34,8 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityAlarmAtTimeBinding;
 import com.maths.beyond_school_280720220930.model.AlarmReceiver;
@@ -59,7 +61,9 @@ public class AlarmAtTime extends AppCompatActivity {
     private ArrayAdapter adapter;
 
 
+    private FirebaseAnalytics firebaseAnalytics;
     public ActivityAlarmAtTimeBinding binding;
+    private FirebaseAuth mAUth;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -72,6 +76,8 @@ public class AlarmAtTime extends AppCompatActivity {
 
         checkCalenderPermission();
 
+        firebaseAnalytics=FirebaseAnalytics.getInstance(this);
+        mAUth=FirebaseAuth.getInstance();
         titletext = findViewById(R.id.titleText);
         setAlarm = findViewById(R.id.setAlarm);
         titletext.setText("Set Reminder");
@@ -107,8 +113,6 @@ public class AlarmAtTime extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
-
 
     }
 
@@ -210,6 +214,7 @@ public class AlarmAtTime extends AppCompatActivity {
     public void setEvent() throws ParseException {
         Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
         UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer,()->{
+            UtilityFunctions.setReminderEvent(firebaseAnalytics,mAUth,binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString());
             Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
             startActivity(intent);
         });

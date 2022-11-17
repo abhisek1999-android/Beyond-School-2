@@ -125,6 +125,7 @@ public class GrammarActivity extends AppCompatActivity {
     private boolean isTimerRunning = false;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -779,7 +780,7 @@ public class GrammarActivity extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics,auth, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void timer() {

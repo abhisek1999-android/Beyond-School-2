@@ -754,14 +754,36 @@ public final class UtilityFunctions {
 
     public static void attemptPhoneNumberLogin(FirebaseAnalytics mFirebaseAnalytics, String phoneNumber) {
 
-
         var kidsData = new Bundle();
         kidsData.putString("phoneNumber", phoneNumber);
         mFirebaseAnalytics.logEvent("phone_number_login_attempt", kidsData);
     }
 
+    public static void setReminderEvent(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String time) {
 
-    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
+        var reminderData = new Bundle();
+        reminderData.putString("phone_number", time);
+        reminderData.putString("user_id",mAuth.getCurrentUser().getUid());
+        reminderData.putString("rem_time",time);
+        mFirebaseAnalytics.logEvent("reminder_added_event", reminderData);
+    }
+
+
+    public static void attemptPayment(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String phoneNumber,String paymentId,String subscriptionId,long paymentAmount,String status) {
+
+        var paymentData = new Bundle();
+        paymentData.putString("phone_number", phoneNumber);
+        paymentData.putString("payment_id",paymentId);
+        paymentData.putString("subscription_id",subscriptionId);
+        paymentData.putString("user_id",mAuth.getCurrentUser().getUid());
+        paymentData.putLong("payment_amount",paymentAmount);
+        paymentData.putString("payment_status",status);
+
+        mFirebaseAnalytics.logEvent("attempt_payment", paymentData);
+    }
+
+
+    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId
     ) {
@@ -775,6 +797,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_id", kidsId);
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
+        resultBundle.putString("user_id",mAuth.getCurrentUser().getUid());
         resultBundle.putString("type", type);
         resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
@@ -1090,8 +1113,8 @@ public final class UtilityFunctions {
         }
     }
 
-    public static void updateDbUnlock(GradeDatabase database, String chapter, String subSub) {
 
+    public static void updateDbUnlock(GradeDatabase database, String chapter, String subSub) {
         List<GradeData> dbData = new ArrayList<>();
         dbData = database.gradesDaoUpdated().getSubjectDataNL(chapter);
         Log.d("XXX", chapter);
@@ -1101,7 +1124,7 @@ public final class UtilityFunctions {
             if (dbData.get(i).getChapter_name().equals(subSub)) {
                 Log.d("XXX", "updateDbUnlock: if");
                 try {
-                    database.gradesDaoUpdated().updateIsComplete(true, dbData.get(i).getChapter_name());
+                    database.gradesDaoUpdated().updateIsCompleteEX(true, dbData.get(i).getChapter_name());
                     database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name());
                     Log.d("XXX", dbData.get(i + 1).getChapter_name());
                     break;
@@ -1114,6 +1137,31 @@ public final class UtilityFunctions {
 
         }
     }
+
+//    public static void updateDbUnlock(GradeDatabase database, String chapter, String subSub) {
+//
+//        List<GradeData> dbData = new ArrayList<>();
+//        dbData = database.gradesDaoUpdated().getSubjectDataNL(chapter);
+//        Log.d("XXX", chapter);
+//        Log.d("XXX", dbData + "");
+//        for (int i = 0; i < dbData.size(); i++) {
+//            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(subSub) + subSub);
+//            if (dbData.get(i).getChapter_name().equals(subSub)) {
+//                Log.d("XXX", "updateDbUnlock: if");
+//                try {
+//                    database.gradesDaoUpdated().updateIsComplete(true, dbData.get(i).getChapter_name());
+//                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name());
+//                    Log.d("XXX", dbData.get(i + 1).getChapter_name());
+//                    break;
+//                } catch (Exception e) {
+//                    Log.e("XXX", e.getMessage());
+//                    break;
+//                }
+//
+//            }
+//
+//        }
+//    }
 
 
     // getting first false data

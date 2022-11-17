@@ -133,9 +133,8 @@ public class EnglishFragment extends Fragment {
 
 
         //TODO must take care
-      //  setSubSubjectProgress();
-
-        uiChnages();
+        setSubSubjectProgress();
+      // uiChnages();
 
     }
 
@@ -335,9 +334,11 @@ public class EnglishFragment extends Fragment {
                 ls = UtilityFunctions.getRandomTwoIntegerUpto(eng.length, 0);
                 Log.d("LIST_SIZE", "getDataFromDatabase: " + ls.size());
                 for (int index : ls) {
+                    try{
                     subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
                     chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
-                    Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);
+                    Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);}
+                    catch (Exception e){}
                 }
 
             }

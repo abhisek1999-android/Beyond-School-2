@@ -27,16 +27,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -49,6 +54,9 @@ import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class KidsInfoActivity extends AppCompatActivity {
@@ -68,6 +76,7 @@ public class KidsInfoActivity extends AppCompatActivity {
     private GradeDatabase gradeDatabase;
     private List<String> chapterListEng;
     private String kidsId = "";
+    private List<GradeData> gradeModelNewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -403,37 +412,74 @@ public class KidsInfoActivity extends AppCompatActivity {
 
 
     private void getNewData(String kidsGrade) {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
 
+        Retrofit retrofit = ApiClientNew.getClient();
+        var api = retrofit.create(ApiInterfaceNew.class);
+        gradeModelNewList = new ArrayList<>();
+        api.getGradeData().enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+            public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {
-                    var list = response.body().getEnglish();
-                    mapToGradeModel(list);
 
+                    var s = response.body().getEnglish();
+                    for (var i : s) {
+                        for (var j : i.getSub_subject()) {
+                            var converter = new LeveGradeConverter("English", i.getSubject());
+                            var list = converter.mapToList(j.getBlocks());
+                            gradeModelNewList.addAll(list);
+                        }
+                    }
+                    for (var i : gradeModelNewList) {
+                        Log.d(TAG, "onResponse: " + i);
+                    }
 
+                    mapToGradeModel(gradeModelNewList);
                 } else {
                     Toast.makeText(KidsInfoActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+            public void onFailure(Call<GradeModelNew> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
             }
         });
+
+//        Retrofit retrofit = ApiClient.getClient();
+//        var api = retrofit.create(ApiInterface.class);
+//        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
+//
+//            @Override
+//            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+//                if (response.body() != null) {
+//                    var list = response.body().getEnglish();
+//                    mapToGradeModel(list);
+//
+//
+//                } else {
+//                    Toast.makeText(KidsInfoActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+//                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+//            }
+//        });
     }
 
-    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
-        list.forEach(subject -> {
-            var mapper = new GradeConverter(subject.getSubject());
-            var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
-        });
 
+    private void mapToGradeModel(List<GradeData> list) {
+        gradeDatabase.gradesDaoUpdated().insertNotes(list);
     }
+
+//    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
+//        list.forEach(subject -> {
+//            var mapper = new GradeConverter(subject.getSubject());
+//            var chapterList = mapper.mapToList(subject.getChapters());
+//            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+//        });
+//    }
 
     private void saveKidsData(String imageUrl) {
         if (mAuth != null) {

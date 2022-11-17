@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
@@ -42,6 +43,9 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     private String subscriptionId = "";
     private ActivityPaymentBinding binding;
     private CustomProgressDialogue progressDialogue;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private int paymentPrice;
+
 
 
     @Override
@@ -55,9 +59,12 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
         planId=PrefConfig.readIdInPref(PaymentActivity.this,getResources().getString(R.string.plan_id));
         progressDialogue = new CustomProgressDialogue(PaymentActivity.this);
 
+        paymentPrice=PrefConfig.readIntInPref(getApplicationContext(),getResources().getString(R.string.plan_value));
+
         progressDialogue.show();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
+        mFirebaseAnalytics=FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
 
         parentsPhoneNumber = PrefConfig.readIdInPref(this, getResources().getString(R.string.parent_contact_details));
@@ -128,7 +135,7 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
 
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         CallFirebaseForInfo.addPaymentInfo(firebaseFirestore, mAuth, true, paymentData, this);
         PrefConfig.writeIdInPref(PaymentActivity.this, "active", getResources().getString(R.string.payment_status));
         binding.statusText.setText("Payment Successful\nPayment Id: " + paymentData.getPaymentId());
@@ -136,6 +143,7 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
         Log.d(TAG, "onPaymentSuccess: " + paymentData.getPaymentId());
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
+        UtilityFunctions.attemptPayment(mFirebaseAnalytics,mAuth,parentsPhoneNumber,paymentData.getPaymentId(),subscriptionId,paymentPrice,"ture");
     }
 
     @Override
@@ -149,6 +157,7 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
         Log.d(TAG, "onPaymentErr: " + i + ", Payment data" + paymentData.getData() + "");
         binding.gotoHomeScreen.setVisibility(View.VISIBLE);
         binding.statusLayout.setVisibility(View.VISIBLE);
+        UtilityFunctions.attemptPayment(mFirebaseAnalytics,mAuth,parentsPhoneNumber,paymentData.getPaymentId(),subscriptionId,paymentPrice,"false");
     }
 
     @Override

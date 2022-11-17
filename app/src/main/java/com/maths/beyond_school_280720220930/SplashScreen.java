@@ -106,25 +106,25 @@ public class SplashScreen extends AppCompatActivity {
 
         //  Toast.makeText(this, mAuth.getCurrentUser().getUid()+"", Toast.LENGTH_SHORT).show();
 
-        if (mCurrentUser == null) {
-            startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
-            finish();
-        } else {
-            checkUserAlreadyAvailable();
-        }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                /* Create an Intent that will start the Menu-Activity. */
-//                if (mCurrentUser == null) {
-//                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
-//                    finish();
-//                } else {
-//                    checkUserAlreadyAvailable();
-//                }
-//            }
-//        }, 1000);
+//        if (mCurrentUser == null) {
+//            startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+//            finish();
+//        } else {
+//            checkUserAlreadyAvailable();
+//        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                /* Create an Intent that will start the Menu-Activity. */
+                if (mCurrentUser == null) {
+                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+                    finish();
+                } else {
+                    checkUserAlreadyAvailable();
+                }
+            }
+        }, 1000);
   //      setUpRemoteConfig();
     }
 
@@ -204,7 +204,10 @@ public class SplashScreen extends AppCompatActivity {
                         if (value != val) {
                             PrefConfig.writeIntInPref(SplashScreen.this, val, getResources().getString(R.string.KEY_VALUE_SAVE));
 
-                            getNewData(kidsGrade);
+                           // getNewData(kidsGrade);
+
+                            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+                            finish();
 
                         }else {
                             startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));

@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityManageSubscriptionBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.payments.CancelSubscription;
 import com.maths.beyond_school_280720220930.payments.FetchPlanDetails;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.razorpay.Plan;
 import com.razorpay.Subscription;
 
@@ -33,6 +36,8 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
     private final String TAG="ManageSubscription";
     private CustomProgressDialogue customProgressDialogue;
     private int paymentAmount;
+    private FirebaseAuth mAuth;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,9 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
         binding = ActivityManageSubscriptionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         customProgressDialogue=new CustomProgressDialogue(ManageSubscription.this);
+
+        firebaseAnalytics=FirebaseAnalytics.getInstance(this);
+        mAuth=FirebaseAuth.getInstance();
 
         subscriptionId = PrefConfig.readIdInPref(ManageSubscription.this, getResources().getString(R.string.subscription_id));
         customerId = PrefConfig.readIdInPref(ManageSubscription.this, getResources().getString(R.string.customer_id));
@@ -140,6 +148,7 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
         subscriptionId = "";
         PrefConfig.writeIdInPref(ManageSubscription.this, "", getResources().getString(R.string.subscription_id));
         PrefConfig.writeIdInPref(this,  "cancelled",getResources().getString(R.string.payment_status));
+        UtilityFunctions.attemptPayment(firebaseAnalytics,mAuth,PrefConfig.readIdInPref(ManageSubscription.this,getResources().getString(R.string.parent_contact_details)),"N/A",subscriptionId,paymentAmount,"cancelled");
         checkSubscriptionValid();
         customProgressDialogue.dismiss();
     }

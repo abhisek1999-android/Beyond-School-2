@@ -44,6 +44,7 @@ import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.TabbedHomePage;
 import com.maths.beyond_school_280720220930.TestActivity;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
@@ -52,12 +53,17 @@ import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Subscription;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +73,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import in.aabhasjindal.otptextview.OTPListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -96,6 +105,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     //Declare timer
     CountDownTimer cTimer = null;
     private Subscription subscription;
+    private List<GradeData> gradeModelNewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -377,17 +387,31 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
 
     private void getNewData(String kidsGrade, KidsData kidsData) {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
 
+
+        Retrofit retrofit = ApiClientNew.getClient();
+        var api = retrofit.create(ApiInterfaceNew.class);
+        gradeModelNewList = new ArrayList<>();
+
+        //kids grade must be added
+        api.getGradeData().enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+            public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {
-                    var list = response.body().getEnglish();
-                    mapToGradeModel(list, kidsData);
 
+                    var s = response.body().getEnglish();
+                    for (var i : s) {
+                        for (var j : i.getSub_subject()) {
+                            var converter = new LeveGradeConverter("English", i.getSubject());
+                            var list = converter.mapToList(j.getBlocks());
+                            gradeModelNewList.addAll(list);
+                        }
+                    }
+                    for (var i : gradeModelNewList) {
+                        Log.d(TAG, "onResponse: " + i);
+                    }
 
+                    mapToGradeModel(gradeModelNewList,kidsData);
                 } else {
                     Toast.makeText(PhoneNumberLogin.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
                     customProgressDialogue.dismiss();
@@ -395,20 +419,48 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
-
+            public void onFailure(Call<GradeModelNew> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
                 customProgressDialogue.dismiss();
             }
         });
+
+
+
+//        Retrofit retrofit = ApiClient.getClient();
+//        var api = retrofit.create(ApiInterface.class);
+//        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
+//
+//            @Override
+//            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+//                if (response.body() != null) {
+//                    var list = response.body().getEnglish();
+//                    mapToGradeModel(list, kidsData);
+//
+//
+//                } else {
+//                    Toast.makeText(PhoneNumberLogin.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+//                    customProgressDialogue.dismiss();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
+//
+//                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+//                customProgressDialogue.dismiss();
+//            }
+//        });
     }
 
-    private void mapToGradeModel(List<GradeModel.EnglishModel> list, KidsData kidsData) {
-        list.forEach(subject -> {
-            var mapper = new GradeConverter(subject.getSubject());
-            var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
-        });
+    private void mapToGradeModel(List<GradeData> list, KidsData kidsData) {
+//        list.forEach(subject -> {
+//            var mapper = new GradeConverter(subject.getSubject());
+//            var chapterList = mapper.mapToList(subject.getChapters());
+//            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+//        });
+
+        gradeDatabase.gradesDaoUpdated().insertNotes(list);
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
 
