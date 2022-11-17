@@ -1,6 +1,14 @@
 package com.maths.beyond_school_280720220930;
 
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_FLAG_HAVE_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
@@ -25,11 +33,17 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.utils.Constants;
+import com.maths.beyond_school_280720220930.utils.ScreenType;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
@@ -38,6 +52,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ViewCurriculum extends AppCompatActivity {
@@ -66,8 +83,8 @@ public class ViewCurriculum extends AppCompatActivity {
         gradeDatabase = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)).toLowerCase(Locale.ROOT);
 
-        subSubjectList=new ArrayList<>();
-        subSubjects=new ArrayList<>();
+        subSubjectList = new ArrayList<>();
+        subSubjects = new ArrayList<>();
         eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
         binding.gradeInfo.setText("For " + kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
 
@@ -136,7 +153,7 @@ public class ViewCurriculum extends AppCompatActivity {
             });
         }
 
-       // setRecyclerViewData(defaultSubject);
+        // setRecyclerViewData(defaultSubject);
         setRecyclerView(defaultSubject);
         ((RadioButton) binding.radioGroup.getChildAt(engChapters.indexOf(defaultSubject))).setChecked(true);
     }
@@ -179,16 +196,81 @@ public class ViewCurriculum extends AppCompatActivity {
         subSubjects = db.getSubSubjects(subject);
         for (String subSubject : subSubjects) {
             subSubjectList.add(db.getDataFromSubject(subject, subSubject));
-            Log.d(TAG, "setRecyclerView: +"+subSubjectList);
+            Log.d(TAG, "setRecyclerView: +" + subSubjectList);
         }
-
 
 
         var adapter = new LevelTwoContentAdapter(ViewCurriculum.this);
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.contentRecyclerView.setAdapter(adapter);
-        adapter.setNotesList(subSubjects,subSubjectList);
+        adapter.setNotesList(subSubjects, subSubjectList);
+        adapter.setOnItemGradeClickListener(this::navigateToNextScreen);
 
+    }
+
+    private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
+        var a = ApiClientNew.getClient().create(ApiInterfaceNew.class);
+        a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
+            @Override
+            public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
+                if (response.body() != null) {
+                    handleResponse(response.body(), gradeData, isLearn);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void handleResponse(ContentModelNew body, GradeData gradeData, Boolean isLearn) {
+        ScreenType screenType;
+        try {
+            screenType = ScreenType.valueOf(body.getMeta().getScreen_type());
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent;
+        Constants.OpenType openType;
+        switch (screenType) {
+            case LETTER_BY_LETTER: {
+                if (isLearn) {
+                    intent = new Intent(this, EnglishSpellingActivity.class);
+                    openType = Constants.OpenType.LEARNING;
+                } else {
+                    intent = new Intent(this, SpellingTest.class);
+                    openType = Constants.OpenType.EXERCISE;
+                }
+                intent.putExtra(EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+            }
+            break;
+            case CHOSE_THE_CORRECT_WORD: {
+                if (isLearn) {
+                    intent = new Intent(this, GrammarActivity.class);
+                    openType = Constants.OpenType.LEARNING;
+                } else {
+                    intent = new Intent(this, GrammarTestActivity.class);
+                    openType = Constants.OpenType.EXERCISE;
+                }
+                intent.putExtra(EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            }
+            break;
+            default:
+                Toast.makeText(this, "No activity found for this screen type", Toast.LENGTH_SHORT).show();
+                return;
+
+        }
+        intent.putExtra(EXTRA_OPEN_TYPE, openType); //TODO : u can check weather is intent in learning or exercise
+        intent.putExtra(EXTRA_DATA, body);
+        intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
+        intent.putExtra(EXTRA_ONLINE_FLAG, true);
+        intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, false);
+        intent.putExtra(EXTRA_CATEGORY_ID, gradeData.getId());
+        intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+        startActivity(intent);
     }
 
     private void setRecyclerViewData(String subject) {
@@ -204,13 +286,13 @@ public class ViewCurriculum extends AppCompatActivity {
                     Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
                     if (gradeData.getSubject().equals("Spelling_CommonWords")) {
                         intent = new Intent(this, EnglishSpellingActivity.class);
-                        intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                        intent.putExtra(EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
                     } else {
                         intent = new Intent(this, GrammarActivity.class);
-                        intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                        intent.putExtra(EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
                     }
-                    intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                    intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
+                    intent.putExtra(EXTRA_ONLINE_FLAG, true);
+                    intent.putExtra(EXTRA_CATEGORY_ID, gradeData.getId());
                     intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                     startActivity(intent);
 
@@ -227,13 +309,13 @@ public class ViewCurriculum extends AppCompatActivity {
                         Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
                         if (gradeData.getSubject().equals("Spelling_CommonWords")) {
                             intent = new Intent(this, EnglishSpellingActivity.class);
-                            intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+                            intent.putExtra(EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
                         } else {
                             intent = new Intent(this, GrammarActivity.class);
-                            intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+                            intent.putExtra(EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
                         }
-                        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-                        intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
+                        intent.putExtra(EXTRA_ONLINE_FLAG, true);
+                        intent.putExtra(EXTRA_CATEGORY_ID, gradeData.getId());
                         intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
                         startActivity(intent);
 

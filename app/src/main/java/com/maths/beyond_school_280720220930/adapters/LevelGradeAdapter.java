@@ -9,13 +9,19 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
-import com.maths.beyond_school_280720220930.databinding.RowExpandableViewBinding;
 import com.maths.beyond_school_280720220930.databinding.RowLayoutLevel3Binding;
 
 public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.LevelGradeViewHolder> {
 
     public LevelGradeAdapter() {
         super(getDiffCallback());
+    }
+
+    private OnItemGradeClickListener onItemGradeClickListener = null;
+
+
+    public void setOnItemGradeClickListener(OnItemGradeClickListener onItemGradeClickListener) {
+        this.onItemGradeClickListener = onItemGradeClickListener;
     }
 
 
@@ -30,7 +36,7 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
         holder.bind(getItem(position));
     }
 
-    public static class LevelGradeViewHolder extends RecyclerView.ViewHolder {
+    public class LevelGradeViewHolder extends RecyclerView.ViewHolder {
         private final RowLayoutLevel3Binding binding;
 
         public LevelGradeViewHolder(@NonNull RowLayoutLevel3Binding binding) {
@@ -40,6 +46,14 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
 
         public void bind(GradeData gradeData) {
             binding.chapters.setText(gradeData.getChapter_name());
+            if (onItemGradeClickListener != null) {
+                binding.relativeLayoutLearn.setOnClickListener(v -> {
+                    onItemGradeClickListener.onItemGradeClick(gradeData, true);
+                });
+                binding.relativeLayoutExercise.setOnClickListener(v -> {
+                    onItemGradeClickListener.onItemGradeClick(gradeData, false);
+                });
+            }
         }
     }
 
@@ -59,4 +73,7 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
         };
     }
 
+    public interface OnItemGradeClickListener {
+        void onItemGradeClick(GradeData gradeData, Boolean isLearn);
+    }
 }

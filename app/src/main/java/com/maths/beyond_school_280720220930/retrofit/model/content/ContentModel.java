@@ -4,10 +4,11 @@ import androidx.annotation.Keep;
 
 import org.checkerframework.checker.units.qual.K;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Keep
-public class ContentModel {
+public class ContentModel implements Serializable {
 
     private Meta meta;
     private List<Content> content;
@@ -42,7 +43,7 @@ public class ContentModel {
     }
 
     @Keep
-    public static class Meta {
+    public static class Meta implements Serializable {
         private String hint;
         private String question;
         private String screen_type;
@@ -88,7 +89,7 @@ public class ContentModel {
     }
 
     @Keep
-    public static final class Content {
+    public static final class Content implements Serializable{
 
         public Content() {
         }

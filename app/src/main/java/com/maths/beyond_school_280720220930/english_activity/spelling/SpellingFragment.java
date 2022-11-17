@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class SpellingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentSpellingCommonWordBinding.bind(view);
-        binding.textViewDes.setText(spellingDetail.getDescription());
+        binding.textViewDes.setText(Html.fromHtml(spellingDetail.getDescription(), Html.FROM_HTML_MODE_COMPACT));
         binding.textViewWord.setText(spellingDetail.getWord());
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.view_pager);

@@ -45,18 +45,19 @@ public class RowItemFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
         binding = FragmentIndentifyingNounsRowBinding.bind(view);
 //        UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
 
-        try{
-        if (grammarModel.getImage().contains(".svg"))
-            UtilityFunctions.loadImageSvg(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
-        else
-            UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);}
-        catch (Exception e){}
+        try {
+            if (grammarModel.getImage().contains(".svg"))
+                UtilityFunctions.loadImageSvg(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+            else
+                UtilityFunctions.loadImage(grammarModel.getImage(), binding.imageViewSpelling, binding.loadingAnimation);
+        } catch (Exception e) {
+        }
 
-        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null ? View.GONE : View.VISIBLE);
+        binding.imageViewSpelling.setVisibility(grammarModel.getImage() == null
+                || grammarModel.getImage().equals("null") ? View.GONE : View.VISIBLE);
 
 
         ViewPager2 viewPager = requireActivity().findViewById(R.id.view_pager_identifying_nouns);

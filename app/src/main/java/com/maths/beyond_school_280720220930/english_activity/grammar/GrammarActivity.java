@@ -1,8 +1,12 @@
 package com.maths.beyond_school_280720220930.english_activity.grammar;
 
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_FLAG_HAVE_DATA;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_QUESTION_FOR_TEST;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
@@ -52,6 +56,7 @@ import com.maths.beyond_school_280720220930.model.AnimData;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
 import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
@@ -199,26 +204,34 @@ public class GrammarActivity extends AppCompatActivity {
     }
 
     private void getSubjectData() {
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getVocabularySubject(PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""), "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
-            @Override
-            public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                if (response.body() != null) {
-                    Log.d(TAG, "onResponse: " + response.body().getContent().toString());
-                    setData(response.body().getContent());
-                    meta = response.body().getMeta();
-                    firstOpen();
-                    displayDialog();
+        if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            meta = d.getMeta();
+            setData(d.getLearning());
+            firstOpen();
+            displayDialog();
+        } else {
+            Retrofit retrofit = ApiClient.getClient();
+            var api = retrofit.create(ApiInterface.class);
+            api.getVocabularySubject(PrefConfig.readIdInPref(context, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", ""), "english", getIntent().getStringExtra(EXTRA_TITLE).toLowerCase(), category).enqueue(new retrofit2.Callback<>() {
+                @Override
+                public void onResponse(Call<ContentModel> call, Response<ContentModel> response) {
+                    Log.d(TAG, "onResponse: " + response.code());
+                    if (response.body() != null) {
+                        Log.d(TAG, "onResponse: " + response.body().getContent().toString());
+                        setData(response.body().getContent());
+                        meta = response.body().getMeta();
+                        firstOpen();
+                        displayDialog();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ContentModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<ContentModel> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+                }
+            });
+        }
     }
 
     private void setData(List<ContentModel.Content> content) {
@@ -339,9 +352,7 @@ public class GrammarActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     var textView = (TextView) this.findViewById(R.id.text_view_des_grammar);
                     if (textView != null) {
-                        var s = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem()).getDescription()
-                                .replace("<b>", "").replace("</b>", "")
-                                .replace("blank", "_____").replace("<br>", "\n");
+                        var s = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem()).getDescription().replace("<b>", "").replace("</b>", "").replace("blank", "_____").replace("<br>", "\n");
                         Spannable textWithHighlights = new SpannableString(s);
                         textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                         textView.setText(textWithHighlights);
@@ -358,7 +369,7 @@ public class GrammarActivity extends AppCompatActivity {
         var endTime = new Date().getTime();
         var diff = endTime - startTime;
         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".","");
+        var currentAnswer = currentModel.getWord().toLowerCase(Locale.ROOT).trim().replace(".", "");
         var currentDes = currentModel.getDescription().toLowerCase(Locale.ROOT).trim();
         listener = text -> {
             Log.d("XXX", "checkAnswer: " + text + " " + currentAnswer);
@@ -376,7 +387,7 @@ public class GrammarActivity extends AppCompatActivity {
                 }
                 return;
             }
-            if (text.trim().replace(".","").equals(currentAnswer)) {
+            if (text.trim().replace(".", "").equals(currentAnswer)) {
                 playPauseAnimation(true);
                 try {
                     if (mediaPlayer != null) mediaPlayer.start();
@@ -769,6 +780,13 @@ public class GrammarActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GrammarTestActivity.class);
         intent.putExtra(EXTRA_GRAMMAR_CATEGORY, category);
         if (isOnline) {
+            if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+                var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+                intent.putExtra(EXTRA_DATA, d);
+                intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE);
+                intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
+                intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
+            }
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
             intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));

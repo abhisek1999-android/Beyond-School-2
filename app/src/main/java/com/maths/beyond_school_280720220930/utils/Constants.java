@@ -14,4 +14,17 @@ public abstract class Constants {
     public static final String EXTRA_TITLE = "title";
 
     public static final String EXTRA_QUESTION_FOR_TEST = "question_for_test";
+
+    public static final String EXTRA_FLAG_HAVE_DATA = "flag_have_data";
+
+    public static final String EXTRA_DATA = "data";
+
+    public static final String EXTRA_OPEN_TYPE = "OpenType";
+
+    public static final String EXTRA_IS_OPEN_FROM_LEARN = "is_open_from_learn";
+
+    public enum OpenType {
+        LEARNING,
+        EXERCISE
+    }
 }

@@ -1,12 +1,9 @@
 package com.maths.beyond_school_280720220930.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
-import com.maths.beyond_school_280720220930.database.process.ProgressM;
-import com.maths.beyond_school_280720220930.model.ProgressTableWise;
-import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.List;
 
@@ -28,15 +22,21 @@ public class LevelTwoContentAdapter extends RecyclerView.Adapter<LevelTwoContent
     List<List<GradeData>> chaptersData;
     Context context;
 
+    private LevelGradeAdapter.OnItemGradeClickListener onItemGradeClickListener = null;
+
+    public void setOnItemGradeClickListener(LevelGradeAdapter.OnItemGradeClickListener onItemGradeClickListener) {
+        this.onItemGradeClickListener = onItemGradeClickListener;
+    }
+
     public LevelTwoContentAdapter(Context context) {
         this.context = context;
 
     }
 
-    public void setNotesList(List<String> subSubjectList,List<List<GradeData>> chaptersData) {
+    public void setNotesList(List<String> subSubjectList, List<List<GradeData>> chaptersData) {
 
         this.subSubjectList = subSubjectList;
-        this.chaptersData= chaptersData;
+        this.chaptersData = chaptersData;
         notifyDataSetChanged();
     }
 
@@ -59,13 +59,15 @@ public class LevelTwoContentAdapter extends RecyclerView.Adapter<LevelTwoContent
         holder.levelThreeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.levelThreeRecyclerView.setAdapter(adapter);
         adapter.submitList(chaptersData.get(position));
-        Log.d("LevelTwoData", "onBindViewHolder: " +chaptersData.get(position));
+        if (onItemGradeClickListener != null) {
+            adapter.setOnItemGradeClickListener(onItemGradeClickListener);
+        }
     }
 
     @Override
     public int getItemCount() {
 
-      return subSubjectList.size();
+        return subSubjectList.size();
 
     }
 
@@ -79,8 +81,8 @@ public class LevelTwoContentAdapter extends RecyclerView.Adapter<LevelTwoContent
         public ProgressViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
-            headerTitle=mView.findViewById(R.id.header);
-            levelThreeRecyclerView=mView.findViewById(R.id.content);
+            headerTitle = mView.findViewById(R.id.header);
+            levelThreeRecyclerView = mView.findViewById(R.id.content);
         }
     }
 }

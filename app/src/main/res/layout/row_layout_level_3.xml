@@ -8,19 +8,19 @@
     android:paddingHorizontal="@dimen/grid_1">
 
     <TextView
+        android:id="@+id/chapters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chapters"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/reemkufi_medium"
         android:text=""
-        android:textSize="@dimen/default_font_size_big"
-        android:textStyle="bold"
         android:textColor="@color/primary"
-        />
+        android:textSize="@dimen/default_font_size_big"
+        android:textStyle="bold" />
 
 
     <RelativeLayout
+        android:id="@+id/relativeLayoutLearn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,9 +32,9 @@
             android:layout_toStartOf="@+id/image_view_lesson_lock"
             android:fontFamily="@font/reemkufi_medium"
             android:padding="@dimen/grid_1"
-            android:textStyle="bold"
             android:text="Learn and Practice"
-            android:textAppearance="?attr/textAppearanceBody1" />
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_view_enroll"
@@ -65,6 +65,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayoutExercise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -75,18 +76,18 @@
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/image_view_lesson_lock_test"
             android:fontFamily="@font/reemkufi_medium"
-            android:textStyle="bold"
             android:padding="@dimen/grid_1"
-            android:text="Learn and Practice"
-            android:textAppearance="?attr/textAppearanceBody1" />
+            android:text="Exercise"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_view_enroll_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_test"
-            android:paddingStart="@dimen/grid_1"
             android:fontFamily="@font/reemkufi_medium"
+            android:paddingStart="@dimen/grid_1"
             android:text="@string/enroll_to_unlock"
             tools:ignore="RtlSymmetry" />
 
