@@ -481,7 +481,7 @@ public class SpellingTest extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Test-" + "spelling common words", kidAge, currentWord, inputWord, b, (int) (diff), "Type the spelling of the word" + currentWord, "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, auth, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Test-" + "spelling common words", kidAge, currentWord, inputWord, b, (int) (diff), "Type the spelling of the word" + currentWord, "English", parentsContactId);
     }
 
     static class TTSAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {

@@ -334,7 +334,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                                         + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(),
                                 result, diff, true);
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
-                        UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                                 "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                 , result, true, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                         + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english", parentsContactId);
@@ -351,7 +351,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                             helperTTS("No problem ,Answer is  " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord(), false, true);
                             ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
-                            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                            UtilityFunctions.sendDataToAnalytics(analytics, auth,auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                                     "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                     , result, false, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                             + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english", parentsContactId);

@@ -362,7 +362,7 @@ public class SpellingTestActivity extends AppCompatActivity {
     }
 
     private void sendDataToAnalytics(String currentWord, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics,
+        UtilityFunctions.sendDataToAnalytics(analytics, auth,
                 Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName,
                 "English-Test-" + "spelling object", kidAge, currentWord
                 , inputWord, b, (int) (diff),

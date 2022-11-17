@@ -480,9 +480,9 @@ public class AdditionActivity extends AppCompatActivity {
 
             try{  mediaPlayer.start();}catch (Exception e){}
 
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
-                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
-                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
+//            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+//                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
+//                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, true);
 
             DELAY_ON_STARTING_STT = 500;
@@ -493,9 +493,9 @@ public class AdditionActivity extends AppCompatActivity {
             logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
             tts.initialize(UtilityFunctions.getCompliment(false), AdditionActivity.this);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, false);
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
-                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, false, (int) (diff),
-                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
+//            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+//                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, false, (int) (diff),
+//                    currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             DELAY_ON_STARTING_STT = 500;
             DELAY_ON_SETTING_QUESTION = 2000;
             wrongAnswer++;

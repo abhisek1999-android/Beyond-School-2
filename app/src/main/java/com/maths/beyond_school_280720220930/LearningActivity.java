@@ -998,7 +998,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
             tts.initialize(UtilityFunctions.getCompliment(true), LearningActivity.this);
             mediaPlayer.start();
             //TODO: PLACE CORRECT KIDS DATA
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+            UtilityFunctions.sendDataToAnalytics(analytics, auth,auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
                     "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, true, (int) (endTime - startTime),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths",parentsContactId);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
@@ -1027,7 +1027,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
             } else {
                 //TODO: PLACE CORRECT KIDS DATA
                 tts.initialize("Wrong Answer and the correct answer is " + currentAnswer, LearningActivity.this);
-                UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
+                UtilityFunctions.sendDataToAnalytics(analytics,auth, auth.getCurrentUser().getUid().toString(), kidsId, kidsName,
                         "Mathematics-Practice-" + subject,kidsAge, currentAnswer + "", result, false, (int) (endTime - startTime),
                         currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
                 logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
