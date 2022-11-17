@@ -98,11 +98,11 @@ public class CallFirebaseForInfo {
 
     }
 
-    public static void checkActivityData(FirebaseFirestore firebaseFirestore, JSONArray kidsJsonArray, String status, FirebaseAuth auth, String kidsId, String grade, String chapters, String subSub, int correctAnswer, int wrongAnswer, int noQuestion, String subject) throws JSONException {
+    public static void checkActivityData(FirebaseFirestore firebaseFirestore, JSONArray kidsJsonArray, String status, FirebaseAuth auth, String kidsId, String grade, String chapters, String subSub,String blockId, int correctAnswer, int wrongAnswer, int noQuestion, String subject) throws JSONException {
 
 
         DocumentReference kidsActivityRef = firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid())
-                .collection("kids").document(kidsId).collection("grades").document(grade).collection("test").document(subject + "_" + subSub + "_" + chapters);
+                .collection("kids").document(kidsId).collection("grades").document(grade).collection("test").document(subject + "_" + subSub + "_" + chapters+"_"+blockId);
         JSONObject kidsActivityJsonObj = new JSONObject();
         kidsActivityJsonObj.put("result", kidsJsonArray);
 
@@ -130,6 +130,11 @@ public class CallFirebaseForInfo {
                 storeActivityData(kidsActivityRef, activityData);
             }
 
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG,e.getMessage());
+            }
         });
 
 
@@ -155,14 +160,14 @@ public class CallFirebaseForInfo {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // Log.d(TAG, "DocumentSnapshot successfully written!");
+                         Log.d(TAG, "DocumentSnapshot successfully written!");
                         //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //  Log.w(TAG, "Error writing document", e);
+                        Log.d(TAG, "Error writing document", e);
                     }
                 });
 

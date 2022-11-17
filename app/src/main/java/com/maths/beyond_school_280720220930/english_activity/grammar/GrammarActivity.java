@@ -150,6 +150,7 @@ public class GrammarActivity extends AppCompatActivity {
         initMediaPlayer();
         setToolbar();
         getDataFromIntent();
+        Log.d(TAG, "onCreate: "+getIntent().getStringExtra(EXTRA_OPEN_TYPE));
     }
 
     private void firstOpen() {
@@ -787,7 +788,9 @@ public class GrammarActivity extends AppCompatActivity {
                 intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE);
                 intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
                 intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
+
             }
+            intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.LEARNING.name());
             intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
             intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
             intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));

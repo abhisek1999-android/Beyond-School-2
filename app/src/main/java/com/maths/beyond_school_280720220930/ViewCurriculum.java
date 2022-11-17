@@ -261,9 +261,10 @@ public class ViewCurriculum extends AppCompatActivity {
             default:
                 Toast.makeText(this, "No activity found for this screen type", Toast.LENGTH_SHORT).show();
                 return;
-
         }
-        intent.putExtra(EXTRA_OPEN_TYPE, openType); //TODO : u can check weather is intent in learning or exercise
+
+        Log.d(TAG, "handleResponse: "+openType);
+        intent.putExtra(EXTRA_OPEN_TYPE, openType.name()); //TODO : u can check weather is intent in learning or exercise
         intent.putExtra(EXTRA_DATA, body);
         intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
         intent.putExtra(EXTRA_ONLINE_FLAG, true);

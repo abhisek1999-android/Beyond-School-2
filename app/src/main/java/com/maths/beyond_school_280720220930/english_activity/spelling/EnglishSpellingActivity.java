@@ -201,6 +201,8 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
             intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
         }
+
+        intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.LEARNING.name());
         intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));
         intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
         startActivity(intent);

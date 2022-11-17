@@ -1114,18 +1114,22 @@ public final class UtilityFunctions {
     }
 
 
-    public static void updateDbUnlock(GradeDatabase database, String chapter, String subSub) {
+    public static void updateDbUnlock(GradeDatabase database, String subSubject, String chapters) {
+
+
+        // for information subSubject=Vocabulary
+
         List<GradeData> dbData = new ArrayList<>();
-        dbData = database.gradesDaoUpdated().getSubjectDataNL(chapter);
-        Log.d("XXX", chapter);
+        dbData = database.gradesDaoUpdated().getSubjectDataNL(subSubject);
+        Log.d("XXX", subSubject);
         Log.d("XXX", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
-            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(subSub) + subSub);
-            if (dbData.get(i).getChapter_name().equals(subSub)) {
+            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(chapters) + chapters);
+            if (dbData.get(i).getChapter_name().equals(chapters)) {
                 Log.d("XXX", "updateDbUnlock: if");
                 try {
                     database.gradesDaoUpdated().updateIsCompleteEX(true, dbData.get(i).getChapter_name());
-                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name());
+                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name(),subSubject);
                     Log.d("XXX", dbData.get(i + 1).getChapter_name());
                     break;
                 } catch (Exception e) {

@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.robertlevonyan.views.expandable.Expandable xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/expandable"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/grid_1"
-    app:exp_animateExpand="true">
+    android:layout_marginHorizontal="5dp"
+    android:padding="@dimen/grid_10"
+    app:cardCornerRadius="5dp"
+    android:layout_marginBottom="5dp">
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text=""
-        android:gravity="center"
-        android:fontFamily="@font/reemkufi_medium"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-
-         />
-
-<!--    layout="@layout/row_layout_level_3-->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/content"
+    <com.robertlevonyan.views.expandable.Expandable
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:padding="8dp"
+        app:exp_animateExpand="true">
 
-</com.robertlevonyan.views.expandable.Expandable>
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:text=""
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+
+            />
+
+        <!--    layout="@layout/row_layout_level_3-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.robertlevonyan.views.expandable.Expandable>
+</androidx.cardview.widget.CardView>

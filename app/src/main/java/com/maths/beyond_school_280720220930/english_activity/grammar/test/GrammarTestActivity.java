@@ -4,6 +4,7 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGOR
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Context;
@@ -106,6 +107,7 @@ public class GrammarTestActivity extends AppCompatActivity {
     private ContentModel.Meta meta;
     private List<ProgressM> progressData;
     private boolean isTimerRunning = false;
+    private String openType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,12 @@ public class GrammarTestActivity extends AppCompatActivity {
         getDataFromIntent();
         learnButtonClick();
         setButtonVisibility();
+
+        Log.d(TAG, "onCreate: "+getIntent().getStringExtra(EXTRA_OPEN_TYPE));
+
+
+
+
     }
 
     private void setButtonVisibility() {
@@ -162,9 +170,28 @@ public class GrammarTestActivity extends AppCompatActivity {
         }
         category = getIntent().getStringExtra(EXTRA_GRAMMAR_CATEGORY);
         isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
+        openType=getIntent().getStringExtra(EXTRA_OPEN_TYPE);
+
+
+        var chapter = !isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE);
+
+
+        Log.d(TAG, "onCreate: "+openType);
         if (isOnline) {
             getSubjectData();
         } else setViewPager();
+
+
+//        if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
+//            GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
+//            Log.d(TAG, "uploadData: "+"Leaning"+chapter);
+//
+//        }
+//        else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+//            UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
+//            Log.d(TAG, "uploadData: "+"Exe");
+//        }
+
     }
 
 
@@ -573,13 +600,25 @@ public class GrammarTestActivity extends AppCompatActivity {
 
             var chapter = !isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE);
             if (correctAnswerCount >= UtilityFunctions.getNinetyPercentage(grammarModelList.size())) {
-                UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter,(isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+
+
+                Log.d(TAG, "uploadData: "+(isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"));
+                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
+                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
+                    Log.d(TAG, "uploadData: "+"Leaning"+chapter);
+
+                }
+                else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                    UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
+                    Log.d(TAG, "uploadData: "+"Exe");
+                }
 
                 progressDataBase.progressDao().updateScore(correctAnswerCount, wrongAnswerCount, category);
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter, correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, chapter,(isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"), correctAnswerCount, wrongAnswerCount, grammarModelList.size(), "english");
             }
         } catch (JSONException e) {
             e.printStackTrace();

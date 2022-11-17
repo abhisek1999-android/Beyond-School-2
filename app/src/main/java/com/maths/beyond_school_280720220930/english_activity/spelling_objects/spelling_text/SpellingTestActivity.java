@@ -1,5 +1,7 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling_objects.spelling_text;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_CATEGORY;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_LIST;
 
@@ -35,6 +37,7 @@ import com.maths.beyond_school_280720220930.translation_engine.ConversionCallbac
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_280720220930.utils.CollectionUtils;
+import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import org.json.JSONArray;
@@ -250,22 +253,27 @@ public class SpellingTestActivity extends AppCompatActivity {
         try {
 //            UtilityFunctions.getNinetyPercentage(spellingList.size())
             if (correctAnswer >= 0) {
-                UtilityFunctions.updateDbUnlock(
-                        databaseGrade,
-                        kidsGrade,
-                        "Spelling_Objects",
-                        dbName
-                );
-                CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "pass", auth, kidsId, dbName,
-                        "spelling", correctAnswer, wrongAnswer, spellingList.size(), "english");
+//                UtilityFunctions.updateDbUnlock(
+//                        databaseGrade,
+//                        kidsGrade,
+//                        "Spelling_Objects",
+//                        dbName
+//                );
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade,dbName, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID), correctAnswer, wrongAnswer, spellingList.size(), "english");
 
+                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
+                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
+                    Log.d(TAG, "uploadData: "+"Leaning"+"Spelling");
+
+                }
+                else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category);
+                    Log.d(TAG, "uploadData: "+"Exe");
+                }
                 progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, category);
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "fail", auth, kidsId, dbName,
-                        "spelling", correctAnswer, wrongAnswer, spellingList.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, kidsGrade, dbName, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID), correctAnswer, wrongAnswer, spellingList.size(), "english");
             }
             gotoScoreCard();
         } catch (JSONException e) {

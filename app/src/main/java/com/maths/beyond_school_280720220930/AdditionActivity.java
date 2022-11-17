@@ -515,8 +515,8 @@ public class AdditionActivity extends AppCompatActivity {
 
             //null check req
             if (correctAnswer >= 9) {
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
-                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+//                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
+//                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
                 progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,selectedSub);
                 if (!subject.equals("multiplication"))
@@ -524,8 +524,8 @@ public class AdditionActivity extends AppCompatActivity {
                 else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))
                     PrefConfig.writeIntInPref(getApplicationContext(), Integer.parseInt(digit), getResources().getString(R.string.multiplication_upto));
             } else
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,
-                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
+//                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,
+//                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
             resetViews();
         }
