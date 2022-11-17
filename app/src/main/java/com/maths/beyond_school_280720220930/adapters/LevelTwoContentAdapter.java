@@ -1,6 +1,7 @@
 package com.maths.beyond_school_280720220930.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +28,9 @@ public class LevelTwoContentAdapter extends RecyclerView.Adapter<LevelTwoContent
     List<List<GradeData>> chaptersData;
     Context context;
 
-    public LevelTwoContentAdapter(Context context,List<String> subSubjectList,List<List<GradeData>> chaptersData) {
+    public LevelTwoContentAdapter(Context context) {
         this.context = context;
-        this.chaptersData=chaptersData;
-        this.subSubjectList=subSubjectList;
+
     }
 
     public void setNotesList(List<String> subSubjectList,List<List<GradeData>> chaptersData) {
@@ -59,6 +59,7 @@ public class LevelTwoContentAdapter extends RecyclerView.Adapter<LevelTwoContent
         holder.levelThreeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.levelThreeRecyclerView.setAdapter(adapter);
         adapter.submitList(chaptersData.get(position));
+        Log.d("LevelTwoData", "onBindViewHolder: " +chaptersData.get(position));
     }
 
     @Override

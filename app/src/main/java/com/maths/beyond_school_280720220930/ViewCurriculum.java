@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
+import com.maths.beyond_school_280720220930.adapters.LevelTwoContentAdapter;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
@@ -31,6 +33,7 @@ import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -49,8 +52,11 @@ public class ViewCurriculum extends AppCompatActivity {
     private String kidsGrade = "";
     private int noOfDays = 0;
     private String paymentStatus;
-    private int trialPeriodDay=1;
-    private int paymentAmount=0;
+    private int trialPeriodDay = 1;
+    private int paymentAmount = 0;
+    private List<String> subSubjects;
+    private List<List<GradeData>> subSubjectList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,16 +66,20 @@ public class ViewCurriculum extends AppCompatActivity {
         gradeDatabase = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)).toLowerCase(Locale.ROOT);
 
+        subSubjectList=new ArrayList<>();
+        subSubjects=new ArrayList<>();
         eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
         binding.gradeInfo.setText("For " + kidsGrade.substring(0, 1).toUpperCase() + kidsGrade.substring(1));
 
         noOfDays = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.noOfdays), 0);
-        trialPeriodDay= PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.trial_period), 0);
+        trialPeriodDay = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.payment_status));
-        paymentAmount=PrefConfig.readIntDInPref(ViewCurriculum.this,getResources().getString(R.string.plan_value));
-        try{
-        engChapters = Arrays.asList(eng);
-        defaultSubject = eng[0];}catch (Exception e){}
+        paymentAmount = PrefConfig.readIntDInPref(ViewCurriculum.this, getResources().getString(R.string.plan_value));
+        try {
+            engChapters = Arrays.asList(eng);
+            defaultSubject = eng[0];
+        } catch (Exception e) {
+        }
 
 
         try {
@@ -85,7 +95,8 @@ public class ViewCurriculum extends AppCompatActivity {
             RadioButton checkedRadioButton = (RadioButton) group.findViewById(checkedId);
             boolean isChecked = checkedRadioButton.isChecked();
             if (isChecked) {
-                setRecyclerViewData(checkedRadioButton.getText().toString().trim());
+                //setRecyclerViewData(checkedRadioButton.getText().toString().trim());
+                setRecyclerView(checkedRadioButton.getText().toString().trim());
             }
         });
 
@@ -125,7 +136,8 @@ public class ViewCurriculum extends AppCompatActivity {
             });
         }
 
-        setRecyclerViewData(defaultSubject);
+       // setRecyclerViewData(defaultSubject);
+        setRecyclerView(defaultSubject);
         ((RadioButton) binding.radioGroup.getChildAt(engChapters.indexOf(defaultSubject))).setChecked(true);
     }
 
@@ -158,14 +170,34 @@ public class ViewCurriculum extends AppCompatActivity {
 //
 
 
+    //New method added
+    private void setRecyclerView(String subject) {
+
+        subSubjects.clear();
+        subSubjectList.clear();
+        var db = gradeDatabase.gradesDaoUpdated();
+        subSubjects = db.getSubSubjects(subject);
+        for (String subSubject : subSubjects) {
+            subSubjectList.add(db.getDataFromSubject(subject, subSubject));
+            Log.d(TAG, "setRecyclerView: +"+subSubjectList);
+        }
+
+
+
+        var adapter = new LevelTwoContentAdapter(ViewCurriculum.this);
+        binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.contentRecyclerView.setAdapter(adapter);
+        adapter.setNotesList(subSubjects,subSubjectList);
+
+    }
+
     private void setRecyclerViewData(String subject) {
 
         binding.contentRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         chaptersRecyclerAdapter = new ChaptersRecyclerAdapter(ViewCurriculum.this, gradeData -> {
 
 
-
-            if (paymentStatus.equals("active")){
+            if (paymentStatus.equals("active")) {
 
                 if (gradeData.isUnlock()) {
                     Intent intent;
@@ -186,11 +218,9 @@ public class ViewCurriculum extends AppCompatActivity {
 
                     UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
                 }
-            }
+            } else {
 
-            else {
-
-                if (noOfDays<trialPeriodDay){
+                if (noOfDays < trialPeriodDay) {
 
                     if (gradeData.isUnlock()) {
                         Intent intent;
@@ -211,10 +241,9 @@ public class ViewCurriculum extends AppCompatActivity {
 
                         UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
                     }
-                }
-                else{
+                } else {
 
-                   UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this,"Subscribe","Hey you don't have any subscription plan. Please subscribe to continue.","Subscribe @ Rs "+paymentAmount+"/ Month");
+                    UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this, "Subscribe", "Hey you don't have any subscription plan. Please subscribe to continue.", "Subscribe @ Rs " + paymentAmount + "/ Month");
                 }
             }
 
@@ -239,7 +268,7 @@ public class ViewCurriculum extends AppCompatActivity {
         list.forEach(subject -> {
             var mapper = new GradeConverter(subject.getSubject());
             var chapterList = mapper.mapToList(subject.getChapters());
-           // gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+            // gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
     }
 

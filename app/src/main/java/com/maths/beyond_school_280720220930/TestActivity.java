@@ -74,16 +74,17 @@ public class TestActivity extends AppCompatActivity {
     private void setRecyclerView() {
 
         var db = gradeDatabase.gradesDaoUpdated();
-        subSubjects=db.getSubSubjects("Vocabulary");
+        subSubjects=db.getSubSubjects("Grammar");
         for (String subSubject: subSubjects){
-            subSubjectList.add(db.getDataFromSubject("Vocabulary",subSubject));
+            subSubjectList.add(db.getDataFromSubject("Grammar",subSubject));
             Log.d(TAG, "setRecyclerView: "+gradeModelNewList+"");
         }
 
-        var adapter = new LevelTwoContentAdapter(TestActivity.this,subSubjects,subSubjectList);
+        var adapter = new LevelTwoContentAdapter(TestActivity.this);
         binding.showItem.setLayoutManager(new LinearLayoutManager(this));
-       // adapter.setNotesList(subSubjects,subSubjectList);
+        adapter.setNotesList(subSubjects,subSubjectList);
         binding.showItem.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 

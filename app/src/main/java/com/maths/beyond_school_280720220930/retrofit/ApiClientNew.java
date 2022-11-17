@@ -15,7 +15,7 @@ public class ApiClientNew {
     private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
 
     private static final String BASE_URL = "https://beyondschoolapis-rkjbkfkqbq-el.a.run.app/apis/content/";
-//    private static final String BASE_URL = "https://abhisek1999-android.github.io/";
+//private static final String BASE_URL = "https://abhisek1999-android.github.io/";
     private static Retrofit retrofit = null;
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
