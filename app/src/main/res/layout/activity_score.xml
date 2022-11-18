@@ -120,7 +120,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginTop="@dimen/grid_10"
                         android:background="@drawable/round_rect_button_bg"
-                        android:backgroundTint="@color/green"
+                        android:backgroundTint="@color/primary"
                         android:orientation="horizontal">
 
 
@@ -175,7 +175,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:background="@drawable/round_rect_button_bg"
-                                android:backgroundTint="@color/green"
+                                android:backgroundTint="@color/primary"
                                 android:gravity="center"
                                 android:paddingHorizontal="@dimen/grid_10"
                                 android:paddingVertical="@dimen/grid_10">
@@ -270,7 +270,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="40dp"
                 android:padding="8dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="8dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout

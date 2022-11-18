@@ -127,7 +127,7 @@ public class NameAgeActivity extends AppCompatActivity {
         Retrofit retrofit = ApiClientGrade.getClient();
         var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
-        api.getGradeData().enqueue(new Callback<>() {
+        api.getGradeData(gradeIntent.toLowerCase().replace(" ", "")).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {

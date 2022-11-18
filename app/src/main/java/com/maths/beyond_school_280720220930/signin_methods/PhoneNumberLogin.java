@@ -384,7 +384,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         gradeModelNewList = new ArrayList<>();
 
         //kids grade must be added
-        api.getGradeData().enqueue(new Callback<>() {
+        api.getGradeData(kidsGrade).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {

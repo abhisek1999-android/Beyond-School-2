@@ -1,5 +1,13 @@
 package com.maths.beyond_school_280720220930.fragments;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_FLAG_HAVE_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_GRAMMAR_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
@@ -41,12 +49,18 @@ import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBindin
 import com.maths.beyond_school_280720220930.databinding.FragmentEnglishBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
+import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.utils.Constants;
+import com.maths.beyond_school_280720220930.utils.ScreenType;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.text.SimpleDateFormat;
@@ -55,6 +69,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class EnglishFragment extends Fragment {
@@ -94,6 +112,10 @@ public class EnglishFragment extends Fragment {
     private List<GradeData> subjectDataNew;
     private SubjectRecyclerAdapterUpdated subjectRecyclerAdapterUpdated;
     private String userType = "";
+    private int noOfDays;
+    private int trialPeriodDay;
+    private String paymentStatus;
+    private int paymentAmount;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -109,6 +131,11 @@ public class EnglishFragment extends Fragment {
         subjectDataNew = new ArrayList<>();
         startIndex = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.alter_maths_value));
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
+
+        noOfDays = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.noOfdays), 0);
+        trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
+        paymentStatus = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status));
+        paymentAmount = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.plan_value));
         customProgressDialogue = new CustomProgressDialogue(getContext());
         mathSub = new ArrayList<>();
         engSub = new ArrayList<>();
@@ -134,7 +161,7 @@ public class EnglishFragment extends Fragment {
 
         //TODO must take care
         setSubSubjectProgress();
-      // uiChnages();
+        // uiChnages();
 
     }
 
@@ -334,11 +361,12 @@ public class EnglishFragment extends Fragment {
                 ls = UtilityFunctions.getRandomTwoIntegerUpto(eng.length, 0);
                 Log.d("LIST_SIZE", "getDataFromDatabase: " + ls.size());
                 for (int index : ls) {
-                    try{
-                    subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
-                    chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
-                    Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);}
-                    catch (Exception e){}
+                    try {
+                        subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0));
+                        chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(eng[index]).get(0).getId());
+                        Log.d("XXXXX", "getDataFromDatabase:  ELSE SIZE" + subjectDataNew);
+                    } catch (Exception e) {
+                    }
                 }
 
             }
@@ -390,24 +418,114 @@ public class EnglishFragment extends Fragment {
         binding.englishRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(getContext(), gradeData -> {
 
+//            Intent intent;
+//            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+//            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+//                intent = new Intent(getContext(), EnglishSpellingActivity.class);
+//                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+//            } else {
+//                intent = new Intent(getContext(), GrammarActivity.class);
+//                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+//            }
+//            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+//            intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
+//            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+//            startActivity(intent);
 
-            Intent intent;
-            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
-            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
-                intent = new Intent(getContext(), EnglishSpellingActivity.class);
-                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+            if (paymentStatus.equals("active")) {
+                if (!gradeData.isIs_completed()) {
+                    navigateToNextScreen(gradeData, true);
+                } else {
+                    navigateToNextScreen(gradeData, false);
+                }
+
             } else {
-                intent = new Intent(getContext(), GrammarActivity.class);
-                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-            }
-            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-            intent.putExtra(Constants.EXTRA_CATEGORY_ID, gradeData.getId());
-            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-            startActivity(intent);
 
+                if (noOfDays < trialPeriodDay) {
+                    if (!gradeData.isIs_completed()) {
+                        navigateToNextScreen(gradeData, true);
+                    } else {
+                        navigateToNextScreen(gradeData, false);
+                    }
+
+                }
+                else {
+                    UtilityFunctions.displayCustomDialogSubscribe(getContext(), "Subscribe", "Hey you don't have any subscription plan. Please subscribe to continue.", "Subscribe @ Rs " + paymentAmount + "/ Month");
+                }
+            }
         });
+
+
         binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);
         subjectRecyclerAdapterUpdated.submitList(subjectDataNew);
+    }
+
+
+    private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
+        var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
+        a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
+            @Override
+            public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
+                if (response.body() != null) {
+                    handleResponse(response.body(), gradeData, isLearn);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+
+    private void handleResponse(ContentModelNew body, GradeData gradeData, Boolean isLearn) {
+        ScreenType screenType;
+        try {
+            screenType = ScreenType.valueOf(body.getMeta().getScreen_type());
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent;
+        Constants.OpenType openType;
+        switch (screenType) {
+            case LETTER_BY_LETTER: {
+                if (isLearn) {
+                    intent = new Intent(getContext(), EnglishSpellingActivity.class);
+                    openType = Constants.OpenType.LEARNING;
+                } else {
+                    intent = new Intent(getContext(), SpellingTest.class);
+                    openType = Constants.OpenType.EXERCISE;
+                }
+                intent.putExtra(EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+            }
+            break;
+            case CHOSE_THE_CORRECT_WORD: {
+                if (isLearn) {
+                    intent = new Intent(getContext(), GrammarActivity.class);
+                    openType = Constants.OpenType.LEARNING;
+                } else {
+                    intent = new Intent(getContext(), GrammarTestActivity.class);
+                    openType = Constants.OpenType.EXERCISE;
+                }
+                intent.putExtra(EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            }
+            break;
+            default:
+                Toast.makeText(getContext(), "No activity found for this screen type", Toast.LENGTH_SHORT).show();
+                return;
+        }
+
+        Log.d(TAG, "handleResponse: " + openType);
+        intent.putExtra(EXTRA_OPEN_TYPE, openType.name()); //TODO : u can check weather is intent in learning or exercise
+        intent.putExtra(EXTRA_DATA, body);
+        intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
+        intent.putExtra(EXTRA_ONLINE_FLAG, true);
+        intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, false);
+        intent.putExtra(EXTRA_CATEGORY_ID, gradeData.getId());
+        intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+        startActivity(intent);
     }
 
 
@@ -419,6 +537,10 @@ public class EnglishFragment extends Fragment {
 
 
         eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
+
+        if (eng.length != 0) {
+            binding.noDataFound.setVisibility(View.GONE);
+            binding.completeProgressTile.setVisibility(View.VISIBLE);
 //        for (int i = 0; i < math.length; i++) {
 //            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
 //            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
@@ -437,22 +559,30 @@ public class EnglishFragment extends Fragment {
 //
 //        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
 
-        for (int i = 0; i < eng.length; i++) {
-            int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
-            //TODO: MUST BE UPDATE
-            int completed = gradeDatabase.gradesDaoUpdated().getSubjectCompleteCount(eng[i]);
-            //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
-            subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
+            for (int i = 0; i < eng.length; i++) {
+                int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
+                //TODO: MUST BE UPDATE
+                int completed = gradeDatabase.gradesDaoUpdated().getSubjectCompleteCount(eng[i]);
+                //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
+                subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
+            }
+
+            sectionList.add(new SectionSubSubject("", subEngList));
+
+
+            binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, getContext());
+            binding.progressRecyclerView.setAdapter(sectionSubSubjectRecyclerAdapter);
+
+            uiChnages();
+        } else {
+            binding.noDataFound.setVisibility(View.VISIBLE);
+            binding.completeProgressTile.setVisibility(View.GONE);
+            binding.gotoViewCurriculumOne.setVisibility(View.INVISIBLE);
+            binding.gotoViewCurriculumTwo.setVisibility(View.INVISIBLE);
+            binding.startExeButtonLayout.setVisibility(View.GONE);
+
         }
-
-        sectionList.add(new SectionSubSubject("", subEngList));
-
-
-        binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        sectionSubSubjectRecyclerAdapter = new SectionSubSubjectRecyclerAdapter(sectionList, getContext());
-        binding.progressRecyclerView.setAdapter(sectionSubSubjectRecyclerAdapter);
-
-        uiChnages();
 
 //        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 //        View mView = getLayoutInflater().inflate(R.layout.progress_report_dialog, null);
@@ -480,7 +610,8 @@ public class EnglishFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-      //  setSubSubjectProgress();
+        setSubSubjectProgress();
+        paymentStatus = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status));
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
     }
 }

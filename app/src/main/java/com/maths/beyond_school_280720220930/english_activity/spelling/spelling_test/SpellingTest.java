@@ -664,21 +664,21 @@ public class SpellingTest extends AppCompatActivity {
         try {
             if (correctAnswer >= UtilityFunctions.getNinetyPercentage(spellingDetails.size())) {
 //                UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, "Spelling_CommonWords", category);
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade,category, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID),correctAnswer, wrongAnswer, spellingDetails.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""),category, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID),correctAnswer, wrongAnswer, spellingDetails.size(), "english");
                 if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
                     GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
                     Log.d(TAG, "uploadData: "+"Leaning"+"Spelling");
 
                 }
                 else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
-                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category);
+                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }
                 progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, category);
 
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, category,kidsGrade ,"Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID) ,correctAnswer, wrongAnswer, spellingDetails.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, category,kidsGrade.toLowerCase().replace(" ", "") ,"Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID) ,correctAnswer, wrongAnswer, spellingDetails.size(), "english");
             }
             gotoScoreCard();
         } catch (JSONException e) {

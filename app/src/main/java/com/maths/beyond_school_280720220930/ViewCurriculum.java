@@ -33,6 +33,7 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
+
 import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
@@ -209,20 +210,64 @@ public class ViewCurriculum extends AppCompatActivity {
     }
 
     private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
-        var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
-        a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
-            @Override
-            public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
-                if (response.body() != null) {
-                    handleResponse(response.body(), gradeData, isLearn);
+
+
+        if (paymentStatus.equals("active")){
+
+            if (gradeData.isUnlock()) {
+
+            var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
+            a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
+                @Override
+                public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
+                    if (response.body() != null) {
+                        handleResponse(response.body(), gradeData, isLearn);
+                    }
                 }
+
+                @Override
+                public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                    Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                }
+            });}
+            else{
+                UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
             }
 
-            @Override
-            public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
-                Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+
+        }else{
+
+
+            //TODO: replace with date diff
+            if (noOfDays < trialPeriodDay) {
+                if (gradeData.isUnlock()) {
+                    var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
+                    a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
+                            if (response.body() != null) {
+                                handleResponse(response.body(), gradeData, isLearn);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                            Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                        }
+                    });
+                }else {
+
+                    UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
+                }
+
+
+            }else {
+                UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this, "Subscribe", "Hey you don't have any subscription plan. Please subscribe to continue.", "Subscribe @ Rs " + paymentAmount + "/ Month");
             }
-        });
+
+        }
+
+
     }
 
     private void handleResponse(ContentModelNew body, GradeData gradeData, Boolean isLearn) {

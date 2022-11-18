@@ -13,8 +13,8 @@ import retrofit2.http.Query;
 public interface ApiInterfaceGrade {
 
     //@GET("getEnglishCourseData?grade=Grade 1")
-    @GET("Exprement/demo_grade1.json")
-    Call<GradeModelNew> getGradeData();
+    @GET("Exprement/{grade}.json")
+    Call<GradeModelNew> getGradeData(@Path("grade")String grade);
 
 
     @GET("subjects/{grade1}/{subject}/{topic}/{topic_detail}.json")

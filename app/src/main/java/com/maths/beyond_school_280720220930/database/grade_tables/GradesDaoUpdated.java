@@ -24,7 +24,7 @@ public interface GradesDaoUpdated {
     @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject")
     int getSubjectCount(String subject);
 
-    @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject and is_completed=1")
+    @Query("SELECT COUNT(*) FROM grade WHERE subject=:subject and is_completed_ex=1")
     int getSubjectCompleteCount(String subject);
 
     @Query("UPDATE grade SET unlock=:is_lock , unlock_ex=:is_lock WHERE chapter_name = :chapter AND subject=:subSubject")

@@ -71,13 +71,13 @@ public class AlarmAtTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding=ActivityAlarmAtTimeBinding.inflate(getLayoutInflater());
+        binding = ActivityAlarmAtTimeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         checkCalenderPermission();
 
-        firebaseAnalytics=FirebaseAnalytics.getInstance(this);
-        mAUth=FirebaseAuth.getInstance();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAUth = FirebaseAuth.getInstance();
         titletext = findViewById(R.id.titleText);
         setAlarm = findViewById(R.id.setAlarm);
         titletext.setText("Set Reminder");
@@ -85,26 +85,26 @@ public class AlarmAtTime extends AppCompatActivity {
 
         setUpTextLayoutGrade();
 
-        time=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.timer_time));
+        time = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.timer_time));
 
 
-
-        if (!time.equals("")){
-            if (UtilityFunctions.isEventInCal(AlarmAtTime.this,PrefConfig.readIntInPref(AlarmAtTime.this,getResources().getString(R.string.calender_event_id))+""))
-            { binding.extraInclude.selecttimebtn.setText("UPDATE");
-            binding.extraInclude.selecttimebtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.accent));}
+        if (!time.equals("")) {
+            if (UtilityFunctions.isEventInCal(AlarmAtTime.this, PrefConfig.readIntInPref(AlarmAtTime.this, getResources().getString(R.string.calender_event_id)) + "")) {
+                binding.extraInclude.selecttimebtn.setText("UPDATE");
+                binding.extraInclude.selecttimebtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 binding.extraInclude.kidsGrade.setText(binding.extraInclude.kidsGrade.getAdapter().getItem(Arrays.asList(array).indexOf(time)).toString(), false);
             }
         }
 
-        binding.extraInclude.selecttimebtn.setOnClickListener(v->{
+        binding.extraInclude.selecttimebtn.setOnClickListener(v -> {
             try {
-                time=PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.timer_time));
-                if (!time.equals("")){
-                  updateEvent();
+                time = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.timer_time));
+                if (!time.equals("")) {
+                    updateEvent();
                     //setEvent();
-                }else{
+                } else {
                     setEvent();
                 }
 
@@ -140,12 +140,12 @@ public class AlarmAtTime extends AppCompatActivity {
 
     private void checkCalenderPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // M = 23
-            if (ContextCompat.checkSelfPermission(this, String.valueOf(new String[]{Manifest.permission.WRITE_CALENDAR,Manifest.permission.READ_CALENDAR})) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR,Manifest.permission.READ_CALENDAR}, REQUEST_CALENDER_ACCESS);
+            if (ContextCompat.checkSelfPermission(this, String.valueOf(new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR})) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR}, REQUEST_CALENDER_ACCESS);
             }
         }
     }
-    
+
     @SuppressLint("MissingSuperCall")
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -154,7 +154,7 @@ public class AlarmAtTime extends AppCompatActivity {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-               // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
                 startActivity(intent);
@@ -166,16 +166,16 @@ public class AlarmAtTime extends AppCompatActivity {
 
     public void updateEvent() throws ParseException {
 
-        int eventId=PrefConfig.readIntInPref(AlarmAtTime.this,getResources().getString(R.string.calender_event_id));
-        if (UtilityFunctions.isEventInCal(AlarmAtTime.this,eventId+"")){
-            try{
+        int eventId = PrefConfig.readIntInPref(AlarmAtTime.this, getResources().getString(R.string.calender_event_id));
+        if (UtilityFunctions.isEventInCal(AlarmAtTime.this, eventId + "")) {
+            try {
 
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-                Date currDate=new Date();
-                String datetime= dateFormatter.format(currDate)+" "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[0];
-                String endTime= "2023/12/31 "+binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[1];
+                Date currDate = new Date();
+                String datetime = dateFormatter.format(currDate) + " " + binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[0];
+                String endTime = "2023/12/31 " + binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString().trim().split("-")[1];
                 //  String endTime="2023/08/12 06:30";
 
                 Calendar startCal = Calendar.getInstance();
@@ -188,23 +188,24 @@ public class AlarmAtTime extends AppCompatActivity {
                 ContentValues event = new ContentValues();
                 event.put(CalendarContract.Events.DTSTART, ((startCal.getTimeInMillis())));
                 //eventValues.put(CalendarContract.Events.DTEND, ((endCal.getTimeInMillis())));
-                event.put(CalendarContract.Events.DURATION,  "+P30M");
+                event.put(CalendarContract.Events.DURATION, "+P30M");
                 event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
                 event.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=90;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 cr.update(eventUri, event, null, null);
                 Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-                PrefConfig.writeIdInPref(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString(),getResources().getString(R.string.timer_time));
+                PrefConfig.writeIdInPref(AlarmAtTime.this, binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString(), getResources().getString(R.string.timer_time));
+
+                Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+
+
+                Log.i("Exception", e.getMessage());
             }
 
 
-            catch (Exception e){
-
-
-                Log.i("Exception",e.getMessage());
-            }
-
-
-        }else{
+        } else {
 
             setEvent();
         }
@@ -212,11 +213,12 @@ public class AlarmAtTime extends AppCompatActivity {
 
     @SuppressLint("Range")
     public void setEvent() throws ParseException {
-        Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
-        UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer,()->{
-            UtilityFunctions.setReminderEvent(firebaseAnalytics,mAUth,binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString());
+        Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
+        UtilityFunctions.setEvent(AlarmAtTime.this, binding.extraInclude.textInputLayoutTimer, () -> {
+            UtilityFunctions.setReminderEvent(firebaseAnalytics, mAUth, binding.extraInclude.textInputLayoutTimer.getEditText().getText().toString());
             Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
             startActivity(intent);
+            finish();
         });
     }
 

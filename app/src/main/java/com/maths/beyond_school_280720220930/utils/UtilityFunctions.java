@@ -1114,7 +1114,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static void updateDbUnlock(GradeDatabase database, String subSubject, String chapters) {
+    public static void updateDbUnlock(GradeDatabase database, String subSubject, String chapters,boolean isFirebaseCall) {
 
 
         // for information subSubject=Vocabulary
@@ -1129,6 +1129,9 @@ public final class UtilityFunctions {
                 Log.d("XXX", "updateDbUnlock: if");
                 try {
                     database.gradesDaoUpdated().updateIsCompleteEX(true, dbData.get(i).getChapter_name());
+                    if (isFirebaseCall)
+                    database.gradesDaoUpdated().updateIsComplete(true,dbData.get(i).getChapter_name());
+
                     database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name(),subSubject);
                     Log.d("XXX", dbData.get(i + 1).getChapter_name());
                     break;

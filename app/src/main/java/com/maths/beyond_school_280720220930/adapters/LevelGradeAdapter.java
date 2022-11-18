@@ -1,13 +1,16 @@
 package com.maths.beyond_school_280720220930.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.databinding.RowLayoutLevel3Binding;
 
@@ -46,6 +49,22 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
 
         public void bind(GradeData gradeData) {
             binding.chapters.setText(gradeData.getChapter_name());
+
+            if (gradeData.isUnlock()){
+                binding.imageViewLessonLock.setVisibility(View.INVISIBLE);
+                binding.imageViewLessonLockTest.setVisibility(View.INVISIBLE);
+            }
+
+            if (gradeData.isIs_completed()){
+                binding.imageViewLessonLock.setImageDrawable(binding.getRoot().getContext().getDrawable(R.drawable.verified_green_tick));
+                binding.imageViewLessonLock.setVisibility(View.VISIBLE);
+            }
+            if (gradeData.isIs_completed_ex()){
+                binding.imageViewLessonLockTest.setImageDrawable(binding.getRoot().getContext().getDrawable(R.drawable.verified_green_tick));
+                binding.imageViewLessonLockTest.setVisibility(View.VISIBLE);
+            }
+
+
             if (onItemGradeClickListener != null) {
                 binding.relativeLayoutLearn.setOnClickListener(v -> {
                     onItemGradeClickListener.onItemGradeClick(gradeData, true);

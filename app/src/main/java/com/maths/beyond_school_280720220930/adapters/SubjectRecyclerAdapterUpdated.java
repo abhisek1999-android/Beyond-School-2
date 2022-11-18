@@ -64,7 +64,7 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
         holder.timeText.setText(progressDataBase.progressDao().getTimeSpend(gradeData.getId(), gradeData.getChapter_name()) + "");
 
 
-        if (gradeData.isIs_completed()) {
+        if (gradeData.isIs_completed_ex()) {
             holder.status.setText("Complete");
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
         }

@@ -26,6 +26,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/reemkufi_medium"
+                    android:textSize="25sp"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="@dimen/grid_10"
+                    android:id="@+id/noDataFound"
+                    android:background="@drawable/tv_shape"
+                    android:layout_marginVertical="@dimen/grid_10"
+                    android:backgroundTint="@color/accent"
+                    android:textColor="@color/white"
+                    android:padding="@dimen/grid_10"
+                    android:visibility="gone"
+                    android:text="We don't have data for the selected grade.\n It will be available soon !!"
+                    />
+
             <LinearLayout
                 android:id="@+id/completeProgressTile"
                 android:layout_width="match_parent"

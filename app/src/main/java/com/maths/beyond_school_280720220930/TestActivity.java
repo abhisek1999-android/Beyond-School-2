@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,17 +9,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.LevelTwoContentAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
+import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientGrade;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceGrade;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Plan;
@@ -66,9 +74,44 @@ public class TestActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         setRecyclerView();
-        getNewData();
+      //  getNewData();
+
+        getSubscriptionStatus(firebaseFirestore,mAuth,getApplicationContext(),()->{
+
+        });
 
     }
+
+
+
+    public  void getSubscriptionStatus(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, Context context, CallFirebaseForInfo.Callback callback) {
+
+
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                try {
+
+                    Log.d(TAG, "planValue: "+snapshot.getLong("plan_value"));
+                    PrefConfig.writeIdInPref(context, snapshot.getString("customer_id"), context.getResources().getString(R.string.customer_id));
+                    PrefConfig.writeIdInPref(context, snapshot.getString("subscription_id"), context.getResources().getString(R.string.subscription_id));
+                    PrefConfig.writeIdInPref(context, snapshot.getString("plan_id"), context.getResources().getString(R.string.plan_id));
+                    PrefConfig.writeIntDInPref(context, Math.toIntExact(snapshot.getLong("no_of_days")), context.getResources().getString(R.string.noOfdays));
+                    PrefConfig.writeIntInPref(context, Math.toIntExact(snapshot.getLong("plan_value")), context.getResources().getString(R.string.plan_value));
+                    PrefConfig.writeIntInPref(context, Math.toIntExact(snapshot.getLong("trial_period")), context.getResources().getString(R.string.trial_period));
+                } catch (Exception e) {
+                    Log.d(TAG, "onComplete: "+e.getMessage());
+
+                }
+                Log.d("TAG", "onComplete: " + snapshot.getString("customer_id"));
+                callback.dataUpdated();
+            }
+        });
+
+
+    }
+
 
     private void setRecyclerView() {
 
@@ -89,10 +132,10 @@ public class TestActivity extends AppCompatActivity {
 
 
     private void getNewData() {
-        Retrofit retrofit = ApiClientContent.getClient();
-        var api = retrofit.create(ApiInterfaceContent.class);
+        Retrofit retrofit = ApiClientGrade.getClient();
+        var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
-        api.getGradeData().enqueue(new Callback<>() {
+        api.getGradeData("grade1").enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {

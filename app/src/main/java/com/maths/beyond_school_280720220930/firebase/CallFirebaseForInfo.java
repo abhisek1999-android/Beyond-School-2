@@ -185,7 +185,7 @@ public class CallFirebaseForInfo {
         subscriptionMap.put("subscription_id", subscriptionId);
         subscriptionMap.put("customer_id", customerId);
         subscriptionMap.put("plan_id", plan_id);
-        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).set(subscriptionMap);
+        firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).update(subscriptionMap);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().update(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -213,6 +213,7 @@ public class CallFirebaseForInfo {
         subscriptionMap.put("trial_period", trialPeriod);
         subscriptionMap.put("plan_value", planValue);
         subscriptionMap.put("no_of_days",0);
+        subscriptionMap.put("create_at",new Date().toString());
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).set(subscriptionMap);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().set(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -360,7 +361,7 @@ public class CallFirebaseForInfo {
                             try {
                                 if (!document.getId().split("_")[1].equals("multiplication")) {
                                     Log.i("doc_id", document.getId().replace(" ", "").split("_")[1]);
-                                    UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2]);
+                                    UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2],true);
                                 } else {
                                     Log.i("doc_id", document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
                                     int maxVal = Integer.parseInt(document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
@@ -403,7 +404,7 @@ public class CallFirebaseForInfo {
                             try {
                                 if (!document.getId().split("_")[1].equals("multiplication")) {
                                     Log.i("doc_id", document.getId().replace(" ", "").split("_")[1]);
-                                    UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2]);
+                                    UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2],true);
                                 } else {
                                     Log.i("doc_id", document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
                                     int maxVal = Integer.parseInt(document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);

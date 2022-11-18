@@ -238,7 +238,7 @@ public class SplashScreen extends AppCompatActivity {
         Retrofit retrofit = ApiClientGrade.getClient();
         var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
-        api.getGradeData().enqueue(new Callback<>() {
+        api.getGradeData(kidsGrade).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {

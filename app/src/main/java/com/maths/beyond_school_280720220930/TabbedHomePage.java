@@ -357,6 +357,13 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        setUiElements();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         completeClose();

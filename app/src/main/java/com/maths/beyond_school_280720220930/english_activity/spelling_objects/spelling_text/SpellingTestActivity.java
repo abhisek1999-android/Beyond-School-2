@@ -267,7 +267,7 @@ public class SpellingTestActivity extends AppCompatActivity {
 
                 }
                 else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
-                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category);
+                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }
                 progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, category);

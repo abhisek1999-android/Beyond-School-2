@@ -384,20 +384,37 @@ public class KidsInfoActivity extends AppCompatActivity {
                             "profile_url", imageUrl
                     ).addOnSuccessListener(unused -> {
 
+
                         if (!binding.textInputLayoutGrade.getEditText().getText().toString().equals(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)))) {
                             var gradeDatabase = GradeDatabase.getDbInstance(this);
                             gradeDatabase.gradesDaoUpdated().deleteAll();
                             getNewData(binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""));
                             PrefConfig.writeNormalListInPref(KidsInfoActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
-                            CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsId, binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""), KidsInfoActivity.this, gradeDatabase);
+                            CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsId, binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""), KidsInfoActivity.this, gradeDatabase,()->{
+
+                                UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
+                                        binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
+                                customProgressDialogue.dismiss();
+                                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                                startActivity(intent);
+                                finish();
+                            });
 
                         }
+                        else{
+                            UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
+                                    binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
+                            customProgressDialogue.dismiss();
+                            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                            startActivity(intent);
+                            finish();
+                        }
 
-                        UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
-                                binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
 
-                        customProgressDialogue.dismiss();
-                        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+
+
 
                     }).addOnFailureListener(e -> {
                         customProgressDialogue.dismiss();
@@ -414,7 +431,7 @@ public class KidsInfoActivity extends AppCompatActivity {
         Retrofit retrofit = ApiClientGrade.getClient();
         var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
-        api.getGradeData().enqueue(new Callback<>() {
+        api.getGradeData(kidsGrade).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {

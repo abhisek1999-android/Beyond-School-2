@@ -611,7 +611,7 @@ public class GrammarTestActivity extends AppCompatActivity {
 
                 }
                 else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
-                    UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category);
+                    UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }
 
