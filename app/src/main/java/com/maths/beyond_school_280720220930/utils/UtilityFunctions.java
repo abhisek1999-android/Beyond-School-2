@@ -88,6 +88,25 @@ public final class UtilityFunctions {
                 .error(R.drawable.cartoon_image_1)
                 .into(imageView);
     }
+    public static void loadImagePng(String url, android.widget.ImageView imageView,View progress) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .listener(new com.bumptech.glide.request.RequestListener<>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .error(R.drawable.cartoon_image_1)
+                .into(imageView);
+    }
 
     // Function to check weather device publisher is Samsung or not
     public static boolean isSamsungDevice() {

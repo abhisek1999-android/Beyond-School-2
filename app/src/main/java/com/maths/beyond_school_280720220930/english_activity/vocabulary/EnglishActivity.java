@@ -1,5 +1,15 @@
 package com.maths.beyond_school_280720220930.english_activity.vocabulary;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_FLAG_HAVE_DATA;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_VOCABULARY_CATEGORY;
+import static com.maths.beyond_school_280720220930.utils.UtilityFunctions.getRandomItem;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -27,7 +37,6 @@ import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
-import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
 import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
@@ -35,6 +44,8 @@ import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
+import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -88,6 +99,12 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     private List<ProgressM> progressData;
     private ProgressDataBase progressDataBase;
     private String parentsContactId = "";
+    private boolean isOnline = false;
+
+    private ContentModel.Meta meta;
+
+    private String cat;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -121,7 +138,17 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     private void navigateToTest() {
         var intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
-        intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, category.name());
+        intent.putExtra(Constants.EXTRA_VOCABULARY_CATEGORY, cat);
+        intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+        if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            intent.putExtra(EXTRA_DATA, d);
+            intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE);
+            intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
+            intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
+        }
+        intent.putExtra(EXTRA_CATEGORY_ID, getIntent().getStringExtra(EXTRA_CATEGORY_ID));
+        intent.putExtra(EXTRA_TITLE, getIntent().getStringExtra(EXTRA_TITLE));
         startActivity(intent);
     }
 
@@ -143,29 +170,28 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setViewPager() {
-        if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)) {
-            category = UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY));
+        isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
+        if (isOnline) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            vocabularyList = new VocabularyDetailsConverter().mapToList(d.getLearning());
+            meta = d.getMeta();
+            cat = getIntent().getStringExtra(EXTRA_VOCABULARY_CATEGORY);
         } else {
-            category = UtilityFunctions.VocabularyCategories.bathroom_1;
+            if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY)) {
+                category = UtilityFunctions.getVocabularyFromString(getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_DETAIL_CATEGORY));
+            } else {
+                category = UtilityFunctions.VocabularyCategories.bathroom_1;
+            }
+            var data = UtilityFunctions.getVocabularyDetailsFromType(dao.getEnglishModel(1).getVocabulary(), category);
+            if (data == null) {
+                UtilityFunctions.simpleToast(this, "No data found");
+                return;
+            }
         }
-        var data = UtilityFunctions.
-                getVocabularyDetailsFromType(dao.getEnglishModel(
-                        1
-                ).getVocabulary(), category);
-        if (data == null) {
-            UtilityFunctions.simpleToast(this, "No data found");
-            return;
-        }
-        binding.textViewCategory.setText(getResources().getString(R.string.category,
-                UtilityFunctions.vocabularyCategoriesToString(category)));
-        List<Fragment> fragments = getFragments(data);
-        var pagerAdapter = new EnglishViewPager(
-                fragments,
-                getSupportFragmentManager(),
-                getLifecycle()
-        );
+        binding.textViewCategory.setText(getResources().getString(R.string.category, getIntent().getStringExtra(EXTRA_TITLE)));
+        List<Fragment> fragments = getFragments();
+        var pagerAdapter = new EnglishViewPager(fragments, getSupportFragmentManager(), getLifecycle());
 
         binding.viewPager.setAdapter(pagerAdapter);
         binding.viewPager.setPageTransformer((page, position) -> {
@@ -179,7 +205,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
             intSTT();
             initMediaPlayer();
             playPauseAnimation(true);
-            helperTTS(UtilityFunctions.getQuestionTitleVocabulary(category), false, REQUEST_FOR_QUESTION);
+            helperTTS((!isOnline) ? UtilityFunctions.getQuestionTitleVocabulary(category) : meta.getQuestion()
+                    , false, REQUEST_FOR_QUESTION);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -225,10 +252,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
-    private List<Fragment> getFragments(VocabularyCategoryModel data) {
-        vocabularyList = data.getVocabularyDetails();
+    private List<Fragment> getFragments() {
         fragmentList = CollectionUtils.mapWithIndex(vocabularyList.stream(), (index, item) -> new VocabularyFragment(item, index + 1, this)).collect(Collectors.toList());
         return fragmentList;
     }
@@ -247,7 +272,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                         isSayWordFinish = false;
                         tts.setTextViewAndSentence(null);
 //                        tts.initialize("Now Say the word " + vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), EnglishActivity.this);
-                        tts.initialize(UtilityFunctions.getQuestionsFromVocabularyCategories(category), EnglishActivity.this);
+                        tts.initialize(getRandomItem(new String[]{"Name this object", "Can you identify this object?"}), EnglishActivity.this);
                     } else {
                         startListening();
                     }
@@ -266,12 +291,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                 var textView = (TextView) this.findViewById(R.id.text_view_description);
                 if (textView != null) {
                     Spannable textWithHighlights = new SpannableString(sentence);
-                    textWithHighlights.setSpan(new ForegroundColorSpan(
-                                    ContextCompat.
-                                            getColor(this, R.color.primary)),
-                            start,
-                            end,
-                            Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     textView.setText(textWithHighlights);
                 }
             });
@@ -293,7 +313,6 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     private void intSTT() throws ExecutionException, InterruptedException {
         var task = new STTAsyncTask();
         stt = task.execute(new ConversionCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(String result) {
                 playPauseAnimation(false);
@@ -317,18 +336,12 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Correct .\n";
                         helperTTS(UtilityFunctions.getCompliment(true), true, 0);
                         mediaPlayer.start();
-                        UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english", parentsContactId);
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22, vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, true, (int) diff, vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english", parentsContactId);
                         playPauseAnimation(true);
                     } else {
                         logs += "Time Take :" + UtilityFunctions.formatTime(diff) + ", Wrong .\n";
                         helperTTS(UtilityFunctions.getCompliment(false), false, 0);
-                        UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getUid().toString(), "kidsid", "Ayaan",
-                                "english Vocabulary", 22,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff,
-                                vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english",
-                                parentsContactId);
+                        UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getUid().toString(), "kidsid", "Ayaan", "english Vocabulary", 22, vocabularyList.get(binding.viewPager.getCurrentItem()).getWord(), result, false, (int) diff, vocabularyList.get(binding.viewPager.getCurrentItem()).getWord() + " : " + vocabularyList.get(binding.viewPager.getCurrentItem()).getDefinition(), "english", parentsContactId);
                         playPauseAnimation(true);
                     }
 
@@ -392,8 +405,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         super.onPause();
         checkLogIsEnable();
         checkProgressData();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", UtilityFunctions.vocabularyCategoriesToString(category), new Date(),
-                timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
+        UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), cat, new Date(), timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 
     private void checkLogIsEnable() {
@@ -407,8 +419,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     }
 
 
-    private void helperTTS(String message, boolean canNavigate, int request) throws
-            ExecutionException, InterruptedException {
+    private void helperTTS(String message, boolean canNavigate, int request) throws ExecutionException, InterruptedException {
         ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback() {
             @Override
             public void onCompletion() {
@@ -499,14 +510,10 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     private void destroyedEngines() {
         binding.playPause.setChecked(false);
-        if (tts != null)
-            tts.destroy();
-        if (stt != null)
-            stt.destroy();
-        if (ttsHelper != null)
-            ttsHelper.destroy();
-        if (mediaPlayer != null)
-            mediaPlayer.release();
+        if (tts != null) tts.destroy();
+        if (stt != null) stt.destroy();
+        if (ttsHelper != null) ttsHelper.destroy();
+        if (mediaPlayer != null) mediaPlayer.release();
         VocabularyFragment current = null;
         try {
             current = (VocabularyFragment) fragmentList.get(binding.viewPager.getCurrentItem());
@@ -517,10 +524,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     }
 
     private void playPauseAnimation(Boolean play) {
-        if (play)
-            binding.imageViewTeacher.playAnimation();
-        else
-            binding.imageViewTeacher.pauseAnimation();
+        if (play) binding.imageViewTeacher.playAnimation();
+        else binding.imageViewTeacher.pauseAnimation();
     }
 
     private void displayCompleteDialog() {
@@ -563,28 +568,22 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
 
     private void timer() {
         boolean isTimerRunning = false;
-        Observable.interval(60, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<Long>() {
-                    public void accept(Long x) throws Exception {
-                        // update your view here
+        Observable.interval(60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Consumer<Long>() {
+            public void accept(Long x) throws Exception {
+                // update your view here
 
-                        binding.timerProgress.setMax(15);
-                        binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.timeText.setText((x + 1) + "");
-                        Log.i("task", x + "");
-                    }
-                })
-                .takeUntil(aLong -> aLong == TIMER_VALUE)
-                .doOnComplete(() ->
-                        // do whatever you need on complete
-                        Log.i("TSK", "task")
-                ).subscribe();
+                binding.timerProgress.setMax(15);
+                binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
+                binding.timeText.setText((x + 1) + "");
+                Log.i("task", x + "");
+            }
+        }).takeUntil(aLong -> aLong == TIMER_VALUE).doOnComplete(() ->
+                // do whatever you need on complete
+                Log.i("TSK", "task")).subscribe();
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", UtilityFunctions.vocabularyCategoriesToString(category),
-                new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), cat, new Date(), 0, true);
 
         try {
             if (progressData != null) {
