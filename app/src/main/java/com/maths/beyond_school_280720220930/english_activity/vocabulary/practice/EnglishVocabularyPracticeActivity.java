@@ -1,5 +1,10 @@
 package com.maths.beyond_school_280720220930.english_activity.vocabulary.practice;
 
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_VOCABULARY_CATEGORY;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -21,7 +26,6 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.ScoreActivity;
 import com.maths.beyond_school_280720220930.database.english.EnglishGradeDatabase;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.VocabularyDao;
-import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyCategoryModel;
 import com.maths.beyond_school_280720220930.database.english.vocabulary.model.VocabularyDetails;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.log.LogDatabase;
@@ -29,7 +33,10 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.databinding.ActivityEnglishVocabularyPracticeBinding;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishViewPager;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.VocabularyDetailsConverter;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
+import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.translation_engine.ConversionCallback;
 import com.maths.beyond_school_280720220930.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_280720220930.translation_engine.TextToSpeechBuilder;
@@ -93,6 +100,9 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     public static final int TIMER_VALUE = 15;
     private boolean isTimerRunning = true;
     private String parentsContactId = "";
+    private ContentModel.Meta meta;
+    private boolean isOnline = false;
+    private String cat = "";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -118,15 +128,29 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         progressData = new ArrayList<>();
         setToolbar();
         setPracticeClick();
-        if (getIntent().hasExtra(Constants.EXTRA_VOCABULARY_CATEGORY)) {
-            category = getIntent().getStringExtra(Constants.EXTRA_VOCABULARY_CATEGORY);
-            setPager(category);
+        isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
+        if (isOnline) {
+            var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
+            vocabularyList = new VocabularyDetailsConverter().mapToList(d.getLearning());
+            meta = d.getMeta();
+            cat = getIntent().getStringExtra(EXTRA_VOCABULARY_CATEGORY);
+            setPager();
             buttonClick();
-        } else {
-            throw new IllegalArgumentException("No category provided");
         }
         checkProgressData();
+        setButtonVisibility();
     }
+
+    private void setButtonVisibility() {
+        var isVisible = getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN, false);
+        var param = binding.learnOrTest.getLayoutParams();
+        if (!isVisible) {
+            param.height = 1;
+            binding.learnOrTest.setLayoutParams(param);
+            binding.learnOrTest.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     private void timer() {
         isTimerRunning = false;
@@ -152,7 +176,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category,
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), cat,
                 new Date(), 0, true);
 
         try {
@@ -178,27 +202,12 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         binding.toolBar.imageViewBack.setOnClickListener(view -> finish());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setPager(String category) {
-        binding.textViewGuessQuestion.
-                setText(UtilityFunctions.
-                        getQuestionsFromVocabularyCategories(
-                                UtilityFunctions.getVocabularyFromString(category)
-                        ));
-        var data = UtilityFunctions.
-                getVocabularyDetailsFromType(
-                        dao.getEnglishModel(1
-                        ).getVocabulary(),
-                        UtilityFunctions.VocabularyCategories.valueOf(category));
-        try {
-            if (data == null) {
-                UtilityFunctions.simpleToast(this, "No data found");
-                return;
-            }
-        } catch (Exception e) {
-        }
+    private void setPager() {
 
-        List<Fragment> fragments = getFragments(data);
+        binding.textViewGuessQuestion.
+                setText(meta.getQuestion());
+
+        List<Fragment> fragments = getFragments();
         var pagerAdapter = new EnglishViewPager(
                 fragments,
                 getSupportFragmentManager(),
@@ -210,10 +219,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         binding.viewPagerTest.setUserInputEnabled(false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
-    private List<Fragment> getFragments(VocabularyCategoryModel data) {
-        vocabularyList = data.getVocabularyDetails();
+    private List<Fragment> getFragments() {
         Collections.shuffle(vocabularyList);
         fragmentList = CollectionUtils.
                 mapWithIndex(vocabularyList.stream(),
@@ -351,7 +358,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                             helperTTS("No problem ,Answer is  " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord(), false, true);
                             ((VocabularyTestFragment) fragmentList.get(binding.viewPagerTest.getCurrentItem())).getTextView()
                                     .setText(vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord());
-                            UtilityFunctions.sendDataToAnalytics(analytics, auth,auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+                            UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                                     "English-Test-" + "vocabulary", kidAge, vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                     , result, false, (int) (diff), vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getWord()
                                             + " : " + vocabularyList.get(binding.viewPagerTest.getCurrentItem()).getDefinition(), "english", parentsContactId);
@@ -445,10 +452,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                         mediaPlayer.pause();
                         binding.viewPagerTest.setCurrentItem(binding.viewPagerTest.getCurrentItem() + 1);
                         binding.textViewGuessQuestion.
-                                setText(UtilityFunctions.
-                                        getQuestionsFromVocabularyCategories(
-                                                UtilityFunctions.getVocabularyFromString(category)
-                                        ));
+                                setText(meta.getQuestion());
                         try {
                             playPauseAnimation(true);
                             if (isSpeaking)
@@ -497,7 +501,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         super.onPause();
         destroyedEngines();
         checkLogIsEnable();
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "English" + "Vocabulary", category, new Date(),
+        UtilityFunctions.checkProgressAvailable(progressDataBase, getIntent().getStringExtra(EXTRA_CATEGORY_ID), cat, new Date(),
                 timeSpend + Integer.parseInt(binding.timeText.getText().toString()), false);
     }
 

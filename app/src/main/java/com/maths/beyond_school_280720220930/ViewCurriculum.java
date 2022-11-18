@@ -10,6 +10,7 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_SPELLING_DETAIL;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_VOCABULARY_CATEGORY;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActi
 import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
+import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
@@ -301,6 +304,17 @@ public class ViewCurriculum extends AppCompatActivity {
                     openType = Constants.OpenType.EXERCISE;
                 }
                 intent.putExtra(EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+            }
+            break;
+            case WITH_STT: {
+                if (isLearn) {
+                    intent = new Intent(this, EnglishActivity.class);
+                    openType = Constants.OpenType.LEARNING;
+                } else {
+                    intent = new Intent(this, EnglishVocabularyPracticeActivity.class);
+                    openType = Constants.OpenType.EXERCISE;
+                }
+                intent.putExtra(EXTRA_VOCABULARY_CATEGORY, gradeData.getChapter_name());
             }
             break;
             default:

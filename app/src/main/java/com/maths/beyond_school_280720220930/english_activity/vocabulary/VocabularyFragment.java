@@ -1,13 +1,13 @@
 package com.maths.beyond_school_280720220930.english_activity.vocabulary;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.maths.beyond_school_280720220930.R;
@@ -16,7 +16,6 @@ import com.maths.beyond_school_280720220930.databinding.FragmentVocabularyBindin
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.Objects;
-
 
 
 public class VocabularyFragment extends Fragment {
@@ -47,11 +46,11 @@ public class VocabularyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentVocabularyBinding.bind(view);
 //        UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
-
+        Log.d("AAA", "onViewCreated: " + vocabulary.getImageLink());
         if (vocabulary.getImageLink().contains(".svg"))
             UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
         else
-            UtilityFunctions.loadImage(vocabulary.getImageLink(), binding.imageViewObject);
+            UtilityFunctions.loadImagePng(vocabulary.getImageLink(), binding.imageViewObject, binding.loadingAnimation);
 //        var imageLoader = ImageLoader.Builder(requireContext())
 //                .crossfade(true)
 //                .on
@@ -62,15 +61,15 @@ public class VocabularyFragment extends Fragment {
         binding.imageButtonPrev.setVisibility((currentPage == 1) ? View.INVISIBLE : View.VISIBLE);
         binding.imageButtonNext.setVisibility((currentPage == Objects.requireNonNull(viewPager.getAdapter()).getItemCount()) ? View.INVISIBLE : View.VISIBLE);
 
-//        var activity = (EnglishActivity) requireActivity();
+        var activity = (EnglishActivity) requireActivity();
 
         binding.imageButtonNext.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//            activity.restartEngine();
+            activity.restartEngine();
         });
         binding.imageButtonPrev.setOnClickListener(v -> {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//            activity.restartEngine();
+            activity.restartEngine();
         });
         binding.progress.setText(getResources()
                 .getString(R.string.current_by_all,
