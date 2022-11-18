@@ -151,6 +151,17 @@ public class SpellingTest extends AppCompatActivity {
         binding.learnOrTest.setOnClickListener((c) -> {
             onBackPressed();
         });
+        setButtonVisibility();
+    }
+
+    private void setButtonVisibility() {
+        var isVisible = getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN, false);
+        var param = binding.learnOrTest.getLayoutParams();
+        if (!isVisible) {
+            param.height = 1;
+            binding.learnOrTest.setLayoutParams(param);
+            binding.learnOrTest.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -159,15 +170,15 @@ public class SpellingTest extends AppCompatActivity {
             category = getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim();
             isOnline = getIntent().getBooleanExtra(Constants.EXTRA_ONLINE_FLAG, false);
             dao = EnglishGradeDatabase.getDbInstance(this).spellingCommonWordDao();
-            if (isOnline) {
+            if (isOnline)
                 getSubjectData();
-            } else {
+            else
                 setViews();
-            }
+
             buttonClick();
-        } else {
+        } else
             UtilityFunctions.simpleToast(this, "No data found");
-        }
+
     }
 
     private void getSubjectData() {
@@ -422,20 +433,23 @@ public class SpellingTest extends AppCompatActivity {
     }
 
     private void handleInputWord() {                                                                // handle input word
-        var currentPosition = binding.viewPagerTest.getCurrentItem();                          // get current position
-        var currentWord = spellingDetails.get(currentPosition).getWord();                       // get current word
-        var currentFragment = (SpellingTestFragment) fragments.get(currentPosition);        // get current fragment
-        var textView = currentFragment.getTextView();                                      // get text view of current fragment
-        buttonClickListener = s -> {
-            Log.d("XXX", "handleInputWord: " + s);
-            inputWord += s;
-            var textViewText = textView.getText().toString();                                // get text from text view
-            textView.setText(textViewText.replaceFirst("_", s));
-            currentWordLetterPosition++;
-            if (currentWordLetterPosition < currentWord.length()) setButtonText();
-            else checkAnswer();
-        };
-        handleButtonClick();
+        UtilityFunctions.runOnUiThread(() -> {
+
+            var currentPosition = binding.viewPagerTest.getCurrentItem();                          // get current position
+            var currentWord = spellingDetails.get(currentPosition).getWord();                       // get current word
+            var currentFragment = (SpellingTestFragment) fragments.get(currentPosition);        // get current fragment
+            var textView = currentFragment.getTextView();                                      // get text view of current fragment
+            buttonClickListener = s -> {
+                Log.d("XXX", "handleInputWord: " + s);
+                inputWord += s;
+                var textViewText = textView.getText().toString();                                // get text from text view
+                textView.setText(textViewText.replaceFirst("_", s));
+                currentWordLetterPosition++;
+                if (currentWordLetterPosition < currentWord.length()) setButtonText();
+                else checkAnswer();
+            };
+            handleButtonClick();
+        });
     }
 
     private void checkAnswer() {
