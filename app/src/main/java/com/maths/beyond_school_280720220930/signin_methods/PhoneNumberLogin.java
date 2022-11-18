@@ -1,9 +1,7 @@
 package com.maths.beyond_school_280720220930.signin_methods;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telecom.TelecomManager;
@@ -12,16 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.credentials.Credential;
-import com.google.android.gms.auth.api.credentials.HintRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +37,6 @@ import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.TabbedHomePage;
-import com.maths.beyond_school_280720220930.TestActivity;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityPhoneNumberLoginBinding;
@@ -52,14 +45,12 @@ import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
-import com.maths.beyond_school_280720220930.retrofit.ApiClient;
-import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
-import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientGrade;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceGrade;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
-import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Subscription;
 
@@ -68,7 +59,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -389,8 +379,8 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
     private void getNewData(String kidsGrade, KidsData kidsData) {
 
 
-        Retrofit retrofit = ApiClientNew.getClient();
-        var api = retrofit.create(ApiInterfaceNew.class);
+        Retrofit retrofit = ApiClientGrade.getClient();
+        var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
 
         //kids grade must be added

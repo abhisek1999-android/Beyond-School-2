@@ -105,10 +105,9 @@ public class GradeModelNew {
                 String name;
                 String sub_subject;
                 String sub_subject_id;
-
                 Meta meta;
-
-
+                int unlock;
+                int unlock_ex;
 
                 @Override
                 public String toString() {
@@ -118,16 +117,37 @@ public class GradeModelNew {
                             ", name='" + name + '\'' +
                             ", sub_subject='" + sub_subject + '\'' +
                             ", sub_subject_id='" + sub_subject_id + '\'' +
+                            ", unlock=" + unlock +
+                            ", unlock_ex=" + unlock_ex +
+                            ", meta=" + meta +
                             '}';
                 }
 
-                public Blocks(String blockId, String status, String name, String sub_subject, String sub_subject_id,Meta meta) {
+                public Blocks(String blockId, String status, String name, String sub_subject, String sub_subject_id, Meta meta, int unlock, int unlock_ex) {
                     this.blockId = blockId;
                     this.status = status;
                     this.name = name;
                     this.sub_subject = sub_subject;
                     this.sub_subject_id = sub_subject_id;
                     this.meta = meta;
+                    this.unlock=unlock;
+                    this.unlock_ex=unlock_ex;
+                }
+
+                public int isUnlock() {
+                    return unlock;
+                }
+
+                public void setUnlock(int unlock) {
+                    this.unlock = unlock;
+                }
+
+                public int isUnlock_ex() {
+                    return unlock_ex;
+                }
+
+                public void setUnlock_ex(int unlock_ex) {
+                    this.unlock_ex = unlock_ex;
                 }
 
                 public Meta getMeta() {

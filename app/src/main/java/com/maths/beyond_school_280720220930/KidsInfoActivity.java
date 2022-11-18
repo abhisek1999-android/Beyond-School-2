@@ -33,14 +33,12 @@ import com.maths.beyond_school_280720220930.databinding.ActivityKidsInfoBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
-import com.maths.beyond_school_280720220930.retrofit.ApiClient;
-import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
-import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientGrade;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceGrade;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
-import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 
 import java.lang.reflect.Method;
@@ -413,8 +411,8 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     private void getNewData(String kidsGrade) {
 
-        Retrofit retrofit = ApiClientNew.getClient();
-        var api = retrofit.create(ApiInterfaceNew.class);
+        Retrofit retrofit = ApiClientGrade.getClient();
+        var api = retrofit.create(ApiInterfaceGrade.class);
         gradeModelNewList = new ArrayList<>();
         api.getGradeData().enqueue(new Callback<>() {
             @Override

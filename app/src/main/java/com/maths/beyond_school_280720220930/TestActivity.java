@@ -13,13 +13,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.adapters.ChaptersRecyclerAdapter;
-import com.maths.beyond_school_280720220930.adapters.LevelGradeAdapter;
 import com.maths.beyond_school_280720220930.adapters.LevelTwoContentAdapter;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityTestBinding;
-import com.maths.beyond_school_280720220930.retrofit.ApiClientNew;
-import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceNew;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Plan;
@@ -90,8 +89,8 @@ public class TestActivity extends AppCompatActivity {
 
 
     private void getNewData() {
-        Retrofit retrofit = ApiClientNew.getClient();
-        var api = retrofit.create(ApiInterfaceNew.class);
+        Retrofit retrofit = ApiClientContent.getClient();
+        var api = retrofit.create(ApiInterfaceContent.class);
         gradeModelNewList = new ArrayList<>();
         api.getGradeData().enqueue(new Callback<>() {
             @Override

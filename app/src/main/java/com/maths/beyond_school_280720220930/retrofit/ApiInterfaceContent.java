@@ -10,10 +10,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface ApiInterfaceNew {
+public interface ApiInterfaceContent {
 
-    @GET("getEnglishCourseData?grade=Grade 1")
-//    @GET("Exprement/demo_grade1.json")
+    //@GET("getEnglishCourseData?grade=Grade 1")
+    @GET("Exprement/demo_grade1.json")
     Call<GradeModelNew> getGradeData();
 
 

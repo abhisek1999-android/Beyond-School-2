@@ -26,19 +26,28 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
+import com.maths.beyond_school_280720220930.retrofit.ApiClientGrade;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
+import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceGrade;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
+import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
+import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SplashScreen extends AppCompatActivity {
@@ -58,7 +67,7 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     GradeDatabase database;
     private GradeDatabase gradeDatabase;
-
+    private List<GradeData> gradeModelNewList;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -204,10 +213,10 @@ public class SplashScreen extends AppCompatActivity {
                         if (value != val) {
                             PrefConfig.writeIntInPref(SplashScreen.this, val, getResources().getString(R.string.KEY_VALUE_SAVE));
 
-                           // getNewData(kidsGrade);
+                              getNewData(kidsGrade);
 
-                            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
-                            finish();
+//                            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+//                            finish();
 
                         }else {
                             startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
@@ -225,43 +234,49 @@ public class SplashScreen extends AppCompatActivity {
 
     private void getNewData(String kidsGrade) {
         Log.d(TAG, "getNewData: "+kidsGrade);
-        Retrofit retrofit = ApiClient.getClient();
-        var api = retrofit.create(ApiInterface.class);
-        api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
 
+        Retrofit retrofit = ApiClientGrade.getClient();
+        var api = retrofit.create(ApiInterfaceGrade.class);
+        gradeModelNewList = new ArrayList<>();
+        api.getGradeData().enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
+            public void onResponse(@NonNull Call<GradeModelNew> call, @NonNull Response<GradeModelNew> response) {
                 if (response.body() != null) {
-                    var list = response.body().getEnglish();
-                    mapToGradeModel(list,kidsGrade);
-                    Log.d(TAG, "onResponse: StartedUpdating");
 
+                    var s = response.body().getEnglish();
+                    for (var i : s) {
+                        for (var j : i.getSub_subject()) {
+                            var converter = new LeveGradeConverter("English", i.getSubject());
+                            var list = converter.mapToList(j.getBlocks());
+                            gradeModelNewList.addAll(list);
+                        }
+                    }
+                    for (var i : gradeModelNewList) {
+                        Log.d("TAG", "onResponse: " + i);
+                    }
+
+                    mapToGradeModel(gradeModelNewList,kidsGrade);
                 } else {
                     Toast.makeText(SplashScreen.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onResponse: StartedUpdatingError");
                 }
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
+            public void onFailure(Call<GradeModelNew> call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
             }
         });
     }
 
-    private void mapToGradeModel(List<GradeModel.EnglishModel> list,String kidsGrade) {
-        list.forEach(subject -> {
-            var mapper = new GradeConverter(subject.getSubject());
-            var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
-        });
+    private void mapToGradeModel(List<GradeData> list,String kidsGrade) {
+
+        gradeDatabase.gradesDaoUpdated().insertNotes(list);
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)),
-                kidsGrade, SplashScreen.this, gradeDatabase);
-
-        startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
-        finish();
-
+                kidsGrade, SplashScreen.this, gradeDatabase,()->{
+                    startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+                    finish();
+                });
     }
 
     @Override

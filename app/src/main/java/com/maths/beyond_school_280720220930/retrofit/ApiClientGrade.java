@@ -10,12 +10,12 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClientNew {
+public class ApiClientGrade {
 
     private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
 
-    private static final String BASE_URL = "https://beyondschoolapis-rkjbkfkqbq-el.a.run.app/apis/content/";
-//private static final String BASE_URL = "https://abhisek1999-android.github.io/";
+    //private static final String BASE_URL = "https://beyondschoolapis-rkjbkfkqbq-el.a.run.app/apis/content/";
+   private static final String BASE_URL = "https://abhisek1999-android.github.io/";
     private static Retrofit retrofit = null;
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()

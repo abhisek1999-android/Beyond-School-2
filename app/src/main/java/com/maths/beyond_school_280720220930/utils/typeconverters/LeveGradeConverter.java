@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930.utils.typeconverters;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.TypeConverter;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,8 +30,8 @@ public class LeveGradeConverter implements TypeConverter<GradeData, GradeModelNe
                 blocks.getSub_subject(),
                 blocks.getSub_subject_id(),
                 new MetaConverter().mapTo(blocks.getMeta()),
-                false,
-                false,
+                UtilityFunctions.intToBoolean(blocks.isUnlock()),
+                UtilityFunctions.intToBoolean(blocks.isUnlock_ex()),
                 false,
                 false
         );
