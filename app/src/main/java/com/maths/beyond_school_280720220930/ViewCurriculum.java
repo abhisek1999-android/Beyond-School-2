@@ -227,7 +227,7 @@ public class ViewCurriculum extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
                     if (response.body() != null) {
-                        handleResponse(response.body(), gradeData, isLearn);
+                        Log.d(TAG, "onResponse: " + response.body().getLearning());handleResponse(response.body(), gradeData, isLearn);
                     }
                 }
 
@@ -326,7 +326,7 @@ public class ViewCurriculum extends AppCompatActivity {
         }
 
         Log.d(TAG, "handleResponse: "+openType);
-        intent.putExtra(EXTRA_OPEN_TYPE, openType.name()); //TODO : u can check weather is intent in learning or exercise
+        intent.putExtra(EXTRA_OPEN_TYPE, openType.name());
         intent.putExtra(EXTRA_DATA, body);
         intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
         intent.putExtra(EXTRA_ONLINE_FLAG, true);
@@ -397,9 +397,6 @@ public class ViewCurriculum extends AppCompatActivity {
         getLiveData(subject);
     }
 
-    private void displaySubscriptionDialog() {
-
-    }
 
     private void getLiveData(String subject) {
         gradeDatabase.gradesDaoUpdated().getSubjectData(subject).observe(this, gradeData -> {
@@ -416,6 +413,5 @@ public class ViewCurriculum extends AppCompatActivity {
             // gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
     }
-
 
 }
