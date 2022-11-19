@@ -237,7 +237,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/image_view_teacher"
         android:layout_width="100dp"
-        android:layout_height="90dp"
+        android:layout_height="100dp"
         android:layout_alignParentEnd="true"
         app:layout_constraintBottom_toTopOf="@+id/giveTestButton"
         app:layout_constraintEnd_toEndOf="@+id/giveTestButton"

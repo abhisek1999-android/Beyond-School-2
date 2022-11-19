@@ -149,6 +149,7 @@ public class ViewCurriculum extends AppCompatActivity {
             rdbtn.setPadding(15, 20, 15, 20);
             rdbtn.setTypeface(ResourcesCompat.getFont(this, R.font.jellee_roman));
             rdbtn.setTextColor(getResources().getColor(R.color.primary));
+            rdbtn.setTextSize(18);
             rdbtn.setId(engChapters.indexOf(st));
             rdbtn.setText(st);
             rdbtn.setButtonDrawable(R.color.transparent);

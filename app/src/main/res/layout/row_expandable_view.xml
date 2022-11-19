@@ -24,7 +24,8 @@
             android:fontFamily="@font/reemkufi_medium"
             android:gravity="center"
             android:text=""
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textSize="@dimen/default_font_size_big"
+            android:textStyle="bold"
 
             />
 
