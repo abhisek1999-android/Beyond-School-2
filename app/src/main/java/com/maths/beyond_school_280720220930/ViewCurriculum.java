@@ -34,7 +34,6 @@ import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.databinding.ActivityViewCurriculumBinding;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
-
 import com.maths.beyond_school_280720220930.english_activity.grammar.test.GrammarTestActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
@@ -78,7 +77,7 @@ public class ViewCurriculum extends AppCompatActivity {
     private int paymentAmount = 0;
     private List<String> subSubjects;
     private List<List<GradeData>> subSubjectList;
-    private String createAt="";
+    private String createAt = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,7 @@ public class ViewCurriculum extends AppCompatActivity {
         trialPeriodDay = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.payment_status));
         paymentAmount = PrefConfig.readIntDInPref(ViewCurriculum.this, getResources().getString(R.string.plan_value));
-        createAt=PrefConfig.readIdInPref(ViewCurriculum.this,getResources().getString(R.string.created_at));
+        createAt = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.created_at));
         try {
             engChapters = Arrays.asList(eng);
             defaultSubject = eng[0];
@@ -216,42 +215,47 @@ public class ViewCurriculum extends AppCompatActivity {
     }
 
     private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
-
-
-        if (paymentStatus.equals("active")){
+        if (paymentStatus.equals("active")) {
 
             if (gradeData.isUnlock()) {
 
-            var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
-            a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
-                @Override
-                public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
-                    if (response.body() != null) {
-                        Log.d(TAG, "onResponse: " + response.body().getLearning());handleResponse(response.body(), gradeData, isLearn);
+                var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
+                a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
+                        if (response.body() != null) {
+                            if (response.body().getMeta() == null) {
+                                Toast.makeText(ViewCurriculum.this, "No data found", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            handleResponse(response.body(), gradeData, isLearn);
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
-                    Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
-                }
-            });}
-            else{
+                    @Override
+                    public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                        Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                    }
+                });
+            } else {
                 UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
             }
 
 
-        }else{
+        } else {
 
 
-            //TODO: replace with date diff
-            if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriodDay) {
+            if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriodDay) {
                 if (gradeData.isUnlock()) {
                     var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
                     a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
                         @Override
                         public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
                             if (response.body() != null) {
+                                if (response.body().getMeta() == null) {
+                                    Toast.makeText(ViewCurriculum.this, "No data found", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 handleResponse(response.body(), gradeData, isLearn);
                             }
                         }
@@ -261,13 +265,13 @@ public class ViewCurriculum extends AppCompatActivity {
                             Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
                         }
                     });
-                }else {
+                } else {
 
                     UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
                 }
 
 
-            }else {
+            } else {
                 UtilityFunctions.displayCustomDialogSubscribe(ViewCurriculum.this, "Subscribe", "Hey you don't have any subscription plan. Please subscribe to continue.", "Subscribe @ Rs " + paymentAmount + "/ Month");
             }
 
@@ -282,6 +286,14 @@ public class ViewCurriculum extends AppCompatActivity {
             screenType = ScreenType.valueOf(body.getMeta().getScreen_type());
         } catch (IllegalArgumentException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (body.getLearning().size() == 0) {
+            Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (body.getExercise().size() == 0) {
+            Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent;
@@ -325,7 +337,7 @@ public class ViewCurriculum extends AppCompatActivity {
                 return;
         }
 
-        Log.d(TAG, "handleResponse: "+openType);
+        Log.d(TAG, "handleResponse: " + openType);
         intent.putExtra(EXTRA_OPEN_TYPE, openType.name());
         intent.putExtra(EXTRA_DATA, body);
         intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
