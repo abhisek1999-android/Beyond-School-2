@@ -204,7 +204,11 @@ public class CallFirebaseForInfo {
 
     }
 
-    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id, String customerId, int planValue, int trialPeriod) {
+    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id, String customerId, int planValue, int trialPeriod,Context context) {
+
+
+        Date date=new Date();
+        PrefConfig.writeIdInPref(context,date.toString(),context.getResources().getString(R.string.created_at));
 
         Map subscriptionMap = new HashMap();
         subscriptionMap.put("subscription_id", subscriptionId);
@@ -213,7 +217,9 @@ public class CallFirebaseForInfo {
         subscriptionMap.put("trial_period", trialPeriod);
         subscriptionMap.put("plan_value", planValue);
         subscriptionMap.put("no_of_days",0);
-        subscriptionMap.put("create_at",new Date().toString());
+        subscriptionMap.put("created_at",date.toString());
+
+
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).set(subscriptionMap);
         firebaseFirestore.collection("users").document(mAuth.getCurrentUser().getUid()).collection("subscription").document().set(subscriptionMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -301,6 +307,7 @@ public class CallFirebaseForInfo {
                     PrefConfig.writeIdInPref(context, snapshot.getString("customer_id"), context.getResources().getString(R.string.customer_id));
                     PrefConfig.writeIdInPref(context, snapshot.getString("subscription_id"), context.getResources().getString(R.string.subscription_id));
                     PrefConfig.writeIdInPref(context, snapshot.getString("plan_id"), context.getResources().getString(R.string.plan_id));
+                    PrefConfig.writeIdInPref(context,snapshot.getString("created_at"),context.getResources().getString(R.string.created_at));
                     PrefConfig.writeIntDInPref(context, Math.toIntExact(snapshot.getLong("no_of_days")), context.getResources().getString(R.string.noOfdays));
                     PrefConfig.writeIntInPref(context, Math.toIntExact(snapshot.getLong("plan_value")), context.getResources().getString(R.string.plan_value));
                     PrefConfig.writeIntInPref(context, Math.toIntExact(snapshot.getLong("trial_period")), context.getResources().getString(R.string.trial_period));

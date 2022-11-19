@@ -1066,4 +1066,5 @@
     <string name="plan_id">PLAN_ID</string>
     <string name="plan_value">PLAN_VALUE</string>
     <string name="trial_period">TRIAL_PERIOD</string>
+    <string name="created_at">CREATED_AT</string>
 </resources>

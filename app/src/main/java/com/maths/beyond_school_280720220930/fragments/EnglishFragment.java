@@ -116,6 +116,7 @@ public class EnglishFragment extends Fragment {
     private int trialPeriodDay;
     private String paymentStatus;
     private int paymentAmount;
+    private String createAt;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class EnglishFragment extends Fragment {
         trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status));
         paymentAmount = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.plan_value));
+        createAt=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.created_at));
         customProgressDialogue = new CustomProgressDialogue(getContext());
         mathSub = new ArrayList<>();
         engSub = new ArrayList<>();
@@ -171,10 +173,10 @@ public class EnglishFragment extends Fragment {
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
         binding.evaluationTestTile.setVisibility(View.GONE);
 
-        binding.introTile.setOnClickListener(v -> {
-
-            startActivity(new Intent(getContext(), TestActivity.class));
-        });
+//        binding.introTile.setOnClickListener(v -> {
+//
+//            startActivity(new Intent(getContext(), TestActivity.class));
+//        });
 
         if (!userType.equals("old_user")) {
             binding.completeProgressTile.setVisibility(View.GONE);
@@ -231,7 +233,7 @@ public class EnglishFragment extends Fragment {
         HintDialog hintDialog = new HintDialog(getContext());
         hintDialog.setCancelable(true);
         hintDialog.setAlertTitle("Trial Period");
-        hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period is started from today and it will be for <font color='#64c1c7'>" + trialPeriod + " Days.</font>", Html.FROM_HTML_MODE_COMPACT)));
+        hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period is started from today and it will be end in <font color='#64c1c7'>" + trialPeriod + " Days.</font>", Html.FROM_HTML_MODE_COMPACT)));
         hintDialog.hideActionButton();
         hintDialog.hideCloseButton();
         if (gotoViewCurriculum)
@@ -441,7 +443,7 @@ public class EnglishFragment extends Fragment {
 
             } else {
 
-                if (noOfDays < trialPeriodDay) {
+                if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriodDay) {
                     if (!gradeData.isIs_completed()) {
                         navigateToNextScreen(gradeData, true);
                     } else {

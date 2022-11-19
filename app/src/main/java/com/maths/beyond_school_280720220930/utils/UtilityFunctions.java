@@ -802,6 +802,24 @@ public final class UtilityFunctions {
     }
 
 
+    public static long diffDate(String dt1_,String dt2_){
+
+        SimpleDateFormat obj = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+
+        try {
+            Date  date1 = obj.parse(dt1_);
+            Date date2 = obj.parse(dt2_);
+            long time_difference = date2.getTime() - date1.getTime();
+            long days_difference = (time_difference / (1000*60*60*24)) % 365;
+            return days_difference;
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+        return 0;
+    }
+
+
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId

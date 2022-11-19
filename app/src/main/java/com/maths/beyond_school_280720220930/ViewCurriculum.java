@@ -53,6 +53,7 @@ import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,6 +78,7 @@ public class ViewCurriculum extends AppCompatActivity {
     private int paymentAmount = 0;
     private List<String> subSubjects;
     private List<List<GradeData>> subSubjectList;
+    private String createAt="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class ViewCurriculum extends AppCompatActivity {
         trialPeriodDay = PrefConfig.readIntInPref(ViewCurriculum.this, getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(ViewCurriculum.this, getResources().getString(R.string.payment_status));
         paymentAmount = PrefConfig.readIntDInPref(ViewCurriculum.this, getResources().getString(R.string.plan_value));
+        createAt=PrefConfig.readIdInPref(ViewCurriculum.this,getResources().getString(R.string.created_at));
         try {
             engChapters = Arrays.asList(eng);
             defaultSubject = eng[0];
@@ -242,7 +245,7 @@ public class ViewCurriculum extends AppCompatActivity {
 
 
             //TODO: replace with date diff
-            if (noOfDays < trialPeriodDay) {
+            if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriodDay) {
                 if (gradeData.isUnlock()) {
                     var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
                     a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {

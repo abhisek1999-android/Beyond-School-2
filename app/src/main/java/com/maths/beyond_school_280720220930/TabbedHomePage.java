@@ -35,6 +35,7 @@ import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.razorpay.Subscription;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class TabbedHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +52,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     private final static String TAG = "TabbedHomeScreen";
     private Subscription subscription;
     private String subscriptionId = "";
+    private String createAt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
         if (PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.plan_id)).equals(""))
             setUpRemoteConfigPayment();
-
+        createAt=PrefConfig.readIdInPref(this,getResources().getString(R.string.created_at));
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("English"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Math"));
@@ -120,6 +122,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
                         int val = (int) mFirebaseRemoteConfig.getLong("price_value");
                         PrefConfig.writeIntInPref(TabbedHomePage.this, val, getResources().getString(R.string.plan_value));
                         PrefConfig.writeIdInPref(TabbedHomePage.this, UtilityFunctions.getPlanIds(val), getResources().getString(R.string.plan_id));
+
                         if (PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0) == 0)
                             setUpRemoteConfigTrial(val);
 
@@ -151,7 +154,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
                         CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.subscription_id)), UtilityFunctions.getPlanIds(planVal),
                                 PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.customer_id))
-                                , planVal, val);
+                                , planVal, val,this);
 
                         Log.d(TAG, "Config params updated: trial " + updated + ", val:" + val);
                         return;
@@ -175,10 +178,10 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         int noOfDays = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.noOfdays), 0);
         if(PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
         binding.tool.toolBar.subscriptionStatus.setText("Your plan is activated");
-        else if ((trialPeriod - noOfDays) == trialPeriod - 1)
+        else if ((trialPeriod - UtilityFunctions.diffDate(createAt,new Date().toString())) == trialPeriod - 1)
             binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends today ");
-        else if (noOfDays < trialPeriod)
-            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - noOfDays) + " days");
+        else if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriod)
+            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - UtilityFunctions.diffDate(createAt,new Date().toString())) + " days");
         else if (!PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
             binding.tool.toolBar.subscriptionStatus.setText("You don't have any valid plans");
 

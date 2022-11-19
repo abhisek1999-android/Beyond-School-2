@@ -32,7 +32,12 @@ import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConver
 import com.razorpay.Plan;
 import com.razorpay.Subscription;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,7 +64,8 @@ public class TestActivity extends AppCompatActivity {
     private List<GradeData> gradeModelNewList;
 
     private List<List<GradeData>> subSubjectList;
-
+    String dt1_="Fri Nov 18 17:06:55 GMT+05:30 2022";
+    String dt2_="Sun Nov 20 19:06:55 GMT+05:30 2022";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +79,8 @@ public class TestActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        setRecyclerView();
+
       //  getNewData();
-
-        getSubscriptionStatus(firebaseFirestore,mAuth,getApplicationContext(),()->{
-
-        });
 
     }
 
