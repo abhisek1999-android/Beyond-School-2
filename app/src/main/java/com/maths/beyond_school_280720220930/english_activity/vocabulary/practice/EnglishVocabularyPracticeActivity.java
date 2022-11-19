@@ -131,7 +131,10 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         isOnline = getIntent().getBooleanExtra(EXTRA_ONLINE_FLAG, false);
         if (isOnline) {
             var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
-            vocabularyList = new VocabularyDetailsConverter().mapToList(d.getLearning());
+            vocabularyList = new VocabularyDetailsConverter().mapToList(
+                    getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN, false) ?
+                            d.getLearning() :
+                            d.getExercise());
             meta = d.getMeta();
             cat = getIntent().getStringExtra(EXTRA_VOCABULARY_CATEGORY);
             setPager();
