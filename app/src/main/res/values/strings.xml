@@ -1067,4 +1067,13 @@
     <string name="plan_value">PLAN_VALUE</string>
     <string name="trial_period">TRIAL_PERIOD</string>
     <string name="created_at">CREATED_AT</string>
+
+    <array name="autosize_text_sizes">
+        <item>7sp</item>
+        <item>8sp</item>
+        <item>9sp</item>
+        <item>10sp</item>
+        <item>11sp</item>
+        <item>12sp</item>
+    </array>
 </resources>

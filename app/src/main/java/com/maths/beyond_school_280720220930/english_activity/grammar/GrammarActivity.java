@@ -130,7 +130,6 @@ public class GrammarActivity extends AppCompatActivity {
     private boolean isTimerRunning = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +149,7 @@ public class GrammarActivity extends AppCompatActivity {
         initMediaPlayer();
         setToolbar();
         getDataFromIntent();
-        Log.d(TAG, "onCreate: "+getIntent().getStringExtra(EXTRA_OPEN_TYPE));
+        Log.d(TAG, "onCreate: " + getIntent().getStringExtra(EXTRA_OPEN_TYPE));
     }
 
     private void firstOpen() {
@@ -485,26 +484,27 @@ public class GrammarActivity extends AppCompatActivity {
             if (split.length == 2) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
-                binding.key3.setVisibility(View.GONE);
-                binding.key4.setVisibility(View.GONE);
-                binding.linearLayout.setWeightSum(2);
+                binding.linearLayout2.setVisibility(View.GONE);
+                binding.linearLayout.setWeightSum(1);
             }
             if (split.length == 3) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
                 binding.key3.setText(split[2].trim());
-                binding.linearLayout.setWeightSum(3);
                 binding.key3.setVisibility(View.VISIBLE);
+                binding.linearLayout2.setVisibility(View.VISIBLE);
                 binding.key4.setVisibility(View.GONE);
+                binding.linearLayout.setWeightSum(2);
             }
             if (split.length == 4) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
                 binding.key3.setText(split[2].trim());
                 binding.key4.setText(split[3].trim());
-                binding.linearLayout.setWeightSum(4);
+                binding.linearLayout.setWeightSum(2);
                 binding.key3.setVisibility(View.VISIBLE);
                 binding.key4.setVisibility(View.VISIBLE);
+                binding.linearLayout2.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -801,7 +801,7 @@ public class GrammarActivity extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics,auth, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, auth, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(context, category), "English", parentsContactId);
     }
 
     private void timer() {

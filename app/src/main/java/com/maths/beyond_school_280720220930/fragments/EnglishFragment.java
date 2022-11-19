@@ -12,6 +12,12 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,25 +25,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.maths.beyond_school_280720220930.AlarmAtTime;
-import com.maths.beyond_school_280720220930.HomeScreen;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
-import com.maths.beyond_school_280720220930.TabbedHomePage;
-import com.maths.beyond_school_280720220930.TestActivity;
 import com.maths.beyond_school_280720220930.ViewCurriculum;
 import com.maths.beyond_school_280720220930.adapters.SectionSubSubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
@@ -45,7 +38,6 @@ import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapterUpdat
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
-import com.maths.beyond_school_280720220930.databinding.ActivityHomeScreenBinding;
 import com.maths.beyond_school_280720220930.databinding.FragmentEnglishBinding;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.english_activity.grammar.GrammarActivity;
@@ -53,7 +45,6 @@ import com.maths.beyond_school_280720220930.english_activity.grammar.test.Gramma
 import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpellingActivity;
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
-import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
@@ -138,7 +129,7 @@ public class EnglishFragment extends Fragment {
         trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
         paymentStatus = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status));
         paymentAmount = PrefConfig.readIntDInPref(getContext(), getResources().getString(R.string.plan_value));
-        createAt=PrefConfig.readIdInPref(getContext(),getResources().getString(R.string.created_at));
+        createAt = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.created_at));
         customProgressDialogue = new CustomProgressDialogue(getContext());
         mathSub = new ArrayList<>();
         engSub = new ArrayList<>();
@@ -444,15 +435,14 @@ public class EnglishFragment extends Fragment {
 
             } else {
 
-                if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriodDay) {
+                if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriodDay) {
                     if (!gradeData.isIs_completed()) {
                         navigateToNextScreen(gradeData, true);
                     } else {
                         navigateToNextScreen(gradeData, false);
                     }
 
-                }
-                else {
+                } else {
                     UtilityFunctions.displayCustomDialogSubscribe(getContext(), "Subscribe", "Hey you don't have any subscription plan. Please subscribe to continue.", "Subscribe @ Rs " + paymentAmount + "/ Month");
                 }
             }
@@ -492,6 +482,14 @@ public class EnglishFragment extends Fragment {
             screenType = ScreenType.valueOf(body.getMeta().getScreen_type());
         } catch (IllegalArgumentException e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (body.getLearning().size() == 0) {
+            Toast.makeText(requireContext(), "No data found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (body.getExercise().size() == 0) {
+            Toast.makeText(requireContext(), "No data found", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent;

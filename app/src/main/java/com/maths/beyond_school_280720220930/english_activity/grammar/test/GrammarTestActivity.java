@@ -430,6 +430,9 @@ public class GrammarTestActivity extends AppCompatActivity {
             var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
             var extra = currentModel.getExtra();
             var split = extra.split(",");
+            for (String s : split) {
+                Log.d("XXX", "setOptionButton: " + s);
+            }
             if (split.length <= 1) {
                 UtilityFunctions.simpleToast(context, "No data found");
                 return;
@@ -437,26 +440,27 @@ public class GrammarTestActivity extends AppCompatActivity {
             if (split.length == 2) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
-                binding.key3.setVisibility(View.GONE);
-                binding.key4.setVisibility(View.GONE);
-                binding.linearLayout.setWeightSum(2);
+                binding.linearLayout2.setVisibility(View.GONE);
+                binding.linearLayout.setWeightSum(1);
             }
             if (split.length == 3) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
                 binding.key3.setText(split[2].trim());
-                binding.linearLayout.setWeightSum(3);
                 binding.key3.setVisibility(View.VISIBLE);
+                binding.linearLayout2.setVisibility(View.VISIBLE);
                 binding.key4.setVisibility(View.GONE);
+                binding.linearLayout.setWeightSum(2);
             }
             if (split.length == 4) {
                 binding.key1.setText(split[0].trim());
                 binding.key2.setText(split[1].trim());
                 binding.key3.setText(split[2].trim());
                 binding.key4.setText(split[3].trim());
-                binding.linearLayout.setWeightSum(4);
+                binding.linearLayout.setWeightSum(2);
                 binding.key3.setVisibility(View.VISIBLE);
                 binding.key4.setVisibility(View.VISIBLE);
+                binding.linearLayout2.setVisibility(View.VISIBLE);
             }
         });
     }
