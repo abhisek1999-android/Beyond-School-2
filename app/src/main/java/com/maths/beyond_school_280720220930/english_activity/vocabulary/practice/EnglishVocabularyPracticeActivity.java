@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930.english_activity.vocabulary.practic
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGORY_ID;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_VOCABULARY_CATEGORY;
 
 import android.content.Intent;
@@ -294,8 +295,26 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
                         kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
                                 getDbName(UtilityFunctions.getVocabularyFromString(category), this),
-                        "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
+                        "Vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "English");
                 progressDataBase.progressDao().updateScore(correctAnswers, wrongAnswers, category);
+
+                try{
+                    //TODO: Fix null here in learn
+                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())) {
+                    //TODO: change  it to a var
+                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true, "Bathroom");
+                    Log.d(TAG, "uploadData: " + "Leaning" + "Vocabulary");
+
+                } else if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                 //   UtilityFunctions.updateDbUnlock(databaseGrade, "Vocabulary", UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category),this),false);
+
+                    //TODO: same
+                    UtilityFunctions.updateDbUnlock(databaseGrade, "Vocabulary", "Bathroom",false);
+                    Log.d(TAG, "uploadData: " + "Exe"+category);
+                }}catch (Exception e){}
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -304,7 +323,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
                         kidsActivityJsonArray, "fail", auth, kidsId, UtilityFunctions.
                                 getDbName(UtilityFunctions.getVocabularyFromString(category), this),
-                        "vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "english");
+                        "Vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "English");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

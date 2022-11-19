@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/grid_10"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="invisible"
         android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@+id/view_pager_identifying_nouns"

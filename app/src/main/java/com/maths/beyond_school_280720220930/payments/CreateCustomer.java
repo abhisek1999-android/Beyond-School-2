@@ -42,7 +42,7 @@ public class CreateCustomer extends AsyncTask<Void, Void, Customer> {
         try {
             customerRequest.put("name","");
             customerRequest.put("contact",phoneNumber);
-            customerRequest.put("email","");
+            customerRequest.put("email",phoneNumber+"@beyondschool.live");
         } catch (JSONException e) {
             e.printStackTrace();
         }

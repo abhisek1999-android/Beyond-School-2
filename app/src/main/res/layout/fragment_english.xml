@@ -12,12 +12,28 @@
         android:layout_height="match_parent">
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trialPeriodText"
+            android:text="You Trial Period is"
+            android:textSize="@dimen/default_font_size"
+            android:layout_marginHorizontal="@dimen/grid_20"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/reemkufi_medium"
+            android:drawableLeft="@drawable/ic_outline_info_24"
+            android:drawablePadding="10dp"
+            android:visibility="gone"
+            />
+
+
         <androidx.core.widget.NestedScrollView
 
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/startExeButtonLayout"
+            android:layout_below="@id/trialPeriodText"
             >
 
 

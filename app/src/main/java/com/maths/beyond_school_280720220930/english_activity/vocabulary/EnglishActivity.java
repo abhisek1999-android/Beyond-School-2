@@ -110,6 +110,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
         binding = ActivityEnglishBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         var database = EnglishGradeDatabase.getDbInstance(this);
@@ -124,7 +125,8 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         buttonClick();
         practiceButton();
 
-        parentsContactId = PrefConfig.readIdInPref(EnglishActivity.this, getResources().getString(R.string.parent_contact_details));
+        parentsContactId = PrefConfig.readIdInPref(EnglishActivity.this, getResources().getString(R.string.parent_contact_details));}
+        catch (Exception e){}
     }
 
     private void practiceButton() {

@@ -88,7 +88,8 @@ public final class UtilityFunctions {
                 .error(R.drawable.cartoon_image_1)
                 .into(imageView);
     }
-    public static void loadImagePng(String url, android.widget.ImageView imageView,View progress) {
+
+    public static void loadImagePng(String url, android.widget.ImageView imageView, View progress) {
         Glide.with(imageView.getContext())
                 .load(url)
                 .listener(new com.bumptech.glide.request.RequestListener<>() {
@@ -153,6 +154,7 @@ public final class UtilityFunctions {
     private static boolean isVisible(View view) {
         return view.getVisibility() == View.VISIBLE;
     }
+
     public static void setVisibility(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
@@ -284,6 +286,7 @@ public final class UtilityFunctions {
 
 
     public enum VocabularyCategories {
+        bathroom,
         bathroom_1,
         bathroom_2,
         body_parts_1,
@@ -488,6 +491,8 @@ public final class UtilityFunctions {
 
     public static String getDbName(VocabularyCategories categories, Context context) {
         switch (categories) {
+            case bathroom:
+                return context.getString(R.string.vocab1b);
             case bathroom_1:
                 return context.getString(R.string.vocab1);
             case bathroom_2:
@@ -547,6 +552,8 @@ public final class UtilityFunctions {
 
     public static String vocabularyCategoriesToString(VocabularyCategories vocabularyCategories) {
         switch (vocabularyCategories) {
+            case bathroom:
+                return "Bathroom";
             case bathroom_1:
                 return "Bathroom 1";
             case bathroom_2:
@@ -616,59 +623,66 @@ public final class UtilityFunctions {
     }
 
     public static VocabularyCategories getVocabularyFromString(String category) {
-        switch (category) {
-            case "bathroom_1":
-                return VocabularyCategories.bathroom_1;
-            case "bathroom_2":
-                return VocabularyCategories.bathroom_2;
-            case "body_parts_1":
-                return VocabularyCategories.body_parts_1;
-            case "body_parts_2":
-                return VocabularyCategories.body_parts_2;
-            case "colors_1":
-                return VocabularyCategories.colors_1;
-            case "colors_2":
-                return VocabularyCategories.colors_2;
-            case "fruits_1":
-                return VocabularyCategories.fruits_1;
-            case "fruits_2":
-                return VocabularyCategories.fruits_2;
-            case "vegetables_1":
-                return VocabularyCategories.vegetables_1;
-            case "vegetables_2":
-                return VocabularyCategories.vegetables_2;
-            case "animals_2":
-                return VocabularyCategories.animals_2;
-            case "cloth_1":
-                return VocabularyCategories.cloth_1;
-            case "cloth_2":
-                return VocabularyCategories.cloth_2;
-            case "feeling_1":
-                return VocabularyCategories.feeling_1;
-            case "feeling_2":
-                return VocabularyCategories.feeling_2;
-            case "insect_1":
-                return VocabularyCategories.insect_1;
-            case "insect_2":
-                return VocabularyCategories.insect_2;
-            case "kitchen_1":
-                return VocabularyCategories.kitchen_1;
-            case "kitchen_2":
-                return VocabularyCategories.kitchen_2;
-            case "living_room":
-                return VocabularyCategories.living_room;
-            case "summer":
-                return VocabularyCategories.summer;
-            case "town":
-                return VocabularyCategories.town;
-            case "transport":
-                return VocabularyCategories.transport;
-            case "weather":
-                return VocabularyCategories.weather;
-            case "school":
-                return VocabularyCategories.school;
-            default:
-                return VocabularyCategories.animals_1;
+        try {
+            switch (category) {
+                case "bathroom_1":
+                    return VocabularyCategories.bathroom_1;
+                case "bathroom":
+                    return VocabularyCategories.bathroom;
+                case "bathroom_2":
+                    return VocabularyCategories.bathroom_2;
+                case "body_parts_1":
+                    return VocabularyCategories.body_parts_1;
+                case "body_parts_2":
+                    return VocabularyCategories.body_parts_2;
+                case "colors_1":
+                    return VocabularyCategories.colors_1;
+                case "colors_2":
+                    return VocabularyCategories.colors_2;
+                case "fruits_1":
+                    return VocabularyCategories.fruits_1;
+                case "fruits_2":
+                    return VocabularyCategories.fruits_2;
+                case "vegetables_1":
+                    return VocabularyCategories.vegetables_1;
+                case "vegetables_2":
+                    return VocabularyCategories.vegetables_2;
+                case "animals_2":
+                    return VocabularyCategories.animals_2;
+                case "cloth_1":
+                    return VocabularyCategories.cloth_1;
+                case "cloth_2":
+                    return VocabularyCategories.cloth_2;
+                case "feeling_1":
+                    return VocabularyCategories.feeling_1;
+                case "feeling_2":
+                    return VocabularyCategories.feeling_2;
+                case "insect_1":
+                    return VocabularyCategories.insect_1;
+                case "insect_2":
+                    return VocabularyCategories.insect_2;
+                case "kitchen_1":
+                    return VocabularyCategories.kitchen_1;
+                case "kitchen_2":
+                    return VocabularyCategories.kitchen_2;
+                case "living_room":
+                    return VocabularyCategories.living_room;
+                case "summer":
+                    return VocabularyCategories.summer;
+                case "town":
+                    return VocabularyCategories.town;
+                case "transport":
+                    return VocabularyCategories.transport;
+                case "weather":
+                    return VocabularyCategories.weather;
+                case "school":
+                    return VocabularyCategories.school;
+                default:
+                    return VocabularyCategories.animals_1;
+            }
+        } catch (Exception e) {
+
+            return VocabularyCategories.bathroom_1;
         }
     }
 
@@ -778,39 +792,39 @@ public final class UtilityFunctions {
         mFirebaseAnalytics.logEvent("phone_number_login_attempt", kidsData);
     }
 
-    public static void setReminderEvent(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String time) {
+    public static void setReminderEvent(FirebaseAnalytics mFirebaseAnalytics, FirebaseAuth mAuth, String time) {
 
         var reminderData = new Bundle();
         reminderData.putString("phone_number", time);
-        reminderData.putString("user_id",mAuth.getCurrentUser().getUid());
-        reminderData.putString("rem_time",time);
+        reminderData.putString("user_id", mAuth.getCurrentUser().getUid());
+        reminderData.putString("rem_time", time);
         mFirebaseAnalytics.logEvent("reminder_added_event", reminderData);
     }
 
 
-    public static void attemptPayment(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String phoneNumber,String paymentId,String subscriptionId,long paymentAmount,String status) {
+    public static void attemptPayment(FirebaseAnalytics mFirebaseAnalytics, FirebaseAuth mAuth, String phoneNumber, String paymentId, String subscriptionId, long paymentAmount, String status) {
 
         var paymentData = new Bundle();
         paymentData.putString("phone_number", phoneNumber);
-        paymentData.putString("payment_id",paymentId);
-        paymentData.putString("subscription_id",subscriptionId);
-        paymentData.putString("user_id",mAuth.getCurrentUser().getUid());
-        paymentData.putLong("payment_amount",paymentAmount);
-        paymentData.putString("payment_status",status);
+        paymentData.putString("payment_id", paymentId);
+        paymentData.putString("subscription_id", subscriptionId);
+        paymentData.putString("user_id", mAuth.getCurrentUser().getUid());
+        paymentData.putLong("payment_amount", paymentAmount);
+        paymentData.putString("payment_status", status);
 
         mFirebaseAnalytics.logEvent("attempt_payment", paymentData);
     }
 
 
-    public static long diffDate(String dt1_,String dt2_){
+    public static long diffDate(String dt1_, String dt2_) {
 
         SimpleDateFormat obj = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
 
         try {
-            Date  date1 = obj.parse(dt1_);
+            Date date1 = obj.parse(dt1_);
             Date date2 = obj.parse(dt2_);
             long time_difference = date2.getTime() - date1.getTime();
-            long days_difference = (time_difference / (1000*60*60*24)) % 365;
+            long days_difference = (time_difference / (1000 * 60 * 60 * 24)) % 365;
             return days_difference;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -820,7 +834,7 @@ public final class UtilityFunctions {
     }
 
 
-    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth ,String uid, String kidsId, String kidsName, String type,
+    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, FirebaseAuth mAuth, String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId
     ) {
@@ -834,7 +848,7 @@ public final class UtilityFunctions {
         resultBundle.putString("kids_id", kidsId);
         resultBundle.putString("kids_name", kidsName);
         resultBundle.putInt("kids_age", age);
-        resultBundle.putString("user_id",mAuth.getCurrentUser().getUid());
+        resultBundle.putString("user_id", mAuth.getCurrentUser().getUid());
         resultBundle.putString("type", type);
         resultBundle.putString("parents_contact_id", parentsContactId);
         mFirebaseAnalytics.logEvent(subject, resultBundle);
@@ -1151,25 +1165,28 @@ public final class UtilityFunctions {
     }
 
 
-    public static void updateDbUnlock(GradeDatabase database, String subSubject, String chapters,boolean isFirebaseCall) {
+    @SuppressLint("SuspiciousIndentation")
+    public static void updateDbUnlock(GradeDatabase database, String subSubject, String chapters, boolean isFirebaseCall) {
 
 
         // for information subSubject=Vocabulary
 
         List<GradeData> dbData = new ArrayList<>();
         dbData = database.gradesDaoUpdated().getSubjectDataNL(subSubject);
-        Log.d("XXX", subSubject);
-        Log.d("XXX", dbData + "");
+        Log.d("XXX", subSubject + "cahp" + chapters);
+        Log.d("XXXDB Data", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
             Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(chapters) + chapters);
             if (dbData.get(i).getChapter_name().equals(chapters)) {
                 Log.d("XXX", "updateDbUnlock: if");
                 try {
                     database.gradesDaoUpdated().updateIsCompleteEX(true, dbData.get(i).getChapter_name());
-                    if (isFirebaseCall)
-                    database.gradesDaoUpdated().updateIsComplete(true,dbData.get(i).getChapter_name());
 
-                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name(),subSubject);
+                    Log.d("XXX Chaptername", "updateDbUnlock: " + dbData.get(i).getChapter_name());
+                    if (isFirebaseCall)
+                        database.gradesDaoUpdated().updateIsComplete(true, dbData.get(i).getChapter_name());
+
+                    database.gradesDaoUpdated().update(true, dbData.get(i + 1).getChapter_name(), subSubject);
                     Log.d("XXX", dbData.get(i + 1).getChapter_name());
                     break;
                 } catch (Exception e) {
@@ -1364,11 +1381,11 @@ public final class UtilityFunctions {
     }
 
 
-    public static String getPlanIds(int value){
+    public static String getPlanIds(int value) {
 
-        Map<Integer,String > planMap=new HashMap();
-        planMap.put(99,"plan_KfsUkGPPbAzpqD");
-        planMap.put(299,"plan_KfsUQF3evQfn2R");
+        Map<Integer, String> planMap = new HashMap();
+        planMap.put(99, "plan_KfsUkGPPbAzpqD");
+        planMap.put(299, "plan_KfsUQF3evQfn2R");
         return planMap.get(value);
 
     }
@@ -1560,14 +1577,14 @@ public final class UtilityFunctions {
         int val = PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), 0);
         val += 1;
         PrefConfig.writeIntDInPref(context, val, context.getResources().getString(R.string.noOfdays));
-        CallFirebaseForInfo.setNoOfDays(firebaseFirestore,mAuth,val);
+        CallFirebaseForInfo.setNoOfDays(firebaseFirestore, mAuth, val);
         try {
             Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId).execute().get();
             Log.d("TAG", "checkUpdatePaymentStatus: " + subscription.get("status"));
-            PrefConfig.writeIdInPref(context,subscription.get("status"),context.getResources().getString(R.string.payment_status));
+            PrefConfig.writeIdInPref(context, subscription.get("status"), context.getResources().getString(R.string.payment_status));
             return subscription.get("status");
         } catch (Exception e) {
-            PrefConfig.writeIdInPref(context,  "pending",context.getResources().getString(R.string.payment_status));
+            PrefConfig.writeIdInPref(context, "pending", context.getResources().getString(R.string.payment_status));
             return "pending";
         }
     }

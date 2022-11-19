@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maths.beyond_school_280720220930.R;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
+import com.maths.beyond_school_280720220930.TabbedHomePage;
 import com.maths.beyond_school_280720220930.ViewCurriculum;
 import com.maths.beyond_school_280720220930.adapters.SectionSubSubjectRecyclerAdapter;
 import com.maths.beyond_school_280720220930.adapters.SubjectRecyclerAdapter;
@@ -176,6 +178,28 @@ public class EnglishFragment extends Fragment {
             binding.completeProgressTile.setVisibility(View.VISIBLE);
             binding.startExeButtonLayout.setVisibility(View.GONE);
         }
+
+
+        int trialPeriod = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
+        int noOfDays = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.noOfdays), 0);
+        if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status)).equals("active")) {
+            binding.trialPeriodText.setText("Your plan is activated");
+            binding.trialPeriodText.setVisibility(View.GONE);
+        } else if ((trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) == trialPeriod - 1) {
+            binding.trialPeriodText.setText("Your trial period ends today ");
+            binding.trialPeriodText.setVisibility(View.VISIBLE);
+        } else if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriod) {
+            binding.trialPeriodText.setText("Your trial period ends in " + (trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) + " days");
+            binding.trialPeriodText.setVisibility(View.VISIBLE);
+
+        } else if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status)).equals("active")) {
+            binding.trialPeriodText.setVisibility(View.VISIBLE);
+            binding.trialPeriodText.setText("You don't have any valid plans");
+            binding.trialPeriodText.setTextColor(getResources().getColor(R.color.red));
+            binding.trialPeriodText.setCompoundDrawableTintList(ContextCompat.getColorStateList(getContext(), R.color.sweet_red));
+
+        }
+
 
         binding.startExeButtonLayout.setOnClickListener(v -> {
             PrefConfig.writeIdInPref(getContext(), "old_user", getResources().getString(R.string.user_type));

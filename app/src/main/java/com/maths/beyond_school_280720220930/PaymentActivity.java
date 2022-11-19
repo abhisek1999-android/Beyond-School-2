@@ -93,7 +93,6 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
 
         Checkout checkout = new Checkout();
         checkout.setKeyID(getResources().getString(R.string.razorpay_api_key));
-
         checkout.setImage(R.drawable.logo);
         final Activity activity = this;
 
@@ -107,7 +106,8 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
             options.put("subscription_id", subscriptionId);
             options.put("recurring", true);
             options.put("currency", "INR");
-            options.put("contact", parentsPhoneNumber);
+            options.put("prefill.email", parentsPhoneNumber+"@beyondschool.live");
+            options.put("prefill.contact",parentsPhoneNumber);
 
             //options.put("amount", "19900");//pass amount in currency subunits
 

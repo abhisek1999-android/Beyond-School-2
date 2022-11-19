@@ -793,8 +793,11 @@
     <string name="facebook_client_token">a7ad733b04fdd77cf846668c66d594ce</string>
 
 
-    <string name="razorpay_api_key">rzp_test_UG0wPL54QTV1fA</string>
-    <string name="razorpay_api_secret">tY2pTw6MYvL4JnXOkRHBoI2R</string>
+    <string name="razorpay_api_key">rzp_live_qMuVZRxh410keC</string>
+    <string name="razorpay_api_secret">oexbnHJ2kdBVgARSlusJOpXV</string>
+
+<!--    <string name="razorpay_api_key">rzp_test_UG0wPL54QTV1fA</string>-->
+<!--    <string name="razorpay_api_secret">tY2pTw6MYvL4JnXOkRHBoI2R</string>-->
 
 
     <string name="math_extra">Mathematics Extra</string>
@@ -902,6 +905,7 @@
     <string name="vocabulary">Vocabulary</string>
 
     <string name="vocab1">Vocabulary Bathroom_1</string>
+    <string name="vocab1b">Bathroom</string>
     <string name="vocab1_1">Vocabulary Bathroom_2</string>
     <string name="vocab2">Vocabulary Bodyparts_1</string>
     <string name="vocab2_1">Vocabulary Bodyparts_2</string>
