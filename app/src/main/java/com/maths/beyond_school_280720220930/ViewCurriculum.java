@@ -39,6 +39,7 @@ import com.maths.beyond_school_280720220930.english_activity.spelling.EnglishSpe
 import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_test.SpellingTest;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.EnglishActivity;
 import com.maths.beyond_school_280720220930.english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity;
+import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.retrofit.ApiClient;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterface;
@@ -78,6 +79,7 @@ public class ViewCurriculum extends AppCompatActivity {
     private List<String> subSubjects;
     private List<List<GradeData>> subSubjectList;
     private String createAt = "";
+    private CustomProgressDialogue customProgressDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class ViewCurriculum extends AppCompatActivity {
         setContentView(binding.getRoot());
         gradeDatabase = GradeDatabase.getDbInstance(this);
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade)).toLowerCase(Locale.ROOT);
+        customProgressDialogue=new CustomProgressDialogue(this);
 
         subSubjectList = new ArrayList<>();
         subSubjects = new ArrayList<>();
@@ -119,6 +122,7 @@ public class ViewCurriculum extends AppCompatActivity {
             boolean isChecked = checkedRadioButton.isChecked();
             if (isChecked) {
                 //setRecyclerViewData(checkedRadioButton.getText().toString().trim());
+                defaultSubject=checkedRadioButton.getText().toString().trim();
                 setRecyclerView(checkedRadioButton.getText().toString().trim());
             }
         });
@@ -215,9 +219,13 @@ public class ViewCurriculum extends AppCompatActivity {
     }
 
     private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
-        if (paymentStatus.equals("active")) {
+
+
+
+        if (paymentStatus.equals("active")){
 
             if (gradeData.isUnlock()) {
+                customProgressDialogue.show();
 
                 var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
                 a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
@@ -227,16 +235,17 @@ public class ViewCurriculum extends AppCompatActivity {
                             if (response.body().getMeta() == null) {
                                 Toast.makeText(ViewCurriculum.this, "No data found", Toast.LENGTH_SHORT).show();
                                 return;
-                            }
-                            handleResponse(response.body(), gradeData, isLearn);
-                        }
+                            }handleResponse(response.body(), gradeData, isLearn);
+                        customProgressDialogue.dismiss();
                     }
+                }
 
-                    @Override
-                    public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
-                        Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
-                    }
-                });
+                @Override
+                public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
+                    Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                    customProgressDialogue.dismiss();
+                }
+            });
             } else {
                 UtilityFunctions.displayCustomDialog(ViewCurriculum.this, "Chapter Locked", "Hey, Please complete previous level to unlock.");
             }
@@ -247,6 +256,7 @@ public class ViewCurriculum extends AppCompatActivity {
 
             if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriodDay) {
                 if (gradeData.isUnlock()) {
+                    customProgressDialogue.show();
                     var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
                     a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
                         @Override
@@ -257,12 +267,14 @@ public class ViewCurriculum extends AppCompatActivity {
                                     return;
                                 }
                                 handleResponse(response.body(), gradeData, isLearn);
+                                customProgressDialogue.dismiss();
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
                             Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                            customProgressDialogue.dismiss();
                         }
                     });
                 } else {
@@ -409,6 +421,13 @@ public class ViewCurriculum extends AppCompatActivity {
         getLiveData(subject);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setRecyclerView(defaultSubject);
+    }
 
     private void getLiveData(String subject) {
         gradeDatabase.gradesDaoUpdated().getSubjectData(subject).observe(this, gradeData -> {

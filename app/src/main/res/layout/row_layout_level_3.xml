@@ -22,7 +22,9 @@
     <RelativeLayout
         android:id="@+id/relativeLayoutLearn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        >
 
         <TextView
             android:id="@+id/text_view_lesson"
@@ -67,7 +69,9 @@
     <RelativeLayout
         android:id="@+id/relativeLayoutExercise"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        >
 
         <TextView
             android:id="@+id/text_view_test"

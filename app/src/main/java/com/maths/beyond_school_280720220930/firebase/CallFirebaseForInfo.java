@@ -204,7 +204,7 @@ public class CallFirebaseForInfo {
 
     }
 
-    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id, String customerId, int planValue, int trialPeriod,Context context) {
+    public static void setSubscriptionId(FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, String subscriptionId, String plan_id, String customerId, int planValue, int trialPeriod,Context context,Callback callback) {
 
 
         Date date=new Date();
@@ -227,12 +227,14 @@ public class CallFirebaseForInfo {
 
 
                 Log.d(TAG, "onComplete: added");
+                callback.dataUpdated();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: ");
+                callback.dataUpdated();
             }
         });
 

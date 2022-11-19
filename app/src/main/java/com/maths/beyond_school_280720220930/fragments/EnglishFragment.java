@@ -118,6 +118,7 @@ public class EnglishFragment extends Fragment {
     private int paymentAmount;
     private String createAt;
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -464,18 +465,22 @@ public class EnglishFragment extends Fragment {
 
 
     private void navigateToNextScreen(GradeData gradeData, Boolean isLearn) {
+        customProgressDialogue.show();
         var a = ApiClientContent.getClient().create(ApiInterfaceContent.class);
         a.getData(gradeData.getId(), gradeData.getSub_subject_id()).enqueue(new Callback<ContentModelNew>() {
             @Override
             public void onResponse(@NonNull Call<ContentModelNew> call, @NonNull Response<ContentModelNew> response) {
                 if (response.body() != null) {
                     handleResponse(response.body(), gradeData, isLearn);
+                    customProgressDialogue.dismiss();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ContentModelNew> call, @NonNull Throwable t) {
                 Log.d("AAA", "onFailure: " + t.getLocalizedMessage());
+                customProgressDialogue.dismiss();
+                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

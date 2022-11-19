@@ -29,6 +29,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityTabbedHomePageBinding;
 import com.maths.beyond_school_280720220930.databinding.RowBinding;
+import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.fragments.MyAdapter;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
@@ -53,6 +54,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
     private Subscription subscription;
     private String subscriptionId = "";
     private String createAt;
+    private CustomProgressDialogue customProgressDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +67,14 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        customProgressDialogue = new CustomProgressDialogue(this);
 
         subscriptionId = PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.subscription_id));
+        createAt = PrefConfig.readIdInPref(this, getResources().getString(R.string.created_at));
 
         if (PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.plan_id)).equals(""))
             setUpRemoteConfigPayment();
-        createAt=PrefConfig.readIdInPref(this,getResources().getString(R.string.created_at));
+
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("English"));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Math"));
@@ -107,6 +111,7 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
 
     private void setUpRemoteConfigPayment() {
+        customProgressDialogue.show();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(0)
@@ -125,6 +130,8 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
                         if (PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0) == 0)
                             setUpRemoteConfigTrial(val);
+                        else
+                            customProgressDialogue.dismiss();
 
                         Log.d(TAG, "Config params updated: payment" + updated + ", val:" + val);
                         return;
@@ -154,13 +161,17 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
                         CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.subscription_id)), UtilityFunctions.getPlanIds(planVal),
                                 PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.customer_id))
-                                , planVal, val,this);
+                                , planVal, val, this, () -> {
+                                    createAt = PrefConfig.readIdInPref(this, getResources().getString(R.string.created_at));
+                                    customProgressDialogue.dismiss();
+                                });
 
                         Log.d(TAG, "Config params updated: trial " + updated + ", val:" + val);
                         return;
                     }
                     // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Config params updated: " + "Fetch failed");
+                    customProgressDialogue.dismiss();
                 });
 
     }
@@ -176,12 +187,12 @@ public class TabbedHomePage extends AppCompatActivity implements NavigationView.
 
         int trialPeriod = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.trial_period), 0);
         int noOfDays = PrefConfig.readIntInPref(TabbedHomePage.this, getResources().getString(R.string.noOfdays), 0);
-        if(PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
-        binding.tool.toolBar.subscriptionStatus.setText("Your plan is activated");
-        else if ((trialPeriod - UtilityFunctions.diffDate(createAt,new Date().toString())) == trialPeriod - 1)
+        if (PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
+            binding.tool.toolBar.subscriptionStatus.setText("Your plan is activated");
+        else if ((trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) == trialPeriod - 1)
             binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends today ");
-        else if (UtilityFunctions.diffDate(createAt,new Date().toString()) < trialPeriod)
-            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - UtilityFunctions.diffDate(createAt,new Date().toString())) + " days");
+        else if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriod)
+            binding.tool.toolBar.subscriptionStatus.setText("Your trial period ends in " + (trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) + " days");
         else if (!PrefConfig.readIdInPref(TabbedHomePage.this, getResources().getString(R.string.payment_status)).equals("active"))
             binding.tool.toolBar.subscriptionStatus.setText("You don't have any valid plans");
 
