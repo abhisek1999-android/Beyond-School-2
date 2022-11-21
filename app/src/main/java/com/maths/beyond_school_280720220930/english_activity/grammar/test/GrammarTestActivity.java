@@ -609,12 +609,12 @@ public class GrammarTestActivity extends AppCompatActivity {
 
 
                 Log.d(TAG, "uploadData: "+(isOnline ? getIntent().getStringExtra(EXTRA_CATEGORY_ID) : "Grammar"));
-                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
+                if (getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)){
                     GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
                     Log.d(TAG, "uploadData: "+"Leaning"+chapter);
 
                 }
-                else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                else {
                     UtilityFunctions.updateDbUnlock(databaseGrade, chapter, category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }

@@ -37,7 +37,7 @@ public abstract class GradeDatabase extends RoomDatabase {
     private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(androidx.sqlite.db.SupportSQLiteDatabase database) {
-            database.execSQL("DELETE FROM grade_table");
+//            database.execSQL("DELETE FROM grade_table");
             database.execSQL("ALTER TABLE grade ADD COLUMN is_completed_ex INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE grade ADD COLUMN unlock_ex INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE grade ADD COLUMN sub_subject TEXT  Default ''");

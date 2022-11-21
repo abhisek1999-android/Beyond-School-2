@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -671,14 +672,15 @@ public class SpellingTest extends AppCompatActivity {
         try {
             if (correctAnswer >= UtilityFunctions.getNinetyPercentage(spellingDetails.size())) {
 //                UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, "Spelling_CommonWords", category);
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""), category, "Spelling", getIntent().getStringExtra(EXTRA_CATEGORY_ID), correctAnswer, wrongAnswer, spellingDetails.size(), "english");
-                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())) {
-                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true, category);
-                    Log.d(TAG, "uploadData: " + "Leaning" + "Spelling");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""),category, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID),correctAnswer, wrongAnswer, spellingDetails.size(), "english");
+                if (getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)){
+                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
+                    Log.d(TAG, "uploadData: "+"Leaning"+"Spelling");
 
-                } else if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
-                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category, false);
-                    Log.d(TAG, "uploadData: " + "Exe");
+                }
+                else {
+                    UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category,false);
+                    Log.d(TAG, "uploadData: "+"Exe");
                 }
                 progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, category);
 

@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +86,8 @@ public class SplashScreen extends AppCompatActivity {
         }
 
 
+
+
         if(!UtilityFunctions.checkConnection(SplashScreen.this)){
             displayNoInternetDialog();
         }
@@ -97,6 +100,22 @@ public class SplashScreen extends AppCompatActivity {
         }
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+
+        if (PrefConfig.readIntInPref(SplashScreen.this,getResources().getString(R.string.build_number))!=BuildConfig.VERSION_CODE)
+        {
+            gradeDatabase.gradesDaoUpdated().deleteAll();
+            String kidsGrade=PrefConfig.readIdInPref(SplashScreen.this,getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", "");
+            if (!kidsGrade.equals(""))
+                getNewData(kidsGrade);
+        }
+
+
+        PrefConfig.writeIntInPref(getApplicationContext(), BuildConfig.VERSION_CODE,getResources().getString(R.string.build_number));
+
+//        gradeDatabase.gradesDaoUpdated().deleteAll();
+//        String kidsGrade=PrefConfig.readIdInPref(SplashScreen.this,getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", "");
+//        if (!kidsGrade.equals(""))
+//            getNewData(kidsGrade);
 
        /* ArrayList arrayList=new ArrayList();
         arrayList.add("gd1");arrayList.add("gd2");
@@ -126,6 +145,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
 
                 /* Create an Intent that will start the Menu-Activity. */
+
                 if (mCurrentUser == null) {
                     startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
                     finish();
@@ -274,8 +294,25 @@ public class SplashScreen extends AppCompatActivity {
 
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)),
                 kidsGrade, SplashScreen.this, gradeDatabase,()->{
+
+                    if (mCurrentUser == null) {
+                        startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+                        finish();
+                    }else{
+                        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)).equals("")) {
+                            var intent = new Intent(getApplicationContext(), GradeActivity.class);
+                            intent.putExtra("type", "next");
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+
                     startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
                     finish();
+
+                    }
+
+                    }
                 });
     }
 

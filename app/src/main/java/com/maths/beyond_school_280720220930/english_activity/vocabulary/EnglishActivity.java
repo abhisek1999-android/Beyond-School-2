@@ -145,7 +145,7 @@ public class EnglishActivity extends AppCompatActivity implements VocabularyFrag
         if (getIntent().hasExtra(Constants.EXTRA_FLAG_HAVE_DATA)) {
             var d = (ContentModelNew) getIntent().getSerializableExtra(Constants.EXTRA_DATA);
             intent.putExtra(EXTRA_DATA, d);
-            intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE);
+            intent.putExtra(EXTRA_OPEN_TYPE, Constants.OpenType.EXERCISE.name());
             intent.putExtra(EXTRA_FLAG_HAVE_DATA, true);
             intent.putExtra(EXTRA_IS_OPEN_FROM_LEARN, true);
         }

@@ -3,6 +3,7 @@ package com.maths.beyond_school_280720220930;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,6 +65,8 @@ public class SettingsActivity extends AppCompatActivity{
             }
         });
 
+
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity{
         String country_name = PrefConfig.readIdInPref(getApplicationContext(), "Country");
         selection=PrefConfig.readIntInPref(getApplicationContext(),"set_select");
         txt2.setText(country_name);
-        Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
 
 
         ArrayAdapter ad
@@ -112,6 +115,19 @@ public class SettingsActivity extends AppCompatActivity{
 
             }
         });
+
+
+        findViewById(R.id.supportLayout).setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto: contact@beyondschool.live"));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+//emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+
+            startActivity(Intent.createChooser(emailIntent, "Chooser Title"));
+        });
+
+
+
 
 
     }

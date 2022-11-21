@@ -26,6 +26,7 @@
         android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:id="@+id/rLayout"
+        android:foreground="?attr/selectableItemBackground"
         android:orientation="horizontal">
 
         <ImageView
@@ -33,7 +34,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/background_round"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/accent"
             android:padding="@dimen/grid_10"
             android:src="@drawable/ic_baseline_info_24"
             app:tint="@color/white" />
@@ -69,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/grid_10"
         android:padding="@dimen/grid_10"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_marginHorizontal="10dp">
 
         <ImageView
@@ -76,7 +78,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/background_round"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/accent"
             android:padding="8dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_language"
@@ -118,8 +120,53 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/grid_10"
-        android:layout_marginRight="@dimen/grid_10"
+        android:layout_marginHorizontal="@dimen/grid_10"
         android:layout_below="@id/toolBar"
         android:background="@color/light_deep_grey" />
+
+
+    <RelativeLayout
+        android:id="@+id/supportLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/grid_10"
+        android:padding="@dimen/grid_10"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_marginHorizontal="10dp">
+
+        <ImageView
+            android:id="@+id/imageSupport"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/background_round"
+            android:backgroundTint="@color/accent"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_contact_support_24"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/supportTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/grid_10"
+            android:layout_toEndOf="@id/imageSupport"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="Contact Us"
+            android:textSize="@dimen/default_font_size" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/grid_10"
+            android:layout_below="@id/supportTxt"
+            android:layout_toEndOf="@id/imageSupport"
+            android:fontFamily="@font/reemkufi_medium"
+            android:text="contact@beyondschool.live"
+            android:textSize="@dimen/default_font_size" />
+
+    </RelativeLayout>
 </LinearLayout>

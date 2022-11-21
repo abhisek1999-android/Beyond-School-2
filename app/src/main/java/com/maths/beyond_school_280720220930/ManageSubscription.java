@@ -14,6 +14,7 @@ import com.maths.beyond_school_280720220930.SP.PrefConfig;
 import com.maths.beyond_school_280720220930.databinding.ActivityManageSubscriptionBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.payments.CancelSubscription;
+import com.maths.beyond_school_280720220930.payments.CompleteListener;
 import com.maths.beyond_school_280720220930.payments.FetchPlanDetails;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
@@ -25,7 +26,7 @@ import org.json.JSONException;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 
-public class ManageSubscription extends AppCompatActivity implements CancelSubscription.CompleteListener {
+public class ManageSubscription extends AppCompatActivity implements CancelSubscription.CompleteListener, CompleteListener {
 
     private Subscription subscription;
     private ActivityManageSubscriptionBinding binding;
@@ -60,30 +61,44 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
             onBackPressed();
         });
 
-        try {
-            plan = new FetchPlanDetails(ManageSubscription.this, planId).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            if (subscriptionId.equals(""))
-                checkSubscriptionValid();
-            else {
-                Log.d(TAG, "onCreate: "+subscriptionId);
-                subscription = new FetchSubscriptionStatus(ManageSubscription.this, subscriptionId).execute().get();
-                checkSubscriptionValid();
+
+        binding.infoCard.setVisibility(View.INVISIBLE);
+        customProgressDialogue.show();
+
+        UtilityFunctions.runOnUiThread(()->{
+
+
+            try {
+                plan = new FetchPlanDetails(ManageSubscription.this, planId,this).execute().get();
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            try {
+                if (subscriptionId.equals(""))
+                    checkSubscriptionValid();
+                else {
+                    Log.d(TAG, "onCreate: "+subscriptionId);
+                    subscription = new FetchSubscriptionStatus(ManageSubscription.this, subscriptionId,this).execute().get();
+                    checkSubscriptionValid();
+                }
+
+            } catch (ExecutionException e) {
+                customProgressDialogue.dismiss();
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                customProgressDialogue.dismiss();
+                e.printStackTrace();
+            } catch (JSONException e) {
+                customProgressDialogue.dismiss();
+                e.printStackTrace();
+            }
+        },100);
+
 
         binding.cancelSubscription.setOnClickListener(v -> {
             customProgressDialogue.show();
@@ -123,6 +138,8 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
             binding.completePayment.setVisibility(View.GONE);
         }
 
+        customProgressDialogue.dismiss();
+
     }
 
     public void setUiElements(Subscription subscription) throws JSONException {
@@ -141,6 +158,8 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
         try {
             binding.subscriptionRenewDate.setText("Due on: " + simpleDateFormat.format(new java.util.Date((long) subscription.toJson().getLong("current_end") * 1000)));
         }catch (Exception e){}
+
+        customProgressDialogue.dismiss();
     }
 
     @Override
@@ -151,5 +170,11 @@ public class ManageSubscription extends AppCompatActivity implements CancelSubsc
         UtilityFunctions.attemptPayment(firebaseAnalytics,mAuth,PrefConfig.readIdInPref(ManageSubscription.this,getResources().getString(R.string.parent_contact_details)),"N/A",subscriptionId,paymentAmount,"cancelled");
         checkSubscriptionValid();
         customProgressDialogue.dismiss();
+    }
+
+    @Override
+    public void onCompleteSubscriptionCancellation() throws JSONException {
+        customProgressDialogue.dismiss();
+        binding.infoCard.setVisibility(View.VISIBLE);
     }
 }

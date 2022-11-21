@@ -1071,6 +1071,7 @@
     <string name="plan_value">PLAN_VALUE</string>
     <string name="trial_period">TRIAL_PERIOD</string>
     <string name="created_at">CREATED_AT</string>
+    <string name="build_number">BUILD_NUMBER</string>
 
     <array name="autosize_text_sizes">
         <item>7sp</item>

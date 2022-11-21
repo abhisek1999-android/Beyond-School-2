@@ -44,6 +44,7 @@ import com.maths.beyond_school_280720220930.databinding.AlarmDialogBinding;
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_280720220930.model.KidsData;
+import com.maths.beyond_school_280720220930.payments.CompleteListener;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientGrade;
@@ -53,6 +54,8 @@ import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 import com.maths.beyond_school_280720220930.utils.typeconverters.LeveGradeConverter;
 import com.razorpay.Subscription;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +71,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, CompleteListener {
 
     private static final String TAG = "PhoneNumberLogin";
     private ActivityPhoneNumberLoginBinding binding;
@@ -459,7 +462,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
                 try {
                     subscription=new FetchSubscriptionStatus(PhoneNumberLogin.this,
-                            PrefConfig.readIdInPref(PhoneNumberLogin.this,getResources().getString(R.string.subscription_id))).execute().get();
+                            PrefConfig.readIdInPref(PhoneNumberLogin.this,getResources().getString(R.string.subscription_id)),this).execute().get();
 
                     try{
                     if (subscription.get("status").equals("active"))
@@ -501,6 +504,11 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onCompleteSubscriptionCancellation() throws JSONException {
 
     }
 }

@@ -56,6 +56,7 @@ import com.maths.beyond_school_280720220930.database.process.ProgressDataBase;
 import com.maths.beyond_school_280720220930.database.process.ProgressM;
 import com.maths.beyond_school_280720220930.dialogs.HintDialog;
 import com.maths.beyond_school_280720220930.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_280720220930.fragments.EnglishFragment;
 import com.maths.beyond_school_280720220930.payments.FetchSubscriptionStatus;
 import com.razorpay.Subscription;
 
@@ -1173,7 +1174,7 @@ public final class UtilityFunctions {
 
         List<GradeData> dbData = new ArrayList<>();
         dbData = database.gradesDaoUpdated().getSubjectDataNL(subSubject);
-        Log.d("XXX", subSubject + "cahp" + chapters);
+        Log.d("XXX", subSubject + ",cahp : " + chapters);
         Log.d("XXXDB Data", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
             Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).getChapter_name().equals(chapters) + chapters);
@@ -1384,8 +1385,8 @@ public final class UtilityFunctions {
     public static String getPlanIds(int value) {
 
         Map<Integer, String> planMap = new HashMap();
-        planMap.put(99, "plan_KfsUkGPPbAzpqD");
-        planMap.put(299, "plan_KfsUQF3evQfn2R");
+        planMap.put(99, "plan_Khu7N46QUAsX8P");
+        planMap.put(299, "plan_Khu84r5QKznMKm");
         return planMap.get(value);
 
     }
@@ -1572,14 +1573,14 @@ public final class UtilityFunctions {
     }
 
 
-    public static String checkUpdatePaymentStatus(Context context, String subscriptionId, FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth) throws ExecutionException, InterruptedException {
+    public static String checkUpdatePaymentStatus(Context context, String subscriptionId, FirebaseFirestore firebaseFirestore, FirebaseAuth mAuth, EnglishFragment englishFragment) throws ExecutionException, InterruptedException {
 
         int val = PrefConfig.readIntInPref(context, context.getResources().getString(R.string.noOfdays), 0);
         val += 1;
         PrefConfig.writeIntDInPref(context, val, context.getResources().getString(R.string.noOfdays));
         CallFirebaseForInfo.setNoOfDays(firebaseFirestore, mAuth, val);
         try {
-            Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId).execute().get();
+            Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId,englishFragment).execute().get();
             Log.d("TAG", "checkUpdatePaymentStatus: " + subscription.get("status"));
             PrefConfig.writeIdInPref(context, subscription.get("status"), context.getResources().getString(R.string.payment_status));
             return subscription.get("status");
