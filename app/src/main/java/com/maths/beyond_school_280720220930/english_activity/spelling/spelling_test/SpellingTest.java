@@ -665,12 +665,12 @@ public class SpellingTest extends AppCompatActivity {
             if (correctAnswer >= UtilityFunctions.getNinetyPercentage(spellingDetails.size())) {
 //                UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, "Spelling_CommonWords", category);
                 CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""),category, "Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID),correctAnswer, wrongAnswer, spellingDetails.size(), "english");
-                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
+                if (getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)){
                     GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
                     Log.d(TAG, "uploadData: "+"Leaning"+"Spelling");
 
                 }
-                else if(getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                else if(getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)) {
                     UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }

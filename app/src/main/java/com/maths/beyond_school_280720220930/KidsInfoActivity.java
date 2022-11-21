@@ -390,17 +390,8 @@ public class KidsInfoActivity extends AppCompatActivity {
                             gradeDatabase.gradesDaoUpdated().deleteAll();
                             getNewData(binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""));
                             PrefConfig.writeNormalListInPref(KidsInfoActivity.this, chapterListEng, getResources().getString(R.string.saved_english_value));
-                            CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsId, binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""), KidsInfoActivity.this, gradeDatabase,()->{
-
-                                UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
-                                        binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
-                                customProgressDialogue.dismiss();
-                                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
-                                startActivity(intent);
-                                finish();
-                            });
-
+                            UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
+                                    binding.kidsAgeTextView.getText().toString(), imageUrl, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)));
                         }
                         else{
                             UtilityFunctions.saveDataLocally(getApplicationContext(), Objects.requireNonNull(binding.textInputLayoutGrade.getEditText()).getText().toString(), binding.kidsNameTextView.getText().toString(),
@@ -411,10 +402,6 @@ public class KidsInfoActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-
-
-
-
 
                     }).addOnFailureListener(e -> {
                         customProgressDialogue.dismiss();
@@ -450,7 +437,11 @@ public class KidsInfoActivity extends AppCompatActivity {
 
                     mapToGradeModel(gradeModelNewList);
                 } else {
+                    customProgressDialogue.dismiss();
                     Toast.makeText(KidsInfoActivity.this, "Something wrong occurs", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
 
@@ -486,6 +477,17 @@ public class KidsInfoActivity extends AppCompatActivity {
 
     private void mapToGradeModel(List<GradeData> list) {
         gradeDatabase.gradesDaoUpdated().insertNotes(list);
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsId, binding.textInputLayoutGrade.getEditText().getText().toString().toLowerCase().replace(" ", ""), KidsInfoActivity.this, gradeDatabase,()->{
+            customProgressDialogue.dismiss();
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+            startActivity(intent);
+            finish();
+
+
+        });
+
+
     }
 
 //    private void mapToGradeModel(List<GradeModel.EnglishModel> list) {

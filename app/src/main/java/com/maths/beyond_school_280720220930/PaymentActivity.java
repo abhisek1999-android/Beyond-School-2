@@ -28,6 +28,7 @@ import com.razorpay.Subscription;
 
 import org.json.JSONObject;
 
+import java.security.spec.ECField;
 import java.util.Date;
 
 public class PaymentActivity extends AppCompatActivity implements CreateSubscription.CompleteListener, PaymentResultWithDataListener, CreateCustomer.CompleteListener {
@@ -128,9 +129,12 @@ public class PaymentActivity extends AppCompatActivity implements CreateSubscrip
     public void onCompleteSubscription(Subscription subscription, String customerId) {
         Log.d(TAG, "onCompleteSubscription: ");
         progressDialogue.dismiss();
-        CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, subscription.get("id"),subscription.get("plan_id"), PrefConfig.readIdInPref(PaymentActivity.this, getResources().getString(R.string.customer_id)));
-        PrefConfig.writeIdInPref(PaymentActivity.this, subscription.get("id"), getResources().getString(R.string.subscription_id));
-        startPayment(subscription.get("id"), customerId);
+        try {
+            CallFirebaseForInfo.setSubscriptionId(firebaseFirestore, mAuth, subscription.get("id"),subscription.get("plan_id"), PrefConfig.readIdInPref(PaymentActivity.this, getResources().getString(R.string.customer_id)));
+            PrefConfig.writeIdInPref(PaymentActivity.this, subscription.get("id"), getResources().getString(R.string.subscription_id));
+            startPayment(subscription.get("id"), customerId);
+        }catch (Exception e){}
+
     }
 
     @Override

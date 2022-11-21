@@ -4,6 +4,7 @@ import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_CATEGOR
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_IS_OPEN_FROM_LEARN;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_ONLINE_FLAG;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_OPEN_TYPE;
+import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_TITLE;
 import static com.maths.beyond_school_280720220930.utils.Constants.EXTRA_VOCABULARY_CATEGORY;
 
 import android.content.Intent;
@@ -143,6 +144,8 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         }
         checkProgressData();
         setButtonVisibility();
+
+        Log.d(TAG, "onCreate: "+getIntent().getStringExtra(EXTRA_OPEN_TYPE));
     }
 
     private void setButtonVisibility() {
@@ -288,30 +291,31 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
             UtilityFunctions.updateDbUnlock(
                     databaseGrade,
                     kidsGrade,
-                    "Vocabulary",
-                    UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category), this)
+                    getIntent().getStringExtra(EXTRA_TITLE),
+                   getIntent().getStringExtra(EXTRA_TITLE)
             );
             try {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "pass", auth, kidsId, UtilityFunctions.
-                                getDbName(UtilityFunctions.getVocabularyFromString(category), this),
-                        "Vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "English");
+                        kidsActivityJsonArray, "pass", auth, kidsId,  getIntent().getStringExtra(EXTRA_TITLE),
+                        getIntent().getStringExtra(EXTRA_TITLE), correctAnswers, wrongAnswers, vocabularyList.size(), "English");
                 progressDataBase.progressDao().updateScore(correctAnswers, wrongAnswers, category);
 
                 try{
                     //TODO: Fix null here in learn
-                if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())) {
+                if (getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)) {
                     //TODO: change  it to a var
-                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true, "Bathroom");
+                    GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true, getIntent().getStringExtra(EXTRA_VOCABULARY_CATEGORY));
                     Log.d(TAG, "uploadData: " + "Leaning" + "Vocabulary");
 
-                } else if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.EXERCISE.name())) {
+                } else {
                  //   UtilityFunctions.updateDbUnlock(databaseGrade, "Vocabulary", UtilityFunctions.getDbName(UtilityFunctions.getVocabularyFromString(category),this),false);
-
                     //TODO: same
-                    UtilityFunctions.updateDbUnlock(databaseGrade, "Vocabulary", "Bathroom",false);
+                    UtilityFunctions.updateDbUnlock(databaseGrade, getIntent().getStringExtra(EXTRA_TITLE),  getIntent().getStringExtra(EXTRA_VOCABULARY_CATEGORY),false);
                     Log.d(TAG, "uploadData: " + "Exe"+category);
-                }}catch (Exception e){}
+                }}catch (Exception e){
+
+                    Log.d(TAG, "checkResult: "+e.getMessage());
+                }
 
 
 
@@ -321,8 +325,7 @@ public class EnglishVocabularyPracticeActivity extends AppCompatActivity {
         } else {
             try {
                 CallFirebaseForInfo.checkActivityData(kidsDb,
-                        kidsActivityJsonArray, "fail", auth, kidsId, UtilityFunctions.
-                                getDbName(UtilityFunctions.getVocabularyFromString(category), this),
+                        kidsActivityJsonArray, "fail", auth, kidsId,  getIntent().getStringExtra(EXTRA_TITLE),
                         "Vocabulary", correctAnswers, wrongAnswers, vocabularyList.size(), "English");
             } catch (JSONException e) {
                 e.printStackTrace();

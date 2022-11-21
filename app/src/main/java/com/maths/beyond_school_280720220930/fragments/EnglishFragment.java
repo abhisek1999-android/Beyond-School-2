@@ -49,12 +49,17 @@ import com.maths.beyond_school_280720220930.english_activity.spelling.spelling_t
 import com.maths.beyond_school_280720220930.extras.CustomProgressDialogue;
 import com.maths.beyond_school_280720220930.model.SectionSubSubject;
 import com.maths.beyond_school_280720220930.model.SubSubject;
+import com.maths.beyond_school_280720220930.payments.CancelSubscription;
+import com.maths.beyond_school_280720220930.payments.CompleteListener;
 import com.maths.beyond_school_280720220930.retrofit.ApiClientContent;
 import com.maths.beyond_school_280720220930.retrofit.ApiInterfaceContent;
 import com.maths.beyond_school_280720220930.retrofit.model.content_new.ContentModelNew;
 import com.maths.beyond_school_280720220930.utils.Constants;
 import com.maths.beyond_school_280720220930.utils.ScreenType;
 import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
+import com.razorpay.Subscription;
+
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +73,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EnglishFragment extends Fragment {
+public class EnglishFragment extends Fragment implements CancelSubscription.CompleteListener, CompleteListener {
 
     private FragmentEnglishBinding binding;
     private static final String TAG = "EnglishFragment";
@@ -180,16 +185,16 @@ public class EnglishFragment extends Fragment {
         }
 
 
-        int trialPeriod = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
-        int noOfDays = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.noOfdays), 0);
+        trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
+        noOfDays = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.noOfdays), 0);
         if (PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status)).equals("active")) {
             binding.trialPeriodText.setText("Your plan is activated");
             binding.trialPeriodText.setVisibility(View.GONE);
-        } else if ((trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) == trialPeriod - 1) {
+        } else if ((trialPeriodDay - UtilityFunctions.diffDate(createAt, new Date().toString())) == trialPeriodDay - 1) {
             binding.trialPeriodText.setText("Your trial period ends today ");
             binding.trialPeriodText.setVisibility(View.VISIBLE);
-        } else if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriod) {
-            binding.trialPeriodText.setText("Your trial period ends in " + (trialPeriod - UtilityFunctions.diffDate(createAt, new Date().toString())) + " days");
+        } else if (UtilityFunctions.diffDate(createAt, new Date().toString()) < trialPeriodDay) {
+            binding.trialPeriodText.setText("Your trial period ends in " + (trialPeriodDay - UtilityFunctions.diffDate(createAt, new Date().toString())) + " days");
             binding.trialPeriodText.setVisibility(View.VISIBLE);
 
         } else if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status)).equals("active")) {
@@ -245,11 +250,14 @@ public class EnglishFragment extends Fragment {
 
 
     private void displayTrialPeriodDialog(boolean gotoViewCurriculum) {
-        int trialPeriod = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
+        trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
         HintDialog hintDialog = new HintDialog(getContext());
         hintDialog.setCancelable(true);
         hintDialog.setAlertTitle("Trial Period");
-        hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period is started from today and it will be end in <font color='#64c1c7'>" + trialPeriod + " Days.</font>", Html.FROM_HTML_MODE_COMPACT)));
+        if (trialPeriodDay == 1)
+            hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period starts today and it will end in <font color='#64c1c7'>" + trialPeriodDay + " Day.</font>", Html.FROM_HTML_MODE_COMPACT)));
+        else
+            hintDialog.setAlertDesciption(String.valueOf(Html.fromHtml("Your trial period starts today and it will end in <font color='#64c1c7'>" + trialPeriodDay + " Days.</font>", Html.FROM_HTML_MODE_COMPACT)));
         hintDialog.hideActionButton();
         hintDialog.hideCloseButton();
         if (gotoViewCurriculum)
@@ -281,7 +289,7 @@ public class EnglishFragment extends Fragment {
         if (!PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.alter_maths)).equals(simpleDateFormat.format(new Date()))) {
             // Added functionality when we got a new date
             try {
-                UtilityFunctions.checkUpdatePaymentStatus(getContext(), subscriptionId, firebaseFirestore, mAuth);
+                UtilityFunctions.checkUpdatePaymentStatus(getContext(), subscriptionId, firebaseFirestore, mAuth, this);
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -641,6 +649,17 @@ public class EnglishFragment extends Fragment {
         super.onResume();
         setSubSubjectProgress();
         paymentStatus = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.payment_status));
+        trialPeriodDay = PrefConfig.readIntInPref(getContext(), getResources().getString(R.string.trial_period), 0);
         userType = PrefConfig.readIdInPref(getContext(), getResources().getString(R.string.user_type));
+    }
+
+    @Override
+    public void onCompleteSubscriptionCancellation(Subscription subscription) throws JSONException {
+
+    }
+
+    @Override
+    public void onCompleteSubscriptionCancellation() throws JSONException {
+
     }
 }

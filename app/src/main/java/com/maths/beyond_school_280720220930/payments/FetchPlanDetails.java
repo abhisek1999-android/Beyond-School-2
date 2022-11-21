@@ -10,6 +10,8 @@ import com.razorpay.Plan;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
+import org.json.JSONException;
+
 public class FetchPlanDetails extends AsyncTask<Void, Void, Plan> {
 
 
@@ -17,9 +19,11 @@ public class FetchPlanDetails extends AsyncTask<Void, Void, Plan> {
     Context context;
     String planId;
     Plan plan;
-    public FetchPlanDetails(Context context, String planId){
+    CompleteListener completeListener;
+    public FetchPlanDetails(Context context, String planId,CompleteListener completeListener){
         this.context=context;
         this.planId=planId;
+        this.completeListener=completeListener;
     }
 
     @Override
@@ -45,7 +49,11 @@ public class FetchPlanDetails extends AsyncTask<Void, Void, Plan> {
     @Override
     protected void onPostExecute(Plan plans) {
         super.onPostExecute(plans);
-
+        try {
+            completeListener.onCompleteSubscriptionCancellation();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
