@@ -2,6 +2,7 @@ package com.maths.beyond_school_280720220930.english_activity.spelling.spelling_
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,9 +49,15 @@ public class SpellingTestFragment extends Fragment {
 
         var split = spellingDetail.getDescription().toLowerCase(Locale.ROOT).split(spellingDetail.getWord().toLowerCase(Locale.ROOT), 2);
 
-        binding.textViewPart1.setText(Html.fromHtml(UtilityFunctions.capitalize(split[0]) + "<font color='#64c1c7'>" +
-                spellingDetail.getWord().replaceAll("[A-Za-z]", "_") + "</font>"
-                + split[1]));
+        if (split.length == 2) {
+            binding.textViewPart1.setText(Html.fromHtml(UtilityFunctions.capitalize(split[0]) + "<font color='#64c1c7'>" +
+                    spellingDetail.getWord().replaceAll("[A-Za-z]", "_") + "</font>"
+                    + split[1], Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            Log.d("AAA", "onViewCreated: else");
+            binding.textViewPart1.setText(Html.fromHtml(spellingDetail.getDescription()
+                    .replaceAll("[_]+", spellingDetail.getWord().replaceAll("[A-Za-z]","_")), Html.FROM_HTML_MODE_COMPACT));
+        }
 
         var viewPager = (ViewPager2) requireActivity().findViewById(R.id.viewPager_test);
         binding.progress.setText(getResources()

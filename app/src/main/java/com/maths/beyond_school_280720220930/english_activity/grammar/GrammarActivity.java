@@ -353,7 +353,7 @@ public class GrammarActivity extends AppCompatActivity {
                 UtilityFunctions.runOnUiThread(() -> {
                     var textView = (TextView) this.findViewById(R.id.text_view_des_grammar);
                     if (textView != null) {
-                        var s = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem()).getDescription().replace("<b>", "").replace("</b>", "").replace("blank", "_____").replace("<br>", "\n");
+                        var s = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem()).getDescription().replace("<b>", "").replace("</b>", "").replace("<br>", "\n").replace("blank", "_____").replace("<br>", "\n");
                         Spannable textWithHighlights = new SpannableString(s);
                         textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                         textView.setText(textWithHighlights);
@@ -412,7 +412,7 @@ public class GrammarActivity extends AppCompatActivity {
                 public void onCompletion() {
                     if (!canNavigate && request == 44 * 4) {
                         var currentModel = grammarModelList.get(binding.viewPagerIdentifyingNouns.getCurrentItem());
-                        var des = currentModel.getDescription().trim().replace("<br>", "").replace("<b>", "").replace("</b>", "").replace("_____", "blank");
+                        var des = currentModel.getDescription().trim().replace("<br>", "").replace("<b>", "").replace("</b>", "").replace("<br>", "\n").replace("_____", "blank");
                         tts.setTextViewAndSentence(des);
                         tts.initialize(des, GrammarActivity.this);
                         return;
@@ -661,7 +661,7 @@ public class GrammarActivity extends AppCompatActivity {
                 if (num < animEng.size()) {
 
                     UtilityFunctions.runOnUiThread(() -> {
-                        ttsHelperAnim.initialize(animEng.get(num).getDescription().replace("<b>", "").replace("</b>", ""), GrammarActivity.this);
+                        ttsHelperAnim.initialize(animEng.get(num).getDescription().replace("<b>", "").replace("</b>", "").replace("<br>", "\n"), GrammarActivity.this);
                         animHandel(animEng.get(num).getAnswer(), animEng.get(num).getDescription(), animEng.get(num).getOperation());
                         num++;
                     }, 500);

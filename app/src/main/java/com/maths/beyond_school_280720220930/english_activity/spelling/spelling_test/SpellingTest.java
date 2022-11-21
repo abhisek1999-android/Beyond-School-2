@@ -171,17 +171,15 @@ public class SpellingTest extends AppCompatActivity {
             category = getIntent().getStringExtra(EXTRA_SPELLING_DETAIL).trim();
             isOnline = getIntent().getBooleanExtra(Constants.EXTRA_ONLINE_FLAG, false);
             dao = EnglishGradeDatabase.getDbInstance(this).spellingCommonWordDao();
-            if (isOnline)
-                getSubjectData();
-            else
-                setViews();
+            if (isOnline) getSubjectData();
+            else setViews();
 
             buttonClick();
         } else {
             UtilityFunctions.simpleToast(this, "No data found");
         }
 
-        Log.d(TAG, "setData: "+getIntent().getStringExtra(EXTRA_OPEN_TYPE));
+        Log.d(TAG, "setData: " + getIntent().getStringExtra(EXTRA_OPEN_TYPE));
 
 //        if (getIntent().getStringExtra(EXTRA_OPEN_TYPE).equals(Constants.OpenType.LEARNING.name())){
 //            GradeDatabase.getDbInstance(this).gradesDaoUpdated().updateIsComplete(true,category);
@@ -331,8 +329,12 @@ public class SpellingTest extends AppCompatActivity {
                     var textView = (TextView) findViewById(R.id.text_view_part_1);
                     var spellingDetail = spellingDetails.get(binding.viewPagerTest.getCurrentItem());
                     var split = spellingDetail.getDescription().toLowerCase(Locale.ROOT).split(spellingDetail.getWord().toLowerCase(Locale.ROOT), 2);
-
-                    textView.setText(Html.fromHtml(capitalize(split[0]) + " <font color='#64c1c7'>" + spellingDetail.getWord().replaceAll("[A-Za-z]", "_") + "</font> " + split[1]));
+                    var sentence = "";
+                    if (split.length == 2) {
+                        sentence = capitalize(split[0]) + spellingDetail.getWord().replaceAll("[A-Z a-z]", "_") + split[1];
+                    } else {
+                        sentence = spellingDetail.getDescription();
+                    }
                     try {
                         helperTTS("Now type the word " + (spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord().equals("The") ? "'di'" : "'" + spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord()) + "' .", false, REQUEST_FOR_QUESTION);
                         playPauseAnimation(true);
@@ -350,8 +352,11 @@ public class SpellingTest extends AppCompatActivity {
         tts.setTextRangeListener((utteranceId, sentence, start, end, frame) -> {
             UtilityFunctions.runOnUiThread(() -> {
                 var textView = (TextView) this.findViewById(R.id.text_view_part_1);
+                var word = spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getWord();
                 if (textView != null) {
-                    var sen = sentence.replace("<b>", "").replace("</b>", "");
+                    var sen = sentence.replace("<b>", "").replace("</b>", "")
+                            .replace("<br>", "")
+                            .replaceAll("blank", word.replaceAll("[A-Z a-z]", "_"));
                     Spannable textWithHighlights = new SpannableString(sen);
                     textWithHighlights.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.primary)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     textView.setText(textWithHighlights);
@@ -362,13 +367,16 @@ public class SpellingTest extends AppCompatActivity {
 
     private void startSpeaking() throws ExecutionException, InterruptedException {
         timer();
-        tts.initialize(spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription()
-                .replace("<b>", "").replace("</b>", ""), SpellingTest.this);
+        tts.initialize(spellingDetails.get(binding.viewPagerTest.getCurrentItem()).getDescription().replaceAll("_+", "blank").replace("<b>", "").replace("</b>", "").replace("<br>", ""), SpellingTest.this);
         var spellingDetail = spellingDetails.get(binding.viewPagerTest.getCurrentItem());
         var split = spellingDetail.getDescription().toLowerCase(Locale.ROOT).split(spellingDetail.getWord().toLowerCase(Locale.ROOT), 2);
-
-        var sentence = capitalize(split[0]) + spellingDetail.getWord().replaceAll("[A-Z a-z]", "_") + split[1];
-        tts.setTextViewAndSentence(sentence.replace("<b>", "").replace("</b>", ""));
+        var sentence = "";
+        if (split.length == 2) {
+            sentence = capitalize(split[0]) + spellingDetail.getWord().replaceAll("[A-Z a-z]", "_") + split[1];
+        } else {
+            sentence = spellingDetail.getDescription().replaceAll("_+", "blank");
+        }
+        tts.setTextViewAndSentence(sentence.replace("<b>", "").replace("</b>", "").replace("<br>", ""));
         playPauseAnimation(true);
         if (binding.viewPagerTest.getCurrentItem() == (spellingDetails.size() - 1))
             isSpeaking = false;
@@ -678,7 +686,7 @@ public class SpellingTest extends AppCompatActivity {
 
 
             } else {
-                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, category,kidsGrade.toLowerCase().replace(" ", "") ,"Spelling",getIntent().getStringExtra(EXTRA_CATEGORY_ID) ,correctAnswer, wrongAnswer, spellingDetails.size(), "english");
+                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, category, kidsGrade.toLowerCase().replace(" ", ""), "Spelling", getIntent().getStringExtra(EXTRA_CATEGORY_ID), correctAnswer, wrongAnswer, spellingDetails.size(), "english");
             }
             gotoScoreCard();
         } catch (JSONException e) {
