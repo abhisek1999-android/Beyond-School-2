@@ -678,7 +678,7 @@ public class SpellingTest extends AppCompatActivity {
                     Log.d(TAG, "uploadData: "+"Leaning"+"Spelling");
 
                 }
-                else if(getIntent().getBooleanExtra(EXTRA_IS_OPEN_FROM_LEARN,false)) {
+                else {
                     UtilityFunctions.updateDbUnlock(databaseGrade, "Spelling", category,false);
                     Log.d(TAG, "uploadData: "+"Exe");
                 }
