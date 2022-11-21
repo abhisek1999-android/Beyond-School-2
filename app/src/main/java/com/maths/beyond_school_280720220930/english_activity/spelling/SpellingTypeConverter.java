@@ -1,6 +1,5 @@
 package com.maths.beyond_school_280720220930.english_activity.spelling;
 
-import com.maths.beyond_school_280720220930.database.english.grammer.model.GrammarModel;
 import com.maths.beyond_school_280720220930.database.english.spelling_common_words.model.SpellingDetail;
 import com.maths.beyond_school_280720220930.retrofit.model.content.ContentModel;
 import com.maths.beyond_school_280720220930.utils.TypeConverter;
@@ -12,8 +11,8 @@ public class SpellingTypeConverter implements TypeConverter<SpellingDetail, Cont
     @Override
     public SpellingDetail mapTo(ContentModel.Content content) {
         return new SpellingDetail(
-                content.getWord(),
-                content.getDescription()
+                content.getWord().trim(),
+                content.getDescription().trim()
         );
     }
 
