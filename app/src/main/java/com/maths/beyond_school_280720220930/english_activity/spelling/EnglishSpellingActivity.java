@@ -187,7 +187,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
 
 
     private void sendDataToAnalytics(String currentWord, String result, long diff, boolean b) {
-        UtilityFunctions.sendDataToAnalytics(analytics,auth ,Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(this, category), "English", parentsContactId);
+        UtilityFunctions.sendDataToAnalytics(analytics, auth, Objects.requireNonNull(auth.getCurrentUser()).getUid(), kidsId, kidName, "English-Practice-" + (!isOnline ? "grammar" : getIntent().getStringExtra(EXTRA_TITLE).toLowerCase()), kidAge, currentWord, result, b, (int) (diff), UtilityFunctions.getQuestionForGrammarTest(this, category), "English", parentsContactId);
     }
 
     private void navigateToTest() {
@@ -379,7 +379,7 @@ public class EnglishSpellingActivity extends AppCompatActivity {
             UtilityFunctions.runOnUiThread(() -> {
                 var textView = (TextView) this.findViewById(R.id.text_view_des);
                 if (textView != null) {
-                    var sen = sentence.replace("<b>", "").replace("</b>", "");
+                    var sen = sentence.replace("<b>", "").replace("</b>", "").replace("<br>", "");
                     Log.d("AAA", "initTTS: " + sen);
                     Spannable textWithHighlights = new SpannableString(sen);
                     textWithHighlights.setSpan(new ForegroundColorSpan(
@@ -526,8 +526,8 @@ public class EnglishSpellingActivity extends AppCompatActivity {
                             }
                             if (request == REQUEST_FOR_DES && !canNavigate) {
                                 tts.setTextViewAndSentence(spellingDetails.get(binding.viewPager.getCurrentItem())
-                                        .getDescription().replace("<b>", "").replace("</b>", ""));
-                                tts.initialize(getDescription().replace("<b>", "").replace("</b>", "")
+                                        .getDescription().replace("<b>", "").replace("</b>", "").replace("<br>", ""));
+                                tts.initialize(getDescription().replace("<b>", "").replace("</b>", "").replace("<br>", "")
                                         , EnglishSpellingActivity.this);
                                 return;
                             }
