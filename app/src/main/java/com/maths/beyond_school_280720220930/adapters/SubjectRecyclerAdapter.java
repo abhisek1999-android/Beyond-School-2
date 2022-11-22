@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,10 +58,11 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
         return new SubjectRecyclerAdapter.SubjectViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Grades_data grades_data = list.get(position);
-        String val = grades_data.chapter;
+        String val = grades_data.chapter_name;
         String chapter = grades_data.subject;
         String[] res = val.split(" ");
 
