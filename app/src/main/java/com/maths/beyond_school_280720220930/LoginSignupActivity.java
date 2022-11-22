@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,10 +48,15 @@ public class LoginSignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-       // insertData();
+        // insertData();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         gradeDatabase = GradeDatabase.getDbInstance(this);
+
+        PrefConfig.writeIdInPref(getApplicationContext(), "India", "Country");
+        PrefConfig.writeIdInPref(getApplicationContext(), "IN", "Country_code");
+        PrefConfig.writeIntInPref(getApplicationContext(), 0, "set_select");
+
         binding.googleSignIn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), GoogleSignInActivity.class));
         });
@@ -71,7 +77,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         }
 //        getNewData();
 
-     //   startActivity(new Intent(this, GradeDataFetch.class));
+        //   startActivity(new Intent(this, GradeDataFetch.class));
 
     }
 
@@ -129,180 +135,44 @@ public class LoginSignupActivity extends AppCompatActivity {
             var englishGradeDatabase = EnglishGradeDatabase.getDbInstance(this);
             englishGradeDatabase.englishDao().getEnglishModel(1);
             englishGradeDatabase.spellingDao();
-//            englishGradeDatabase.expressionDao().getEnglishModel(1);
-
-            list1 = new ArrayList<>();
-            list1.add("GRADE 1");
-            list1.add("GRADE 2");
-            list1.add("GRADE 3");
-
-            list2 = new ArrayList<>();
-            list2.add("GRADE 2");
-            list2.add("GRADE 3");
-
-        /*list3=new ArrayList<>();
-        list3.add("GRADE 2");*/
-
-            list4 = new ArrayList<>();
-            list4.add("GRADE 3");
-            en1 = new ArrayList<>();
-            en1.add("GRADE 1");
-            en2 = new ArrayList<>();
-            en2.add("GRADE 2");
-            en4 = new ArrayList<>();
-            en4.add("GRADE 3");
-            //for language to set initial value
-            PrefConfig.writeIdInPref(getApplicationContext(), "India", "Country");
-            PrefConfig.writeIdInPref(getApplicationContext(), "IN", "Country_code");
-            PrefConfig.writeIntInPref(getApplicationContext(), 0, "set_select");
 
             //database
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add1), true, true, true, true, true, true, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add2), true, true, true, true, true, false, false, "https://youtu.be/RKL0TX8ogmw"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub1), true, true, true, true, true, true, false, "https://youtu.be/ShCq1BVVbQ0"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub2), true, true, true, true, true, false, false, "https://youtu.be/sBJp_Toqlhw"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul1), true, true, true, true, true, true, false, "https://youtu.be/fZFwHpiAVE0"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div1), true, true, true, true, true, true, false, "https://youtu.be/5VaqKu0ENlY"));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add3), false, true, true, true, true, false, false, "https://youtu.be/TBzsG75tvhw"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub3), false, true, true, true, true, false, false, "https://youtu.be/f0HPkXpzKf0"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul2), false, true, true, true, true, false, false, "https://youtu.be/Yo_6G5TrNqo"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div2), false, true, true, true, true, false, false, "https://youtu.be/2muobEZUalE"));
+            database.gradesDao().insertNotes(new Grades_data("add1", "Addition", getResources().getString(R.string.add1), getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("add2", "Addition", getResources().getString(R.string.add2), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("add3", "Addition", getResources().getString(R.string.add3), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("add4", "Addition", getResources().getString(R.string.add4), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("add5", "Addition", getResources().getString(R.string.add5), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("sub1", "Subtraction", getResources().getString(R.string.add1), getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("sub2", "Subtraction", getResources().getString(R.string.add2), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("sub3", "Subtraction", getResources().getString(R.string.add3), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("sub4", "Subtraction", getResources().getString(R.string.add4), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("sub5", "Subtraction", getResources().getString(R.string.add5), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul1", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[0], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul2", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[0], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul3", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[1], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul4", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[2], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul5", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[3], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul6", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[4], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul7", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[5], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul8", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[6], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul9", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[7], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul10", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[8], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul11", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[9], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul12", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[10], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul13", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[11], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul14", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[12], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul15", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[13], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul16", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[14], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul17", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[15], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul18", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[16], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul19", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[17], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul20", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[18], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div1", getResources().getString(R.string.div),getResources().getString(R.string.div1), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div2", getResources().getString(R.string.div),getResources().getString(R.string.div2), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div3", getResources().getString(R.string.div),getResources().getString(R.string.div3), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div4", getResources().getString(R.string.div),getResources().getString(R.string.div4), getResources().getString(R.string.math), false, false));
 
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add4), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.add5), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub4), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.sub5), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.mul3), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.math), getResources().getString(R.string.div3), false, false, true, true, true, false, false, "https://youtu.be/1RaL_2okktE"));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab1), true, true, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab1_1), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab2), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab2_1), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab3), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab3_1), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab4), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab4_1), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab5), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab5_1), true, false, false, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab6), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab6_1), true, true, true, true, true, false, false, ""));
-//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab7, new ArrayList<>(list1), ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab8), false, true, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab8_1), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab9), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab9_1), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab10), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab10_1), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab11), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab11_1), false, true, true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab12), true, true, true, true, true, false, false, ""));
-//            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), R.string.vocab13, new ArrayList<>(list2), ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab14), false, false, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab15), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab16), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab17), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.vocab18), false, false, true, true, true, false, false, ""));
-
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_1), true, true, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_3), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_5), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_7), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_9), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_11), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_13), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_15), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_18), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_20), true, true, true, true, true, false, false, ""));
-
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_2), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_4), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_6), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_8), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_10), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_12), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_14), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_16), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_19), false, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_21), false, true, true, true, true, false, false, ""));
-
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_17), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_22), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_23), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_24), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_25), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_26), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_27), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_28), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_29), false, false, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_30), false, false, true, true, true, false, false, ""));
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_1), true, true, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_2), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_3), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_4), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_5), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_6), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.spelling_common_words_7), true, true, true, true, true, false, false, ""));
-
-
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_1), true, true, true, true, true, true, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_2), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_3), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_4), true, true, true, true, true, false, false, ""));
-            database.gradesDao().insertNotes(new Grades_data(getResources().getString(R.string.english), getResources().getString(R.string.grammar_5), true, true, true, true, true, false, false, ""));
-
-
-
-           /* database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add1, new ArrayList<>(list1), "https://youtu.be/1RaL_2okktE"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add2, new ArrayList<>(list1), "https://youtu.be/RKL0TX8ogmw"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub1, new ArrayList<>(list1), "https://youtu.be/ShCq1BVVbQ0"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub2, new ArrayList<>(list1), "https://youtu.be/sBJp_Toqlhw"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul1, new ArrayList<>(list1), "https://youtu.be/fZFwHpiAVE0"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div1, new ArrayList<>(list1), "https://youtu.be/5VaqKu0ENlY"));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add3, new ArrayList<>(list2), "https://youtu.be/TBzsG75tvhw"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub3, new ArrayList<>(list2), "https://youtu.be/f0HPkXpzKf0"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul2, new ArrayList<>(list2), "https://youtu.be/Yo_6G5TrNqo"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div2, new ArrayList<>(list2), "https://youtu.be/2muobEZUalE"));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add4, new ArrayList<>(list4), "https://youtu.be/fu7K8QFPt1o"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.add5, new ArrayList<>(list4), "https://youtu.be/2BGAUI2cdyw"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub4, new ArrayList<>(list4), "https://youtu.be/83ePrGNcUiw"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.sub5, new ArrayList<>(list4), "https://youtu.be/pvU6eNBKfaI"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.mul3, new ArrayList<>(list4), "https://youtu.be/RUGs1NmEikQ"));
-            database.gradesDao().insertNotes(new Grades_data(R.string.math, R.string.div3, new ArrayList<>(list4), "https://youtu.be/PFfcC6MO660"));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab1, new ArrayList<>(en1), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab2, new ArrayList<>(en1), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab3, new ArrayList<>(en1), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab4, new ArrayList<>(en1), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab5, new ArrayList<>(en1), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab6, new ArrayList<>(en1), ""));
-//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab7, new ArrayList<>(list1), ""));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab8, new ArrayList<>(en2), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab9, new ArrayList<>(en2), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab10, new ArrayList<>(en2), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab11, new ArrayList<>(en2), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab12, new ArrayList<>(en2), ""));
-//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab13, new ArrayList<>(list2), ""));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab14, new ArrayList<>(en4), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab15, new ArrayList<>(en4), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab16, new ArrayList<>(en4), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab17, new ArrayList<>(en4), ""));
-            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab18, new ArrayList<>(en4), ""));
-//            database.gradesDao().insertNotes(new Grades_data(R.string.english, R.string.vocab19, new ArrayList<>(list2), ""));
-
-            database.gradesDao().insertNotes(new Grades_data(R.string.english,R.string.spelling,new ArrayList<>(list1),""));*/
         }
     }
 
@@ -341,11 +211,13 @@ public class LoginSignupActivity extends AppCompatActivity {
 //    }
 
     private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
-        list.forEach(subject -> {
-            var mapper = new GradeConverter(subject.getSubject());
-            var chapterList = mapper.mapToList(subject.getChapters());
-            gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            list.forEach(subject -> {
+                var mapper = new GradeConverter(subject.getSubject());
+                var chapterList = mapper.mapToList(subject.getChapters());
+                gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
+            });
+        }
     }
 
 

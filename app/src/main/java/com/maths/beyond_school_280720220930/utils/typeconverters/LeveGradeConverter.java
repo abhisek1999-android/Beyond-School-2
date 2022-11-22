@@ -34,8 +34,8 @@ public class LeveGradeConverter implements TypeConverter<GradeData, GradeModelNe
                 blocks.getSub_subject(),
                 blocks.getSub_subject_id(),
                 new MetaConverter().mapTo(blocks.getMeta()),
-                UtilityFunctions.intToBoolean(blocks.isUnlock()),
-                UtilityFunctions.intToBoolean(blocks.isUnlock_ex()),
+                true,
+                true,
                 false,
                 false
         );
