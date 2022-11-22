@@ -395,46 +395,52 @@ public class CallFirebaseForInfo {
 
 
     public static void upDateActivities(FirebaseFirestore kidsDb, FirebaseAuth mAuth, String kids_id, String grade, Context context, GradeDatabase database, Callback callback) {
-        CollectionReference kidsActivityRef = kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
-                .collection("kids").document(kids_id).collection("grades").document(grade).collection("test");
 
-        kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    Log.d("TAG", "onComplete:Firebase Update ");
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+       try{
 
-                        KidsActivity kidsActivity = document.toObject(KidsActivity.class);
+           CollectionReference kidsActivityRef = kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
+                   .collection("kids").document(kids_id).collection("grades").document(grade).collection("test");
 
+           kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+               @Override
+               public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                   if (task.isSuccessful()) {
+                       Log.d("TAG", "onComplete:Firebase Update ");
+                       for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        if (kidsActivity.getStatus().equals("pass")) {
-
-                            try {
-                                if (!document.getId().split("_")[1].equals("multiplication")) {
-                                    Log.i("doc_id", document.getId().replace(" ", "").split("_")[1]);
-                                    UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2],true);
-                                } else {
-                                    Log.i("doc_id", document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
-                                    int maxVal = Integer.parseInt(document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
-                                    if (PrefConfig.readIntInPref(context, context.getResources().getString(R.string.multiplication_upto)) < maxVal) {
-                                        PrefConfig.writeIntInPref(context, maxVal, context.getResources().getString(R.string.multiplication_upto));
-                                    }
-
-                                }
-                            } catch (Exception e) {
-                            }
+                           KidsActivity kidsActivity = document.toObject(KidsActivity.class);
 
 
-                        }
-                    }
+                           if (kidsActivity.getStatus().equals("pass")) {
 
-                    callback.dataUpdated();
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
-                }
-            }
-        });
+                               try {
+                                   if (!document.getId().split("_")[1].equals("multiplication")) {
+                                       Log.i("doc_id", document.getId().replace(" ", "").split("_")[1]);
+                                       UtilityFunctions.updateDbUnlock(database, document.getId().replace(" ", "").split("_")[1], document.getId().split("_")[2],true);
+                                   } else {
+                                       Log.i("doc_id", document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
+                                       int maxVal = Integer.parseInt(document.getId().replace(" ", "").split("_")[2].split("\\(")[1].split("")[0]);
+                                       if (PrefConfig.readIntInPref(context, context.getResources().getString(R.string.multiplication_upto)) < maxVal) {
+                                           PrefConfig.writeIntInPref(context, maxVal, context.getResources().getString(R.string.multiplication_upto));
+                                       }
+
+                                   }
+                               } catch (Exception e) {
+                               }
+
+
+                           }
+                       }
+
+                       callback.dataUpdated();
+                   } else {
+                       Log.d("TAG", "Error getting documents: ", task.getException());
+                   }
+               }
+           });
+
+       }catch ( Exception e){}
+
 
     }
 

@@ -1,10 +1,12 @@
 package com.maths.beyond_school_280720220930.adapters;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -34,6 +36,7 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
         return new LevelGradeViewHolder(RowLayoutLevel3Binding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull LevelGradeViewHolder holder, int position) {
         holder.bind(getItem(position));
@@ -47,12 +50,15 @@ public class LevelGradeAdapter extends ListAdapter<GradeData, LevelGradeAdapter.
             this.binding = binding;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public void bind(GradeData gradeData) {
             binding.chapters.setText(gradeData.getChapter_name());
 
             if (gradeData.isUnlock()){
                 binding.imageViewLessonLock.setVisibility(View.INVISIBLE);
                 binding.imageViewLessonLockTest.setVisibility(View.INVISIBLE);
+                binding.textViewEnrollTest.setText("Exercise is unlocked");
+                binding.textViewEnroll.setText("Learning is unlocked");
             }
 
             if (gradeData.isIs_completed()){

@@ -1065,7 +1065,7 @@
     <string name="noOfdays">NO_OF_DAYS</string>
     <string name="payment_status">PAYMENT_STATUS</string>
     <string name="subscription_id">SUBSCRIPTION_ID</string>
-    <string name="enroll_to_unlock">Enroll to Unlock</string>
+    <string name="enroll_to_unlock">Complete previous level to unlock </string>
     <string name="customer_id">CUSTOMER_ID</string>
     <string name="plan_id">PLAN_ID</string>
     <string name="plan_value">PLAN_VALUE</string>

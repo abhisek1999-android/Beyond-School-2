@@ -1,5 +1,9 @@
 package com.maths.beyond_school_280720220930.utils.typeconverters;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.maths.beyond_school_280720220930.database.grade_tables.GradeData;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModelNew;
 import com.maths.beyond_school_280720220930.utils.TypeConverter;
@@ -37,6 +41,7 @@ public class LeveGradeConverter implements TypeConverter<GradeData, GradeModelNe
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public List<GradeData> mapToList(List<GradeModelNew.English.Sub_Subjects.Blocks> blocks) {
         return blocks.stream().map(this::mapTo).collect(Collectors.toList());
     }
