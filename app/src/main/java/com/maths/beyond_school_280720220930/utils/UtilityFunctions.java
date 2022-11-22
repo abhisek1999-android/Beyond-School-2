@@ -341,6 +341,62 @@ public final class UtilityFunctions {
         }
     }
 
+    public static String getTableNumberFromString(String s) {
+        if (s.contains("Table of "))
+            return String.valueOf(wordToNumber(s.substring(9)));
+        if (s.contains("-Digit Addition"))
+            return String.valueOf(s.charAt(0));
+        return 0 + "";
+    }
+
+    public static int wordToNumber(String s) {
+        switch (s) {
+            case "One":
+                return 1;
+            case "Two":
+                return 2;
+            case "Three":
+                return 3;
+            case "Four":
+                return 4;
+            case "Five":
+                return 5;
+            case "Six":
+                return 6;
+            case "Seven":
+                return 7;
+            case "Eight":
+                return 8;
+            case "Nine":
+                return 9;
+            case "Ten":
+                return 10;
+            case "Eleven":
+                return 11;
+            case "Twelve":
+                return 12;
+            case "Thirteen":
+                return 13;
+            case "Fourteen":
+                return 14;
+            case "Fifteen":
+                return 15;
+            case "Sixteen":
+                return 16;
+            case "Seventeen":
+                return 17;
+            case "Eighteen":
+                return 18;
+            case "Nineteen":
+                return 19;
+            case "Twenty":
+                return 20;
+            default:
+                return 0;
+        }
+    }
+
+
     public static String getIntroForGrammar(Context context, String category) {
         var intro = "";
         if (context.getString(R.string.grammar_1).equals(category))
@@ -1147,18 +1203,18 @@ public final class UtilityFunctions {
         Log.d("XXX", chapter);
         Log.d("XXX", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
-            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).chapter.equals(subSub) + subSub);
-            if (dbData.get(i).chapter.equals(subSub)) {
+            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).chapter_name.equals(subSub) + subSub);
+            if (dbData.get(i).chapter_name.equals(subSub)) {
                 Log.d("XXX", "updateDbUnlock: if");
-                try {
-                    database.gradesDao().updateIsComplete(true, dbData.get(i).chapter);
-                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
-                    Log.d("XXX", dbData.get(i + 1).chapter);
-                    break;
-                } catch (Exception e) {
-                    Log.e("XXX", e.getMessage());
-                    break;
-                }
+//                try {
+//                    database.gradesDao().updateIsComplete(true, dbData.get(i).chapter_name);
+//                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
+//                    Log.d("XXX", dbData.get(i + 1).chapter);
+//                    break;
+//                } catch (Exception e) {
+//                    Log.e("XXX", e.getMessage());
+//                    break;
+//                }
 
             }
 
@@ -1580,7 +1636,7 @@ public final class UtilityFunctions {
         PrefConfig.writeIntDInPref(context, val, context.getResources().getString(R.string.noOfdays));
         CallFirebaseForInfo.setNoOfDays(firebaseFirestore, mAuth, val);
         try {
-            Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId,englishFragment).execute().get();
+            Subscription subscription = new FetchSubscriptionStatus(context, subscriptionId, englishFragment).execute().get();
             Log.d("TAG", "checkUpdatePaymentStatus: " + subscription.get("status"));
             PrefConfig.writeIdInPref(context, subscription.get("status"), context.getResources().getString(R.string.payment_status));
             return subscription.get("status");

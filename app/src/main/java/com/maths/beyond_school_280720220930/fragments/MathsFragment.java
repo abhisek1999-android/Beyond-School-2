@@ -1,66 +1,58 @@
 package com.maths.beyond_school_280720220930.fragments;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.maths.beyond_school_280720220930.LearningActivity;
 import com.maths.beyond_school_280720220930.R;
+import com.maths.beyond_school_280720220930.database.grade_tables.GradeDatabase;
+import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
+import com.maths.beyond_school_280720220930.databinding.FragmentMathsBinding;
+import com.maths.beyond_school_280720220930.utils.UtilityFunctions;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MathsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MathsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public MathsFragment() {
-        // Required empty public constructor
+        super(R.layout.fragment_maths);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MathsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MathsFragment newInstance(String param1, String param2) {
-        MathsFragment fragment = new MathsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FragmentMathsBinding binding;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentMathsBinding.bind(view);
+
+        var dao = GradeDatabase.getDbInstance(requireContext()).gradesDao();
+        var val = dao.values("Addition", "1 -Digit Addition");
+
+
+        navigateToLearn(val);
+    }
+
+    private void navigateToLearn(Grades_data val) {
+        Intent intent = new Intent(requireContext(), LearningActivity.class);
+        intent.putExtra("selected_sub", val.getChapter_name());
+        intent.putExtra("subject", val.super_subject);
+        var maxDigit = UtilityFunctions.getTableNumberFromString(val.chapter_name);
+        if (maxDigit.equals("0")) {
+            Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            return;
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_maths, container, false);
+        intent.putExtra("max_digit", maxDigit);
+        intent.putExtra("video_url", "");
+//        startActivity(intent);  TODO Remove this comment to start the activity
     }
 }

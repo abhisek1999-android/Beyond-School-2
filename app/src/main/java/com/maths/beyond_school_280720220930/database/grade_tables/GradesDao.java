@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930.database.grade_tables;
 
+import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,6 +17,11 @@ public interface GradesDao {
     List<ProgressM> getAllProgress();*/
 
     //@Query("SELECT * FROM grades where :val = true")
+    @Nullable
+    @Query("SELECT * FROM grades where subject = :val and chapter_name = :chapter")
+    Grades_data values(String val, String chapter);
+
+
     @RawQuery(observedEntities = Grades_data.class)
     List<Grades_data> valus(SupportSQLiteQuery query);
 
@@ -31,16 +37,15 @@ public interface GradesDao {
     List<ProgressTableWise> getSumOFTableDataByDate(String date);*/
 
 
-    @Query("UPDATE grades SET unlock=:is_lock WHERE chapter = :chapter")
-    void update(boolean is_lock, String chapter);
-
-    @Query("UPDATE grades SET is_complete=:is_lock WHERE chapter = :chapter")
-    void updateIsComplete(boolean is_lock, String chapter);
-
-
-    @Query("SELECT * FROM grades WHERE chapter LIKE '%'||:chapter||'%'")
-    List<Grades_data> getChapter(String chapter);
-
+//    @Query("UPDATE grades SET unlock=:is_lock WHERE chapter = :chapter")
+//    void update(boolean is_lock, String chapter);
+//
+//    @Query("UPDATE grades SET is_complete=:is_lock WHERE chapter = :chapter")
+//    void updateIsComplete(boolean is_lock, String chapter);
+//
+//
+//    @Query("SELECT * FROM grades WHERE chapter LIKE '%'||:chapter||'%'")
+//    List<Grades_data> getChapter(String chapter);
 
 
     @Insert

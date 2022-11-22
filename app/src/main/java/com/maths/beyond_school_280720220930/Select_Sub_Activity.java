@@ -313,7 +313,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
 
                 TextView tvName = v.findViewById(R.id.tvName);
                 SpinnerModel model = drinkModels.get(position);
-                tvName.setText(getResources().getString(model.getName()).replace("_"," "));
+                tvName.setText(getResources().getString(model.getName()).replace("_", " "));
                 if (model.isHeader()) {
                     tvName.setTextColor(R.color.primary);
                     tvName.setPadding(10, 20, 10, 20);
@@ -395,13 +395,13 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         for (int i = 0; i < notes.size(); i++) {
             try {
                 Grades_data data = notes.get(i);
-                String val = data.getChapter();
+                String val = data.getChapter_name();
                 Log.i("NodeData", val);
                 String[] res = val.split(" ");
                 if (!res[0].equals("Multiplication")) {
                     for (String str : res) {
                         if (str.equals(subSub)) {
-                            list.add(new Subject_Model(data.getChapter(), data.getUrl(), data.unlock));
+                            list.add(new Subject_Model(data.getChapter_name(), "", data.unlock));
                         }
                     }
                 } else {
