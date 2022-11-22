@@ -15,7 +15,7 @@ public class ApiClientGrade {
     private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
 
     //private static final String BASE_URL = "https://beyondschoolapis-rkjbkfkqbq-el.a.run.app/apis/content/";
-   private static final String BASE_URL = "https://shashuec.github.io/beyondschool_data/data/";
+   private static final String BASE_URL = "https://shashuec.github.io/beyondschool_data/data_v_2/";
     private static Retrofit retrofit = null;
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
