@@ -7,22 +7,22 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -59,6 +59,7 @@ import java.util.List;
 
 import retrofit2.Retrofit;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HomeScreen";
@@ -212,6 +213,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         });
     }
 
+
     private void mapToGradeModel(List<GradeModel.EnglishModel> list) {
         list.forEach(subject -> {
             var mapper = new GradeConverter(subject.getSubject());
@@ -349,7 +351,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 }
             }
         });
-
 
 
         findViewById(R.id.dash).setOnClickListener(new View.OnClickListener() {
@@ -561,25 +562,24 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         subjectDataNew.clear();
 
 
-
         Log.d("TAG", "getDataFromDatabase:call ");
 
         if (isNewCall) {
 
             if (eng.length <= 2) {
-              try{
-                for (String st : eng) {
-                    subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
-                    chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
-                    Log.d("XXXXX", "getDataFromDatabase: IF SIZE " + subjectDataNew);
+                try {
+                    for (String st : eng) {
+                        subjectDataNew.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0));
+                        chapterListEng.add(gradeDatabase.gradesDaoUpdated().getSubjectDataIncompleteFirst(st).get(0).getId());
+                        Log.d("XXXXX", "getDataFromDatabase: IF SIZE " + subjectDataNew);
 //            gradeDatabase.gradesDaoUpdated().getSubjectDataLimited(st).observe(this, grades_data -> {
 //                Log.d("XXX", "getDataFromDatabase: "+grades_data.size());
 //                subjectRecyclerAdapterUpdated.submitList(grades_data);
 //            });
-                }}
-              catch (Exception e){
-                  Log.d(TAG, "getDataFromDatabase: Database not found");
-              }
+                    }
+                } catch (Exception e) {
+                    Log.d(TAG, "getDataFromDatabase: Database not found");
+                }
             } else {
                 List<Integer> ls = new ArrayList();
                 chapterListEng.clear();

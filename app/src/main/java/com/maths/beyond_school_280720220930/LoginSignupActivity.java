@@ -20,7 +20,6 @@ import com.maths.beyond_school_280720220930.database.grade_tables.Grades_data;
 import com.maths.beyond_school_280720220930.databinding.ActivityLoginSignupBinding;
 import com.maths.beyond_school_280720220930.retrofit.model.grade.GradeModel;
 import com.maths.beyond_school_280720220930.signin_methods.GoogleSignInActivity;
-import com.maths.beyond_school_280720220930.test.ui.GradeDataFetch;
 import com.maths.beyond_school_280720220930.utils.typeconverters.GradeConverter;
 
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 //        getNewData();
 
         //   startActivity(new Intent(this, GradeDataFetch.class));
-
+        insertData();
     }
 
     private void checkCalenderPermission() {
@@ -157,21 +156,21 @@ public class LoginSignupActivity extends AppCompatActivity {
             database.gradesDao().insertNotes(new Grades_data("mul7", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[5], getResources().getString(R.string.math), false, false));
             database.gradesDao().insertNotes(new Grades_data("mul8", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[6], getResources().getString(R.string.math), false, false));
             database.gradesDao().insertNotes(new Grades_data("mul9", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[7], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul10", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[8], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul11", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[9], getResources().getString(R.string.math), true, false));
-            database.gradesDao().insertNotes(new Grades_data("mul12", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[10], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul13", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[11], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul14", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[12], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul15", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[13], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul16", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[14], getResources().getString(R.string.math), true, false));
-            database.gradesDao().insertNotes(new Grades_data("mul17", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[15], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul18", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[16], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul19", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[17], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("mul20", getResources().getString(R.string.mul),getResources().getStringArray(R.array.table_name)[18], getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("div1", getResources().getString(R.string.div),getResources().getString(R.string.div1), getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("div2", getResources().getString(R.string.div),getResources().getString(R.string.div2), getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("div3", getResources().getString(R.string.div),getResources().getString(R.string.div3), getResources().getString(R.string.math), false, false));
-            database.gradesDao().insertNotes(new Grades_data("div4", getResources().getString(R.string.div),getResources().getString(R.string.div4), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul10", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[8], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul11", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[9], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul12", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[10], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul13", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[11], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul14", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[12], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul15", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[13], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul16", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[14], getResources().getString(R.string.math), true, false));
+            database.gradesDao().insertNotes(new Grades_data("mul17", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[15], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul18", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[16], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul19", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[17], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("mul20", getResources().getString(R.string.mul), getResources().getStringArray(R.array.table_name)[18], getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div1", getResources().getString(R.string.div), getResources().getString(R.string.div1), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div2", getResources().getString(R.string.div), getResources().getString(R.string.div2), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div3", getResources().getString(R.string.div), getResources().getString(R.string.div3), getResources().getString(R.string.math), false, false));
+            database.gradesDao().insertNotes(new Grades_data("div4", getResources().getString(R.string.div), getResources().getString(R.string.div4), getResources().getString(R.string.math), false, false));
 
         }
     }
