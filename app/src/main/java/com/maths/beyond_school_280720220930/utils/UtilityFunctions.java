@@ -1538,7 +1538,7 @@ public final class UtilityFunctions {
                 eventValues.put(CalendarContract.Events.DURATION, "+P30M");
                 eventValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
-                eventValues.put(CalendarContract.Events.TITLE, "It's time to study!");
+                eventValues.put(CalendarContract.Events.TITLE, "BeyondSchool is waiting for your child to experience 20 mins Power-packed study session!");
                 eventValues.put(CalendarContract.Events.RRULE, "FREQ=DAILY;COUNT=90;BYDAY=MO,TU,WE,TH,FR;WKST=MO");
                 eventValues.put(CalendarContract.Events.DESCRIPTION, "BeyondSchool is waiting for your child to experience 20 mins Power-packed study session. Tap the link to open app \n https://www.beyondschool.live/app");
                 eventValues.put(CalendarContract.Events.ALL_DAY, false);

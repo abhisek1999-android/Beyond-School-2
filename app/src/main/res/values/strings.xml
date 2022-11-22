@@ -894,7 +894,8 @@
     <string name="add3">3 -Digit Addition</string>
     <string name="sub3">3 -Digit Subtraction</string>
     <string name="mul3">Multiplication up to 15 \'s table</string>
-    <string name="div3">4 -Digit Division</string>
+    <string name="div3">3 -Digit Division</string>
+    <string name="div4">4 -Digit Division</string>
 
     <string name="add4">4 -Digit Addition</string>
     <string name="add5">5 -Digit Addition</string>
