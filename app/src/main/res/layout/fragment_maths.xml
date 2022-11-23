@@ -103,6 +103,7 @@
                         <!--                            android:layout_height="wrap_content"-->
                         <!--                            android:layout_margin="@dimen/grid_10" />-->
                         <include
+                            android:id="@+id/gotoMath"
                             layout="@layout/layout_maths_ext"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

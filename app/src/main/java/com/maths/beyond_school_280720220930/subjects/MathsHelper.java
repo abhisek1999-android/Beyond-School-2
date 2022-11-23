@@ -53,7 +53,7 @@ public class MathsHelper {
             return a+b;
         else if (subject.equals("subtraction"))
             return Math.abs(a-b);
-        else if (subject.equals("multiplication"))
+        else if (subject.equals("multiplication tables"))
             return a*b;
         else if (subject.equals("division"))
             return a/b;
@@ -68,7 +68,7 @@ public class MathsHelper {
             return  a+" plus "+ b+" equals";
         else if (subject.equals("subtraction"))
             return  a+" minus "+ b+" equals";
-        else if (subject.equals("multiplication"))
+        else if (subject.equals("multiplication tables"))
             return  a+" "+ UtilityFunctions.numberToWords(b) +"s are";
 
         else if (subject.equals("division"))

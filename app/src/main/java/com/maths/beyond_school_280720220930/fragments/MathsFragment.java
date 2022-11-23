@@ -36,16 +36,19 @@ public class MathsFragment extends Fragment {
         binding = FragmentMathsBinding.bind(view);
 
         var dao = GradeDatabase.getDbInstance(requireContext()).gradesDao();
-        var val = dao.values("Addition", "1 -Digit Addition");
+        var val = dao.values("Multiplication Tables", "Table of Eleven");
+
+        binding.gotoMath.cardView1.setOnClickListener(v->{
+            navigateToLearn(val);
+        });
 
 
-        navigateToLearn(val);
     }
 
     private void navigateToLearn(Grades_data val) {
         Intent intent = new Intent(requireContext(), LearningActivity.class);
         intent.putExtra("selected_sub", val.getChapter_name());
-        intent.putExtra("subject", val.super_subject);
+        intent.putExtra("subject", val.subject);
         var maxDigit = UtilityFunctions.getTableNumberFromString(val.chapter_name);
         if (maxDigit.equals("0")) {
             Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -53,6 +56,6 @@ public class MathsFragment extends Fragment {
         }
         intent.putExtra("max_digit", maxDigit);
         intent.putExtra("video_url", "");
-//        startActivity(intent);  TODO Remove this comment to start the activity
+        startActivity(intent);
     }
 }

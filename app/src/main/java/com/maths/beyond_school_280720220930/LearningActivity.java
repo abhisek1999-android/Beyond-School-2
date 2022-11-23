@@ -58,6 +58,7 @@ import org.json.JSONException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -142,7 +143,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
 
         analytics.setUserId(auth.getCurrentUser().getUid());
 
-        subject = getIntent().getStringExtra("subject");
+        subject = getIntent().getStringExtra("subject").toLowerCase(Locale.ROOT);
         digit = getIntent().getStringExtra("max_digit");
         videoUrl = getIntent().getStringExtra("video_url");
         selectedSub = getIntent().getStringExtra("selected_sub");
@@ -438,19 +439,19 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
                     }
                 }
 
-                if (subject.equals("multiplication")) {
+                if (subject.equals("multiplication tables")) {
                     currentNum1 = Integer.parseInt(digit);
                     currentNum2 = currentQuestion;
                 }
             }
             logs += "Question :" + currentNum1 + binding.operator.getText() + "" + currentNum2 + "=?\n";
             Log.d("AAA", "setQuestion: " + currentNum1 + " " + currentNum2);
-            binding.digitOne.setText(currentNum1 + "");
+            digit1Text.setText(currentNum1 + "");
             binding.digitTwo.setText(currentNum2 + "");
             binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
             binding.ansTextView.setText("?");
             currentAnswer = MathsHelper.getMathResult(subject, currentNum1, currentNum2);
-
+            Log.d("AAA", "setQuestion: " + currentNum1 + ", " + currentNum2+", "+currentAnswer);
 
             isCallSTT = true;
             tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
@@ -475,7 +476,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (Integer.parseInt(digit) > 2 && !subject.equals("multiplication"))
+        if (Integer.parseInt(digit) > 2 && !subject.equals("multiplication tables"))
             binding.hintButton.setVisibility(View.INVISIBLE);
         else
             binding.hintButton.setVisibility(View.VISIBLE);
@@ -595,7 +596,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
             digit1Text = binding.digitOneH;
-        } else if (subject.equals("multiplication")) {
+        } else if (subject.equals("multiplication tables")) {
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
             digit1Text = binding.digitOne;
@@ -630,7 +631,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
 
         binding.playVideoLayout.setOnClickListener(view -> {
 
-            if (!subject.equals("multiplication")) {
+            if (!subject.equals("multiplication tables")) {
                 try {
                     displayTutorialAnimation();
                 } catch (ExecutionException e) {
@@ -649,7 +650,7 @@ LearningActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitiali
         });
 
 
-        if (subject.equals("multiplication"))
+        if (subject.equals("multiplication tables"))
             binding.playVideoLayout.setVisibility(View.INVISIBLE);
 
 

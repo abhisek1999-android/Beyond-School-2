@@ -1,5 +1,6 @@
 package com.maths.beyond_school_280720220930;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -102,8 +103,8 @@ public class AdditionActivity extends AppCompatActivity {
     private boolean isTimerRunning = true;
     private String kidName;
     private int kidAge;
-    private String parentsContactId="";
-    private boolean isAnsByTyping=false;
+    private String parentsContactId = "";
+    private boolean isAnsByTyping = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -133,7 +134,7 @@ public class AdditionActivity extends AppCompatActivity {
         kidsGrade = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_grade));
         kidName = PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name));
         kidAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob)));
-        parentsContactId=PrefConfig.readIdInPref(AdditionActivity.this,getResources().getString(R.string.parent_contact_details));
+        parentsContactId = PrefConfig.readIdInPref(AdditionActivity.this, getResources().getString(R.string.parent_contact_details));
         logDatabase = LogDatabase.getDbInstance(this);
         analytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
@@ -165,7 +166,7 @@ public class AdditionActivity extends AppCompatActivity {
         try {
             if (progressData != null) {
                 timeSpend = progressData.get(0).time_spend;
-                binding.timeText.setText(timeSpend+"");
+                binding.timeText.setText(timeSpend + "");
             }
         } catch (Exception e) {
             timeSpend = 0;
@@ -184,7 +185,7 @@ public class AdditionActivity extends AppCompatActivity {
 
                         binding.timerProgress.setMax(15);
                         binding.timerProgress.setProgress(Integer.parseInt((x + 1) + ""));
-                        binding.timeText.setText((timeSpend+x + 1) + "");
+                        binding.timeText.setText((timeSpend + x + 1) + "");
                         Log.i("task", x + "");
                     }
                 })
@@ -226,7 +227,7 @@ public class AdditionActivity extends AppCompatActivity {
 
         tts.initialize("Tap the play button to start the test , you can speak and write answer in the answer box", AdditionActivity.this);
 
-     //   binding.animWoman.playAnimation();
+        //   binding.animWoman.playAnimation();
         // play();
 
     }
@@ -251,8 +252,7 @@ public class AdditionActivity extends AppCompatActivity {
                     }, 100);
 
 
-
-                    isAnsByTyping=true;
+                    isAnsByTyping = true;
                     binding.ansTextView.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -265,16 +265,16 @@ public class AdditionActivity extends AppCompatActivity {
                         @Override
                         public void afterTextChanged(Editable editable) {
 
-                            Log.i("ExecutedMethod",editable+","+currentAnswer);
+                            Log.i("ExecutedMethod", editable + "," + currentAnswer);
 
-                            if (isAnsByTyping){
+                            if (isAnsByTyping) {
 
-                                try{
-                                    if (Integer.parseInt(editable+"")==currentAnswer){
-                                        isAnsByTyping=false;
-                                        UtilityFunctions.runOnUiThread(()->{
+                                try {
+                                    if (Integer.parseInt(editable + "") == currentAnswer) {
+                                        isAnsByTyping = false;
+                                        UtilityFunctions.runOnUiThread(() -> {
 
-                                            Log.i("Executed",editable+","+currentAnswer);
+                                            Log.i("Executed", editable + "," + currentAnswer);
                                             isCallTTS = true;
                                             initSTT();
                                             isNewQuestionGenerated = true;
@@ -286,12 +286,14 @@ public class AdditionActivity extends AppCompatActivity {
                                             binding.ansTextView.clearFocus();
                                             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                                             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                                        },100);
+                                        }, 100);
 
                                     }
-                                }catch (Exception e){}
+                                } catch (Exception e) {
+                                }
 
-                            }}
+                            }
+                        }
                     });
                 } else {
                     //lost focus
@@ -310,7 +312,7 @@ public class AdditionActivity extends AppCompatActivity {
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
             digit1Text = binding.digitOneH;
-        } else if (subject.equals("multiplication")) {
+        } else if (subject.equals("multiplication tables")) {
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
             digit1Text = binding.digitOne;
@@ -345,6 +347,7 @@ public class AdditionActivity extends AppCompatActivity {
     private void initMediaPlayer() {
         mediaPlayer = UtilityFunctions.playClapSound(this);
     }
+
     /**
      * Initialize TTS engine
      * Answer will be check here
@@ -366,7 +369,7 @@ public class AdditionActivity extends AppCompatActivity {
                         binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
-               // binding.animWoman.pauseAnimation();
+                // binding.animWoman.pauseAnimation();
             }
 
             @Override
@@ -446,11 +449,12 @@ public class AdditionActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SuspiciousIndentation")
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void successResultCalling(String result) throws JSONException {
 
         endTime = new Date().getTime();
-        isAnswered=true;
+        isAnswered = true;
 
         try {
             UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
@@ -478,7 +482,10 @@ public class AdditionActivity extends AppCompatActivity {
             tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivity.this);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
 
-            try{  mediaPlayer.start();}catch (Exception e){}
+            try {
+                mediaPlayer.start();
+            } catch (Exception e) {
+            }
 
 //            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
 //                    "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
@@ -518,8 +525,8 @@ public class AdditionActivity extends AppCompatActivity {
 //                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,
 //                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
-                progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,selectedSub);
-                if (!subject.equals("multiplication"))
+                progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, selectedSub);
+                if (!subject.equals("multiplication tables"))
                     UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
                 else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))
                     PrefConfig.writeIntInPref(getApplicationContext(), Integer.parseInt(digit), getResources().getString(R.string.multiplication_upto));
@@ -527,7 +534,7 @@ public class AdditionActivity extends AppCompatActivity {
 //                CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,
 //                        selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
-            resetViews();
+                resetViews();
         }
 
     }
@@ -567,7 +574,8 @@ public class AdditionActivity extends AppCompatActivity {
 
         try {
             mediaPlayer.pause();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         numberList.clear();
         binding.animWoman.cancelAnimation();
         //  binding.textView26.setVisibility(View.VISIBLE);
@@ -642,7 +650,10 @@ public class AdditionActivity extends AppCompatActivity {
         isCallSTT = false;
         isCallTTS = false;
 
-        try{mediaPlayer.pause();}catch (Exception e){}
+        try {
+            mediaPlayer.pause();
+        } catch (Exception e) {
+        }
 
         if (!isAnswered)
             isNewQuestionGenerated = false;
@@ -650,8 +661,10 @@ public class AdditionActivity extends AppCompatActivity {
 
     private void setQuestion() throws InterruptedException {
 
-        try{
-        mediaPlayer.pause();}catch (Exception e){}
+        try {
+            mediaPlayer.pause();
+        } catch (Exception e) {
+        }
 
         UtilityFunctions.unMuteAudioStream(AdditionActivity.this);
         isAnswered = false;
@@ -703,7 +716,7 @@ public class AdditionActivity extends AppCompatActivity {
                     }
                 }
 
-                if (subject.equals("multiplication")) {
+                if (subject.equals("multiplication tables")) {
                     currentNum1 = Integer.parseInt(digit);
 
                     currentNum2 = UtilityFunctions.getRandomNumber(1);
