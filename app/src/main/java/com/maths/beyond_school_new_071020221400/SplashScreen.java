@@ -206,7 +206,9 @@ public class SplashScreen extends AppCompatActivity {
                             getNewData(kidsGrade);
 
                         }else {
-                            startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+
+
+                            startActivity(new Intent(getApplicationContext(), TablesActivity.class));
                             finish();
                         }
 
@@ -255,7 +257,7 @@ public class SplashScreen extends AppCompatActivity {
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)),
                 kidsGrade, SplashScreen.this, gradeDatabase);
 
-        startActivity(new Intent(getApplicationContext(), TabbedHomePage.class));
+        startActivity(new Intent(getApplicationContext(), TablesActivity.class));
         finish();
 
     }

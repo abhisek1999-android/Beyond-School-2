@@ -47,7 +47,7 @@ public class ScoreActivity extends AppCompatActivity {
 
 
         binding.nextbtn.setOnClickListener(v->{
-            Intent intent=new Intent(getApplicationContext(),TabbedHomePage.class);
+            Intent intent=new Intent(getApplicationContext(),TablesActivity.class);
             startActivity(intent);
             finish();
         });

@@ -48,6 +48,13 @@
         android:theme="@style/Theme.BEYOND_SCHOOL"
         tools:node="merge">
         <activity
+            android:name=".VoskExpActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".EnterPhoneNumberActivity"
             android:exported="false">
             <meta-data
@@ -124,7 +131,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MathsTutorialActivity"
+            android:name=".TablesActivity"
             android:exported="false" />
         <activity
             android:name=".english_activity.vocabulary.practice.EnglishVocabularyPracticeActivity"

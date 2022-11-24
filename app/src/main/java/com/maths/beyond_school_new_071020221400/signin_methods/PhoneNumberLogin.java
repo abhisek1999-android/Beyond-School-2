@@ -34,9 +34,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.maths.beyond_school_new_071020221400.GradeActivity;
 import com.maths.beyond_school_new_071020221400.HomeScreen;
+import com.maths.beyond_school_new_071020221400.MainActivity;
 import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.SP.PrefConfig;
 import com.maths.beyond_school_new_071020221400.TabbedHomePage;
+import com.maths.beyond_school_new_071020221400.TablesActivity;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityPhoneNumberLoginBinding;
 import com.maths.beyond_school_new_071020221400.databinding.AlarmDialogBinding;
@@ -401,7 +403,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
             Log.i("KidsData", kidsData.getName() + "");
             customProgressDialogue.dismiss();
-            var i = new Intent(getApplicationContext(), TabbedHomePage.class);
+            var i = new Intent(getApplicationContext(), TablesActivity.class);
             startActivity(i);
             cancelTimer();
             finish();

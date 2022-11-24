@@ -380,7 +380,7 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
         }
         binding.recylerview.setLayoutManager(new LinearLayoutManager(Select_Sub_Activity.this, LinearLayoutManager.VERTICAL, false));
 
-        tablesRecyclerAdapter = new TablesRecyclerAdapter(tablesList, Select_Sub_Activity.this);
+        //tablesRecyclerAdapter = new TablesRecyclerAdapter(tablesList, Select_Sub_Activity.this);
         binding.recylerview.setAdapter(tablesRecyclerAdapter);
         ViewCompat.setNestedScrollingEnabled(binding.recylerview, false);
 
@@ -389,19 +389,19 @@ public class Select_Sub_Activity extends AppCompatActivity implements Navigation
     private void setRecyclerView(String grade, String subSub) {
 
 
-        notes = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + this.grade.getValue().replaceAll(" ", "").toLowerCase() + " =1"));
+        notes = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + this.grade.getValue().replaceAll(" ", "").toLowerCase() + " =1"));
         list = new ArrayList<>();
         //data fetching
         for (int i = 0; i < notes.size(); i++) {
             try {
                 Grades_data data = notes.get(i);
-                String val = data.getChapter();
+                String val = data.getChapter_name();
                 Log.i("NodeData", val);
                 String[] res = val.split(" ");
                 if (!res[0].equals("Multiplication")) {
                     for (String str : res) {
                         if (str.equals(subSub)) {
-                            list.add(new Subject_Model(data.getChapter(), data.getUrl(), data.unlock));
+                            list.add(new Subject_Model(data.getChapter_name(), "", data.unlock));
                         }
                     }
                 } else {

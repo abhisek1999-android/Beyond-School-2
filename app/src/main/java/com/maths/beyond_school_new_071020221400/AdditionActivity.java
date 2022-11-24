@@ -157,6 +157,7 @@ public class AdditionActivity extends AppCompatActivity {
 
 
         initProcess();
+        UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, selectedSub, subject);
     }
 
     private void checkProgressData() {
@@ -298,24 +299,24 @@ public class AdditionActivity extends AppCompatActivity {
                 }
             }
         });
-        if (subject.equals("addition")) {
+        if (subject.equals("Addition")) {
             binding.operator.setText("+");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
 
             digit1Text = binding.digitOneH;
 
-        } else if (subject.equals("subtraction")) {
+        } else if (subject.equals("Subtraction")) {
             binding.operator.setText("-");
             binding.digitOneH.setVisibility(View.VISIBLE);
             binding.digitOne.setVisibility(View.INVISIBLE);
             digit1Text = binding.digitOneH;
-        } else if (subject.equals("multiplication")) {
+        } else if (subject.equals("Multiplication Tables")) {
             binding.operator.setText("×");
             //   binding.subSub.setText("Multiplication upto "+digit +"'s Table");
             digit1Text = binding.digitOne;
 
-        } else if (subject.equals("division")) {
+        } else if (subject.equals("Division")) {
             binding.operator.setText("÷");
             digit1Text = binding.digitOne;
         }
@@ -519,10 +520,9 @@ public class AdditionActivity extends AppCompatActivity {
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
                 progressDataBase.progressDao().updateScore(correctAnswer,wrongAnswer,selectedSub);
-                if (!subject.equals("multiplication"))
-                    UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, subject, selectedSub);
-                else if (PrefConfig.readIntInPref(getApplicationContext(), getResources().getString(R.string.multiplication_upto)) < Integer.parseInt(digit))
-                    PrefConfig.writeIntInPref(getApplicationContext(), Integer.parseInt(digit), getResources().getString(R.string.multiplication_upto));
+                if (!subject.equals("multiplication tables"))
+                    UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, selectedSub, subject);
+
             } else
                 CallFirebaseForInfo.checkActivityData(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
@@ -688,14 +688,14 @@ public class AdditionActivity extends AppCompatActivity {
                     currentNum2 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
                 }
 
-                if (subject.equals("subtraction")) {
+                if (subject.equals("Subtraction")) {
                     if (currentNum1 < currentNum2) {
                         int temp = currentNum1;
                         currentNum1 = currentNum2;
                         currentNum2 = temp;
                     }
                 }
-                if (subject.equals("division")) {
+                if (subject.equals("Division")) {
                     currentNum1 = UtilityFunctions.getRandomIntegerUpto(maxVal, minVal);
                     currentNum2 = UtilityFunctions.getRandomIntegerUpto(9, 2);
                     while (!UtilityFunctions.isDivisible(currentNum1, currentNum2)) {
@@ -703,7 +703,7 @@ public class AdditionActivity extends AppCompatActivity {
                     }
                 }
 
-                if (subject.equals("multiplication")) {
+                if (subject.equals("Multiplication Tables")) {
                     currentNum1 = Integer.parseInt(digit);
 
                     currentNum2 = UtilityFunctions.getRandomNumber(1);

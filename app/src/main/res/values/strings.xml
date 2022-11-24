@@ -891,7 +891,8 @@
     <string name="add3">3 -Digit Addition</string>
     <string name="sub3">3 -Digit Subtraction</string>
     <string name="mul3">Multiplication up to 15 \'s table</string>
-    <string name="div3">4 -Digit Division</string>
+    <string name="div3">3 -Digit Division</string>
+    <string name="div4">4 -Digit Division</string>
 
     <string name="add4">4 -Digit Addition</string>
     <string name="add5">5 -Digit Addition</string>
@@ -982,6 +983,20 @@
     <string name="expression">Expression</string>
     <string name="expression1">Expression Introducing Yourself</string>
 
+
+
+    <string name="recognize_file">Recognize File</string>
+    <string name="recognize_microphone">Recognize Microphone</string>
+    <string name="stop_microphone">Stop Microphone</string>
+    <string name="preparing">Preparing the recognizer\n</string>
+    <string name="ready">Ready\n</string>
+    <string name="failed">Failed to init recognizer %s\n</string>
+    <string name="elapsed">Result %s elapsed %d milliseconds\n</string>
+    <string name="starting">Starting\n</string>
+    <string name="say_something">Say something\n</string>
+    <string name="stop_file">Stop File</string>
+    <string name="pause">Pause</string>
+    <string name="continueRecognition">Continue</string>
 
     <string name="digit">Digit</string>
     <string name="table">Table</string>

@@ -96,7 +96,7 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
         public SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
-            subSub = mView.findViewById(R.id.operation);
+
             isLock=mView.findViewById(R.id.isLocked);
         }
     }

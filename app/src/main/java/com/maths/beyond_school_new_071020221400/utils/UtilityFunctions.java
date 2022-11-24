@@ -37,6 +37,7 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.SP.PrefConfig;
 import com.maths.beyond_school_new_071020221400.database.english.grammer.model.GrammarModel;
@@ -732,11 +733,54 @@ public final class UtilityFunctions {
         mFirebaseAnalytics.logEvent("phone_number_login_attempt", kidsData);
     }
 
-
-    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
+    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, FirebaseAuth mAuth, String uid, String kidsId, String kidsName, String type,
                                            int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
             , String parentsContactId
     ) {
+        var resultBundle = new Bundle();
+        resultBundle.putString("original_result", result);
+        resultBundle.putString("detected_result", detected);
+        resultBundle.putBoolean("is_correct", tag);
+        resultBundle.putInt("timeTaken", timeTaken);
+        resultBundle.putString("question", question);
+        resultBundle.putString("parent_id", uid);
+        resultBundle.putString("kids_id", kidsId);
+        resultBundle.putString("kids_name", kidsName);
+        resultBundle.putInt("kids_age", age);
+        resultBundle.putString("user_id", mAuth.getCurrentUser().getUid());
+        resultBundle.putString("type", type);
+        resultBundle.putString("parents_contact_id", parentsContactId);
+        mFirebaseAnalytics.logEvent(subject, resultBundle);
+
+
+        Bundle itemJeggings = new Bundle();
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_ID, kidsId);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_NAME, kidsName);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, question);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_VARIANT, detected);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_BRAND, result);
+        itemJeggings.putString(FirebaseAnalytics.Param.ITEM_CATEGORY2, parentsContactId);
+        itemJeggings.putDouble(FirebaseAnalytics.Param.PRICE, age);
+
+
+        Bundle activityInfoWithIndex = new Bundle(itemJeggings);
+        activityInfoWithIndex.putLong(FirebaseAnalytics.Param.INDEX, 1);
+
+
+        Bundle viewItemListParams = new Bundle();
+        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_ID, tag + "");
+        viewItemListParams.putString(FirebaseAnalytics.Param.ITEM_LIST_NAME, type);
+        viewItemListParams.putParcelableArray(FirebaseAnalytics.Param.ITEMS,
+                new Parcelable[]{activityInfoWithIndex});
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM_LIST, viewItemListParams);
+
+
+    }
+
+
+    public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, String uid, String kidsId, String kidsName, String type,
+                                           int age, String result, String detected, Boolean tag, int timeTaken, String question, String subject
+            , String parentsContactId) {
         var resultBundle = new Bundle();
         resultBundle.putString("original_result", result);
         resultBundle.putString("detected_result", detected);
@@ -906,6 +950,63 @@ public final class UtilityFunctions {
     }
 
 
+
+    public static String getTableNumberFromString(String s) {
+        if (s.contains("Table of "))
+            return String.valueOf(wordToNumber(s.substring(9)));
+        if (s.contains("-Digit Addition"))
+            return String.valueOf(s.charAt(0));
+        return 0 + "";
+    }
+
+    public static int wordToNumber(String s) {
+        switch (s) {
+            case "One":
+                return 1;
+            case "Two":
+                return 2;
+            case "Three":
+                return 3;
+            case "Four":
+                return 4;
+            case "Five":
+                return 5;
+            case "Six":
+                return 6;
+            case "Seven":
+                return 7;
+            case "Eight":
+                return 8;
+            case "Nine":
+                return 9;
+            case "Ten":
+                return 10;
+            case "Eleven":
+                return 11;
+            case "Twelve":
+                return 12;
+            case "Thirteen":
+                return 13;
+            case "Fourteen":
+                return 14;
+            case "Fifteen":
+                return 15;
+            case "Sixteen":
+                return 16;
+            case "Seventeen":
+                return 17;
+            case "Eighteen":
+                return 18;
+            case "Nineteen":
+                return 19;
+            case "Twenty":
+                return 20;
+            default:
+                return 0;
+        }
+    }
+
+
     // Un-Mute audio streams
     public static void unMuteAudioStream(Context context) throws InterruptedException {
         Thread.sleep(500);
@@ -1040,17 +1141,17 @@ public final class UtilityFunctions {
     public static void updateDbUnlock(GradeDatabase database, String grade, String chapter, String subSub) {
 
         List<Grades_data> dbData = new ArrayList<>();
-        dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
+        dbData = database.gradesDao().valuesOnSubject(subSub);
         Log.d("XXX", chapter);
         Log.d("XXX", dbData + "");
         for (int i = 0; i < dbData.size(); i++) {
-            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).chapter.equals(subSub) + subSub);
-            if (dbData.get(i).chapter.equals(subSub)) {
+            Log.d("XXX", "updateDbUnlock: called " + dbData.get(i).chapter_name.equals(subSub) + subSub);
+            if (dbData.get(i).chapter_name.equals(chapter)) {
                 Log.d("XXX", "updateDbUnlock: if");
                 try {
-                    database.gradesDao().updateIsComplete(true, dbData.get(i).chapter);
-                    database.gradesDao().update(true, dbData.get(i + 1).chapter);
-                    Log.d("XXX", dbData.get(i + 1).chapter);
+                    database.gradesDao().updateIsComplete(true, dbData.get(i).chapter_name);
+                    database.gradesDao().update(true, dbData.get(i + 1).chapter_name);
+                    Log.d("XXX", dbData.get(i + 1).chapter_name);
                     break;
                 } catch (Exception e) {
                     Log.e("XXX", e.getMessage());
@@ -1092,7 +1193,7 @@ public final class UtilityFunctions {
     public static Grades_data getFirstFalseData(GradeDatabase database, String grade, String chapter) {
 
         List<Grades_data> dbData = new ArrayList<>();
-        dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=0 LIMIT 1"));
+        dbData = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=0 LIMIT 1"));
         Log.i("CHAPTER", chapter);
         Log.i("DB_DATA", dbData + "");
         try {
@@ -1109,9 +1210,9 @@ public final class UtilityFunctions {
 
         List<Grades_data> dbData = new ArrayList<>();
         if (is_all_needed)
-            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
+            dbData = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
         else
-            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
+            dbData = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
 
         Log.i("CHAPTER", chapter);
         Log.i("DB_DATA", dbData + "");
@@ -1128,9 +1229,9 @@ public final class UtilityFunctions {
 
         List<Grades_data> dbData = new ArrayList<>();
         if (is_all_needed)
-            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
+            dbData = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%'"));
         else
-            dbData = database.gradesDao().valus(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
+            dbData = database.gradesDao().values(new SimpleSQLiteQuery("SELECT * FROM grades where " + grade.replaceAll(" ", "").toLowerCase() + " =1 and chapter LIKE '%" + chapter + "%' AND is_complete=1"));
 
         Log.i("CHAPTER", chapter);
         Log.i("DB_DATA", dbData + "");

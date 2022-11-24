@@ -44,13 +44,13 @@ public class MathsHelper {
 
     public static int getMathResult(String subject,int a, int b){
 
-        if (subject.equals("addition"))
+        if (subject.equals("Addition"))
             return a+b;
-        else if (subject.equals("subtraction"))
+        else if (subject.equals("Subtraction"))
             return Math.abs(a-b);
-        else if (subject.equals("multiplication"))
+        else if (subject.equals("Multiplication Tables"))
             return a*b;
-        else if (subject.equals("division"))
+        else if (subject.equals("Division"))
             return a/b;
         return 0;
 
@@ -59,14 +59,14 @@ public class MathsHelper {
 
     public static String getMathQuestion (String subject,int a, int b){
 
-        if (subject.equals("addition"))
+        if (subject.equals("Addition"))
             return  a+" plus "+ b+" equals";
-        else if (subject.equals("subtraction"))
+        else if (subject.equals("Subtraction"))
             return  a+" minus "+ b+" equals";
-        else if (subject.equals("multiplication"))
+        else if (subject.equals("Multiplication Tables"))
             return  a+" "+ UtilityFunctions.numberToWords(b) +"s are";
 
-        else if (subject.equals("division"))
+        else if (subject.equals("Division"))
             return  a+"divided by "+ b;
         return "";
 

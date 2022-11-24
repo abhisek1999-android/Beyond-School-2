@@ -37,7 +37,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     Context context;
     ProgressDataBase progressDataBase;
     long timeSpend = 0;
-    String subSub = "", chapter = "";
+    String subSub = "", chapter_name = "";
 
 
     public SubjectRecyclerAdapter(List<Grades_data> list, Context context) {
@@ -59,8 +59,8 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         Grades_data grades_data = list.get(position);
-        String val = grades_data.chapter;
-        String chapter = grades_data.subject;
+        String val = grades_data.chapter_name;
+        String chapter_name = grades_data.subject;
         String[] res = val.split(" ");
 
         try {
@@ -71,11 +71,11 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 long correct;
                 long wrong;
                 if (grades_data.subject.equals("Multiplication Tables")) {
-                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", true);
-                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )", false);
+                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter_name)) + "( " + grades_data.chapter_name + "X )", true);
+                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter_name)) + "( " + grades_data.chapter_name + "X )", false);
                 } else {
-                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, true);
-                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter, false);
+                    correct = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter_name, true);
+                    wrong = UtilityFunctions.gettingCorrectValues(progressDataBase, grades_data.chapter_name, false);
                 }
                 holder.scoreText.setText("Score: " + correct + "/" + (correct + wrong));
 
@@ -85,11 +85,11 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
         if (grades_data.subject.equals("Multiplication Tables")) {
             holder.subSub.setText(grades_data.subject);
-            holder.chapters.setText("Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )");
+            holder.chapter_names.setText("Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter_name)) + "( " + grades_data.chapter_name + "X )");
 
             try {
 
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, "mul", "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )",
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, "mul", "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter_name)) + "( " + grades_data.chapter_name + "X )",
                         new Date(), 0, true).get(0).time_spend;
                 if (timeSpend >= 8) {
                     holder.status.setText("Complete");
@@ -105,16 +105,16 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
         }
 
-        if (chapter.equals("Mathematics")) {
+        if (chapter_name.equals("Mathematics")) {
 
 
-            subSub = grades_data.chapter.split(" ")[2];
-            chapter = grades_data.chapter;
+            subSub = grades_data.chapter_name.split(" ")[2];
+            chapter_name = grades_data.chapter_name;
 
             holder.subSub.setText(subSub);
-            holder.chapters.setText(chapter);
+            holder.chapter_names.setText(chapter_name);
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[2], grades_data.chapter,
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter_name.split(" ")[2], grades_data.chapter_name,
                         new Date(), 0, true).get(0).time_spend;
 
                 if (timeSpend >= 8) {
@@ -131,16 +131,16 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
         }
 
-        if (chapter.equals("English")) {
+        if (chapter_name.equals("English")) {
 
-            subSub = grades_data.chapter.split(" ")[0];
-            chapter = grades_data.chapter.replace(grades_data.chapter.split(" ")[0], "");
+            subSub = grades_data.chapter_name.split(" ")[0];
+            chapter_name = grades_data.chapter_name.replace(grades_data.chapter_name.split(" ")[0], "");
 
             holder.subSub.setText(subSub.replace("_", ""));
-            holder.chapters.setText(chapter.replace("_", " "));
+            holder.chapter_names.setText(chapter_name.replace("_", " "));
 
             try {
-                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter.split(" ")[0], grades_data.chapter.replace(grades_data.chapter.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
+                timeSpend = UtilityFunctions.checkProgressAvailable(progressDataBase, grades_data.chapter_name.split(" ")[0], grades_data.chapter_name.replace(grades_data.chapter_name.split(" ")[0], ""), new Date(), 0, true).get(0).time_spend;
                 holder.timeText.setText(timeSpend + "/15 m");
 
                 Toast.makeText(context, timeSpend + "", Toast.LENGTH_SHORT).show();
@@ -186,9 +186,9 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                 if (grades_data.subject.equals("Multiplication Tables")) {
 
                     Intent intent = new Intent(context, LearningActivity.class);
-                    intent.putExtra("selected_sub", "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter)) + "( " + grades_data.chapter + "X )");
+                    intent.putExtra("selected_sub", "Table of " + UtilityFunctions.numberToWords(Integer.parseInt(grades_data.chapter_name)) + "( " + grades_data.chapter_name + "X )");
                     intent.putExtra("subject", "multiplication");
-                    intent.putExtra("max_digit", grades_data.chapter);
+                    intent.putExtra("max_digit", grades_data.chapter_name);
                     intent.putExtra("video_url", "default");
                     context.startActivity(intent);
                 } else {
@@ -196,7 +196,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
                     intent.putExtra("selected_sub", val);
                     intent.putExtra("subject", res[res.length - 1].toLowerCase());
                     intent.putExtra("max_digit", res[0]);
-                    intent.putExtra("video_url", grades_data.getUrl());
+                    intent.putExtra("video_url","");
                     context.startActivity(intent);
 
                 }
@@ -221,7 +221,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
-        TextView subSub, chapters, status, timeText, scoreText;
+        TextView subSub, chapter_names, status, timeText, scoreText;
 
         View mView;
 
@@ -230,7 +230,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
             mView = itemView;
             subSub = mView.findViewById(R.id.subSubject);
-            chapters = mView.findViewById(R.id.chapters);
+            chapter_names = mView.findViewById(R.id.chapters);
             status = mView.findViewById(R.id.status);
             timeText = mView.findViewById(R.id.timeText);
             scoreText = mView.findViewById(R.id.score);

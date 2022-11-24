@@ -144,7 +144,6 @@ public class Subject_Adapter extends RecyclerView.Adapter<Subject_Adapter.Subjec
 
 //            digit_val = itemView.findViewById(R.id.digit_val);
 //            digit = itemView.findViewById(R.id.digit);
-            operation = itemView.findViewById(R.id.operation);
             card = itemView.findViewById(R.id.card);
             isLocked = itemView.findViewById(R.id.isLocked);
 

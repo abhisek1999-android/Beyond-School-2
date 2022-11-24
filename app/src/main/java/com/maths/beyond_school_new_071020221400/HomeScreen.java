@@ -69,7 +69,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     private List<Grades_data> subMathsData;
     private List<Grades_data> subEngData;
     private SubjectRecyclerAdapter subjectRecyclerAdapter;
-    String[] math = {"Addition", "Subtraction", "Multiplication Tables", "Division"};
+    String[] math = {"Multiplication Tables"};
     String[] eng = {"Vocabulary"};
     private List<SubSubject> subMathList;
     private List<SubSubject> subEngList;
@@ -243,7 +243,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         sectionList.clear();
 
 
-        eng = gradeDatabase.gradesDaoUpdated().getChapterNames();
+        math = gradeDatabase.gradesDao().getChapterNames();
 //        for (int i = 0; i < math.length; i++) {
 //            int total = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i].split(" ")[0], true).size();
 //            int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, math[i], false).size();
@@ -262,15 +262,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //
 //        sectionList.add(new SectionSubSubject("Mathematics", subMathList));
 
-        for (int i = 0; i < eng.length; i++) {
-            int total = gradeDatabase.gradesDaoUpdated().getSubjectCount(eng[i]);
-            //TODO: MUST BE UPDATE
-            int completed = gradeDatabase.gradesDaoUpdated().getSubjectCompleteCount(eng[i]);
+        for (int i = 0; i < math.length; i++) {
+            int total = gradeDatabase.gradesDao().getSubjectCount(math[i]);
+            int completed = gradeDatabase.gradesDaoUpdated().getSubjectCompleteCount(math[i]);
             //int completed = UtilityFunctions.gettingSubSubjectData(gradeDatabase, kidsGrade, eng[i], false).size();
-            subEngList.add(new SubSubject(eng[i], total, completed, resEng[i]));
+            subMathList.add(new SubSubject(math[i], total, completed, resMath[i]));
         }
 
-        sectionList.add(new SectionSubSubject("", subEngList));
+        sectionList.add(new SectionSubSubject("", subMathList));
 
 
         binding.progressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -300,6 +299,23 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 //
 //        closeButton.setOnClickListener(v -> alertDialog.dismiss());
 
+    }
+
+
+
+
+    private void navigateToLearn(Grades_data val) {
+        Intent intent = new Intent(getApplicationContext(), LearningActivity.class);
+        intent.putExtra("selected_sub", val.getChapter_name());
+        intent.putExtra("subject", val.subject);
+        var maxDigit = UtilityFunctions.getTableNumberFromString(val.chapter_name);
+        if (maxDigit.equals("0")) {
+            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        intent.putExtra("max_digit", maxDigit);
+        intent.putExtra("video_url", "");
+        startActivity(intent);
     }
 
 
@@ -641,18 +657,20 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         subjectRecyclerAdapterUpdated = new SubjectRecyclerAdapterUpdated(HomeScreen.this, gradeData -> {
 
 
-            Intent intent;
-            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
-            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
-                intent = new Intent(this, EnglishSpellingActivity.class);
-                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
-            } else {
-                intent = new Intent(this, GrammarActivity.class);
-                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
-            }
-            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
-            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
-            startActivity(intent);
+          //  navigateToLearn();
+
+//            Intent intent;
+//            Log.d(TAG, "setRecyclerViewData: " + gradeData.getRequest());
+//            if (gradeData.getSubject().equals("Spelling_CommonWords")) {
+//                intent = new Intent(this, EnglishSpellingActivity.class);
+//                intent.putExtra(Constants.EXTRA_SPELLING_DETAIL, gradeData.getChapter_name());
+//            } else {
+//                intent = new Intent(this, GrammarActivity.class);
+//                intent.putExtra(Constants.EXTRA_GRAMMAR_CATEGORY, gradeData.getChapter_name());
+//            }
+//            intent.putExtra(Constants.EXTRA_ONLINE_FLAG, true);
+//            intent.putExtra(EXTRA_TITLE, gradeData.getSubject());
+//            startActivity(intent);
 
         });
         binding.englishRecyclerView.setAdapter(subjectRecyclerAdapterUpdated);

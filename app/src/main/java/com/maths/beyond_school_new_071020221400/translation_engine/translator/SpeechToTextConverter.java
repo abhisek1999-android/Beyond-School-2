@@ -15,6 +15,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConverter> {
@@ -44,7 +45,9 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         stringToText.put("tu", "2");
         stringToText.put("Tu", "2");
         stringToText.put("to", "2");
+        stringToText.put("too", "2");
         stringToText.put("To", "2");
+        stringToText.put("To0", "2");
         stringToText.put("hundred", "100");
         stringToText.put("potty", "40");
         stringToText.put("party", "40");
@@ -56,9 +59,11 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
 
         var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-IN");
         intent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, true);
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 30);
 
         var listener = new CustomRecognitionListener();
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(appContext);
@@ -83,6 +88,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         @Override
         public void onRmsChanged(float rmsdB) {
 
+          //  Log.d(TAG, "onRmsChanged: "+rmsdB);
         }
 
         @Override
@@ -93,13 +99,13 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         @Override
         public void onEndOfSpeech() {
             Log.d(TAG, "onEndOfSpeech");
-       //     assert conversionCallaBack != null;
+            //     assert conversionCallaBack != null;
             conversionCallaBack.onCompletion();
         }
 
         @Override
         public void onError(int error) {
-            Log.d(TAG, "onError"+error);
+            Log.d(TAG, "onError" + getErrorText(error));
             assert conversionCallaBack != null;
             conversionCallaBack.onErrorOccurred(getErrorText(error));
             conversionCallaBack.getLogResult("onError : " + getErrorText(error));
@@ -109,6 +115,9 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         public void onResults(Bundle results) {
             Log.i(TAG, "onResults");
             ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            ArrayList<String> unstableData = results.getStringArrayList("android.speech.extra.UNSTABLE_TEXT");
+            Log.d(TAG, "onResults: " + matches);
+            Log.d(TAG, "onResults: Unstable"+unstableData);
             StringBuilder text = new StringBuilder();
             for (String result : matches)
                 text.append(result).append("\n");
@@ -134,31 +143,31 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
                     } catch (JSONException ex) {
                         ex.printStackTrace();
                     }
-                   // conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
+                    // conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }
             }
         }
 
         @Override
         public void onPartialResults(Bundle partialResults) {
-//            Log.i("LOG_TAG", "onPertialResults" + result);
-//            ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//
-//            if (matches.size() != 0) {
-//
-//                result = matches.get(0).trim();
-//                conversionCallaBack.onPartialResult("Partial: " + matches.get(0).trim() + "\n");
-//                Log.i("ResultsIntP", result + "");
-//                if (!result.equals("")) {
-//                    try {
-//                        int res = Integer.parseInt(result.replace(" ", "").trim());
-//                        Log.i("ResultInt ", res + "");
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
+            Log.i(TAG, "onPertialResults" + result);
+            ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            Log.i(TAG, "onPertialResults" + matches);
+            if (matches.size() != 0) {
+
+                result = matches.get(0).trim();
+                conversionCallaBack.onPartialResult("Partial: " + matches.get(0).trim() + "\n");
+                Log.i(TAG, "ResultsIntP" + result + "");
+                if (!result.equals("")) {
+                    try {
+                        int res = Integer.parseInt(result.replace(" ", "").trim());
+                        Log.i(TAG, "ResultInt " + res + "");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
         }
 
         @Override
@@ -206,8 +215,8 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
     }
 
 
-    public void stop(){
-        if (speechRecognizer!=null){
+    public void stop() {
+        if (speechRecognizer != null) {
             speechRecognizer.stopListening();
         }
     }
