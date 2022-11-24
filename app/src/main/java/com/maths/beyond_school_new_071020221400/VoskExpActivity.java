@@ -55,7 +55,7 @@ public class VoskExpActivity extends AppCompatActivity implements RecognitionLis
         findViewById(R.id.recognize_mic).setOnClickListener(view -> recognizeMicrophone());
         ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> pause(isChecked));
 
-        LibVosk.setLogLevel(LogLevel.INFO);
+       LibVosk.setLogLevel(LogLevel.INFO);
 
         // Check if user has given permission to record audio, init the model after permission is granted
         int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
@@ -64,13 +64,15 @@ public class VoskExpActivity extends AppCompatActivity implements RecognitionLis
         } else {
             initModel();
         }
+    //    recognizeMicrophone();
     }
 
     private void initModel() {
         StorageService.unpack(this, "model-en-us", "model",
                 (model) -> {
                     this.model = model;
-                    setUiState(STATE_READY);
+                    //setUiState(STATE_READY);
+                    recognizeMicrophone();
                 },
                 (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
     }

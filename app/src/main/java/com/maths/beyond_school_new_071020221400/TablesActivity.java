@@ -71,7 +71,7 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
         checkAudioPermission();
         setUiElements();
 
-        startActivity(new Intent(getApplicationContext(),VoskExpActivity.class));
+        startActivity(new Intent(getApplicationContext(),TestActivity.class));
 
     }
 

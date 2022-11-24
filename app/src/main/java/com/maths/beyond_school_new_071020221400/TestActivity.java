@@ -17,12 +17,17 @@ import com.maths.beyond_school_new_071020221400.database.grade_tables.GradeData;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityTestBinding;
 import com.maths.beyond_school_new_071020221400.firebase.CallFirebaseForInfo;
+import com.maths.beyond_school_new_071020221400.translation_engine.ConversionCallback;
+import com.maths.beyond_school_new_071020221400.translation_engine.SpeechToTextBuilder;
+import com.maths.beyond_school_new_071020221400.translation_engine.translator.SpeechToTextConverter;
+import com.maths.beyond_school_new_071020221400.translation_engine.translator.SpeechToTextConverterVosk;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
 import com.razorpay.Plan;
 import com.razorpay.Subscription;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -40,6 +45,7 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
     private Subscription subscription;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth;
+    private SpeechToTextConverterVosk stt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        Checkout.preload(getApplicationContext());
+//        Checkout.preload(getApplicationContext());
 //        try {
 //            subscription = new CreateSubscription(TestActivity.this).execute().get();
 ////            Log.d(TAG, "onCreate: subscription"+subscription.get("id"));
@@ -73,6 +79,37 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
 //        }
 
 
+        stt= SpeechToTextBuilder.builderVosk(new ConversionCallback() {
+
+            @Override
+            public void onSuccess(String result) throws JSONException {
+                ConversionCallback.super.onSuccess(result);
+
+                Log.d(TAG, "onSuccess: +"+result);
+
+            }
+
+            @Override
+            public void onCompletion() {
+                Log.d(TAG, "onCompletion: ");
+            }
+
+            @Override
+            public void onErrorOccurred(String errorMessage) {
+
+                Log.d(TAG, "onErrorOccurred: "+errorMessage);
+
+            }
+        });
+
+        stt.initialize("",TestActivity.this);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        stt.destroy();
     }
 
     public void buttonClick(View view) {
