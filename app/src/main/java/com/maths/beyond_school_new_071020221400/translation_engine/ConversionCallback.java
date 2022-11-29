@@ -18,6 +18,10 @@ public interface ConversionCallback {
     default void getLogResult(String title) {
 
     }
+
+    default void successInit() {
+
+    }
     default void getArrayResult(List<String[]> list) {
 
     }

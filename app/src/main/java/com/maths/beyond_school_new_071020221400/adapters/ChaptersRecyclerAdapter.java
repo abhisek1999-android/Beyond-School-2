@@ -67,8 +67,9 @@ public class ChaptersRecyclerAdapter extends RecyclerView.Adapter<ChaptersRecycl
 
         if (gradeData.isUnlock()){
             holder.isLock.setVisibility(View.INVISIBLE);
-
         }
+
+
 
         holder.subSub.setText(gradeData.getChapter_name());
         holder.mView.setOnClickListener(v -> {

@@ -7,6 +7,30 @@
     android:orientation="vertical"
     tools:context=".AdditionActivity">
 
+    <LinearLayout
+        android:id="@+id/offScreenLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/accent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:alpha="0"
+        android:elevation="@dimen/grid_10"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/offScreenText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/reemkufi_medium"
+            android:gravity="center"
+            android:textSize="22dp"
+            android:alpha="0.8"
+            android:text="Now Your are learning table of 3"
+            android:textColor="@color/light_gray" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/maxViewLayout"
@@ -606,5 +630,7 @@
         <include layout="@layout/log_bottom_sheet" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
 </RelativeLayout>

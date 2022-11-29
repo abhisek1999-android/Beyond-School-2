@@ -400,7 +400,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
 
-        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
+        CallFirebaseForInfo.upDateActivitiesMaths(kidsDb, mAuth, kidsData.getKids_id(), kidsData.getGrade().toLowerCase().replace(" ", ""), PhoneNumberLogin.this, database, () -> {
             Log.i("KidsData", kidsData.getName() + "");
             customProgressDialogue.dismiss();
             var i = new Intent(getApplicationContext(), TablesActivity.class);

@@ -44,9 +44,7 @@
             android:layout_marginTop="@dimen/grid_0_5"
             android:layout_marginEnd="@dimen/grid_0_5"
             android:layout_marginBottom="@dimen/grid_0_5"
-            android:background="@drawable/round_rect_button_bg"
-            android:backgroundTint="@color/accent"
-            android:padding="8dp"
+
             android:src="@drawable/ic_baseline_lock_24" />
     </RelativeLayout>
 

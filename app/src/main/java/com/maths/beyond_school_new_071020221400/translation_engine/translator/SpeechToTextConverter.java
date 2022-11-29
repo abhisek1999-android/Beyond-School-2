@@ -48,6 +48,7 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         stringToText.put("too", "2");
         stringToText.put("To", "2");
         stringToText.put("To0", "2");
+        stringToText.put("then", "10");
         stringToText.put("hundred", "100");
         stringToText.put("potty", "40");
         stringToText.put("party", "40");

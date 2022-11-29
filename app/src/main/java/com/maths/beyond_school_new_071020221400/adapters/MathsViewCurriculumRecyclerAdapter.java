@@ -63,6 +63,10 @@ public class MathsViewCurriculumRecyclerAdapter extends RecyclerView.Adapter<Mat
         if (list.get(position).unlock)
             holder.isLocked.setVisibility(View.INVISIBLE);
 
+        if (list.get(position).is_completed){
+            holder.isLocked.setVisibility(View.VISIBLE);
+            holder.isLocked.setImageDrawable(context.getDrawable(R.drawable.verified_green_tick));
+        }
 
         holder.chapterName.setText(list.get(position).getChapter_name());
 

@@ -22,8 +22,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_new_071020221400.LearningActivity;
+import com.maths.beyond_school_new_071020221400.LearningActivityNew;
 import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.Grades_data;
+import com.maths.beyond_school_new_071020221400.database.process.ProgressDataBase;
+import com.maths.beyond_school_new_071020221400.databinding.SubjectViewBinding;
 import com.maths.beyond_school_new_071020221400.model.Tables;
 import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
 
@@ -34,6 +37,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     List<Grades_data> list;
     Context context;
+
 
     public TablesRecyclerAdapter(List<Grades_data> list, Context context) {
         this.list = list;
@@ -55,30 +59,24 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, @SuppressLint("RecyclerView") int position) {
-//        if (position > lastAnimatedPosition) {
-//            lastAnimatedPosition = position;
-//            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_from_buttom);
-//            animation.setInterpolator(new AccelerateDecelerateInterpolator());
-//            ((RecentRecyclerAdapter.ContactsViewHolder) holder).mView.setAnimation(animation);
-//            animation.start();
-//        }
 
 
-//        if (list.get(position).isIs_locked())
-//            holder.isLocked.setVisibility(View.INVISIBLE);
+        holder.subjectViewBinding.subSubject.setText(list.get(position).super_subject);
+        holder.subjectViewBinding.chapters.setText(list.get(position).getChapter_name());
+        holder.subjectViewBinding.timeText.setText(
+                ProgressDataBase.getDbInstance(context).progressDao().getTimeSpend(list.get(position).getId(),
+                list.get(position).chapter_name)+""
+        );
 
-        //    Log.i("MUL_LIST",list.get(position).isIs_locked()+"");
 
-
-        holder.subSubject.setText(list.get(position).super_subject);
-        holder.chapters.setText(list.get(position).getChapter_name());
 
         holder.mView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(context, LearningActivity.class);
+            Intent intent = new Intent(context, LearningActivityNew.class);
+            intent.putExtra("id",list.get(position).getId());
             intent.putExtra("selected_sub", list.get(position).getChapter_name());
             intent.putExtra("subject", list.get(position).subject);
             var maxDigit = UtilityFunctions.getTableNumberFromString(list.get(position).chapter_name);
@@ -90,12 +88,7 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
             intent.putExtra("video_url", "");
             context.startActivity(intent);
 
-//
-//                if (list.get(position).isIs_locked()){
-//                }
-//
-//                else
-//                    UtilityFunctions.displayCustomDialog(context,"Chapter Locked","Hey, Please complete previous level to unlock.");
+
         });
 
 
@@ -118,15 +111,15 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
         TextView subSubject,chapters;
         View mView;
         ImageView isLocked;
+        SubjectViewBinding subjectViewBinding;
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mView = itemView;
+            subjectViewBinding=SubjectViewBinding.bind(mView);
             subSubject = itemView.findViewById(R.id.subSubject);
             chapters=itemView.findViewById(R.id.chapters);
-//            tableNumber=mView.findViewById(R.id.numberTextView);
-//            tableDesc=mView.findViewById(R.id.descriptionTextView);
             isLocked = itemView.findViewById(R.id.isLocked);
         }
     }

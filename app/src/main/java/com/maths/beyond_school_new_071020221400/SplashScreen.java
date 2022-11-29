@@ -4,6 +4,7 @@ package com.maths.beyond_school_new_071020221400;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.CalendarContract;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
@@ -85,6 +86,11 @@ public class SplashScreen extends AppCompatActivity {
         if (PrefConfig.readIdInPref(SplashScreen.this, getResources().getString(R.string.alter_maths)).equals("")) {
             PrefConfig.writeIdInPref(SplashScreen.this, simpleDateFormat.format(new Date()), getResources().getString(R.string.alter_maths));
         }
+
+
+        if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals(""))
+        PrefConfig.writeIdInPref(getApplicationContext(), "true", getResources().getString(R.string.log_check));
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
@@ -105,25 +111,25 @@ public class SplashScreen extends AppCompatActivity {
 
         //  Toast.makeText(this, mAuth.getCurrentUser().getUid()+"", Toast.LENGTH_SHORT).show();
 
-        if (mCurrentUser == null) {
-            startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
-            finish();
-        } else {
-            checkUserAlreadyAvailable();
-        }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                /* Create an Intent that will start the Menu-Activity. */
-//                if (mCurrentUser == null) {
-//                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
-//                    finish();
-//                } else {
-//                    checkUserAlreadyAvailable();
-//                }
-//            }
-//        }, 1000);
+//        if (mCurrentUser == null) {
+//            startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+//            finish();
+//        } else {
+//            checkUserAlreadyAvailable();
+//        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                /* Create an Intent that will start the Menu-Activity. */
+                if (mCurrentUser == null) {
+                    startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
+                    finish();
+                } else {
+                    checkUserAlreadyAvailable();
+                }
+            }
+        }, 1000);
   //      setUpRemoteConfig();
     }
 
@@ -174,7 +180,8 @@ public class SplashScreen extends AppCompatActivity {
             finish();
 
         } else {
-            setUpRemoteConfig();
+            startActivity(new Intent(getApplicationContext(), TablesActivity.class));
+            finish();
 
         }
         

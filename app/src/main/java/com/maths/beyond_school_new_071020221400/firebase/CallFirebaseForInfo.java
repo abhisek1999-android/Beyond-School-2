@@ -139,6 +139,47 @@ public class CallFirebaseForInfo  {
 
     }
 
+    public  static void  checkActivityDataMaths(FirebaseFirestore firebaseFirestore, JSONArray kidsJsonArray, String status, FirebaseAuth auth, String kidsId,String grade, String chapters, String subSub, int correctAnswer, int wrongAnswer, int noQuestion, String subject) throws JSONException {
+
+
+        DocumentReference kidsActivityRef= firebaseFirestore.collection("users").document(auth.getCurrentUser().getUid())
+                .collection("kids").document(kidsId).collection("grades").document(grade).collection("test_maths").document(subject+"_"+subSub+"_"+chapters);
+        JSONObject kidsActivityJsonObj = new JSONObject();
+        kidsActivityJsonObj.put("result", kidsJsonArray);
+
+        Map<String, Object> activityData = new HashMap<>();
+        activityData.put("time_stamp", new Date().getTime());
+        activityData.put("result", kidsActivityJsonObj.toString());
+        activityData.put("status", status);
+        activityData.put("correct",correctAnswer);
+        activityData.put("wrong",wrongAnswer);
+        activityData.put("total_count",noQuestion);
+
+
+        kidsActivityRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()){
+
+                KidsActivity kidsActivity=documentSnapshot.toObject(KidsActivity.class);
+                if (!kidsActivity.getStatus().equals("pass")){
+
+                    storeActivityData(kidsActivityRef,activityData);
+                }
+                else{
+
+                    updateKidsData(kidsActivityRef,kidsActivity.getCorrect()+correctAnswer,kidsActivity.getWrong()+wrongAnswer,kidsActivity.getTotal_count()+noQuestion);
+                }
+            }
+            else{
+                storeActivityData(kidsActivityRef,activityData);
+            }
+
+        });
+
+
+
+
+    }
+
     private static void updateKidsData(DocumentReference kidsActivityRef, long correct, long wrong, long total) {
 
 
@@ -159,13 +200,14 @@ public class CallFirebaseForInfo  {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // Log.d(TAG, "DocumentSnapshot successfully written!");
+                         Log.d("CallFirebaseForInfo", "DocumentSnapshot successfully written!");
                         //    Toast.makeText(getApplicationContext(),"added",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("CallFirebaseForInfo", e.getMessage());
                         //  Log.w(TAG, "Error writing document", e);
                     }
                 });
@@ -279,6 +321,49 @@ public class CallFirebaseForInfo  {
                                     }
 
                                 }
+                            }catch (Exception e){}
+
+
+                        }
+                    }
+
+                    callback.dataUpdated();
+                } else {
+                    Log.d("TAG", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+    }
+    public static void upDateActivitiesMaths(FirebaseFirestore kidsDb, FirebaseAuth mAuth, String kids_id, String grade, Context context, GradeDatabase database,Callback callback) {
+        CollectionReference kidsActivityRef= kidsDb.collection("users").document(mAuth.getCurrentUser().getUid())
+                .collection("kids").document(kids_id).collection("grades").document(grade).collection("test_maths");
+
+        kidsActivityRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d("TAG", "onComplete:Firebase Update ");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        KidsActivity kidsActivity=document.toObject(KidsActivity.class);
+
+
+                        if (kidsActivity.getStatus().equals("pass")){
+
+                            try{
+                                //if (!document.getId().split("_")[1].equals("multiplication")){
+                                    Log.i("doc_id",document.getId().replace(" ","").split("_")[1]);
+                                    UtilityFunctions.updateDbUnlock(database,"grade_",document.getId().split("_")[2],document.getId().split("_")[1]);
+                             //   }
+//                                else{
+//                                    Log.i("doc_id",document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
+//                                    int maxVal=Integer.parseInt(document.getId().replace(" ","").split("_")[2].split("\\(")[1].split("")[0]);
+//                                    if (PrefConfig.readIntInPref(context,context.getResources().getString(R.string.multiplication_upto))<maxVal){
+//                                        PrefConfig.writeIntInPref(context,maxVal,context.getResources().getString(R.string.multiplication_upto));
+//                                    }
+
+ //                               }
                             }catch (Exception e){}
 
 

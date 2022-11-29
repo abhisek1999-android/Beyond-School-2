@@ -32,8 +32,8 @@ public interface ProgressDao {
 
     @Query("UPDATE progressM SET time_spend=:time WHERE chapter = :chapter")
     void update(long time, String chapter);
-    @Query("UPDATE progressM SET correct=:correct , wrong=:wrong WHERE chapter = :chapter")
-    void updateScore(long correct,long wrong, String chapter);
+    @Query("UPDATE progressM SET correct=:correct , wrong=:wrong WHERE sub_id = :id")
+    void updateScore(long correct,long wrong, String id);
 
     @Query("SELECT time_spend FROM progressM WHERE sub_id =:sub_id AND chapter=:chapter")
     long getTimeSpend(String sub_id, String chapter);

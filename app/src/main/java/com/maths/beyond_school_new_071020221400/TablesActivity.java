@@ -71,7 +71,7 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
         checkAudioPermission();
         setUiElements();
 
-        startActivity(new Intent(getApplicationContext(),TestActivity.class));
+      //  startActivity(new Intent(getApplicationContext(),TestActivity.class));
 
     }
 
@@ -80,6 +80,8 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
 
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
         binding.tool.toolBar.kidsAge.setText(UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob))) + " years old");
+
+        binding.introTile.setOnClickListener(v->{startActivity(new Intent(getApplicationContext(),TestActivity.class));});
 
         Log.i("ImageUrl", PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
 

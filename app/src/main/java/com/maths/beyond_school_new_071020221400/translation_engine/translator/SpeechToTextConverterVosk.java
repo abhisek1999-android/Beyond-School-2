@@ -3,24 +3,34 @@ package com.maths.beyond_school_new_071020221400.translation_engine.translator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognitionListener;
+
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.widget.Button;
 
+import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.translation_engine.ConversionCallback;
 import com.maths.beyond_school_new_071020221400.translation_engine.ConverterEngine;
+import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.vosk.Model;
+import org.vosk.Recognizer;
+import org.vosk.android.RecognitionListener;
+import org.vosk.android.SpeechService;
+import org.vosk.android.SpeechStreamService;
+import org.vosk.android.StorageService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConverter> {
+public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextConverterVosk> {
 
-    private static final String TAG = SpeechToTextConverter.class.getSimpleName();
+    private static final String TAG = SpeechToTextConverterVosk.class.getSimpleName();
 
     private ConversionCallback conversionCallaBack;
     private SpeechRecognizer speechRecognizer;
@@ -28,13 +38,18 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
     Map<String, String> stringToText = new HashMap();
     public String result = "1";
 
-    public SpeechToTextConverter(ConversionCallback callback) {
+    private Model model;
+    public SpeechService speechService;
+    public SpeechStreamService speechStreamService;
+
+    public SpeechToTextConverterVosk(ConversionCallback callback) {
         this.conversionCallaBack = callback;
+
     }
 
 
     @Override
-    public SpeechToTextConverter initialize(String message, Activity appContext) {
+    public SpeechToTextConverterVosk initialize(String message, Activity appContext) {
         stringToText.put("sex", "6");
         stringToText.put("six", "6");
         stringToText.put("dirty", "30");
@@ -46,8 +61,13 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         stringToText.put("Tu", "2");
         stringToText.put("to", "2");
         stringToText.put("too", "2");
+        stringToText.put("do", "2");
         stringToText.put("To", "2");
         stringToText.put("To0", "2");
+        stringToText.put("for", "4");
+        stringToText.put("for", "4");
+        stringToText.put("food", "4");
+        stringToText.put("ford", "4");
         stringToText.put("hundred", "100");
         stringToText.put("potty", "40");
         stringToText.put("party", "40");
@@ -55,124 +75,125 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
         stringToText.put("tati", "30");
         stringToText.put("tati", "30");
         stringToText.put("aur", "4");
+        stringToText.put("then", "10");
+        stringToText.put("been", "10");
+        stringToText.put("food been", "14");
+
         stringToText.put("stop", "buddy stop");
 
-        var intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-IN");
-        intent.putExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES, true);
-        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        StorageService.unpack(appContext, "model-en-us", "model",
+                (model) -> {
+                    // init service here ...................................
+                    this.model = model;
+                    recVoice();
 
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 30);
+                },
+                (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
+//        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(appContext);
+//        speechRecognizer.setRecognitionListener(listener);
+//        speechRecognizer.startListening(intent);
 
-        var listener = new CustomRecognitionListener();
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(appContext);
-        speechRecognizer.setRecognitionListener(listener);
-        speechRecognizer.startListening(intent);
+
         return this;
     }
 
+    private void recVoice(){
+        var listener = new CustomRecognitionListener();
+        try {
+            Recognizer rec = new Recognizer(model, 16000.0f);
+            speechService = new SpeechService(rec, 16000.0f);
+            speechService.startListening(listener);
+            conversionCallaBack.successInit();
+        } catch (IOException e) {
+            setErrorState(e.getMessage());
+        }
+    }
+
     class CustomRecognitionListener implements RecognitionListener {
+
         @Override
-        public void onReadyForSpeech(Bundle params) {
-            Log.d(TAG, "onReadyForSpeech");
+        public void onPartialResult(String hypothesis) {
+
+
+
+            conversionCallaBack.onPartialResult("Partial: " + hypothesis.trim() + "\n");
+          //  Log.d(TAG, "onPartialResult: "+hypothesis);
+
+//            try {
+//                conversionCallaBack.onSuccess(hypothesis.trim());
+//             //   pause(false);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.d(TAG, "onPartialResult: "+e.getMessage());
+//            }
 
         }
 
         @Override
-        public void onBeginningOfSpeech() {
-            Log.d(TAG, "onBeginningOfSpeech");
-
-        }
-
-        @Override
-        public void onRmsChanged(float rmsdB) {
-
-          //  Log.d(TAG, "onRmsChanged: "+rmsdB);
-        }
-
-        @Override
-        public void onBufferReceived(byte[] buffer) {
-            Log.d(TAG, "onBufferReceived");
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-            Log.d(TAG, "onEndOfSpeech");
-            //     assert conversionCallaBack != null;
-            conversionCallaBack.onCompletion();
-        }
-
-        @Override
-        public void onError(int error) {
-            Log.d(TAG, "onError" + getErrorText(error));
-            assert conversionCallaBack != null;
-            conversionCallaBack.onErrorOccurred(getErrorText(error));
-            conversionCallaBack.getLogResult("onError : " + getErrorText(error));
-        }
-
-        @Override
-        public void onResults(Bundle results) {
-            Log.i(TAG, "onResults");
-            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            ArrayList<String> unstableData = results.getStringArrayList("android.speech.extra.UNSTABLE_TEXT");
-            Log.d(TAG, "onResults: " + matches);
-            Log.d(TAG, "onResults: Unstable"+unstableData);
-            StringBuilder text = new StringBuilder();
-            for (String result : matches)
-                text.append(result).append("\n");
-            result = matches.get(0).trim();
-
-            conversionCallaBack.getLogResult("onResult : " + matches.get(0).trim());
-            assert conversionCallaBack != null;
-            conversionCallaBack.onPartialResult("Result: " + matches.get(0).trim() + "\n");
-            if (matches.get(0).trim().matches(onlyNumber)) {
+        public void onResult(String hypothesis) {
+            try {
+                JSONObject json = new JSONObject(hypothesis);
                 try {
-                    conversionCallaBack.onSuccess(matches.get(0).trim());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                conversionCallaBack.getLogResult("onResult : " + matches.get(0).trim());
-            } else {
-                try {
-                    conversionCallaBack.onSuccess(stringToText.get(matches.get(0).trim().toLowerCase()));
-                    conversionCallaBack.getLogResult("onResultFormatted : " + stringToText.get(matches.get(0).trim().toLowerCase()));
+                    conversionCallaBack.onSuccess(UtilityFunctions.wordToNumberModified(json.getString("text"))+"");
+                    // pause(false);
                 } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "onResult: "+e.getMessage());
                     try {
-                        conversionCallaBack.getStringResult(matches.get(0).trim().toLowerCase());
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
+                        conversionCallaBack.onSuccess(stringToText.get(json.getString("text")));
+                    }catch (Exception eq){
+
+
+                        Log.d(TAG, "onResult: eq"+eq.getMessage());
                     }
-                    // conversionCallaBack.onErrorOccurred("Sorry, I don't understand");
                 }
+                Log.d(TAG, "onResult: "+UtilityFunctions.wordToNumberModified(json.getString("text")));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
         @Override
-        public void onPartialResults(Bundle partialResults) {
-            Log.i(TAG, "onPertialResults" + result);
-            ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            Log.i(TAG, "onPertialResults" + matches);
-            if (matches.size() != 0) {
+        public void onFinalResult(String hypothesis) {
 
-                result = matches.get(0).trim();
-                conversionCallaBack.onPartialResult("Partial: " + matches.get(0).trim() + "\n");
-                Log.i(TAG, "ResultsIntP" + result + "");
-                if (!result.equals("")) {
+         //   conversionCallaBack.onSuccess(stringToText.get(matches.get(0).trim().toLowerCase()));
+
+            try {
+                JSONObject json = new JSONObject(hypothesis);
+                try {
+                    conversionCallaBack.onSuccess(UtilityFunctions.wordToNumberModified(json.getString("text"))+"");
+                    // pause(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "onResult: "+e.getMessage());
                     try {
-                        int res = Integer.parseInt(result.replace(" ", "").trim());
-                        Log.i(TAG, "ResultInt " + res + "");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        conversionCallaBack.onSuccess(stringToText.get(json.getString("text")));
+                    }catch (Exception eq){
 
+
+                        Log.d(TAG, "onResult: eq"+eq.getMessage());
+                    }
                 }
+                Log.d(TAG, "onResult: "+UtilityFunctions.wordToNumberModified(json.getString("text")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (speechStreamService != null) {
+                speechStreamService = null;
             }
         }
 
         @Override
-        public void onEvent(int eventType, Bundle params) {
-            Log.d(TAG, "onEvent");
+        public void onError(Exception exception) {
+            Log.d(TAG, "onError" + exception.getMessage());
+            assert conversionCallaBack != null;
+            conversionCallaBack.onErrorOccurred(exception.getMessage());
+            conversionCallaBack.getLogResult("onError : " + exception.getMessage());
+        }
+
+        @Override
+        public void onTimeout() {
+
         }
     }
 
@@ -215,18 +236,29 @@ public class SpeechToTextConverter implements ConverterEngine<SpeechToTextConver
     }
 
 
-    public void stop() {
-        if (speechRecognizer != null) {
-            speechRecognizer.stopListening();
+    private String setErrorState(String message) {
+        return message;
+    }
+
+
+    public void pause(boolean checked) {
+        Log.d(TAG, "pause: ");
+        if (speechService != null) {
+            speechService.setPause(checked);
         }
     }
 
     // destroy Stp
     public void destroy() {
-        if (speechRecognizer != null) {
-            conversionCallaBack = null;
-            Log.d("TAG", "destroy: destroying STT ");
-            speechRecognizer.destroy();
+        if (speechService != null) {
+            speechService.stop();
+            speechService.shutdown();
+            speechService = null;
+            Log.d(TAG, "destroy: ");
+        }
+
+        if (speechStreamService != null) {
+            speechStreamService.stop();
         }
     }
 }

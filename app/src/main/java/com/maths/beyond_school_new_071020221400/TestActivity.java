@@ -1,11 +1,13 @@
 package com.maths.beyond_school_new_071020221400;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +23,7 @@ import com.maths.beyond_school_new_071020221400.translation_engine.ConversionCal
 import com.maths.beyond_school_new_071020221400.translation_engine.SpeechToTextBuilder;
 import com.maths.beyond_school_new_071020221400.translation_engine.translator.SpeechToTextConverter;
 import com.maths.beyond_school_new_071020221400.translation_engine.translator.SpeechToTextConverterVosk;
+import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
@@ -79,32 +82,126 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
 //        }
 
 
-        stt= SpeechToTextBuilder.builderVosk(new ConversionCallback() {
+//        stt= SpeechToTextBuilder.builderVosk(new ConversionCallback() {
+//
+//            @Override
+//            public void onSuccess(String result) throws JSONException {
+//                ConversionCallback.super.onSuccess(result);
+//
+//                if (!result.equals("-10001")){
+//                try {
+//
+//                    Log.d(TAG, "onSuccess: "+result);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.d(TAG, "onSuccess: "+e.getMessage());
+//                }}
+//
+//            }
+//
+//            @Override
+//            public void onCompletion() {
+//                Log.d(TAG, "onCompletion: ");
+//            }
+//
+//            @Override
+//            public void onErrorOccurred(String errorMessage) {
+//
+//                Log.d(TAG, "onErrorOccurred: "+errorMessage);
+//
+//            }
+//        });
+
+
+        initSTT();
+        stt.initialize("",TestActivity.this);
+
+    }
+
+
+    private void initSTT() {
+        stt = SpeechToTextBuilder.builderVosk(new ConversionCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(String result) {
+
+                Log.i(TAG, "On Succcess" + result);
+
+                if (!result.equals("-10001")){
+                    try {
+
+                        Log.d(TAG, "onSuccess: "+result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "onSuccess: "+e.getMessage());
+                    }}
+            }
+
 
             @Override
-            public void onSuccess(String result) throws JSONException {
-                ConversionCallback.super.onSuccess(result);
-
-                Log.d(TAG, "onSuccess: +"+result);
+            public void onCompletion() {
+                Log.d(TAG, "onCompletion: Done");
 
             }
 
             @Override
-            public void onCompletion() {
-                Log.d(TAG, "onCompletion: ");
+            public void getLogResult(String title) {
+                Log.i("INLOG", title);
+                ConversionCallback.super.getLogResult(title);
+
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void getStringResult(String title) throws JSONException {
+                ConversionCallback.super.getStringResult(title);
+//                Log.i("SoundXCalled", title + ",title: " + Soundex.getCode(title) + ", ans:" + Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)));
+//                if (Soundex.getCode(title).equals(Soundex.getCode(UtilityFunctions.numberToWords(currentAnswer)))) {
+//                    successResultCalling(currentAnswer + "");
+//                } else {
+//                    // Changes
+//                    try {
+//                        UtilityFunctions.runOnUiThread(() -> {
+//                            isCallSTT = true;
+//                            tts.initialize("", LearningActivityNew.this);
+//                        }, 250);
+//                    } catch (Exception e) {
+//                        Log.i(TAG, "Inside String res");
+//                        pause();
+//                    }
+//                }
+
+
             }
 
             @Override
             public void onErrorOccurred(String errorMessage) {
 
-                Log.d(TAG, "onErrorOccurred: "+errorMessage);
+//                Log.i(TAG, "Inside err" + errorMessage);
+//                if (errorMessage.equals("No match")) {
+//                    try {
+//                        UtilityFunctions.runOnUiThread(() -> {
+//                            isCallSTT = true;
+//                            tts.initialize("", LearningActivityNew.this);
+//                        }, 250);
+//
+//                    } catch (Exception e) {
+//                        Log.i(TAG, "Inside err");
+//                        pause();
+//                    }
+//                } else {
+//
+//                    Log.i(TAG, "InsideErrElse" + errorMessage + isCallSTT + isCallTTS + isAnsByTyping);
+//                    // binding.playPause.setChecked(false);
+//                    //pause();
+//                }
+
 
             }
         });
-
-        stt.initialize("",TestActivity.this);
-
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -113,37 +210,7 @@ public class TestActivity extends AppCompatActivity implements PaymentResultWith
     }
 
     public void buttonClick(View view) {
-
-        Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_UG0wPL54QTV1fA");
-
-        checkout.setImage(R.drawable.logo);
-        final Activity activity = this;
-
-        try {
-            JSONObject options = new JSONObject();
-
-            options.put("name", "Beyond School");
-            options.put("description", "Reference No. #123456");
-            options.put("image", R.drawable.app_logo_v2);
-            //  options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
-            //  options.put("theme.color", "");
-            // options.put("subscription_id",subscription.get("id"));
-            // options.put("subscription_id","sub_KdTfH6zI6M7mv4");
-            options.put("currency", "INR");
-            options.put("amount", "19900");//pass amount in currency subunits
-            options.put("prefill.email", "");
-            options.put("prefill.contact", "7908777407");
-            JSONObject retryObj = new JSONObject();
-            retryObj.put("enabled", true);
-            retryObj.put("max_count", 4);
-            options.put("retry", retryObj);
-
-            checkout.open(activity, options);
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error in starting Razorpay Checkout", e);
-        }
+        stt.pause(binding.toggleButton.isChecked());
 
     }
 
