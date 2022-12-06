@@ -77,6 +77,8 @@ public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextCo
         stringToText.put("aur", "4");
         stringToText.put("then", "10");
         stringToText.put("been", "10");
+        stringToText.put("well","12");
+        stringToText.put("do well","12");
         stringToText.put("food been", "14");
 
         stringToText.put("stop", "buddy stop");
@@ -113,10 +115,30 @@ public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextCo
 
         @Override
         public void onPartialResult(String hypothesis) {
+            conversionCallaBack.getLogResult("PartialResult: "+hypothesis + "\n");
+            try {
+                JSONObject json = new JSONObject(hypothesis);
+                try {
+                    conversionCallaBack.getLogResult("PartialResult: "+json.getString("text") + "\n");
+                    conversionCallaBack.onSuccess(UtilityFunctions.wordToNumberModified(json.getString("text"))+"");
+                    // pause(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "onPartial: "+e.getMessage());
+//                    try {
+//                        conversionCallaBack.onSuccess(stringToText.get(json.getString("text")));
+//                    }catch (Exception eq){
+//
+//
+//                        Log.d(TAG, "onResult: eq"+eq.getMessage());
+//                    }
+                }
+                Log.d(TAG, "onPartial: "+json.getString("text"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-
-            conversionCallaBack.onPartialResult("Partial: " + hypothesis.trim() + "\n");
           //  Log.d(TAG, "onPartialResult: "+hypothesis);
 
 //            try {
@@ -131,9 +153,11 @@ public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextCo
 
         @Override
         public void onResult(String hypothesis) {
+
             try {
                 JSONObject json = new JSONObject(hypothesis);
                 try {
+                    conversionCallaBack.getLogResult("Result:------> "+json.getString("text") + "\n");
                     conversionCallaBack.onSuccess(UtilityFunctions.wordToNumberModified(json.getString("text"))+"");
                     // pause(false);
                 } catch (Exception e) {
@@ -161,6 +185,7 @@ public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextCo
             try {
                 JSONObject json = new JSONObject(hypothesis);
                 try {
+                    conversionCallaBack.getLogResult("Final: "+json.getString("text") + "\n");
                     conversionCallaBack.onSuccess(UtilityFunctions.wordToNumberModified(json.getString("text"))+"");
                     // pause(false);
                 } catch (Exception e) {
@@ -242,9 +267,10 @@ public class SpeechToTextConverterVosk implements ConverterEngine<SpeechToTextCo
 
 
     public void pause(boolean checked) {
-        Log.d(TAG, "pause: ");
+        Log.d(TAG, "pause: "+checked);
         if (speechService != null) {
             speechService.setPause(checked);
+            conversionCallaBack.controlBlink(checked);
         }
     }
 

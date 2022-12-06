@@ -67,8 +67,6 @@ public class SubjectRecyclerAdapterUpdated extends RecyclerView.Adapter<SubjectR
             holder.status.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.green));
         }
 
-
-
         holder.mView.setOnClickListener(v -> {
             mListener.onItemClick(gradeData);
         });

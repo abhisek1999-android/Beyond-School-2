@@ -1,6 +1,7 @@
 package com.maths.beyond_school_new_071020221400.database.process;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,8 +25,8 @@ public interface ProgressDao {
     @Query("SELECT date,SUM(correct) AS total_correct,SUM(wrong) AS total_wrong FROM progressM GROUP BY date ORDER BY timestamp DESC")
     List<ProgressDate> getSumOFData();
 
-    @Query("SELECT * FROM progressM WHERE chapter=:chapter")
-    List<ProgressM> isAvailable(String chapter);
+    @Query("SELECT * FROM progressM WHERE chapter=:chapter AND sub_id =:sub_id")
+    List<ProgressM> isAvailable(String chapter,String sub_id);
 
 //    @Query("SELECT `table` ,COUNT(`table`) AS count,SUM(correct) AS total_correct,SUM(time_to_complete) AS total_time,SUM(wrong) AS total_wrong FROM progressM WHERE date=:date GROUP BY `table`")
 //    List<ProgressTableWise> getSumOFTableDataByDate(String date);
@@ -36,7 +37,7 @@ public interface ProgressDao {
     void updateScore(long correct,long wrong, String id);
 
     @Query("SELECT time_spend FROM progressM WHERE sub_id =:sub_id AND chapter=:chapter")
-    long getTimeSpend(String sub_id, String chapter);
+    LiveData<Long> getTimeSpend(String sub_id, String chapter);
 
     @RawQuery(observedEntities = ProgressM.class)
     long correctValues(SupportSQLiteQuery query);

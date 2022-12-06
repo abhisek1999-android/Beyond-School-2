@@ -37,11 +37,13 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
     List<Grades_data> list;
     Context context;
+    private ItemClickListener itemClickListener;
 
 
-    public TablesRecyclerAdapter(List<Grades_data> list, Context context) {
+    public TablesRecyclerAdapter(List<Grades_data> list, Context context,ItemClickListener itemClickListener) {
         this.list = list;
         this.context = context;
+        this.itemClickListener=itemClickListener;
 
 
     }
@@ -66,14 +68,25 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
         holder.subjectViewBinding.subSubject.setText(list.get(position).super_subject);
         holder.subjectViewBinding.chapters.setText(list.get(position).getChapter_name());
+
+
+        itemClickListener.intentAction(holder.subjectViewBinding.timeText,list.get(position).getId(),list.get(position).chapter_name);
+
+//        ProgressDataBase.getDbInstance(context).progressDao().getTimeSpend(list.get(position).getId(),
+//                list.get(position).chapter_name).observe(context,c->{
+//
+//        });
+
         holder.subjectViewBinding.timeText.setText(
                 ProgressDataBase.getDbInstance(context).progressDao().getTimeSpend(list.get(position).getId(),
-                list.get(position).chapter_name)+""
+                list.get(position).chapter_name).getValue()+""
         );
 
 
 
         holder.mView.setOnClickListener(v -> {
+
+
 
             Intent intent = new Intent(context, LearningActivityNew.class);
             intent.putExtra("id",list.get(position).getId());
@@ -99,6 +112,9 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
         return list.size();
     }
 
+
+
+
     @Override
     public void onAttachedToRecyclerView(
             RecyclerView recyclerView) {
@@ -115,13 +131,16 @@ public class TablesRecyclerAdapter extends RecyclerView.Adapter<TablesRecyclerAd
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
-
             mView = itemView;
             subjectViewBinding=SubjectViewBinding.bind(mView);
             subSubject = itemView.findViewById(R.id.subSubject);
             chapters=itemView.findViewById(R.id.chapters);
             isLocked = itemView.findViewById(R.id.isLocked);
         }
+    }
+
+    public interface ItemClickListener{
+        void intentAction(TextView textView,String id,String chapterName);
     }
 
 }

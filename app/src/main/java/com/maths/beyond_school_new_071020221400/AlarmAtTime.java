@@ -198,7 +198,7 @@ public class AlarmAtTime extends AppCompatActivity {
     public void setEvent() throws ParseException {
         Cursor cur = this.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI,null, null, null, null);
         UtilityFunctions.setEvent(AlarmAtTime.this,binding.extraInclude.textInputLayoutTimer,()->{
-            Intent intent = new Intent(getApplicationContext(), TabbedHomePage.class);
+            Intent intent = new Intent(getApplicationContext(), TablesActivity.class);
             startActivity(intent);
         });
     }

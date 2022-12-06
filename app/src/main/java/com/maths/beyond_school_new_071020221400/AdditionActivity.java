@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -27,6 +28,7 @@ import com.maths.beyond_school_new_071020221400.database.log.LogDatabase;
 import com.maths.beyond_school_new_071020221400.database.process.ProgressDataBase;
 import com.maths.beyond_school_new_071020221400.database.process.ProgressM;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityAdditionBinding;
+import com.maths.beyond_school_new_071020221400.extras.CustomProgressDialogue;
 import com.maths.beyond_school_new_071020221400.firebase.CallFirebaseForInfo;
 import com.maths.beyond_school_new_071020221400.subjects.MathsHelper;
 import com.maths.beyond_school_new_071020221400.translation_engine.ConversionCallback;
@@ -104,6 +106,7 @@ public class AdditionActivity extends AppCompatActivity {
     private int kidAge;
     private String parentsContactId="";
     private boolean isAnsByTyping=false;
+    private CustomProgressDialogue customProgressDialogue;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -118,6 +121,7 @@ public class AdditionActivity extends AppCompatActivity {
         timeList = new ArrayList();
         numberList = new ArrayList<>();
         progressData = new ArrayList<>();
+        customProgressDialogue=new CustomProgressDialogue(this);
 
         progressDataBase = ProgressDataBase.getDbInstance(AdditionActivity.this);
 
@@ -209,11 +213,11 @@ public class AdditionActivity extends AppCompatActivity {
                 if (!binding.playPause.isChecked())
                     binding.playPause.setChecked(true);
 
-                try {
-                    successResultCalling(binding.ansTextView.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    successResultCalling(binding.ansTextView.getText().toString());
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
                 binding.ansTextView.clearFocus();
 
                 break;
@@ -586,6 +590,14 @@ public class AdditionActivity extends AppCompatActivity {
         intent.putExtra("chapter", selectedSub);
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        customProgressDialogue.show();
+        initSTT();
+        stt.initialize("", AdditionActivity.this);
     }
 
 

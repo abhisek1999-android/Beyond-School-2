@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "556365060240-3nsv45gdu9f72q1p7vt0o9ulmkjh98jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maths.beyond_school_280720220930",
+            "certificate_hash": "82f0022d7d3286ceac8c86d21c92747d25b6b7e0"
+          }
+        },
+        {
           "client_id": "556365060240-g24uffhi9p5dp9gmi86viskgr0ejtv82.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -35,6 +43,14 @@
           "android_info": {
             "package_name": "com.maths.beyond_school_280720220930",
             "certificate_hash": "48c084a7b5bf0193203a3287bf8ed2754cb65ed2"
+          }
+        },
+        {
+          "client_id": "556365060240-gsd0imeltqgcennk6q47jscclun78s80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maths.beyond_school_280720220930",
+            "certificate_hash": "ecb3a2bc93af8d5d6a36fb6913d36977bb56cb0e"
           }
         },
         {
@@ -77,9 +93,6 @@
       "api_key": [
         {
           "current_key": "AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw"
-        },
-        {
-          "current_key": "AIzaSyCNrEMF5weq_POsBXnJgwnBjbb2LPnxo6I"
         }
       ],
       "services": {
@@ -102,7 +115,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "556365060240-lper56ip6kisev5t86srjqpscu1gnf04.apps.googleusercontent.com",
+          "client_id": "556365060240-hdpc5ngkd0pn6o9b34f3uj6kpjlbfbsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maths.beyond_school_new_071020221400",
+            "certificate_hash": "a957a947c2f9f071ae18c906f0012bea3c304b08"
+          }
+        },
+        {
+          "client_id": "556365060240-uaj28ssn4l8n1sdc8i0nvsctvlaign82.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.maths.beyond_school_new_071020221400",
@@ -117,9 +138,6 @@
       "api_key": [
         {
           "current_key": "AIzaSyBSzrk9pOicFtHkNlIbZ3Cwt2_CxPGbuEw"
-        },
-        {
-          "current_key": "AIzaSyCNrEMF5weq_POsBXnJgwnBjbb2LPnxo6I"
         }
       ],
       "services": {

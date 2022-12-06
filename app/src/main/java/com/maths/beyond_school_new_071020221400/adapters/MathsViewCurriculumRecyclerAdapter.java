@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maths.beyond_school_new_071020221400.LearningActivity;
+import com.maths.beyond_school_new_071020221400.LearningActivityNew;
 import com.maths.beyond_school_new_071020221400.R;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.Grades_data;
 import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
@@ -72,7 +73,7 @@ public class MathsViewCurriculumRecyclerAdapter extends RecyclerView.Adapter<Mat
 
         holder.mView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(context, LearningActivity.class);
+            Intent intent = new Intent(context, LearningActivityNew.class);
             intent.putExtra("selected_sub", list.get(position).getChapter_name());
             intent.putExtra("subject", list.get(position).subject);
             var maxDigit = UtilityFunctions.getTableNumberFromString(list.get(position).chapter_name);

@@ -160,7 +160,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         cTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
 
-                binding.timer.setText("Resend OTP in:"+ millisUntilFinished/1000);
+                binding.timer.setText("Resend OTP in "+ millisUntilFinished/1000+"s");
 
             }
             public void onFinish() {
@@ -212,7 +212,7 @@ public class PhoneNumberLogin extends AppCompatActivity implements GoogleApiClie
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(number)            // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setTimeout(30L, TimeUnit.SECONDS) // Timeout and unit
                         .setActivity(this)                 // Activity (for callback binding)
                         .setCallbacks(mCallBack)           // OnVerificationStateChangedCallbacks
                         .build();

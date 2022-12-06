@@ -76,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
         }
 
 
-        if(!UtilityFunctions.checkConnection(SplashScreen.this)){
+        if (!UtilityFunctions.checkConnection(SplashScreen.this)) {
             displayNoInternetDialog();
         }
 
@@ -89,7 +89,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
         if (PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.log_check)).equals(""))
-        PrefConfig.writeIdInPref(getApplicationContext(), "true", getResources().getString(R.string.log_check));
+            PrefConfig.writeIdInPref(getApplicationContext(), "false", getResources().getString(R.string.log_check));
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
@@ -122,6 +122,10 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
 
                 /* Create an Intent that will start the Menu-Activity. */
+
+
+
+
                 if (mCurrentUser == null) {
                     startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
                     finish();
@@ -130,10 +134,8 @@ public class SplashScreen extends AppCompatActivity {
                 }
             }
         }, 1000);
-  //      setUpRemoteConfig();
+        //      setUpRemoteConfig();
     }
-
-
 
 
     private void displayNoInternetDialog() {
@@ -184,7 +186,7 @@ public class SplashScreen extends AppCompatActivity {
             finish();
 
         }
-        
+
     }
 
 
@@ -205,14 +207,14 @@ public class SplashScreen extends AppCompatActivity {
                         boolean updated = task.getResult();
 
                         int val = (int) mFirebaseRemoteConfig.getLong("key_update_main_json");
-                        String kidsGrade=PrefConfig.readIdInPref(SplashScreen.this,getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", "");
-                        Log.d(TAG, "setUpRemoteConfig: Kids Grade: "+kidsGrade);
+                        String kidsGrade = PrefConfig.readIdInPref(SplashScreen.this, getResources().getString(R.string.kids_grade)).toLowerCase().replace(" ", "");
+                        Log.d(TAG, "setUpRemoteConfig: Kids Grade: " + kidsGrade);
                         if (value != val) {
                             PrefConfig.writeIntInPref(SplashScreen.this, val, getResources().getString(R.string.KEY_VALUE_SAVE));
 
                             getNewData(kidsGrade);
 
-                        }else {
+                        } else {
 
 
                             startActivity(new Intent(getApplicationContext(), TablesActivity.class));
@@ -222,14 +224,14 @@ public class SplashScreen extends AppCompatActivity {
                         Log.d(TAG, "Config params updated: " + updated + ", val:" + val);
                         return;
                     }
-                   // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(SplashScreen.this, "Fetch failed", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Config params updated: " + "Fetch failed");
                 });
 
     }
 
     private void getNewData(String kidsGrade) {
-        Log.d(TAG, "getNewData: "+kidsGrade);
+        Log.d(TAG, "getNewData: " + kidsGrade);
         Retrofit retrofit = ApiClient.getClient();
         var api = retrofit.create(ApiInterface.class);
         api.getGradeData(kidsGrade).enqueue(new retrofit2.Callback<>() {
@@ -238,7 +240,7 @@ public class SplashScreen extends AppCompatActivity {
             public void onResponse(@NonNull retrofit2.Call<GradeModel> call, @NonNull retrofit2.Response<GradeModel> response) {
                 if (response.body() != null) {
                     var list = response.body().getEnglish();
-                    mapToGradeModel(list,kidsGrade);
+                    mapToGradeModel(list, kidsGrade);
                     Log.d(TAG, "onResponse: StartedUpdating");
 
                 } else {
@@ -254,14 +256,14 @@ public class SplashScreen extends AppCompatActivity {
         });
     }
 
-    private void mapToGradeModel(List<GradeModel.EnglishModel> list,String kidsGrade) {
+    private void mapToGradeModel(List<GradeModel.EnglishModel> list, String kidsGrade) {
         list.forEach(subject -> {
             var mapper = new GradeConverter(subject.getSubject());
             var chapterList = mapper.mapToList(subject.getChapters());
             gradeDatabase.gradesDaoUpdated().insertNotes(chapterList);
         });
 
-        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(),getResources().getString(R.string.kids_id)),
+        CallFirebaseForInfo.upDateActivities(kidsDb, mAuth, PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_id)),
                 kidsGrade, SplashScreen.this, gradeDatabase);
 
         startActivity(new Intent(getApplicationContext(), TablesActivity.class));

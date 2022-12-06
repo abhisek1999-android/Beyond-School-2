@@ -17,10 +17,14 @@
 -keepattributes JavascriptInterface
 -keepattributes *Annotation*
 
+-keep class com.sun.jna.** { *; }
+
 -dontwarn com.razorpay.**
 -keep class com.razorpay.** {*;}
 
 -optimizations !method/inlining/*
+
+
 
 -keepclasseswithmembers class * {
   public void onPayment*(...);

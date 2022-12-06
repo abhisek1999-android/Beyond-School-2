@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -48,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -57,16 +59,16 @@ import io.reactivex.functions.Consumer;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AdditionActivityNew extends AppCompatActivity {
 
-    private static final String TAG = AdditionActivityNew.class.getSimpleName();
+    private static final String TAG = "AdditionActivityNew";
     private ActivityAdditionBinding binding;
     private int currentAnswer;
     private int currentQuestion = 1;
     private int correctAnswer = 0;
     private int wrongAnswer = 0;
     private final int MAX_QUESTION = 10;
-    private int DELAY_ON_STARTING_STT = 500;
-    private int DELAY_ON_SETTING_QUESTION = 3000;
-    private TextToSpeckConverter tts;
+    private int DELAY_ON_STARTING_STT = 100;
+    private int DELAY_ON_SETTING_QUESTION = 2000;
+    private TextToSpeckConverter tts, ttsHelper;
     private SpeechToTextConverterVosk stt;
     private Boolean isCallTTS = true;
     private Boolean isNewQuestionGenerated = true;
@@ -108,7 +110,8 @@ public class AdditionActivityNew extends AppCompatActivity {
     private int kidAge;
     private String parentsContactId = "";
     private boolean isAnsByTyping = false;
-    private String id="";
+    private String id = "";
+    private boolean callForQuestion = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -119,6 +122,7 @@ public class AdditionActivityNew extends AppCompatActivity {
         setContentView(binding.getRoot());
         setToolbar();
 
+        new MediaPlayer().release();
         ansList = new ArrayList();
         timeList = new ArrayList();
         numberList = new ArrayList<>();
@@ -132,7 +136,7 @@ public class AdditionActivityNew extends AppCompatActivity {
         digit = getIntent().getStringExtra("max_digit");
         videoUrl = getIntent().getStringExtra("video_url");
         selectedSub = getIntent().getStringExtra("selected_sub");
-        id=getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
 
         customProgressDialogue = new CustomProgressDialogue(this);
 
@@ -151,14 +155,24 @@ public class AdditionActivityNew extends AppCompatActivity {
         kidsDb = FirebaseFirestore.getInstance();
 
         customProgressDialogue.show();
+        initMediaPlayer();
+
+        //    mediaPlayer.start();
 
         initTTS();
         initSTT();
+        try {
+            initTTS_helper();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         stt.initialize("", AdditionActivityNew.this);
         setButtonClick();
         setBasicUiElement();
         checkProgressData();
-        initMediaPlayer();
+
 
         binding.toolBar.imageViewBack.setOnClickListener(v -> {
             onBackPressed();
@@ -175,7 +189,7 @@ public class AdditionActivityNew extends AppCompatActivity {
     }
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, id, selectedSub, new Date(), 0, true);
 
         try {
             if (progressData != null) {
@@ -239,8 +253,7 @@ public class AdditionActivityNew extends AppCompatActivity {
 
     private void initProcess() {
 
-        tts.initialize("Tap the play button to start the test , you can speak and write answer in the answer box", AdditionActivityNew.this);
-
+        ttsHelper.initialize(" you can speak and write answer in the answer box", AdditionActivityNew.this);
         //   binding.animWoman.playAnimation();
         // play();
 
@@ -358,7 +371,7 @@ public class AdditionActivityNew extends AppCompatActivity {
 
 
     private void initMediaPlayer() {
-        mediaPlayer = UtilityFunctions.playClapSound(this);
+        mediaPlayer = UtilityFunctions.playClapSound(AdditionActivityNew.this);
     }
 
     /**
@@ -374,12 +387,15 @@ public class AdditionActivityNew extends AppCompatActivity {
                 if (isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
+
+                        if (callForQuestion) {
+                            callForQuestion = false;
+                            Log.d(TAG, "onCompletion: Turning on stt");
+                            stt.pause(false);
+                        }
                         startTime = new Date().getTime();
                         maxStQuesTime = new Date().getTime();
                         binding.animWoman.cancelAnimation();
-                        UtilityFunctions.muteAudioStream(AdditionActivityNew.this);
-                        if (binding.playPause.isChecked())
-                            binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
                 // binding.animWoman.pauseAnimation();
@@ -391,6 +407,28 @@ public class AdditionActivityNew extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void initTTS_helper() throws ExecutionException, InterruptedException {
+        ttsHelper = new TTSHelperAsyncTask().execute(new ConversionCallback[]{new ConversionCallback() {
+            @Override
+            public void onCompletion() {
+
+                UtilityFunctions.runOnUiThread(() -> {
+                    play();
+                }, 10);
+
+                binding.playPause.setEnabled(true);
+                binding.animWoman.cancelAnimation();
+            }
+
+            @Override
+            public void onErrorOccurred(String errorMessage) {
+
+                ttsHelper.destroy();
+            }
+        }}).get();
     }
 
     /**
@@ -406,27 +444,32 @@ public class AdditionActivityNew extends AppCompatActivity {
                 Log.i(TAG, "On Succcess" + result);
 
                 if (!result.equals("-10001")) {
-                    binding.animationVoice.setVisibility(View.GONE);
                     try {
-
+                        successResultCalling(result);
+                        //Added
+                        stt.pause(true);
                         Log.d(TAG, "onSuccess: " + result);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d(TAG, "onSuccess: " + e.getMessage());
                     }
-                    successResultCalling(result);
-                    //Added
-                    //   stt.pause(false);
 
 
                 }
             }
 
+            @Override
+            public void controlBlink(Boolean isBlinkEnable) {
+                // if true that means stt is in pause state
+                if (!isBlinkEnable)
+                    binding.animationVoice.setVisibility(View.VISIBLE);
+                else
+                    binding.animationVoice.setVisibility(View.GONE);
+            }
 
             @Override
             public void onCompletion() {
                 Log.d(TAG, "onCompletion: Done");
-                binding.animationVoice.setVisibility(View.GONE);
             }
 
             @Override
@@ -434,6 +477,7 @@ public class AdditionActivityNew extends AppCompatActivity {
                 Log.i("INLOG", title);
                 ConversionCallback.super.getLogResult(title);
                 logs += title + "\n";
+                UtilityFunctions.sendAnalyticsDetectedResult(analytics,auth,title,currentAnswer+"");
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -480,16 +524,13 @@ public class AdditionActivityNew extends AppCompatActivity {
 //                    // binding.playPause.setChecked(false);
 //                    //pause();
 //                }
-
-
             }
 
             @Override
             public void successInit() {
                 ConversionCallback.super.successInit();
                 customProgressDialogue.dismiss();
-                binding.animationVoice.setVisibility(View.GONE);
-                stt.pause(false);
+                stt.pause(true);
                 initProcess();
             }
         });
@@ -499,14 +540,10 @@ public class AdditionActivityNew extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void successResultCalling(String result) throws JSONException {
 
+
         endTime = new Date().getTime();
         isAnswered = true;
 
-        try {
-            UtilityFunctions.unMuteAudioStream(AdditionActivityNew.this);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         ansList.add(result);
         timeList.add((endTime - startTime));
@@ -522,34 +559,37 @@ public class AdditionActivityNew extends AppCompatActivity {
 
         if (lcsResult) {
 
-            diff = endTime - startTime;
-            binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivityNew.this, R.color.green));
-            tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivityNew.this);
-            logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
-
-            try {
+            if (!mediaPlayer.isPlaying()) {
                 mediaPlayer.start();
-            } catch (Exception e) {
             }
 
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+            tts.initialize(UtilityFunctions.getCompliment(true), AdditionActivityNew.this);
+
+            diff = endTime - startTime;
+            binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivityNew.this, R.color.green));
+
+
+            logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
+
+
+            UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, true, (int) (diff),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, true);
 
-            DELAY_ON_STARTING_STT = 500;
-            DELAY_ON_SETTING_QUESTION = 2000;
+            DELAY_ON_STARTING_STT = 100;
+            DELAY_ON_SETTING_QUESTION = 1800;
             correctAnswer++;
         } else {
             binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivityNew.this, R.color.red));
             logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(diff) + "\n";
             tts.initialize(UtilityFunctions.getCompliment(false), AdditionActivityNew.this);
             putJsonData(currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", result, diff, false);
-            UtilityFunctions.sendDataToAnalytics(analytics, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
+            UtilityFunctions.sendDataToAnalytics(analytics, auth, auth.getCurrentUser().getUid().toString(), kidsId, kidName,
                     "Mathematics-Test-" + subject, kidAge, currentAnswer + "", result, false, (int) (diff),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
-            DELAY_ON_STARTING_STT = 500;
-            DELAY_ON_SETTING_QUESTION = 2000;
+            DELAY_ON_STARTING_STT = 100;
+            DELAY_ON_SETTING_QUESTION = 1800;
             wrongAnswer++;
         }
         setWrongCorrectView();
@@ -567,7 +607,7 @@ public class AdditionActivityNew extends AppCompatActivity {
 
             //null check req
             if (correctAnswer >= 9) {
-                CallFirebaseForInfo.checkActivityDataMaths(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId,kidsGrade.toLowerCase().replace(" ", ""),
+                CallFirebaseForInfo.checkActivityDataMaths(kidsDb, kidsActivityJsonArray, "pass", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""),
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
                 progressDataBase.progressDao().updateScore(correctAnswer, wrongAnswer, id);
@@ -575,7 +615,7 @@ public class AdditionActivityNew extends AppCompatActivity {
                     UtilityFunctions.updateDbUnlock(databaseGrade, kidsGrade, selectedSub, subject);
 
             } else
-                CallFirebaseForInfo.checkActivityDataMaths(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId,kidsGrade.toLowerCase().replace(" ", ""),
+                CallFirebaseForInfo.checkActivityDataMaths(kidsDb, kidsActivityJsonArray, "fail", auth, kidsId, kidsGrade.toLowerCase().replace(" ", ""),
                         selectedSub, subject, correctAnswer, wrongAnswer, currentQuestion - 1, "mathematics");
 
             resetViews();
@@ -607,6 +647,7 @@ public class AdditionActivityNew extends AppCompatActivity {
         binding.correctText.setText(String.valueOf(correctAnswer));
     }
 
+
     private void resetViews() {
         binding.playPause.setChecked(false);
         isCallTTS = false;
@@ -615,8 +656,12 @@ public class AdditionActivityNew extends AppCompatActivity {
         correctAnswer = 0;
         wrongAnswer = 0;
 
+        binding.correctText.setText("0");
+        binding.wrongText.setText("0");
+
         try {
-            mediaPlayer.pause();
+            if (mediaPlayer.isPlaying())
+                mediaPlayer.pause();
         } catch (Exception e) {
         }
         numberList.clear();
@@ -663,40 +708,42 @@ public class AdditionActivityNew extends AppCompatActivity {
 
     private void setButtonClick() {
         binding.playPause.setOnClickListener(v -> {
-
             stt.pause(!binding.playPause.isChecked());
-
             if (binding.playPause.isChecked()) {
-
-                if (isTimerRunning)
-                    timer();
-
-                binding.correctText.setText("0");
-                binding.wrongText.setText("0");
-                binding.tapInfoTextView.setVisibility(View.INVISIBLE);
-
-                isCallTTS = true;
-                try {
-                    setQuestion();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                play();
             } else {
-
                 pause();
-
             }
         });
     }
 
+
+    @SuppressLint("SuspiciousIndentation")
+    private void play() {
+
+        if (isTimerRunning)
+            timer();
+
+        binding.tapInfoTextView.setVisibility(View.INVISIBLE);
+        binding.playPause.setChecked(true);
+        isCallTTS = true;
+        try {
+            setQuestion();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void pause() {
-        binding.animationVoice.setVisibility(View.GONE);
         binding.questionProgress.setProgress(0);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
         isCallTTS = false;
 
         try {
-            mediaPlayer.pause();
+            if (mediaPlayer.isPlaying())
+                mediaPlayer.pause();
         } catch (Exception e) {
         }
 
@@ -707,11 +754,11 @@ public class AdditionActivityNew extends AppCompatActivity {
     private void setQuestion() throws InterruptedException {
 
         try {
-            mediaPlayer.pause();
+            if (mediaPlayer.isPlaying())
+                mediaPlayer.pause();
         } catch (Exception e) {
         }
 
-        UtilityFunctions.unMuteAudioStream(AdditionActivityNew.this);
         isAnswered = false;
         binding.ansTextView.setBackgroundTintList(ContextCompat.getColorStateList(AdditionActivityNew.this, R.color.green));
         if (isCallTTS) {
@@ -774,6 +821,12 @@ public class AdditionActivityNew extends AppCompatActivity {
                             break;
                         }
 
+                        if (numberList.size() == 10) {
+                            currentNum2 = numberList.get(9);
+                            Log.i("Returning last CurrentNumber", currentNum2 + "");
+                            break;
+                        }
+
                     }
                 }
 
@@ -786,7 +839,9 @@ public class AdditionActivityNew extends AppCompatActivity {
             binding.progress.setText(currentQuestion + "/ " + MAX_QUESTION);
             binding.ansTextView.setText("?");
             currentAnswer = MathsHelper.getMathResult(subject, currentNum1, currentNum2);
+            callForQuestion = true;
             tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
+
             binding.animWoman.playAnimation();
             isNewQuestionGenerated = true;
         }
@@ -800,11 +855,7 @@ public class AdditionActivityNew extends AppCompatActivity {
         super.onPause();
         isCallTTS = false;
         binding.animWoman.cancelAnimation();
-        try {
-            UtilityFunctions.unMuteAudioStream(AdditionActivityNew.this);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         tts.stop();
         stt.destroy();
 
@@ -824,6 +875,14 @@ public class AdditionActivityNew extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        customProgressDialogue.show();
+        initSTT();
+        stt.initialize("", AdditionActivityNew.this);
+    }
+
     private void checkLogIsEnable() {
         if (PrefConfig.readIdInPref(getApplicationContext(), "IS_LOG_ENABLE").equals("true"))
             saveLog();
@@ -840,10 +899,15 @@ public class AdditionActivityNew extends AppCompatActivity {
         super.onDestroy();
         tts.destroy();
         stt.destroy();
-        try {
-            UtilityFunctions.unMuteAudioStream(AdditionActivityNew.this);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+    }
+
+
+    static class TTSHelperAsyncTask extends AsyncTask<ConversionCallback, Void, TextToSpeckConverter> {
+        @Override
+        protected TextToSpeckConverter doInBackground(ConversionCallback... conversionCallbacks) {
+            return TextToSpeechBuilder.builder(conversionCallbacks[0]);
         }
     }
+
 }

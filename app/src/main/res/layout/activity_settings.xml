@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,6 +15,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolBar"
@@ -24,9 +25,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:padding="10dp"
-        android:id="@+id/rLayout"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/image"
@@ -57,19 +57,23 @@
             android:layout_marginRight="@dimen/grid_10" />
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
+        android:layout_below="@id/rLayout"
         android:layout_marginLeft="@dimen/grid_10"
         android:layout_marginRight="@dimen/grid_10"
-        android:layout_below="@id/toolBar"
         android:background="@color/light_deep_grey" />
+
     <RelativeLayout
+        android:id="@+id/setLocal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="@dimen/grid_10"
-        android:padding="@dimen/grid_10"
-        android:layout_marginHorizontal="10dp">
+        android:layout_below="@id/rLayout"
+        android:padding="@dimen/grid_10">
 
         <ImageView
             android:id="@+id/image2"
@@ -115,11 +119,24 @@
             android:layout_marginRight="@dimen/grid_10"
             android:gravity="center" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
+        android:layout_below="@id/setLocal"
         android:layout_marginLeft="@dimen/grid_10"
         android:layout_marginRight="@dimen/grid_10"
-        android:layout_below="@id/toolBar"
         android:background="@color/light_deep_grey" />
-</LinearLayout>
+
+
+    <TextView
+        android:id="@+id/appVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/grid_20"
+        android:fontFamily="@font/reemkufi_medium"
+        tools:text="Version: 2.0(6)"
+        />
+</RelativeLayout>

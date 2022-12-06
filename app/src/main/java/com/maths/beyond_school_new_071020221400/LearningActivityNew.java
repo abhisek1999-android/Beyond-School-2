@@ -43,6 +43,7 @@ import com.maths.beyond_school_new_071020221400.database.process.ProgressM;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityLearningBinding;
 import com.maths.beyond_school_new_071020221400.databinding.AnimSingleLayoutBinding;
 import com.maths.beyond_school_new_071020221400.dialogs.HintDialog;
+import com.maths.beyond_school_new_071020221400.extras.CustomProgressDialogue;
 import com.maths.beyond_school_new_071020221400.model.AnimData;
 import com.maths.beyond_school_new_071020221400.subjects.MathsHelper;
 import com.maths.beyond_school_new_071020221400.translation_engine.ConversionCallback;
@@ -55,6 +56,7 @@ import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -78,8 +80,8 @@ public class LearningActivityNew extends AppCompatActivity {
     private int correctAnswer = 0;
     private int wrongAnswer = 0;
     private final int MAX_QUESTION = 10;
-    private int DELAY_ON_STARTING_STT = 500;
-    private int DELAY_ON_SETTING_QUESTION = 3000;
+    private int DELAY_ON_STARTING_STT = 100;
+    private int DELAY_ON_SETTING_QUESTION = 2000;
     private TextToSpeckConverter tts, ttsHelper, ttsHelperAnim;
     private SpeechToTextConverterVosk stt;
     private Boolean isCallTTS = true;
@@ -90,7 +92,7 @@ public class LearningActivityNew extends AppCompatActivity {
     private Toolbar toolbar;
     Animation myFadeInAnimation;
     private String subject = "";
-    private String selectedSub = "";
+    private String selectedSub;
     private String digit = "";
     private String videoUrl = "";
     private String parentsContactId = "";
@@ -100,7 +102,7 @@ public class LearningActivityNew extends AppCompatActivity {
     private FirebaseAuth auth;
     private long startTime = 0, endTime = 0;
     private String logs = "";
-    private String id="";
+    private String id = "";
     int currentNum1 = 0;
     int currentNum2 = 0;
     private TextView digit1Text;
@@ -126,12 +128,20 @@ public class LearningActivityNew extends AppCompatActivity {
     private View separator;
     private Animation slideLeftAnim, slideRightAnim, fadeIn;
     private List<AnimData> animMath;
+    private boolean callForQuestion = false;
+    private CustomProgressDialogue customProgressDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLearningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        subject = getIntent().getStringExtra("subject");
+        digit = getIntent().getStringExtra("max_digit");
+        videoUrl = getIntent().getStringExtra("video_url");
+        selectedSub = getIntent().getStringExtra("selected_sub");
+        id = getIntent().getStringExtra("id");
+        animMath = new ArrayList<>();
         setToolbar();
 
         logDatabase = LogDatabase.getDbInstance(this);
@@ -140,24 +150,23 @@ public class LearningActivityNew extends AppCompatActivity {
 
         analytics.setUserId(auth.getCurrentUser().getUid());
 
-        subject = getIntent().getStringExtra("subject");
-        digit = getIntent().getStringExtra("max_digit");
-        videoUrl = getIntent().getStringExtra("video_url");
-        selectedSub = getIntent().getStringExtra("selected_sub");
-        id=getIntent().getStringExtra("id");
         api_key = getResources().getString(R.string.youtube_api);
-
 
         animMath = AnimationUtil.getAnimList(72, 45, Integer.parseInt(digit), subject);
         ytPlayer = findViewById(R.id.videoView);
 
         progressDataBase = ProgressDataBase.getDbInstance(LearningActivityNew.this);
 
-        kidsName = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_name));
-        kidsId = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_id));
-        kidsAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_dob)));
-        parentsContactId = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.parent_contact_details));
+        customProgressDialogue = new CustomProgressDialogue(this);
 
+
+        try {
+            kidsName = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_name));
+            kidsId = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_id));
+            kidsAge = UtilityFunctions.calculateAge(PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.kids_dob)));
+            parentsContactId = PrefConfig.readIdInPref(LearningActivityNew.this, getResources().getString(R.string.parent_contact_details));
+        } catch (Exception e) {
+        }
 
         Log.i("digit", digit);
         Log.i("url", videoUrl);
@@ -194,7 +203,7 @@ public class LearningActivityNew extends AppCompatActivity {
 
 
     private void checkProgressData() {
-        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(), 0, true);
+        progressData = UtilityFunctions.checkProgressAvailable(progressDataBase, id, selectedSub, new Date(), 0, true);
 
         try {
             if (progressData != null) {
@@ -290,7 +299,7 @@ public class LearningActivityNew extends AppCompatActivity {
 
     private void displayCompleteDialog() {
 
-        stt.pause(false);
+        stt.pause(true);
         HintDialog hintDialog = new HintDialog(LearningActivityNew.this);
         hintDialog.setCancelable(true);
         hintDialog.setAlertTitle("Woohoo!!");
@@ -406,6 +415,7 @@ public class LearningActivityNew extends AppCompatActivity {
 
             try {
                 tts.initialize(MathsHelper.getMathQuestion(subject, currentNum1, currentNum2), this);
+                callForQuestion = true;
             } catch (Exception e) {
             }
             binding.animWoman.playAnimation();
@@ -441,7 +451,6 @@ public class LearningActivityNew extends AppCompatActivity {
 
     private void pause() {
 
-        binding.animationVoice.setVisibility(View.GONE);
         binding.questionProgress.setProgress(0);
         binding.tapInfoTextView.setVisibility(View.INVISIBLE);
 
@@ -462,8 +471,6 @@ public class LearningActivityNew extends AppCompatActivity {
         binding.playPause.setOnClickListener(v -> {
             stt.pause(!binding.playPause.isChecked());
             if (binding.playPause.isChecked()) {
-
-
                 play();
             } else {
                 pause();
@@ -621,7 +628,7 @@ public class LearningActivityNew extends AppCompatActivity {
 
     private void goToTest() {
         Intent intent = new Intent(getApplicationContext(), AdditionActivityNew.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         intent.putExtra("subject", subject);
         intent.putExtra("max_digit", digit);
         intent.putExtra("video_url", videoUrl);
@@ -638,6 +645,7 @@ public class LearningActivityNew extends AppCompatActivity {
         outState.putString("video_url", videoUrl);
         outState.putString("subject", subject);
         outState.putString("selected_sub", selectedSub);
+        outState.putLong("time_spend",timeSpend);
     }
 
     @Override
@@ -649,6 +657,7 @@ public class LearningActivityNew extends AppCompatActivity {
         videoUrl = savedInstanceState.getString("videoUrl");
         subject = savedInstanceState.getString("subject");
         selectedSub = savedInstanceState.getString("selected_sub");
+        timeSpend=savedInstanceState.getLong("time_spend");
     }
 
 
@@ -661,15 +670,18 @@ public class LearningActivityNew extends AppCompatActivity {
             @Override
             public void onCompletion() {
 
-
                 if (isCallTTS) {
                     Log.i("inSideTTS", "InitSST");
                     UtilityFunctions.runOnUiThread(() -> {
+                        if (callForQuestion) {
+                            callForQuestion = false;
+                            Log.d(TAG, "onCompletion: Turning on stt");
+                            stt.pause(false);
+                        }
                         startTime = new Date().getTime();
                         UtilityFunctions.muteAudioStream(LearningActivityNew.this);
                         isAnsByTyping = false;
                         binding.animWoman.cancelAnimation();
-                        binding.animationVoice.setVisibility(View.VISIBLE);
                     }, DELAY_ON_STARTING_STT);
                 }
             }
@@ -702,7 +714,7 @@ public class LearningActivityNew extends AppCompatActivity {
 
 
                 UtilityFunctions.runOnUiThread(() -> {
-                  //  appearBlackScreen();
+                    //  appearBlackScreen();
                     play();
                 }, 10);
 
@@ -792,7 +804,7 @@ public class LearningActivityNew extends AppCompatActivity {
                         binding.playPause.setChecked(true);
                     isNewQuestionGenerated = true;
 
-                    justifyAns(binding.ansTextView.getText().toString());
+//                    justifyAns(binding.ansTextView.getText().toString());
                     binding.ansTextView.clearFocus();
                 }
                 break;
@@ -809,17 +821,18 @@ public class LearningActivityNew extends AppCompatActivity {
             public void onSuccess(String result) {
 
                 Log.i(TAG, "On Succcess" + result);
-
                 if (!result.equals("-10001")) {
-                    binding.animationVoice.setVisibility(View.GONE);
                     try {
 
+                        Log.d(TAG, "onSuccess: Turning of stt");
+                        stt.pause(true);
+                        successResultCalling(result);
                         Log.d(TAG, "onSuccess: " + result);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d(TAG, "onSuccess: " + e.getMessage());
                     }
-                    successResultCalling(result);
+
                     //Added
                     //   stt.pause(false);
                 }
@@ -829,7 +842,15 @@ public class LearningActivityNew extends AppCompatActivity {
             @Override
             public void onCompletion() {
                 Log.d(TAG, "onCompletion: Done");
-                binding.animationVoice.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void controlBlink(Boolean isBlinkEnable) {
+                // if true that means stt is in pause state
+                if (!isBlinkEnable)
+                    binding.animationVoice.setVisibility(View.VISIBLE);
+                else
+                    binding.animationVoice.setVisibility(View.GONE);
             }
 
             @Override
@@ -837,6 +858,14 @@ public class LearningActivityNew extends AppCompatActivity {
                 Log.i("INLOG", title);
                 ConversionCallback.super.getLogResult(title);
                 logs += title + "\n";
+                UtilityFunctions.sendAnalyticsDetectedResult(analytics,auth,title,currentAnswer+"");
+            }
+
+            @Override
+            public void successInit() {
+                ConversionCallback.super.successInit();
+                stt.pause(true);
+                customProgressDialogue.dismiss();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -919,10 +948,9 @@ public class LearningActivityNew extends AppCompatActivity {
                     "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, true, (int) (endTime - startTime),
                     currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
             logs += "Tag: Correct\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
-            DELAY_ON_STARTING_STT = 500;
+            DELAY_ON_STARTING_STT = 100;
 
-            DELAY_ON_SETTING_QUESTION = 2000;
-
+            DELAY_ON_SETTING_QUESTION = 1800;
 
             correctAnswer++;
             attempt = 3;
@@ -938,6 +966,7 @@ public class LearningActivityNew extends AppCompatActivity {
                 binding.indicator.setAnimation(myFadeInAnimation);
                 attempt--;
                 try {
+                    callForQuestion = true;
                     tts.initialize(UtilityFunctions.getCompliment(false), LearningActivityNew.this);
                 } catch (Exception e) {
                 }
@@ -948,8 +977,8 @@ public class LearningActivityNew extends AppCompatActivity {
                         "Mathematics-Practice-" + subject, kidsAge, currentAnswer + "", result, false, (int) (endTime - startTime),
                         currentNum1 + "" + binding.operator.getText() + "" + currentNum2 + "=?", "maths", parentsContactId);
                 logs += "Tag: Wrong\n" + "Time Taken: " + UtilityFunctions.formatTime(endTime - startTime) + "\n";
-                DELAY_ON_STARTING_STT = 1800;
-                DELAY_ON_SETTING_QUESTION = 3000;
+                DELAY_ON_STARTING_STT = 100;
+                DELAY_ON_SETTING_QUESTION = 1800;
                 wrongAnswer++;
                 attempt = 3;
                 isCallTTS = true;
@@ -966,12 +995,13 @@ public class LearningActivityNew extends AppCompatActivity {
         justifyAns(result);
     }
 
-    private void setNewQuestion() {
+    private void setNewQuestion() throws IllegalStateException{
         currentQuestion++;
         if (currentQuestion <= MAX_QUESTION) {
 
             UtilityFunctions.runOnUiThread(() -> {
                 try {
+                    if (!mediaPlayer.isPlaying())
                     mediaPlayer.pause();
                     setQuestion();
                 } catch (InterruptedException e) {
@@ -1009,6 +1039,7 @@ public class LearningActivityNew extends AppCompatActivity {
         }
         if (ttsHelper != null)
             ttsHelper.destroy();
+        mediaPlayer.release();
     }
 
     @Override
@@ -1032,14 +1063,9 @@ public class LearningActivityNew extends AppCompatActivity {
         }
         checkLogIsEnable();
         binding.animWoman.pauseAnimation();
-        try {
-            UtilityFunctions.unMuteAudioStream(LearningActivityNew.this);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        binding.playPause.setChecked(false);
         // see the changes
-        UtilityFunctions.checkProgressAvailable(progressDataBase, "Mathematics" + subject, selectedSub, new Date(),
+        UtilityFunctions.checkProgressAvailable(progressDataBase, id, selectedSub, new Date(),
                 Integer.parseInt(binding.timeText.getText().toString()), false);
 
         super.onPause();
@@ -1049,10 +1075,19 @@ public class LearningActivityNew extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
+        customProgressDialogue.show();
         isCallTTS = true;
-        //  initSTT();
         initTTS();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        customProgressDialogue.show();
+        initSTT();
+        stt.initialize("", LearningActivityNew.this);
+        initMediaPlayer();
     }
 
     private void displayTutorialAnimation() throws ExecutionException, InterruptedException {
@@ -1142,13 +1177,6 @@ public class LearningActivityNew extends AppCompatActivity {
         Log.d(TAG, "onDestroy: ");
         destroyEngine();
         stt.destroy();
-
-        try {
-            UtilityFunctions.unMuteAudioStream(LearningActivityNew.this);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         super.onDestroy();
     }
 

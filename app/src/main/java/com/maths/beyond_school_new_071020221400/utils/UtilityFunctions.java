@@ -732,6 +732,18 @@ public final class UtilityFunctions {
         var kidsData = new Bundle();
         kidsData.putString("phoneNumber", phoneNumber);
         mFirebaseAnalytics.logEvent("phone_number_login_attempt", kidsData);
+
+
+    }
+
+    public static void sendAnalyticsDetectedResult(FirebaseAnalytics mFirebaseAnalytics,FirebaseAuth mAuth, String detected,String original) {
+
+
+        var kidsData = new Bundle();
+        kidsData.putString("detected", detected);
+        kidsData.putString("original", original);
+        kidsData.putString("uid",mAuth.getCurrentUser().getUid());
+        mFirebaseAnalytics.logEvent("detected_answer_event", kidsData);
     }
 
     public static void sendDataToAnalytics(FirebaseAnalytics mFirebaseAnalytics, FirebaseAuth mAuth, String uid, String kidsId, String kidsName, String type,
@@ -830,6 +842,7 @@ public final class UtilityFunctions {
 
 
     public static MediaPlayer playClapSound(Activity activity) {
+
         var m = MediaPlayer.create(activity, R.raw.clap_sound);
         m.setVolume(0.3f, 0.3f);
         // set playback time to 1 sec
@@ -1387,8 +1400,7 @@ public final class UtilityFunctions {
 
     public static List<ProgressM> checkProgressAvailable(ProgressDataBase db, String id, String chapter, Date timeStamp, long time_spend, boolean is_data_needed) {
 
-        List<ProgressM> list = db.progressDao().isAvailable(chapter);
-
+        List<ProgressM> list = db.progressDao().isAvailable(chapter, id);
         if (!is_data_needed) {
             if (list.size() > 0) {
                 updateProgressData(db, id, chapter, time_spend);

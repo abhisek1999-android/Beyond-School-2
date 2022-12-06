@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -28,13 +29,14 @@ import com.maths.beyond_school_new_071020221400.SP.PrefConfig;
 import com.maths.beyond_school_new_071020221400.adapters.TablesRecyclerAdapter;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.GradeDatabase;
 import com.maths.beyond_school_new_071020221400.database.grade_tables.Grades_data;
+import com.maths.beyond_school_new_071020221400.database.process.ProgressDataBase;
 import com.maths.beyond_school_new_071020221400.databinding.ActivityMathsTutorialBinding;
 import com.maths.beyond_school_new_071020221400.translation_engine.translator.TextToSpeckConverter;
 import com.maths.beyond_school_new_071020221400.utils.UtilityFunctions;
 
 import java.util.List;
 
-public class TablesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class TablesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TablesRecyclerAdapter.ItemClickListener {
 
 
     private ActivityMathsTutorialBinding binding;
@@ -50,6 +52,9 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
     private ActionBarDrawerToggle toggle;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
+    private static final String TAG = "TablesActivity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +70,13 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
         mCurrentUser=mAuth.getCurrentUser();
         mBottomSheetBehavior = BottomSheetBehavior.from(binding.extLayout.permissionCard);
         binding.mathsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-        tablesRecyclerAdapter = new TablesRecyclerAdapter(mathsList, TablesActivity.this);
+        tablesRecyclerAdapter = new TablesRecyclerAdapter(mathsList, TablesActivity.this,this);
         binding.mathsRecyclerView.setAdapter(tablesRecyclerAdapter);
         ViewCompat.setNestedScrollingEnabled(binding.mathsRecyclerView, false);
         checkAudioPermission();
         setUiElements();
 
+        loadImage();
       //  startActivity(new Intent(getApplicationContext(),TestActivity.class));
 
     }
@@ -81,7 +87,6 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
         binding.tool.toolBar.kidsName.setText("Hi ," + PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_name)));
         binding.tool.toolBar.kidsAge.setText(UtilityFunctions.calculateAge(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_dob))) + " years old");
 
-        binding.introTile.setOnClickListener(v->{startActivity(new Intent(getApplicationContext(),TestActivity.class));});
 
         Log.i("ImageUrl", PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)));
 
@@ -231,7 +236,10 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
             }
         });
     }
-
+    private void loadImage() {
+        UtilityFunctions.loadImage(PrefConfig.readIdInPref(getApplicationContext(), getResources().getString(R.string.kids_profile_url)),
+                binding.tool.toolBar.imageView6);
+    }
 
     private void completeClose() {
         Intent a = new Intent(Intent.ACTION_MAIN);
@@ -260,6 +268,20 @@ public class TablesActivity extends AppCompatActivity implements NavigationView.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void intentAction(TextView textView, String id, String chapterName) {
+        ProgressDataBase.getDbInstance(getApplicationContext()).progressDao().getTimeSpend(id,
+                chapterName).observe(this,c->{
+
+            if (c != null) {
+                textView.setText(c + "");
+            } else {
+                textView.setText(0+"");
+            }
+            Log.d(TAG, "intentAction: "+c+","+id+","+chapterName);
+        });
     }
 }
 

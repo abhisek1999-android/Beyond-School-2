@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -36,6 +37,7 @@ public class VoskExpActivity extends AppCompatActivity implements RecognitionLis
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
+    private static final String TAG = "VoskExpActivity";
 
     private Model model;
     private SpeechService speechService;
@@ -53,9 +55,14 @@ public class VoskExpActivity extends AppCompatActivity implements RecognitionLis
 
         findViewById(R.id.recognize_file).setOnClickListener(view -> recognizeFile());
         findViewById(R.id.recognize_mic).setOnClickListener(view -> recognizeMicrophone());
-        ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> pause(isChecked));
+        ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> {
+            pause(isChecked);
+            Log.d(TAG, "onCreate: "+isChecked);
 
-       LibVosk.setLogLevel(LogLevel.INFO);
+
+        });
+
+        LibVosk.setLogLevel(LogLevel.INFO);
 
         // Check if user has given permission to record audio, init the model after permission is granted
         int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
@@ -64,7 +71,7 @@ public class VoskExpActivity extends AppCompatActivity implements RecognitionLis
         } else {
             initModel();
         }
-    //    recognizeMicrophone();
+        //    recognizeMicrophone();
     }
 
     private void initModel() {

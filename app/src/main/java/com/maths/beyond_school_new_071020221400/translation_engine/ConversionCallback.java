@@ -19,9 +19,13 @@ public interface ConversionCallback {
 
     }
 
+    default void controlBlink(Boolean isBlinkEnable) {
+    }
+
     default void successInit() {
 
     }
+
     default void getArrayResult(List<String[]> list) {
 
     }
